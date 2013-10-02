@@ -1,0 +1,14 @@
+{
+    "name": "passport-topcoder",
+    "description": "Passport strategy for Topcoder oAuth provider",
+    "version": "1.0.0",
+    "dependencies": {
+        "passport-oauth" : "0.1.x",
+        "pkginfo": "0.2.x"
+    },
+    "main": "./lib/passport-topcoder",
+    "engines": { "node": ">= 0.4.0" },
+    "author": {
+        "name": "TCSASSEMBLER"
+    }
+}
