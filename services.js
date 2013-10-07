@@ -221,6 +221,7 @@ app.put('/contests/categories/update', categoriesController.updateContestCategor
 app.del('/contests/categories/delete/:id', categoriesController.deleteContestCategory);
 
 // Listen on 8080
-app.listen(8080);
+var port = process.env.PORT || 8080;
+app.listen(port);
 
-console.log('Listening on port 8080 and Ctrl+C to exit...');
+console.log('Listening on port ' + port + ' and Ctrl+C to exit...');
