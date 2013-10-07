@@ -1,9 +1,10 @@
 {
-    "name": "TopCoderNodeJSContestsRESTAPI",
+    "name": "tc-api",
     "description": "PoC Assembly - TopCoder NodeJS Contests REST API",
     "version": "1.0.0",
     "engines": {
-        "node": "0.6.18"
+        "node": "0.6.18",
+        "npm": "1.2.x"
     }
     "private": true,
     "dependencies": {
