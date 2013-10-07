@@ -1,0 +1,158 @@
+#!/bin/sh
+: '
+: ************************************************************************
+:
+:                                 IBM INC.
+: 
+:                             PROPRIETARY DATA
+:
+:    Licensed Material - Property Of IBM
+: 
+:    "Restricted Materials of IBM"
+: 
+:    IBM Informix Client SDK
+:
+:    (c)  Copyright IBM Corporation 2002, 2008. All rights reserved.
+:
+:  Title:	check_version
+:  Description:	
+:     check_version tells the user if they have installed an older version
+:     of the given product over a newer one. $INFORMIXDIR must be set to the
+:     product being checked.
+: **********************************************************************
+: '
+
+usage()
+{
+    echo '
+Usage: check_version [csdk|conn]
+
+check_version tells the user if they have installed an older version
+of the given product over a newer one. $INFORMIXDIR must be set to the
+product being checked.
+
+Options:
+   csdk checks for IBM Informix ClientSDK
+   conn checks for IBM Informix-Connect
+'
+}
+
+
+#
+# Compare two versions, looking for differences.
+# lvers is the .lvers_ file version
+# vers is the -cr file version
+# returns 0 for $lvers is a newer release than $vers
+# returns 1 for $lvers is an older release or the same
+# Called by version_check() and write_lvers_file()
+#
+compare_versions()
+{
+    vers=$1 ; lvers=$2
+
+    # Compare major versions (e.g. '7' of 7.23.UC1)
+    ins_maj=`echo $vers|awk 'BEGIN {FS="."} {printf "%d", $1}'`
+    new_maj=`echo $lvers|awk 'BEGIN {FS="."} {printf "%d", $1}'`
+
+    if test $ins_maj -gt $new_maj ; then
+       return 1
+    elif test $ins_maj -lt $new_maj ; then
+       return 0
+    fi 
+
+    # Compare minor versions (e.g. '23' of 7.23.UC1)
+    ins_min=`echo $vers|awk 'BEGIN {FS="."} {printf "%d", $2}'`
+    new_min=`echo $lvers|awk 'BEGIN {FS="."} {printf "%d", $2}'`
+
+    if test $ins_min -gt $new_min ; then
+       return 1
+    elif test $ins_min -lt $new_min ; then
+       return 0
+    fi
+
+    # Compare release versions (e.g. 'UC' of 7.23.UC1)
+    tmp1=`echo $vers|awk 'BEGIN {FS="."} {print $3}'`
+    ins_rel=`expr /$tmp1 : '.*/\([A-Z][A-Z]\)'`
+
+    tmp2=`echo $lvers|awk 'BEGIN {FS="."} {print $3}'`
+    new_rel=`expr /$tmp2 : '.*/\([A-Z][A-Z]\)'`
+
+    if test `expr $ins_rel \> $new_rel` = 1 ; then
+       return 1
+    elif test `expr $ins_rel \< $new_rel` = 1 ; then
+       return 0
+    fi
+
+    # Compare release number (e.g. '1' of 7.23.UC1)
+    ins_num=`echo $tmp1|sed 's/[A-Z][A-Z]//'`
+    new_num=`echo $tmp2|sed 's/[A-Z][A-Z]//'`
+
+    #Special case for beta
+    beta_ver=`echo $new_num | awk '{ if ($0 ~ /B/) print $0 ; else print 0}'`
+    ins_rel1=`echo $ins_num | awk '{print length($0)}'` 
+    if [ `expr $beta_ver = $new_num` = 1 -a $ins_rel1 = 1 ] ; then
+	return 1
+    fi
+    ### Till here
+ 
+    if test `expr $ins_num \> $new_num` = 1 ; then
+       return 1
+    elif test `expr $ins_num \< $new_num` = 1 ; then
+       return 0
+    fi
+
+    if test $ins_rel = $new_rel ; then
+       return 2
+    fi
+}
+
+#
+# main
+#
+if test $# -ne 1 ; then
+  usage
+  exit 1
+fi
+
+if test "x$INFORMIXDIR" = "x" ; then
+   echo 'Error : $INFORMIXDIR must be set.'
+   exit 1
+fi
+
+prod=$1
+case $prod in
+   csdk ) versfile="$INFORMIXDIR/etc/ClientSDK-cr" ; prodname="ClientSDK" ;;
+   conn ) versfile="$INFORMIXDIR/etc/Connect-cr" ; prodname="I-Connect" ;;
+      * ) usage
+          exit 1
+          ;;
+esac
+lversfile="$INFORMIXDIR/etc/.lvers_${prod}"
+
+if test ! -f ${lversfile} ; then
+   echo "No record of previously installed versions of $prodname in $INFORMIXDIR"
+   exit 0
+fi
+  
+
+if test ! -f ${versfile} ; then
+   echo "No installed versions of $prodname in $INFORMIXDIR"
+   exit 0
+fi
+
+vers="`cat ${versfile}|grep Version | awk '{print $NF}'`"
+lvers="`cat ${lversfile}`"
+
+compare_versions $vers $lvers
+result=$?
+
+echo "Currently installed version: $vers"
+
+if test "x$result" = "x0" ; then
+echo "Previous latest version: $lvers"
+   echo "You have installed an older version of $prodname over a newer version."
+elif test  "x$result" = "x1" ; then
+echo "Previous latest version: $lvers"
+   echo "You have installed a newer version of $prodname over an older version"
+fi
+exit 0

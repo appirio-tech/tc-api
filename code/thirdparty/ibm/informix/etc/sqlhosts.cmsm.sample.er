@@ -1,0 +1,34 @@
+#**************************************************************************
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix Dynamic Server
+#  Copyright IBM Corporation 2012
+#
+#  Title:      sqlhosts.cmsm.sample.er
+#  Description:
+#               sample sqlhosts file for Connection Manager.
+#
+#**************************************************************************
+
+# INFORMIXSERVER
+g_west		group		-	-	i=110,e=west2
+west1		onsoctcp	hostw1		9810	g=g_west
+west2		onsoctcp	hostw2		9820	g=g_west
+
+g_north         group   	-       -       i=120,e=north1
+north1		onsoctcp        hostn1 		9860    g=g_north
+
+g_south		group		-	-	i=210,e=south2
+south1		onsoctcp	hosts1		9810	g=g_south
+south2		onsoctcp	hosts2		9820	g=g_south
+
+g_east          group   	-       -       i=220,e=east1
+east1		onsoctcp        hoste1          9860    g=g_east
+
+# CM SLAs
+repl1_any	onsoctcp	hostcm		9931
+repl1_ns	onsoctcp	hostcm		9932
+repl1_ew	onsoctcp	hostcm		9933

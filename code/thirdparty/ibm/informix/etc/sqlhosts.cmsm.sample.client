@@ -1,0 +1,31 @@
+#**************************************************************************
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix Dynamic Server
+#  Copyright IBM Corporation 2012
+#
+#   Title:      sqlhosts.cmsm.sample.client
+#   Description:
+#               sample sqlhosts file for client application with 
+#               two Connection Managers in a group.
+#
+#**************************************************************************
+
+# INFORMIXSERVER
+g_west		group		-	-	i=110,e=west2
+west1		onsoctcp	hostw1		9810	g=g_west
+west2		onsoctcp	hostw2		9820	g=g_west
+
+# SLA as group with two CMs, set INFORMIXSERVER to g_oltpw
+g_oltpw		group		-	-	e=oltp_w2
+oltp_w		onsoctcp	hostcm		9910	g=g_oltpw
+oltp_w2		onsoctcp	hostcm2		9910	g=g_oltpw
+
+# SLA as group with two CMs
+g_reportw	group		-	-	e=report_w2
+report_w	onsoctcp	hostcm		9911	g=g_reportw
+report_w2	onsoctcp	hostcm2		9911	g=g_reportw
+

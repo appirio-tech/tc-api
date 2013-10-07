@@ -1,0 +1,184 @@
+#!/bin/sh
+: '
+: ************************************************************************
+:
+:                                 IBM INC.
+:
+:                             PROPRIETARY DATA
+:
+:    Licensed Material - Property Of IBM
+:
+:    "Restricted Materials of IBM"
+:
+:    IBM Informix Client SDK
+:
+:    (c)  Copyright IBM Corporation 2002, 2013. All rights reserved.
+:
+:
+:  Title      :	ifx_getversion
+:  Description:	Provide the versions of various IBM Informix libraries.
+:
+:  Method     : Get the name or the names of the products from the
+:               command line. 
+:	        Check for the existence of the corresponding
+:               files from $INFORMIXDIR/etc/*-cr. Print the contents
+:               of the files.
+: Usage	      : ifx_getversion prodname 
+:	        where prodname is
+:			clientsdk
+:			esql
+:			dmi | libdmi
+:			libcli[.a|.so]
+:			libasf[.a|.so]
+:			libgls[.a|.so]
+:			libos[.a|.so]
+:			libsql[.a|.so]
+:			libgen[.a|.so]
+:
+: Date        : Feb 8, 2013.
+: **********************************************************************
+: '
+
+usage()
+{
+	infxmsg -33416	
+	echo ""
+	exit 1
+}
+
+INFDIR=${INFORMIXDIR=/usr/informix}
+
+if [ $# -eq 0 ]
+then
+	usage	
+fi
+once=
+
+while true
+do
+    case $1 in
+	clientsdk )
+	    if test -f $INFDIR/etc/ClientSDK-cr
+	    then
+		cat $INFDIR/etc/ClientSDK-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	connect )
+	    if test -f $INFDIR/etc/Connect-cr
+	    then
+		cat $INFDIR/etc/Connect-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	esql | esqlc | esqlcobol )
+	    if test -f $INFDIR/etc/ESQL-cr
+	    then
+		cat $INFDIR/etc/ESQL-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	dmi | libdmi )
+	    if  test -f $INFDIR/etc/DMI-cr
+	    then
+		cat $INFDIR/etc/DMI-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	libcli | libcli.a | libcli.so )
+	    if  test -f $INFDIR/etc/CLI-cr
+	    then
+		cat $INFDIR/etc/CLI-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	libasf | libasf.a | libasf.so )
+	    if  test -f $INFDIR/etc/ASF-cr
+	    then
+		cat $INFDIR/etc/ASF-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+        libgen | libgen.a | libgen.so )
+	    if  test -f $INFDIR/etc/GENLIB-cr
+	    then
+		cat $INFDIR/etc/GENLIB-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	libos | libos.a | libos.so )
+	    if test  -f $INFDIR/etc/OSLIB-cr
+	    then
+		cat $INFDIR/etc/OSLIB-cr
+		echo ""
+	    else
+		infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	libsql | libsql.a | libsql.so )
+	    if test  -f $INFDIR/etc/SQLI-cr
+	    then
+		    cat $INFDIR/etc/SQLI-cr
+		    echo ""
+	    else
+		    infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	libgls | libgls.a | libgls.so )
+	    if test  -f $INFDIR/etc/GLS-cr
+	    then
+		    cat $INFDIR/etc/GLS-cr
+		    echo ""
+	    else
+		    infxmsg -33417 $1
+	    fi
+	    once=TRUE
+	    shift
+	    ;;
+	"")
+	    if test "x$once" = "x" && test $# -le 1
+	    then
+		    usage
+	    fi
+	    break
+	    ;;
+	*)
+	    infxmsg -33417 $1
+	    echo ""
+	    shift
+	    ;;
+    esac
+done
+

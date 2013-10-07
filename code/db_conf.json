@@ -1,0 +1,8 @@
+{
+    "comments": "currently nodejs-db-informix read the host/port from informix client SDK's configuration file.",
+    "host": "50.17.156.219",
+    "user": "informix",
+    "password": "1nf0rm1x",
+    "port": 2021,
+    "database": "tcs_catalog"
+}

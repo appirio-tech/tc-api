@@ -1,0 +1,50 @@
+#**************************************************************************
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix Dynamic Server
+#  (c) Copyright IBM Corporation 2012 All rights reserved.
+#
+#   Title:      sqlhosts.cmsm.sample.all
+#   Description:
+#               sample sqlhosts file for Connection Manager.
+#
+#**************************************************************************
+
+# INFORMIXSERVER
+g_west		group		-	-	i=110,e=west3
+west1		onsoctcp	hostw1		9810	g=g_west
+west2		onsoctcp	hostw2		9820	g=g_west
+west3       onsoctcp    hostw3      9830    g=g_west
+
+g_north         group   	-       -       i=120,e=north1
+north1		onsoctcp        hostn1 		9860    g=g_north
+
+g_south		group		-	-	i=210,e=south3
+south1		onsoctcp	hosts1		9810	g=g_south
+south2		onsoctcp	hosts2		9820	g=g_south
+south3      onsoctcp    hosts3      9830    g=g_south
+
+g_east          group   	-       -       i=220,e=east1
+east1		onsoctcp        hoste1          9860    g=g_east
+
+# CM SLAs
+oltp_w		onsoctcp	hostcm		9910
+report_w	onsoctcp	hostcm		9911
+oltpdr_w	drsoctcp	hostcm		9912 
+
+oltp_s		onsoctcp	hostcm		9920
+report_s	onsoctcp	hostcm		9921
+oltpdr_s	drsoctcp	hostcm		9922
+
+repl1_any	onsoctcp	hostcm		9931
+repl1_ns	onsoctcp	hostcm		9932
+repl1_ew	onsoctcp	hostcm		9933
+
+grid1_any	onsoctcp	hostcm		9940
+grid1_avail	onsoctcp	hostcm		9941
+
+ss_any		onsoctcp	hostcm		9950
+ss_avail    onsoctcp    hostcm      9951

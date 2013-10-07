@@ -1,0 +1,38 @@
+#!/bin/sh
+: '
+: ************************************************************************
+:
+:                                 IBM INC.
+:
+:                             PROPRIETARY DATA
+:
+:    Licensed Material - Property Of IBM
+:
+:    "Restricted Materials of IBM"
+:
+:    IBM Informix Client SDK
+:
+:    (c)  Copyright IBM Corporation 2002, 2008. All rights reserved.
+:
+:
+:  Title:	esqlcdemo7
+:  Description:	Demonstration Installation Script
+:
+: **********************************************************************
+: '
+
+IDIR=${INFORMIXDIR-/usr/informix}
+i=
+
+# Now copying source files
+infxmsg 33462
+
+cp $IDIR/demo/esqlc/*.ec .
+
+for i in inpfuncs.c prdesc.c
+  do
+  cp $IDIR/demo/esqlc/$i .
+  done
+
+# end of database installation script
+infxmsg 33463

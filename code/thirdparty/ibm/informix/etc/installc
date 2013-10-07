@@ -1,0 +1,1263 @@
+#!/bin/sh
+: '
+: **************************************************************************
+:
+:   Licensed Materials - Property of IBM
+:
+:   "Restricted Materials of IBM"
+:
+:   IBM Informix Client-SDK
+:   Copyright IBM Corporation 1996, 2008 All rights reserved.
+:
+:  Title:	installc
+:  Description:	Client installation script.  Similar to install but is
+:		for client side installation.
+:               This script must be run as informix.
+:               It may create a RUN_AS_ROOT script, which must be run as root,
+:               after this script finishes.
+:
+:  Usage: installc files_list
+:  Note:  ignores blank lines and lines starting with #, DISK, space, or tab.
+:
+: ****************************************************************************
+: '
+##############################################################################
+# list of functions.
+##############################################################################
+#
+# function name             function purpose
+# ------------------------- --------------------------------------------
+#
+# chk_dir_and_user()        check install dir and user, if required.
+# chk_result()              emit message and exit if return code != 0.
+# create_run_as_root()      create the run_as_root script, for root commands.
+# do_brand()                brand a product file/dir.
+# do_ch_work()              chown/chgrp/chmod a product file/dir.
+# do_cond_link()            conditionally link a product file/dir if upgrading.
+# do_elink()                link an existing product file/dir.
+# do_gw_file()              create etc/.gw, if required.
+# do_license_work()         emit license warning.
+# do_link()                 link a product file/dir.
+# do_softlink()             soft link a product file/dir.
+# do_msglink()              link a old message file names to new names.
+# do_ranlib()               ranlib a product lib file.
+# do_remove()               remove a product file/dir.
+# do_rename()               rename a product file/dir.
+# do_replace()              replace a product file/dir.
+# do_shlibs()               install shared libraries.
+# do_upgrade_lib()          upgrade the lib.
+# do_upgrade_link()         link a product file/dir if upgrading.
+# finish_install()          emit completion message or run_as_root script 
+#                           instructions, as required.
+# init_vars()               initialize variables.
+# process_filelist()        process the FILE_LIST entries, 
+#                           installing files for each entry.
+# write_run_as_root()       writes commands to run_as_root script, without 
+#                           excessive indentation.
+# touchismp_created_file    chown/chgrp/chmod/ of ISMP generated files
+#
+
+PATH="/usr/bin:/bin:/sbin:/usr/sbin:${PATH}"
+export PATH
+
+########################################################################
+# start of functions.
+########################################################################
+#
+# function: chk_dir_and_user()        
+# check install dir and user, if required.
+#
+chk_dir_and_user()        
+{
+    
+    # check install dir and user, if required.
+    if [ "${DO_CHECK}" != "NOCHK" ]
+    then
+ 
+        # check that the user is $USER.
+        id | awk '{print $1}' | grep "(${USER})" > /dev/null 2>&1
+ 
+        # proceed iff the user is $USER.
+        if [ $? -ne 0 ]
+        then
+            echo "
+Please rerun this installation procedure as user $USER.
+"
+            exit 1
+ 
+        fi
+ 
+        # Check that INFORMIXDIR is set, and we're in it.
+        if [ -z "${INFORMIXDIR}" ]
+        then
+ 
+            echo "INFORMIXDIR is not set."
+            exit 1
+ 
+        elif [ "${INFORMIXDIR}" != "`pwd`" ]
+        then
+ 
+	    # Directories don't match.  Check if their inode match since
+	    # the directories might be links.
+
+	    PID=$$
+	    ls1=${INFORMIXDIR}/tmp/ls1_${PID}
+	    ls2=${INFORMIXDIR}/tmp/ls2_${PID}
+	    lsdiff=${INFORMIXDIR}/tmp/lsdiff_${PID}
+	    rm -f $ls1 $ls2 $lsdiff
+	    /bin/ls -iLd $INFORMIXDIR | awk '{print $1}' > $ls1
+	    /bin/ls -iLd "`pwd`" | awk '{print $1}' > $ls2
+	    comm -3 $ls1 $ls2 > $lsdiff
+	    if test -s $lsdiff
+	    then
+		echo "INFORMIXDIR and current working directory do not match."
+		echo "INFORMIXDIR = ${INFORMIXDIR}"
+		echo "Current working directory = `pwd`"
+		rm -f $ls1 $ls2 $lsdiff
+		exit 1
+	    fi
+	    rm -f $ls1 $ls2 $lsdiff
+        fi
+ 
+    fi  # on DO_CHECK.
+
+}  # end of chk_dir_and_user().
+
+#
+# function chk_result().
+# emits message and exit if return code != 0.
+#
+chk_result()
+{
+ 
+    # check return status of latest command.
+    if [ ${RESULT} -ne 0 ]
+    then
+ 
+        echo "Installation of ${PRODUCT} failed."
+        exit 1
+ 
+    fi
+ 
+}  # end of chk_result().
+
+#
+# function: create_run_as_root()        
+# create the run_as_root script, for root commands.
+#
+create_run_as_root()        
+{
+
+   # create a run_as_root script for later execution of commands as root.
+   RUN_AS_ROOT_SCRIPT_EXT=`basename ${FILE_LIST} | sed -e 's/files//;s/[0-9]//g'`
+   RUN_AS_ROOT_SCRIPT=${INFORMIXDIR}/RUN_AS_ROOT.${RUN_AS_ROOT_SCRIPT_EXT}
+   rm -f ${RUN_AS_ROOT_SCRIPT}
+ 
+   # write initial comments to run_as_root script.
+   echo "#!/bin/sh" > ${RUN_AS_ROOT_SCRIPT}
+   echo "#"        >> ${RUN_AS_ROOT_SCRIPT}
+   echo "# This file is generated by etc/installc."  >> ${RUN_AS_ROOT_SCRIPT}
+   echo "# It contains those install commands that must be run as root." \
+        >> ${RUN_AS_ROOT_SCRIPT}
+   echo "# To run it, login as root or contact your systems administrator." \
+        >> ${RUN_AS_ROOT_SCRIPT}
+   echo "#"        >> ${RUN_AS_ROOT_SCRIPT}
+   chmod 700 ${RUN_AS_ROOT_SCRIPT}
+ 
+   # write chk_root_result function to run_as_root script.
+   cat << EOCMD | write_run_as_root
+
+PATH=/usr/sbin:${PATH}
+
+# 
+# function: chk_root_result().
+#
+chk_root_result()
+{
+ 
+    if [ \${ROOT_RESULT} -ne 0 ]
+    then
+ 
+        echo "Installation of ${PRODUCT} failed."
+        exit 1
+ 
+    fi
+ 
+}  # end of chk_root_result().
+
+#
+# start of RUN_AS_ROOT 
+#
+
+echo ""
+echo "IBM Informix Product:       ${PRODUCT}"
+echo "Installation Directory: ${INFORMIXDIR}"
+echo ""
+echo "Performing root portion of installation of ${PRODUCT}..."
+echo ""
+
+# get into the install directory.
+cd ${INFORMIXDIR}
+
+# set and export INFORMIXDIR. etc/brand needs it.
+INFORMIXDIR=${INFORMIXDIR}
+export INFORMIXDIR
+
+EOCMD
+
+#
+# in RUN_AS_ROOT.{conn,clientsdk}:
+# 1. correct the ownership of role separation and hhelp dirs,
+#    to ensure that the subsequent installius works.
+# 2. for non-Solaris hosts, ensure that the unload of ius.tar will work, 
+#    by making all files writable. connect and clientsdk have no 444 files,
+#    so ok.
+#
+if [ "${RUN_AS_ROOT_SCRIPT_EXT}" = "conn" \
+     -o "${RUN_AS_ROOT_SCRIPT_EXT}" = "clientsdk" ]
+then
+ 
+   cat << EOCMD | write_run_as_root
+ 
+   [ -d aaodir ] && chown -R informix aaodir
+   [ -d dbssodir ] && chown -R informix dbssodir
+   [ -d hhelp/xprinter ] && chown informix hhelp/xprinter
+   [ -d tmp ] && chmod 770 tmp
+ 
+   OSNAME=`uname`
+   if [ "\${OSNAME}" != "SunOS" ]
+   then
+       find ${INFORMIXDIR} -perm 444 -exec chmod 644 {} \;
+   fi
+
+EOCMD
+
+fi  # on RUN_AS_ROOT_SCRIPT_EXT.
+
+}  # end of create_run_as_root().
+
+#
+# function: do_brand()                
+# brand a product file/dir.
+#
+do_brand()                
+{
+
+   if [ -z "${DO_AS_ROOT}" ]
+   then
+ 
+       # brand the file, as informix.
+       ${BRAND} -n -s ${SERNUM} ${KEY} ${NAM}
+       RESULT=$?
+       chk_result
+ 
+   else
+ 
+       # prepare to brand the file, as root.
+       cat << EOCMD | write_run_as_root
+
+       ${BRAND} -n -s ${SERNUM} ${KEY} ${NAM}
+       ROOT_RESULT=\$?
+       chk_root_result
+EOCMD
+ 
+   fi  # on DO_AS_ROOT.
+
+}  # end of do_brand().
+
+#
+# function: do_ch_work()              
+# chown/chgrp/chmod a product file/dir.
+#
+do_ch_work()              
+{
+
+    if [ -z "${DO_AS_ROOT}" ]
+    then
+ 
+        if [ -f "${NAM}" \
+             -o -d "${NAM}" \
+             -o -r "${NAM}" ]
+        then
+
+            # do the ch work, as informix.
+            chown ${OWN} ${NAM}
+            RESULT=$?
+            chk_result
+            chgrp ${GRP} ${NAM}
+            RESULT=$?
+            chk_result
+            chmod ${MOD} ${NAM}
+            RESULT=$?
+            chk_result
+
+        fi  # on NAM.
+
+    else
+ 
+        # prepare to do the ch work as root.
+        cat << EOCMD | write_run_as_root
+
+        if [ -f "${NAM}" \\
+             -o -d "${NAM}" \\
+             -o -r "${NAM}" ]
+        then
+
+            chown ${OWN} ${NAM}
+            ROOT_RESULT=\$?
+            chk_root_result
+            chgrp ${GRP} ${NAM}
+            ROOT_RESULT=\$?
+            chk_root_result
+            chmod ${MOD} ${NAM}
+            ROOT_RESULT=\$?
+            chk_root_result
+
+        fi
+EOCMD
+ 
+    fi  # on DO_AS_ROOT.
+
+}  # end of do_ch_work().
+
+#
+# function: do_cond_link()                
+# conditionally link an existing product file/dir, if upgrading.
+# create the link, if the file does not exist.
+#
+do_cond_link()                
+{
+
+    if [ -z "${DO_AS_ROOT}" ]
+    then
+
+        # upgrade lib as informix, if necessary.
+        [ -n "${UPGRADE_FLAG}" -a -f "${NAM}" ] && do_upgrade_lib
+
+        # create the link, if the file does not exist.
+        if [ ! -f "${NAM}" ]
+        then
+
+            # create the link, as informix.
+            ln ${FLG2} ${NAM}
+            RESULT=$?
+            chk_result
+
+        fi
+
+    else  # perform actions as root.
+
+        # prepare to upgrade the lib and create the link, as root.
+        cat << EOCMD | write_run_as_root
+
+        if [ -n "${UPGRADE_FLAG}" -a -f "${NAM}" ]
+        then
+
+            mkdir -p ${LIB7x}
+            BASE_NAM=`basename ${NAM}`
+            echo "Removing ${LIB7x}/${BASE_NAM}"
+            rm -f ${LIB7x}/${BASE_NAM}
+            echo "Moving ${NAM} to ${LIB7x}..."
+            mv -f ${NAM} ${LIB7x}
+            if [ \$? -ne 0 ]
+            then
+ 
+                echo "Failed to move ${NAM} to ${LIB7x}."
+                exit 1
+ 
+            fi
+            rm -f ${NAM}
+
+        fi
+
+        if [ ! -f "${NAM}" ]
+        then
+ 
+            ln ${FLG2} ${NAM}
+            ROOT_RESULT=\$?
+            chk_root_result
+ 
+        fi
+EOCMD
+
+    fi  # on DO_AS_ROOT.
+
+}  # end of do_cond_link().
+
+#
+# function: do_elink()                
+# link an existing product file/dir.
+#
+do_elink()                
+{
+
+   if [ ! -s "${FLG2}" ]
+   then
+       NAM=""
+   else
+ 
+       if [ -z "${DO_AS_ROOT}" ]
+       then
+ 
+           # create the link, as informix.
+           ln ${FLG2} ${NAM}
+           RESULT=$?
+           chk_result
+           echo "${NAM} linked to existing file ${FLG2}"
+ 
+       else
+ 
+           # prepare to create the link, as root.
+           cat << EOCMD | write_run_as_root
+
+           ln ${FLG2} ${NAM}
+           ROOT_RESULT=\$?
+           chk_root_result
+           echo "${NAM} linked to existing file ${FLG2}"
+EOCMD
+ 
+       fi  # on DO_AS_ROOT.
+ 
+   fi  # on FLG2.
+
+}  # end of do_elink().
+
+#
+# function: do_softlink()
+# soft link a product file/dir.
+#
+do_softlink()
+{
+    if [ -z "${DO_AS_ROOT}" ]
+    then
+
+        # create the soft link, as informix.
+        su informix -c "ln -s ${FLG2} ${NAM}"
+        RESULT=$?
+        chk_result
+
+    else
+
+        # prepare to create the soft link, as root.
+        cat << EOCMD | write_run_as_root
+
+        echo "...Linking ${FLG2} from ${NAM}..."
+        su informix -c "ln -s ${FLG2} ${NAM}"
+        ROOT_RESULT=\$?
+        chk_root_result
+EOCMD
+
+    fi  # on DO_AS_ROOT.
+
+}  # end of do_softlink().
+
+#
+# function: do_gw_file()              
+# create etc/.gw, if required.
+#
+do_gw_file()              
+{
+
+    # Create date file if product is DRDA-GW.
+    if [ "${FNAME}" = "ifmxgw" -a ! -s etc/.gw ]
+    then
+ 
+        date > etc/.gw
+        chmod 440 etc/.gw
+        chown informix etc/.gw
+        chgrp informix etc/.gw
+        if [ $? -ne 0 ]
+        then
+ 
+            echo "Cannot create etc/.gw file"
+            rm -f etc/.gw
+            exit 1
+
+        fi
+ 
+    fi  # on FNAME.
+
+
+}  # end of do_gw_file().
+
+#
+# function: do_license_work()              
+# get license info.
+#
+do_license_work()              
+{
+
+ # get the data for licensed feature.
+ FNAME=`awk '/^NAME/ {print $2}' ${FILE_LIST}`
+ RELEASE=`awk '/^NAME/ {print $4}' ${FILE_LIST}`
+
+ SERNUM="${SERIAL_NUM}"
+ KEY="${SERIAL_KEY}"
+ 
+}  # end of do_license_work().
+
+#
+# function: do_link()                 
+# link a product file/dir.
+#
+do_link()                 
+{
+    if [ -z "${DO_AS_ROOT}" ]
+    then
+ 
+        # create the link, as informix.
+        rm -f ${NAM}
+        ln ${FLG2} ${NAM}
+        RESULT=$?
+        chk_result
+ 
+    else
+ 
+        # prepare to create the link, as root.
+        cat << EOCMD | write_run_as_root
+
+        rm -f ${NAM}
+        ln ${FLG2} ${NAM}
+        ROOT_RESULT=\$?
+        chk_root_result
+EOCMD
+ 
+    fi  # on DO_AS_ROOT.
+
+}  # end of do_link().
+
+#
+# function: do_msglink()                 
+# link message files
+#
+do_msglink()                 
+{
+    if [ ! -f "${NAM}" ]
+    then
+        if [ -z "${DO_AS_ROOT}" ]
+        then
+ 
+            # create the link, as informix.
+            ln ${FLG2} ${NAM}
+            RESULT=$?
+            chk_result
+ 
+        else
+ 
+            # prepare to create the link, as root.
+            cat << EOCMD | write_run_as_root
+	
+            ln ${FLG2} ${NAM}
+            ROOT_RESULT=\$?
+            chk_root_result
+EOCMD
+ 
+        fi  # on DO_AS_ROOT.
+    fi # on FLAG2
+
+}  # end of do_msglink().
+
+#
+# function: do_ranlib()               
+# ranlib a product lib file.
+#
+do_ranlib()               
+{
+
+    # ranlib, if required.
+    case ${NAM} in
+ 
+        *.a )
+ 
+            # ranlib the file, if possible.
+            if [ -n "${RANLIB}" ]
+            then
+ 
+                # ranlib the file.
+                if [ -z "${DO_AS_ROOT}" ]
+                then
+ 
+                    # ranlib the file, as informix.
+                    ${RANLIB} ${RANLIBOPT} ${NAM}
+                    RESULT=$?
+                    chk_result
+ 
+                else
+ 
+                    # prepare to ranlib the file, as root.
+                    cat << EOCMD | write_run_as_root
+
+                    ${RANLIB} ${RANLIBOPT} ${NAM}
+                    ROOT_RESULT=\$?
+                    chk_root_result
+EOCMD
+ 
+                fi  # on DO_AS_ROOT.
+ 
+            fi  # on RANLIB.
+            ;;
+ 
+    esac  # on NAM.
+
+}  # end of do_ranlib().
+
+#
+# function: do_remove()               
+# remove a product file/dir.
+#
+do_remove()               
+{
+    if [ -z "${DO_AS_ROOT}" ]
+    then
+ 
+        # remove the file, as informix.
+        rm -f ${NAM}
+        RESULT=$?
+        chk_result
+ 
+    else
+ 
+        # prepare to remove the file, as root.
+        cat << EOCMD | write_run_as_root
+
+        rm -f ${NAM}
+        ROOT_RESULT=\$?
+        chk_root_result
+EOCMD
+ 
+    fi  # on DO_AS_ROOT.
+ 
+    # unset NAM, no chown/chgrp/chmod to do.
+    NAM=""
+
+}  # end of do_remove().
+
+#
+# function: do_rename()               
+# rename a product file/dir.
+#
+do_rename()               
+{
+    if [ -f "${FLG2}" ]
+    then
+        [ ! -f "${NAM}" ] && NAM=""
+    else
+ 
+        if [ -z "${DO_AS_ROOT}" ]
+        then
+ 
+            if [ -f "${NAM}" ]
+            then
+              # rename the file, as informix.
+              mv ${NAM} ${FLG2}
+              RESULT=$?
+              chk_result
+            fi
+ 
+        else
+ 
+            # prepare to rename the file, as root.
+            cat << EOCMD | write_run_as_root
+
+            mv ${NAM} ${FLG2}
+            ROOT_RESULT=\$?
+            chk_root_result
+EOCMD
+ 
+        fi  # on DO_AS_ROOT.
+ 
+        # chown/chgrp/chmod will occur on $FLG2.
+        NAM=${FLG2}
+ 
+    fi  # on FLG2.
+
+}  # end of do_rename().
+
+#
+# function: do_replace()              
+# replace a product file/dir.
+#
+do_replace()              
+{
+    if [ ! -f "${NAM}" ]
+    then
+        NAM=""
+    else
+ 
+        #
+        # backup the target file, if it exists,
+        # and hasn't been backed up yet today.
+        #
+        if [ -f "${FLG2}" ]
+        then
+ 
+            # make sure we don't backup twice in the same day.
+            if [ ! -f "${FLG2}.${TODAY}" ]
+            then
+ 
+                # file hasn't been backed up today, so back it up.
+                if [ -z "${DO_AS_ROOT}" ]
+                then
+ 
+                    # back up the file, as informix.
+                    mv ${FLG2} ${FLG2}.${TODAY}
+                    echo "A new version of ${FLG2} will be installed."
+                    echo "Old version is saved as ${FLG2}.${TODAY}."
+ 
+                else
+ 
+                    # prepare to back up the file, as root.
+                    cat << EOCMD | write_run_as_root
+
+                    mv ${FLG2} ${FLG2}.${TODAY}
+                    echo "A new version of ${FLG2} will be installed."
+                    echo "Old version is saved as ${FLG2}.${TODAY}."
+EOCMD
+
+                fi  # on DO_AS_ROOT.
+ 
+            else  # no backup done today.
+ 
+                # file already backed up today. just remove the file.
+                if [ -z "${DO_AS_ROOT}" ]
+                then
+                    rm -f ${FLG2}
+                else
+ 
+                    # prepare to remove the file, as root.
+                    cat << EOCMD | write_run_as_root
+
+                    rm -f ${FLG2}
+EOCMD
+ 
+                fi  # on DO_AS_ROOT.
+ 
+            fi  # on $FLG2.$TODAY.
+ 
+        fi  # on FLG2.
+ 
+        # replace the file.
+        if [ -z "${DO_AS_ROOT}" ]
+        then
+ 
+            # replace the file, as informix.
+            mv ${NAM} ${FLG2}
+            RESULT=$?
+            chk_result
+ 
+        else
+ 
+            # prepare to the file, as root.
+            cat << EOCMD | write_run_as_root
+
+            mv ${NAM} ${FLG2}
+            ROOT_RESULT=\$?
+            chk_root_result
+ 
+EOCMD
+ 
+         fi  # on DO_AS_ROOT.
+ 
+         # prepare to chmod/chown/chgrp $FLG2.
+         NAM=${FLG2}
+ 
+    fi  # on NAM.
+
+}  # end of do_replace().
+
+#
+# function: do_shlibs()               
+# install shared libraries, if required.
+#
+do_shlibs()               
+{
+
+    # install shared libraries, if required.
+    if grep SHARELIB ${FILE_LIST} > /dev/null 2>&1
+    then
+ 
+        # see if machine supports symbolic links. use cp if it does not.
+        echo symlink > _linkfile
+        ln -s _linkfile __linkfile
+        if [ $? -eq 0 ]
+        then
+            SHCMD="ln -s"
+        else
+            SHCMD="cp"
+        fi
+        rm -f _linkfile __linkfile
+ 
+        # link or copy each shared library.
+        grep SHARELIB $FILE_LIST | while read NAM OWN GRP MOD FLG FLG2
+        do
+ 
+            if [ "${FLG}" = "SHARELIB" ]
+            then
+ 
+                # prepare to do shared library work for this file, as root.
+                RUN_AS_ROOT_REQUIRED="yes"
+                cat << EOCMD | write_run_as_root
+
+                BACKUP="no"
+EOCMD
+
+                # prepare to back up the file, if necessary.
+                if [ -f "${FLG2}" ]
+                then
+ 
+                    # make sure we don't backup twice in the same day.
+                    if [ ! -f "${FLG2}.${TODAY}" ]
+                    then
+ 
+                        #
+                        # file hasn't been backed up today.
+                        # prepare to do this, as root.
+                        #
+                        cat << EOCMD | write_run_as_root
+
+                        mv ${FLG2} ${FLG2}.${TODAY}
+                        BACKUP="yes"
+EOCMD
+ 
+                    fi  # on FLG2.TODAY.
+ 
+                fi  # on FLG2.
+ 
+                #
+                # prepare to remove the file and create the link, as root.
+                # this file could be a link to a non-existent file
+                # (e.g. if INFORMIXDIR has been renamed).
+                #
+                cat << EOCMD | write_run_as_root
+
+                rm -f ${FLG2}
+                ROOT_RESULT=\$?
+                chk_root_result
+ 
+                if [ "${SHCMD}" = "cp" ]
+                then
+                    echo "...Copying ${NAM} to ${FLG2}..."
+                else
+                    echo "...Linking ${FLG2} from ${NAM}..."
+                fi
+ 
+                ${SHCMD} ${INFORMIXDIR}/${NAM} ${FLG2}
+                ROOT_RESULT=\$?
+                chk_root_result
+ 
+                if [ "\${BACKUP}" = "yes" ] 
+                then
+                echo "...Previous version of ${FLG2} saved as ${FLG2}.${TODAY}."
+                fi
+                echo ""
+EOCMD
+ 
+            fi  # on FLG.
+ 
+        done  # with FILE_LIST.
+ 
+        # Since above while loop is executed in subshell, need to exit script if
+        # there were any errors.
+        [ $? -ne 0 ] && exit 1
+ 
+    fi  # on grep.
+
+}  # end of do_shlibs().
+
+#
+# function: do_upgrade_lib()
+# create a new lib dir, remove the old lib, and move
+# the new lib to the new dir; for 7.x to 9.x upgrades.
+#
+do_upgrade_lib()
+{
+ 
+    # create the lib dir.
+    mkdir -p ${LIB7x}
+ 
+    # remove the old lib.
+    BASE_NAM=`basename ${NAM}`
+    echo "Removing ${LIB7x}/${BASE_NAM}"
+    rm -f ${LIB7x}/${BASE_NAM}
+ 
+    # move the file to the new lib dir.
+    echo "Moving ${NAM} to ${LIB7x}..."
+    mv -f ${NAM} ${LIB7x}
+ 
+    # proceed iff the move worked.
+    if [ $? -ne 0 ]
+    then
+ 
+        echo "Failed to move ${NAM} to ${LIB7x}."
+        exit 1
+ 
+    fi
+ 
+    # remove the file or dir.
+    rm -f ${NAM}
+ 
+}  # end of do_upgrade_lib().
+
+#
+# function: do_upgrade_link()                
+# link an existing product file/dir, if upgrading from 7.x to 9.x.
+#
+do_upgrade_link()                
+{
+
+    if [ -n "${UPGRADE_FLAG}" ]
+    then
+
+        if [ -z "${DO_AS_ROOT}" ]
+        then
+
+            # upgrade the lib and create the link, as informix.
+            if [ -f "${NAM}" ]
+            then
+
+                # upgrade the lib.
+                do_upgrade_lib
+
+            fi  # on NAM.
+
+	    # create the link. proceed iff link worked.
+	    ln $FLG2 $NAM
+	    RESULT=$?
+	    chk_result
+
+
+        else  # perform the actions as root.
+
+            # prepare to upgrade the lib and create the link, as root.
+            cat << EOCMD | write_run_as_root
+
+            if [ -f "${NAM}" ]
+            then
+
+                mkdir -p ${LIB7x}
+                BASE_NAM=`basename ${NAM}`
+                echo "Removing ${LIB7x}/${BASE_NAM}"
+                rm -f ${LIB7x}/${BASE_NAM}
+                echo "Moving ${NAM} to ${LIB7x}..."
+                mv -f ${NAM} ${LIB7x}
+                if [ \$? -ne 0 ]
+                then
+
+                    echo "Failed to move ${NAM} to ${LIB7x}."
+                    exit 1
+
+                fi
+                rm -f ${NAM}
+
+            fi  # on NAM.
+	    ln ${FLG2} ${NAM}
+	    ROOT_RESULT=\$?
+	    chk_root_result
+
+EOCMD
+
+        fi  # on DO_AS_ROOT.
+
+    fi  # on UPGRADE_FLAG.
+
+}  # of do_upgrade_link().
+
+#
+# function: finish_install()
+# emit completion message or run_as_root script instructions, as required.
+#
+finish_install()
+{
+
+    # emit completion message or run_as_root script instructions, as required.
+    if [ "${RUN_AS_ROOT_REQUIRED}" = "yes" ]
+    then
+ 
+        #
+        # RUN_AS_ROOT script has commands that must be executed.
+        # tell the user how to complete the installation.
+        #
+        echo ""
+        echo ""
+        echo "**************************************************************"
+        echo "To complete the installation of ${PRODUCT},"
+        echo "run ${RUN_AS_ROOT_SCRIPT} as root."
+        echo "**************************************************************"
+        echo ""
+ 
+        # add the last few commands to RUN_AS_ROOT.
+        cat << EOCMD | write_run_as_root
+ 
+        echo ""
+        echo "Installation of ${PRODUCT} complete."
+        echo ""
+
+        exit 0
+ 
+EOCMD
+
+        # protect the root script.
+        chmod 500 ${RUN_AS_ROOT_SCRIPT}
+
+	echo ""
+	echo "Informix user portion of installation of ${PRODUCT} complete."
+	echo ""
+
+    else  # no root work required.
+ 
+        #
+        # RUN_AS_ROOT has no commands that must be executed.
+        #
+
+	echo ""
+	echo "Installation of ${PRODUCT} complete."
+	echo ""
+
+        # remove the run_as_root script.
+        rm -rf ${RUN_AS_ROOT_SCRIPT}
+   
+    fi  # on RUN_AS_ROOT_REQUIRED.
+ 
+    exit 0
+
+}  # end of finish_install().
+
+#
+# function: init_vars()               
+# initialize variables.
+#
+init_vars()               
+{
+
+    # set date used to backup files.
+    TODAY=`date +%Y%m%d`
+ 
+    # set pathname for ranlib commands.
+    if [ -s /bin/ranlib ]
+    then
+        RANLIB=/bin/ranlib
+    elif [ -s /usr/bin/ranlib ]
+    then
+        RANLIB=/usr/bin/ranlib
+    else
+        RANLIB=
+    fi
+ 
+    if [ "`uname`" = "Darwin" ]
+    then
+        RANLIBOPT=-c
+    else
+        RANLIBOPT=
+    fi
+
+    # enable branding, if required.
+    if [ "${DO_BRAND}" = "NOBRAND" ]
+    then
+        BRAND="/bin/true"
+    else  # branding required.
+        BRAND="etc/brand"
+    fi  
+    export BRAND
+
+    if [ "${DO_UPGRADE}" = "UPGRADE" ]
+    then
+
+        UPGRADE_FLAG=yes
+        export UPGRADE_FLAG
+
+    fi
+
+    # get the product name.
+    PRODUCT=`grep "^PRODUCT" ${FILE_LIST} | sed 's/^PRODUCT //'`
+
+    # set and export the directory name for 7.x libraries (for backups).
+    LIB7x=${INFORMIXDIR}/lib/lib-7x
+    export LIB7x
+
+}  # end of init_vars(). 
+
+#
+# function: process_filelist()
+# process the FILE_LIST entries, installing files for each entry.
+#
+process_filelist()
+{
+
+    # get the process id of the current process.
+    PID=$$
+
+    # process the FILE_LIST file.
+    while read NAM OWN GRP MOD FLG FLG2
+    do
+ 
+        # skip heading and comment lines.
+        case ${NAM} in
+            \#* | "" | " "* | "     "* | DISK* | NAME* | PRODUCT* ) continue;;
+        esac
+ 
+        #
+        # set flag for this shell if root must execute commands for this file.
+        # touch file to communicate this to parent shell.
+        #
+        if [ "${OWN}" != "informix" ]
+        then
+
+            DO_AS_ROOT="yes"
+            touch ${INFORMIXDIR}/root_needed.tmp_${PID}
+
+        else
+            DO_AS_ROOT=
+        fi
+ 
+        # emit message if file is a directory.
+        [ -d "${NAM}" ] && echo "Installing directory ${NAM}"
+ 
+        # process FILE_LIST entry for this file, based on FLG.
+        case ${FLG} in
+ 
+            BRAND )        do_brand        ;;
+            ELINK )        do_elink        ;;
+            COND_LINK )    do_cond_link    ;;
+            UPGRADE_LINK ) do_upgrade_link ;;
+            LINK )         do_link         ;;
+            SOFTLINK )     do_softlink     ;;
+	    MSGLINK )      do_msglink      ;;
+            REMOVE )       do_remove       ;;
+            RENAME )       do_rename       ;;
+            REPLACE )      do_replace      ;;
+            * )                            ;;
+ 
+        esac  # on FLG.
+ 
+        # ranlib, if required.
+        do_ranlib
+ 
+        # chown/chgrp/chmod, if required.
+        do_ch_work
+ 
+    done < ${FILE_LIST}
+
+    #
+    # since the above while loop is executed in subshell,
+    # need to exit script if there were any errors.
+    #
+    RESULT=$?
+    chk_result
+
+    # set a flag if any root commands were written to RUN_AS_ROOT.
+    if [ -f "${INFORMIXDIR}/root_needed.tmp_${PID}" ]
+    then
+ 
+        # indicate that the root script will need to be run.
+        RUN_AS_ROOT_REQUIRED="yes"
+ 
+        # remove the temporary file.
+        rm -f ${INFORMIXDIR}/root_needed.tmp_${PID}
+ 
+    fi
+
+}  # end of process_filelist().
+
+#
+# function write_run_as_root().
+# write commands to the run_as_root script.
+#
+write_run_as_root()
+{
+
+    # write commands to the run_as_root script, without excessive indentation.
+    sed 's/^                //' >> ${RUN_AS_ROOT_SCRIPT}
+
+}  # end of write_run_as_root().
+
+#
+# function touchismp_created_file().
+# chown/chgrp/chmod/ of ISMP generated files
+#
+touchismp_created_file()
+{
+        chown -R informix ${INFORMIXDIR}/uninstall_*
+        chgrp -R informix ${INFORMIXDIR}/uninstall_*
+        chmod -R 755 ${INFORMIXDIR}/uninstall_*
+        chown -R informix ${INFORMIXDIR}/*_license
+        chgrp -R informix ${INFORMIXDIR}/*_license
+        chmod -R 755 ${INFORMIXDIR}/*_license
+        if [ -d ${INFORMIXDIR}/tmp ] 
+        then
+            chmod 770 ${INFORMIXDIR}/tmp
+            chown informix ${INFORMIXDIR}/tmp
+            chgrp informix ${INFORMIXDIR}/tmp
+        fi
+}  # end of touchismp_created_file()
+
+##############################################################################
+# end of functions.
+##############################################################################
+ 
+##############################################################################
+# main program.
+##############################################################################
+
+# check usage. emit message and exit if incorrect. valid arg counts are 1 - 7.
+if [ $# -lt 1 -o $# -gt 7 ]
+then
+ 
+    echo "Usage: installc files_list"
+    echo "bin/fileslist.doc has files_list format."
+    exit 1
+ 
+fi
+ 
+# get the given arguments. 
+FILE_LIST=${1}
+DO_CHECK="${2}"
+DO_BRAND="${3}"
+DO_UPGRADE="${4}"
+INSTALL_TYPE="${5}"
+SERIAL_NUM="${6}"
+SERIAL_KEY="${7}"
+SILENT_INSTALL=no
+USER="informix"
+
+if [ "${INSTALL_TYPE}" = "INSTALLODS" ]
+then
+    USER="root"
+fi
+
+# check install dir and user, if required.
+chk_dir_and_user
+
+# initialize variables and flags.
+init_vars
+
+# create a run_as_root script for later execution of commands as root.
+create_run_as_root
+
+# emit license warning.
+do_license_work
+
+# process the FILE_LIST entries, installing files for each entry.
+process_filelist
+
+# install shared libraries in system dirs, if required.
+do_shlibs
+
+# Fix ISMP files.
+if [ "${INSTALL_TYPE}" = "INSTALLODS" ]
+then
+        touchismp_created_file
+fi
+
+# Create date file if product is DRDA-GW.
+do_gw_file
+
+# For root installations, finish up with the RUN_AS_ROOT script to
+# complete the installation
+if [ "${USER}" = "root" ]
+then
+    ${RUN_AS_ROOT_SCRIPT}
+    RUN_AS_ROOT_REQUIRED="no"
+fi
+
+# emit completion message or run_as_root script instructions, as required.
+finish_install

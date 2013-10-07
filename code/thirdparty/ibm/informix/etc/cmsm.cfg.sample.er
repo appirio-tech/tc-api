@@ -1,0 +1,83 @@
+###########################################################################
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix 
+#  Copyright IBM Corporation 2012
+#
+#  Title:      cmsm.cfg.sample 
+#  Description:
+#     Sample Connection Manager configuration file for 
+#     an Enterprise Repication replicate set.
+#     See also INFORMIXSQLHOSTS sqlhosts.cmsm.sample.er.
+#
+###########################################################################
+#
+# Servers:
+#                          g_north 
+#                             | 
+#                          north1
+#                    standalone server
+#                             | 
+#                             |
+#    g_west ------------- network --------------------- g_east
+#   west1, west2              |                          east1
+# primary, HDR                |                       standalone server
+#                          g_south
+#                        south1, south2
+#                       primary, HDR
+#
+# These four Enterprise Replication nodes participate in the 
+# replicate set "erset1".
+# 
+###########################################################################
+
+###########################################################################
+# Global configuration parameters
+###########################################################################
+# NAME           - the name of the Connection Manager instance
+# LOGFILE        - the name and location of the Connection Manager log file
+# MACRO          - Specifies the name of a macro and a list of server names
+###########################################################################
+
+NAME		mySampleCM
+LOGFILE		${INFORMIXDIR}/tmp/cm1.log
+MACRO		EWGROUPS=(g_east,g_west)
+MACRO		NSGROUPS=(g_north,g_south)
+
+###########################################################################
+# Setting for an Enterprise Repication replicate set
+###########################################################################
+# REPLSET         - start the definition of a replset connection unit.
+#                   The name of the replset matches that used in the 
+#                   "cdr define replicateset" command.
+#
+# INFORMIXSERVER  - a list of ER nodes to connect with during initialization
+# 
+# SLA             - Specifies the redirection policy
+#       for example:
+#       1) Re-route clients to any node in the domain that participates
+#          in the replicate set.
+#
+#           SLA repl1_any DBSERVERS=ANY
+#
+#       2) Re-route clients to one of nodes in g_north or g_south
+#          with the least current workload
+#
+#           SLA repl1_ns  DBSERVERS=${NSGROUPS} POLICY=WORKLOAD
+#
+#       3) Re-route clients to one of nodes in g_west or g_east
+#
+#           SLA repl1_ew  DBSERVERS=${EWGROUPS}
+###########################################################################
+
+REPLSET erset1
+{
+  INFORMIXSERVER	g_west,g_south
+  SLA repl1_any	DBSERVERS=ANY
+  SLA repl1_ns	DBSERVERS=${NSGROUPS} POLICY=WORKLOAD
+  SLA repl1_ew	DBSERVERS=${EWGROUPS}
+}
+

@@ -1,0 +1,214 @@
+##########################################################################
+#                                                                        #
+#  Licensed Materials - Property of IBM                                  #
+#                                                                        #
+#  "Restricted Materials of IBM"                                         #
+#                                                                        #
+#  IBM Informix GLS                                                      #
+#  (c) Copyright IBM Corporation 1996, 2004 All rights reserved.         #
+#                                                                        #
+##########################################################################
+<operating_system> "portable" 
+<source_version>		100
+<modified_date>		"05-04-2004"
+
+
+
+LC_CTYPE
+
+#
+# Unclassified Codepoints
+# (all codepoints which are legal, but not classified)
+#
+unclassified \x80;...;\xff
+
+#
+# Upper-case Alphabetic Characters
+#
+upper \x41;...;\x5a
+
+#
+# Lower-case Alphabetic Characters
+#
+lower \x61;...;\x7a
+
+#
+# Alphabetic Characters with No Case
+#
+
+
+#
+# Decimal Digit Characters
+# (should only contain <zero>...<nine>)
+#
+digit \x30;...;\x39
+
+#
+# Hexadecimal Digit Characters
+# (should only contain <zero>...<nine>, <A>...<F> and <a>...<f>)
+#
+xdigit \x30;...;\x39;\
+       \x41;...;\x46;\
+       \x61;...;\x66
+
+#
+# Punctuation Characters
+#
+punct \x21;...;\x2f;\
+      \x3a;...;\x40;\
+      \x5b;...;\x60;\
+      \x7b;...;\x7e
+
+#
+# Horizontal Space Characters
+#
+blank \x09;\
+      \x20
+
+#
+# Vertical and Horizontal Space Characters
+# (since the 'blank' class is automatically included in the 'space' class,
+#  only the space characters that are not in the 'blank' class need
+#  to be specified here)
+#
+space \x0a;...;\x0d
+
+#
+# Control Characters
+#
+cntrl \x00;...;\x1f;\
+      \x7f
+
+#
+# Graphic Characters
+# (since the 'upper', 'lower', 'alpha', 'digit', 'punct' and 'xdigit'
+#  classes are automatically included in the 'graph' class,
+#  only the graphic characters that are not in these classes
+#  need to be specified here)
+#
+
+
+#
+# Printable Characters
+# (since the 'upper', 'lower', 'alpha', 'digit', 'punct' and 'xdigit'
+#  classes are automatically included in the 'print' class,
+#  only the printable characters that are not in these classes
+#  need to be specified here)
+#
+print \x20
+
+#
+# Alphabetic Lower-case to Upper-case Conversion
+#
+toupper (\x61,\x41);(\x62,\x42);(\x63,\x43);(\x64,\x44);(\x65,\x45);\
+        (\x66,\x46);(\x67,\x47);(\x68,\x48);(\x69,\x49);(\x6a,\x4a);\
+        (\x6b,\x4b);(\x6c,\x4c);(\x6d,\x4d);(\x6e,\x4e);(\x6f,\x4f);\
+        (\x70,\x50);(\x71,\x51);(\x72,\x52);(\x73,\x53);(\x74,\x54);\
+        (\x75,\x55);(\x76,\x56);(\x77,\x57);(\x78,\x58);(\x79,\x59);\
+        (\x7a,\x5a)
+
+#
+# Alphabetic Upper-case to Lower-case Conversion
+#
+tolower (\x41,\x61);(\x42,\x62);(\x43,\x63);(\x44,\x64);(\x45,\x65);\
+        (\x46,\x66);(\x47,\x67);(\x48,\x68);(\x49,\x69);(\x4a,\x6a);\
+        (\x4b,\x6b);(\x4c,\x6c);(\x4d,\x6d);(\x4e,\x6e);(\x4f,\x6f);\
+        (\x50,\x70);(\x51,\x71);(\x52,\x72);(\x53,\x73);(\x54,\x74);\
+        (\x55,\x75);(\x56,\x76);(\x57,\x77);(\x58,\x78);(\x59,\x79);\
+        (\x5a,\x7a)
+
+END LC_CTYPE
+
+
+LC_NUMERIC
+
+decimal_point		"."
+thousands_sep		""
+grouping		-1
+num_positive_sign	""
+num_negative_sign	"-"
+
+END LC_NUMERIC
+
+
+LC_MONETARY
+
+int_curr_symbol		""
+currency_symbol		""
+mon_decimal_point	"."
+mon_thousands_sep	""
+mon_grouping		-1
+positive_sign		""
+negative_sign		"-"
+int_frac_digits		2
+frac_digits		2
+p_cs_precedes		1
+n_cs_precedes		1
+p_sep_by_space		0
+n_sep_by_space		0
+p_sign_posn		2
+n_sign_posn		2
+
+END LC_MONETARY
+
+
+LC_TIME
+
+abday		"Sun";\
+		"Mon";\
+		"Tue";\
+		"Wed";\
+		"Thu";\
+		"Fri";\
+		"Sat"
+
+day		"Sunday";\
+		"Monday";\
+		"Tuesday";\
+		"Wednesday";\
+		"Thursday";\
+		"Friday";\
+		"Saturday"
+
+abmon		"Jan";\
+		"Feb";\
+		"Mar";\
+		"Apr";\
+		"May";\
+		"Jun";\
+		"Jul";\
+		"Aug";\
+		"Sep";\
+		"Oct";\
+		"Nov";\
+		"Dec"
+
+mon		"January";\
+		"February";\
+		"March";\
+		"April";\
+		"May";\
+		"June";\
+		"July";\
+		"August";\
+		"September";\
+		"October";\
+		"November";\
+		"December"
+
+am_pm		"AM";"PM"
+
+d_fmt		"%m/%d/%y"
+
+t_fmt		"%H:%M:%S"
+
+d_t_fmt		"%a %b %d %H:%M:%S %Y"
+
+t_fmt_ampm	"%I:%M:%S %p"
+
+END LC_TIME
+
+
+#
+# Collation is in codeset order
+#

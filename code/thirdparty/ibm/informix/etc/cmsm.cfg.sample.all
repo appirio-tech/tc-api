@@ -1,0 +1,233 @@
+###########################################################################
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix 
+#  Copyright IBM Corporation 2012
+#
+#  Title:      cmsm.cfg.sample.all 
+#  Description:
+#     Sample Connection Manager configuration file for 
+#     two high-availability clusters, one Enterprise Replication replset,
+#     and one Flexible Grid.
+#     See also INFORMIXSQLHOSTS sqlhosts.cmsm.sample.all.
+#
+###########################################################################
+#
+# Servers:
+#                          g_north 
+#                             | 
+#                          north1
+#                    standalone server
+#                             | 
+#                             |
+#    g_west ------------- network --------------------- g_east
+#   west1, west2, west3       |                          east1
+# primary, HDR,   SDS         |                       standalone server
+#                          g_south
+#                        south1, south2, south3
+#                       primary, SDS,    RSS
+#
+# These four Enterprise Replication nodes participate in the 
+# replicate set "erset1".
+#
+# Flexible Grid "mygrid" also includes the four nodes in the domain.
+###########################################################################
+
+###########################################################################
+# Global configuration parameters
+###########################################################################
+# NAME           - the name of the Connection Manager instance
+# LOGFILE        - the name and location of the Connection Manager log file
+# MACRO          - Specifies the name of a macro and a list of server names
+###########################################################################
+
+NAME		mySampleCM
+LOGFILE		${INFORMIXDIR}/tmp/cm1.log
+MACRO		EWGROUPS=(g_east,g_west)
+MACRO		NSGROUPS=(g_north,g_south)
+
+
+###########################################################################
+# Settings for a high-availability cluster
+###########################################################################
+# CLUSTER        - start the definition of a cluster connection unit.
+#                  In this example, we have the primary west1, HDR west2,
+#                  and SDS west3
+#
+# INFORMIXSERVER - a list of servers to connect with during initialization
+#
+# SLA            - Specifies the redirection policy, 
+#
+#       for example
+#       1) Re-route clients to the primary only
+#
+#          SLA oltp_w   DBSERVERS=primary
+#
+#       2) Re-route DRDA clients to the primary DRDA DBSERVERALIASES only
+#
+#          SLA oltpdr_w DBSERVERS=primary 
+#
+#       3) Re-route clients to the HDR or any SDS depending on which
+#          server has the least workload
+#
+#          SLA report_w DBSERVERS=(HDR,SDS)
+#
+# FOC             - Specifies the failover configuration (FOC) that the 
+#                   Connection Manager uses to determine which server should 
+#                   take over in case the primary server fails. 
+#
+# CMALARMPROGRAM  - Specifies the path and file name of a program or script 
+#                   to run if failover processing encounters an error. 
+###########################################################################
+
+CLUSTER	g_west 
+{
+  INFORMIXSERVER	west1,west2	
+
+  SLA oltp_w 	DBSERVERS=primary 
+  SLA oltpdr_w  DBSERVERS=primary
+  SLA report_w 	DBSERVERS=(HDR,SDS)
+
+  FOC ORDER=SDS,HDR TIMEOUT=10 RETRY=2
+  CMALARMPROGRAM ${INFORMIXDIR}/etc/cmalarmprogram.sh
+}
+
+###########################################################################
+# Settings for another high-availability cluster
+###########################################################################
+# CLUSTER        - start the definition of a cluster connection unit.
+#                  In this example we have the primary south1, SDS south2,
+#                  and RSS south3
+#
+# INFORMIXSERVER - a list of servers to connect with during initialization
+#
+# SLA            - Specifies the redirection policy, 
+#
+#       for example
+#       1) Re-route clients to the primary only
+#
+#          SLA oltp_s   DBSERVERS=primary
+#
+#       2) Re-route DRDA clients to the primary DRDA DBSERVERALIASES only
+#
+#          SLA oltpdr_s  DBSERVERS=primary
+#
+#       3) Re-route clients to any SDS node.  If no SDS node is available, then
+#          re-route a client to any RSS node.
+#          PROXY mode can work with CSDK 2.XX-3.00 clients
+#
+#          SLA report_s  DBSERVERS=SDS,RSS MODE=proxy
+###########################################################################
+
+CLUSTER g_south
+{
+  INFORMIXSERVER	south1,south2
+
+  SLA oltp_s	DBSERVERS=primary
+  SLA oltpdr_s	DBSERVERS=primary
+  SLA report_s	DBSERVERS=SDS,RSS MODE=proxy
+
+  FOC ORDER=SDS,RSS TIMEOUT=10
+  CMALARMPROGRAM ${INFORMIXDIR}/etc/cmalarmprogram.sh
+}
+
+###########################################################################
+# Setting for an Enterprise Repication replicate set. 
+###########################################################################
+# REPLSET         - start the definition of a replset connection unit.
+#                   The name of the replset matches that used in the 
+#                   "cdr define replicateset" command.
+#
+# INFORMIXSERVER  - a list of ER nodes to connect with during initialization
+# 
+# SLA             - Specifies the redirection policy
+#       for example:
+#       1) Re-route clients to any node in the domain that participates
+#          in the replicate set.
+#
+#           SLA repl1_any DBSERVERS=ANY
+#
+#       2) Re-route clients to one of nodes in g_north or g_south
+#          with the least current workload
+#
+#           SLA repl1_ns  DBSERVERS=${NSGROUPS} POLICY=WORKLOAD
+#
+#       3) Re-route clients to one of nodes in g_west or g_east
+#
+#           SLA repl1_ew  DBSERVERS=${EWGROUPS}
+#
+###########################################################################
+REPLSET erset1
+{
+  INFORMIXSERVER	g_west,g_south
+
+  SLA repl1_any	DBSERVERS=ANY
+  SLA repl1_ns	DBSERVERS=${NSGROUPS} POLICY=WORKLOAD
+  SLA repl1_ew	DBSERVERS=${EWGROUPS}
+}
+
+###########################################################################
+# Setting for a Flexible Grid
+###########################################################################
+# GRID            - start the defintion of a grid connection unit.
+#                   The name of the grid matches that used in the 
+#                   "cdr define grid" command.
+#
+# INFORMIXSERVER  - a list of nodes to connect with during initialization
+#                   
+# SLA             - Specifies the redirection rules
+#       for example:
+#       1) Re-route clients to any nodes in the grid with the lowest latency of
+#          receiving replicated data
+#
+#          SLA grid1_any DBSERVERS=ANY POLICY=LATENCY
+#
+#       2) Re-route clients to g_west or g_east.  If none of them is
+#          available then re-route clients to g_north or g_south
+#
+#          SLA grid1_avail       DBSERVERS=${EWGROUPS},${NSGROUPS}
+#
+###########################################################################
+
+GRID mygrid
+{
+  INFORMIXSERVER	g_west,g_south
+
+  SLA grid1_any		DBSERVERS=ANY POLICY=LATENCY
+  SLA grid1_avail	DBSERVERS=${EWGROUPS},${NSGROUPS}
+}
+
+###########################################################################
+# Setting for a ServerSet
+###########################################################################
+# SERVERSET       - start the definition of a SERVERSET connection unit.
+#                   A serverset is a 
+#
+# INFORMIXSERVER  - complete server list CM connects to
+#
+# SLA             - Specifies the redirection rules
+#       for example:
+#       1) Re-route client to west1.  If it's not available then to east1.
+#          If east1 is not available then route to north1. 
+#          We also can define the port etc on which the CM will listen.
+#          no INFORMIXSQLHOSTS changes are required.
+#
+#          SLA ss_avail  DBSERVERS=west1,east1,north1 \
+#                        HOST=apollo11 SERVICE=9990 NETTYPE=onsoctcp
+#
+#       2) Re-route clients to any server in the serverset
+#          according to whichever has the least workload.
+#
+#          SLA ss_any    DBSERVERS=(west1,east1,north1)
+#
+###########################################################################
+SERVERSET ss
+{
+  INFORMIXSERVER	west1,east1,north1
+  SLA ss_avail 	DBSERVERS=west1,east1,north1 \
+		HOST=apollo11 SERVICE=9990 NETTYPE=onsoctcp
+  SLA ss_any	DBSERVERS=(west1,east1,north1) 
+}
