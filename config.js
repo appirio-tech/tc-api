@@ -16,7 +16,7 @@ var config = {
     clientID: "a6d12f56",
     clientSecret: "b4f8b6080da88e76f902ad8bd9fc9c56",
     callbackURL: "http://192.241.132.180:8080/topcoderoauth/callback",
-    apiHost: "api.topcoder.com",
+    apiHost: "107.21.158.122",
     scope: ["FORUMS_REST", "CONTEST_REST"]
 };
 
