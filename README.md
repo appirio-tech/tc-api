@@ -15,7 +15,7 @@ Configuration at the moment is fairly messy.
 ### Informix
 * *sqlhosts* - You need to configure a sqlhosts file to tell the Informix drivers about the Informix DB. Copy the example file, `doc/sqlhosts.informixoltp_tcp`. Change line 62 to point to the IP and Port of your Informix DB. Then put the file in `thirdparty/ibm/informix/etc`.
 * *.procfile* - This file loads all the Informix variables into the session. You should not have to change it, but be aware of it. When working locally you'll need to run it manually by executing `. .profile` in your terminal.
-* *db_conf.json* - This file is only used for logging. It should be removed as part fo configuration cleanup.
+* *db_conf.json* - Database name and the db username and password are set here. Currently there are also values set for host and port, but these are ignored - the informix drivers looks at the sqlhosts file for those values.
 
 ### OAuth Configuration
 * *config.js* - This file has most of the values used by the oauth provider. *clientID*, *clientSecret*, are already setup for dev purposes. Change the *callbackURL* to use the domain/IP of where you will be running API code.
