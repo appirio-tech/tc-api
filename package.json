@@ -1,19 +1,19 @@
 {
-    "name": "tc-api",
-    "description": "PoC Assembly - TopCoder NodeJS Contests REST API",
-    "version": "1.0.0",
-    "engines": {
-        "node": "0.10.x",
-        "npm": "1.2.x"
-    },
-    "private": true,
-    "dependencies": {
-        "express": "3.x",
-        "nodejs-db-informix": "*",
-        "winston" : "0.6.2",
-        "passport-oauth" : "0.1.x",
-        "passport" : "*",
-        "jade" : "*",
-        "xml2js": "0.2.6"
-    }
+  "name": "tc-api",
+  "description": "PoC Assembly - TopCoder NodeJS Contests REST API",
+  "version": "1.0.0",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "~3.4.1",
+    "nodejs-db-informix": "*",
+    "winston": "~0.7.2",
+    "passport-oauth": "~1.0.0",
+    "passport": "*",
+    "jade": "*",
+    "xml2js": "~0.2.8"
+  }
 }
