@@ -54,7 +54,7 @@ Build
 =====
 	$ node-waf distclean configure build
 
--or-
+-or- if you're using `node-gyp`
 
 	$ node-gyp clean configure build
 	$ node-gyp rebuild
@@ -69,7 +69,7 @@ Test
 ====
 	$ node-waf test
 
--or-
+-or- if you're using `node-gyp`
 
 	$ nodejs tests/tests.js
 

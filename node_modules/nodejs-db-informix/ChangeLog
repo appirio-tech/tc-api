@@ -30,3 +30,6 @@
 	* bindings.gyp for node-gyp
 	* added docs.doxy for doxygen
 	* added support for insert/udate/delete statements
+
+0.0.9
+	* Use libuv for node v6.0.0 onwards.
