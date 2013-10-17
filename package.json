@@ -11,7 +11,7 @@
     "express": "~3.4.1",
     "nodejs-db-informix": "*",
     "winston": "~0.7.2",
-    "passport-oauth": "~1.0.0",
+	"passport-topcoder": "*",
     "passport": "*",
     "jade": "*",
     "xml2js": "~0.2.8"
