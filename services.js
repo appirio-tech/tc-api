@@ -18,7 +18,6 @@
 // Load express, ContestsHTTPController and ContestsCategoriesController
 var Express = require('express');
 var ContestsHTTPController = require('./controllers/contestsHTTPController');
-var ContestsCategoriesController = require('./controllers/contestsCategoriesController');
 
 var passport = require('passport');
 var TopcoderStrategy = require('passport-topcoder').Strategy;
@@ -100,7 +99,7 @@ var isAuthenticated = function (req, res, next) {
 						res.status(500);
 						res.send("OAuth server returned null. Check that your access token is correct and valid.");
                     } else {
-                        console.dir(result);
+                        console.dir(JSON.stringify(result));
                         if (result.accessTokenValidation && result.accessTokenValidation.tokenScopes) {
                             if (result.accessTokenValidation.tokenScopes.length) {
                                 tokenScopes = result.accessTokenValidation.tokenScopes;
@@ -163,17 +162,20 @@ app.get("/client", function (req, res, next) {
     res.render('client', req.session.accessToken);
 });
 
-var controller = new ContestsHTTPController();
-var categoriesController = new ContestsCategoriesController();
 
-//route get contest types that does not require any authentication
-app.get('/public/contesttypes', controller.getContestTypes);
+var controller = new ContestsHTTPController();
+
+
+
+//route to get contest types that DOES require oauth authentication
+app.get('/v2/contesttypes', controller.getContestTypes);
+
 
 // for all other routes, require authentication
 app.all("*", isAuthenticated);
 
 //route to get contest types that DOES require oauth authentication
-app.get('/contesttypes', controller.getContestTypes);
+app.get('/v2/secure/contesttypes', controller.getContestTypes);
 
 
 // error-handling middleware, take the same form
@@ -189,36 +191,8 @@ app.use(function (err, req, res, next) {
     });
 });
 
+ 
 
-
-
-/****** EVERYTHING BELOW HERE IS CURRENTLY BROKEN.  ***/
-//Calls that use stored procedures are not working for unknown reasons. Probably bugs in db.js
-
-
-
-
-/*********** Old controller ***********/
-
-// Get past contest information by id
-//app.get('/contests/id/:id', controller.getContestById);
-
-/*********** New controller ***********/
-
-// Get contest category by id
-app.get('/contests/categories/get_by_id/:id', categoriesController.getContestCategoryById);
-
-// Get all contest categories
-app.get('/contests/categories/get', categoriesController.getContestCategories);
-
-// Create contest category
-app.post('/contests/categories/create', categoriesController.createContestCategory);
-
-// Update contest category
-app.put('/contests/categories/update', categoriesController.updateContestCategory);
-
-// Delete contest category
-app.del('/contests/categories/delete/:id', categoriesController.deleteContestCategory);
 
 // Listen on 8080
 var port = process.env.PORT || 8080;

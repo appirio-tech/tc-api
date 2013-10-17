@@ -9,9 +9,9 @@
 
 /*global ContestsHTTPController:true, require, module*/
 
-var fs = require('fs');
+//var fs = require('fs');
 var bindings = require("nodejs-db-informix");
-var settings = JSON.parse(fs.readFileSync('./db_conf.json', 'utf8'));
+var settings = require('./../db_conf');
 
 /**
  * <p>
@@ -34,43 +34,7 @@ ContestsHTTPController = function () {
      * The DB object.
      */
     var winston = require('../utils/logging'),
-        logger = winston.loggers.get('ContestsHTTPController'),
-        DB = require('../utils/db');
-
-    /**
-     * Gets the contest data of the passed contest.
-     * @param {Object} req the request object.
-     * @param {Object} res the response object.
-     * @param {Function} next the next handler.
-     */
-    this.getContestById = function (req, res, next) {
-        logger.log("info", "Running getContestById");
-        if (parseInt(req.params.id, 10).toString() !== req.params.id) {
-            res.send({
-                error: 'the id parameter is not an valid integer.'
-            });
-            return;
-        }
-
-        var spparams = [req.params.id];
-
-        DB.runStoredProcedure("get_contest_data(?)", spparams, res, function (arg0, arg1) {
-            logger.log("info", arguments);
-            var a = arg0,
-                b = arg1;
-            if (a !== null) {
-                res.send({});
-            } else if (b !== null) {
-                res.send(b);
-            } else {
-                res.send({
-                    error: 'an error occurred during the operation.'
-                });
-            }
-        }, next);
-        logger.log("info", "Finished running getContestById");
-    };
-
+        logger = winston.loggers.get('ContestsHTTPController');
 
 
     /**
@@ -84,7 +48,7 @@ ContestsHTTPController = function () {
      * @param {Function} next the next handler.
      */
     function runSql(sql, res, callback, next) {
-        console.log("SQL: " + sql);
+        logger.info("SQL: " + sql);
 
         // Create connection
         var connection = new bindings.Informix(settings);
@@ -111,6 +75,14 @@ ContestsHTTPController = function () {
                     [],
                     callback,
                     {
+						start: function(q) {
+							logger.info('START:');
+							logger.info(q);
+						},
+						finish: function(f) {
+							logger.info('FINISH:');
+							logger.info(f);
+						},
                         async: false,
                         cast: true
                     })
@@ -134,8 +106,8 @@ ContestsHTTPController = function () {
      * @param {Function} next the next handler.
      */
     this.getContestTypes = function(req, res, next) {
-        runSql('select project_category_id, project_type_id, name, description from project_category_lu', res, function () {
-          console.log(arguments);
+        runSql('select project_category_id, project_type_id, name, description from project_category_lu order by project_category_id desc', res, function () {
+			logger.info("Arguments: ", arguments);
 
             if (arguments[0] !== null) {
                 res.send({});

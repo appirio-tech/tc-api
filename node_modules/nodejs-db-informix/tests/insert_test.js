@@ -35,7 +35,7 @@ c.on('error', function(error) {
     // create table
     rs = this
         .query(
-              "create table baz(a integer, b varchar(255))"
+              "create table baz(a integer not null, b varchar(255))"
             , []
             , function () {
                 console.log('CALLBACK:');
@@ -132,6 +132,8 @@ c.on('error', function(error) {
         .execute();
 
     // insert some more rows
+    // we'll try to insert NULL when i==0. This will cause error which this
+    // module should be able to handle properly
     for (var i = 0; i < 10; ++i) {
         rs = this
             .query(
@@ -154,7 +156,7 @@ c.on('error', function(error) {
                     , cast: true
                 }
             )
-            .insert('baz', ['a','b'],[i, Math.random().toString()], false)
+            .insert('baz', ['a','b'], [i == 0 ? null : i, Math.random().toString()], false)
             .execute();
     }
 

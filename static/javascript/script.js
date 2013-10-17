@@ -10,7 +10,7 @@ $(document).ready(function () {
     $("#get-contests-types").on('click', function () {
         $("#return-text").text('');
         $.ajax({
-            url: '/contesttypes',
+            url: 'v2/secure/contesttypes',
             headers: {
                 Authorization: 'Bearer ' + $("#access-token").val()
             },

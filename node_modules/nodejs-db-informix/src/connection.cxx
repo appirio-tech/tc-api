@@ -1,4 +1,5 @@
 #include "connection.h"
+#include <sstream>
 
 nodejs_db_informix::Connection::Connection()
     : compress(false),
@@ -271,23 +272,28 @@ nodejs_db_informix::Connection::query(const std::string& query) const throw(node
     ITSet *rs = q.ExecToSet(query.c_str());
 
     if (rs == NULL || q.RowCount() <= 0) {
+        std::stringstream err;
+
         if (q.Warn()) {
-            throw nodejs_db::Exception(
-                    std::string(q.SqlState())
-                    + ": "
-                    + std::string(q.WarningText())
-            );
+            err << "sqlstate: "
+                << q.SqlState().Data()
+                << ", warn: "
+                << q.WarningText().Data()
+                << ", "
+                ;
         }
 
         if (q.Error()) {
-            throw nodejs_db::Exception(
-                    std::string(q.SqlState())
-                    + ": "
-                    + std::string(q.ErrorText())
-            );
+            err << "sqlstate: "
+                << q.SqlState().Data()
+                << ", error: "
+                << q.ErrorText().Data()
+                << ", "
+                ;
         }
 
-        throw nodejs_db::Exception("Could not execute query");
+        err << "msg: Could not execute query.";
+        throw nodejs_db::Exception(err.str());
     }
 
     // let the caller handle problems with q.RowType()
@@ -308,10 +314,35 @@ nodejs_db_informix::Connection::query_x(const std::string& query) const throw(no
 
     ITBool s = q.ExecForStatus(query.c_str());
 
+    if (!s) {
+        std::stringstream err;
+
+        if (q.Warn()) {
+            err << "sqlstate: "
+                << q.SqlState().Data()
+                << ", warn: "
+                << q.WarningText().Data()
+                << ", "
+                ;
+        }
+
+        if (q.Error()) {
+            err << "sqlstate: "
+                << q.SqlState().Data()
+                << ", error: "
+                << q.ErrorText().Data()
+                << ", "
+                ;
+        }
+
+        err << "msg: Could not execute query.";
+        throw nodejs_db::Exception(err.str());
+    }
+
+#ifdef DEBUG
     // query type
     ITString qt = q.Command();
 
-#ifdef DEV
     std::cout << "Type of query: " << qt.Data() << std::endl;
     std::cout << "Result of DML: " << s << std::endl;
 #endif

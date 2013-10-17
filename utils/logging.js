@@ -14,19 +14,6 @@
  */
 var winston = require('winston');
 
-/**
- * This will add separate logger for ContestsCategoriesController and save it under logs/ContestsCategoriesController.log
- */
-winston.loggers.add('ContestsCategoriesController', {
-    console: {
-        level: 'info',
-        colorize: 'true',
-        label: 'ContestsCategoriesController'
-    },
-    file: {
-        filename: 'logs/ContestsCategoriesController.log'
-    }
-});
 
 /**
  * This will add separate logger for ContestsHTTPController and save it under logs/ContestsHTTPController.log
@@ -42,18 +29,5 @@ winston.loggers.add('ContestsHTTPController', {
     }
 });
 
-/**
- * This will add separate logger for databse operations and save it under logs/DB-access.log.log
- */
-winston.loggers.add('DB', {
-    console: {
-        level: 'info',
-        colorize: 'true',
-        label: 'ContestsHTTPController'
-    },
-    file: {
-        filename: 'logs/DB-access.log'
-    }
-});
 
 module.exports = winston;
