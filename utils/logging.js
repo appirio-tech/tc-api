@@ -23,9 +23,6 @@ winston.loggers.add('ContestsHTTPController', {
         level: 'info',
         colorize: 'true',
         label: 'ContestsHTTPController'
-    },
-    file: {
-        filename: 'logs/ContestsHTTPController.log'
     }
 });
 
