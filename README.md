@@ -19,7 +19,7 @@ Configuration at the moment is fairly messy.
 
 ### OAuth Configuration
 * *config.js* - This file has most of the values used by the oauth provider. *clientID*, *clientSecret*, are already setup for dev purposes. Change the *callbackURL* to use the domain/IP of where you will be running API code.
-* *node_modules/passport-topcoder/lib/passport-topcoder/strategy.js* - The OAuth provider URL is being set on lines 51 and 52, and is currently hardcoded to TopCoder's production OAuth provider. These values need to be moved up into general application configuration.
+* *node_modules/passport-topcoder* - Since this an npm package, the OAuth provider URL is hardcoded to use production. This value can be manually changed for dev purposes in the `const.js` file.
 
 Running on Heroku
 -----------------
