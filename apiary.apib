@@ -1,0 +1,58 @@
+FORMAT: 1A
+HOST: http://api.topcoder.com/v2
+
+# TopCoder API
+Programmatically access TopCoder contests and members.
+
+
+# Group Contests
+Public data related to contests.
+
+## Contest Types Collection [/public/contesttypes]
+### List all contest types [GET]
++ Response 200 (application/json)
+
+        [
+            {
+                "project_category_id": 2,
+                "project_type_id": 1,
+                "name": "Development",
+                "description": "Development"
+            },
+            {
+                "project_category_id": 1,
+                "project_type_id": 1,
+                "name": "Design",
+                "description": "Design"
+            }
+        ]
+
+# Group Registration
+Register a new user.
+
+## Users [/users]
++ Model (application/json)
+
+        {
+            "firstname" : "John",
+            "lastname" : "Doe",
+            "handle" : "uniqueLogin",
+            "country" : "UK",
+            "email" : "name@domain.com",
+            "password" : "HashedPassword",
+            "socialProvider" : "google",
+            "socialUserName" : "JohnsGoogleName",
+            "socialEmail" : "john@gmail.com",
+            "socialEmailVerified" : "true"
+        }
+
+### Create a new user [POST]
++ Request (application/json)
+
+    [Users][]
+
++ Response 200 (application/json)
+
+        {
+            "status" : "user successfully created"
+        }
