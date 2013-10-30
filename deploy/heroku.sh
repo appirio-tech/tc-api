@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2012 - 2013 TopCoder Inc., All Rights Reserved.
+# Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
 #
 # Version: 1.0
 # Author: vangavroche
