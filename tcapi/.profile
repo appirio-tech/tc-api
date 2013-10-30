@@ -1,11 +1,13 @@
-
 LD_LIBRARY_PATH=""
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 INFORMIXDIR="${DIR}/thirdparty/ibm/informix"
 INFORMIXSERVER='informixoltp_tcp'
 ONCONFIG="onconfig.${INFORMIXSERVER}"
+
 INFORMIXSQLHOSTS="${INFORMIXDIR}/etc/sqlhosts.${INFORMIXSERVER}"
+
+printf "informixoltp_tcp onsoctcp ${TC_DB_HOST} ${TC_DB_PORT}" > $INFORMIXSQLHOSTS
 
 INFORMIXLIBDIR="${INFORMIXDIR}/lib"
 INFORMIXLIBS=${INFORMIXLIBDIR}

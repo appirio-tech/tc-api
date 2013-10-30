@@ -7,14 +7,19 @@
  * Author: TCSASSEMBLER
  */
 $(document).ready(function () {
-    $("#get-contests-types").on('click', function () {
+    $("#call-api").on('click', function () {
+
+        var data = {};
+        $("#apiForm input[type='text']").each(function(){
+           var el = $(this);
+           data[el.attr('id')] = el.val();
+        });
+    
         $("#return-text").text('');
         $.ajax({
-            url: 'v2/secure/contesttypes',
-            headers: {
-                Authorization: 'Bearer ' + $("#access-token").val()
-            },
-            dataType: 'text',
+            type : "POST",
+            url: "/callAPI",
+            data : data,
             success: function (data) {
                 $("#return-text").text(data);
             },
@@ -22,5 +27,6 @@ $(document).ready(function () {
                 $("#return-text").text(xhr.responseText);
             }
         });
+        return false;
     });
 });

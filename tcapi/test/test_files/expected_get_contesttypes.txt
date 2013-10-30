@@ -1,0 +1,320 @@
+[
+  {
+    "project_category_id": 1,
+    "project_type_id": 1,
+    "name": "Design",
+    "description": "Design"
+  },
+  {
+    "project_category_id": 2,
+    "project_type_id": 1,
+    "name": "Development",
+    "description": "Development"
+  },
+  {
+    "project_category_id": 3,
+    "project_type_id": 1,
+    "name": "Security",
+    "description": "Security"
+  },
+  {
+    "project_category_id": 4,
+    "project_type_id": 1,
+    "name": "Process",
+    "description": "Process"
+  },
+  {
+    "project_category_id": 5,
+    "project_type_id": 1,
+    "name": "Testing Competition",
+    "description": "Testing Competition"
+  },
+  {
+    "project_category_id": 6,
+    "project_type_id": 2,
+    "name": "Specification",
+    "description": "Specification"
+  },
+  {
+    "project_category_id": 7,
+    "project_type_id": 2,
+    "name": "Architecture",
+    "description": "Architecture"
+  },
+  {
+    "project_category_id": 8,
+    "project_type_id": 2,
+    "name": "Component Production",
+    "description": "Component Production"
+  },
+  {
+    "project_category_id": 9,
+    "project_type_id": 2,
+    "name": "Bug Hunt",
+    "description": "Bug Hunt"
+  },
+  {
+    "project_category_id": 10,
+    "project_type_id": 2,
+    "name": "Deployment",
+    "description": "Deployment"
+  },
+  {
+    "project_category_id": 11,
+    "project_type_id": 2,
+    "name": "Security",
+    "description": "Security"
+  },
+  {
+    "project_category_id": 12,
+    "project_type_id": 2,
+    "name": "Process",
+    "description": "Process"
+  },
+  {
+    "project_category_id": 13,
+    "project_type_id": 2,
+    "name": "Test Suites",
+    "description": "Test Suites"
+  },
+  {
+    "project_category_id": 14,
+    "project_type_id": 2,
+    "name": "Assembly Competition",
+    "description": "Assembly Competition"
+  },
+  {
+    "project_category_id": 15,
+    "project_type_id": 2,
+    "name": "Legacy",
+    "description": "Legacy"
+  },
+  {
+    "project_category_id": 16,
+    "project_type_id": 3,
+    "name": "Banners/Icons",
+    "description": "Banners/Icons"
+  },
+  {
+    "project_category_id": 17,
+    "project_type_id": 3,
+    "name": "Web Design",
+    "description": "Web Design"
+  },
+  {
+    "project_category_id": 18,
+    "project_type_id": 3,
+    "name": "Wireframes",
+    "description": "Wireframes"
+  },
+  {
+    "project_category_id": 19,
+    "project_type_id": 2,
+    "name": "UI Prototypes",
+    "description": "UI Prototypes"
+  },
+  {
+    "project_category_id": 20,
+    "project_type_id": 3,
+    "name": "Logo Design",
+    "description": "Logo Design"
+  },
+  {
+    "project_category_id": 21,
+    "project_type_id": 3,
+    "name": "Print/Presentation",
+    "description": "Print/Presentation"
+  },
+  {
+    "project_category_id": 22,
+    "project_type_id": 3,
+    "name": "Idea Generation",
+    "description": "Idea Generation"
+  },
+  {
+    "project_category_id": 23,
+    "project_type_id": 2,
+    "name": "Conceptualization",
+    "description": "Conceptualization"
+  },
+  {
+    "project_category_id": 24,
+    "project_type_id": 2,
+    "name": "RIA Build",
+    "description": "RIA Build"
+  },
+  {
+    "project_category_id": 25,
+    "project_type_id": 2,
+    "name": "RIA Component",
+    "description": "RIA Component"
+  },
+  {
+    "project_category_id": 26,
+    "project_type_id": 2,
+    "name": "Test Scenarios",
+    "description": "Test Scenarios"
+  },
+  {
+    "project_category_id": 27,
+    "project_type_id": 2,
+    "name": "Spec Review",
+    "description": "Spec Review"
+  },
+  {
+    "project_category_id": 28,
+    "project_type_id": 4,
+    "name": "Generic Scorecards",
+    "description": "Generic scorecards are available for selection when creating projects of all categories"
+  },
+  {
+    "project_category_id": 29,
+    "project_type_id": 2,
+    "name": "Copilot Posting",
+    "description": "Copilot Posting"
+  },
+  {
+    "project_category_id": 30,
+    "project_type_id": 3,
+    "name": "Widget or Mobile Screen Design",
+    "description": "Widget or Mobile Screen Design"
+  },
+  {
+    "project_category_id": 31,
+    "project_type_id": 3,
+    "name": "Front-End Flash",
+    "description": "Front-End Flash"
+  },
+  {
+    "project_category_id": 32,
+    "project_type_id": 3,
+    "name": "Application Front-End Design",
+    "description": "Application Front-End Design"
+  },
+  {
+    "project_category_id": 34,
+    "project_type_id": 3,
+    "name": "Other",
+    "description": "Other"
+  },
+  {
+    "project_category_id": 35,
+    "project_type_id": 2,
+    "name": "Content Creation",
+    "description": "Content Creation"
+  },
+  {
+    "project_category_id": 36,
+    "project_type_id": 2,
+    "name": "Reporting",
+    "description": "Reporting"
+  },
+  {
+    "project_category_id": 37,
+    "project_type_id": 2,
+    "name": "Marathon Match",
+    "description": "Marathon Match"
+  },
+  {
+    "project_category_id": 41,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 42,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 43,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 44,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 45,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 46,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 47,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 48,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 49,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 50,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 51,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 52,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 53,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 54,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 55,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 56,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  },
+  {
+    "project_category_id": 57,
+    "project_type_id": 1,
+    "name": "Design1",
+    "description": "Design1"
+  }
+]

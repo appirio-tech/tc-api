@@ -1,2 +1,4 @@
 *.log
 *.zip
+log
+pids

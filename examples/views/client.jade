@@ -1,0 +1,45 @@
+//-
+//- Copyright (c) 2013 TopCoder, Inc. All rights reserved.
+//- @author TCSASSEMBLER
+//-
+!!!
+html
+    head
+    title='client'
+    script(src='/javascript/jquery-1.9.1.js')
+    script(src='/javascript/script.js')
+    style.
+        #apiForm input {
+            width: 500px;
+        }
+        #return-text {
+            width: 800px;
+            border: 1px solid red;
+            margin-top: 10px;
+            height: 500px;
+            overflow: scroll;
+        }
+    body
+        a(href='/topcoderoauth',target="_blank") Authorize the client app.
+        br
+        form#apiForm
+            div
+                label Enter accessToken Here: 
+                input(type='text', id='accessToken')
+            div
+                label Enter API Host Here: 
+                input(type='text', id='apiHost', value='')
+            div
+                label Enter API Port Here: 
+                input(type='text', id='apiPort', value='8080')
+            div
+                label Enter API Host Here: 
+                input(type='text', id='apiPath', value='/api/v2/secure/contesttypes')
+            div
+                label Enter API Method Here: 
+                input(type='text', id='apiMethod', value='GET')
+            div
+                button(id='call-api') Call API
+        br
+        h1 Response from server
+        div#return-text
