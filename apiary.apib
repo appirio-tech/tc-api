@@ -166,36 +166,6 @@ Programmatically access TopCoder contests and members.
 
         {"description":"unknown contest.","name":"Not Found","value":"404"}
 
-# Group Registration
-Register a new user.
-
-## Users [/users]
-+ Model (application/json)
-
-        {
-            "firstname" : "John",
-            "lastname" : "Doe",
-            "handle" : "uniqueLogin",
-            "country" : "UK",
-            "email" : "name@domain.com",
-            "password" : "HashedPassword",
-            "socialProvider" : "google",
-            "socialUserName" : "JohnsGoogleName",
-            "socialEmail" : "john@gmail.com",
-            "socialEmailVerified" : "true"
-        }
-
-### Create a new user [POST]
-+ Request (application/json)
-
-    [Users][]
-
-+ Response 200 (application/json)
-
-        {
-            "status" : "user successfully created"
-        }
-        
 ## Top Ranked Members [/software/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
 
@@ -314,6 +284,37 @@ Register a new user.
             "name":"Bad Request","value":"400"
         }
         
+# Group Registration
+Register a new user.
+
+## Users [/users]
++ Model (application/json)
+
+        {
+            "firstname" : "John",
+            "lastname" : "Doe",
+            "handle" : "uniqueLogin",
+            "country" : "UK",
+            "email" : "name@domain.com",
+            "password" : "HashedPassword",
+            "socialProvider" : "google",
+            "socialUserName" : "JohnsGoogleName",
+            "socialEmail" : "john@gmail.com",
+            "socialEmailVerified" : "true"
+        }
+
+### Create a new user [POST]
++ Request (application/json)
+
+    [Users][]
+
++ Response 200 (application/json)
+
+        {
+            "status" : "user successfully created"
+        }
+        
+
 # Group Studio Contests
 
 ## Top Ranked Members [/studio/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
