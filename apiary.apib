@@ -5,7 +5,318 @@ HOST: http://api.topcoder.com/v2
 Programmatically access TopCoder contests and members.
 
 #Group Software Contests
+        
+## Review Oppertunities [/software/reviewOpportunities/{contestType}]
+### Get Review Oppertunities [GET]
 
++ Parameters
+    + contestType (required, string, `Development`) ... Contest Type.
+
++ Response 200 (application/json)
+
+        {
+            "review": 
+            [
+                {
+                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "reviewerPayment": 442,
+                    "submissions": 0,
+                    "reviewStart": "11.01.2013 11:01 EDT",
+                    "openPositions": 3,
+                    "link": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=5908"
+                },
+                {
+                    "contestName": "Cornell - Responsive Storyboard",
+                    "reviewerPayment": 442,
+                    "submissions": 0,
+                    "reviewStart": "11.01.2013 11:01 EDT",
+                    "openPositions": 3,
+                    "link": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=5909"
+                }
+            ]
+            "specReview": 
+            [
+                {
+                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "reviewerPayment": 50,
+                    "reviewStart": "11.01.2013 11:01 EDT",
+                    "link": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=5908"
+                },
+                {
+                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "reviewerPayment": 50,
+                    "reviewStart": "11.01.2013 11:01 EDT",
+                    "link": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=5908"
+                }
+            ]            
+        }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown contest type.",
+            "name":"Not Found",
+            "value":"404"
+        }
+
+## Get Review Oppertunity Detail [/software/reviewOpportunities/{id}]
+### Get Review Oppertunity Information [GET]
+
++ Parameters
+
+    + id (required, number, `30000000`) ... The contest id.
+
++ Response 200 (application/json)
+
+        {
+            "name": "PDS - Import and Persistence Update - Assembly Contest",
+            "Phases":
+            [
+                {
+                    "name": "Submission",
+                    "start": "10.25.2013 23:02 EDT",
+                    "end": "10.29.2013 23:02 EDT",
+                    "duration": "143 hours"
+                },
+                {
+                    "name": "Screening",
+                    "start": "10.29.2013 23:02 EDT",
+                    "end": "10.30.2013 23:02 EDT",
+                    "duration": "24 hours"
+                }
+            ],
+            "Positions":
+            [
+                {
+                    "role": "Primary Reviewer",
+                    "positions": 1,
+                    "payment": 500
+                },
+                {
+                    "role": "Secondary Reviewer",
+                    "positions": 2,
+                    "payment": 400
+                }        
+            ],
+            "Applications":
+            [
+                {
+                    "handle": "iRabbit",
+                    "role": "Primary Reviewer",
+                    "status": "Pending",
+                    "applicationDate": "10.25.2013 23:02 EDT"
+                },
+                {
+                    "handle": "iRabbit",
+                    "role": "Secondary Reviewer",
+                    "status": "Pending",
+                    "applicationDate": "10.25.2013 23:02 EDT"
+                },       
+            ]
+        }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown contest id.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
+## Contest Reviewers Collection [/software/reviewers/{contestType}]
+### List reviewers of current contest type [GET]
+
++ Parameters
+    + contestType (required, string, `Assembly`) ... The type of the contest. It can be 'Assembly','ComponentDevelopment','TestSuites','Reporting','ComponentDesign','Conceptualization','Specification','Architecture','UIPrototype','RIABuild','ContentCreation','TestScenarios','BugHunt'.
+
++ Response 200 (application/json)
+
+        {
+            "total": 4,
+            "data": [
+                {
+                    "id": "23040226",
+                    "handle": "AE-86",
+                    "rating": "1212",
+                    "photo": "1.gif"
+                },
+                {
+                    "id": "23040228",
+                    "handle": "AE-88",
+                    "rating": "1920",
+                    "photo": "2.gif"
+                },
+                {
+                    "id": "23040258",
+                    "handle": "AE-90",
+                    "rating": "1386",
+                    "photo": "3.gif"
+                },
+                {
+                    "id": "13040058",
+                    "handle": "XYZ",
+                    "rating": "1776",
+                    "photo": "4.gif"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
+## Software Member Statistics [/software/statistics/{handle}]
+### Software Member Statistics [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+            "handle": "iRabbit",
+            "Archievements":
+            [
+                "Five Rated Algorithm Competition",
+                "Twenty-Five Rated Algorithm Competition",
+            ]
+            "Tracks":
+            [
+                "Development":
+                [
+                    "rating": 1659,
+                    "percentile": 50%,
+                    "rank": 9999,
+                    "country Rank": 9999,
+                    "school Rank": 9999,
+                    "volatility": 280,
+                    "compeititions": 37,
+                    "maximum Rating": 1693,
+                    "minimum Rating": 1035,
+                    "reviewer Rating": 1035,
+                    "inquiries": 37,
+                    "submissions": 36,
+                    "submissionRate": "97.30%",
+                    "passedScreening": 36,
+                    "screeningSuccessRate": "100.00%",
+                    "passedReview": 36,
+                    "reviewSuccessRate": "100.00%",
+                    "appeals": 279,
+                    "appealSuccessRate": "33.33%",
+                    "maximumScore": 100.00,
+                    "minimumScore": 86.04,
+                    "averageScore": 95.64,
+                    "averagePlacement": 3.19,
+                    "wins": 21,
+                    "winPercentage": "58.33%",
+                    "copilotCompletedContests": 300,
+                    "copilotRepostedContests": 300,
+                    "copilotFailedContests": 300,
+                    "copilotFulfillment": "90%"
+                ],
+                "Assembly":
+                [
+                    "rating": 1659,
+                    "percentile": 50%,
+                    "rank": 9999,
+                    "country Rank": 9999,
+                    "school Rank": 9999,
+                    "volatility": 280,
+                    "compeititions": 37,
+                    "maximum Rating": 1693,
+                    "minimum Rating": 1035,
+                    "reviewer Rating": 1035,
+                    "inquiries": 37,
+                    "submissions": 36,
+                    "submissionRate": "97.30%",
+                    "passedScreening": 36,
+                    "screeningSuccessRate": "100.00%",
+                    "passedReview": 36,
+                    "reviewSuccessRate": "100.00%",
+                    "appeals": 279,
+                    "appealSuccessRate": "33.33%",
+                    "maximumScore": 100.00,
+                    "minimumScore": 86.04,
+                    "averageScore": 95.64,
+                    "averagePlacement": 3.19,
+                    "wins": 21,
+                    "winPercentage": "58.33%",
+                    "copilotCompletedContests": 300,
+                    "copilotRepostedContests": 300,
+                    "copilotFailedContests": 300,
+                    "copilotFulfillment": "90%"
+                ]
+            ]
+        }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown member handle.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
 ## Contest Types Collection [/software/contesttypes]
 ### List all contest types [GET]
 + Response 200 (application/json)
@@ -317,6 +628,375 @@ Register a new user.
 
 # Group Studio Contests
 
+## View Studio Contests [/studio/contests?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### View Studio Contests [GET]
+
++ Parameters
+    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    
++ Response 200 (application/json)
+        
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "data": 
+            [
+                {
+                    "type": "Web Design",
+                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "startDate": "10.31.2013 10:10 EDT",
+                    "round1EndDate": "10.31.2013 10:10 EDT",
+                    "endDate": "10.31.2013 10:10 EDT",
+                    "timeLeft": "2 days",
+                    "purse": 1750,
+                    "points": 600,
+                    "registrants": 15,
+                    "submissions": 0
+                },
+                {
+                    "type": "Web Design",
+                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "startDate": "10.31.2013 10:10 EDT",
+                    "round1EndDate": "10.31.2013 10:10 EDT",
+                    "endDate": "10.31.2013 10:10 EDT",
+                    "timeLeft": "2 days",
+                    "purse": 1750,
+                     "points": 650,
+                    "registrants": 15,
+                    "submissions": 0
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "description":"Invalid Page Index.",
+            "name":"Bad Request",
+            "value":"400"
+        }
+
+## Get Studio Contest Detail [/studio/contests/{id}]
+### Get Studio Contest Information [GET]
+
++ Parameters
+    + id (required, number, `30000000`) ... The contest id.
+
++ Response 200 (application/json)
+
+        {
+            "type": "Web Design",
+            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+            "description": "Welcome to ¡°Cornell ¨C Responsive Storyboard Economics Site Redesign contest¡±. The goal of this contest  is to redesign look and feel for one of our college site departments (economics) using base design and customer feedback provided in this contest. There are two pages that needs to be redesigned a",
+            "prize":[1000, 250],
+            "milestone":
+            [
+                "prize": 100,
+                "number": 5
+            ]
+            "points": 500,
+            "nextDeadlineTime": "10.31.2013 10:10 EDT",
+            "nextDeadlineName": "Checkpoint Submission Deadline",
+            "checkpoints":
+            [
+                {
+                    "submissionId": 12345,
+                    "submitter": "iamtong",
+                    "submissionTime": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "submissionId": 12345,
+                    "submitter": "iamtong",
+                    "submissionTime": "10.31.2013 10:10 EDT"
+                }
+            ]
+            "submissions":
+            [
+                {
+                    "submissionId": 12345,
+                    "submitter": "iamtong",
+                    "submissionTime": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "submissionId": 12345,
+                    "submitter": "iamtong",
+                    "submissionTime": "10.31.2013 10:10 EDT"
+                }
+            ]    
+            "winners":
+            [
+                {
+                    "submissionId": 12345,
+                    "submitter": "iamtong",
+                    "submissionTime": "10.31.2013 10:10 EDT",
+                    "points": 50,
+                    "rank": 1
+                },
+                {
+                    "submissionId": 12345,
+                    "submitter": "iamtong",
+                    "submissionTime": "10.31.2013 10:10 EDT",
+                    "points": 50,
+                    "rank": 2
+                }
+            ]     
+        }
+        
+## Review Oppertunities [/studio/reviewOpportunities]
+### Get Review Oppertunities [GET]
+
++ Response 200 (application/json)
+
+        {
+         "data": [
+          {
+            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+            "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
+            "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
+            "reviewerPayment": 442,
+            "reviewer": "leben",
+            "type":"screening"
+          },
+          {
+            "contestName": "Cornell - Responsive Storyboard",
+            "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
+            "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
+            "reviewerPayment": 442,
+            "reviewer": "leben",
+            "type":"screening"
+          }
+         ]
+        }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown contest type.",
+            "name":"Not Found",
+            "value":"404"
+        }
+
+## Get Review Oppertunity Detail [/studio/reviewOpportunities/{id}]
+### Get Review Oppertunity Information [GET]
+
++ Parameters
+
+    + id (required, number, `30000000`) ... The contest id.
+
++ Response 200 (application/json)
+
+        {
+            "name": "PDS - Import and Persistence Update - Assembly Contest",
+            "Phases":
+            [
+                {
+                    "name": "Submission",
+                    "start": "10.25.2013 23:02 EDT",
+                    "end": "10.29.2013 23:02 EDT",
+                    "duration": "143 hours"
+                },
+                {
+                    "name": "Screening",
+                    "start": "10.29.2013 23:02 EDT",
+                    "end": "10.30.2013 23:02 EDT",
+                    "duration": "24 hours"
+                }
+            ],
+            "Positions":
+            [
+                {
+                    "role": "Screener",
+                    "positions": 1,
+                    "payment": 500
+                }   
+            ]
+        }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown contest id.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
+## Studio Contest Types Collection [/studio/contesttypes]
+### List all contest types [GET]
++ Response 200 (application/json)
+
+        [
+            {
+                "contestCategoryId": 1,
+                "contestTypeId": 1,
+                "name": "Logo Design",
+                "description": "Logo competitions on Studio range from conceptualizing the primary identifying mark of a company to creating a product logo or service mark."
+            },
+            {
+                "contestCategoryId": 1,
+                "contestTypeId": 2,
+                "name": "Print Design",
+                "description": "Print competitions can range from a poster for a company event, to a tri-fold brochure promoting services."
+            },
+            {
+                "contestCategoryId": 1,
+                "contestTypeId": 3,
+                "name": "Presentation Design",
+                "description": "Presentation design contests organize marketing or sales material into a professional design."
+            },
+            {
+                "contestCategoryId": 2,
+                "contestTypeId": 1,
+                "name": "Web and Application Design",
+                "description": "Web and App design contests are called storyboards."
+            },
+            {
+                "contestCategoryId": 2,
+                "contestTypeId": 2,
+                "name": "Banners/ Small Element Design",
+                "description": "This category covers traditional web banners, along with promos that can be used both on web sites and email newsletters."
+            },
+            {
+                "contestCategoryId": 2,
+                "contestTypeId": 3,
+                "name": "Icons",
+                "description": "Icons are designed for web sites, print publications, applications, mobile apps, and anywhere else where icons may be used."
+            },
+            {
+                "contestCategoryId": 3,
+                "contestTypeId": 1,
+                "name": "Wireframe",
+                "description": "Wireframe Competitions are designed to take the requirement documents inputs from the Specification Contest (or directly from the client) and create a roadmap of the working application."
+            },
+            {
+                "contestCategoryId": 3,
+                "contestTypeId": 2,
+                "name": "Idea Generation",
+                "description": "This unique type of contest asks competitors to conceptualize an idea and present it in written format, often with drawings or other diagrams to help explain the idea."
+            },
+            {
+                "contestCategoryId": 4,
+                "contestTypeId": 1,
+                "name": "UI Prototype",
+                "description": "UI Prototype Competitions are designed to take the graphics (UI storyboards) and information architecture (IA wireframes) of a web site or application and create a demonstration of the working application."
+            },
+            {
+                "contestCategoryId": 4,
+                "contestTypeId": 2,
+                "name": "RIA Build",
+                "description": "Rich Internet Application (RIA) Build Competitions provide the build of small applications used both on the Internet and on the desktop."
+            }
+        ]
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
+## Studio Member Statistics [/studio/statistics/{handle}]
+### Studio Member Statistics [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+            "handle": "iRabbit",
+            "Archievements":
+            [
+                "Five Rated Algorithm Competition",
+                "Twenty-Five Rated Algorithm Competition",
+            ],
+            "Web Design":
+            [
+                "numberOfSubmissions": 100,
+                "numberOfPassedScreeningSubmissions": 100,
+                "numberofWinningSubmissions": 80,
+                "copilotCompletedContests": 100,
+                "copilotFailedContests": 100
+            ],
+            "Mobile Design":
+            [
+                "numberOfSubmissions": 100,
+                "numberOfPassedScreeningSubmissions": 100,
+                "numberofWinningSubmissions": 80,
+                "copilotCompletedContests": 100,
+                "copilotFailedContests": 100
+            ]
+        }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown member handle.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
 ## Top Ranked Members [/studio/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
 
@@ -439,6 +1119,301 @@ Register a new user.
         
 # Group Algorithms Contests
 
+## Contest Types Collection [/algorithms/contesttypes]
+### List all contest types [GET]
++ Response 200 (application/json)
+
+        [
+            {
+                "ContestCategoryId": 1,
+                "ContestTypeId": 1,
+                "Name": "Single Round Match (SRM)",
+                "Description": "The Algorithm competitions are timed contests where all contestants compete online and are given the same problems to solve under the same time constraints."
+            },
+            {
+                "ContestCategoryId": 1,
+                "ContestTypeId": 2,
+                "Name": "Marathon Match",
+                "Description": "TopCoder holds several types of Marathon Match events, typically at least once per month."
+            }
+        ]
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
+## Review Opportunities Collection [/algorithms/reviewOpportunities]
+### List all review opportunities [GET]
++ Response 200 (application/json)
+
+        [
+            "total": 2,
+            "pageIndex": 1,
+            "pageSize": 10,
+            "data": [
+             {
+               "id": 10059,
+               "reviewerPayment": 100,
+               "submissionsNumber": 2,
+               "opensOn": "10.11.2013 13:00 EDT",
+               "reviewStart": "10.14.2013 13:06 EDT",
+               "reviewEnd": "10.16.2013 13:06 EDT",
+               "numberOfReviewPositionsAvailable": 3,
+               "type": "Screening",
+               "reviewType": "Contest Review",
+               "contestName": "Algorithms contest 1"
+             },
+             {
+               "id": 10160,
+               "reviewerPayment": 100,
+               "submissionsNumber": 0,
+               "opensOn": "10.11.2013 13:00 EDT",
+               "reviewStart": "10.14.2013 13:06 EDT",
+               "reviewEnd": "10.16.2013 13:06 EDT",
+               "numberOfReviewPositionsAvailable": 2,
+               "type": "Screening",
+               "reviewType": "Contest Review",
+               "contestName": "Algorithms contest 2"
+             }
+        ]
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+
+
+## Algorithm review opportunity details [/algorithms/reviewopportunities/{id}]
+### Get algorithm review opportunity details [GET]
+
++ Parameters
+    + id (required, number, `10059`) ... The id of this review opportunity.
+
++ Response 200 (application/json)
+
+        {
+            "contestId": 3005067,
+            "contestName": 'Algorithm 1',
+            "timeline": [
+                {
+                    "phase": "Submission",
+                    "start": "11.01.2013",
+                    "end": "11.05.2013",
+                    "duration": "95"
+                },
+                {
+                    "phase": "Screening",
+                    "start": "11.05.2013",
+                    "end": "11.06.2013",
+                    "duration": "24"
+                },
+                {
+                    "phase": "Review",
+                    "start": "11.06.2013",
+                    "end": "11.08.2013",
+                    "duration": "48"
+                }
+            ],
+            "openPositions": [
+                {
+                    "role": "Secondary Reviewer",
+                    "positions": "2",
+                    "payment": "$216.22 *"
+                }
+            ],
+            "reviewApplications": [
+                {
+                    "handle": "heffan",
+                    "role": "Secondary Reviewer",
+                    "status": "Pending",
+                    "applicationDate": "11.01.2013 02:31 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
 ## View Algorithm Contests [/algorithms/contests?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&filter={filter}&value={value}]
 ### View Algorithm Contests [GET]
 
@@ -676,6 +1651,166 @@ Register a new user.
                     "noOfMembers": 26
                 }
             ]
+        }
+
+## Algorithm Member Statistics [/algorithms/statistics/{handle}]
+### Algorithm Member Statistics [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+            "handle": "iRabbit",
+            "rating": 1659,
+            "Percentile": 50%,
+            "Rank": 9999,
+            "Country Rank": 9999,
+            "School Rank": 9999,
+            "Volatility": 280,
+            "Maximum Rating": 1693,
+            "Minimum Rating": 1035,
+            "Default Language": "C++",
+            "Competitions": 29,
+            "Most Recent Event Name": "SRM 441",
+            "Most Recent Event Date": "05.27.09",
+            "Archievements":
+            [
+                "Five Rated Algorithm Competition",
+                "Twenty-Five Rated Algorithm Competition",
+            ]
+            "Divisions":
+            [
+                "Division I":
+                [
+                    "Level One":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                    "Level Two":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                    "Level Three":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                    "Level Total":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                ]
+                "Division II":
+                [
+                    "Level One":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                    "Level Two":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                    "Level Three":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                    "Level Total":
+                    [
+                        "Submitted": 25,
+                        "Failed Challenge": 2,
+                        "Failed Sys. Test": 4,
+                        "Success %": 76.00%
+                    ]
+                ]
+            ],
+            "Challenges":
+            [
+                "Levels":
+                [
+                    "Level One":
+                    [
+                        "Failed Challenge": 0,
+                        "Challenges": 1,
+                        "Success %": 100%
+                    ]
+                    "Level Two":
+                    [
+                        "Failed Challenge": 0,
+                        "Challenges": 1,
+                        "Success %": 100%
+                    ]
+                    "Level Three":
+                    [
+                        "Failed Challenge": 0,
+                        "Challenges": 1,
+                        "Success %": 100%
+                    ]
+                    "Total":
+                    [
+                        "Failed Challenge": 0,
+                        "Challenges": 1,
+                        "Success %": 100%
+                    ]
+                ]
+            ]
+        }
+        
+        {
+            "handle": "iRabbit",
+            "rating": 1659,
+            "percentile": 50%,
+            "rank": 9999,
+            "country Rank": 9999,
+            "school Rank": 9999,
+            "volatility": 280,
+            "maximum Rating": 1693,
+            "minimum Rating": 1035,
+            "default Language": "C++",
+            "competitions": 29,
+            "most Recent Event Name": "SRM 441",
+            "most Recent Event Date": "05.27.09",
+            "bestRank": 21,
+            "wins": 0,
+            "topFiveFinishes": 0,
+            "topTenFinishes": 0,
+            "avgRank": 107.08,
+            "avgNumSubmissions": 4,62,
+            "competitions": 13,
+            "archievements":
+            [
+                "Five Rated Algorithm Competition",
+                "Twenty-Five Rated Algorithm Competition",
+            ]
+        }        
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown member handle.",
+            "name":"Not Found",
+            "value":"404"
         }
         
 ## Top Ranked Members [/algorithms/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
