@@ -10,7 +10,7 @@ Programmatically access TopCoder contests and members.
 ### Get Review Oppertunities [GET]
 
 + Parameters
-    + contestType (required, string, `Development`) ... Contest Type.
+    + contestType (required, string, `Development`) ...The type of the contest. It can be 'Assembly', 'ComponentDevelopment', 'TestSuites', 'Reporting', 'ComponentDesign', 'Conceptualization', 'Specification', 'Architecture', 'UIPrototype', 'RIABuild', 'ContentCreation', 'TestScenarios', 'BugHunt'.
 
 + Response 200 (application/json)
 
@@ -58,6 +58,70 @@ Programmatically access TopCoder contests and members.
             "name":"Not Found",
             "value":"404"
         }
+        
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
 
 ## Get Review Oppertunity Detail [/software/reviewOpportunities/{id}]
 ### Get Review Oppertunity Information [GET]
@@ -122,6 +186,70 @@ Programmatically access TopCoder contests and members.
             "name":"Not Found",
             "value":"404"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 ## Contest Reviewers Collection [/software/reviewers/{contestType}]
 ### List reviewers of current contest type [GET]
@@ -169,6 +297,14 @@ Programmatically access TopCoder contests and members.
             }
         ]
 
++ Response 404 (application/json)
+
+        {
+            "description":"unknown contest type.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
 + Response 403 (application/json)
 
         [
@@ -316,6 +452,70 @@ Programmatically access TopCoder contests and members.
             "name":"Not Found",
             "value":"404"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 ## Contest Types Collection [/software/contesttypes]
 ### List all contest types [GET]
@@ -336,6 +536,70 @@ Programmatically access TopCoder contests and members.
             }
         ]
 
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
 ## Search Contests [/software/contests?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&filter={filter}&value={value}]
 ### Search Contests [GET]
 
@@ -406,9 +670,77 @@ Programmatically access TopCoder contests and members.
             ]
         }
 
++ Response 404 (application/json)
+
+        {
+            "description":"Invalid Page Index.",
+            "name":"Bad Request",
+            "value":"404"
+        }
+        
 + Response 400 (application/json)
 
-        {"description":"Invalid Page Index.","name":"Bad Request","value":"400"}
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
 
 ## Get Contest Detail [/software/contests/{id}]
 ### Get Contest Information [GET]
@@ -474,8 +806,77 @@ Programmatically access TopCoder contests and members.
         }
 
 + Response 404 (application/json)
+    
+        {
+            "description":"unknown contest.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
++ Response 400 (application/json)
 
-        {"description":"unknown contest.","name":"Not Found","value":"404"}
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]       
+         
 
 ## Top Ranked Members [/software/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
@@ -588,12 +989,76 @@ Programmatically access TopCoder contests and members.
             "name":"Not Found","value":"404"
         }
 
-+ Response 400 (application/json)
++ Response 405 (application/json)
 
         {
             "description":"Invalid Page Index.",
             "name":"Bad Request","value":"400"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 # Group Registration
 Register a new user.
@@ -624,7 +1089,70 @@ Register a new user.
         {
             "status" : "user successfully created"
         }
-        
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
 
 # Group Studio Contests
 
@@ -673,14 +1201,78 @@ Register a new user.
             ]
         }
 
-+ Response 400 (application/json)
++ Response 404 (application/json)
 
         {
             "description":"Invalid Page Index.",
             "name":"Bad Request",
-            "value":"400"
+            "value":"404"
         }
 
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
 ## Get Studio Contest Detail [/studio/contests/{id}]
 ### Get Studio Contest Information [GET]
 
@@ -746,6 +1338,78 @@ Register a new user.
                 }
             ]     
         }
+
++ Response 404 (application/json)
+
+        {
+            "description":"Invalid Contest ID.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 ## Review Oppertunities [/studio/reviewOpportunities]
 ### Get Review Oppertunities [GET]
@@ -781,6 +1445,70 @@ Register a new user.
             "value":"404"
         }
 
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
+        
 ## Get Review Oppertunity Detail [/studio/reviewOpportunities/{id}]
 ### Get Review Oppertunity Information [GET]
 
@@ -824,6 +1552,70 @@ Register a new user.
             "name":"Not Found",
             "value":"404"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 ## Studio Contest Types Collection [/studio/contesttypes]
 ### List all contest types [GET]
@@ -996,6 +1788,70 @@ Register a new user.
             "name":"Not Found",
             "value":"404"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 ## Top Ranked Members [/studio/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
@@ -1109,13 +1965,77 @@ Register a new user.
             "value":"404"
         }
 
-+ Response 400 (application/json)
++ Response 405 (application/json)
 
         {
             "description":"Invalid Page Index.",
             "name":"Bad Request",
             "value":"400"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 # Group Algorithms Contests
 
@@ -1498,13 +2418,77 @@ Register a new user.
             }
         }
 
-+ Response 400 (application/json)
++ Response 404 (application/json)
 
         {
             "description":"Invalid Page Index.",
             "name":"Bad Request",
-            "value":"400"
+            "value":"404"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
 
 ## Get Algorithm Contest Detail [/algorithms/contests/{id}]
 ### Get Algorithm Contest Information [GET]
@@ -1652,6 +2636,78 @@ Register a new user.
                 }
             ]
         }
+
++ Response 404 (application/json)
+
+        {
+            "description":"unknown contest id.",
+            "name":"Not Found",
+            "value":"404"
+        }
+        
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
 
 ## Algorithm Member Statistics [/algorithms/statistics/{handle}]
 ### Algorithm Member Statistics [GET]
@@ -1812,6 +2868,70 @@ Register a new user.
             "name":"Not Found",
             "value":"404"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
         
 ## Top Ranked Members [/algorithms/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
@@ -1925,10 +3045,74 @@ Register a new user.
             "value":"404"
         }
 
-+ Response 400 (application/json)
++ Response 405 (application/json)
 
         {
             "description":"Invalid Page Index.",
             "name":"Bad Request",
-            "value":"400"
+            "value":"405"
         }
+
++ Response 400 (application/json)
+
+        [
+            {
+                "message":"Bad Request"
+            }
+        ]
+
++ Response 403 (application/json)
+
+        [
+            {
+                "message":"Forbidden"
+            }
+        ]
+
++ Response 406 (application/json)
+
+        [
+            {
+                "message":"Not Acceptable"
+            }
+        ]
+
++ Response 429 (application/json)
+
+        [
+            {
+                "message":"Too Many Requests"
+            }
+        ]
+
++ Response 500 (application/json)
+
+        [
+            {
+                "message":"Internal Server Error"
+            }
+        ]
+
++ Response 502 (application/json)
+
+        [
+            {
+                "message":"Bad Gateway"
+            }
+        ]
+
++ Response 503 (application/json)
+
+        [
+            {
+                "message":"Service Unavailable"
+            }
+        ]
+
++ Response 504 (application/json)
+
+        [
+            {
+                "message":"Gateway timeout"
+            }
+        ]
