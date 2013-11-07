@@ -878,11 +878,11 @@ Programmatically access TopCoder contests and members.
         ]       
          
 
-## Top Ranked Members [/software/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Top Ranked Members [/software/statistics/tops/{rankType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + contestType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
+    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `Handle`) ... The column name to sort, can be null.
@@ -920,9 +920,6 @@ Programmatically access TopCoder contests and members.
             ]
         }
 
-    
-+ Response 201 (application/json)
-
         {
             "total": 30,
             "pageIndex": 1,
@@ -952,8 +949,6 @@ Programmatically access TopCoder contests and members.
                 }
             ]
         }
-
-+ Response 202 (application/json)
 
         {
             "total": 30,
@@ -1853,11 +1848,11 @@ Register a new user.
             }
         ]
         
-## Top Ranked Members [/studio/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Top Ranked Members [/studio/statistics/tops/{rankType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + contestType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
+    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `Handle`) ... The column name to sort, can be null.
@@ -1895,9 +1890,6 @@ Register a new user.
             ]
         }
 
-    
-+ Response 201 (application/json)
-
         {
             "total": 30,
             "pageIndex": 1,
@@ -1927,8 +1919,6 @@ Register a new user.
                 }
             ]
         }
-
-+ Response 202 (application/json)
 
         {
             "total": 30,
@@ -2933,11 +2923,11 @@ Register a new user.
             }
         ]
         
-## Top Ranked Members [/algorithms/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Top Ranked Members [/algorithms/statistics/tops/{rankType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + contestType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
+    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `Handle`) ... The column name to sort, can be null.
@@ -2974,9 +2964,6 @@ Register a new user.
                 }
             ]
         }
-
-    
-+ Response 201 (application/json)
 
         {
             "total": 30,
