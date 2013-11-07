@@ -29,6 +29,14 @@ Register a new user.
 
     [Users][]
 
++ Response 200 (application/json)
+
+        {
+            "name":"OK",
+            "value":"200",
+            "description":"This message will contain the new user id."
+        }
+        
 + Response 400 (application/json)
 
         {
@@ -909,77 +917,45 @@ Register a new user.
             ]
         }
 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
 + Response 404 (application/json)
 
         {
-            "description":"Invalid Page Index.",
-            "name":"Bad Request",
-            "value":"404"
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-
-+ Response 400 (application/json)
-
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
-
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
+        
 + Response 406 (application/json)
 
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
 
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 ## Get Studio Contest Detail [/studio/contests/{id}]
 ### Get Studio Contest Information [GET]
@@ -1047,77 +1023,37 @@ Register a new user.
             ]     
         }
 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
 + Response 404 (application/json)
 
         {
-            "description":"Invalid Contest ID.",
             "name":"Not Found",
-            "value":"404"
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
         
-+ Response 400 (application/json)
-
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
-
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
-+ Response 406 (application/json)
-
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
-
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 ## Review Oppertunities [/studio/reviewOpportunities]
 ### Get Review Oppertunities [GET]
@@ -1145,77 +1081,37 @@ Register a new user.
          ]
         }
 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
 + Response 404 (application/json)
 
         {
-            "description":"unknown contest type.",
             "name":"Not Found",
-            "value":"404"
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-
-+ Response 400 (application/json)
-
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
-
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
-+ Response 406 (application/json)
-
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
-
+        
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 ## Get Review Oppertunity Detail [/studio/reviewOpportunities/{id}]
 ### Get Review Oppertunity Information [GET]
@@ -1253,77 +1149,37 @@ Register a new user.
             ]
         }
 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
 + Response 404 (application/json)
 
         {
-            "description":"unknown contest id.",
             "name":"Not Found",
-            "value":"404"
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-
-+ Response 400 (application/json)
-
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
-
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
-+ Response 406 (application/json)
-
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
-
+        
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 ## Studio Contest Types Collection [/studio/contesttypes]
 ### List all contest types [GET]
@@ -1394,67 +1250,35 @@ Register a new user.
 
 + Response 400 (application/json)
 
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
 
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
-+ Response 406 (application/json)
-
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
-
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 ## Studio Member Statistics [/studio/statistics/{handle}]
 ### Studio Member Statistics [GET]
@@ -1489,88 +1313,44 @@ Register a new user.
             ]
         }
 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
 + Response 404 (application/json)
 
         {
-            "description":"unknown member handle.",
             "name":"Not Found",
-            "value":"404"
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-
-+ Response 400 (application/json)
-
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
-
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
-+ Response 406 (application/json)
-
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
-
+        
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
-## Top Ranked Members [/studio/statistics/tops/{rankType}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Top Ranked Members [/studio/statistics/tops/{contestType}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries"
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `Handle`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+    + contesType (required, string, `Logo`) ... The type of the contest
+
 + Response 200 (application/json)
 
         {
@@ -1603,142 +1383,37 @@ Register a new user.
             ]
         }
 
-        {
-            "total": 30,
-            "pageIndex": 1,
-            "pageSize": 3,
-            "data": 
-            [
-                {
-                    "Rank": 1,
-                    "Name": "University of Tokyo",
-                    "Country": "Japan",
-                    "Member Count": 73,
-                    "numberOfWinningSubmissions": 3000
-                },
-                {
-                    "Rank": 2,
-                    "Name": "University of Washington",
-                    "Country": "USA",
-                    "Member Count": 73,
-                    "numberOfWinningSubmissions": 3000
-                },
-                {
-                    "Rank": 3,
-                    "Name": "Tsinghua University",
-                    "Country": "China",
-                    "Member Count": 73,
-                    "numberOfWinningSubmissions": 3000
-                }
-            ]
-        }
++ Response 400 (application/json)
 
         {
-            "total": 30,
-            "pageIndex": 1,
-            "pageSize": 3,
-            "data": 
-            [
-                {
-                    "Rank": 1,
-                    "Name": "Japan",
-                    "Member Count": 73,
-                    "numberOfWinningSubmissions": 3000
-                },
-                {
-                    "Rank": 2,
-                    "Name": "USA",
-                    "Member Count": 73,
-                    "numberOfWinningSubmissions": 3000
-                },
-                {
-                    "Rank": 3,
-                    "Name": "China",
-                    "Member Count": 73,
-                    "numberOfWinningSubmissions": 3000
-                }
-            ]
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
         }
-
+        
 + Response 404 (application/json)
 
         {
-            "description":"unknown ranking type.",
             "name":"Not Found",
-            "value":"404"
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-
-+ Response 405 (application/json)
-
-        {
-            "description":"Invalid Page Index.",
-            "name":"Bad Request",
-            "value":"400"
-        }
-
-+ Response 400 (application/json)
-
-        [
-            {
-                "message":"Bad Request"
-            }
-        ]
-
-+ Response 403 (application/json)
-
-        [
-            {
-                "message":"Forbidden"
-            }
-        ]
-
-+ Response 406 (application/json)
-
-        [
-            {
-                "message":"Not Acceptable"
-            }
-        ]
-
-+ Response 429 (application/json)
-
-        [
-            {
-                "message":"Too Many Requests"
-            }
-        ]
-
+        
 + Response 500 (application/json)
 
-        [
-            {
-                "message":"Internal Server Error"
-            }
-        ]
-
-+ Response 502 (application/json)
-
-        [
-            {
-                "message":"Bad Gateway"
-            }
-        ]
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-        [
-            {
-                "message":"Service Unavailable"
-            }
-        ]
-
-+ Response 504 (application/json)
-
-        [
-            {
-                "message":"Gateway timeout"
-            }
-        ]
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 # Group Algorithms Contests
 
