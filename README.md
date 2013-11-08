@@ -10,3 +10,5 @@ Usage
 
 See the [Deployment Guide](https://github.com/cloudspokes/tc-api/blob/master/docs/Deployment%20Guide.doc) for detailed instructions. 
 
+*NOTE:* You should develop and test using 64bit linux. To date we have validated successful deployments only on Ubuntu 10.04 and Centos 6.4. Other flavors/versions of 64bit linux should work, but have not been validated. OS X and Windows based operating systems most likely will NOT work.
+
