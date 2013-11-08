@@ -7,7 +7,7 @@ ONCONFIG="onconfig.${INFORMIXSERVER}"
 
 INFORMIXSQLHOSTS="${INFORMIXDIR}/etc/sqlhosts.${INFORMIXSERVER}"
 
-printf "informixoltp_tcp onsoctcp ${TC_DB_HOST} ${TC_DB_PORT}" > $INFORMIXSQLHOSTS
+printf "informixoltp_tcp onsoctcp ${TC_DB_HOST} ${TC_DB_PORT}" > "$INFORMIXSQLHOSTS"
 
 INFORMIXLIBDIR="${INFORMIXDIR}/lib"
 INFORMIXLIBS=${INFORMIXLIBDIR}
