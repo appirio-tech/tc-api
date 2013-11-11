@@ -80,7 +80,7 @@ Register a new user.
 
 #Group Software Contests
         
-## Review Opportunities [/software/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Get Review Oppertunities [GET]
 
 + Parameters
@@ -542,7 +542,7 @@ Register a new user.
         }
 
         
-## Contest Types Collection [/software/contesttypes]
+## Contest Types Collection [/develop/challengetypes]
 ### List all contest types [GET]
 + Response 200 (application/json)
 
@@ -594,7 +594,7 @@ Register a new user.
         }
 
         
-## Search Contests [/software/contests?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Search Contests [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Search Contests [GET]
 
 + Parameters
@@ -704,7 +704,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Contest Detail [/software/contests/{id}]
+## Get Contest Detail [/develop/challenges/{id}]
 ### Get Contest Information [GET]
 
 + Parameters
@@ -800,11 +800,11 @@ Register a new user.
         }      
          
 
-## Top Ranked Members [/software/statistics/tops/{contestType}]
+## Top Ranked Members [/develop/statistics/tops/{challengeType}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + contestType (required, string, `Assembly`) ... The type of the contest.
+    + challengeType (required, string, `Assembly`) ... The type of the contest.
 
 + Response 200 (application/json)
 
@@ -1055,7 +1055,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Review Oppertunities [/studio/reviewOpportunities]
+## Review Oppertunities [/design/reviewOpportunities]
 ### Get Review Oppertunities [GET]
 
 + Response 200 (application/json)
@@ -1113,7 +1113,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Review Oppertunity Detail [/studio/reviewOpportunities/{id}]
+## Get Review Oppertunity Detail [/design/reviewOpportunities/{id}]
 ### Get Review Oppertunity Information [GET]
 
 + Parameters
@@ -1181,7 +1181,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Studio Contest Types Collection [/studio/contesttypes]
+## Studio Contest Types Collection [/design/challengetypes]
 ### List all contest types [GET]
 + Response 200 (application/json)
 
@@ -1345,11 +1345,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Top Ranked Members [/studio/statistics/tops/{contestType}]
+## Top Ranked Members [/design/statistics/tops/{challengeType}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + contesType (required, string, `Logo`) ... The type of the contest
+    + challengeType (required, string, `Logo`) ... The type of the contest
 
 + Response 200 (application/json)
 
@@ -1417,7 +1417,7 @@ Register a new user.
         
 # Group Algorithms Contests
 
-## Contest Types Collection [/algorithms/contesttypes]
+## Contest Types Collection [/data/challengetypes]
 ### List all contest types [GET]
 + Response 200 (application/json)
 
@@ -1469,7 +1469,7 @@ Register a new user.
         }
         
         
-## Review Opportunities Collection [/algorithms/reviewOpportunities]
+## Review Opportunities Collection [/data/reviewOpportunities]
 ### List all review opportunities [GET]
 + Response 200 (application/json)
 
@@ -1538,7 +1538,7 @@ Register a new user.
         
 
 
-## Algorithm review opportunity details [/algorithms/reviewopportunities/{id}]
+## Algorithm review opportunity details [/data/reviewopportunities/{id}]
 ### Get algorithm review opportunity details [GET]
 
 + Parameters
@@ -1619,7 +1619,7 @@ Register a new user.
         }
         
         
-## View Algorithm Contests [/algorithms/contests?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## View Algorithm Contests [/data/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm Contests [GET]
 
 + Parameters
@@ -1743,7 +1743,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Algorithm Contest Detail [/algorithms/contests/{id}]
+## Get Algorithm Contest Detail [/data/challenges/{id}]
 ### Get Algorithm Contest Information [GET]
 
 + Parameters
@@ -1930,7 +1930,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Algorithm Member Statistics [/algorithms/statistics/{handle}]
+## Algorithm Member Statistics [/data/statistics/{handle}]
 ### Algorithm Member Statistics [GET]
 
 + Parameters
@@ -2115,7 +2115,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Top Ranked Members [/algorithms/statistics/tops/{contestType}?rankType={rankType}]
+## Top Ranked Members [/data/statistics/tops/{contestType}?rankType={rankType}]
 ### Top Ranked Members [GET]
 
 + Parameters
