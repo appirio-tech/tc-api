@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: vangavroche
+ * @version 1.1
+ * @author vangavroche, Sky_
+ * changes in 1.1:
+ * - add routes for search contests
  */
 
 /* ---------------------
@@ -51,6 +53,10 @@ example:
 exports.routes = {
     get: [
         { path: "/:apiVersion/contesttypes", action: "contestTypes" },
-        { path: "/:apiVersion/secure/contesttypes", action: "contestTypesSecured" }
+        { path: "/:apiVersion/secure/contesttypes", action: "contestTypesSecured" },
+        { path: "/:apiVersion/software/contests/:contestId", action: "getContest" },
+        { path: "/:apiVersion/secure/software/contests/:contestId", action: "getContestSecured" },
+        { path: "/:apiVersion/software/contests", action: "searchContests" },
+        { path: "/:apiVersion/secure/software/contests", action: "searchContestsSecured" }
     ]
 };

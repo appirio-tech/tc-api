@@ -1,0 +1,46 @@
+SELECT count(*) AS total
+  FROM project
+       LEFT JOIN project_phase finalReviewPhase ON project.project_id = finalReviewPhase.project_id AND finalReviewPhase.phase_type_id = 10,
+       project_category_lu projectCategory
+       LEFT JOIN project_catalog_lu projectCatalog ON projectCategory.project_catalog_id = projectCatalog.project_catalog_id,
+       project_phase registrationPhase,
+       project_phase submissionPhase,
+       project_phase current_phase,
+       project_info projectNameInfo,
+       project_info digitalRunFlagInfo
+ WHERE 
+       project.project_category_id = projectCategory.project_category_id
+   AND projectCategory.project_type_id IN (1, 2, 3)
+   AND project.project_id = registrationPhase.project_id
+   AND registrationPhase.phase_type_id = 1
+   AND projectNameInfo.project_info_type_id = 6
+   AND projectNameInfo.project_Id = registrationPhase.project_id
+   AND projectNameInfo.project_Id = submissionPhase.project_id
+   AND projectNameInfo.project_id = current_phase.project_id
+   AND current_phase.project_id = project.project_id
+   AND current_phase.phase_status_id = 2
+   AND current_phase.phase_type_id in (1, 2)
+   AND current_phase.scheduled_end_time = 
+    (SELECT min(scheduled_end_time) 
+       FROM project_phase  
+       WHERE phase_status_id = 2 AND project_phase.project_id = project.project_id AND phase_type_id IN (1, 2)
+   )
+   AND submissionPhase.phase_type_id = 2
+   AND project.project_status_id = 1
+   AND project.project_category_id NOT IN (27)
+   AND digitalRunFlagInfo.project_id = project.project_id
+   AND digitalRunFlagInfo.project_info_type_id = 26
+   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce
+     WHERE ce.contest_id = project.project_id)
+   AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
+   AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
+   AND LOWER(projectNameInfo.value) LIKE ('@pjn@')
+   AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = project.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prilower@
+   AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = project.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @priupper@
+   AND EXTEND(registrationPhase.scheduled_start_time, year to day) <= '@registstartend@'
+   AND EXTEND(registrationPhase.scheduled_start_time, year to day) >= '@registstartstart@'
+   AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
+   AND EXTEND(submissionPhase.scheduled_end_time, year to day) <= '@subendend@'
+   AND EXTEND(submissionPhase.scheduled_end_time, year to day) >= '@subendstart@'
+   AND NVL(DATE(finalReviewPhase.scheduled_end_time), '2199-01-01') <= '@frendend@'
+   AND NVL(DATE(finalReviewPhase.scheduled_end_time), '1900-01-01') >= '@frendstart@'

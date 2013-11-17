@@ -1,0 +1,90 @@
+SELECT
+SKIP @fri@
+FIRST @ps@
+ registrationPhase.scheduled_end_time AS registrationEndDate
+, submissionPhase.scheduled_end_time AS submissionEndDate
+, projectCatalog.name AS catalog
+, projectNameInfo.value AS contestName
+, projectSpec.detailed_requirements_text AS descText
+, projectStudioSpec.contest_introduction AS studioDescHtml
+, ratedReg.ctn AS numberOfUnratedRegistrants
+, ratedReg.ctn AS numberOfRatedRegistrants
+, NVL(tmpprize1.prize_amount, 0) as firstPrize
+, NVL(tmpprize1.prize_amount, -1) * 0.2 as reliabilityBonus
+, NVL(tmpprize1.prize_amount, -1) as prize1
+, NVL(tmpprize2.prize_amount, -1) as prize2
+, NVL(tmpprize3.prize_amount, -1) as prize3
+, NVL(tmpprize4.prize_amount, -1) as prize4
+, NVL(tmpprize5.prize_amount, -1) as prize5
+, NVL(tmpprize6.prize_amount, -1) as prize6
+, NVL(tmpprize7.prize_amount, -1) as prize7
+, NVL(tmpprize8.prize_amount, -1) as prize8
+, (SELECT COUNT(*)  FROM resource WHERE project_id = project.project_id  AND resource_role_id = 1) AS numberOfRegistrants
+, (SELECT COUNT(*)  FROM submission s, upload u  WHERE u.upload_id = s.upload_id AND u.project_id = project.project_id  AND s.submission_type_id IN (1, 3) 
+    AND s.submission_status_id IN (1, 2, 3, 4, 6, 7)) AS numberOfSubmissions
+, CAST((CASE WHEN digitalRunFlagInfo.value = 'On' THEN NVL((SELECT value FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = project.project_id), (SELECT round(nvl(pi16.value, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = project.project_id)) ELSE '0' END) AS float) AS digitalRunPoints
+,  projectCategory.description AS type
+, project.project_id AS contestId
+, project.tc_direct_project_id AS projectId
+, projectCategory.project_type_id AS projectType
+, project.project_category_id AS categoryId
+, registrationPhase.scheduled_start_time AS registrationStartDate
+, not exists (select * from project_info pi45 where pi45.project_info_type_id=45 and pi45.project_id=project.project_id and (pi45.value='false' or pi45.value='False')) AS reliability_bonus_eligible
+  FROM project
+       LEFT JOIN project_spec projectSpec ON projectSpec.project_id = project.project_id AND projectSpec.version = (SELECT max(version) FROM project_spec WHERE project_id = project.project_id)
+       LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.project_studio_spec_id = project.project_studio_spec_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 1 ) tmpprize1 on project.project_id = tmpprize1.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 2 ) tmpprize2 on project.project_id = tmpprize2.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 3 ) tmpprize3 on project.project_id = tmpprize3.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 4 ) tmpprize4 on project.project_id = tmpprize4.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 5 ) tmpprize5 on project.project_id = tmpprize5.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 6 ) tmpprize6 on project.project_id = tmpprize6.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 7 ) tmpprize7 on project.project_id = tmpprize7.project_id
+       LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 8 ) tmpprize8 on project.project_id = tmpprize8.project_id
+       LEFT JOIN (SELECT project_id, count(*) AS ctn from resource WHERE resource_role_id = 1  GROUP BY project_id ) ratedReg on ratedReg.project_id = project.project_id
+       LEFT JOIN project_phase finalReviewPhase ON project.project_id = finalReviewPhase.project_id AND finalReviewPhase.phase_type_id = 10,
+       project_category_lu projectCategory
+       LEFT JOIN project_catalog_lu projectCatalog ON projectCategory.project_catalog_id = projectCatalog.project_catalog_id,
+       project_phase registrationPhase,
+       project_phase submissionPhase,
+       project_phase current_phase,
+       project_info projectNameInfo,
+       project_info digitalRunFlagInfo
+ WHERE  
+       project.project_category_id = projectCategory.project_category_id
+   AND projectCategory.project_type_id IN (1, 2, 3)
+   AND project.project_id = registrationPhase.project_id
+   AND registrationPhase.phase_type_id = 1
+   AND projectNameInfo.project_info_type_id = 6
+   AND projectNameInfo.project_Id = registrationPhase.project_id
+   AND projectNameInfo.project_Id = submissionPhase.project_id
+   AND projectNameInfo.project_id = current_phase.project_id
+   AND current_phase.phase_status_id = 2
+   AND current_phase.project_id = project.project_id
+   AND current_phase.phase_type_id IN (1, 2)
+   AND current_phase.project_phase_id = 
+    (SELECT  max(project_phase_id) 
+       FROM project_phase  
+       WHERE phase_status_id = 2 AND project_phase.project_id = project.project_id AND phase_type_id IN (1, 2)
+   )
+   AND submissionPhase.phase_type_id = 2
+   AND project.project_status_id = 1
+   AND project.project_category_id NOT IN (27)
+   AND digitalRunFlagInfo.project_id = project.project_id
+   AND digitalRunFlagInfo.project_info_type_id = 26
+   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce
+     WHERE ce.contest_id = project.project_id)
+   AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
+   AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
+   AND LOWER(projectNameInfo.value) LIKE ('@pjn@')
+   AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = project.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prilower@
+   AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = project.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @priupper@
+   AND EXTEND(registrationPhase.scheduled_start_time, year to day) <= '@registstartend@'
+   AND EXTEND(registrationPhase.scheduled_start_time, year to day) >= '@registstartstart@'
+   AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
+   AND EXTEND(submissionPhase.scheduled_end_time, year to day) <= '@subendend@'
+   AND EXTEND(submissionPhase.scheduled_end_time, year to day) >= '@subendstart@'
+   AND NVL(DATE(finalReviewPhase.scheduled_end_time), '2199-01-01') <= '@frendend@'
+   AND NVL(DATE(finalReviewPhase.scheduled_end_time), '1900-01-01') >= '@frendstart@'
+ORDER BY @sf@ @sd@
+

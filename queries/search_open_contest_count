@@ -1,0 +1,94 @@
+SELECT 
+COUNT(*) AS total 
+FROM  
+project 
+LEFT JOIN ( 
+    SELECT  
+    project_id, 
+    max(DECODE(phase_type_id, 2, scheduled_end_time, NULL)) AS submissionEndDate,
+    max(DECODE(phase_type_id, 4, scheduled_end_time, NULL)) AS reviewEndDate,
+    max(DECODE(phase_type_id, 1, scheduled_start_time, NULL)) AS registrationStartDate,
+    max(DECODE(phase_type_id, 10, scheduled_end_time, NULL)) AS finalReviewEndDate, 
+    max(DECODE(phase_type_id, 10, actual_end_time, NULL)) AS finalReviewActualDate
+    FROM 
+    project_phase pp 
+    WHERE  
+    pp.phase_type_id IN (1,2,4,10) 
+    GROUP BY project_id 
+) phase ON phase.project_id = project.project_id 
+JOIN ( 
+    SELECT  
+    cpp.project_id, 
+    cpp.phase_type_id 
+    FROM project_phase cpp  
+    , project innerPorject 
+    WHERE  
+    cpp.phase_status_id = 2 
+    AND cpp.project_id = innerPorject.project_id 
+    AND cpp.phase_type_id not IN (13,14) 
+    AND cpp.scheduled_end_time =  
+    (SELECT min(scheduled_end_time) 
+       FROM project_phase   
+       WHERE project_phase.phase_status_id = 2 
+       AND project_phase.project_id = cpp.project_id AND project_phase.phase_type_id not IN (13,14) 
+    )  
+) currentPhase ON currentPhase.project_id = project.project_id 
+JOIN ( 
+  SELECT 
+  project_id, 
+  max(DECODE(project_info_type_id, 6, value, NULL)) AS projectName
+  FROM 
+  project_info pi 
+  WHERE 
+  pi.project_info_type_id in (6) 
+  GROUP BY project_id 
+) projectInfo ON projectInfo.project_id = project.project_id 
+JOIN project_category_lu projectCategory ON project.project_category_id = projectCategory.project_category_id AND projectCategory.project_type_id IN (1, 2, 3)  
+LEFT JOIN project_catalog_lu projectCatalog ON projectCategory.project_catalog_id = projectCatalog.project_catalog_id 
+JOIN phase_type_lu ptl ON ptl.phase_type_id = currentPhase.phase_type_id 
+LEFT JOIN ( 
+  SELECT 
+  up.project_id , 
+  max(DECODE(sub.placement, 1, u.handle_lower, NULL)) AS firstPlaceHandle,
+  max(DECODE(sub.placement, 2, u.handle_lower, NULL)) AS secondPlaceHandle
+  from upload up 
+  , submission sub 
+  , resource_info ri_user 
+  , user u 
+  WHERE   
+  sub.upload_id = up.upload_id 
+  AND sub.placement IN (1,2) 
+  AND up.resource_id = ri_user.resource_id 
+  AND ri_user.value = u.user_id 
+  AND ri_user.resource_info_type_id = 1 
+  AND sub.submission_type_id = 1 
+  GROUP BY project_id 
+) place ON place.project_id = project.project_id 
+LEFT JOIN ( 
+  SELECT  
+  pr.prize_amount, 
+  pr.project_id 
+  FROM prize pr  
+  WHERE  
+  pr.prize_type_id = 15 AND pr.place = 1 
+) prize ON prize.project_id = project.project_id 
+WHERE  
+project.project_status_id = 1  
+AND project.project_category_id not IN (27)  
+AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce WHERE ce.contest_id = project.project_id)
+AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
+AND EXTEND(phase.registrationStartDate, year to day) <= '@registstartend@'
+AND EXTEND(phase.registrationStartDate, year to day) >= '@registstartstart@'
+AND EXTEND(phase.submissionEndDate, year to day) <= '@subendend@'
+AND EXTEND(phase.submissionEndDate, year to day) >= '@subendstart@'
+AND NVL(prize.prize_amount, 0) >= @prilower@
+AND NVL(prize.prize_amount, 0) <= @priupper@
+AND LOWER(NVL(place.firstPlaceHandle, '')) LIKE '%'
+--AND NVL(DATE(phase.finalReviewActualDate), DATE('2199-01-01')) <= '@fractualend@'
+--AND NVL(DATE(phase.finalReviewActualDate), DATE('1900-01-01')) >= '@fractualstart@'
+AND EXTEND(NVL(phase.finalReviewActualDate, '2199-01-01'), year to day) <= '@fractualend@'
+AND EXTEND(NVL(phase.finalReviewActualDate, '1900-01-01'), year to day) >= '@fractualstart@'
+AND LOWER(projectInfo.projectName) LIKE ('@pjn@')
+AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
+AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
+
