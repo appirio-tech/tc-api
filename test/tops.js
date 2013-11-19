@@ -5,6 +5,8 @@
  * @author Sky_
  */
 "use strict";
+/*global describe, it, before, beforeEach, after, afterEach */
+/*jslint node: true, stupid: true, unparam: true */
 
 /**
  * Module dependencies.
@@ -13,15 +15,15 @@ var fs = require('fs');
 var request = require('supertest');
 var assert = require('chai').assert;
 
-var API_ENDPOINT = 'http://localhost:8080';
+var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Get Tops API', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow
-    
+
 
     function check(type, done) {
         request(API_ENDPOINT)
-            .get('/api/v2/software/statistics/tops/'+ type + '?pageIndex=1&pageSize=2')
+            .get('/api/v2/software/statistics/tops/' + type + '?pageIndex=1&pageSize=2')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -44,7 +46,7 @@ describe('Get Tops API', function () {
                 done();
             });
     }
-    
+
     it('test design category', function (done) {
         check("design", done);
     });
@@ -78,7 +80,7 @@ describe('Get Tops API', function () {
     it('test content_creation category', function (done) {
         check("content_creation", done);
     });
-    
+
     it('should return Bad Request. Wrong type', function (done) {
         request(API_ENDPOINT)
             .get('/api/v2/software/statistics/tops/zncjsajhdbf')
@@ -87,7 +89,7 @@ describe('Get Tops API', function () {
             .expect(400)
             .end(done);
     });
-    
+
     it('should return Bad Request. Invalid pageIndex', function (done) {
         request(API_ENDPOINT)
             .get('/api/v2/software/statistics/tops/design?pageIndex=xxx')

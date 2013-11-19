@@ -12,33 +12,32 @@ var request = require('supertest');
 /**
  * Moduleedependencies.
  */
-var API_ENDPOINT = 'http://localhost:8080';
+var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
-    this.timeout(30000);     // The api with testing remote db could be quit slow
-    
+    this.timeout(30000); // The api with testing remote db could be quit slow
+
     // Test the unprotected /v2/software/contests
     describe('GET /v2/software/contests', function () {
 
-       beforeEach(function() {
-	    request = require('supertest');
-       });
+        beforeEach(function () {
+            request = require('supertest');
+        });
 
-       it('incorrect verb', function (done) {
+        it('incorrect verb', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.post('/v2/software/contests')
-			.set('Accept', 'application/json');
+            request = request.post('/v2/software/contests')
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-	    request.expect(/Error: v2 is not a known action or that is not a valid apiVersion./g);
+            request.expect(/Error: v2 is not a known action or that is not a valid apiVersion\./g);
 
             // should respond with 200 status
             request.expect(200);
-            
+
             // end request
             request.end(done);
         });
@@ -46,14 +45,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in listType', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get('/v2/software/contests?listType=SELECT * FROM TABLE&listType=ACTIVE')
-			.set('Accept', 'application/json');
+            request = request.get('/v2/software/contests?listType=SELECT * FROM TABLE&listType=ACTIVE')
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -65,14 +63,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in sortColumn', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get('/v2/software/contests?sortColumn=SELECT * FROM TABLE&listType=ACTIVE')
-			.set('Accept', 'application/json');
+            request = request.get('/v2/software/contests?sortColumn=SELECT * FROM TABLE&listType=ACTIVE')
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -84,14 +81,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in sortOrder', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-                        .get('/v2/software/contests?sortOrder=SELECT * FROM TABLE&listType=ACTIVE')
-                        .set('Accept', 'application/json');
+            request = request.get('/v2/software/contests?sortOrder=SELECT * FROM TABLE&listType=ACTIVE')
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -100,17 +96,16 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
             request.end(done);
         });
 
-	it('sql injection in catalog', function (done) {
+        it('sql injection in catalog', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get("/v2/software/contests?catalog=(CASE WHEN (SELECT count(*) from project) = 0 THEN NULL ELSE '' END)")
-			.set('Accept', 'application/json');
+            request = request.get("/v2/software/contests?catalog=(CASE WHEN (SELECT count(*) from project) = 0 THEN NULL ELSE '' END)")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The URI requested is invalid or the requested resource does not exist./g);
+            request.expect(/The URI requested is invalid or the requested resource does not exist\./g);
 
             // should respond with 200 status
             request.expect(404);
@@ -122,14 +117,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in prizeLowerBound', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get("/v2/software/contests?prizeLowerBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
-			.set('Accept', 'application/json');
+            request = request.get("/v2/software/contests?prizeLowerBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -141,14 +135,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in prizeUpperBound', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get("/v2/software/contests?prizeUpperBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
-			.set('Accept', 'application/json');
+            request = request.get("/v2/software/contests?prizeUpperBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -160,14 +153,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in projectId', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get("/v2/software/contests?projectId=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
-			.set('Accept', 'application/json');
+            request = request.get("/v2/software/contests?projectId=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -179,14 +171,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in pageIndex', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get("/v2/software/contests?pageIndex=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
-			.set('Accept', 'application/json');
+            request = request.get("/v2/software/contests?pageIndex=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -197,15 +188,14 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
 
         it('sql injection in pageSize', function (done) {
             request = request(API_ENDPOINT);
-    
-            request = request
-			.get("/v2/software/contests?pageSize=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
-			.set('Accept', 'application/json');
+
+            request = request.get("/v2/software/contests?pageSize=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);
@@ -217,14 +207,13 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in type', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request
-			.get("/v2/software/contests?type=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
-			.set('Accept', 'application/json');
+            request = request.get("/v2/software/contests?type=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+                .set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
 
-            request.expect(/The request was invalid./g);
+            request.expect(/The request was invalid\./g);
 
             // should respond with 200 status
             request.expect(400);

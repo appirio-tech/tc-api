@@ -5,6 +5,8 @@
  * Author: vangavroche
  */
 "use strict";
+/*global describe, it, before, beforeEach, after, afterEach */
+/*jslint node: true, stupid: true */
 
 /**
  * Module dependencies.
@@ -12,11 +14,11 @@
 var fs = require('fs');
 var request = require('supertest');
 
-var API_ENDPOINT = 'http://localhost:8080';
+var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Get Contest Types API', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow
-    
+
     // Test the unprotected /api/v2/contesttypes 
     describe('GET /api/v2/contesttypes', function () {
 
@@ -53,7 +55,7 @@ describe('Get Contest Types API', function () {
 
             // should respond with 200 status
             request.expect(200);
-            
+
             // end request
             request.end(done);
         });

@@ -7,13 +7,16 @@
 "use strict";
 var assert = require('chai').assert;
 var async = require('async');
+/*global describe, it, before, beforeEach, after, afterEach */
+/*jslint node: true, stupid: true */
 
 describe('Test parameterizeQuery', function () {
     var api;
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
         api = {
-            log: function() {
+            log: function () {
+                return null;
             }
         };
         async.series([
@@ -21,24 +24,24 @@ describe('Test parameterizeQuery', function () {
                 require('../initializers/helper').helper(api, cb);
             }, function (cb) {
                 require('../initializers/dataAccess').dataAccess(api, cb);
-            }, function(cb) {
+            }, function (cb) {
                 api.dataAccess._start(api, cb);
             }
         ], done);
     });
 
-    it('should parametrize query#1', function(done) {
+    it('should parametrize query#1', function (done) {
         var query = "select * from table where a = @a@",
             params = { a: 1 },
             expected = "select * from table where a = 1";
 
-        api.dataAccess._parameterizeQuery(query, params, function(err, q) {
+        api.dataAccess._parameterizeQuery(query, params, function (err, q) {
             assert.ifError(err);
             assert.equal(expected, q);
             done();
         });
     });
-    
+
     it('should parametrize query#2', function (done) {
         var query = "select * from table where a = @a@ and b = @b@ and c = @a@",
             params = { a: 1, b: 2 },
@@ -50,7 +53,7 @@ describe('Test parameterizeQuery', function () {
             done();
         });
     });
-    
+
 
     it('should parametrize query#3 (missing parameter)', function (done) {
         var query = "select * from table where a = @a@ and b = @b@ and c = @c@",
@@ -63,7 +66,7 @@ describe('Test parameterizeQuery', function () {
             done();
         });
     });
-    
+
     it('should parametrize query (sql injection)', function (done) {
         var query = "select * from table where a LIKE '@a@'",
             params = { a: "'sql injection" },

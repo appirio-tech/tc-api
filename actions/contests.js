@@ -567,7 +567,7 @@ exports.searchContests = {
     description: "searchContests",
     inputs: {
         required: [],
-        optional: []
+        optional: ALLOWABLE_QUERY_PARAMETER
     },
     blockedConnectionTypes: [],
     outputExample: {},
