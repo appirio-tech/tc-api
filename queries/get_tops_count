@@ -1,0 +1,5 @@
+SELECT count(*) as count
+  from tcs_dw:user_rating ur, coder c
+ where c.coder_id = ur.user_id
+   and c.status = 'A'
+   and phase_id = @phaseId@

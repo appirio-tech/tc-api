@@ -12,7 +12,7 @@ var request = require('supertest');
 /**
  * Moduleedependencies.
  */
-var API_ENDPOINT = 'http://arcane-garden-8035.herokuapp.com';
+var API_ENDPOINT = 'http://localhost:8080';
 
 describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow

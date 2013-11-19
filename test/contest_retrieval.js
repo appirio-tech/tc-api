@@ -13,7 +13,7 @@ var fs = require('fs');
 var request = require('supertest');
 var assert = require('chai').assert;
 
-var API_ENDPOINT = 'http://arcane-garden-8035.herokuapp.com';
+var API_ENDPOINT = 'http://localhost:8080';
 var TOTAL = 'total';
 var ACTION = '/v2/software/contests';
 

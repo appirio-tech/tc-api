@@ -1,0 +1,5 @@
+{
+  "name"    : "search_past_contest_count",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "search_past_contest_count"
+}

@@ -1,0 +1,5 @@
+{
+  "name"    : "get_tops_count",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_tops_count"
+}

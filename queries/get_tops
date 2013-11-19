@@ -1,0 +1,13 @@
+
+SELECT
+SKIP @fri@
+FIRST @ps@
+     c.coder_id
+     , c.handle
+     , ur.rating
+  from tcs_dw:user_rating ur
+     , coder c
+ where c.coder_id = ur.user_id
+   and c.status = 'A'
+   and phase_id = @phaseId@
+ order by ur.rating desc

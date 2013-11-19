@@ -800,38 +800,42 @@ Register a new user.
         }      
          
 
-## Top Ranked Members [/develop/statistics/tops/{challengeType}]
+## Top Ranked Members [/software/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked Members [GET]
 
 + Parameters
-    + challengeType (required, string, `Assembly`) ... The type of the contest.
-
+    + contestType (required, string, `design`) ... Ranking Type, support "design", "development", "conceptualization", "specification", "architecture", "assembly", "test_suites", "test_scenarios", "ui_prototype", "ria_build", "content_creation"
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null. Default 1.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set. Default 50.
+    
 + Response 200 (application/json)
 
         {
-            "total": 30
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
             "data": 
             [
                 {
-                "Rank": 1,
-                "Handle": "Petr",
-                "userId": 123457899,
-                "Color": "Red",
-                "Rating": 3000
+                    "rank": 1,
+                    "handle": "Petr",
+                    "userId": 123457899,
+                    "color": "Red",
+                    "rating": 3000
                 },
                 {
-                    "Rank": 2,
-                    "Handle": "ACRush",
-                    "userId": 123457892,
-                    "Color": "Red",
-                    "Rating": 2500
-                },
-                {
-                    "Rank": 3,
-                    "Handle": "lympanda",
+                    "rank": 2,
+                    "handle": "ACRush",
                     "userId": 123457891,
-                    "Color": "Yellow",
-                    "Rating": 2000
+                    "color": "Red",
+                    "rating": 2500
+                },
+                {
+                    "rank": 3,
+                    "handle": "lympanda",
+                    "userId": 123457892,
+                    "color": "Yellow",
+                    "rating": 2000
                 }
             ]
         }

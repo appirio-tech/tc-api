@@ -19,52 +19,27 @@ var NotFoundError = require('../errors/NotFoundError');
 var SORT_COLUMN = "sortColumn";
 
 /**
+ * Represents the default sort column.
+ */
+var DEFAULT_SORT_COLUMN = "contestName";
+
+/**
  * Represents a predefined list of valid query parameter for active contest.
  */
-var ALLOWABLE_QUERY_PARAMETER_ACTIVE = [
+var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "type", "catalog", "contestName", "registrationStartDate.type",
     "registrationStartDate.firstDate", "registrationStartDate.secondDate", "submissionEndDate.type",
     "submissionEndDate.firstDate", "submissionEndDate.secondDate", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound"];
 
 /**
- * Represents a predefined list of valid query parameter for upcoming contest.
- */
-var ALLOWABLE_QUERY_PARAMETER_UPCOMING = ALLOWABLE_QUERY_PARAMETER_ACTIVE;
-
-/**
- * Represents a predefined list of valid query parameter for open contest.
- */
-var ALLOWABLE_QUERY_PARAMETER_OPEN = ALLOWABLE_QUERY_PARAMETER_ACTIVE;
-
-/**
- * Represents a predefined list of valid query parameter for past contest.
- */
-var ALLOWABLE_QUERY_PARAMETER_PAST = ALLOWABLE_QUERY_PARAMETER_ACTIVE;
-
-/**
  * Represents a predefined list of valid sort column for active contest.
  */
-var ALLOWABLE_SORT_COLUMN_ACTIVE = [
+var ALLOWABLE_SORT_COLUMN = [
     "type", "catalog", "contestName", "numberOfSubmissions", "numberOfRatedRegistrants", "numberOfUnratedRegistrants",
     "registrationEndDate", "submissionEndDate", "firstPrize", "digitalRunPoints", "contestId",
     "projectId", "reliabilityBonus"
 ];
-
-/**
- * Represents a predefined list of valid sort column for upcoming contest.
- */
-var ALLOWABLE_SORT_COLUMN_UPCOMING = ALLOWABLE_SORT_COLUMN_ACTIVE;
-
-/**
- * Represents a predefined list of valid sort column for open contest.
- */
-var ALLOWABLE_SORT_COLUMN_OPEN = ALLOWABLE_SORT_COLUMN_ACTIVE;
-
-/**
- * Represents a predefined list of valid sort column for past contest.
- */
-var ALLOWABLE_SORT_COLUMN_PAST = ALLOWABLE_SORT_COLUMN_ACTIVE;
 
 /**
  * Represents a ListType enum
@@ -75,11 +50,6 @@ var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PA
  * Represents a predefined list of valid list type.
  */
 var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.OPEN, ListType.UPCOMING, ListType.PAST];
-
-/**
- * Represents the default sort column.
- */
-var DEFAULT_SORT_COLUMN = "contestName";
 
 /**
  * Represents Percentage of Placement Points for digital run
@@ -100,64 +70,14 @@ var MIN_DATE = "1900-01-01";
 var MAX_DATE = "2199-01-01";
 
 /**
- * The search active contest command and query name.
- */
-var SEARCH_ACTIVE_CONTEST = "search_active_contest";
-
-/**
- * The search active contests count command/query name.
- */
-var SEARCH_ACTIVE_CONTEST_COUNT = "search_active_contest_count";
-
-/**
- * The search open contests command/query name.
- */
-var SEARCH_OPEN_CONTEST = "search_open_contest";
-
-/**
- * The search open contests count query name.
- */
-var SEARCH_OPEN_CONTEST_COUNT = "search_open_contest_count";
-
-/**
- * The search upcoming contests command/query name.
- */
-var SEARCH_UPCOMING_CONTEST = "search_upcoming_contest";
-
-/**
- * The search upcoming contests count query name.
- */
-var SEARCH_UPCOMING_CONTEST_COUNT = "search_upcoming_contest_count";
-
-/**
- * The search past contests command/query name.
- */
-var SEARCH_PAST_CONTEST = "search_past_contest";
-
-/**
- * The search past contests query name.
- */
-var SEARCH_PAST_CONTEST_COUNT = "search_past_contest_count";
-
-/**
  * The list type command multiple value map. This map will used to store the mapped query/command name for each
  * contest type.
  */
 var LIST_TYPE_COMMAND_MAP = {};
-LIST_TYPE_COMMAND_MAP[ListType.ACTIVE] = [SEARCH_ACTIVE_CONTEST, SEARCH_ACTIVE_CONTEST_COUNT];
-LIST_TYPE_COMMAND_MAP[ListType.OPEN] = [SEARCH_OPEN_CONTEST, SEARCH_OPEN_CONTEST_COUNT];
-LIST_TYPE_COMMAND_MAP[ListType.UPCOMING] = [SEARCH_UPCOMING_CONTEST, SEARCH_UPCOMING_CONTEST_COUNT];
-LIST_TYPE_COMMAND_MAP[ListType.PAST] = [SEARCH_PAST_CONTEST, SEARCH_PAST_CONTEST_COUNT];
-
-/**
- * The list type query parameter and sort column multiple values map. This map will used to check if the request
- * has the valid query parameter and sort column.
- */
-var LIST_TYPE_QUERY_COLUMN_MAP = {};
-LIST_TYPE_QUERY_COLUMN_MAP[ListType.ACTIVE] = [ALLOWABLE_QUERY_PARAMETER_ACTIVE, ALLOWABLE_SORT_COLUMN_ACTIVE];
-LIST_TYPE_QUERY_COLUMN_MAP[ListType.OPEN] = [ALLOWABLE_QUERY_PARAMETER_OPEN, ALLOWABLE_SORT_COLUMN_OPEN];
-LIST_TYPE_QUERY_COLUMN_MAP[ListType.UPCOMING] = [ALLOWABLE_QUERY_PARAMETER_UPCOMING, ALLOWABLE_SORT_COLUMN_UPCOMING];
-LIST_TYPE_QUERY_COLUMN_MAP[ListType.PAST] = [ALLOWABLE_QUERY_PARAMETER_PAST, ALLOWABLE_SORT_COLUMN_PAST];
+LIST_TYPE_COMMAND_MAP[ListType.ACTIVE] = ["search_active_contest", "search_active_contest_count"];
+LIST_TYPE_COMMAND_MAP[ListType.OPEN] = ["search_open_contest", "search_open_contest_count"];
+LIST_TYPE_COMMAND_MAP[ListType.UPCOMING] = ["search_upcoming_contest", "search_upcoming_contest_count"];
+LIST_TYPE_COMMAND_MAP[ListType.PAST] = ["search_past_contest", "search_past_contest_count"];
 
 
 /**
@@ -165,28 +85,6 @@ LIST_TYPE_QUERY_COLUMN_MAP[ListType.PAST] = [ALLOWABLE_QUERY_PARAMETER_PAST, ALL
  */
 var databaseDateFormat = "yyyy-MM-dd";
 
-
-
-/**
- * Handle error, set http code and error details to response
- * @param {Object} api - The api object that is used to access the global infrastructure
- * @param {Object} connection - The connection object for the current request
- * @param {Object} err - The error to return
- */
-function handleError(api, connection, err) {
-    api.log("Error occured: " + err + " " + (err.stack || ''), "error");
-    var errdetail, helper = api.helper, baseError = helper.apiCodes.serverError;
-    if (err instanceof IllegalArgumentError) {
-        baseError = helper.apiCodes.badRequest;
-    }
-    if (err instanceof NotFoundError) {
-        baseError = helper.apiCodes.notFound;
-    }
-    errdetail = _.clone(baseError);
-    errdetail.details = err;
-    connection.rawConnection.responseHttpCode = baseError.value;
-    connection.error = JSON.stringify(errdetail);
-}
 
 /**
  * This method will used to check the query parameter and sort column of the request.
@@ -198,9 +96,9 @@ function handleError(api, connection, err) {
  * @param {Object} allowableValuesMap - a multiple map contains the allowed sort column
  *      and query parameter for all four types.
  */
-function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn, allowableValuesMap) {
-    var allowedQuery = helper.getLowerCaseList(allowableValuesMap[type.toUpperCase()][0]),
-        allowedSort = helper.getLowerCaseList(allowableValuesMap[type.toUpperCase()][1]),
+function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn) {
+    var allowedQuery = helper.getLowerCaseList(ALLOWABLE_QUERY_PARAMETER),
+        allowedSort = helper.getLowerCaseList(ALLOWABLE_SORT_COLUMN),
         currentQuery = helper.getLowerCaseList(Object.keys(queryString)),
         error;
     currentQuery.forEach(function (n) {
@@ -233,31 +131,31 @@ function validateInputParameter(helper, query, filter, pageIndex, pageSize, sort
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
             helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
-            checkQueryParameterAndSortColumn(helper, type, query, sortColumn, LIST_TYPE_QUERY_COLUMN_MAP);
+            checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
-    if (helper.isDefined(filter.registrationStartDate)) {
+    if (_.isDefined(filter.registrationStartDate)) {
         error = error || helper.checkFilterDate(filter.registrationStartDate, "registrationStartDate");
     }
-    if (helper.isDefined(filter.submissionEndDate)) {
+    if (_.isDefined(filter.submissionEndDate)) {
         error = error || helper.checkFilterDate(filter.submissionEndDate, "submissionEndDate");
     }
-    if (helper.isDefined(filter.contestFinalizationDate)) {
+    if (_.isDefined(filter.contestFinalizationDate)) {
         error = error || helper.checkFilterDate(filter.contestFinalizationDate, "contestFinalizationDate");
     }
-    if (helper.isDefined(filter.projectId)) {
+    if (_.isDefined(filter.projectId)) {
         error = error || helper.checkPositiveInteger(Number(filter.projectId), "projectId");
     }
-    if (helper.isDefined(filter.prizeLowerBound)) {
+    if (_.isDefined(filter.prizeLowerBound)) {
         error = error || helper.checkNonNegativeNumber(Number(filter.prizeLowerBound), "prizeLowerBound");
     }
-    if (helper.isDefined(filter.prizeUpperBound)) {
+    if (_.isDefined(filter.prizeUpperBound)) {
         error = error || helper.checkNonNegativeNumber(Number(filter.prizeUpperBound), "prizeUpperBound");
     }
     if (error) {
         callback(error);
         return;
     }
-    if (helper.isDefined(query.type)) {
+    if (_.isDefined(query.type)) {
         helper.isCategoryNameValid(query.type, callback);
     } else {
         callback();
@@ -321,28 +219,28 @@ function setFilter(helper, listType, filter, sqlParams) {
     sqlParams.fractualstart = MIN_DATE;
     sqlParams.frendstart = MIN_DATE;
 
-    if (helper.isDefined(filter.type)) {
+    if (_.isDefined(filter.type)) {
         sqlParams.ctn = filter.type.toLowerCase();
     }
-    if (helper.isDefined(filter.catalog)) {
+    if (_.isDefined(filter.catalog)) {
         sqlParams.catalog = filter.catalog.toLowerCase();
     }
-    if (helper.isDefined(filter.contestName)) {
+    if (_.isDefined(filter.contestName)) {
         sqlParams.pjn = "%" + filter.contestName.toLowerCase() + "%";
     }
-    if (helper.isDefined(filter.prizeLowerBound)) {
+    if (_.isDefined(filter.prizeLowerBound)) {
         sqlParams.prilower = filter.prizeLowerBound.toLowerCase();
     }
-    if (helper.isDefined(filter.prizeUpperBound)) {
+    if (_.isDefined(filter.prizeUpperBound)) {
         sqlParams.priupper = filter.prizeUpperBound.toLowerCase();
     }
-    if (helper.isDefined(filter.registrationStartDate)) {
+    if (_.isDefined(filter.registrationStartDate)) {
         setDateToParams(helper, sqlParams, filter.registrationStartDate, "registstart");
     }
-    if (helper.isDefined(filter.submissionEndDate)) {
+    if (_.isDefined(filter.submissionEndDate)) {
         setDateToParams(helper, sqlParams, filter.submissionEndDate, "subend");
     }
-    if (helper.isDefined(filter.contestFinalizationDate)) {
+    if (_.isDefined(filter.contestFinalizationDate)) {
         switch (listType) {
         case ListType.ACTIVE:
             setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "frend");
@@ -355,7 +253,7 @@ function setFilter(helper, listType, filter, sqlParams) {
             break;
         }
     }
-    if (helper.isDefined(filter.projectId)) {
+    if (_.isDefined(filter.projectId)) {
         sqlParams.tcdirectid = filter.projectId;
     }
 }
@@ -540,7 +438,7 @@ var searchContests = function (api, connection, next) {
         }
     ], function (err) {
         if (err) {
-            handleError(api, connection, err);
+            helper.handleError(api, connection, err);
         } else {
             connection.response = result;
         }
@@ -634,7 +532,7 @@ var getContest = function (api, connection, next) {
         }
     ], function (err) {
         if (err) {
-            handleError(api, connection, err);
+            helper.handleError(api, connection, err);
         } else {
             connection.response = contest;
         }
@@ -662,25 +560,6 @@ exports.getContest = {
 };
 
 /**
- * The API for getting contest
- */
-exports.getContestSecured = {
-    name: "getContest",
-    description: "getContest",
-    inputs: {
-        required: ["contestId"],
-        optional: []
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    run: function (api, connection, next) {
-        api.log("Execute getContestSecured#run", 'debug');
-        getContest(api, connection, next);
-    }
-};
-
-/**
  * The API for searching contests
  */
 exports.searchContests = {
@@ -691,25 +570,6 @@ exports.searchContests = {
         optional: []
     },
     blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    run: function (api, connection, next) {
-        api.log("Execute searchContests#run", 'debug');
-        searchContests(api, connection, next);
-    }
-};
-
-/**
- * The API for searching contests, while this is guarded by OAuth
- */
-exports.searchContestsSecured = {
-    name: 'searchContestsSecured',
-    description: 'searchContestsSecured',
-    inputs: {
-        required: [],
-        optional: []
-    },
-    permissionScope: 'CONTEST_REST',
     outputExample: {},
     version: 'v2',
     run: function (api, connection, next) {
