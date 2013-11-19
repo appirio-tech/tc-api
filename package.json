@@ -16,11 +16,15 @@
         "actionHero": "6.4.1",
         "xml2js": "~0.2.8",
         "async": "~0.2.9",
-        "nodejs-db-informix": "*"
+        "nodejs-db-informix": "*",
+        "underscore" : "*",
+        "datejs" : "*",
+        "string" : "*"
     },
     "devDependencies": {
         "supertest": "~0.8.0",
-        "mocha": "~1.13.0"
+        "mocha": "~1.13.0",
+        "chai": "*"
     },
     "scripts": {
         "start": "node ./node_modules/.bin/actionHero start",

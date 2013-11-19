@@ -1,0 +1,6 @@
+select handle, placement, screening_score, initial_score, final_score, submission.create_date as submission_date from submission
+INNER JOIN upload u1 ON submission.upload_id = u1.upload_id 
+INNER JOIN user u ON submission.create_user = u.user_id
+where submission.submission_type_id IN (1, 3) 
+and project_id = @contestId@
+order BY CASE WHEN placement Is NULL Then 1 Else 0 End, placement
