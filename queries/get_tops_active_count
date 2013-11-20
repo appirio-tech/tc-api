@@ -1,0 +1,12 @@
+SELECT count(*) as count
+  from tcs_dw:user_rating ur, coder c
+   JOIN (
+       select x0.user_id
+       from tcs_dw:user_rating x0 ,tcs_dw:project x1 
+       where x0.last_rated_project_id = x1.project_id
+       AND x0.phase_id = @phaseId@
+       AND x1.phase_id = x0.phase_id 
+       AND x1.posting_date > (CURRENT year to fraction(3) - interval(180) day(9) to day )) active on active.user_id = c.coder_id
+ where c.coder_id = ur.user_id
+   and c.status = 'A'
+   and phase_id = @phaseId@

@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author vangavroche, Sky_
  * changes in 1.1:
  * - add routes for search contests
+ * Changes in 1.2:
+ * - add route for top
  */
 
 /* ---------------------
@@ -55,8 +57,7 @@ exports.routes = {
         { path: "/:apiVersion/contesttypes", action: "contestTypes" },
         { path: "/:apiVersion/secure/contesttypes", action: "contestTypesSecured" },
         { path: "/:apiVersion/software/contests/:contestId", action: "getContest" },
-        { path: "/:apiVersion/secure/software/contests/:contestId", action: "getContestSecured" },
-        { path: "/:apiVersion/software/contests", action: "searchContests" },
-        { path: "/:apiVersion/secure/software/contests", action: "searchContestsSecured" }
+        { path: "/:apiVersion/software/statistics/tops/:contestType", action: "getTops" },
+        { path: "/:apiVersion/software/contests", action: "searchContests" }
     ]
 };

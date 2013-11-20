@@ -1,0 +1,5 @@
+{
+  "name"    : "restapi_statistics_category_name_valid",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "restapi_statistics_category_name_valid"
+}

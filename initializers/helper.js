@@ -10,7 +10,9 @@
 "use strict";
 
 var async = require('async');
+var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var NotFoundError = require('../errors/NotFoundError');
 var helper = {};
 
 
@@ -21,20 +23,12 @@ var helper = {};
  * @return {Error} Error if invalid or null if valid.
  */
 helper.checkDefined = function (obj, objName) {
-    if (obj === null || obj === undefined) {
+    if (_.isNull(obj) || _.isUndefined(obj)) {
         return new IllegalArgumentError(objName + " should not be null or undefined");
     }
     return null;
 };
 
-/**
- * Checks whether given object is defined.
- * @param {Object}obj the obj to check.
- * @return {Boolean} true if defined otherwise false.
- */
-helper.isDefined = function (obj) {
-    return !helper.checkDefined(obj);
-};
 
 /**
  * Checks whether given object is object type.
@@ -43,11 +37,7 @@ helper.isDefined = function (obj) {
  * @return {Error} Error if invalid or null if valid.
  */
 helper.checkObject = function (obj, objName) {
-    var error = helper.checkDefined(obj, objName);
-    if (error) {
-        return error;
-    }
-    if (typeof obj !== "object") {
+    if (!_.isObject(obj)) {
         return new IllegalArgumentError(objName + " should be object");
     }
     return null;
@@ -61,7 +51,7 @@ helper.checkObject = function (obj, objName) {
  * @return {Error} if invalid or null if valid.
  */
 helper.checkFunction = function (obj, objName) {
-    if (typeof obj !== "function") {
+    if (!_.isFunction(obj)) {
         return new IllegalArgumentError(objName + " should be function.");
     }
     return null;
@@ -75,11 +65,7 @@ helper.checkFunction = function (obj, objName) {
  * @return {Error} if invalid or null if valid.
  */
 helper.checkString = function (obj, objName) {
-    var error = helper.checkDefined(obj, objName);
-    if (error) {
-        return error;
-    }
-    if (typeof obj !== "string") {
+    if (!_.isString(obj)) {
         return new IllegalArgumentError(objName + " should be string.");
     }
     return null;
@@ -97,7 +83,7 @@ helper.checkArray = function (obj, objName, allowEmpty) {
     if (error) {
         return error;
     }
-    if (Object.prototype.toString.call(obj) !== '[object Array]') {
+    if (!_.isArray(obj)) {
         return new IllegalArgumentError(objName + " should be Array.");
     }
     if (!allowEmpty && obj.length === 0) {
@@ -115,7 +101,7 @@ helper.checkArray = function (obj, objName, allowEmpty) {
  * @return {Error} if invalid or null if valid.
  */
 helper.checkNumber = function (obj, objName) {
-    if (typeof obj !== "number" || isNaN(obj)) {
+    if (!_.isNumber(obj) || _.isNaN(obj) || !_.isFinite(obj)) {
         return new IllegalArgumentError(objName + " should be number.");
     }
     return null;
@@ -165,11 +151,11 @@ helper.checkContains = function (elements, obj, objName) {
  * @return {Error} if input not valid.
  */
 helper.checkInteger = function (obj, objName) {
-    var result = helper.checkDefined(obj, objName);
+    var result = helper.checkNumber(obj, objName);
     if (result) {
         return result;
     }
-    if (typeof obj !== "number" || obj % 1 !== 0) {
+    if (obj % 1 !== 0) {
         result = new IllegalArgumentError(objName + " should be Integer.");
     }
     return result;
@@ -183,7 +169,7 @@ helper.checkInteger = function (obj, objName) {
  * @return {Error} if input not valid.
  */
 helper.checkPageIndex = function (obj, objName) {
-    var result = helper.checkDefined(obj, objName) || helper.checkInteger(obj, objName);
+    var result = helper.checkInteger(obj, objName);
     if (result) {
         return result;
     }
@@ -267,7 +253,6 @@ helper.isCategoryNameValid = function (name, callback) {
         function (cb) {
             helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { ctn: name }, cb);
         }, function (result, cb) {
-            console.log(result);
             if (!result.length) {
                 cb(error);
                 return;
@@ -279,6 +264,52 @@ helper.isCategoryNameValid = function (name, callback) {
             }
         }
     ], callback);
+};
+/**
+ * Check whether given integer is not greater than given max.
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if input not valid.
+ */
+helper.checkMaxNumber = function (obj, max, objName) {
+    var result = helper.checkInteger(obj, objName);
+    if (result) {
+        return result;
+    }
+    if (obj > max) {
+        result = new IllegalArgumentError(objName + " should be less or equal to " + max + ".");
+    }
+    return result;
+};
+
+/**
+ * Get color for given rating
+ * @param {Number} rating - the rating
+ * @return {String} the color name
+ */
+helper.getCoderColor = function (rating) {
+    if (rating < 0) {
+        return "Orange";
+    }
+    if (rating === 0) {
+        return "Black";
+    }
+    if (rating > 0 && rating < 900) {
+        return "Gray";
+    }
+    if (rating > 899 && rating < 1200) {
+        return "Green";
+    }
+    if (rating > 1199 && rating < 1500) {
+        return "Blue";
+    }
+    if (rating > 1499 && rating < 2200) {
+        return "Yellow";
+    }
+    if (rating > 2199) {
+        return "Red";
+    }
+    return "";
 };
 
 /**
@@ -296,7 +327,6 @@ helper.const = {
 };
 helper.const.ALLOWABLE_DATE_TYPE = [helper.const.AFTER, helper.const.AFTER_CURRENT_DATE, helper.const.BEFORE,
     helper.const.BEFORE_CURRENT_DATE, helper.const.BETWEEN_DATES, helper.const.ON];
-
 
 /**
  * Api codes
@@ -339,15 +369,52 @@ helper.apiCodes = {
     }
 };
 
+
+
 /**
- * Expose the "helper" utility.
- *
- * @param {Object} api The api object that is used to access the infrastructure
- * @param {Function} next The callback function to be called when everyting is done
+ * Handle error, set http code and error details to response
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} err - The error to return
  */
+helper.handleError = function (api, connection, err) {
+    api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+    var errdetail, helper = api.helper, baseError = helper.apiCodes.serverError;
+    if (err instanceof IllegalArgumentError) {
+        baseError = helper.apiCodes.badRequest;
+    }
+    if (err instanceof NotFoundError) {
+        baseError = helper.apiCodes.notFound;
+    }
+    errdetail = _.clone(baseError);
+    errdetail.details = err.message;
+    connection.rawConnection.responseHttpCode = baseError.value;
+    connection.response = { error: errdetail };
+};
+
+/**
+* Expose the "helper" utility.
+*
+* @param {Object} api The api object that is used to access the infrastructure
+* @param {Function<err>} next The callback function to be called when everyting is done
+*/
 exports.helper = function (api, next) {
     api.helper = helper;
     helper.api = api;
+
+
+    _.mixin({
+        isDefined: function (obj) {
+            return !_.isNull(obj) && !_.isUndefined(obj);
+        },
+
+        checkArgument: function (expr, errorMessage) {
+            if (!expr) {
+                return new IllegalArgumentError(errorMessage);
+            }
+            return null;
+        }
+    });
+
     next();
 };
-

@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author vangavroche, Sky_
  * changes in 1.1:
  * 1. change executeQuery to support parameterization.
+ * changes in 1.2
+ * 1. read sql information from json files
  */
 "use strict";
 /*jslint unparam: true*/
@@ -13,6 +15,7 @@
  */
 var bindings = require("nodejs-db-informix");
 var fs = require("fs");
+var _ = require('underscore');
 var async = require("async");
 var helper;
 
@@ -21,8 +24,7 @@ var helper;
  */
 var settings = {
     "user": process.env.TC_DB_USER,
-    "password": process.env.TC_DB_PASSWORD,
-    "database": "tcs_catalog"
+    "password": process.env.TC_DB_PASSWORD
 };
 
 /**
@@ -43,10 +45,10 @@ var queries = {};
  */
 function escapeParam(param, cb) {
     //escape string ' to ''
-    if (!helper.checkString(param)) {
+    if (_.isString(param)) {
         cb(null, param.replace(/'/g, "''"));
         //check all elements of array
-    } else if (!helper.checkArray(param)) {
+    } else if (_.isArray(param)) {
         async.map(param, escapeParam, function (err, arr) {
             if (err) {
                 cb(err);
@@ -54,7 +56,7 @@ function escapeParam(param, cb) {
                 cb(null, arr.join(", "));
             }
         });
-    } else if (!helper.checkObject(param)) {
+    } else if (_.isObject(param)) {
         cb(new Error('objects are not supported as query parameter'));
     } else {
         cb(null, String(param));
@@ -109,43 +111,36 @@ exports.dataAccess = function (api, next) {
             helper = api.helper;
             // load queries:
             api.log("Loading Queries");
-            var dir = ('./queries');
+            var dir = './queries',
+                relativeDir = '../queries';
 
-            fs.readdir(dir, function (err, files) {
-                if (err) {
-                    api.log("Error occurred when reading the queries: " + err + " " + (err.stack || ''), "error");
-                    next(err);
-                } else {
-                    // skip the directories
-                    var i, queryFiles = [], loadFile;
-                    for (i = 0; i < files.length; i += 1) {
+            async.waterfall([
+                function (cb) {
+                    fs.readdir(dir, cb);
+                }, function (files, cb) {
+                    async.forEach(files, function (file, cbx) {
                         /*jslint stupid: true */
-                        if (!fs.lstatSync(dir + '/' + files[i]).isDirectory()) {
-                            queryFiles.push(files[i]);
-                        } else {
-                            api.log('Directory ' + files[i] + ' is not loaded as query', 'info');
+                        if (fs.lstatSync(dir + '/' + file).isDirectory() || !/\.json$/.test(file)) {
+                            cbx();
+                            return;
                         }
                         /*jslint */
-                    }
-                    // function to get content of all query files:
-                    loadFile = function (filename, done) {
-                        fs.readFile(dir + "/" + filename, {
+                        api.log("Reading " + file, "debug");
+                        var json = require(relativeDir + "/" + file);
+                        queries[json.name] = json;
+                        fs.readFile(dir + "/" + json.sqlfile, {
                             encoding: 'utf8'
-                        }, done);
-                    };
-                    async.map(queryFiles, loadFile, function (err, results) {
-                        if (err) {
-                            api.log("Error occurred when loading the queries: " + err + " " + (err.stack || ''), "error");
-                            next(err);
-                        } else {
-                            for (i = 0; i < queryFiles.length; i += 1) {
-                                api.log("Loading query " + queryFiles[i] + " : " + results[i], 'info');
-                                queries[queryFiles[i]] = results[i];
-                            }
-                            next(null);
-                        }
-                    });
+                        }, function (err, sql) {
+                            json.sql = sql;
+                            cbx(err);
+                        });
+                    }, cb);
                 }
+            ], function (err) {
+                if (err) {
+                    api.log("Error occurred when reading the queries: " + err + " " + (err.stack || ''), "error");
+                }
+                next(err);
             });
         },
 
@@ -163,12 +158,12 @@ exports.dataAccess = function (api, next) {
             api.log("Execute query '" + queryName + "'", "debug");
             api.log("Query parameters " + JSON.stringify(parameters), "debug");
 
-            var error = helper.checkFunction(next, "next"), connection, sql;
+            var error = helper.checkFunction(next, "next"), connection, sql, dbSettings = _.clone(settings);
             if (error) {
                 throw error;
             }
             error = helper.checkString(queryName, "queryName");
-            if (!helper.checkDefined(parameters)) {
+            if (_.isDefined(parameters)) {
                 error = error || helper.checkObject(parameters, "parameters");
             } else {
                 parameters = {};
@@ -177,8 +172,7 @@ exports.dataAccess = function (api, next) {
                 next(error);
                 return;
             }
-            sql = queries[queryName];
-
+            sql = queries[queryName].sql;
             if (!sql) {
                 api.log('Unregisterd query ' + queryName + ' is asked for.', 'error');
                 next('The query for name ' + queryName + ' is not registered');
@@ -195,7 +189,8 @@ exports.dataAccess = function (api, next) {
                     parameterizeQuery(sql, parameters, cb);
                 }, function (parametrizedQuery, cb) {
                     sql = parametrizedQuery;
-                    connection = new bindings.Informix(settings);
+                    dbSettings.database = queries[queryName].db;
+                    connection = new bindings.Informix(dbSettings);
                     connection.on('error', cb);
                     connection.connect(cb);
                 }, function (result, cb) {
