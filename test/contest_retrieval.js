@@ -6,7 +6,7 @@
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
-/*jslint node: true, stupid: true, unparam: true */
+/*jslint node: true, stupid: true, unparam: true, maxlen: 200 */
 
 /**
  * Module dependencies.

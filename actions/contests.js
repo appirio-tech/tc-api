@@ -104,11 +104,13 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
     currentQuery.forEach(function (n) {
         if (allowedQuery.indexOf(n) === -1) {
             error = error ||
-                new IllegalArgumentError("The query parameter contains invalid parameter for contest type '" + type + "'.");
+                new IllegalArgumentError("The query parameter contains invalid parameter for contest type '" +
+                    type + "'.");
         }
     });
     if (allowedSort.indexOf(sortColumn.toLowerCase()) === -1) {
-        error = error || new IllegalArgumentError("The sort column '" + sortColumn + "' is invalid for contest type '" + type + "'.");
+        error = error || new IllegalArgumentError("The sort column '" + sortColumn +
+            "' is invalid for contest type '" + type + "'.");
     }
     return error;
 }
@@ -175,18 +177,18 @@ function setDateToParams(helper, sqlParams, dateInterval, inputCodePrefix) {
         secondDate = new Date(dateInterval.secondDate).toString(databaseDateFormat),
         today = new Date().toString(databaseDateFormat);
 
-    if (dateType.toUpperCase() === helper.const.BEFORE) {
+    if (dateType.toUpperCase() === helper.consts.BEFORE) {
         sqlParams[inputCodePrefix + "end"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.const.AFTER) {
+    } else if (dateType.toUpperCase() === helper.consts.AFTER) {
         sqlParams[inputCodePrefix + "start"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.const.ON) {
+    } else if (dateType.toUpperCase() === helper.consts.ON) {
         sqlParams[inputCodePrefix + "start"] = firstDate;
         sqlParams[inputCodePrefix + "end"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.const.BEFORE_CURRENT_DATE) {
+    } else if (dateType.toUpperCase() === helper.consts.BEFORE_CURRENT_DATE) {
         sqlParams[inputCodePrefix + "end"] = today;
-    } else if (dateType.toUpperCase() === helper.const.AFTER_CURRENT_DATE) {
+    } else if (dateType.toUpperCase() === helper.consts.AFTER_CURRENT_DATE) {
         sqlParams[inputCodePrefix + "start"] = today;
-    } else if (dateType.toUpperCase() === helper.const.BETWEEN_DATES) {
+    } else if (dateType.toUpperCase() === helper.consts.BETWEEN_DATES) {
         sqlParams[inputCodePrefix + "start"] = firstDate;
         sqlParams[inputCodePrefix + "end"] = secondDate;
     }
@@ -521,7 +523,7 @@ var getContest = function (api, connection, next) {
                     initialScore: item.initial_score,
                     "final": item.final_score,
                     points: 0,
-                    submissionDate: formatDate(item.submission_date),
+                    submissionDate: formatDate(item.submission_date)
                 };
                 if (submission.placement && drTable.length >= submission.placement) {
                     submission.points = drTable[submission.placement - 1] * contest.digitalRunPoints;

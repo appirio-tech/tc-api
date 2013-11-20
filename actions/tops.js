@@ -64,7 +64,7 @@ var contestTypes = {
     content_creation: {
         name: "Content Creation",
         phaseId: 146
-    },
+    }
 };
 
 
