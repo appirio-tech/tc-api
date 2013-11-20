@@ -1,4 +1,4 @@
-﻿/*
+/**
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  */
 
@@ -205,18 +205,18 @@ helper.checkPositiveInteger = function (obj, objName) {
  */
 helper.checkFilterDate = function (date, dateName) {
     var result = helper.checkObject(date, dateName) ||
-        helper.checkContains(helper.const.ALLOWABLE_DATE_TYPE, date.type, dateName + ".type");
+        helper.checkContains(helper.consts.ALLOWABLE_DATE_TYPE, date.type, dateName + ".type");
     if (result) {
         return result;
     }
-    if (date.type.toUpperCase() !== helper.const.AFTER_CURRENT_DATE &&
-            date.type.toUpperCase() !== helper.const.BEFORE_CURRENT_DATE) {
+    if (date.type.toUpperCase() !== helper.consts.AFTER_CURRENT_DATE &&
+            date.type.toUpperCase() !== helper.consts.BEFORE_CURRENT_DATE) {
         result = helper.checkString(date.firstDate, dateName + ".firstDate");
         if (!new Date(date.firstDate).getTime()) {
             result = result || new IllegalArgumentError(dateName + ".firstDate is invalid");
         }
     }
-    if (date.type.toUpperCase() === helper.const.BETWEEN_DATES) {
+    if (date.type.toUpperCase() === helper.consts.BETWEEN_DATES) {
         result = result || helper.checkString(date.secondDate, dateName + ".secondDate");
         if (!new Date(date.secondDate).getTime()) {
             result = result || new IllegalArgumentError(dateName + ".secondDate is invalid");
@@ -315,7 +315,7 @@ helper.getCoderColor = function (rating) {
 /**
  * Constant data
  */
-helper.const = {
+helper.consts = {
     ASCENDING: "asc",
     DESCENDING: "desc",
     BETWEEN_DATES: "BETWEEN_DATES",
@@ -323,10 +323,10 @@ helper.const = {
     BEFORE_CURRENT_DATE: "BEFORE_CURRENT_DATE",
     AFTER: "AFTER",
     BEFORE: "BEFORE",
-    ON: "ON",
+    ON: "ON"
 };
-helper.const.ALLOWABLE_DATE_TYPE = [helper.const.AFTER, helper.const.AFTER_CURRENT_DATE, helper.const.BEFORE,
-    helper.const.BEFORE_CURRENT_DATE, helper.const.BETWEEN_DATES, helper.const.ON];
+helper.consts.ALLOWABLE_DATE_TYPE = [helper.consts.AFTER, helper.consts.AFTER_CURRENT_DATE, helper.consts.BEFORE,
+    helper.consts.BEFORE_CURRENT_DATE, helper.consts.BETWEEN_DATES, helper.consts.ON];
 
 /**
  * Api codes

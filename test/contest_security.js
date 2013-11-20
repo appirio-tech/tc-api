@@ -7,7 +7,7 @@
 "use strict";
 var request = require('supertest');
 /*global describe, it, before, beforeEach, after, afterEach */
-/*jslint node: true, stupid: true */
+/*jslint node: true, stupid: true, maxlen: 200 */
 
 /**
  * Moduleedependencies.

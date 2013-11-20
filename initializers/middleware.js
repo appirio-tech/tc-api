@@ -16,7 +16,7 @@ var xml2js = require('xml2js');
  * Define the config to get the API Host from the environment variables.
  */
 var config = {
-    apiHost : process.env.TC_API_HOST || 'api.topcoder.com',
+    apiHost: process.env.TC_API_HOST || 'api.topcoder.com'
 };
 
 /**
@@ -63,10 +63,10 @@ exports.middleware = function (api, next) {
              * Prepare the request options to sent the Authorization header for validation.
              */
             var requestOptions = {
-                host : config.apiHost,
-                path : '/oauth/oauth/validate',
-                headers : {
-                    Authorization : authHeader
+                host: config.apiHost,
+                path: '/oauth/oauth/validate',
+                headers: {
+                    Authorization: authHeader
                 }
             };
 
@@ -122,15 +122,16 @@ exports.middleware = function (api, next) {
      */
     oauthProcessor = function (connection, actionTemplate, next) {
         if (actionTemplate.permissionScope) {
-            authorize(getHeader(connection.rawConnection.req, 'Authorization'), actionTemplate.permissionScope, function (error, statusCode) {
-                if (error) {
-                    connection.error = error;
-                    connection.responseHttpCode = statusCode;
-                    next(connection, false);
-                } else {
-                    next(connection, true);
-                }
-            });
+            authorize(getHeader(connection.rawConnection.req, 'Authorization'),
+                actionTemplate.permissionScope, function (error, statusCode) {
+                    if (error) {
+                        connection.error = error;
+                        connection.responseHttpCode = statusCode;
+                        next(connection, false);
+                    } else {
+                        next(connection, true);
+                    }
+                });
 
         } else {
             next(connection, true);
