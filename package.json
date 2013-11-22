@@ -19,7 +19,10 @@
         "nodejs-db-informix": "*",
         "underscore" : "*",
         "datejs" : "*",
-        "string" : "*"
+        "string" : "*",
+        "ldapjs" : "*",
+        "nodemailer" : "*",
+        "email-templates" : "*"
     },
     "devDependencies": {
         "supertest": "~0.8.0",
