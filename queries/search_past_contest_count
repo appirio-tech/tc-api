@@ -82,6 +82,7 @@ LEFT JOIN (
 ) nRegistrants ON nRegistrants.project_id = project.project_id 
  Where   
  project.project_status_id IN (4, 5, 7)  
+  AND projectCategory.project_type_id IN (@project_type_id@)
   AND project.project_category_id not IN (27) 
   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce WHERE ce.contest_id = project.project_id) 
   AND LOWER(projectInfo.projectName) LIKE ('@pjn@')

@@ -52,7 +52,7 @@ FIRST @ps@
        project_info digitalRunFlagInfo
  WHERE  
        project.project_category_id = projectCategory.project_category_id
-   AND projectCategory.project_type_id IN (1, 2, 3)
+   AND projectCategory.project_type_id IN (@project_type_id@)
    AND project.project_id = registrationPhase.project_id
    AND registrationPhase.phase_type_id = 1
    AND projectNameInfo.project_info_type_id = 6
@@ -84,7 +84,7 @@ FIRST @ps@
    AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
    AND EXTEND(submissionPhase.scheduled_end_time, year to day) <= '@subendend@'
    AND EXTEND(submissionPhase.scheduled_end_time, year to day) >= '@subendstart@'
-   AND NVL(DATE(finalReviewPhase.scheduled_end_time), '2199-01-01') <= '@frendend@'
-   AND NVL(DATE(finalReviewPhase.scheduled_end_time), '1900-01-01') >= '@frendstart@'
+   AND NVL(EXTEND(finalReviewPhase.scheduled_end_time, year to day), '2199-01-01') <= '@frendend@'
+   AND NVL(EXTEND(finalReviewPhase.scheduled_end_time, year to day), '1900-01-01') >= '@frendstart@'
 ORDER BY @sf@ @sd@
 

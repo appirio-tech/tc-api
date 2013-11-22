@@ -75,6 +75,7 @@ LEFT JOIN (
 WHERE  
 project.project_status_id = 1  
 AND project.project_category_id not IN (27)  
+AND projectCategory.project_type_id IN (@project_type_id@)
 AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce WHERE ce.contest_id = project.project_id)
 AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
 AND EXTEND(phase.registrationStartDate, year to day) <= '@registstartend@'

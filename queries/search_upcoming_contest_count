@@ -33,6 +33,7 @@ FROM
     LEFT JOIN project_catalog_lu c ON c.project_catalog_id = pc.project_catalog_id  
 WHERE 
     p.project_status_id IN (1, 2, 7)     
+    AND pc.project_type_id IN (@project_type_id@)
     AND p.project_category_id NOT IN (27)        
     AND p.tc_direct_project_id NOT IN (840)  
     AND NOT EXISTS ( 

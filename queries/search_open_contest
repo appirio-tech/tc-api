@@ -121,6 +121,7 @@ LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.pr
 project_info digitalRunFlagInfo
 WHERE  
 project.project_status_id = 1  
+AND projectCategory.project_type_id IN (@project_type_id@)
 AND digitalRunFlagInfo.project_id = project.project_id
 AND digitalRunFlagInfo.project_info_type_id = 26
 AND project.project_category_id not IN (27)  
@@ -133,8 +134,6 @@ AND EXTEND(phase.submissionEndDate, year to day) >= '@subendstart@'
 AND NVL(prize.prize_amount, 0) >= @prilower@
 AND NVL(prize.prize_amount, 0) <= @priupper@
 AND LOWER(NVL(place.firstPlaceHandle, '')) LIKE '%'
---AND NVL(DATE(phase.finalReviewActualDate), DATE('2199-01-01')) <= '@fractualend@'
---AND NVL(DATE(phase.finalReviewActualDate), DATE('1900-01-01')) >= '@fractualstart@'
 AND EXTEND(NVL(phase.finalReviewActualDate, '2199-01-01'), year to day) <= '@fractualend@'
 AND EXTEND(NVL(phase.finalReviewActualDate, '1900-01-01'), year to day) >= '@fractualstart@'
 AND LOWER(projectInfo.projectName) LIKE ('@pjn@')
