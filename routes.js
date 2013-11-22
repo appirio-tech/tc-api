@@ -56,10 +56,10 @@ example:
 
 exports.routes = {
     get: [
-        { path: "/:apiVersion/contesttypes", action: "contestTypes" },
-        { path: "/:apiVersion/secure/contesttypes", action: "contestTypesSecured" },
-        { path: "/:apiVersion/software/contests/:contestId", action: "getContest" },
-        { path: "/:apiVersion/software/statistics/tops/:contestType", action: "getTops" },
-        { path: "/:apiVersion/software/contests", action: "searchContests" }
+        { path: "/:apiVersion/develop/challengetypes", action: "contestTypes" },
+        { path: "/:apiVersion/develop/challenges/:contestId", action: "getContest" },
+        { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
+        { path: "/:apiVersion/develop/challenges", action: "searchContests" },
+        { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" }
     ]
 };
