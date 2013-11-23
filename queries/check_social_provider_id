@@ -1,0 +1,3 @@
+SELECT COUNT(social_login_provider_id) as count
+FROM social_login_provider 
+WHERE social_login_provider_id=@socialLoginProviderId@

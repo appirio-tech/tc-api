@@ -11,10 +11,11 @@
  * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnection The database connection object for the current request
  * @param {Function} next The callback to be called after this function is done
  */
-var getContestTypes = function (api, connection, next) {
-    api.dataAccess.executeQuery("get_contest_types", [], function (err, result) {
+var getContestTypes = function (api, connection, dbConnection, next) {
+    api.dataAccess.executeQuery("get_contest_types", {}, dbConnection, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -42,9 +43,17 @@ exports.contestTypes = {
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',
+    transaction : 'read', // this action is read-only
     run : function (api, connection, next) {
-        api.log("Execute contestTypes#run", 'debug');
-        getContestTypes(api, connection, next);
+        if (this.dbConnection) {
+            api.log("Execute contestTypes#run", 'debug');
+            getContestTypes(api, connection, this.dbConnection, next);
+        } else {
+            api.log("dbConnection is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };
 
@@ -61,8 +70,16 @@ exports.contestTypesSecured = {
     permissionScope : 'CONTEST_REST',
     outputExample : {},
     version : 'v2',
+    transaction : 'read', // this action is read-only
     run : function (api, connection, next) {
-        api.log("Execute contestTypesSecured#run", 'debug');
-        getContestTypes(api, connection, next);
+        if (this.dbConnection) {
+            api.log("Execute contestTypesSecured#run", 'debug');
+            getContestTypes(api, connection, this.dbConnection, next);
+        } else {
+            api.log("dbConnection is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };

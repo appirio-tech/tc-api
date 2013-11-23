@@ -1,0 +1,7 @@
+[
+    "Country name is not valid.",
+    "Email is required",
+    "First name is required",
+    "Handle is required",
+    "Last name is required"
+]

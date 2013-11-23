@@ -1,0 +1,1 @@
+update 'informix'.id_sequences set next_block_start=@nextBlockStart@ where name='@name@'

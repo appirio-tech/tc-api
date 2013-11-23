@@ -1,0 +1,5 @@
+{
+  "name"    : "check_invalid_handle",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "check_invalid_handle"
+}

@@ -342,9 +342,10 @@ function transferResult(src) {
  * 
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnection The database connection object for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var searchContests = function (api, connection, next) {
+var searchContests = function (api, connection, dbConnection, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
@@ -423,10 +424,10 @@ var searchContests = function (api, connection, next) {
             sqlParams.ps = pageSize;
             sqlParams.sf = sortColumn.toLowerCase();
             sqlParams.sd = sortOrder.toLowerCase();
-            api.dataAccess.executeQuery(commandCount, sqlParams, cb);
+            api.dataAccess.executeQuery(commandCount, sqlParams, dbConnection, cb);
         }, function (rows, cb) {
             total = rows[0].total;
-            api.dataAccess.executeQuery(command, sqlParams, cb);
+            api.dataAccess.executeQuery(command, sqlParams, dbConnection, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 cb(new NotFoundError("No results found"));
@@ -453,9 +454,10 @@ var searchContests = function (api, connection, next) {
  * 
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnection The database connection object for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var getContest = function (api, connection, next) {
+var getContest = function (api, connection, dbConnection, next) {
     var contest, error, helper = api.helper, sqlParams;
     async.waterfall([
         function (cb) {
@@ -465,7 +467,7 @@ var getContest = function (api, connection, next) {
                 return;
             }
             sqlParams = { contestId: connection.params.contestId };
-            api.dataAccess.executeQuery("contest_details", sqlParams, cb);
+            api.dataAccess.executeQuery("contest_details", sqlParams, dbConnection, cb);
         }, function (rows, cb) {
             var data = rows[0], i, prize;
             if (rows.length === 0) {
@@ -555,9 +557,17 @@ exports.getContest = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
     run: function (api, connection, next) {
-        api.log("Execute getContest#run", 'debug');
-        getContest(api, connection, next);
+        if (this.dbConnection) {
+            api.log("Execute getContest#run", 'debug');
+            getContest(api, connection, this.dbConnection, next);
+        } else {
+            api.log("dbConnection is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };
 
@@ -574,8 +584,16 @@ exports.searchContests = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
     run: function (api, connection, next) {
-        api.log("Execute searchContests#run", 'debug');
-        searchContests(api, connection, next);
+        if (this.dbConnection) {
+            api.log("Execute searchContests#run", 'debug');
+            searchContests(api, connection, this.dbConnection, next);
+        } else {
+            api.log("dbConnection is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };

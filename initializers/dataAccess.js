@@ -84,7 +84,13 @@ function parameterizeQuery(query, params, callback) {
             }
             escapeParam(params[paramName], cb);
         }, function (param, cb) {
-            query = query.replace(paramReg, param);
+            if (paramName === 'password') {
+                // password hash doens't work well with paramReg, so special handling is performed
+                query = query.replace("@password@", param);
+            } else {
+                query = query.replace(paramReg, param);
+            }
+
             cb();
         }
     ], function (err) {
@@ -144,6 +150,15 @@ exports.dataAccess = function (api, next) {
             });
         },
 
+        /**
+         * Create a database connection.
+         * @param {String} databaseName the database name.
+         * @return {Object} the created connection.
+         */
+        createConnection : function (databaseName) {
+            return new bindings.Informix({"user" : settings.user, "password" : settings.password, "database" : databaseName});
+        },
+
         _parameterizeQuery: parameterizeQuery,
 
         /**
@@ -152,13 +167,14 @@ exports.dataAccess = function (api, next) {
          * 
          * @param {String} queryName - name of the query to be executed
          * @param {Object} parameters - the map of parameters for sql query. E.g. params {sort: 'asc', limit: 1}
+         * @param {Object} connection - The database connection
          * @param {Function<err, result>} next - the callback function
          */
-        executeQuery: function (queryName, parameters, next) {
+        executeQuery: function (queryName, parameters, connection, next) {
             api.log("Execute query '" + queryName + "'", "debug");
             api.log("Query parameters " + JSON.stringify(parameters), "debug");
 
-            var error = helper.checkFunction(next, "next"), connection, sql, dbSettings = _.clone(settings);
+            var error = helper.checkFunction(next, "next"), sql;
             if (error) {
                 throw error;
             }
@@ -189,11 +205,6 @@ exports.dataAccess = function (api, next) {
                     parameterizeQuery(sql, parameters, cb);
                 }, function (parametrizedQuery, cb) {
                     sql = parametrizedQuery;
-                    dbSettings.database = queries[queryName].db;
-                    connection = new bindings.Informix(dbSettings);
-                    connection.on('error', cb);
-                    connection.connect(cb);
-                }, function (result, cb) {
                     api.log("Database connected", 'info');
                     // Run the query
                     connection.query("", [], cb, {
@@ -218,9 +229,75 @@ exports.dataAccess = function (api, next) {
                 } else {
                     api.log("Query executed", "debug");
                 }
-                if (connection) {
-                    connection.disconnect();
+
+                next(err, result);
+            });
+        },
+
+        /**
+         * Execute the update given the query name.
+         * The result will be passed to the "next" callback.
+         * 
+         * @param {String} queryName - name of the query to be executed
+         * @param {Object} parameters - the map of parameters for sql query. E.g. params {sort: 'asc', limit: 1}
+         * @param {Object} connection - The database connection
+         * @param {Function<err, result>} next - the callback function
+         */
+        executeUpdate: function (queryName, parameters, connection, next) {
+            api.log("Execute query '" + queryName + "'", "debug");
+            api.log("Query parameters " + JSON.stringify(parameters), "debug");
+
+            var error = helper.checkFunction(next, "next"), sql;
+            if (error) {
+                throw error;
+            }
+            error = helper.checkString(queryName, "queryName");
+            if (_.isDefined(parameters)) {
+                error = error || helper.checkObject(parameters, "parameters");
+            } else {
+                parameters = {};
+            }
+            if (error) {
+                next(error);
+                return;
+            }
+            sql = queries[queryName].sql;
+            if (!sql) {
+                api.log('Unregisterd query ' + queryName + ' is asked for.', 'error');
+                next('The query for name ' + queryName + ' is not registered');
+                return;
+            }
+
+            async.waterfall([
+                function (cb) {
+                    parameterizeQuery(sql, parameters, cb);
+                }, function (parametrizedQuery, cb) {
+                    sql = parametrizedQuery;
+                    api.log("Will execute update: " + sql, 'info');
+                    // Run the query
+                    connection.query(sql, [], cb, {
+                        start: function (q) {
+                            api.log('Start to execute ' + q, 'debug');
+                        },
+                        finish: function (f) {
+                            api.log('Finish executing ' + f, 'debug');
+                        },
+                        async: false,
+                        cast: true
+                    }).execute();
                 }
+            ], function (err, result) {
+                //error is returned when there is no results
+                if (err === "msg: Could not execute query.") {
+                    api.log("Query executed with empty result", "debug");
+                    err = null;
+                    result = [];
+                } else if (err) {
+                    api.log("Error occured: " + err + " " + (err.stack || ''), 'error');
+                } else {
+                    api.log("Query executed", "debug");
+                }
+
                 next(err, result);
             });
         }

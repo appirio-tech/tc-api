@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_coder",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "insert_coder"
+}

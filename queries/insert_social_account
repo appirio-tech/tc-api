@@ -1,0 +1,1 @@
+INSERT INTO user_social_login(user_id, social_login_provider_id, social_user_name, social_email, social_email_verified) VALUES (@userId@, @socialLoginProviderId@, '@socialUserName@', '@socialEmail@', '@socialEmailVerified@')

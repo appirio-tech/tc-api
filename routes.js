@@ -61,5 +61,9 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchContests" },
         { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" }
+    ],
+
+    post: [
+        { path: "/:apiVersion/develop/users", action: "memberRegister" }
     ]
 };

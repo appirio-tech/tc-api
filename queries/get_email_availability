@@ -1,0 +1,3 @@
+SELECT COUNT(user_id) as notavailable
+FROM email 
+WHERE address='@address@'

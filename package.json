@@ -19,7 +19,8 @@
         "nodejs-db-informix": "*",
         "underscore" : "*",
         "datejs" : "*",
-        "string" : "*"
+        "string" : "*",
+        "bcrypt": ">=0.5.*"
     },
     "devDependencies": {
         "supertest": "~0.8.0",

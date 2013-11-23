@@ -1,0 +1,5 @@
+{
+  "name"    : "check_user_handle_exist",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "check_user_handle_exist"
+}
