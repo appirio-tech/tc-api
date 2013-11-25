@@ -70,6 +70,18 @@ var MIN_DATE = "1900-01-01";
 var MAX_DATE = "2199-01-01";
 
 /**
+ * Project_type_id for Software category
+ */
+var SOFTWARE_CATEGORY = [1, 2];
+
+
+/**
+ * Project_type_id for Studio category
+ */
+var STUDIO_CATEGORY = [3];
+
+
+/**
  * The list type command multiple value map. This map will used to store the mapped query/command name for each
  * contest type.
  */
@@ -343,8 +355,9 @@ function transferResult(src) {
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
+ * @param {Boolean} software - The flag if search only software contests
  */
-var searchContests = function (api, connection, next) {
+var searchContests = function (api, connection, next, software) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
@@ -407,6 +420,8 @@ var searchContests = function (api, connection, next) {
             filter[p] = query[p.toLowerCase()];
         }
     });
+
+    sqlParams.project_type_id = software ? SOFTWARE_CATEGORY : STUDIO_CATEGORY;
 
     async.waterfall([
         function (cb) {
@@ -564,9 +579,9 @@ exports.getContest = {
 /**
  * The API for searching contests
  */
-exports.searchContests = {
-    name: "searchContests",
-    description: "searchContests",
+exports.searchSoftwareContests = {
+    name: "searchSoftwareContests",
+    description: "searchSoftwareContests",
     inputs: {
         required: [],
         optional: ALLOWABLE_QUERY_PARAMETER
@@ -575,7 +590,26 @@ exports.searchContests = {
     outputExample: {},
     version: 'v2',
     run: function (api, connection, next) {
-        api.log("Execute searchContests#run", 'debug');
-        searchContests(api, connection, next);
+        api.log("Execute searchSoftwareContests#run", 'debug');
+        searchContests(api, connection, next, true);
+    }
+};
+
+/**
+ * The API for searching contests
+ */
+exports.searchStudioContests = {
+    name: "searchStudioContests",
+    description: "searchStudioContests",
+    inputs: {
+        required: [],
+        optional: ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    run: function (api, connection, next) {
+        api.log("Execute searchStudioContests#run", 'debug');
+        searchContests(api, connection, next, false);
     }
 };

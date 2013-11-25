@@ -125,6 +125,7 @@ LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.pr
 ,project_info digitalRunFlagInfo
  WHERE   
   project.project_status_id IN (4, 5, 7)  
+  AND projectCategory.project_type_id IN (@project_type_id@)
   AND digitalRunFlagInfo.project_id = project.project_id
   AND digitalRunFlagInfo.project_info_type_id = 26
   AND project.project_category_id not IN (27) 

@@ -77,6 +77,7 @@ FROM
     project_info digitalRunFlagInfo 
 WHERE 
     p.project_status_id IN (1, 2, 7)     
+    AND pc.project_type_id IN (@project_type_id@)
    AND digitalRunFlagInfo.project_id = p.project_id
    AND digitalRunFlagInfo.project_info_type_id = 26
     AND p.project_category_id NOT IN (27)        
