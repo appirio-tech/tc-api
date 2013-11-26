@@ -772,7 +772,7 @@ exports.memberRegister = {
     outputExample : {},
     version : 'v2',
     transaction : 'write',
-    databases : ["tcs_catalog"],
+    databases : ["tcs_catalog", "informixoltp"],
     run: function (api, connection, next) {
         var dbConnectionMap, messages, checkResult;
         if (this.dbConnectionMapMap !== null) {

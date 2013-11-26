@@ -11,6 +11,10 @@
 namespace nodejs_db {
 class Connection {
     public:
+        // Start Changed by pvmagacho - global lock
+        static pthread_mutex_t staticConnectionLock;
+        // End Changed by pvmagacho - global lock
+
         const char quoteString;
 
         Connection();
@@ -44,7 +48,10 @@ class Connection {
         uint32_t port;
         bool alive;
         char quoteName;
-        pthread_mutex_t connectionLock;
+
+        // Start Changed by pvmagacho - global lock
+        pthread_mutex_t *connectionLock;
+        // End Changed by pvmagacho - global lock
 };
 }
 

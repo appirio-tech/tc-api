@@ -7,4 +7,4 @@ export TC_API_HOST=api.topcoder.com
 . .profile
 
 #./node_modules/.bin/mocha ./test/register_member.js
-./node_modules/.bin/mocha -g invalidInput1
+./node_modules/.bin/mocha -g invalidExistingHandleAndEmail

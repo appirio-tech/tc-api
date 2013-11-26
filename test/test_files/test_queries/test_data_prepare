@@ -8,7 +8,6 @@ INSERT INTO 'informix'.social_login_provider(social_login_provider_id,name) VALU
 INSERT INTO 'informix'.social_login_provider(social_login_provider_id,name) VALUES (4, 'GitHub');
 INSERT INTO 'informix'.social_login_provider(social_login_provider_id,name) VALUES (5, 'SFDC');
 
-
 delete from 'informix'.invalid_handles where invalid_handle_id = 1000000;
 insert into 'informix'.invalid_handles (invalid_handle_id, invalid_handle) values(1000000, 'invalidHandle');
 delete from 'informix'.user where handle = 'testHandleFoo';

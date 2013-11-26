@@ -63,7 +63,49 @@ var loadQueries = function (next) {
 
 describe('prepareData', function () {
     this.timeout(120000);     // The api with testing remote db could be quit slow
-   
+
+    var updateCoder = function(done) {
+        var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"informixoltp"});
+        c.on('error', function(error) {
+            console.log("Error: ");
+            console.log(error);
+        }).on('ready', function(server) {
+            console.log("Connection ready to ");
+            console.log(server);
+        }).connect(function(err) {
+            if (err) {
+                throw new Error('Could not connect to DB');
+            }
+            console.log('Connected to db with ');
+            console.log("isConnected() == " + c.isConnected());
+
+            var rs;
+
+            // create table
+            rs = this
+                .query("delete from coder where coder_id = 22758854"
+                    , []
+                    , function () {
+                        c.disconnect();
+                        done(null);
+                    }
+                    , {
+                        start: function(q) {
+                            console.log('START:');
+                            console.log(q);
+                        }
+                        , finish: function(f) {
+                            console.log('Finish:');
+                            console.log(f);
+                        }
+                        , async: false
+                        , cast: true
+                    }
+                )
+                .execute();
+        });
+    }
+
     it('setup test data', function (done) {
         loadQueries(function(err, result) {
             var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"tcs_catalog"});
@@ -89,7 +131,7 @@ describe('prepareData', function () {
                         , []
                         , function () {
                             c.disconnect();
-                            done(null);
+                            updateCoder(done);
                         }
                         , {
                             start: function(q) {

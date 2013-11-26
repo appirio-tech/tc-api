@@ -1,4 +1,2 @@
- database informixoltp;
 INSERT INTO 'informixoltp':coder(coder_id, quote, coder_type_id, comp_country_code, display_quote, quote_location, quote_color, display_banner, banner_style)
 VALUES(@coderId@, '', null, '@compCountryCode@',  1, 'md', '#000000', 1, 'bannerStyle4');
-database tcs_catalog; 

@@ -9,7 +9,7 @@ var ee = require('events').EventEmitter,
 try {
     ib = require('./build/Release/informix_bindings');
 } catch(error) {
-    console.log ('Could not load default informix_bindings');
+    console.log ('Could not load default informix_bindings. ' + error);
     process.exit();
 }
 

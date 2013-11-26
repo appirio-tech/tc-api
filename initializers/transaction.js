@@ -8,6 +8,49 @@
 
 /*jslint unparam: true */
 
+var handleConnectionFailure = function(api, connection, actionTemplate, error, next) {
+    api.log("Close all opened connections", "debug");
+    var connectionClosedCount = 0;
+    actionTemplate.databases.forEach(function (databaseName) {
+        var callback;
+        callback = function (err, result) {
+            actionTemplate.dbConnectionMap[databaseName].disconnect();
+            api.log("Connection is closed", "debug");
+            if (err) {
+                connection.error = err;
+                next(connection, false);
+                return;
+            }
+
+            connectionClosedCount += 1;
+            if (connectionClosedCount === actionTemplate.databases.length) {
+                connection.error = error;
+                next(connection, false);
+            }
+        };
+
+        // if the action is transactional, end the transaction
+        if (actionTemplate.transaction === "write") {
+            if (actionTemplate.dbConnectionMap[databaseName].isConnected()) {
+                actionTemplate.dbConnectionMap[databaseName].query('ROLLBACK WORK', [], callback, {
+                    start : function (q) {
+                        api.log('Start to execute ' + q, 'debug');
+                    },
+                    finish : function (f) {
+                        api.log('Finish executing ' + f, 'debug');
+                    },
+                    async : false,
+                    cast : true
+                }).execute();
+            }
+        } else {
+            actionTemplate.dbConnectionMap[databaseName].disconnect();
+            connection.error = error;
+            next(connection, false);
+        }
+    });
+}
+
 /**
  * Expose the "transaction" utility.
  *
@@ -26,45 +69,47 @@ exports.transaction = function (api, next) {
      */
     transactionPreProcessor = function (connection, actionTemplate, next) {
         if (actionTemplate.transaction === "read" || actionTemplate.transaction === "write") {
-            var dbConnectionMap = {}, dbConnection, callback;
+            var dbConnectionMap = {}, dbConnection, callback, connectionOpenedCount = 0;
 
             actionTemplate.databases.forEach(function (databaseName) {
                 dbConnection = api.dataAccess.createConnection(databaseName);
 
                 dbConnectionMap[databaseName] = dbConnection;
+            });
 
-                api.log("to connect " + databaseName);
-
+            actionTemplate.databases.forEach(function (databaseName) {
                 callback = function (err, result) {
                     if (err) {
-                        connection.error = err;
-                        next(connection, false);
+                        handleConnectionFailure(api, connection, actionTemplate, err, next);
+                        return;
                     } else {
                         api.log("Database begin transaction result: " + result, "debug");
                     }
 
-                    next(connection, true);
+                    connectionOpenedCount += 1;
+                    if (connectionOpenedCount === actionTemplate.databases.length) {
+                        api.log("All connections are opened", "debug");
+                        next(connection, true);
+                    }
                 };
 
                 // connnect to the connection
-                dbConnection.on('error', function (err) {
-                    this.disconnect();
+                dbConnectionMap[databaseName].on('error', function (err) {
+                    dbConnectionMap[databaseName].disconnect();
                     api.log("Database connection to " + databaseName + " error: " + err + " " + (err.stack || ''), 'error');
-                    connection.error = err;
-                    next(connection, false);
+                    handleConnectionFailure(api, connection, actionTemplate, err, next);
                 }).connect(function (err) {
                     if (err) {
-                        this.disconnect();
+                        dbConnectionMap[databaseName].disconnect();
                         api.log("Database " + databaseName + " cannot be connected: " + err + " " + (err.stack || ''), 'error');
-                        connection.error = err;
-                        next(connection, false);
+                        handleConnectionFailure(api, connection, actionTemplate, err, next);
                     } else {
                         api.log("Database " + databaseName + " connected", 'info');
 
                         // if the aciton is transactional, start a transaction
                         if (actionTemplate.transaction === "write") {
                             // Begin transaction
-                            this.query('BEGIN WORK', [], callback, {
+                            dbConnectionMap[databaseName].query('BEGIN WORK', [], callback, {
                                 start : function (q) {
                                     api.log('Start to execute ' + q, 'debug');
                                 },
@@ -100,24 +145,31 @@ exports.transaction = function (api, next) {
      * @param {Function} next - The callback function
      */
     transactionPostProcessor = function (connection, actionTemplate, toRender, next) {
-        if (actionTemplate.dbConnection !== null && actionTemplate.dbConnection !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
+        var connectionClosedCount = 0;
+        if (actionTemplate.dbConnectionMap !== null && actionTemplate.dbConnectionMap !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
             actionTemplate.databases.forEach(function (databaseName) {
-                var dbConnection = actionTemplate.dbConnectionMap[databaseName], callback;
+                var callback;
                 callback = function (err, result) {
-                    dbConnection.disconnect();
+                    actionTemplate.dbConnectionMap[databaseName].disconnect();
                     api.log("Connection is closed", "debug");
                     if (err) {
                         connection.error = err;
+                        next(connection);
+                        return;
                     } else {
                         api.log("Database end transaction result: " + result, "debug");
                     }
 
-                    next(connection);
+                    connectionClosedCount += 1;
+                    if (connectionClosedCount === actionTemplate.databases.length) {
+                        api.log("All connections are closed", "debug");
+                        next(connection);
+                    }
                 };
 
                 // if the action is transactional, end the transaction
                 if (actionTemplate.transaction === "write") {
-                    dbConnection.query(connection.error ? 'ROLLBACK WORK' : 'COMMIT WORK', [], callback, {
+                    actionTemplate.dbConnectionMap[databaseName].query(connection.error ? 'ROLLBACK WORK' : 'COMMIT WORK', [], callback, {
                         start : function (q) {
                             api.log('Start to execute ' + q, 'debug');
                         },
@@ -128,7 +180,7 @@ exports.transaction = function (api, next) {
                         cast : true
                     }).execute();
                 } else {
-                    dbConnection.disconnect();
+                    actionTemplate.dbConnectionMap[databaseName].disconnect();
                     next(connection);
                 }
             });

@@ -19,7 +19,7 @@ class Binding : public EventEmitter {
         struct connect_request_t {
             v8::Persistent<v8::Object> context;
             Binding* binding;
-            const char* error;
+            std::string error;
         };
         v8::Persistent<v8::Function>* cbConnect;
 
