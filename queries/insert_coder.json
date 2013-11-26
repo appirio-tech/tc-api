@@ -1,5 +1,5 @@
 {
   "name"    : "insert_coder",
-  "db"      : "tcs_catalog",
+  "db"      : "informixoltp",
   "sqlfile" : "insert_coder"
 }

@@ -89,12 +89,12 @@ var USERS_GROUP_ID = 2;
  * 
  * @param {Object} user - the user to register. It contains the same properties as connection.params of memberRegister action.
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Object} dbConnection - The database connection
+ * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var registerUser = function (user, api, dbConnection, next) {
+var registerUser = function (user, api, dbConnectionMap, next) {
     // Get the next user id
-    api.idGenerator.getNextID("USER_SEQ", dbConnection, function (err, result) {
+    api.idGenerator.getNextID("USER_SEQ", dbConnectionMap, function (err, result) {
         if (err) {
             next(err);
         } else {
@@ -105,27 +105,25 @@ var registerUser = function (user, api, dbConnection, next) {
                     var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U', activationCode;
                     // use user id as activation code for now
                     activationCode = user.id.toString();
-                    api.dataAccess.executeUpdate("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnection, function (err, result) {
+                    api.dataAccess.executeUpdate("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
                 function (callback) {
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
-                        api.dataAccess.executeUpdate("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnection, function (err, result) {
+                        api.dataAccess.executeUpdate("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
                     } else {
                         callback(null, null);
                     }
                 },
-                /* Final Fix issue, don't insert this for now
                 function (callback) {
-                    api.dataAccess.executeUpdate("insert_coder", [user.id, user.country], dbConnection, function(err, result) {
+                    api.dataAccess.executeUpdate("insert_coder", {coderId : user.id, compCountryCode : user.country}, dbConnectionMap, function(err, result) {
                         callback(err, result);
                     });
                 },
-                */
                 function (callback) {
                     // launch a dummy task for ldap
                     var task = new api.task({
@@ -149,7 +147,7 @@ var registerUser = function (user, api, dbConnection, next) {
                         },
                         function (hash, callback) {
                             // insert with the hash password
-                            api.dataAccess.executeUpdate("insert_security_user", {loginId : user.id, userId : user.handle, password : hash, createUserId : null}, dbConnection, function (err, result) {
+                            api.dataAccess.executeUpdate("insert_security_user", {loginId : user.id, userId : user.handle, password : hash, createUserId : null}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -161,13 +159,13 @@ var registerUser = function (user, api, dbConnection, next) {
                     async.waterfall([
                         function (callback) {
                             // get the next email id
-                            api.idGenerator.getNextID("EMAIL_SEQ", dbConnection, function (err, emailId) {
+                            api.idGenerator.getNextID("EMAIL_SEQ", dbConnectionMap, function (err, emailId) {
                                 callback(err, emailId);
                             });
                         },
                         function (emailId, callback) {
                             // insert email
-                            api.dataAccess.executeUpdate("insert_email", {userId : user.id, emailId : emailId, address : user.email}, dbConnection, function (err, result) {
+                            api.dataAccess.executeUpdate("insert_email", {userId : user.id, emailId : emailId, address : user.email}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -179,13 +177,13 @@ var registerUser = function (user, api, dbConnection, next) {
                     async.waterfall([
                         function (callback) {
                             // get the next user group id
-                            api.idGenerator.getNextID("USER_GROUP_SEQ", dbConnection, function (err, userGroupId) {
+                            api.idGenerator.getNextID("USER_GROUP_SEQ", dbConnectionMap, function (err, userGroupId) {
                                 callback(err, userGroupId);
                             });
                         },
                         function (userGroupId, callback) {
                             // insert user group relation for USERS_GROUP_ID
-                            api.dataAccess.executeUpdate("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID}, dbConnection, function (err, result) {
+                            api.dataAccess.executeUpdate("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -197,13 +195,13 @@ var registerUser = function (user, api, dbConnection, next) {
                     async.waterfall([
                         function (callback) {
                             // get the next user group id
-                            api.idGenerator.getNextID("USER_GROUP_SEQ", dbConnection, function (err, userGroupId) {
+                            api.idGenerator.getNextID("USER_GROUP_SEQ", dbConnectionMap, function (err, userGroupId) {
                                 callback(err, userGroupId);
                             });
                         },
                         function (userGroupId, callback) {
                             // insert user group relation for ANONYMOUS_GROUP_ID
-                            api.dataAccess.executeUpdate("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : ANONYMOUS_GROUP_ID}, dbConnection, function (err, result) {
+                            api.dataAccess.executeUpdate("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : ANONYMOUS_GROUP_ID}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -229,11 +227,11 @@ var registerUser = function (user, api, dbConnection, next) {
  * 
  * @param {String} handle - handle to check
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Object} dbConnection - The database connection
+ * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var userHandleExist = function (handle, api, dbConnection, next) {
-    api.dataAccess.executeQuery("check_user_handle_exist", {handle : handle}, dbConnection, function (err, result) {
+var userHandleExist = function (handle, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("check_user_handle_exist", {handle : handle}, dbConnectionMap, function (err, result) {
         if (err) {
             next(err);
         } else {
@@ -252,11 +250,11 @@ var userHandleExist = function (handle, api, dbConnection, next) {
  * 
  * @param {String} handle - the handle to check
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Object} dbConnection - The database connection
+ * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var isExactInvalidHandle = function (handle, api, dbConnection, next) {
-    api.dataAccess.executeQuery("check_invalid_handle", {invalidHandle : handle}, dbConnection, function (err, result) {
+var isExactInvalidHandle = function (handle, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("check_invalid_handle", {invalidHandle : handle}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -277,11 +275,11 @@ var isExactInvalidHandle = function (handle, api, dbConnection, next) {
  * 
  * @param {String} email - the email to check
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Object} dbConnection - The database connection
+ * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var isEmailAvailable = function (email, api, dbConnection, next) {
-    api.dataAccess.executeQuery("get_email_availability", {address : email}, dbConnection, function (err, result) {
+var isEmailAvailable = function (email, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("get_email_availability", {address : email}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -304,11 +302,11 @@ var isEmailAvailable = function (email, api, dbConnection, next) {
  * 
  * @param {String} countryName - the country name to check
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Object} dbConnection - The database connection
+ * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var isCountryNameValid = function (countryName, api, dbConnection, next) {
-    api.dataAccess.executeQuery("check_country_name", {countryName : countryName}, dbConnection, function (err, result) {
+var isCountryNameValid = function (countryName, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("check_country_name", {countryName : countryName}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -330,11 +328,11 @@ var isCountryNameValid = function (countryName, api, dbConnection, next) {
  * 
  * @param {String} socialProviderId - the social provider id to check
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Object} dbConnection - The database connection
+ * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var isSoicalProviderIdValid = function (socialProviderId, api, dbConnection, next) {
-    api.dataAccess.executeQuery("check_social_provider_id", {socialLoginProviderId : socialProviderId}, dbConnection, function (err, result) {
+var isSoicalProviderIdValid = function (socialProviderId, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("check_social_provider_id", {socialLoginProviderId : socialProviderId}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -365,10 +363,10 @@ var isNullOrEmptyString = function (s) {
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Array} checkedHandles The handles that are already checked
- * @param {Object} dbConnection The database connection object
+ * @param {Object} dbConnectionMap The database connection object
  * @param {Function} next The callback to be called after this function is done, the result parameter will be true if the handle is invalid.
  */
-var checkLeadingTrailingNumbers = function (api, handle, checkedHandles, dbConnection, next) {
+var checkLeadingTrailingNumbers = function (api, handle, checkedHandles, dbConnectionMap, next) {
     var head = 0, tail = handle.length - 1, totalCombinations = 0, checked = 0, error = null, valid = true, i, j, extractedHandle, extractedHandles, isExactInvalidHandleCallback;
     // find heading and trailing digits count
     while (head < handle.length && stringUtils.containsOnly(handle.charAt(head), stringUtils.ALPHABET_DIGITS_EN)) {
@@ -425,7 +423,7 @@ var checkLeadingTrailingNumbers = function (api, handle, checkedHandles, dbConne
     // check all possible combinations
     for (i = 0; i < extractedHandles.length; i += 1) {
         if (!error && valid) {
-            isExactInvalidHandle(extractedHandles[i], api, dbConnection, isExactInvalidHandleCallback);
+            isExactInvalidHandle(extractedHandles[i], api, dbConnectionMap, isExactInvalidHandleCallback);
         }
     }
 };
@@ -435,10 +433,10 @@ var checkLeadingTrailingNumbers = function (api, handle, checkedHandles, dbConne
  * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
- * @param {Object} dbConnection The database connection object
+ * @param {Object} dbConnectionMap The database connection object
  * @param {Function} next The callback to be called after this function is done, the result parameter will be true if the handle is invalid.
  */
-var checkInvalidHandle = function (api, handle, dbConnection, next) {
+var checkInvalidHandle = function (api, handle, dbConnectionMap, next) {
     var checked = 0, error = null, valid = true, totalCheck = 0, i, j, res, isExactInvalidHandleCallback, checkedHandles;
 
     checkedHandles = [];
@@ -446,7 +444,7 @@ var checkInvalidHandle = function (api, handle, dbConnection, next) {
     async.waterfall([
         function (callback) {
             // check for exact match
-            isExactInvalidHandle(handle, api, dbConnection, function (err, result) {
+            isExactInvalidHandle(handle, api, dbConnectionMap, function (err, result) {
                 if (err) {
                     next(err);
                 } else {
@@ -461,7 +459,7 @@ var checkInvalidHandle = function (api, handle, dbConnection, next) {
         },
         function (callback) {
            // check for invalid handle removing leading and trailing numbers
-            checkLeadingTrailingNumbers(api, handle, checkedHandles, dbConnection, function (err, result) {
+            checkLeadingTrailingNumbers(api, handle, checkedHandles, dbConnectionMap, function (err, result) {
                 if (err) {
                     next(err);
                 } else {
@@ -514,7 +512,7 @@ var checkInvalidHandle = function (api, handle, dbConnection, next) {
             // perform checking in async fashion
             for (i = 0; i < parts.length; i += 1) {
                 if (!error && valid) {
-                    isExactInvalidHandle(parts[i], api, dbConnection, isExactInvalidHandleCallback);
+                    isExactInvalidHandle(parts[i], api, dbConnectionMap, isExactInvalidHandleCallback);
                 }
             }
         }
@@ -530,10 +528,10 @@ var checkInvalidHandle = function (api, handle, dbConnection, next) {
  * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
- * @param {Object} dbConnection The database connection object
+ * @param {Object} dbConnectionMap The database connection object
  * @param {Function} next The callback to be called after this function is done, the result parameter will be null if the handle is valid, or the message about the invalid handle.
  */
-var validateHandle = function (api, handle, dbConnection, next) {
+var validateHandle = function (api, handle, dbConnectionMap, next) {
     if (isNullOrEmptyString(handle)) {
         next(null, "Handle is required");
     } else {
@@ -564,7 +562,7 @@ var validateHandle = function (api, handle, dbConnection, next) {
             async.waterfall([
                 function (callback) {
                     // check if the handle contains any invalid handle in persistence
-                    checkInvalidHandle(api, handle, dbConnection, function (err, result) {
+                    checkInvalidHandle(api, handle, dbConnectionMap, function (err, result) {
                         if (err) {
                             next(err, null);
                         } else {
@@ -578,7 +576,7 @@ var validateHandle = function (api, handle, dbConnection, next) {
                 },
                 function (callback) {
                     // check if the handle already exists
-                    userHandleExist(handle, api, dbConnection, function (err, result) {
+                    userHandleExist(handle, api, dbConnectionMap, function (err, result) {
                         if (err) {
                             next(err);
                         } else {
@@ -638,10 +636,10 @@ var validateLastName = function (lastName) {
  * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} email The email to check
- * @param {Object} dbConnection The database connection object
+ * @param {Object} dbConnectionMap The database connection object
  * @param {Function} next The callback to be called after this function is done, the result parameter will be null if the email is valid, or the message about the invalid email.
  */
-var validateEmail = function (api, email, dbConnection, next) {
+var validateEmail = function (api, email, dbConnectionMap, next) {
     if (isNullOrEmptyString(email)) {
         next(null, "Email is required");
         return;
@@ -659,7 +657,7 @@ var validateEmail = function (api, email, dbConnection, next) {
     }
 
     // check if the email is taken
-    isEmailAvailable(email, api, dbConnection, function (err, result) {
+    isEmailAvailable(email, api, dbConnectionMap, function (err, result) {
         api.log("email availability check finished", "debug");
         if (err) {
             next(err);
@@ -774,10 +772,11 @@ exports.memberRegister = {
     outputExample : {},
     version : 'v2',
     transaction : 'write',
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        var dbConnection, messages, checkResult;
-        if (this.dbConnection !== null) {
-            dbConnection = this.dbConnection;
+        var dbConnectionMap, messages, checkResult;
+        if (this.dbConnectionMapMap !== null) {
+            dbConnectionMap = this.dbConnectionMap;
             messages = [];
 
             // validate simple input parameters
@@ -794,12 +793,12 @@ exports.memberRegister = {
             // validate parameters that require database access
             async.series({
                 validateEmail: function (callback) {
-                    validateEmail(api, connection.params.email, dbConnection, function (err, result) {
+                    validateEmail(api, connection.params.email, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
                 validateHandle: function (callback) {
-                    validateHandle(api, connection.params.handle, dbConnection, function (err, result) {
+                    validateHandle(api, connection.params.handle, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -808,7 +807,7 @@ exports.memberRegister = {
                     if (checkResult !== null) {
                         callback(null, "Country name is not valid.");
                     } else {
-                        isCountryNameValid(connection.params.country, api, dbConnection, function (err, result) {
+                        isCountryNameValid(connection.params.country, api, dbConnectionMap, function (err, result) {
                             if (result !== true) {
                                 callback(err, "Country name is not valid.");
                             } else {
@@ -823,7 +822,7 @@ exports.memberRegister = {
                         if (checkResult !== null) {
                             callback(null, "Social provider id is not valid.");
                         } else {
-                            isSoicalProviderIdValid(connection.params.socialProviderId, api, dbConnection, function (err, result) {
+                            isSoicalProviderIdValid(connection.params.socialProviderId, api, dbConnectionMap, function (err, result) {
                                 if (result !== true) {
                                     callback(err, "Social provider id is not valid.");
                                 } else {
@@ -870,7 +869,7 @@ exports.memberRegister = {
                         next(connection, true);
                     } else {
                         // register the user into database
-                        registerUser(connection.params, api, dbConnection, function (err, result) {
+                        registerUser(connection.params, api, dbConnectionMap, function (err, result) {
                             if (err) {
                                 api.log("Error occured in server: " + err + " " + (err.stack || ''), "error");
                                 connection.rawConnection.responseHttpCode = apiCodes.serverError;
@@ -886,7 +885,7 @@ exports.memberRegister = {
                     }
                 });
         } else {
-            api.log("dbConnection is null", "error");
+            api.log("dbConnectionMap is null", "error");
             connection.rawConnection.responseHttpCode = apiCodes.serverError;
             connection.response = {message: "No database connection object."};
             next(connection, true);

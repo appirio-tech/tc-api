@@ -167,14 +167,14 @@ exports.dataAccess = function (api, next) {
          * 
          * @param {String} queryName - name of the query to be executed
          * @param {Object} parameters - the map of parameters for sql query. E.g. params {sort: 'asc', limit: 1}
-         * @param {Object} connection - The database connection
+         * @param {Object} connectionMap - The database connection map, with key being the database name and value being the database connection
          * @param {Function<err, result>} next - the callback function
          */
-        executeQuery: function (queryName, parameters, connection, next) {
+        executeQuery: function (queryName, parameters, connectionMap, next) {
             api.log("Execute query '" + queryName + "'", "debug");
             api.log("Query parameters " + JSON.stringify(parameters), "debug");
 
-            var error = helper.checkFunction(next, "next"), sql;
+            var error = helper.checkFunction(next, "next"), sql, connection;
             if (error) {
                 throw error;
             }
@@ -188,6 +188,9 @@ exports.dataAccess = function (api, next) {
                 next(error);
                 return;
             }
+
+            connection = connectionMap[queries[queryName].db];
+
             sql = queries[queryName].sql;
             if (!sql) {
                 api.log('Unregisterd query ' + queryName + ' is asked for.', 'error');
@@ -240,14 +243,14 @@ exports.dataAccess = function (api, next) {
          * 
          * @param {String} queryName - name of the query to be executed
          * @param {Object} parameters - the map of parameters for sql query. E.g. params {sort: 'asc', limit: 1}
-         * @param {Object} connection - The database connection
+         * @param {Object} connectionMap - The database connection map, with key being the database name and value being the database connection
          * @param {Function<err, result>} next - the callback function
          */
-        executeUpdate: function (queryName, parameters, connection, next) {
+        executeUpdate: function (queryName, parameters, connectionMap, next) {
             api.log("Execute query '" + queryName + "'", "debug");
             api.log("Query parameters " + JSON.stringify(parameters), "debug");
 
-            var error = helper.checkFunction(next, "next"), sql;
+            var error = helper.checkFunction(next, "next"), sql, connection;
             if (error) {
                 throw error;
             }
@@ -261,6 +264,9 @@ exports.dataAccess = function (api, next) {
                 next(error);
                 return;
             }
+
+            connection = connectionMap[queries[queryName].db];
+
             sql = queries[queryName].sql;
             if (!sql) {
                 api.log('Unregisterd query ' + queryName + ' is asked for.', 'error');
