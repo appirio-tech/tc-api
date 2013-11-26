@@ -120,7 +120,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     }
                 },
                 function (callback) {
-                    api.dataAccess.executeUpdate("insert_coder", {coderId : user.id, compCountryCode : user.country}, dbConnectionMap, function(err, result) {
+                    api.dataAccess.executeUpdate("insert_coder", {coderId : user.id, compCountryCode : user.country}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },

@@ -8,7 +8,7 @@
 
 /*jslint unparam: true */
 
-var handleConnectionFailure = function(api, connection, actionTemplate, error, next) {
+var handleConnectionFailure = function (api, connection, actionTemplate, error, next) {
     api.log("Close all opened connections", "debug");
     var connectionClosedCount = 0;
     actionTemplate.databases.forEach(function (databaseName) {
@@ -49,7 +49,7 @@ var handleConnectionFailure = function(api, connection, actionTemplate, error, n
             next(connection, false);
         }
     });
-}
+};
 
 /**
  * Expose the "transaction" utility.
@@ -82,8 +82,6 @@ exports.transaction = function (api, next) {
                     if (err) {
                         handleConnectionFailure(api, connection, actionTemplate, err, next);
                         return;
-                    } else {
-                        api.log("Database begin transaction result: " + result, "debug");
                     }
 
                     connectionOpenedCount += 1;
@@ -156,8 +154,6 @@ exports.transaction = function (api, next) {
                         connection.error = err;
                         next(connection);
                         return;
-                    } else {
-                        api.log("Database end transaction result: " + result, "debug");
                     }
 
                     connectionClosedCount += 1;
