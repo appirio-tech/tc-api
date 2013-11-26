@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, mekanizumu
+ * @changes from 1.0
+ * merged with Member Registration API
  */
 "use strict";
 var async = require('async');
@@ -73,10 +75,10 @@ var contestTypes = {
  * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnection The database connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next The callback to be called after this function is done
  */
-var getTops = function (api, connection, dbConnection, next) {
+var getTops = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
         sqlParams = {},
         pageIndex,
@@ -111,7 +113,7 @@ var getTops = function (api, connection, dbConnection, next) {
             sqlParams.fri = (pageIndex - 1) * pageSize;
             sqlParams.ps = pageSize;
             sqlParams.phaseId = contestTypes[contestType].phaseId;
-            api.dataAccess.executeQuery(active ? "get_tops_active_count" : "get_tops_count", sqlParams, dbConnection, cb);
+            api.dataAccess.executeQuery(active ? "get_tops_active_count" : "get_tops_count", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 cb(new Error('no rows returned from get_tops_count'));
@@ -122,7 +124,7 @@ var getTops = function (api, connection, dbConnection, next) {
             result.pageIndex = pageIndex;
             result.pageSize = pageIndex === -1 ? total : pageSize;
             result.data = [];
-            api.dataAccess.executeQuery(active ? "get_tops_active" : "get_tops", sqlParams, dbConnection, cb);
+            api.dataAccess.executeQuery(active ? "get_tops_active" : "get_tops", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             var rank = (pageIndex - 1) * pageSize + 1;
             if (rows.length === 0) {
@@ -165,12 +167,13 @@ exports.action = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
+    databases : ["topcoder_dw", "tcs_dw"],
     run : function (api, connection, next) {
-        if (this.dbConnection) {
+        if (this.dbConnectionMap) {
             api.log("Execute getTops#run", 'debug');
-            getTops(api, connection, this.dbConnection, next);
+            getTops(api, connection, this.dbConnectionMap, next);
         } else {
-            api.log("dbConnection is null", "debug");
+            api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
             connection.response = {message: "No connection object."};
             next(connection, true);

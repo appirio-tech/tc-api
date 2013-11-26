@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: vangavroche
+ * @version 1.1
+ * @author vangavroche, mekanizumu
+ * @changes from 1.0
+ * merged with Member Registration API
  */
 "use strict";
 
@@ -11,11 +13,11 @@
  * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnection The database connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function} next The callback to be called after this function is done
  */
-var getContestTypes = function (api, connection, dbConnection, next) {
-    api.dataAccess.executeQuery("get_contest_types", {}, dbConnection, function (err, result) {
+var getContestTypes = function (api, connection, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("get_contest_types", {}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -44,12 +46,13 @@ exports.contestTypes = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
+    databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnection) {
+        if (this.dbConnectionMap) {
             api.log("Execute contestTypes#run", 'debug');
-            getContestTypes(api, connection, this.dbConnection, next);
+            getContestTypes(api, connection, this.dbConnectionMap, next);
         } else {
-            api.log("dbConnection is null", "debug");
+            api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
             connection.response = {message: "No connection object."};
             next(connection, true);
@@ -71,12 +74,13 @@ exports.contestTypesSecured = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
+    databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnection) {
+        if (this.dbConnectionMap) {
             api.log("Execute contestTypesSecured#run", 'debug');
-            getContestTypes(api, connection, this.dbConnection, next);
+            getContestTypes(api, connection, this.dbConnectionMap, next);
         } else {
-            api.log("dbConnection is null", "debug");
+            api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
             connection.response = {message: "No connection object."};
             next(connection, true);
