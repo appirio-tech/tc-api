@@ -844,9 +844,17 @@ nodejs_db::Query::eioExecute(eio_req* eioRequest) {
     assert(request);
 
     try {
+        // Start Changed by pvmagacho - check connection is ok
+        if (request == NULL || request->query == NULL ||
+            request->query->connection == NULL || !request->query->connection->isAlive()) {
+            throw nodejs_db::Exception("No open connection");
+        }
+        // End Changed by pvmagacho - check connection is ok
+
+        // Start Changed by pvmagacho - global lock
         request->query->connection->lock();
         request->result = request->query->execute();
-        request->query->connection->unlock();
+        // End Changed by pvmagacho - global lock
 
 #ifdef DEBUG
         std::cout << "Result is ";
@@ -889,7 +897,9 @@ nodejs_db::Query::eioExecute(eio_req* eioRequest) {
                         throw nodejs_db::Exception("Could not create buffer for column lengths");
                     }
 
-                    row->columns = new std::vector<std::string>(size_t(request->columnCount));
+                    // Start Changed by pvmagacho - removed size initializer
+                    row->columns = new std::vector<std::string>();
+                    // End Changed by pvmagacho
                     if (row->columns == NULL) {
                         throw nodejs_db::Exception("Could not create buffer for columns");
                     }
@@ -898,6 +908,7 @@ nodejs_db::Query::eioExecute(eio_req* eioRequest) {
                     std::cout << std::endl;
 #endif
                     for (uint16_t i = 0; i < request->columnCount; ++i) {
+
 #ifdef DEBUG
                         std::cout
                             << "Column: " << i
@@ -905,6 +916,7 @@ nodejs_db::Query::eioExecute(eio_req* eioRequest) {
                             << " Value: " << currentRow->at(i)
                             << std::endl;
 #endif
+
                         row->columnLengths[i] = columnLengths[i];
                         row->columns->push_back(currentRow->at(i));
                     }
@@ -920,6 +932,9 @@ nodejs_db::Query::eioExecute(eio_req* eioRequest) {
             std::cout << std::endl;
 #endif
         }
+        // Start Changed by pvmagacho - global lock
+        request->query->connection->unlock();
+        // End Changed by pvmagacho - global lock
     } catch(const nodejs_db::Exception& exception) {
         request->query->connection->unlock();
         Query::freeRequest(request, false);
@@ -1336,6 +1351,24 @@ v8::Handle<v8::Value> nodejs_db::Query::set(const v8::Arguments& args) {
         this->sql.str("");
         this->sql.clear();
         this->sql << *initialSql;
+
+        // manually check if it is a SELECT SQL
+        // tolower
+        std::string lowersql(this->sql.str());
+        std::transform(lowersql.begin(), lowersql.end(), lowersql.begin(), ::tolower);
+        std::string::iterator it = lowersql.begin();
+         // skip heading spaces
+        while (it != lowersql.end() && *it == ' ') it++;
+        lowersql.erase(lowersql.begin(), it);
+
+        if (lowersql.find("select ") == 0)
+            this->sqlType = Query::SELECT;
+        else if (lowersql.find("insert ") == 0)
+            this->sqlType = Query::INSERT;
+        else if (lowersql.find("update ") == 0)
+            this->sqlType = Query::UPDATE;
+        else if (lowersql.find("delete ") == 0)
+            this->sqlType = Query::DELETE;
     }
 
     if (optionsIndex >= 0) {

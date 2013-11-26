@@ -1,0 +1,5 @@
+{
+  "name"    : "check_country_name",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "check_country_name"
+}

@@ -1,14 +1,22 @@
+#include <iostream>
 #include "connection.h"
+
+// Start Changed by pvmagacho - global lock
+pthread_mutex_t nodejs_db::Connection::staticConnectionLock = PTHREAD_MUTEX_INITIALIZER;
+// End Changed by pvmagacho - global lock
 
 nodejs_db::Connection::Connection()
     :quoteString('\''),
     alive(false),
     quoteName('\'') {
-    pthread_mutex_init(&(this->connectionLock), NULL);
+
+    // Start Changed by pvmagacho - global lock
+    this->connectionLock = &(this->staticConnectionLock);
+    // End Changed by pvmagacho - global lock
 }
 
 nodejs_db::Connection::~Connection() {
-    pthread_mutex_destroy(&(this->connectionLock));
+    // pthread_mutex_destroy(&(this->connectionLock));
 }
 
 std::string nodejs_db::Connection::getHostname() const {
@@ -93,9 +101,13 @@ std::string nodejs_db::Connection::escapeName(const std::string& string) const t
 }
 
 void nodejs_db::Connection::lock() {
-    pthread_mutex_lock(&(this->connectionLock));
+    // Start Changed by pvmagacho - global lock
+    pthread_mutex_lock(this->connectionLock);
+    // End Changed by pvmagacho - global lock
 }
 
 void nodejs_db::Connection::unlock() {
-    pthread_mutex_unlock(&(this->connectionLock));
+    // Start Changed by pvmagacho - global lock
+    pthread_mutex_unlock(this->connectionLock);
+    // End Changed by pvmagacho - global lock
 }

@@ -7,7 +7,6 @@
 #include <stdexcept>
 #include "nodejs-db/exception.h"
 #include "nodejs-db/result.h"
-
 #include <ostream>
 
 namespace nodejs_db_informix {

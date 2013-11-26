@@ -21,22 +21,55 @@ Platform APIs
         }
 
 # Group Registration
-Register a new user.
-
 ## Users [/users]
+### Register a new user [POST]
+
++ Parameters
+    + firstName (required, string, `John`) ... The first name, can't be null or empty, must be alphabetic
+    + lastName (required, string, `Jones`) ... The last name, can't be null or empty, must be alphabetic 
+    + handle (required, string, `Foobar`) ... The handle name, can't be null or empty, must be a valid handle 
+    + country (required, string, `Angola`) ... The country name. can't be null or empty, must be a valid country name
+    + email (required, string, `foobar@foobar.com`) ... The email, can't be null or empty, must be a valid email address
+    + password (required, string, `123456`) ... The password.
+    + socialProviderId (optional, number, `1`) ... The social provider id, must be a valid id in the persistence
+    + socialUserName (optional, string, `foobar`) ... The social user name, can't be null or empty, must be a valid user name, must be present when socialProviderId is not null
+    + socialEmail (optional, string, `foobar@foobar.com`) ... The social email, can't be null or empty, must be a valid email address, must be present when socialProviderId is not null
+    + socialEmailVerified (optional, string, `t`) ... The social email verified flag, must be 't' or 'f', must be present when socialProviderId is not null
+
 + Model (application/json)
 
         {
-            "firstname" : "John",
-            "lastname" : "Doe",
+            "firstName" : "John",
+            "lastName" : "Doe",
             "handle" : "uniqueLogin",
             "country" : "UK",
             "email" : "name@domain.com",
             "password" : "HashedPassword",
-            "socialProvider" : "google",
+            "socialProviderId" : "google",
             "socialUserName" : "JohnsGoogleName",
             "socialEmail" : "john@gmail.com",
-            "socialEmailVerified" : "true"
+            "socialEmailVerified" : "t"
+        }
+
++ Response 200 (application/json)
+        {
+                "userId":123456
+        }
+
++ Response 400 (application/json)
+        {
+                "message": [
+                    "Country name is not valid.",
+                    "Email is required",
+                    "First name is required",
+                    "Handle is required",
+                    "Last name is required"
+                ]
+        }
+
++ Response 500 (application/json)
+        {
+                "message": "A Connection error has occured."
         }
 
 ### Create a new user [POST]

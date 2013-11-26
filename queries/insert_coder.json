@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_coder",
+  "db"      : "informixoltp",
+  "sqlfile" : "insert_coder"
+}

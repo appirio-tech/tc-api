@@ -1,0 +1,1 @@
+login_id, group_id from user_group_xref x, user u where u.handle = 'testHandleFoo' and u.user_id=x.login_id

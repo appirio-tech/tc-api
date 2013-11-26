@@ -1,3 +1,4 @@
+#include <iostream>
 #include "binding.h"
 
 nodejs_db::Binding::Binding(): nodejs_db::EventEmitter(), connection(NULL), cbConnect(NULL) {
@@ -88,14 +89,13 @@ v8::Handle<v8::Value> nodejs_db::Binding::Connect(const v8::Arguments& args) {
         }
     }
 
-    connect_request_t* request = new connect_request_t();
+	connect_request_t* request = new connect_request_t();
     if (request == NULL) {
         THROW_EXCEPTION("Could not create EIO request")
     }
 
     request->context = v8::Persistent<v8::Object>::New(args.This());
     request->binding = binding;
-    request->error = NULL;
 
     if (async) {
         request->binding->Ref();
@@ -126,7 +126,7 @@ void nodejs_db::Binding::connect(connect_request_t* request) {
     try {
         request->binding->connection->open();
     } catch(const nodejs_db::Exception& exception) {
-        request->error = exception.what();
+        request->error = std::string(exception.what() != NULL ? exception.what() : "(unknown error)");
     }
 }
 
@@ -146,7 +146,7 @@ void nodejs_db::Binding::connectFinished(connect_request_t* request) {
 
         request->binding->Emit("ready", 1, &argv[1]);
     } else {
-        argv[0] = v8::String::New(request->error != NULL ? request->error : "(unknown error)");
+        argv[0] = v8::String::New(request->error.c_str());
 
         request->binding->Emit("error", 1, argv);
     }
@@ -169,7 +169,11 @@ void nodejs_db::Binding::uvConnect(uv_work_t* uvRequest) {
     connect_request_t* request = static_cast<connect_request_t*>(uvRequest->data);
     assert(request);
 
+    // Start Changed by pvmagacho - lock
+    request->binding->connection->lock();
     connect(request);
+	request->binding->connection->unlock();
+    // End Changed by pvmagacho - lock
 }
 
 void nodejs_db::Binding::uvConnectFinished(uv_work_t* uvRequest, int status) {
@@ -200,7 +204,12 @@ nodejs_db::Binding::eioConnect(eio_req* eioRequest) {
     connect_request_t* request = static_cast<connect_request_t*>(eioRequest->data);
     assert(request);
 
+    // Start Changed by pvmagacho - lock
+    request->binding->connection->lock();
     connect(request);
+    request->binding->connection->unlock();
+    // End Changed by pvmagacho - lock
+
 #if !NODE_VERSION_AT_LEAST(0, 5, 0)
     return 0;
 #endif
@@ -227,7 +236,15 @@ v8::Handle<v8::Value> nodejs_db::Binding::Disconnect(const v8::Arguments& args) 
     nodejs_db::Binding* binding = node::ObjectWrap::Unwrap<nodejs_db::Binding>(args.This());
     assert(binding);
 
-    binding->connection->close();
+    // Start Changed by pvmagacho - lock
+    try {
+        binding->connection->lock();
+        binding->connection->close();
+        binding->connection->unlock();
+    } catch(const nodejs_db::Exception& exception) {
+        binding->connection->unlock();
+    }
+    // End Changed by pvmagacho - lock
 
     return scope.Close(v8::Undefined());
 }

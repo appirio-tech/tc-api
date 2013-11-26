@@ -1,8 +1,10 @@
 ﻿/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, mekanizumu
+ * @changes from 1.0
+ * merged with Member Registration API
  */
 "use strict";
 
@@ -354,10 +356,11 @@ function transferResult(src) {
  * 
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  * @param {Boolean} software - The flag if search only software contests
  */
-var searchContests = function (api, connection, next, software) {
+var searchContests = function (api, connection, dbConnectionMap, next, software) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
@@ -438,10 +441,10 @@ var searchContests = function (api, connection, next, software) {
             sqlParams.ps = pageSize;
             sqlParams.sf = sortColumn.toLowerCase();
             sqlParams.sd = sortOrder.toLowerCase();
-            api.dataAccess.executeQuery(commandCount, sqlParams, cb);
+            api.dataAccess.executeQuery(commandCount, sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             total = rows[0].total;
-            api.dataAccess.executeQuery(command, sqlParams, cb);
+            api.dataAccess.executeQuery(command, sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 cb(new NotFoundError("No results found"));
@@ -468,9 +471,10 @@ var searchContests = function (api, connection, next, software) {
  * 
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var getContest = function (api, connection, next) {
+var getContest = function (api, connection, dbConnectionMap, next) {
     var contest, error, helper = api.helper, sqlParams;
     async.waterfall([
         function (cb) {
@@ -480,7 +484,7 @@ var getContest = function (api, connection, next) {
                 return;
             }
             sqlParams = { contestId: connection.params.contestId };
-            api.dataAccess.executeQuery("contest_details", sqlParams, cb);
+            api.dataAccess.executeQuery("contest_details", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             var data = rows[0], i, prize;
             if (rows.length === 0) {
@@ -570,9 +574,18 @@ exports.getContest = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        api.log("Execute getContest#run", 'debug');
-        getContest(api, connection, next);
+        if (this.dbConnectionMap) {
+            api.log("Execute getContest#run", 'debug');
+            getContest(api, connection, this.dbConnectionMap, next);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };
 
@@ -589,9 +602,18 @@ exports.searchSoftwareContests = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        api.log("Execute searchSoftwareContests#run", 'debug');
-        searchContests(api, connection, next, true);
+        if (this.dbConnectionMap) {
+            api.log("Execute searchContests#run", 'debug');
+            searchContests(api, connection, this.dbConnectionMap, next, true);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };
 

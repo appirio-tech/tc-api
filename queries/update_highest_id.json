@@ -1,0 +1,5 @@
+{
+  "name"    : "update_highest_id",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "update_highest_id"
+}

@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_security_user",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "insert_security_user"
+}

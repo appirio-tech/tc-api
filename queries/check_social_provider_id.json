@@ -1,0 +1,5 @@
+{
+  "name"    : "check_social_provider_id",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "check_social_provider_id"
+}
