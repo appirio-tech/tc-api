@@ -19,16 +19,16 @@ SELECT
     pc.project_type_id AS projectType, 
     projectSpec.detailed_requirements_text AS descText, 
     projectStudioSpec.contest_introduction AS studioDescHtml 
-, NVL(tmpprize1.prize_amount, 0) as firstPrize
-, NVL(tmpprize1.prize_amount, -1) * 0.2 as reliabilityBonus
-, NVL(tmpprize1.prize_amount, -1) as prize1
-, NVL(tmpprize2.prize_amount, -1) as prize2
-, NVL(tmpprize3.prize_amount, -1) as prize3
-, NVL(tmpprize4.prize_amount, -1) as prize4
-, NVL(tmpprize5.prize_amount, -1) as prize5
-, NVL(tmpprize6.prize_amount, -1) as prize6
-, NVL(tmpprize7.prize_amount, -1) as prize7
-, NVL(tmpprize8.prize_amount, -1) as prize8
+, prizes.prize1
+, prizes.prize1 * 0.2 as reliabilityBonus
+, prizes.prize1
+, prizes.prize2
+, prizes.prize3
+, prizes.prize4
+, prizes.prize5
+, prizes.prize6
+, prizes.prize7
+, prizes.prize8
 , 0 AS numberOfUnratedRegistrants
 , 0 AS numberOfRatedRegistrants
 , 0 as numberOfSubmissions
@@ -65,14 +65,17 @@ FROM
     ) phase ON p.project_id = phase.project_id  
     LEFT JOIN project_catalog_lu c ON c.project_catalog_id = pc.project_catalog_id  
     LEFT JOIN project_spec projectSpec ON projectSpec.project_id = p.project_id AND projectSpec.version = (SELECT max(version) FROM project_spec WHERE project_id = p.project_id)
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 1 ) tmpprize1 on p.project_id = tmpprize1.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 2 ) tmpprize2 on p.project_id = tmpprize2.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 3 ) tmpprize3 on p.project_id = tmpprize3.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 4 ) tmpprize4 on p.project_id = tmpprize4.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 5 ) tmpprize5 on p.project_id = tmpprize5.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 6 ) tmpprize6 on p.project_id = tmpprize6.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 7 ) tmpprize7 on p.project_id = tmpprize7.project_id
-    LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 8 ) tmpprize8 on p.project_id = tmpprize8.project_id
+    LEFT JOIN (
+        select project_id
+        , max(case when place = 1 then prize_amount else -1 end) as prize1
+        , max(case when place = 2 then prize_amount else -1 end) as prize2
+        , max(case when place = 3 then prize_amount else -1 end) as prize3
+        , max(case when place = 4 then prize_amount else -1 end) as prize4
+        , max(case when place = 5 then prize_amount else -1 end) as prize5
+        , max(case when place = 6 then prize_amount else -1 end) as prize6
+        , max(case when place = 7 then prize_amount else -1 end) as prize7
+        , max(case when place = 8 then prize_amount else -1 end) as prize8 
+        from prize where prize_type_id = 15 group by project_id) prizes ON p.project_id = prizes.project_id        
     LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.project_studio_spec_id = p.project_studio_spec_id,
     project_info digitalRunFlagInfo 
 WHERE 
@@ -91,8 +94,8 @@ WHERE
     AND EXTEND(phase.submissionEndDate, year to day) <= '@subendend@'
     AND EXTEND(phase.submissionEndDate, year to day) >= '@subendstart@'
     AND p.tc_direct_project_id = DECODE(@tcdirectid@, 0, p.tc_direct_project_id, @tcdirectid@)
-    AND projectInfo.firstPrize >= @prilower@
-    AND projectInfo.firstPrize <= @priupper@
+    AND prizes.prize1 >= @prilower@
+    AND prizes.prize1 <= @priupper@
     AND LOWER(pc.description) = DECODE('@ctn@', '', LOWER(pc.description), '@ctn@')
     AND NVL(LOWER(c.name), '') = DECODE('@catalog@', '', NVL(LOWER(c.name), ''))
 ORDER BY @sf@ @sd@
