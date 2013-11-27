@@ -4,6 +4,21 @@ HOST: http://api.topcoder.com/v2
 # TopCoder API
 Programmatically access TopCoder contests and members.
 
+# Group Platform
+Platform APIs
+
+## Activity Summary [/platform/activitySummary]
+### Get Activity Summary [GET]
+
++ Response 200 (application/json)
+
+        {
+            "activeContestsCount": 50,
+            "activeMembersCount": 500000,
+            "activeProjectsCount": 30,
+            "completedProjectsCount": 500,
+            "prizePurse": "$100000"
+        }
 
 # Group Registration
 Register a new user.
@@ -1675,6 +1690,7 @@ Register a new user.
                     "divIITotalSolutionsChallenged": 486,
                     "divIIAverageSolutionsChallenged": 1.19
                 }
+            ]
         }
 
 + Response 400 (application/json)
@@ -1755,6 +1771,7 @@ Register a new user.
                     "winnerHandle": "ACRush",
                     "winnerScore": 999534.81
                 }
+            ]
         }
 
 + Response 400 (application/json)

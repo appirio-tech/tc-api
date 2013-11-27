@@ -1,0 +1,7 @@
+[
+  {
+    "login_id": 22758854,
+    "user_id": "testHandleFoo",
+    "password": "$2a$10$EZjlLlO1KIs0fy.0Bq35D.TfN14G.wdJE2qCj8y3hu973yCUEyf0e"
+  }
+]

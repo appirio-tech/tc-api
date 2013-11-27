@@ -1,0 +1,1 @@
+INSERT INTO user_group_xref (user_group_id, login_id, group_id, create_user_id, security_status_id) VALUES (@userGroupId@, @loginId@, @groupId@, 1, 1)

@@ -89,7 +89,17 @@ then
                         TC_DB_PORT=2021 \
                         TC_DB_USER=informix \
                         TC_DB_PASSWORD=1nf0rm1x \
-                        TC_API_HOST=api.topcoder.com
+                        TC_API_HOST=api.topcoder.com \
+                        TC_LDAP_HOST=54.221.107.21 \
+                        TC_LDAP_PORT=636 \
+                        TC_LDAP_PASSWORD=secret \
+                        TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com" \
+                        TC_BIND_DN="cn=Manager,dc=topcoder,dc=com" \
+                        TC_EMAIL_HOST=smtp.gmail.com \
+                        TC_EMAIL_HOST_PORT=465 \
+                        TC_EMAIL_ACCOUNT=tc.ldap.test@gmail.com \
+                        TC_EMAIL_PASSWORD=tc_public_email \
+                        TC_EMAIL_TEMPLATE_DIR=mail_templates
 
     heroku config:set BUILDPACK_URL=https://github.com/cloudspokes/tc-api-heroku-buildpack.git
 fi

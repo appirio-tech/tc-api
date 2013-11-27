@@ -1,0 +1,1 @@
+INSERT INTO security_user(login_id, user_id, password, create_user_id) VALUES(@loginId@, '@userId@', '@password@', @createUserId@)

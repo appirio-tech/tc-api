@@ -1,0 +1,4 @@
+[
+    "Social provider id is not valid.",
+    "The handle you entered is not valid"
+]

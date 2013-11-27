@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_social_account",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "insert_social_account"
+}
