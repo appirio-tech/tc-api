@@ -516,7 +516,7 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                     contest.prize.push(prize);
                 }
             }
-            api.dataAccess.executeQuery("contest_registrants", sqlParams, cb);
+            api.dataAccess.executeQuery("contest_registrants", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             rows.forEach(function (item) {
                 contest.registrants.push({
@@ -525,7 +525,7 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                     registrationDate: formatDate(item.inquiry_date)
                 });
             });
-            api.dataAccess.executeQuery("contest_submissions", sqlParams, cb);
+            api.dataAccess.executeQuery("contest_submissions", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             var passedReview = 0, drTable;
             rows.forEach(function (item) {
