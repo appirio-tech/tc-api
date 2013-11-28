@@ -15,6 +15,7 @@ FIRST @ps@
 , project.project_id AS contestId 
 , project.tc_direct_project_id AS projectId 
 , projectCategory.project_type_id AS projectType 
+, prizes.prize1 as firstprize
 , prizes.prize1
 , prizes.prize1 * 0.2 as reliabilityBonus
 , prizes.prize1

@@ -13,13 +13,13 @@ var request = require('supertest');
 var assert = require('chai').assert;
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var ACTION = '/v2/software/statistics/tops/';
+var ACTION = '/v2/develop/statistics/tops/';
 
 describe('Get Tops API', function () {
     this.timeout(30000);
     var total, pageSize, pageIndex, i, data, r;
 
-    describe('GET /software/statistics/tops/design', function () {
+    describe('GET /develop/statistics/tops/design', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -59,7 +59,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/design', function () {
+    describe('GET /develop/statistics/tops/design', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -99,7 +99,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/design', function () {
+    describe('GET /develop/statistics/tops/design', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -137,7 +137,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/development', function () {
+    describe('GET /develop/statistics/tops/development', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -177,7 +177,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/conceptualization', function () {
+    describe('GET /develop/statistics/tops/conceptualization', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -217,7 +217,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/specification', function () {
+    describe('GET /develop/statistics/tops/specification', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -257,7 +257,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/architecture', function () {
+    describe('GET /develop/statistics/tops/architecture', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -297,7 +297,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/assembly', function () {
+    describe('GET /develop/statistics/tops/assembly', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -337,7 +337,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/test_suites', function () {
+    describe('GET /develop/statistics/tops/test_suites', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -377,7 +377,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/test_scenarios', function () {
+    describe('GET /develop/statistics/tops/test_scenarios', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -417,7 +417,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/ui_prototype', function () {
+    describe('GET /develop/statistics/tops/ui_prototype', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -457,7 +457,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/content_creation', function () {
+    describe('GET /develop/statistics/tops/content_creation', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -497,7 +497,7 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /software/statistics/tops/ria_build', function () {
+    describe('GET /develop/statistics/tops/ria_build', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {

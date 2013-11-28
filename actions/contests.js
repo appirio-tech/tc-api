@@ -142,7 +142,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {String} type - the type of contest.
  * @param {Function<err>} callback - the callback function.
  */
-function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, callback) {
+function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
@@ -172,7 +172,7 @@ function validateInputParameter(helper, query, filter, pageIndex, pageSize, sort
         return;
     }
     if (_.isDefined(query.type)) {
-        helper.isCategoryNameValid(query.type, callback);
+        helper.isCategoryNameValid(query.type, dbConnectionMap, callback);
     } else {
         callback();
     }
@@ -428,7 +428,7 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
 
     async.waterfall([
         function (cb) {
-            validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, cb);
+            validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;

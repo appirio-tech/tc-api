@@ -18,6 +18,7 @@ FIRST @ps@
 , phase.registrationEndDate AS registrationEndDate
 , ratedReg.ctn AS numberOfUnratedRegistrants
 , ratedReg.ctn AS numberOfRatedRegistrants
+, prizes.prize1 as firstprize
 , prizes.prize1
 , prizes.prize1 * 0.2 as reliabilityBonus
 , prizes.prize1

@@ -9,6 +9,7 @@ FIRST @ps@
 , projectStudioSpec.contest_introduction AS studioDescHtml
 , ratedReg.ctn AS numberOfUnratedRegistrants
 , ratedReg.ctn AS numberOfRatedRegistrants
+, prizes.prize1 as firstprize
 , prizes.prize1
 , prizes.prize1 * 0.2 as reliabilityBonus
 , prizes.prize1

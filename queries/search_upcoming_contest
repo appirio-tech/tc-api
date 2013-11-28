@@ -19,6 +19,7 @@ SELECT
     pc.project_type_id AS projectType, 
     projectSpec.detailed_requirements_text AS descText, 
     projectStudioSpec.contest_introduction AS studioDescHtml 
+, prizes.prize1 as firstprize
 , prizes.prize1
 , prizes.prize1 * 0.2 as reliabilityBonus
 , prizes.prize1

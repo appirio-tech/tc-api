@@ -26,14 +26,14 @@ describe('Get Tops Statistics API - ', function () {
         request = require('supertest');
     });
 
-    // Test the topsData /v2/software/statistics/tops/ for failures
-    describe('GET /v2/software/statistics/tops: ', function () {
+    // Test the topsData /v2/develop/statistics/tops/ for failures
+    describe('GET /v2/develop/statistics/tops: ', function () {
 
         /// Check if the data are in expected struture and data
         it('missing contestType - should response api error', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get('/v2/software/statistics/tops')
+            request = request.get('/v2/develop/statistics/tops')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -50,7 +50,7 @@ describe('Get Tops Statistics API - ', function () {
         it('incorrect contestType - should response with bad request', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get('/v2/software/statistics/tops/dummy')
+            request = request.get('/v2/develop/statistics/tops/dummy')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -69,7 +69,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=xx&pageSize=1')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=xx&pageSize=1')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -87,7 +87,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=0&pageSize=1')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=0&pageSize=1')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -105,7 +105,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=-5&pageSize=1')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=-5&pageSize=1')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -123,7 +123,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=1')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=1')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -141,7 +141,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=1&pageSize=xx')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=1&pageSize=xx')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -159,7 +159,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=1&pageSize=-1')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=1&pageSize=-1')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -177,7 +177,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=500&pageSize=5')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=500&pageSize=5')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -195,7 +195,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=1000000000000000000000000000&pageSize=5')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=1000000000000000000000000000&pageSize=5')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -213,7 +213,7 @@ describe('Get Tops Statistics API - ', function () {
             request = request(API_ENDPOINT);
 
             request = request
-                .get('/v2/software/statistics/tops/assembly?pageIndex=1&pageSize=1000000000000000000000000000')
+                .get('/v2/develop/statistics/tops/assembly?pageIndex=1&pageSize=1000000000000000000000000000')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
