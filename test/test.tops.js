@@ -23,7 +23,7 @@ describe('Get Tops API', function () {
 
     function check(type, done) {
         request(API_ENDPOINT)
-            .get('/api/v2/develop/statistics/tops/' + type + '?pageIndex=1&pageSize=2')
+            .get('/v2/develop/statistics/tops/' + type + '?pageIndex=1&pageSize=2')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -50,6 +50,7 @@ describe('Get Tops API', function () {
     it('test design category', function (done) {
         check("design", done);
     });
+    
     it('test development category', function (done) {
         check("development", done);
     });
@@ -62,9 +63,11 @@ describe('Get Tops API', function () {
     it('test architecture category', function (done) {
         check("architecture", done);
     });
+
     it('test assembly category', function (done) {
         check("assembly", done);
     });
+    
     it('test test_suites category', function (done) {
         check("test_suites", done);
     });
@@ -83,7 +86,7 @@ describe('Get Tops API', function () {
 
     it('should return Bad Request. Wrong type', function (done) {
         request(API_ENDPOINT)
-            .get('/api/v2/develop/statistics/tops/zncjsajhdbf')
+            .get('/v2/develop/statistics/tops/zncjsajhdbf')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(400)
@@ -92,7 +95,7 @@ describe('Get Tops API', function () {
 
     it('should return Bad Request. Invalid pageIndex', function (done) {
         request(API_ENDPOINT)
-            .get('/api/v2/develop/statistics/tops/design?pageIndex=xxx')
+            .get('/v2/develop/statistics/tops/design?pageIndex=xxx')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(400)
@@ -101,7 +104,7 @@ describe('Get Tops API', function () {
 
     it('should return Bad Request. Invalid pageSize', function (done) {
         request(API_ENDPOINT)
-            .get('/api/v2/develop/statistics/tops/design?pageIndex=1&pageSize=xxx')
+            .get('/v2/develop/statistics/tops/design?pageIndex=1&pageSize=xxx')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(400)
@@ -110,7 +113,7 @@ describe('Get Tops API', function () {
 
     it('should return Not found', function (done) {
         request(API_ENDPOINT)
-            .get('/api/v2/develop/statistics/tops/design?pageIndex=100&pageSize=200')
+            .get('/v2/develop/statistics/tops/design?pageIndex=100&pageSize=200')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)

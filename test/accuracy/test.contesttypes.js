@@ -19,8 +19,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 describe('Get Contest Types API', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow
 
-    // Test the unprotected /api/v2/contesttypes 
-    describe('GET /api/v2/contesttypes', function () {
+    // Test the unprotected /v2/develop/challengetypes 
+    describe('GET /v2/develop/challengetypes', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -45,7 +45,7 @@ describe('Get Contest Types API', function () {
 
             request = request(API_ENDPOINT);
 
-            request = request.get('/api/v2/contesttypes').set('Accept', 'application/json');
+            request = request.get('/v2/develop/challengetypes').set('Accept', 'application/json');
 
             // should respond with JSON
             request.expect('Content-Type', /json/);
