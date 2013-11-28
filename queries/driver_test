@@ -1,0 +1,1 @@
+select user_id, raw_score, project_id, create_date from project_result where project_id = @projectId@;
