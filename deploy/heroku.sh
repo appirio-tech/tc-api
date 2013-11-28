@@ -23,7 +23,7 @@ do
     if [ "$var" == "launch" ]; then HEROKU_LAUNCH="y"; fi
     if [ "$var" == "config" ]; then HEROKU_CONFIG="y"; fi
     if [ "$var" == "all" ]
-    then 
+    then
 	GIT_CLEAN="y"
         GIT_COMMIT="y"
         HEROKU_CREATE="y"
@@ -84,24 +84,11 @@ fi
 if [ $HEROKU_CONFIG == "y" ]
 then
     echo "INFO: Set environment variables"
-    ### Export the parameters
-    heroku config:set   TC_DB_HOST=50.17.156.219 \
-                        TC_DB_PORT=2021 \
-                        TC_DB_USER=informix \
-                        TC_DB_PASSWORD=1nf0rm1x \
-                        TC_API_HOST=api.topcoder.com \
-                        TC_LDAP_HOST=54.221.107.21 \
-                        TC_LDAP_PORT=636 \
-                        TC_LDAP_PASSWORD=secret \
-                        TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com" \
-                        TC_BIND_DN="cn=Manager,dc=topcoder,dc=com" \
-                        TC_EMAIL_HOST=smtp.gmail.com \
-                        TC_EMAIL_HOST_PORT=465 \
-                        TC_EMAIL_ACCOUNT=tc.ldap.test@gmail.com \
-                        TC_EMAIL_PASSWORD=tc_public_email \
-                        TC_EMAIL_TEMPLATE_DIR=mail_templates
 
-    heroku config:set BUILDPACK_URL=https://github.com/cloudspokes/tc-api-heroku-buildpack.git
+    heroku labs:enable user-env-compile
+
+    ### Export the parameters
+    heroku config:set JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
 fi
 
 #### Upload the code to heroku
@@ -117,10 +104,5 @@ then
     echo "INFO: Start 1 Dyno"
     heroku ps:scale web=1
 fi
-
-
-
-
-
 
 

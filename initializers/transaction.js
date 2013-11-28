@@ -44,7 +44,7 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
                 }).execute();
             }
         } else {
-            actionTemplate.dbConnectionMap[databaseName].disconnect();
+            if (actionTemplate.dbConnectionMap[databaseName]) actionTemplate.dbConnectionMap[databaseName].disconnect();
             connection.error = error;
             next(connection, false);
         }
@@ -62,7 +62,7 @@ exports.transaction = function (api, next) {
     /**
      * The pre processor to create connection and optionally start a transaction.
      * The result will be passed to the "next" callback.
-     * 
+     *
      * @param {Object} connection - the action hero connection
      * @param {Object} actionTemplate - The action template
      * @param {Function} next - The callback function
@@ -136,7 +136,7 @@ exports.transaction = function (api, next) {
     /**
      * The post processor to disconnect a connection and optionally commit/rollback a transaction.
      * The result will be passed to the "next" callback.
-     * 
+     *
      * @param {Object} connection - the action hero connection
      * @param {Object} actionTemplate - The action template
      * @param {Object} toRender - The to render object

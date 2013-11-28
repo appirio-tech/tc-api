@@ -56,6 +56,8 @@ example:
 
 exports.routes = {
     get: [
+        { path: "/:apiVersion/testAsync/:projectId", action: "testAsynchronous" },
+        { path: "/:apiVersion/testSync/:projectId", action: "testSynchronous" },
         { path: "/:apiVersion/develop/challengetypes", action: "contestTypes" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
