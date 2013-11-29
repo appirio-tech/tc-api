@@ -18,6 +18,7 @@
         "async": "~0.2.9",
         "nodejs-db-informix": "*",
         "underscore" : "*",
+	"jdbc" : "*",
         "datejs" : "*",
         "string" : "*",
         "ldapjs" : "*",
