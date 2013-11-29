@@ -13,13 +13,13 @@
 
 # modify this to your VM (or box)'s IP Address, which running a informix database
 # on it and topcoder's database scripts runned.
-TC_DB_HOST=54.224.211.225
+TC_DB_HOST=54.227.148.152
 TC_DB_PORT=2021
 TC_DB_USER=informix
 TC_DB_PASSWORD=1nf0rm1x
 TC_API_HOST=api.topcoder.com
 
-TC_LDAP_HOST=54.221.107.21
+TC_LDAP_HOST=54.227.148.152
 TC_LDAP_PORT=636
 TC_LDAP_PASSWORD=secret
 TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com"
@@ -35,6 +35,7 @@ export TC_DB_HOST TC_DB_PORT TC_DB_USER TC_DB_PASSWORD TC_API_HOST
 export TC_LDAP_HOST TC_LDAP_PORT TC_LDAP_PASSWORD TC_LDAP_MEMBER_BASE_DN TC_BIND_DN
 export TC_EMAIL_HOST TC_EMAIL_HOST_PORT TC_EMAIL_ACCOUNT TC_EMAIL_PASSWORD TC_EMAIL_TEMPLATE_DIR
 
+# comment for CSDK use (C++ informix library)
 export USE_JDBC=YES
 
 # Dir of this script
