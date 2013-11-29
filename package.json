@@ -22,7 +22,7 @@
         "string" : "*",
         "ldapjs" : "*",
         "nodemailer" : "*",
-        "email-templates" : "*"
+        "email-templates" : "*",
         "bcrypt": ">=0.5.*"
     },
     "devDependencies": {
