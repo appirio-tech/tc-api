@@ -84,6 +84,16 @@ var ANONYMOUS_GROUP_ID = 2000118;
 var USERS_GROUP_ID = 2;
 
 /**
+ * The activation email subject.
+ */
+var activationEmailSubject = "Topcoder User Registration Activation";
+
+/**
+ * The activation email sender name.
+ */
+var activationEmailSenderName = "Topcoder API"
+
+/**
  * Register a new user.
  * The result will be passed to the "next" callback.
  * 
@@ -93,6 +103,7 @@ var USERS_GROUP_ID = 2;
  * @param {Function} next - The callback function
  */
 var registerUser = function (user, api, dbConnectionMap, next) {
+    var activationCode;
     // Get the next user id
     api.idGenerator.getNextID("USER_SEQ", dbConnectionMap, function (err, result) {
         if (err) {
@@ -102,7 +113,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             // perform a series of insert
             async.series([
                 function (callback) {
-                    var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U', activationCode;
+                    var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
                     // use user id as activation code for now
                     activationCode = user.id.toString();
                     api.dataAccess.executeUpdate("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
@@ -110,12 +121,22 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
+                    var url, task;
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
                         api.dataAccess.executeUpdate("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
                     } else {
+                        url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
+                        api.log("Activation url: " + url , "debug");
+                        task = new api.task({
+                            name: "sendActivationEmail",
+                            params: {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}
+                        });
+
+                        task.run();
+
                         callback(null, null);
                     }
                 },
@@ -125,10 +146,9 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    // launch a dummy task for ldap
                     var task = new api.task({
-                        name: "ldapDummyTask",
-                        params: {password : user.password}
+                        name: "addMemberProfileLDAPEntry",
+                        params: {userId : user.id, handle : user.handle, password : user.password}
                     });
 
                     task.run();

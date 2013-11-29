@@ -105,7 +105,7 @@ exports.transaction = function (api, next) {
                         api.log("Database " + databaseName + " connected", 'info');
 
                         // if the aciton is transactional, start a transaction
-                        if (actionTemplate.transaction === "write") {
+                        if (actionTemplate.transaction === "write" && dbConnectionMap[databaseName].isConnected()) {
                             // Begin transaction
                             dbConnectionMap[databaseName].query('BEGIN WORK', [], callback, {
                                 start : function (q) {

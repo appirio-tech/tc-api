@@ -13,7 +13,7 @@ var request = require('supertest');
 var assert = require('chai').assert;
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var ACTION = '/v2/software/statistics/tops/';
+var ACTION = '/v2/develop/statistics/tops/';
 
 describe('Get Tops API', function () {
     this.timeout(30000);

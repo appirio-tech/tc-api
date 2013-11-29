@@ -16,3 +16,6 @@ delete from 'informix'.email where address = 'testHandleFoo@foobar.com';
 delete from 'informix'.user_group_xref where login_id = 22758854;
 delete from 'informix'.user_social_login where user_id = 22758854;
 update 'informix'.id_sequences set next_block_start = 22758844 where name = "USER_SEQ";
+delete from 'informix'.user where handle = 'testForEmail';
+delete from 'informix'.security_user where user_id = 'testForEmail';
+delete from 'informix'.email where address = 'testForEmail@foobar.com';

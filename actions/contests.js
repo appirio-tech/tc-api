@@ -630,8 +630,17 @@ exports.searchStudioContests = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        api.log("Execute searchStudioContests#run", 'debug');
-        searchContests(api, connection, next, false);
+        if (this.dbConnectionMap) {
+            api.log("Execute searchStudioContests#run", 'debug');
+            searchContests(api, connection, this.dbConnectionMap, next, false);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };
