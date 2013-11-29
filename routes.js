@@ -61,7 +61,8 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
-        { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" }
+        { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
+        { path: "/:apiVersion/platform/activitySummary", action: "tcDirectFacts" }
     ],
 
     post: [
