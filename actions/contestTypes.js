@@ -25,7 +25,17 @@ var getContestTypes = function (api, connection, dbConnectionMap, next) {
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
-            connection.response = result;
+            var ret = new Array();
+            var len = result.length;
+            for(var i=0; i<result.length; i = i + 1) {
+                var t = {};
+                t.challengeCategoryId = result[i].challengecategoryid;
+                t.challengeTypeId = result[i].challengetypeid;
+                t.name = result[i].name;
+                t.description = result[i].description;
+                ret.push(t);
+            }
+            connection.response = ret;
             next(connection, true);
         }
 
@@ -87,3 +97,4 @@ exports.contestTypesSecured = {
         }
     }
 };
+
