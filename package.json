@@ -13,17 +13,18 @@
         "node": ">=0.8.0"
     },
     "dependencies": {
-        "actionHero": "6.4.1",
+		"actionHero": "6.4.1",
+		"java": "~0.2.2",
         "xml2js": "~0.2.8",
         "async": "~0.2.9",
         "nodejs-db-informix": "*",
         "underscore" : "*",
-	"jdbc" : "*",
+        "jdbc" : "*",
         "datejs" : "*",
         "string" : "*",
         "ldapjs" : "*",
         "nodemailer" : "*",
-        "email-templates" : "*"
+        "email-templates" : "*",
         "bcrypt": ">=0.5.*"
     },
     "devDependencies": {
