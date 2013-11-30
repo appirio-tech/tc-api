@@ -634,7 +634,7 @@ exports.searchStudioContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchContests#run", 'debug');
+            api.log("Execute searchStudioContests#run", 'debug');
             searchContests(api, connection, this.dbConnectionMap, next, false);
         } else {
             api.log("dbConnectionMap is null", "debug");

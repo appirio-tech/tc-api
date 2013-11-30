@@ -209,17 +209,21 @@ exports.dataAccess = function (api, next) {
                 }, function (parametrizedQuery, cb) {
                     sql = parametrizedQuery;
                     api.log("Database connected", 'info');
-                    // Run the query
-                    connection.query("", [], cb, {
-                        start: function (q) {
-                            api.log('Start to execute ' + q, 'debug');
-                        },
-                        finish: function (f) {
-                            api.log('Finish executing ' + f, 'debug');
-                        },
-                        async: false,
-                        cast: true
-                    }).select(sql).execute();
+
+                    // the connection might have been closed due to other errors, so this check must be done
+                    if (connection.isConnected()) {
+                        // Run the query
+                        connection.query("", [], cb, {
+                            start: function (q) {
+                                api.log('Start to execute ' + q, 'debug');
+                            },
+                            finish: function (f) {
+                                api.log('Finish executing ' + f, 'debug');
+                            },
+                            async: false,
+                            cast: true
+                        }).select(sql).execute();
+                    }
                 }
             ], function (err, result) {
                 //error is returned when there is no results
@@ -280,17 +284,20 @@ exports.dataAccess = function (api, next) {
                 }, function (parametrizedQuery, cb) {
                     sql = parametrizedQuery;
                     api.log("Will execute update: " + sql, 'info');
-                    // Run the query
-                    connection.query(sql, [], cb, {
-                        start: function (q) {
-                            api.log('Start to execute ' + q, 'debug');
-                        },
-                        finish: function (f) {
-                            api.log('Finish executing ' + f, 'debug');
-                        },
-                        async: false,
-                        cast: true
-                    }).execute();
+                    // the connection might have been closed due to other errors, so this check must be done
+                    if (connection.isConnected()) {
+                        // Run the query
+                        connection.query(sql, [], cb, {
+                            start: function (q) {
+                                api.log('Start to execute ' + q, 'debug');
+                            },
+                            finish: function (f) {
+                                api.log('Finish executing ' + f, 'debug');
+                            },
+                            async: false,
+                            cast: true
+                        }).execute();
+                    }
                 }
             ], function (err, result) {
                 //error is returned when there is no results

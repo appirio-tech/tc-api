@@ -8,7 +8,7 @@
 #
 
 #export TC_DB_HOST=50.17.156.219
-export TC_DB_HOST=54.224.211.225
+export TC_DB_HOST=54.237.4.144
 export TC_DB_PORT=2021
 export TC_DB_USER=informix
 export TC_DB_PASSWORD=1nf0rm1x
@@ -26,6 +26,7 @@ export TC_EMAIL_ACCOUNT=tc.ldap.test@gmail.com
 export TC_EMAIL_PASSWORD=tc_public_email
 export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
+export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 
 . .profile
 

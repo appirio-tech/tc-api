@@ -16,7 +16,7 @@ var bindings = require("nodejs-db-informix");
 var async = require("async");
 var bcrypt = require('bcrypt');
 
-var API_ENDPOINT = 'http://localhost:8080';
+var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 var queries = {};
 
@@ -83,7 +83,7 @@ describe('prepareData', function () {
 
             // create table
             rs = this
-                .query("delete from coder where coder_id = 22758854"
+                .query("delete from coder where coder_id = 22758854 or coder_id = 22758864"
                     , []
                     , function () {
                         c.disconnect();
@@ -420,6 +420,26 @@ describe('invalidExistingHandleAndEmail', function () {
                     var errMsg = JSON.parse(result.res.text).message;
                     assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
                 }
+                done(err);
+            });
+    });
+});
+
+describe('sendEmail', function () {
+    this.timeout(120000);     // The api with testing remote db could be quit slow
+
+    /// Check if the data are in expected struture and data
+    it('should respond with expected structure and data', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/develop/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testForEmail', email: 'testForEmail@foobar.com', password: '123456', country: 'Angola'})
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, result) {
+                if (!err) {
+                    // examine the sent email manually
+                } 
+
                 done(err);
             });
     });
