@@ -1,4 +1,4 @@
 select project_category_id, project_type_id, name, description 
 from project_category_lu
-WHERE project_type_id IN (1, 2)
+WHERE project_type_id = 3
 order by project_category_id asc
