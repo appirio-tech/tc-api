@@ -62,17 +62,9 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
         { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
-        { path: "/:apiVersion/mockusers", action: "getUsers" },
-        { path: "/:apiVersion/secure/mockusers", action: "getUsersSecured" }
     ],
 
     post: [
         { path: "/:apiVersion/develop/users", action: "memberRegister" },
-        { path: "/:apiVersion/mockusers", action: "createUser"},
-        { path: "/:apiVersion/secure/mockusers", action: "createUserSecured"}
-    ],
-    put: [
-        { path: "/:apiVersion/mockuser/:id", action: "updateUser"},
-        { path: "/:apiVersion/secure/mockuser/:id", action: "updateUserSecured"}
     ]
 };
