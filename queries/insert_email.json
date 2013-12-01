@@ -1,5 +1,5 @@
 {
   "name"    : "insert_email",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "insert_email"
 }
