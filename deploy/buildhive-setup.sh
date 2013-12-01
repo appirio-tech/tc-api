@@ -26,5 +26,5 @@ chmod +x ./deploy/*sh
 # deploy source to Heroku
 ./deploy/heroku.sh all
 
-# run Dredd test
+# run Dredd test, the test is based on dredd.md
 # ./deploy/dredd.sh
