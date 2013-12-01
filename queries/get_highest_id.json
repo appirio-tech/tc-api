@@ -1,5 +1,5 @@
 {
   "name"    : "get_highest_id",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "get_highest_id"
 }

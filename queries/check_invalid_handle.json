@@ -1,5 +1,5 @@
 {
   "name"    : "check_invalid_handle",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "check_invalid_handle"
 }

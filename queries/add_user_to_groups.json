@@ -1,5 +1,5 @@
 {
   "name"    : "add_user_to_groups",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "add_user_to_groups"
 }

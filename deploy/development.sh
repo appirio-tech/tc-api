@@ -8,7 +8,7 @@
 #
 
 #export TC_DB_HOST=50.17.156.219
-export TC_DB_HOST=54.237.4.144
+export TC_DB_HOST=54.196.54.170
 export TC_DB_PORT=2021
 export TC_DB_USER=informix
 export TC_DB_PASSWORD=1nf0rm1x

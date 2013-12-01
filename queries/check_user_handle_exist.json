@@ -1,5 +1,5 @@
 {
   "name"    : "check_user_handle_exist",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "check_user_handle_exist"
 }
