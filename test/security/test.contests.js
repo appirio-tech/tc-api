@@ -17,8 +17,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
     this.timeout(30000); // The api with testing remote db could be quit slow
 
-    // Test the unprotected /v2/software/contests
-    describe('GET /v2/software/contests', function () {
+    // Test the unprotected /v2/design/challenges
+    describe('GET /v2/design/challenges', function () {
 
         beforeEach(function () {
             request = require('supertest');
@@ -27,7 +27,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('incorrect verb', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.post('/v2/software/contests')
+            request = request.post('/v2/design/challenges')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -45,7 +45,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in listType', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get('/v2/software/contests?listType=SELECT * FROM TABLE&listType=ACTIVE')
+            request = request.get('/v2/design/challenges?listType=SELECT * FROM TABLE&listType=ACTIVE')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -63,7 +63,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in sortColumn', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get('/v2/software/contests?sortColumn=SELECT * FROM TABLE&listType=ACTIVE')
+            request = request.get('/v2/design/challenges?sortColumn=SELECT * FROM TABLE&listType=ACTIVE')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -81,7 +81,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in sortOrder', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get('/v2/software/contests?sortOrder=SELECT * FROM TABLE&listType=ACTIVE')
+            request = request.get('/v2/design/challenges?sortOrder=SELECT * FROM TABLE&listType=ACTIVE')
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -99,7 +99,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in catalog', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?catalog=(CASE WHEN (SELECT count(*) from project) = 0 THEN NULL ELSE '' END)")
+            request = request.get("/v2/design/challenges?catalog=(CASE WHEN (SELECT count(*) from project) = 0 THEN NULL ELSE '' END)")
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -117,7 +117,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in prizeLowerBound', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?prizeLowerBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
+            request = request.get("/v2/design/challenges?prizeLowerBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -135,7 +135,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in prizeUpperBound', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?prizeUpperBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
+            request = request.get("/v2/design/challenges?prizeUpperBound=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END) ")
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -153,7 +153,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in projectId', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?projectId=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+            request = request.get("/v2/design/challenges?projectId=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -171,7 +171,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in pageIndex', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?pageIndex=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+            request = request.get("/v2/design/challenges?pageIndex=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -189,7 +189,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in pageSize', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?pageSize=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+            request = request.get("/v2/design/challenges?pageSize=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
                 .set('Accept', 'application/json');
 
             // should respond with JSON
@@ -207,7 +207,7 @@ describe('Topcoder NodeJS Contest Retrieval API v1.0 Security:', function () {
         it('sql injection in type', function (done) {
             request = request(API_ENDPOINT);
 
-            request = request.get("/v2/software/contests?type=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
+            request = request.get("/v2/design/challenges?type=(CASE WHEN (SELECT count(*) from project) = 0 THEN 0 ELSE 1000 END)")
                 .set('Accept', 'application/json');
 
             // should respond with JSON

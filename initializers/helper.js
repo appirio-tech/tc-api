@@ -239,11 +239,12 @@ helper.getLowerCaseList = function (arr) {
 };
 
 /**
-  * This method tests if the given category name is valid or not.
-  * @param {String} name - name of the category.
-  * @param {Function<err>} callback - the callback function
-  */
-helper.isCategoryNameValid = function (name, callback) {
+ * This method tests if the given category name is valid or not.
+ * @param {String} name - name of the category.
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<err>} callback - the callback function
+ */
+helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
     var error = new IllegalArgumentError("The type parameter is not a correct project category value.");
     if (!name) {
         callback(error);
@@ -251,7 +252,7 @@ helper.isCategoryNameValid = function (name, callback) {
     }
     async.waterfall([
         function (cb) {
-            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { ctn: name }, cb);
+            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { ctn: name }, dbConnectionMap, cb);
         }, function (result, cb) {
             if (!result.length) {
                 cb(error);
