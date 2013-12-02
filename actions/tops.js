@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, TCSASSEMBLER
+ * changes in 1.1:
+ * - add stub for Top Ranked Members for studio, SRM and Marathon
  */
 "use strict";
 var async = require('async');
@@ -153,7 +155,7 @@ var getTops = function (api, connection, next) {
 /**
  * The API for getting top users
  */
-exports.action = {
+exports.getTops = {
     name: "getTops",
     description: "getTops",
     inputs : {
@@ -169,3 +171,172 @@ exports.action = {
     }
 };
 
+/**
+ * Sample result from specification for studio top users
+ */
+var sampleStudioTopUsers;
+
+/**
+ * Sample result from specification for srm top users
+ */
+var sampleSRMTopUsers;
+
+/**
+ * Sample result from specification for marathon top users
+ */
+var sampleMarathonTopUsers;
+
+/**
+ * Sample result from specification for srm top users
+ */
+var sampleSRMTopUsers;
+
+
+/**
+ * The API for getting studio top users
+ */
+exports.getStudioTops = {
+    name: "getStudioTops",
+    description: "getStudioTops",
+    inputs : {
+        required: [],
+        optional : []
+    },
+    blockedConnectionTypes : [],
+    outputExample : {},
+    version : 'v2',
+    run : function (api, connection, next) {
+        api.log("Execute getStudioTops#run", 'debug');
+        connection.response = sampleStudioTopUsers;
+        next(connection, true);
+    }
+};
+
+
+/**
+ * The API for getting marathon top users
+ */
+exports.getMarathonTops = {
+    name: "getMarathonTops",
+    description: "getMarathonTops",
+    inputs : {
+        required: ["rankType"],
+        optional : []
+    },
+    blockedConnectionTypes : [],
+    outputExample : {},
+    version : 'v2',
+    run : function (api, connection, next) {
+        api.log("Execute getMarathonTops#run", 'debug');
+        connection.response = sampleMarathonTopUsers;
+        next(connection, true);
+    }
+};
+
+/**
+ * The API for getting srm top users
+ */
+exports.getSRMTops = {
+    name: "getSRMTops",
+    description: "getSRMTops",
+    inputs : {
+        required: ["rankType"],
+        optional : []
+    },
+    blockedConnectionTypes : [],
+    outputExample : {},
+    version : 'v2',
+    run : function (api, connection, next) {
+        api.log("Execute getSRMTops#run", 'debug');
+        connection.response = sampleSRMTopUsers;
+        next(connection, true);
+    }
+};
+
+sampleStudioTopUsers = {
+    "total": 30,
+    "pageIndex": 1,
+    "pageSize": 3,
+    "data": [
+        {
+            "Rank": 1,
+            "Handle": "Petr",
+            "userId": 123457898,
+            "Color": "Red",
+            "numberOfWinningSubmissions": 3000
+        },
+        {
+            "Rank": 2,
+            "Handle": "ACRush",
+            "userId": 123457899,
+            "Color": "Red",
+            "numberOfWinningSubmissions": 2500
+        },
+        {
+            "Rank": 3,
+            "Handle": "lympanda",
+            "userId": 123457891,
+            "Color": "Yellow",
+            "numberOfWinningSubmissions": 2000
+        }
+    ]
+};
+
+sampleMarathonTopUsers = {
+    "total": 30,
+    "pageIndex": 1,
+    "pageSize": 3,
+    "data": [
+        {
+            "Rank": 1,
+            "Name": "University of Tokyo",
+            "Country": "Japan",
+            "Member Count": 73,
+            "Rating": 3000
+        },
+        {
+            "Rank": 2,
+            "Name": "University of Washington",
+            "Country": "USA",
+            "Member Count": 73,
+            "Rating": 3000
+        },
+        {
+            "Rank": 3,
+            "Name": "Tsinghua University",
+            "Country": "China",
+            "Member Count": 73,
+            "Rating": 3000
+        }
+    ]
+};
+
+
+sampleSRMTopUsers = {
+    "total": 30,
+    "pageIndex": 1,
+    "pageSize": 3,
+    "data": [
+        {
+            "Rank": 1,
+            "Name": "University of Tokyo",
+            "Country": "Japan",
+            "Member Count": 73,
+            "Rating": 3000
+        },
+        {
+            "Rank": 2,
+            "Name": "University of Washington",
+            "Country": "USA",
+            "Member Count": 73,
+            "Rating": 3000
+        },
+        {
+            "Rank": 3,
+            "Name": "Tsinghua University",
+            "Country": "China",
+            "Member Count": 73,
+            "Rating": 3000
+        }
+    ]
+};

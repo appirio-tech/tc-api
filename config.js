@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: vangavroche
+ * @version 1.1
+ * @author vangavroche, TCSASSEMBLER
+ * changes in 1.1:
+ * - add defaultCacheLifetime parameter
  */
 "use strict";
 
@@ -40,7 +42,8 @@ configData.general = {
         "log" : __dirname + "/log",
         "server" : __dirname + "/servers",
         "initializer" : __dirname + "/initializers",
-    }
+    },
+    defaultCacheLifetime : 1000 * 60 //60s
 };
 
 /////////////
