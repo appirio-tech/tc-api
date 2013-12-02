@@ -199,12 +199,6 @@ var sampleSRMTopUsers;
 var sampleMarathonTopUsers;
 
 /**
- * Sample result from specification for srm top users
- */
-var sampleSRMTopUsers;
-
-
-/**
  * The API for getting studio top users
  */
 exports.getStudioTops = {
