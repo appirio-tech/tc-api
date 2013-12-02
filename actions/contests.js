@@ -1,10 +1,12 @@
-﻿/*
+/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.1
  * @author Sky_, mekanizumu
  * @changes from 1.0
  * merged with Member Registration API
+ * changes in 1.1:
+ * 1. add stub for Get Studio Contest Detail
  */
 "use strict";
 
@@ -142,7 +144,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {String} type - the type of contest.
  * @param {Function<err>} callback - the callback function.
  */
-function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, callback) {
+function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
@@ -172,7 +174,7 @@ function validateInputParameter(helper, query, filter, pageIndex, pageSize, sort
         return;
     }
     if (_.isDefined(query.type)) {
-        helper.isCategoryNameValid(query.type, callback);
+        helper.isCategoryNameValid(query.type, dbConnectionMap, callback);
     } else {
         callback();
     }
@@ -428,7 +430,7 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
 
     async.waterfall([
         function (cb) {
-            validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, cb);
+            validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
@@ -643,4 +645,87 @@ exports.searchStudioContests = {
             next(connection, true);
         }
     }
+};
+
+/**
+ * Sample result from specification for Get Studio Contest Detail
+ */
+var sampleStudioContest;
+
+/**
+ * The API for getting studio contest
+ */
+exports.getStudioContest = {
+    name: "getStudioContest",
+    description: "getStudioContest",
+    inputs: {
+        required: ["contestId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    run: function (api, connection, next) {
+        api.log("Execute getStudioContest#run", 'debug');
+        connection.response = sampleStudioContest;
+        next(connection, true);
+    }
+};
+
+
+sampleStudioContest = {
+    "type": "Web Design",
+    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+    "description": "Welcome to ¡°Cornell ¨C Responsive Storyboard Economics Site Redesign contest¡±. " +
+        "The goal of this contest  is to redesign look and feel for one of our college site departments " +
+        "(economics) using base design and customer feedback provided in this contest. There are two pages " +
+        "that needs to be redesigned a",
+    "prize": [1000, 250],
+    "milestone": {
+        "prize": 100,
+        "number": 5
+    },
+    "points": 500,
+    "nextDeadlineTime": "10.31.2013 10:10 EDT",
+    "nextDeadlineName": "Checkpoint Submission Deadline",
+    "checkpoints": [
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        },
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        }
+    ],
+    "submissions": [
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        },
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        }
+    ],
+    "winners": [
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT",
+            "points": 50,
+            "rank": 1
+        },
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT",
+            "points": 50,
+            "rank": 2
+        }
+    ]
 };

@@ -1,12 +1,15 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author vangavroche, Sky_
- * changes in 1.1:
+ * @version 1.3
+ * @author vangavroche, Sky_, TCSASSEMBLER
+ * Changes in 1.1:
  * - add routes for search contests
  * Changes in 1.2:
  * - add route for top
+ * Changes in 1.3:
+ * - add routes for all stub methods
+ * - add routes for cache test
  */
 
 /* ---------------------
@@ -50,6 +53,21 @@ example:
 
 ---------------------- */
 
+/**
+ * Methods that are used only in test cases.
+ */
+var testMethods = {
+    get: [
+        {path: "/test/cache/oauth", action: "cacheTestOAuth"},
+        {path: "/test/cache/error", action: "cacheTestError"},
+        {path: "/test/cache/hits", action: "cacheTestGetHits"},
+        {path: "/test/cache/reset", action: "cacheTestResetHits"},
+        {path: "/test/cache/disabled", action: "cacheDisabled"},
+        {path: "/test/cache", action: "cacheTest"}
+    ]
+};
+
+
 ////////////
 // ROUTES //
 ////////////
@@ -61,9 +79,32 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
-        { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" }
-    ],
+        { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
 
+        //stubs
+        { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
+        { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
+        { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
+        { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
+        { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
+
+        { path: "/:apiVersion/software/reviewers/:contestType", action: "getContestReviewers" },
+        { path: "/:apiVersion/develop/statistics/:handle", action: "getSoftwareStatistics" },
+        { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
+        { path: "/:apiVersion/design/statistics/:handle", action: "getStudioStatistics" },
+        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioContest" },
+        { path: "/:apiVersion/design/challengetypes", action: "studioContestTypes" },
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsContestTypes" },
+        { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
+        { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
+        { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
+        { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
+        { path: "/:apiVersion/data/marathon/statistics/:handle", action: "getMarathonStatistics" },
+        { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
+        { path: "/:apiVersion/data/srm/statistics/:handle", action: "getAlgorithmStatistics" }
+    ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/develop/users", action: "memberRegister" },
     ]

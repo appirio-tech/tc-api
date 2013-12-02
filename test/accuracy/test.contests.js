@@ -17,13 +17,14 @@ var assert = require('chai').assert;
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 var TOTAL = 'total';
-var ACTION = '/v2/develop/challenges';
+var ACTION = '/v2/design/challenges';
+var DEVELOP_ACTION = '/v2/develop/challenges';
 
 describe('Search Contests', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow
     var total, pageSize, pageIndex, i, data;
 
-    describe('GET /v2/develop/challenges?sortColumn=ContestName&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=ContestName&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -73,7 +74,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=ContestName&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=ContestName&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -123,7 +124,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=type&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=type&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -173,7 +174,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=type&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=type&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -223,7 +224,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=numberOfSubmissions&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=numberOfSubmissions&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -273,7 +274,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=numberOfSubmissions&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=numberOfSubmissions&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -323,7 +324,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=numberOfSubmissions&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=numberOfSubmissions&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -373,7 +374,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=numberOfRatedRegistrants&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=numberOfRatedRegistrants&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -423,7 +424,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=numberOfUnratedRegistrants&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=numberOfUnratedRegistrants&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -473,7 +474,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=numberOfUnratedRegistrants&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=numberOfUnratedRegistrants&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -523,7 +524,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=registrationEndDate&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=registrationEndDate&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -573,7 +574,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=registrationEndDate&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=registrationEndDate&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -622,7 +623,7 @@ describe('Search Contests', function () {
             });
         });
     });
-    describe('GET /v2/develop/challenges?sortColumn=submissionEndDate&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=submissionEndDate&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -672,7 +673,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=submissionEndDate&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=submissionEndDate&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -722,7 +723,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=firstPrize&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=firstPrize&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -772,7 +773,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=firstPrize&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=firstPrize&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -822,7 +823,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=digitalRunPoints&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=digitalRunPoints&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -872,7 +873,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=digitalRunPoints&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=digitalRunPoints&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -922,7 +923,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=reliabilityBonus&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=reliabilityBonus&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -972,7 +973,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=reliabilityBonus&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=reliabilityBonus&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1023,7 +1024,7 @@ describe('Search Contests', function () {
     });
 
 
-    describe('GET /v2/develop/challenges?sortColumn=contestId&sortOrder=asc', function () {
+    describe('GET /v2/design/challenges?sortColumn=contestId&sortOrder=asc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1073,7 +1074,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?sortColumn=contestId&sortOrder=desc', function () {
+    describe('GET /v2/design/challenges?sortColumn=contestId&sortOrder=desc', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1123,7 +1124,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?pageSize=2&pageIndex=2', function () {
+    describe('GET /v2/design/challenges?pageSize=2&pageIndex=2', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1169,7 +1170,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?pageSize=2&pageIndex=-1', function () {
+    describe('GET /v2/design/challenges?pageSize=2&pageIndex=-1', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1213,7 +1214,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?type=Wireframes', function () {
+    describe('GET /v2/design/challenges?type=Wireframes', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1260,7 +1261,7 @@ describe('Search Contests', function () {
     });
 
 
-    describe('GET /v2/develop/challenges?submissionenddate.type=BEFORE&submissionenddate.firstDate=2013-09-01', function () {
+    describe('GET /v2/design/challenges?submissionenddate.type=BEFORE&submissionenddate.firstDate=2013-09-01', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1305,7 +1306,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?submissionenddate.type=ON&submissionenddate.firstDate=2013-08-25', function () {
+    describe('GET /v2/design/challenges?submissionenddate.type=ON&submissionenddate.firstDate=2013-08-25', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1350,7 +1351,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?submissionenddate.type=BETWEEN_DATES&submissionenddate.firstDate=2013-08-24&submissionenddate.secondDate=2013-08-26', function () {
+    describe('GET /v2/design/challenges?submissionenddate.type=BETWEEN_DATES&submissionenddate.firstDate=2013-08-24&submissionenddate.secondDate=2013-08-26', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1397,7 +1398,7 @@ describe('Search Contests', function () {
 
 
 
-    describe('GET /v2/develop/challenges?projectId=30010006', function () {
+    describe('GET /v2/design/challenges?projectId=30010006', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1441,7 +1442,7 @@ describe('Search Contests', function () {
             });
         });
     });
-    describe('GET /v2/develop/challenges?listType=active', function () {
+    describe('GET /v2/design/challenges?listType=active', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1487,7 +1488,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?listType=open', function () {
+    describe('GET /v2/design/challenges?listType=open', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1507,12 +1508,12 @@ describe('Search Contests', function () {
                 total = res.body[TOTAL];
                 pageSize = res.body.pageSize;
                 pageIndex = res.body.pageIndex;
-                assert.equal(total, 39, "wrong number of total");
+                assert.equal(total, 15, "wrong number of total");
                 assert.equal(pageSize, 50, "wrong default page size");
                 assert.equal(pageIndex, 1, "wrong default page index");
 
                 data = res.body.data;
-                assert.equal(data.length, 39, "wrong result");
+                assert.equal(data.length, 15, "wrong result");
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].contestName, "invalid contestName");
@@ -1532,7 +1533,7 @@ describe('Search Contests', function () {
         });
     });
 
-    describe('GET /v2/develop/challenges?listType=past', function () {
+    describe('GET /v2/design/challenges?listType=past', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
@@ -1552,7 +1553,7 @@ describe('Search Contests', function () {
                 total = res.body[TOTAL];
                 pageSize = res.body.pageSize;
                 pageIndex = res.body.pageIndex;
-                assert.equal(total, 816, "wrong number of total");
+                assert.equal(total, 329, "wrong number of total");
                 assert.equal(pageSize, 50, "wrong default page size");
                 assert.equal(pageIndex, 1, "wrong default page index");
 
@@ -1588,7 +1589,7 @@ describe('Get Contests Details', function () {
         it('should response with expected structure and data', function (done) {
 
             var r = request(API_ENDPOINT);
-            r = r.get(ACTION + '/30010361').set('Accept', 'application/json');
+            r = r.get(DEVELOP_ACTION + '/30010361').set('Accept', 'application/json');
 
             // should respond with JSON
             r.expect('Content-Type', /json/);
@@ -1623,7 +1624,7 @@ describe('Get Contests Details', function () {
         it('should response with expected structure and data', function (done) {
 
             var r = request(API_ENDPOINT);
-            r = r.get(ACTION + '/30010015').set('Accept', 'application/json');
+            r = r.get(DEVELOP_ACTION + '/30010015').set('Accept', 'application/json');
 
             // should respond with JSON
             r.expect('Content-Type', /json/);

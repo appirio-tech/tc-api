@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: vangavroche
+ * @version 1.1
+ * @author vangavroche, TCSASSEMBLER
+ * changes in 1.1:
+ * - add cache support (add preCacheProcessor and postCacheProcessor)
  */
 "use strict";
 
@@ -11,6 +13,9 @@
  */
 var http = require('http');
 var xml2js = require('xml2js');
+var async = require('async');
+var _ = require('underscore');
+var crypto = require('crypto');
 
 /**
  * Define the config to get the API Host from the environment variables.
@@ -35,11 +40,12 @@ var getHeader = function (req, name) {
     }
 };
 
+
 /**
  * Expose the middleware function to add the pre-processor for authentication via Oauth.
  *
  * @param {Object} api The api object used to access the infrastructure.
- * @param {Function} next The callback function
+ * @param {Function<err>} next The callback function
  */
 exports.middleware = function (api, next) {
     var oauthProcessor, authorize;
@@ -49,7 +55,7 @@ exports.middleware = function (api, next) {
      *
      * @param {String} authHeader The authorization header value
      * @param {String} actionScope The permission scope of the given action
-     * @param {Function} done The callback function
+     * @param {Function<err, status>} done The callback function
      */
     authorize = function (authHeader, actionScope, done) {
 
@@ -116,9 +122,9 @@ exports.middleware = function (api, next) {
      * The pre-processor that check the action via OAuth.
      * Only the actions that have configured "permissionScope:<permission-scope>" are checked here
      *
-     * @param {Object} connection The connection object for the current request 
+     * @param {Object} connection The connection object for the current request
      * @param {Object} actionTemplate The metadata of the current action object
-     * @param {Function} next The callback function
+     * @param {Function<connection, toRender>} next The callback function
      */
     oauthProcessor = function (connection, actionTemplate, next) {
         if (actionTemplate.permissionScope) {
@@ -138,6 +144,116 @@ exports.middleware = function (api, next) {
         }
     };
 
+    /**
+     * Create unique cache key for given connection.
+     * Key depends on action name and query parameters (connection.params).
+     *
+     * @param {Object} connection The connection object for the current request
+     * @return {String} the key
+     */
+    function createCacheKey(connection) {
+        var sorted = [], prop, val, json;
+        for (prop in connection.params) {
+            if (connection.params.hasOwnProperty(prop)) {
+                val = connection.params[prop];
+                if (_.isString(val)) {
+                    val = val.toLowerCase();
+                }
+                sorted.push([prop, val]);
+            }
+        }
+        sorted.sort(function (a, b) {
+            return a[1] - b[1];
+        });
+        json = JSON.stringify(sorted);
+        return crypto.createHash('md5').update(json).digest('hex');
+    }
+
+    /**
+     * Get cached value for given connection. If object doesn't exist or is expired then null is returned.
+     *
+     * @param {Object} connection The connection object for the current request
+     * @param {Function<err, value>} callback The callback function
+     * @since 1.1
+     */
+    /*jslint unparam: true */
+    function getCachedValue(connection, callback) {
+        var key = createCacheKey(connection);
+        api.cache.load(key, function (err, value) {
+            //ignore err
+            //err can be only "Object not found" or "Object expired"
+            callback(null, value);
+        });
+    }
+    /*jslint */
+
+    /**
+     * The pre-processor that check the cache.
+     * If cache exists then cached response is returned.
+     *
+     * @param {Object} connection The connection object for the current request
+     * @param {Object} actionTemplate The metadata of the current action object
+     * @param {Function<connection, toRender>} next The callback function
+     * @since 1.1
+     */
+    function preCacheProcessor(connection, actionTemplate, next) {
+        if (!actionTemplate.cacheEnabled) {
+            next(connection, true);
+            return;
+        }
+
+        getCachedValue(connection, function (err, value) {
+            if (value) {
+                api.log('Returning cached response', 'debug');
+                connection.response = value;
+                next(connection, false);
+            } else {
+                next(connection, true);
+            }
+        });
+    }
+
+    /**
+     * The post-processor that save response to cache.
+     * Cache is not saved if error occurred.
+     *
+     * @param {Object} connection The connection object for the current request
+     * @param {Object} actionTemplate The metadata of the current action object
+     * @param {Function<connection, toRender>} next The callback function
+     * @since 1.1
+     */
+    function postCacheProcessor(connection, actionTemplate, toRender, next) {
+        if (!actionTemplate.cacheEnabled) {
+            next(connection, toRender);
+            return;
+        }
+
+        async.waterfall([
+            function (cb) {
+                getCachedValue(connection, cb);
+            }, function (value, cb) {
+                if (value || connection.response.error) {
+                    cb();
+                    return;
+                }
+                var response = _.clone(connection.response),
+                    lifetime = actionTemplate.cacheLifetime || api.configData.general.defaultCacheLifetime,
+                    key = createCacheKey(connection);
+                delete response.serverInformation;
+                delete response.requestorInformation;
+                console.log(key);
+                api.cache.save(key, response, lifetime, cb);
+            }
+        ], function (err) {
+            if (err) {
+                api.helper.handleError(api, connection, err);
+            }
+            next(connection, toRender);
+        });
+    }
+
     api.actions.preProcessors.push(oauthProcessor);
+    api.actions.preProcessors.push(preCacheProcessor);
+    api.actions.postProcessors.push(postCacheProcessor);
     next();
 };

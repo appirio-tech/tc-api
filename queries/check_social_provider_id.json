@@ -1,5 +1,5 @@
 {
   "name"    : "check_social_provider_id",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "check_social_provider_id"
 }

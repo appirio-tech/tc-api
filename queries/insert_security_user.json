@@ -1,5 +1,5 @@
 {
   "name"    : "insert_security_user",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "insert_security_user"
 }

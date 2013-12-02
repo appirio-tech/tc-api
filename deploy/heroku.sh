@@ -18,16 +18,12 @@ HEROKU_APP='tc-api-heroku'
 
 for var in "$@"
 do
-    if [ "$var" == "clean" ]; then GIT_CLEAN="y"; fi
-    if [ "$var" == "commit" ]; then GIT_COMMIT="y"; fi
     if [ "$var" == "create" ]; then HEROKU_CREATE="y"; fi
     if [ "$var" == "push" ]; then HEROKU_PUSH="y"; fi
     if [ "$var" == "launch" ]; then HEROKU_LAUNCH="y"; fi
     if [ "$var" == "config" ]; then HEROKU_CONFIG="y"; fi
     if [ "$var" == "all" ]
     then 
-	GIT_CLEAN="y"
-        GIT_COMMIT="y"
         HEROKU_CREATE="y"
         HEROKU_PUSH="y"
         HEROKU_LAUNCH="y"
@@ -40,41 +36,6 @@ do
 	HEROKU_CONFIG="y"
     fi
 done
-
-if [ $GIT_CLEAN == "y" ]
-then
-    echo "INFO: Remove .git directory if necessary"
-    GIT_DIR_PATH=`readlink -f .git`
-    if [[ -d "${GIT_DIR_PATH}" ]]
-    then
-	echo "INFO: Start to Remove the .git directory"
-	rm -rf .git
-    fi
-fi
-
-
-if [ $GIT_COMMIT == "y" ]
-then
-    GIT_DIR_PATH=`readlink -f .git`
-    if [[ -d "${GIT_DIR_PATH}"  ]]
-    then
-        echo "INFO: Add the changes to GIT"
-        git add .
-
-        if [[ ! $(git status) =~ "nothing to commit" ]]
-        then
-            echo "INFO: Commit the changes"
-            git commit -m "Auto commit "
-        else
-            echo "INFO: Nothing to commit"
-        fi
-    else
-        echo "INFO: Initialize GIT Repo and Commit"
-        git init
-        git add .
-        git commit -m "Initial Commit"
-	fi
-fi
 
 
 if [ $HEROKU_CREATE == "y" ]

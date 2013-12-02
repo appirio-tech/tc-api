@@ -18,16 +18,17 @@ FIRST @ps@
 , phase.registrationEndDate AS registrationEndDate
 , ratedReg.ctn AS numberOfUnratedRegistrants
 , ratedReg.ctn AS numberOfRatedRegistrants
-, NVL(tmpprize1.prize_amount, 0) as firstPrize
-, NVL(tmpprize1.prize_amount, -1) * 0.2 as reliabilityBonus
-, NVL(tmpprize1.prize_amount, -1) as prize1
-, NVL(tmpprize2.prize_amount, -1) as prize2
-, NVL(tmpprize3.prize_amount, -1) as prize3
-, NVL(tmpprize4.prize_amount, -1) as prize4
-, NVL(tmpprize5.prize_amount, -1) as prize5
-, NVL(tmpprize6.prize_amount, -1) as prize6
-, NVL(tmpprize7.prize_amount, -1) as prize7
-, NVL(tmpprize8.prize_amount, -1) as prize8
+, prizes.prize1 as firstprize
+, prizes.prize1
+, prizes.prize1 * 0.2 as reliabilityBonus
+, prizes.prize1
+, prizes.prize2
+, prizes.prize3
+, prizes.prize4
+, prizes.prize5
+, prizes.prize6
+, prizes.prize7
+, prizes.prize8
 , not exists (select * from project_info pi45 where pi45.project_info_type_id=45 and pi45.project_id=project.project_id and (pi45.value='false' or pi45.value='False')) AS reliability_bonus_eligible
 , CAST((CASE WHEN digitalRunFlagInfo.value = 'On' THEN NVL((SELECT value FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = project.project_id), (SELECT round(nvl(pi16.value, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = project.project_id)) ELSE '0' END) AS float) AS digitalRunPoints
  FROM  
@@ -112,14 +113,17 @@ LEFT JOIN (
   GROUP BY project_id 
 ) nRegistrants ON nRegistrants.project_id = project.project_id 
 
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 1 ) tmpprize1 on project.project_id = tmpprize1.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 2 ) tmpprize2 on project.project_id = tmpprize2.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 3 ) tmpprize3 on project.project_id = tmpprize3.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 4 ) tmpprize4 on project.project_id = tmpprize4.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 5 ) tmpprize5 on project.project_id = tmpprize5.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 6 ) tmpprize6 on project.project_id = tmpprize6.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 7 ) tmpprize7 on project.project_id = tmpprize7.project_id
-LEFT JOIN (SELECT project_id, prize_amount FROM prize  WHERE prize_type_id = 15 AND place = 8 ) tmpprize8 on project.project_id = tmpprize8.project_id
+LEFT JOIN (
+    select project_id
+    , max(case when place = 1 then prize_amount else -1 end) as prize1
+    , max(case when place = 2 then prize_amount else -1 end) as prize2
+    , max(case when place = 3 then prize_amount else -1 end) as prize3
+    , max(case when place = 4 then prize_amount else -1 end) as prize4
+    , max(case when place = 5 then prize_amount else -1 end) as prize5
+    , max(case when place = 6 then prize_amount else -1 end) as prize6
+    , max(case when place = 7 then prize_amount else -1 end) as prize7
+    , max(case when place = 8 then prize_amount else -1 end) as prize8 
+    from prize where prize_type_id = 15 group by project_id) prizes ON project.project_id = prizes.project_id        
 LEFT JOIN project_spec projectSpec ON projectSpec.project_id = project.project_id 
 LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.project_studio_spec_id = project.project_studio_spec_id
 ,project_info digitalRunFlagInfo
@@ -135,8 +139,8 @@ LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.pr
   AND EXTEND(phase.registrationStartDate, year to day) >= '@registstartstart@'
   AND EXTEND(phase.submissionEndDate, year to day) <= '@subendend@'
   AND EXTEND(phase.submissionEndDate, year to day) >= '@subendstart@'
-  AND NVL(tmpprize1.prize_amount, 0) >= @prilower@
-  AND NVL(tmpprize1.prize_amount, 0) <= @priupper@
+  AND NVL(prizes.prize1, 0) >= @prilower@
+  AND NVL(prizes.prize1, 0) <= @priupper@
   AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
   AND NVL(LOWER(winnerHandleTable.winnerHandle), '') LIKE '@hn@'
   AND EXTEND(NVL(phase.finalReviewEndDate, phase.reviewEndDate), year to day) <= '@frendend@'
