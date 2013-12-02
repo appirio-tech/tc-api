@@ -108,7 +108,7 @@ describe('prepareData', function () {
 
     it('setup test data', function (done) {
         loadQueries(function(err, result) {
-            var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"tcs_catalog"});
+            var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"common_oltp"});
             c.on('error', function(error) {
                 console.log("Error: ");
                 console.log(error);
@@ -234,7 +234,7 @@ var validateDatabase = function(done) {
     text = fs.readFileSync("test/test_files/exptected_member_register_validate_user_social.txt", 'utf8');
     var userSocialExpected = JSON.parse(text);
 
-    var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"tcs_catalog"});
+    var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"common_oltp"});
     c.on('error', function(error) {
         console.log("Error: ");
         console.log(error);

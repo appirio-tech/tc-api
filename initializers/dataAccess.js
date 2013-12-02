@@ -191,6 +191,13 @@ exports.dataAccess = function (api, next) {
 
             connection = connectionMap[queries[queryName].db];
 
+            error = helper.checkObject(connection, "connection");
+
+            if (error) {
+                next(error);
+                return;
+            }
+
             sql = queries[queryName].sql;
             if (!sql) {
                 api.log('Unregisterd query ' + queryName + ' is asked for.', 'error');
@@ -270,6 +277,13 @@ exports.dataAccess = function (api, next) {
             }
 
             connection = connectionMap[queries[queryName].db];
+
+            error = helper.checkObject(connection, "connection");
+
+            if (error) {
+                next(error);
+                return;
+            }
 
             sql = queries[queryName].sql;
             if (!sql) {

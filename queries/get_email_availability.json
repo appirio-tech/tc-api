@@ -1,5 +1,5 @@
 {
   "name"    : "get_email_availability",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "get_email_availability"
 }

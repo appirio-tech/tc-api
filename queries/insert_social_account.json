@@ -1,5 +1,5 @@
 {
   "name"    : "insert_social_account",
-  "db"      : "tcs_catalog",
+  "db"      : "common_oltp",
   "sqlfile" : "insert_social_account"
 }
