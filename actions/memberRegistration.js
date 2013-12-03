@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: TCSASSEMBLER
+ * @version 1.1
+ * @author mekanizumu, Sky_
+ * changes in 1.1:
+ * - disable cache for member register action 
  */
 "use strict";
 
@@ -91,7 +93,7 @@ var activationEmailSubject = "Topcoder User Registration Activation";
 /**
  * The activation email sender name.
  */
-var activationEmailSenderName = "Topcoder API"
+var activationEmailSenderName = "Topcoder API";
 
 /**
  * Register a new user.
@@ -129,7 +131,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         });
                     } else {
                         url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
-                        api.log("Activation url: " + url , "debug");
+                        api.log("Activation url: " + url, "debug");
                         task = new api.task({
                             name: "sendActivationEmail",
                             params: {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}
@@ -792,6 +794,7 @@ exports.memberRegister = {
     outputExample : {},
     version : 'v2',
     transaction : 'write',
+    cacheEnabled : false,
     databases : ["common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         var dbConnectionMap, messages, checkResult;

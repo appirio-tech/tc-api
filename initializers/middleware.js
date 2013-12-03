@@ -197,7 +197,8 @@ exports.middleware = function (api, next) {
      * @since 1.1
      */
     function preCacheProcessor(connection, actionTemplate, next) {
-        if (!actionTemplate.cacheEnabled) {
+        //by default enabled
+        if (actionTemplate.cacheEnabled === false) {
             next(connection, true);
             return;
         }
@@ -219,6 +220,7 @@ exports.middleware = function (api, next) {
      *
      * @param {Object} connection The connection object for the current request
      * @param {Object} actionTemplate The metadata of the current action object
+     * @param {Boolean} toRender The flag whether response should be rendered
      * @param {Function<connection, toRender>} next The callback function
      * @since 1.1
      */
@@ -241,7 +243,6 @@ exports.middleware = function (api, next) {
                     key = createCacheKey(connection);
                 delete response.serverInformation;
                 delete response.requestorInformation;
-                console.log(key);
                 api.cache.save(key, response, lifetime, cb);
             }
         ], function (err) {
