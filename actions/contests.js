@@ -575,7 +575,7 @@ exports.getContest = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    databases : ["common_oltp"],
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute getContest#run", 'debug');
@@ -603,7 +603,7 @@ exports.searchSoftwareContests = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    databases : ["common_oltp"],
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute searchContests#run", 'debug');
@@ -631,7 +631,7 @@ exports.searchStudioContests = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    databases : ["common_oltp"],
+    databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute searchStudioContests#run", 'debug');

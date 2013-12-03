@@ -13,26 +13,20 @@ do
 	eval name=$name
    	name=\$$name   
 	eval name=$name
-   	
-   	echo $name
 
 	host='TC_DB_HOST_$i'
 	eval host=$host
    	host=\$$host   
 	eval host=$host
-   	
-   	echo $host
 
    	port='TC_DB_PORT_$i'
 	eval port=$port
    	port=\$$port   
 	eval port=$port
-   	
-   	echo $port
 
-   	INFORMIXSQLHOSTS="${INFORMIXDIR}/etc/sqlhosts.$name"
+   	hostFile="${INFORMIXDIR}/etc/sqlhosts.$name"
 
-   	printf "$name onsoctcp $host $port" > "$INFORMIXSQLHOSTS"
+   	printf "$name onsoctcp $host $port" > "$hostFile"
 done
 
 #printf "informixoltp_tcp onsoctcp ${TC_DB_HOST} ${TC_DB_PORT}" > "$INFORMIXSQLHOSTS"

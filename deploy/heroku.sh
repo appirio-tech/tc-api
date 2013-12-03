@@ -93,7 +93,7 @@ then
                         TC_DB_PORT_1=2021 \
                         TC_DB_USER_1=informix \
                         TC_DB_PASSWORD_1=1nf0rm1x \
-                        TC_DB_NAME_2=topcoder_dw \
+                        TC_DB_NAME_2=datawarehouse_tcp \
                         TC_DB_HOST_2=54.205.34.183 \
                         TC_DB_PORT_2=2021 \
                         TC_DB_USER_2=informix \

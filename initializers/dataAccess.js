@@ -25,6 +25,7 @@ var helper;
 var databaseMapping = {
     "common_oltp" : 1,
     "informixoltp" : 1,
+    "tcs_catalog" : 1,
     "topcoder_dw" : 2,
     "tcs_dw" : 2
 }
@@ -168,10 +169,7 @@ exports.dataAccess = function (api, next) {
             password = eval('process.env.TC_DB_PASSWORD_' + dbServerIdx);
             hostname = eval('process.env.TC_DB_NAME_' + dbServerIdx);
 
-            console.log('user ' + user + ' password ' + password + ' hostname ' + hostname);
-
-           // return new bindings.Informix({"user" : user, "password" : password, "database" : databaseName, "hostname" : hostname});
-            return new bindings.Informix({"user" : user, "password" : password, "database" : databaseName});
+            return new bindings.Informix({"user" : user, "password" : password, "database" : databaseName, "hostname" : hostname});
         },
 
         _parameterizeQuery: parameterizeQuery,
