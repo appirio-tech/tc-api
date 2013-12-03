@@ -65,7 +65,7 @@ describe('prepareData', function () {
     this.timeout(120000);     // The api with testing remote db could be quit slow
 
     var updateCoder = function(done) {
-        var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"informixoltp"});
+        var c = new bindings.Informix({"user":process.env.TC_DB_USER_1, "password":process.env.TC_DB_PASSWORD_1, "database":"informixoltp"});
         c.on('error', function(error) {
             console.log("Error: ");
             console.log(error);
@@ -108,7 +108,7 @@ describe('prepareData', function () {
 
     it('setup test data', function (done) {
         loadQueries(function(err, result) {
-            var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"common_oltp"});
+            var c = new bindings.Informix({"user":process.env.TC_DB_USER_1, "password":process.env.TC_DB_PASSWORD_1, "database":"common_oltp"});
             c.on('error', function(error) {
                 console.log("Error: ");
                 console.log(error);
@@ -234,7 +234,7 @@ var validateDatabase = function(done) {
     text = fs.readFileSync("test/test_files/exptected_member_register_validate_user_social.txt", 'utf8');
     var userSocialExpected = JSON.parse(text);
 
-    var c = new bindings.Informix({"user":process.env.TC_DB_USER, "password":process.env.TC_DB_PASSWORD, "database":"common_oltp"});
+    var c = new bindings.Informix({"user":process.env.TC_DB_USER_1, "password":process.env.TC_DB_PASSWORD_1, "database":"common_oltp"});
     c.on('error', function(error) {
         console.log("Error: ");
         console.log(error);

@@ -1,5 +1,5 @@
 {
   "name"    : "get_contest_types",
-  "db"      : "common_oltp",
+  "db"      : "tcs_catalog",
   "sqlfile" : "get_contest_types"
 }

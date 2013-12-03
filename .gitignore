@@ -2,3 +2,5 @@
 *.zip
 log
 pids
+
+thirdparty/ibm/informix/etc/sqlhosts.

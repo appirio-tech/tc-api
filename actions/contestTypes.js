@@ -48,7 +48,7 @@ exports.contestTypes = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
-    databases : ['common_oltp'],
+    databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute contestTypes#run", 'debug');
@@ -76,7 +76,7 @@ exports.contestTypesSecured = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
-    databases : ['common_oltp'],
+    databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute contestTypesSecured#run", 'debug');
