@@ -25,7 +25,7 @@ chmod +x ./deploy/*sh
 
 # deploy source to Heroku
 #./deploy/heroku.sh all
-
+. deploy/development.sh
 npm start
 
 npm test
