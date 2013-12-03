@@ -2,7 +2,7 @@
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
- * @author TCSASSEMBLER
+ * @author Sky_
  */
 "use strict";
 
@@ -126,6 +126,7 @@ exports.cacheTestGetHits = {
     },
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute cacheTestGetHits#run", 'debug');
         connection.response = {
@@ -146,6 +147,7 @@ exports.cacheTestResetHits = {
         optional: []
     },
     outputExample: {},
+    cacheEnabled: false,
     version: 'v2',
     run: function (api, connection, next) {
         api.log("Execute cacheTestResetHits#run", 'debug');
