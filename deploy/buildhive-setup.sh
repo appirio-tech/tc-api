@@ -25,9 +25,12 @@ chmod +x ./deploy/*sh
 
 # deploy source to Heroku
 #./deploy/heroku.sh all
-. deploy/development.sh
+. deploy/ci.sh
+
+# start the server for testing
 npm start
 
+# start the test
 npm test
 
 
