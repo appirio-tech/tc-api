@@ -31,6 +31,7 @@ chmod +x ./deploy/*sh
 npm start
 
 # sleep 2m to let the service start
+sleep 2m
 
 # start the test
 npm test
