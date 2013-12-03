@@ -1,0 +1,6 @@
+machine api.heroku.com
+  login skyhit@gmail.com
+  password 12f4a61e-ae66-48fe-858b-d57bd4e2b215
+machine code.heroku.com
+  login skyhit@gmail.com
+  password 12f4a61e-ae66-48fe-858b-d57bd4e2b215

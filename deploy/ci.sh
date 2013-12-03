@@ -32,5 +32,7 @@ export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 
+export DISABLE_CONSOLE_LOG=true
+
 . .profile
 

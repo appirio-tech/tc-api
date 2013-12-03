@@ -7,10 +7,14 @@
 # Author: vangavroche
 #
 
+PATH="heroku/bin:$PATH"
+GIT_CLEAN='n'
+GIT_COMMIT='n'
 HEROKU_CREATE='n'
 HEROKU_PUSH='n'
 HEROKU_LAUNCH='n'
 HEROKU_CONFIG='n'
+HEROKU_APP='tc-api-heroku'
 
 for var in "$@"
 do
@@ -37,19 +41,20 @@ done
 if [ $HEROKU_CREATE == "y" ]
 then
     echo "INFO: Create HeroKu app"
-    heroku create
+    heroku apps:destroy --confirm $HEROKU_APP
+    heroku apps:create $HEROKU_APP
 fi
 
 if [ $HEROKU_CONFIG == "y" ]
 then
     echo "INFO: Set environment variables"
     ### Export the parameters
-    heroku config:set   TC_DB_HOST=50.17.156.219 \
+    heroku config:set   TC_DB_HOST=54.196.46.77 \
                         TC_DB_PORT=2021 \
                         TC_DB_USER=informix \
                         TC_DB_PASSWORD=1nf0rm1x \
                         TC_API_HOST=api.topcoder.com \
-                        TC_LDAP_HOST=54.221.107.21 \
+                        TC_LDAP_HOST=54.196.46.77 \
                         TC_LDAP_PORT=636 \
                         TC_LDAP_PASSWORD=secret \
                         TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com" \
@@ -77,10 +82,3 @@ then
     echo "INFO: Start 1 Dyno"
     heroku ps:scale web=1
 fi
-
-
-
-
-
-
-

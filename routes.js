@@ -106,6 +106,6 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/:handle", action: "getAlgorithmStatistics" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/develop/users", action: "memberRegister" }
+        { path: "/:apiVersion/develop/users", action: "memberRegister" },
     ]
 };

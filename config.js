@@ -55,7 +55,7 @@ configData.logger = {
 };
 
 // console logger
-if (cluster.isMaster) {
+if (cluster.isMaster && !process.env.DISABLE_CONSOLE_LOG) {
     configData.logger.transports.push(function (api, winston) {
         return new (winston.transports.Console)({
             colorize : true,
