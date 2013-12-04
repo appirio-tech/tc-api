@@ -28,6 +28,7 @@ export TC_EMAIL_HOST=smtp.gmail.com
 export TC_EMAIL_HOST_PORT=465
 export TC_EMAIL_ACCOUNT=tc.ldap.test@gmail.com
 export TC_EMAIL_PASSWORD=tc_public_email
+export TC_EMAIL_SECURED=true
 export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
