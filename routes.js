@@ -78,6 +78,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
+        { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
         { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
 
