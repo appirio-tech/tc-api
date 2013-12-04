@@ -78,8 +78,10 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
+        { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
         { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
+        { path: "/:apiVersion/platform/activitySummary", action: "tcDirectFacts" },
 
         //stubs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
@@ -106,6 +108,6 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/:handle", action: "getAlgorithmStatistics" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/develop/users", action: "memberRegister" }
+        { path: "/:apiVersion/develop/users", action: "memberRegister" },
     ]
 };

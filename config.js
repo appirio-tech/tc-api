@@ -43,7 +43,7 @@ configData.general = {
         "server" : __dirname + "/servers",
         "initializer" : __dirname + "/initializers",
     },
-    defaultCacheLifetime : 1000 * 60 //60s
+    defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30 //30 min default
 };
 
 /////////////
@@ -55,7 +55,7 @@ configData.logger = {
 };
 
 // console logger
-if (cluster.isMaster) {
+if (cluster.isMaster && !process.env.DISABLE_CONSOLE_LOG) {
     configData.logger.transports.push(function (api, winston) {
         return new (winston.transports.Console)({
             colorize : true,

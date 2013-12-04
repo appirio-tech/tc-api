@@ -1,0 +1,5 @@
+{
+    "name"    : "tc_direct_facts",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "tc_direct_facts"
+}

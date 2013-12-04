@@ -1,3 +1,5 @@
+[![Build Status](https://drone.io/github.com/cloudspokes/tc-api/status.png)](https://drone.io/github.com/cloudspokes/tc-api/latest)
+
 TopCoder API (built on NodeJS)
 ==============================
 
