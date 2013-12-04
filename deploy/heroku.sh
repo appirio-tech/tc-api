@@ -87,17 +87,17 @@ then
 
     ### Export the parameters
     heroku config:set   
-                        TC_DB_COUNT=2 \
-                        TC_DB_NAME_1=informixoltp_tcp \
-                        TC_DB_HOST_1=54.205.34.183 \
-                        TC_DB_PORT_1=2021 \
-                        TC_DB_USER_1=informix \
-                        TC_DB_PASSWORD_1=1nf0rm1x \
-                        TC_DB_NAME_2=datawarehouse_tcp \
-                        TC_DB_HOST_2=54.205.34.183 \
-                        TC_DB_PORT_2=2021 \
-                        TC_DB_USER_2=informix \
-                        TC_DB_PASSWORD_2=1nf0rm1x \
+                        TC_DATABASE_LIST=(TC_DB TC_DW) \
+                        TC_DB_NAME=informixoltp_tcp \
+                        TC_DB_HOST=54.205.34.183 \
+                        TC_DB_PORT=2021 \
+                        TC_DB_USER=informix \
+                        TC_DB_PASSWORD=1nf0rm1x \
+                        TC_DW_NAME=informixoltp_tcp \
+                        TC_DW_HOST=54.205.34.183 \
+                        TC_DW_PORT=2021 \
+                        TC_DW_USER=informix \
+                        TC_DW_PASSWORD=1nf0rm1x \
                         TC_API_HOST=api.topcoder.com \
                         TC_LDAP_HOST=54.221.107.21 \
                         TC_LDAP_PORT=636 \

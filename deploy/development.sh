@@ -7,18 +7,19 @@
 # Author: vangavroche
 #
 
-export TC_DB_COUNT=2
-export TC_DB_NAME_1=informixoltp_tcp
-export TC_DB_HOST_1=54.205.34.183
-export TC_DB_PORT_1=2021
-export TC_DB_USER_1=informix
-export TC_DB_PASSWORD_1=1nf0rm1x
+export TC_DATABASE_LIST=(TC_DB TC_DW)
 
-export TC_DB_NAME_2=informixoltp_tcp
-export TC_DB_HOST_2=54.205.34.183
-export TC_DB_PORT_2=2021
-export TC_DB_USER_2=informix
-export TC_DB_PASSWORD_2=1nf0rm1x
+export TC_DB_NAME=informixoltp_tcp
+export TC_DB_HOST=54.205.34.183
+export TC_DB_PORT=2021
+export TC_DB_USER=informix
+export TC_DB_PASSWORD=1nf0rm1x
+
+export TC_DW_NAME=datawarehouse_tcp
+export TC_DW_HOST=54.205.34.183
+export TC_DW_PORT=2021
+export TC_DW_USER=informix
+export TC_DW_PASSWORD=1nf0rm1x
 
 export TC_API_HOST=api.topcoder.com
 

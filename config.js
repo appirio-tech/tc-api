@@ -141,6 +141,17 @@ configData.servers = {
     // },
 };
 
+/**
+ * A mapping indicating which database belongs to which database server.
+ */
+configData.databaseMapping = {
+    "common_oltp" : "TC_DB",
+    "informixoltp" : "TC_DB",
+    "tcs_catalog" : "TC_DB",
+    "topcoder_dw" : "TC_DW",
+    "tcs_dw" : "TC_DW"
+}
+
 //////////////////////////////////
 
 exports.configData = configData;
