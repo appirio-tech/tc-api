@@ -87,7 +87,6 @@ then
 
     ### Export the parameters
     heroku config:set   
-                        TC_DATABASE_LIST=(TC_DB TC_DW) \
                         TC_DB_NAME=informixoltp_tcp \
                         TC_DB_HOST=54.205.34.183 \
                         TC_DB_PORT=2021 \

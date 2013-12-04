@@ -4,3 +4,4 @@ log
 pids
 
 thirdparty/ibm/informix/etc/sqlhosts.
+thirdparty/ibm/informix/etc/sqlhosts.datawarehouse_tcp
