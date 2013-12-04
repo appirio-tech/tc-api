@@ -81,6 +81,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
         { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
+        { path: "/:apiVersion/platform/activitySummary", action: "tcDirectFacts" },
 
         //stubs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
