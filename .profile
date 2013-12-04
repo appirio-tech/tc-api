@@ -7,6 +7,8 @@ ONCONFIG="onconfig.${INFORMIXSERVER}"
 
 INFORMIXSQLHOSTS="${INFORMIXDIR}/etc/sqlhosts.${INFORMIXSERVER}"
 
+TC_DATABASE_LIST=(TC_DB TC_DW)
+
 for i in "${TC_DATABASE_LIST[@]}"
 do
 	nameSuffix='_NAME'

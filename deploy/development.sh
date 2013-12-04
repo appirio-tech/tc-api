@@ -7,8 +7,6 @@
 # Author: vangavroche
 #
 
-export TC_DATABASE_LIST=(TC_DB TC_DW)
-
 export TC_DB_NAME=informixoltp_tcp
 export TC_DB_HOST=54.205.34.183
 export TC_DB_PORT=2021
