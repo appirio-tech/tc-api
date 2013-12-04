@@ -2,3 +2,4 @@
 *.zip
 log
 pids
+deploy/prod.sh

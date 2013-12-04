@@ -43,7 +43,7 @@ configData.general = {
         "server" : __dirname + "/servers",
         "initializer" : __dirname + "/initializers",
     },
-    defaultCacheLifetime : 1000 * 60 //60s
+    defaultCacheLifetime : 1000 * 60 * 30 //30 min default
 };
 
 /////////////

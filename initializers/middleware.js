@@ -225,7 +225,8 @@ exports.middleware = function (api, next) {
      * @since 1.1
      */
     function postCacheProcessor(connection, actionTemplate, toRender, next) {
-        if (!actionTemplate.cacheEnabled) {
+        //by default enabled
+        if (actionTemplate.cacheEnabled === false) {
             next(connection, toRender);
             return;
         }
