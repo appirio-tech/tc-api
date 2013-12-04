@@ -17,9 +17,11 @@ var nodemailer = require('nodemailer'),
 /// environment variables
 var tc_email_account = process.env.TC_EMAIL_ACCOUNT,
     tc_email_password = process.env.TC_EMAIL_PASSWORD,
+    tc_email_secured = process.env.TC_EMAIL_SECURED,
     tc_email_host = process.env.TC_EMAIL_HOST,
     tc_email_host_port = process.env.TC_EMAIL_HOST_PORT;
-
+tc_email_secured = typeof(tc_email_secured) != 'string' || tc_email_secured.toLowerCase() != "true";
+    
 /**
  * This function is used to check the existence of 
  * given paramters and ensure it not be empty
@@ -100,7 +102,7 @@ var sendActivationEmail = {
                 transport = nodemailer.createTransport("SMTP", {
                     host: tc_email_host,
                     port: tc_email_host_port,
-                    secureConnection: true,
+                    secureConnection: tc_email_secured,
                     requiresAuth: true,
                     auth: {
                         user: tc_email_account,
