@@ -49,12 +49,12 @@ if [ $HEROKU_CONFIG == "y" ]
 then
     echo "INFO: Set environment variables"
     ### Export the parameters
-    heroku config:set   TC_DB_HOST=54.196.46.77 \
+    heroku config:set   TC_DB_HOST=54.196.54.170 \
                         TC_DB_PORT=2021 \
                         TC_DB_USER=informix \
                         TC_DB_PASSWORD=1nf0rm1x \
                         TC_API_HOST=api.topcoder.com \
-                        TC_LDAP_HOST=54.196.46.77 \
+                        TC_LDAP_HOST=54.196.54.170 \
                         TC_LDAP_PORT=636 \
                         TC_LDAP_PASSWORD=secret \
                         TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com" \
