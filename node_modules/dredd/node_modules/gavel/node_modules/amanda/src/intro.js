@@ -1,7 +1,0 @@
-(function() {
-
-  /**
-   * Engines
-   * --------------------
-   */
-  var engines = {};
