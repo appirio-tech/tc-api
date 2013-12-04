@@ -7,25 +7,23 @@
 # Author: vangavroche
 #
 
+PATH="heroku/bin:$PATH"
 GIT_CLEAN='n'
 GIT_COMMIT='n'
 HEROKU_CREATE='n'
 HEROKU_PUSH='n'
 HEROKU_LAUNCH='n'
 HEROKU_CONFIG='n'
+HEROKU_APP='tc-api-heroku'
 
 for var in "$@"
 do
-    if [ "$var" == "clean" ]; then GIT_CLEAN="y"; fi
-    if [ "$var" == "commit" ]; then GIT_COMMIT="y"; fi
     if [ "$var" == "create" ]; then HEROKU_CREATE="y"; fi
     if [ "$var" == "push" ]; then HEROKU_PUSH="y"; fi
     if [ "$var" == "launch" ]; then HEROKU_LAUNCH="y"; fi
     if [ "$var" == "config" ]; then HEROKU_CONFIG="y"; fi
     if [ "$var" == "all" ]
     then 
-	GIT_CLEAN="y"
-        GIT_COMMIT="y"
         HEROKU_CREATE="y"
         HEROKU_PUSH="y"
         HEROKU_LAUNCH="y"
@@ -33,61 +31,25 @@ do
     fi
     if [ "$var" == "deploy" ]
     then
-	HEROKU_PUSH="y"
-	HEROKU_LAUNCH="y"
-	HEROKU_CONFIG="y"
+        HEROKU_PUSH="y"
+        HEROKU_LAUNCH="y"
+        HEROKU_CONFIG="y"
     fi
 done
-
-if [ $GIT_CLEAN == "y" ]
-then
-    echo "INFO: Remove .git directory if necessary"
-    GIT_DIR_PATH=`readlink -f .git`
-    if [[ -d "${GIT_DIR_PATH}" ]]
-    then
-	echo "INFO: Start to Remove the .git directory"
-	rm -rf .git
-    fi
-fi
-
-
-if [ $GIT_COMMIT == "y" ]
-then
-    GIT_DIR_PATH=`readlink -f .git`
-    if [[ -d "${GIT_DIR_PATH}"  ]]
-    then
-        echo "INFO: Add the changes to GIT"
-        git add .
-
-        if [[ ! $(git status) =~ "nothing to commit" ]]
-        then
-            echo "INFO: Commit the changes"
-            git commit -m "Auto commit "
-        else
-            echo "INFO: Nothing to commit"
-        fi
-    else
-        echo "INFO: Initialize GIT Repo and Commit"
-        git init
-        git add .
-        git commit -m "Initial Commit"
-	fi
-fi
 
 
 if [ $HEROKU_CREATE == "y" ]
 then
     echo "INFO: Create HeroKu app"
-    heroku create
+    heroku apps:destroy --confirm $HEROKU_APP
+    heroku apps:create $HEROKU_APP
 fi
 
 if [ $HEROKU_CONFIG == "y" ]
 then
     echo "INFO: Set environment variables"
-
     ### Export the parameters
-    heroku config:set   
-                        TC_DB_NAME=informixoltp_tcp \
+    heroku config:set   TC_DB_NAME=informixoltp_tcp \
                         TC_DB_HOST=54.205.34.183 \
                         TC_DB_PORT=2021 \
                         TC_DB_USER=informix \
@@ -98,7 +60,7 @@ then
                         TC_DW_USER=informix \
                         TC_DW_PASSWORD=1nf0rm1x \
                         TC_API_HOST=api.topcoder.com \
-                        TC_LDAP_HOST=54.221.107.21 \
+                        TC_LDAP_HOST=54.196.46.77 \
                         TC_LDAP_PORT=636 \
                         TC_LDAP_PASSWORD=secret \
                         TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com" \
@@ -126,10 +88,3 @@ then
     echo "INFO: Start 1 Dyno"
     heroku ps:scale web=1
 fi
-
-
-
-
-
-
-
