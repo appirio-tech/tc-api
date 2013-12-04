@@ -18,17 +18,7 @@ var fs = require("fs");
 var _ = require('underscore');
 var async = require("async");
 var helper;
-
-/**
- * A mapping indicating which database belongs to which database server.
- */
-var databaseMapping = {
-    "common_oltp" : 1,
-    "informixoltp" : 1,
-    "tcs_catalog" : 1,
-    "topcoder_dw" : 2,
-    "tcs_dw" : 2
-}
+var configs = require("../config.js");
 
 /**
  * Regex for sql paramters e.g @param_name@
@@ -159,15 +149,15 @@ exports.dataAccess = function (api, next) {
          * @return {Object} the created connection.
          */
         createConnection : function (databaseName) {
-            var error, dbServerIdx = databaseMapping[databaseName], user, password, hostname;
-            error = helper.checkDefined(dbServerIdx, "database server index");
+            var error, dbServerPrefix = configs.configData.databaseMapping[databaseName], user, password, hostname;
+            error = helper.checkDefined(dbServerPrefix, "database server prefix");
             if (error) {
                 throw error;
             }
 
-            user = eval('process.env.TC_DB_USER_' + dbServerIdx);
-            password = eval('process.env.TC_DB_PASSWORD_' + dbServerIdx);
-            hostname = eval('process.env.TC_DB_NAME_' + dbServerIdx);
+            user = eval('process.env.' + dbServerPrefix + "_USER");
+            password = eval('process.env.' + dbServerPrefix + "_PASSWORD");
+            hostname = eval('process.env.' + dbServerPrefix + "_NAME");
 
             return new bindings.Informix({"user" : user, "password" : password, "database" : databaseName, "hostname" : hostname});
         },
