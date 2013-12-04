@@ -35,7 +35,3 @@ sleep 2m
 
 # start the test
 npm test
-
-
-# run Dredd test, the test is based on dredd.md
-# ./deploy/dredd.sh

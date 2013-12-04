@@ -1,5 +1,0 @@
-/**
- * Attributes
- * --------------------
- */
-Validation.prototype.attributes = {};
