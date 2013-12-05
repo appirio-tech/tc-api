@@ -700,7 +700,7 @@ var validateEmail = function (api, email, dbConnectionMap, next) {
  * @return {String} the error message or null if the country is valid.
  */
 var validateCountry = function (country) {
-    if (isNullOrEmptyString(country) || !stringUtils.containsOnly(country, stringUtils.ALPHABET_ALPHA_EN)) {
+    if (isNullOrEmptyString(country)) {
         return "Please select a country";
     }
 
