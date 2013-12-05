@@ -80,8 +80,11 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
+        
+        //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
-        { path: "/:apiVersion/platform/activitySummary", action: "tcDirectFacts" },
+        
+        { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
 
         //stubs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
