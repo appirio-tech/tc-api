@@ -9,6 +9,8 @@ INFORMIXSQLHOSTS="${INFORMIXDIR}/etc/sqlhosts.${INFORMIXSERVER}"
 
 TC_DATABASE_LIST=(TC_DB TC_DW)
 
+printf "" > "$hostFile"
+
 for i in "${TC_DATABASE_LIST[@]}"
 do
 	nameSuffix='_NAME'
@@ -31,7 +33,7 @@ do
 
    	hostFile="${INFORMIXDIR}/etc/sqlhosts.$name"
 
-   	printf "$name onsoctcp $host $port" > "$hostFile"
+   	printf "$name onsoctcp $host $port\n" >> "$hostFile"
 done
 
 INFORMIXLIBDIR="${INFORMIXDIR}/lib"
