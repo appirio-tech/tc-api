@@ -17,16 +17,20 @@ var nodemailer = require('nodemailer'),
 /// environment variables
 var tc_email_account = process.env.TC_EMAIL_ACCOUNT,
     tc_email_password = process.env.TC_EMAIL_PASSWORD,
+    tc_email_secured = process.env.TC_EMAIL_SECURED,
     tc_email_host = process.env.TC_EMAIL_HOST,
     tc_email_host_port = process.env.TC_EMAIL_HOST_PORT;
-
+if (typeof (tc_email_secured) != 'boolean') {
+    tc_email_secured = typeof (tc_email_secured) != 'string' || tc_email_secured.toLowerCase() != "false";
+}
+    
 /**
  * This function is used to check the existence of 
- * given paramters and ensure it not be empty
+ * given parameters and ensure it not be empty
  * 
- * @param {Object} params - a object of paramters
+ * @param {Object} params - a object of parameters
  * @param {String} name - the name of the to-be-checked parameter
- * @param {Boolean} true if params contains the given paramter 
+ * @param {Boolean} true if params contains the given parameter 
  *                      and it is not empty; false otherwise. 
  */
 var checkParameter = function (params, name) {
@@ -45,7 +49,7 @@ var sendActivationEmail = {
     /**
      * Main function of addLdapEntry tasks
      *
-     * @param {Object} api - object used to access infrustrature
+     * @param {Object} api - object used to access infrastructure
      * @param {Object} params require fields: subject, activationCode, 
      *                          template, toAddress, fromAddress,
      *                          senderName, url,
@@ -97,16 +101,20 @@ var sendActivationEmail = {
                 }
 
                 // create transport for activation email
-                transport = nodemailer.createTransport("SMTP", {
+                var smtpConfig = {
                     host: tc_email_host,
                     port: tc_email_host_port,
-                    secureConnection: true,
-                    requiresAuth: true,
-                    auth: {
+                    secureConnection: tc_email_secured,
+                    requiresAuth: false
+                };
+                if (typeof(tc_email_account) == 'string' && tc_email_account.length > 0) {
+                    smtpConfig.requiresAuth = true;
+                    smtpConfig.auth = {
                         user: tc_email_account,
                         pass: tc_email_password
-                    }
-                });
+                    };
+                }
+                transport = nodemailer.createTransport("SMTP", smtpConfig);
 
                 // build email message
                 message = {

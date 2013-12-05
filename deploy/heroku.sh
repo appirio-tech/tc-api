@@ -61,6 +61,7 @@ then
                         TC_BIND_DN="cn=Manager,dc=topcoder,dc=com" \
                         TC_EMAIL_HOST=smtp.gmail.com \
                         TC_EMAIL_HOST_PORT=465 \
+                        TC_EMAIL_SECURED=true \
                         TC_EMAIL_ACCOUNT=tc.ldap.test@gmail.com \
                         TC_EMAIL_PASSWORD=tc_public_email \
                         TC_EMAIL_TEMPLATE_DIR=mail_templates \
