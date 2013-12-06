@@ -149,23 +149,18 @@ exports.addMemberProfileLDAPEntry = {
      * Main function of addMemberProfileLDAPEntry tasks
      *
      * @param {Object} api - object used to access infrustrature
-     * @param {Object} params require fields: userId, handle, password, errorHandler(err) for error handle
+     * @param {Object} params require fields: userId, handle, password
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
-        api.log('[task @ addMemberProfileLDAPEntry] Enter addMemberProfileLDAPEntry task', 'debug');
+        api.log('Enter addMemberProfileLDAPEntry task#run', 'debug');
 
         var client, error, index, requiredParams = ['userId', 'handle', 'password'];
 
-        // pararms validation
-        if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
-            api.log('[task warning @ addMemberProfileLDAPEntry] No error handler assigned', 'warning');
-            params.errorHandler = function (err) { console.log(err); };
-        }
         for (index = 0; index < requiredParams.length; index += 1) {
-            if (!checkParameter(params, requiredParams[index])) {
-                api.log('[ task err @ addMemberProfileLDAPEntry] parameter <' + requiredParams[index] + '> missing', 'error');
-                params.errorHandler({ message: 'required parameter <' + requiredParams[index] + '> missing' });
+            error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+            if (error) {
+                api.log("task addMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
                 return next(null, true);
             }
         }
@@ -184,12 +179,11 @@ exports.addMemberProfileLDAPEntry = {
         ], function (err, result) {
             if (err) {
                 error = result.pop();
-                api.log('[task error @ addMemberProfileLDAPEntry] ' + err + ' ', 'error', error);
-                params.errorHandler(error);
+                api.log('task addMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
             } else {
                 client.unbind();
             }
-            api.log('[task @ addMemberProfileLDAPEntry] Leave addMemberProfileLDAPEntry task', 'debug');
+            api.log('Leave addMemberProfileLDAPEntry task', 'debug');
         });
         return next(null, true);
     }
@@ -208,22 +202,19 @@ exports.activateMemberProfileLDAPEntry = {
      * Main function of activateMemberProfileLDAPEntry tasks
      *
      * @param {Object} api - object used to access infrustrature
-     * @param {Object} params require fields: userId, errorHandler(err) for error handle
+     * @param {Object} params require fields: userId
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
-        api.log('[task @ activateMemberProfileLDAPEntry] Enter activateMemberProfileLDAPEntry task', 'debug');
+        api.log('Enter activateMemberProfileLDAPEntry task#run', 'debug');
+        
         var client, error;
 
         // pararms validation
-        if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
-            api.log('[task warning @ activateMemberProfileLDAPEntry] No error handler assigned', 'warning');
-            params.errorHandler = function (err) { console.log(err); };
-        }
 
-        if (!checkParameter(params, 'userId')) {
-            api.log('[task err @ activateMemberProfileLDAPEntry] required parameter <userId> missing', 'error');
-            params.errorHandler({ message: 'required parameter <userId> missing' });
+        error = api.helper.checkDefined(params['userId'], 'userId');
+        if (error) {
+            api.log("task activateMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
             return next(null, true);
         }
 
@@ -241,12 +232,11 @@ exports.activateMemberProfileLDAPEntry = {
         ], function (err, result) {
             if (err) {
                 error = result.pop();
-                api.log('[task error @ activateMemberProfileLDAPEntry] ' + err + ' ', 'error', error);
-                params.errorHandler(error);
+                api.log('task activateMemberProfileLDAPEntry ' + err + ' ', 'error', error);
             } else {
                 client.unbind();
             }
-            api.log('[task @ activateMemberProfileLDAPEntry] Leave activateMemberProfileLDAPEntry task', 'debug');
+            api.log('Leave activateMemberProfileLDAPEntry task', 'debug');
         });
         return next(null, true);
     }
