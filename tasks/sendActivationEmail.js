@@ -62,7 +62,7 @@ var sendActivationEmail = {
             'template', 'toAddress', 'senderName', 'url'];
 
         for (index = 0; index < requiredParams.length; index += 1) {
-            err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+            var err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
             
             if (err) {
                 api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
