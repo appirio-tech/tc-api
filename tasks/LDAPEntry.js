@@ -149,7 +149,7 @@ exports.addMemberProfileLDAPEntry = {
      * Main function of addMemberProfileLDAPEntry tasks
      *
      * @param {Object} api - object used to access infrustrature
-     * @param {Object} params require fields: userId, handle, password, errorHandler(err) for error handle
+     * @param {Object} params require fields: userId, handle, password
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
@@ -157,16 +157,10 @@ exports.addMemberProfileLDAPEntry = {
 
         var client, error, index, requiredParams = ['userId', 'handle', 'password'];
 
-        // pararms validation
-        if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
-            api.log('task addMemberProfileLDAPEntry: No error handler assigned', 'warning');
-            params.errorHandler = function (err) { console.log(err); };
-        }
         for (index = 0; index < requiredParams.length; index += 1) {
             error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
             if (error) {
                 api.log("task addMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
-                params.errorHandler(error);
                 return next(null, true);
             }
         }
@@ -186,7 +180,6 @@ exports.addMemberProfileLDAPEntry = {
             if (err) {
                 error = result.pop();
                 api.log('task addMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
-                params.errorHandler(error);
             } else {
                 client.unbind();
             }
@@ -209,7 +202,7 @@ exports.activateMemberProfileLDAPEntry = {
      * Main function of activateMemberProfileLDAPEntry tasks
      *
      * @param {Object} api - object used to access infrustrature
-     * @param {Object} params require fields: userId, errorHandler(err) for error handle
+     * @param {Object} params require fields: userId
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
@@ -218,15 +211,10 @@ exports.activateMemberProfileLDAPEntry = {
         var client, error;
 
         // pararms validation
-        if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
-            api.log('task activateMemberProfileLDAPEntry: No error handler assigned', 'warning');
-            params.errorHandler = function (err) { console.log(err); };
-        }
 
         error = api.helper.checkDefined(params['userId'], 'userId');
         if (error) {
             api.log("task activateMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
-            params.errorHandler(error);
             return next(null, true);
         }
 
@@ -245,7 +233,6 @@ exports.activateMemberProfileLDAPEntry = {
             if (err) {
                 error = result.pop();
                 api.log('task activateMemberProfileLDAPEntry ' + err + ' ', 'error', error);
-                params.errorHandler(error);
             } else {
                 client.unbind();
             }

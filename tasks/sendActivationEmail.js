@@ -52,8 +52,7 @@ var sendActivationEmail = {
      * @param {Object} api - object used to access infrastructure
      * @param {Object} params require fields: subject, activationCode, 
      *                          template, toAddress, fromAddress,
-     *                          senderName, url,
-     *                          errorHandler(err) for error handle
+     *                          senderName, url
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
@@ -61,18 +60,11 @@ var sendActivationEmail = {
         var index, transport, locals, message, requiredParams = ['subject', 'activationCode',
             'template', 'toAddress', 'fromAddress', 'senderName', 'url'], err;
 
-        // validation parameter
-        if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
-            api.log('task sendActivationEmail: No error handler assigned', 'warning');
-            params.errorHandler = function (err) { console.log(err); };
-        }
-
         for (index = 0; index < requiredParams.length; index += 1) {
             err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
             
             if (err) {
                 api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
-                params.errorHandler(err);
                 return next(null, true);
             }
         }
@@ -81,7 +73,6 @@ var sendActivationEmail = {
         emailTemplates(templatesDir, function (err, template) {
             if (err) { // fail to read templates directory
                 api.log("task sendActivationEmail: failed to get templates directory " + templatesDir + " : " + err + " " + (err.stack || ''), "error");
-                params.errorHandler(err);
                 return;
             }
 
@@ -95,7 +86,6 @@ var sendActivationEmail = {
             template(params.template, locals, function (err, html, text) {
                 if (err) { // unable to locate the assigned template
                     api.log('task sendActivationEmail: failed to get template: ' + err + " " + (err.stack || ''), 'error');
-                    params.errorHandler(err);
                     return;
                 }
 
@@ -128,7 +118,6 @@ var sendActivationEmail = {
                 transport.sendMail(message, function (err) {
                     if (err) { // unable to send email
                         api.log('task sendActivationEmail: cannot send email ' + err + " " + (err.stack || ''), 'error');
-                        params.errorHandler(err);
                         return;
                     }
                     api.log('task sendActivationEmail: activation email sent', 'info');
