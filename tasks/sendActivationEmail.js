@@ -12,16 +12,18 @@
 var nodemailer = require('nodemailer'),
     path = require('path'),
     templatesDir = path.join(__dirname, '../' + process.env.TC_EMAIL_TEMPLATE_DIR),
-    emailTemplates = require('email-templates');
+    emailTemplates = require('email-templates'),
+    _ = require("underscore");
 
 /// environment variables
 var tc_email_account = process.env.TC_EMAIL_ACCOUNT,
     tc_email_password = process.env.TC_EMAIL_PASSWORD,
+    tc_email_from = process.env.TC_EMAIL_FROM,
     tc_email_secured = process.env.TC_EMAIL_SECURED,
     tc_email_host = process.env.TC_EMAIL_HOST,
     tc_email_host_port = process.env.TC_EMAIL_HOST_PORT;
-if (typeof (tc_email_secured) != 'boolean') {
-    tc_email_secured = typeof (tc_email_secured) != 'string' || tc_email_secured.toLowerCase() != "false";
+if (!_.isBoolean(tc_email_secured)) {
+    tc_email_secured = !_.isString(tc_email_secured) || tc_email_secured.toLowerCase() != "false";
 }
     
 /**
@@ -51,15 +53,14 @@ var sendActivationEmail = {
      *
      * @param {Object} api - object used to access infrastructure
      * @param {Object} params require fields: subject, activationCode, 
-     *                          template, toAddress, fromAddress,
-     *                          senderName, url,
+     *                          template, toAddress, senderName, url,
      *                          errorHandler(err) for error handle
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
         api.log('[task @ sendActivationEmail] Enter sendActivationEmail task', 'info');
         var index, transport, locals, message, requiredParams = ['subject', 'activationCode',
-            'template', 'toAddress', 'fromAddress', 'senderName', 'url'];
+            'template', 'toAddress', 'senderName', 'url'];
 
         // validation parameter
         if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
@@ -107,7 +108,7 @@ var sendActivationEmail = {
                     secureConnection: tc_email_secured,
                     requiresAuth: false
                 };
-                if (typeof(tc_email_account) == 'string' && tc_email_account.length > 0) {
+                if (_.isString(tc_email_account) && tc_email_account.length > 0) {
                     smtpConfig.requiresAuth = true;
                     smtpConfig.auth = {
                         user: tc_email_account,
@@ -118,7 +119,7 @@ var sendActivationEmail = {
 
                 // build email message
                 message = {
-                    from: params.fromAddress,
+                    from: tc_email_from,
                     to: params.toAddress,
                     subject: params.subject,
                     html: html,
