@@ -68,10 +68,11 @@ var sendActivationEmail = {
         }
 
         for (index = 0; index < requiredParams.length; index += 1) {
-            err = api.helper.checkDefined(params, requiredParams[index]);
+            err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+            
             if (err) {
                 api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
-                params.errorHandler({ message: 'required parameter <' + requiredParams[index] + '> missing' });
+                params.errorHandler(err);
                 return next(null, true);
             }
         }
