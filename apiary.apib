@@ -555,6 +555,61 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Software Member Rating History [/develop/statistics/{handle}/{challengeType}]
+### Software Member Rating History [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+    + challengeType (required, String, `Development`) ... Challenge Type
+
++ Response 200 (application/json)
+
+        {
+            ratingHistory:
+            [
+                {
+                    date: "2012.9.10",
+                    rating: 1000
+                },
+                {
+                    date: "2012.10.10",
+                    rating: 1100
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
         
 ## Contest Types Collection [/develop/challengetypes]
