@@ -23,7 +23,7 @@ var tc_email_account = process.env.TC_EMAIL_ACCOUNT,
 if (typeof (tc_email_secured) != 'boolean') {
     tc_email_secured = typeof (tc_email_secured) != 'string' || tc_email_secured.toLowerCase() != "false";
 }
-    
+
 /**
  * This function is used to check the existence of 
  * given parameters and ensure it not be empty
@@ -57,20 +57,20 @@ var sendActivationEmail = {
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
-        api.log('[task @ sendActivationEmail] Enter sendActivationEmail task', 'info');
+        api.log('Enter sendActivationEmail task#run', 'info');
         var index, transport, locals, message, requiredParams = ['subject', 'activationCode',
-            'template', 'toAddress', 'fromAddress', 'senderName', 'url'];
+            'template', 'toAddress', 'fromAddress', 'senderName', 'url'], err;
 
         // validation parameter
         if ((!params.hasOwnProperty('errorHandler')) || (typeof params.errorHandler !== 'function')) {
-            api.log('[task warning @ addLdapEntry] No error handler assigned', 'warning');
+            api.log('task sendActivationEmail: No error handler assigned', 'warning');
             params.errorHandler = function (err) { console.log(err); };
         }
 
         for (index = 0; index < requiredParams.length; index += 1) {
-            if (!checkParameter(params, requiredParams[index])) {
-                api.log('[ task err @ sendActivationEmail] parameter <' +
-                    requiredParams[index] + '> missing', 'error');
+            err = api.helper.checkDefined(params, requiredParams[index]);
+            if (err) {
+                api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
                 params.errorHandler({ message: 'required parameter <' + requiredParams[index] + '> missing' });
                 return next(null, true);
             }
@@ -79,8 +79,7 @@ var sendActivationEmail = {
         // build email from templates
         emailTemplates(templatesDir, function (err, template) {
             if (err) { // fail to read templates directory
-                api.log('[ task err @ sendActivationEmail] failed to get templates directory',
-                    'error', {err: JSON.stringify(err), dir: templatesDir});
+                api.log("task sendActivationEmail: failed to get templates directory " + templatesDir + " : " + err + " " + (err.stack || ''), "error");
                 params.errorHandler(err);
                 return;
             }
@@ -94,8 +93,7 @@ var sendActivationEmail = {
             // build email from given template
             template(params.template, locals, function (err, html, text) {
                 if (err) { // unable to locate the assigned template
-                    api.log('[ task err @ sendActivationEmail] failed to get template',
-                        'error', {err: JSON.stringify(err)});
+                    api.log('task sendActivationEmail: failed to get template: ' + err + " " + (err.stack || ''), 'error');
                     params.errorHandler(err);
                     return;
                 }
@@ -128,19 +126,17 @@ var sendActivationEmail = {
                 // send email
                 transport.sendMail(message, function (err) {
                     if (err) { // unable to send email
-                        api.log('[ task err @ sendActivationEmail] cannot send email', 'error', {
-                            err: JSON.stringify(err)
-                        });
+                        api.log('task sendActivationEmail: cannot send email ' + err + " " + (err.stack || ''), 'error');
                         params.errorHandler(err);
                         return;
                     }
-                    api.log('[ task @ sendActivationEmail] activation email sent', 'info');
+                    api.log('task sendActivationEmail: activation email sent', 'info');
                     // close transport in the end.
                     transport.close();
                 });
             });
         });
-        api.log('[task @ sendActivationEmail] Leave sendActivationEmail task', 'info');
+        api.log('Leave sendActivationEmail task', 'info');
         return next(null, true);
     }
 };
