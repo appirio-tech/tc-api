@@ -378,7 +378,7 @@ describe('successInput', function () {
 
         supertest(API_ENDPOINT)
             .post('/v2/develop/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Angola', socialProviderId:1, socialUserName:"foobar", socialEmail:"foobar@foobar.com", socialEmailVerified:'t'})
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'United States', socialProviderId:1, socialUserName:"foobar", socialEmail:"foobar@foobar.com", socialEmailVerified:'t'})
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {

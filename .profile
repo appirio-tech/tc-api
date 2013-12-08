@@ -7,7 +7,32 @@ ONCONFIG="onconfig.${INFORMIXSERVER}"
 
 INFORMIXSQLHOSTS="${INFORMIXDIR}/etc/sqlhosts.${INFORMIXSERVER}"
 
-printf "informixoltp_tcp onsoctcp ${TC_DB_HOST} ${TC_DB_PORT}" > "$INFORMIXSQLHOSTS"
+TC_DATABASE_LIST=(TC_DB TC_DW)
+
+printf "" > $INFORMIXSQLHOSTS
+
+for i in "${TC_DATABASE_LIST[@]}"
+do	
+	nameSuffix='_NAME'
+	name='$i$nameSuffix'
+	eval name=$name
+   	name=\$$name   
+	eval name=$name
+
+	hostSuffix="_HOST"
+	host='$i$hostSuffix'
+	eval host=$host
+   	host=\$$host   
+	eval host=$host
+
+	portSuffix="_PORT"
+   	port='$i$portSuffix'
+	eval port=$port
+   	port=\$$port   
+	eval port=$port
+
+   	printf "$name onsoctcp $host $port\n" >> $INFORMIXSQLHOSTS
+done
 
 INFORMIXLIBDIR="${INFORMIXDIR}/lib"
 INFORMIXLIBS=${INFORMIXLIBDIR}

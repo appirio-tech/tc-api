@@ -31,9 +31,9 @@ do
     fi
     if [ "$var" == "deploy" ]
     then
-	HEROKU_PUSH="y"
-	HEROKU_LAUNCH="y"
-	HEROKU_CONFIG="y"
+        HEROKU_PUSH="y"
+        HEROKU_LAUNCH="y"
+        HEROKU_CONFIG="y"
     fi
 done
 
@@ -49,10 +49,16 @@ if [ $HEROKU_CONFIG == "y" ]
 then
     echo "INFO: Set environment variables"
     ### Export the parameters
-    heroku config:set   TC_DB_HOST=54.196.54.170 \
+    heroku config:set   TC_DB_NAME=informixoltp_tcp \
+                        TC_DB_HOST=54.205.34.183 \
                         TC_DB_PORT=2021 \
                         TC_DB_USER=informix \
                         TC_DB_PASSWORD=1nf0rm1x \
+                        TC_DW_NAME=informixoltp_tcp \
+                        TC_DW_HOST=54.205.34.183 \
+                        TC_DW_PORT=2021 \
+                        TC_DW_USER=informix \
+                        TC_DW_PASSWORD=1nf0rm1x \
                         TC_API_HOST=api.topcoder.com \
                         TC_LDAP_HOST=54.196.54.170 \
                         TC_LDAP_PORT=636 \
