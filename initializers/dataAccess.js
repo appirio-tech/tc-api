@@ -18,14 +18,7 @@ var fs = require("fs");
 var _ = require('underscore');
 var async = require("async");
 var helper;
-
-/**
- * Initialize the database settings for the Contest API
- */
-var settings = {
-    "user": process.env.TC_DB_USER,
-    "password": process.env.TC_DB_PASSWORD
-};
+var configs = require("../config.js");
 
 /**
  * Regex for sql paramters e.g @param_name@
@@ -156,7 +149,17 @@ exports.dataAccess = function (api, next) {
          * @return {Object} the created connection.
          */
         createConnection : function (databaseName) {
-            return new bindings.Informix({"user" : settings.user, "password" : settings.password, "database" : databaseName});
+            var error, dbServerPrefix = configs.configData.databaseMapping[databaseName], user, password, hostname;
+            error = helper.checkDefined(dbServerPrefix, "database server prefix");
+            if (error) {
+                throw error;
+            }
+
+            user = eval('process.env.' + dbServerPrefix + "_USER");
+            password = eval('process.env.' + dbServerPrefix + "_PASSWORD");
+            hostname = eval('process.env.' + dbServerPrefix + "_NAME");
+
+            return new bindings.Informix({"user" : user, "password" : password, "database" : databaseName, "hostname" : hostname});
         },
 
         _parameterizeQuery: parameterizeQuery,

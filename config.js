@@ -86,9 +86,9 @@ configData.logger.transports.push(function (api, winston) {
 ///////////
 
 configData.redis = {
-    fake : true,
-    host : "127.0.0.1",
-    port : 6379,
+    fake : !(process.env.REDIS_HOST && process.env.REDIS_HOST !== '127.0.0.1'),
+    host : process.env.REDIS_HOST || "127.0.0.1",
+    port : process.env.REDIS_PORT || 6379,
     password : null,
     options : null,
     DB : 0,
@@ -143,6 +143,17 @@ configData.servers = {
     // "websocket" : {
     // },
 };
+
+/**
+ * A mapping indicating which database belongs to which database server.
+ */
+configData.databaseMapping = {
+    "common_oltp" : "TC_DB",
+    "informixoltp" : "TC_DB",
+    "tcs_catalog" : "TC_DB",
+    "topcoder_dw" : "TC_DW",
+    "tcs_dw" : "TC_DW"
+}
 
 //////////////////////////////////
 

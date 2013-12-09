@@ -75,7 +75,10 @@ AND submpp.scheduled_end_time > CURRENT
   and pcat.category_id = c.root_category_id
   and pi.project_id = p.project_id
   and pi.phase_type_id = 2
-  and p.project_status_id = 1) AS active_members_count,
+  and p.project_status_id = 1) AS active_members_count,    
+(SELECT COUNT(*) 
+  FROM user u
+ WHERE u.status = 'A') as member_count,
 
 (select count(*) from tc_direct_project dp
 where exists (select project_id from project where tc_direct_project_id = dp.project_id and project_status_id in (1,2)))  AS active_projects_count,
