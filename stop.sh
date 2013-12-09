@@ -1,3 +1,4 @@
 #!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-forever stop ~/tc-api/node_modules/actionHero/bin/actionHero
+forever stop "${DIR}/node_modules/actionHero/bin/actionHero"
