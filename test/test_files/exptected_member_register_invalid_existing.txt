@@ -1,4 +1,0 @@
-[
-    "Handle testHandleFoo has already been taken",
-    "The email - testHandleFoo@foobar.com is already registered, please use another one."
-]

@@ -1,9 +1,0 @@
-[
-  {
-    "user_id": 22758854,
-    "social_login_provider_id": 1,
-    "social_user_name": "foobar",
-    "social_email": "foobar@foobar.com",
-    "social_email_verified": true
-  }
-]

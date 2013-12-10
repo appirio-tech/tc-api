@@ -1,1 +1,0 @@
-login_id, user_id, password from security_user where user_id = 'testHandleFoo'
