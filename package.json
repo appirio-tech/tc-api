@@ -23,7 +23,8 @@
         "ldapjs" : "*",
         "nodemailer" : "*",
         "email-templates" : "*",
-        "bcrypt" : ">=0.5.*"
+        "bcrypt" : ">=0.5.*",
+        "combined-stream": "~0.0.4"
     },
     "devDependencies": {
         "supertest": "~0.8.0",
