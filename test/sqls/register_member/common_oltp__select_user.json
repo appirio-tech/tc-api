@@ -1,0 +1,6 @@
+{
+  "name"    : "common_oltp__select_user",
+  "db"      : "common_oltp",
+  "sqlfile" : "common_oltp__select_user",
+  "select": true
+}

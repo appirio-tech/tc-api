@@ -1,0 +1,10 @@
+[
+    "Country name is not valid.",
+    "Email address is invalid",
+    "Last name is required",
+    "Maximum length of first name is 64",
+    "Social Email Verified can only be t or f",
+    "Social Email address is invalid",
+    "Social user name is required",
+    "The handle may contain only letters, numbers and -_.{}[]"
+]

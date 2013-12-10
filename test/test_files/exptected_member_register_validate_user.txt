@@ -1,0 +1,11 @@
+[
+  {
+    "user_id": 22758854,
+    "first_name": "foo",
+    "last_name": "bar",
+    "handle": "testHandleFoo",
+    "status": "A",
+    "activation_code": "MEQFC39DXF",
+    "reg_source": "api"
+  }
+]

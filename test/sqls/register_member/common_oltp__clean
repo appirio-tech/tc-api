@@ -1,0 +1,15 @@
+
+
+delete from 'informix'.country where country_name = 'Angola';
+
+delete from 'informix'.invalid_handles where invalid_handle_id = 1000000;
+
+delete from 'informix'.security_user where user_id = 'testHandleFoo';
+delete from 'informix'.email where address = 'testHandleFoo@foobar.com';
+delete from 'informix'.user_group_xref where login_id = 22758854;
+delete from 'informix'.user_social_login where user_id = 22758854;
+delete from 'informix'.user where handle = 'testHandleFoo';
+
+delete from 'informix'.security_user where user_id = 'testForEmail';
+delete from 'informix'.email where address = 'testForEmail@foobar.com';
+delete from 'informix'.user where handle = 'testForEmail';
