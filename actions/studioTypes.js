@@ -15,17 +15,19 @@
  * @param {Function} next The callback to be called after this function is done
  */
 var getStudioTypes = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        ret = [],
+        len,
+        i;
+
     api.dataAccess.executeQuery("get_studio_types", {}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            connection.error = err;
-            next(connection, true);
+            helper.handleError(api, connection, err);
         } else {
             api.log("Forward result", "debug");
-            var ret = new Array();
-            var len = result.length;
-            for(var i=0; i<result.length; i = i + 1) {
+            len = result.length;
+            for (i = 0; i < len; i = i + 1) {
                 var t = {};
                 t.challengeCategoryId = result[i].challengecategoryid;
                 t.challengeTypeId = result[i].challengetypeid;
@@ -34,9 +36,9 @@ var getStudioTypes = function (api, connection, dbConnectionMap, next) {
                 ret.push(t);
             }
             connection.response = ret;
-            next(connection, true);
         }
     });
+    next(connection, true);
 };
 
 /**
