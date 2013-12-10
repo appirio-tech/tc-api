@@ -23,7 +23,9 @@
         "ldapjs" : "*",
         "nodemailer" : "*",
         "email-templates" : "*",
-        "bcrypt" : ">=0.5.*"
+        "bcrypt" : ">=0.5.*",
+        "bigdecimal": "*",
+        "bignum": "*"
     },
     "devDependencies": {
         "supertest": "~0.8.0",

@@ -16,6 +16,8 @@
 var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
 var bcrypt = require('bcrypt');
+var bigdecimal = require("bigdecimal");
+var bignum = require("bignum");
 
 /**
  * The max surname length
@@ -96,6 +98,72 @@ var activationEmailSubject = "Topcoder User Registration Activation";
 var activationEmailSenderName = "Topcoder API";
 
 /**
+ * this is the random int generator class
+ */
+function CodeRandom(coderId) {
+    this.coderId = coderId;
+    this.multiplier = 0x5DEECE66D;
+    this.addend = 0xB;
+    this.mask = 281474976710655;
+    this.seed = bignum(this.coderId).xor(this.multiplier).and(this.mask);
+    this.nextInt = function() {
+        var oldseed = this.seed,
+            nextseed;
+            do {
+                nextseed = oldseed.mul(this.multiplier).add(this.addend).and(this.mask);
+            } while (oldseed.toNumber() === nextseed.toNumber());
+            this.seed = nextseed;
+        return nextseed.shiftRight(16).toNumber();
+    }
+}
+
+/**
+ * get the code string by coderId
+ * @param coderId  the coder id of long type.
+ * @return the coder id generated hash string.
+ */
+function getCode(coderId) {
+    var r = new CodeRandom(coderId);
+    var nextBytes = function(bytes) {
+        for (var i = 0, len = bytes.length; i < len;)
+            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
+                var val = rnd & 0xff;
+                if (val > 127) {
+                    val = val - 256;
+                }
+                bytes[i++] = val;
+            }
+    };
+    var randomBits = function(numBits) {
+        if (numBits < 0)
+            throw new Error("numBits must be non-negative");
+        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
+        var randomBits = new Int8Array(numBytes);
+
+        // Generate random bytes and mask out any excess bits
+        if (numBytes > 0) {
+            nextBytes(randomBits);
+            var excessBits = 8 * numBytes - numBits;
+            randomBits[0] &= (1 << (8 - excessBits)) - 1;
+        }
+        return randomBits;
+    }
+    var id = coderId + "";
+    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
+    var len = coderId.toString(2).length;
+    var arr = randomBits(len);
+    var bb = bignum.fromBuffer(new Buffer(arr));
+    var hash = bb.add(baseHash).toString();
+    while (hash.length < id.length) {
+        hash = "0" + hash;
+    }
+    hash = hash.substring(hash.length - id.length);
+    var result = new bigdecimal.BigInteger(id + hash);
+    result = result.toString(36).toUpperCase();
+    return result;
+}
+
+/**
  * Register a new user.
  * The result will be passed to the "next" callback.
  * 
@@ -117,7 +185,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                 function (callback) {
                     var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
                     // use user id as activation code for now
-                    activationCode = user.id.toString();
+                    activationCode = getCode(user.id.toString());
                     api.dataAccess.executeUpdate("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
