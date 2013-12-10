@@ -15,19 +15,18 @@
  * @param {Function} next The callback to be called after this function is done
  */
 var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper;
+
     api.dataAccess.executeQuery("tc_direct_facts", {}, dbConnectionMap, function (err, result) {
-        api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            connection.error = err;
-            next(connection, true);
+            helper.handleError(api, connection, err);
         } else {
             api.log("Forward result", "debug");
             connection.response = result;
-            next(connection, true);
         }
-
     });
+
+    next(connection, true);
 };
 
 /**
