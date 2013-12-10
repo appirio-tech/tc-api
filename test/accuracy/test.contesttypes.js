@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * 1.1 change notes:
- * update unit tests as contest types are now separated.
- * Version: 1.1
- * Author: vangavroche, KeSyren
+ * @version 1.2
+ * @author vangavroche, KeSyren, TCSASSEMBLER
+ * changes in 1.1:
+ * - update unit tests as contest types are now separated.
+ * changes in 1.2:
+ * - use test_files under accuracy directory
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -27,7 +29,7 @@ describe('Get Contest Types API', function () {
         /// Check if the data are in expected structure and data
         it('should response with expected structure and data', function (done) {
 
-            var text = fs.readFileSync("test/test_files/expected_get_contesttypes.txt", 'utf8'),
+            var text = fs.readFileSync("test/accuracy/test_files/expected_get_contesttypes.txt", 'utf8'),
                 expected = JSON.parse(text);
 
             function sortBy(prop) {

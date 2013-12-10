@@ -1,0 +1,3 @@
+insert into 'informix'.country (country_code, country_name) values('AGL', 'Angola');
+insert into 'informix'.invalid_handles (invalid_handle_id, invalid_handle) values(1000000, 'invalidHandle');
+update 'informix'.id_sequences set next_block_start = 22758844 where name = "USER_SEQ";

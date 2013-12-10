@@ -34,7 +34,7 @@
     },
     "scripts": {
         "start": "node ./node_modules/.bin/actionHero start &",
-	"test" : "node_modules/.bin/mocha ./test/test.caching.js ./test/register_member.js ./test/test.parameterizeQuery.js",
+        "test" : "node_modules/.bin/mocha --recursive ./test",
         "startCluster": "node ./node_modules/.bin/actionHero startCluster",
         "actionHero": "node ./node_modules/.bin/actionHero",
         "help": "node ./node_modules/.bin/actionHero help"

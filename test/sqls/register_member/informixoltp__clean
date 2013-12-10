@@ -1,0 +1,2 @@
+
+delete from coder where coder_id = 22758854 or coder_id = 22758864

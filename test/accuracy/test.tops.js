@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author jpy
+ * @version 1.1
+ * @author jpy, TCSASSEMBLER
+ * change in 1.1:
+ * - use before and after to setup and clean data
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -11,13 +13,60 @@
 var fs = require('fs');
 var request = require('supertest');
 var assert = require('chai').assert;
+var async = require("async");
 
+var testHelper = require('../helpers/testHelper');
+var SQL_DIR = __dirname + "/sqls/tops/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 var ACTION = '/v2/develop/statistics/tops/';
 
 describe('Get Tops API', function () {
     this.timeout(30000);
     var total, pageSize, pageIndex, i, data, r;
+
+
+    /**
+     * Clear database
+     * @param {Function<err>} done the callback
+     */
+    function clearDb(done) {
+        async.waterfall([
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "topcoder_dw__clean", "topcoder_dw", cb);
+            },
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "tcs_dw__clean", "tcs_dw", cb);
+            }
+        ], done);
+    }
+
+    /**
+     * This function is run before all tests.
+     * Generate tests data.
+     * @param {Function<err>} done the callback
+     */
+    before(function (done) {
+        async.waterfall([
+            clearDb,
+            function (cb) {
+                var files = testHelper.generatePartPaths(SQL_DIR + "topcoder_dw__insert_test_data", "", 2);
+                testHelper.runSqlFiles(files, "topcoder_dw", cb);
+            },
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "tcs_dw__insert_test_data", "tcs_dw", cb);
+            }
+        ], done);
+    });
+
+    /**
+     * This function is run after all tests.
+     * Clean up all data.
+     * @param {Function<err>} done the callback
+     */
+    after(function (done) {
+        clearDb(done);
+    });
+
 
     describe('GET /develop/statistics/tops/design', function () {
 

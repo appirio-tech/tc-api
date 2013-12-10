@@ -1,3 +1,3 @@
 -t 5000
 --reporter list
---ui tdd
+--ui bdd

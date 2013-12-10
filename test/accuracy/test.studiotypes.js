@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: KeSyren
+ * @version 1.1
+ * @author KeSyren
+ * changes in 1.1:
+ * - use test_files under accuracy directory
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -25,7 +27,7 @@ describe('Get Design Types API', function () {
         /// Check if the data are in expected structure and data
         it('should response with expected structure and data', function (done) {
 
-            var text = fs.readFileSync("test/test_files/expected_get_studiotypes.txt", 'utf8'),
+            var text = fs.readFileSync("test/accuracy/test_files/expected_get_studiotypes.txt", 'utf8'),
                 expected = JSON.parse(text);
 
             function sortBy(prop) {

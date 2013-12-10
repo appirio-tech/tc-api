@@ -1,0 +1,5 @@
+{
+  "name"    : "common_oltp__select_security_user",
+  "db"      : "common_oltp",
+  "sqlfile" : "common_oltp__select_security_user"
+}

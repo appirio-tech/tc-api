@@ -148,5 +148,17 @@
     "challengeTypeId": 2,
     "name": "Marathon Match",
     "description": "Marathon Match"
+  },
+  {
+    "challengeCategoryId": 38,
+    "challengeTypeId": 2,
+    "name": "First2Finish",
+    "description": "First2Finish"
+  },
+  {
+    "challengeCategoryId": 39,
+    "challengeTypeId": 2,
+    "name": "Code",
+    "description": "Code"
   }
 ]

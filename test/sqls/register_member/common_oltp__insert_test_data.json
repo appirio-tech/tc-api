@@ -1,0 +1,5 @@
+{
+  "name"    : "common_oltp__insert_test_data",
+  "db"      : "common_oltp",
+  "sqlfile" : "common_oltp__insert_test_data"
+}

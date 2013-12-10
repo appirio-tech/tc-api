@@ -1,0 +1,5 @@
+{
+  "name"    : "informixoltp__clean",
+  "db"      : "informixoltp",
+  "sqlfile" : "informixoltp__clean"
+}
