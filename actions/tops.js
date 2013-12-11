@@ -74,18 +74,18 @@ var contestTypes = {
 
 /**
  * This is the function that actually get the tops.
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next The callback to be called after this function is done
  */
-var getTops = function (api, connection, dbConnectionMap, next) {
+var getTops = function (api, connection, next) {
     var helper = api.helper,
         sqlParams = {},
         pageIndex,
         pageSize,
         error,
+        dbConnectionMap = connection.dbConnectionMap,
         contestType = connection.params.contestType.toLowerCase(),
         result = {},
         active = false;
@@ -165,15 +165,16 @@ exports.getTops = {
         required: ["contestType"],
         optional : ["pageIndex", "pageSize"]
     },
+    cacheEnabled: false,
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
     databases : ["topcoder_dw", "tcs_dw"],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getTops#run", 'debug');
-            getTops(api, connection, this.dbConnectionMap, next);
+            getTops(api, connection, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;

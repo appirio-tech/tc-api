@@ -18,7 +18,6 @@
 var fs = require('fs');
 var supertest = require('supertest');
 var assert = require('chai').assert;
-var bindings = require("nodejs-db-informix");
 var async = require("async");
 var bcrypt = require('bcrypt');
 var testHelper = require('./helpers/testHelper');

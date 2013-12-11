@@ -1,12 +1,20 @@
 ﻿/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, pvmagacho
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
 
+/**
+ * Default jdbc connection pool configuration. Used when environment variables are not set.
+ */
+var DEFAULT_MINPOOL = 1;
+var DEFAULT_MAXPOOL = 60;
+var DEFAULT_MAXSIZE = 0;
+var DEFAULT_IDLETIMEOUT = 3600; // 3600s
+var DEFAULT_TIMEOUT = 30000; // 30s
 
 var async = require('async');
 var fs = require('fs');
@@ -21,7 +29,7 @@ var helper = {};
 /**
  * The Informix bindings
  */
-var bindings = require("nodejs-db-informix");
+var Jdbc = require("informix-wrapper");
 
 /**
  * Heroku config
@@ -34,14 +42,17 @@ var config = require('../../config');
  * @return {Object} the created connection
  */
 function createConnection(databaseName) {
-    var dbServerPrefix = config.configData.databaseMapping[databaseName], user, password, hostname, error;
+    var dbServerPrefix = config.configData.databaseMapping[databaseName], user, password, hostname, server, port,
+                         error;
     if (!dbServerPrefix) {
         throw new Error("database server prefix not found for database: " + databaseName);
     }
 
     user = process.env[dbServerPrefix + "_USER"];
     password = process.env[dbServerPrefix + "_PASSWORD"];
-    hostname = process.env[dbServerPrefix + "_NAME"];
+    hostname = process.env[dbServerPrefix + "_HOST"];
+    server = process.env[dbServerPrefix + "_NAME"];
+    port = process.env[dbServerPrefix + "_PORT"];
     if (!user) {
         error = "variable: '" + dbServerPrefix + "_USER" + "' is null";
     }
@@ -49,17 +60,30 @@ function createConnection(databaseName) {
         error = "variable: '" + dbServerPrefix + "_PASSWORD" + "' is null";
     }
     if (!hostname) {
+        error = "variable: '" + dbServerPrefix + "_HOST" + "' is null";
+    }
+    if (!server) {
         error = "variable: '" + dbServerPrefix + "_NAME" + "' is null";
+    }
+    if (!port) {
+        error = "variable: '" + dbServerPrefix + "_PORT" + "' is null";
     }
     if (error) {
         throw new Error(error + ". Did you run '. deploy/development.sh'?");
     }
-    return new bindings.Informix({
-        "user": user,
-        "password": password,
-        "database": databaseName,
-        "hostname": hostname
-    });
+    return new Jdbc({
+        "user" : user,
+        "host" : hostname,
+        "port" : parseInt(port, 10),
+        "password" : password,
+        "database" : databaseName,
+        "server" : server,
+        "minpool" : parseInt(process.env.MINPOOL, 10) || DEFAULT_MINPOOL,
+        "maxpool" : parseInt(process.env.MAXPOOL, 10) || DEFAULT_MAXPOOL,
+        "maxsize" : parseInt(process.env.MAXSIZE, 10) || DEFAULT_MAXSIZE,
+        "idleTimeout" : parseInt(process.env.IDLETIMEOUT, 10) || DEFAULT_IDLETIMEOUT,
+        "timeout" : parseInt(process.env.TIMEOUT, 10) || DEFAULT_TIMEOUT
+    }).initialize();
 }
 
 
@@ -77,10 +101,7 @@ helper.runSqlQueries = function (queries, databaseName, callback) {
             return;
         }
         async.forEach(queries, function (query, cb) {
-            connection.query(query, [], cb, {
-                async: true,
-                cast: true
-            }).execute();
+            connection.query(query, cb, {}).execute();
         }, function (err) {
             connection.disconnect();
             callback(err);
@@ -110,10 +131,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
         function (cb) {
             connection.connect(cb);
         }, function (res, cb) {
-            connection.query('', [], cb, {
-                async: true,
-                cast: true
-            }).select(query).execute();
+            connection.query(query, cb, {}).execute();
         }
     ], function (err, result) {
         connection.disconnect();

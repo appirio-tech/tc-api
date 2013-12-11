@@ -8,14 +8,13 @@
 
 /**
  * This is the function that actually get the studio/design contest types.
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function} next The callback to be called after this function is done
  */
-var getStudioTypes = function (api, connection, dbConnectionMap, next) {
-    api.dataAccess.executeQuery("get_studio_types", {}, dbConnectionMap, function (err, result) {
+var getStudioTypes = function (api, connection, next) {
+    api.dataAccess.executeQuery("get_studio_types", {}, connection.dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
@@ -55,9 +54,9 @@ exports.action = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute contestTypes#run", 'debug');
-            getStudioTypes(api, connection, this.dbConnectionMap, next);
+            getStudioTypes(api, connection, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;

@@ -355,15 +355,15 @@ function transferResult(src) {
 
 /**
  * This is the function that actually search contests
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  * @param {Boolean} software - The flag if search only software contests
  */
-var searchContests = function (api, connection, dbConnectionMap, next, software) {
+var searchContests = function (api, connection, next, software) {
     var helper = api.helper,
+    	dbConnectionMap = connection.dbConnectionMap,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
             "prizeUpperBound"],
@@ -470,14 +470,13 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
 
 /**
  * This is the function that actually search contests
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var getContest = function (api, connection, dbConnectionMap, next) {
-    var contest, error, helper = api.helper, sqlParams;
+var getContest = function (api, connection, next) {
+    var contest, error, helper = api.helper, sqlParams, dbConnectionMap = connection.dbConnectionMap;
     async.waterfall([
         function (cb) {
             error = helper.checkInteger(Number(connection.params.contestId));
@@ -579,9 +578,9 @@ exports.getContest = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getContest#run", 'debug');
-            getContest(api, connection, this.dbConnectionMap, next);
+            getContest(api, connection, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -607,9 +606,9 @@ exports.searchSoftwareContests = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute searchContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, true);
+            searchContests(api, connection, next, true);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -635,9 +634,9 @@ exports.searchStudioContests = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute searchStudioContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, false);
+            searchContests(api, connection, next, false);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
