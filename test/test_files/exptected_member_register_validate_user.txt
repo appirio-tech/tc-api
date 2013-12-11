@@ -5,7 +5,7 @@
     "last_name": "bar",
     "handle": "testHandleFoo",
     "status": "A",
-    "activation_code": "MEQFC39DXF",
+    "activation_code": "MEQFC7CYJG",
     "reg_source": "api"
   }
 ]
