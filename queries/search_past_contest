@@ -8,8 +8,6 @@ FIRST @ps@
 , NVL(nScreens.count, 0) AS passedScreeningCount
 , NVL(phase.finalReviewEndDate, phase.reviewEndDate) AS completionDate
 , projectInfo.projectName AS contestName 
-, projectSpec.detailed_requirements_text AS descText
-, projectStudioSpec.contest_introduction AS studioDescHtml
 , project.project_id AS contestId 
 , project.tc_direct_project_id AS projectId 
 , projectCategory.project_type_id as projectType
@@ -31,6 +29,7 @@ FIRST @ps@
 , prizes.prize8
 , not exists (select * from project_info pi45 where pi45.project_info_type_id=45 and pi45.project_id=project.project_id and (pi45.value='false' or pi45.value='False')) AS reliability_bonus_eligible
 , CAST((CASE WHEN digitalRunFlagInfo.value = 'On' THEN NVL((SELECT value FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = project.project_id), (SELECT round(nvl(pi16.value, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = project.project_id)) ELSE '0' END) AS float) AS digitalRunPoints
+, cmc.value as cmc
  FROM  
   project 
 JOIN ( 
@@ -123,9 +122,8 @@ LEFT JOIN (
     , max(case when place = 6 then prize_amount else -1 end) as prize6
     , max(case when place = 7 then prize_amount else -1 end) as prize7
     , max(case when place = 8 then prize_amount else -1 end) as prize8 
-    from prize where prize_type_id = 15 group by project_id) prizes ON project.project_id = prizes.project_id        
-LEFT JOIN project_spec projectSpec ON projectSpec.project_id = project.project_id 
-LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.project_studio_spec_id = project.project_studio_spec_id
+    from prize where prize_type_id = 15 group by project_id) prizes ON project.project_id = prizes.project_id       
+LEFT JOIN project_info cmc ON cmc.project_Id = project.project_id AND cmc.project_info_type_id = 70
 ,project_info digitalRunFlagInfo
  WHERE   
   project.project_status_id IN (4, 5, 7)  
@@ -133,7 +131,10 @@ LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.pr
   AND digitalRunFlagInfo.project_id = project.project_id
   AND digitalRunFlagInfo.project_info_type_id = 26
   AND project.project_category_id not IN (27) 
-  AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce WHERE ce.contest_id = project.project_id)
+  AND NOT EXISTS (
+       SELECT 1 FROM contest_eligibility ce 
+       JOIN group_contest_eligibility gce on gce.contest_eligibility_id = ce.contest_eligibility_id   
+       WHERE ce.contest_id = project.project_id AND gce.group_id = 218)
   AND LOWER(projectInfo.projectName) LIKE ('@pjn@')
   AND EXTEND(phase.registrationStartDate, year to day) <= '@registstartend@'
   AND EXTEND(phase.registrationStartDate, year to day) >= '@registstartstart@'
@@ -147,4 +148,5 @@ LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.pr
   AND EXTEND(NVL(phase.finalReviewEndDate, phase.reviewEndDate), year to day) >= '@frendstart@'
   AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
   AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
+  AND NVL(LOWER(cmc.value), '') = DECODE('@cmc@', '', NVL(LOWER(cmc.value), ''), '@cmc@')
 ORDER BY @sf@ @sd@

@@ -1,12 +1,16 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Sky_, mekanizumu
+ * @version 1.2
+ * @author Sky_, mekanizumu, TCSASSEMBLER
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
  * 1. add stub for Get Studio Contest Detail
+ * changes in 1.2:
+ * 1. Add an optional parameter to search contest api - cmc
+ * 2. Display cmc value search contest and contest detail API response.
+ * 3. Remove contest description from search contest API response.
  */
 "use strict";
 
@@ -34,7 +38,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "type", "catalog", "contestName", "registrationStartDate.type",
     "registrationStartDate.firstDate", "registrationStartDate.secondDate", "submissionEndDate.type",
     "submissionEndDate.firstDate", "submissionEndDate.secondDate", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound"];
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmc"];
 
 /**
  * Represents a predefined list of valid sort column for active contest.
@@ -274,6 +278,9 @@ function setFilter(helper, listType, filter, sqlParams) {
     if (_.isDefined(filter.projectId)) {
         sqlParams.tcdirectid = filter.projectId;
     }
+    if (_.isDefined(filter.cmc)) {
+        sqlParams.cmc = filter.cmc;
+    }
 }
 
 /**
@@ -327,7 +334,6 @@ function transferResult(src) {
             type: row.type,
             catalog: row.catalog,
             contestName: row.contestname,
-            description: getContestDescription(row),
             numberOfSubmissions: row.numberofsubmissions,
             numberOfRatedRegistrants: row.numberofunratedregistrants,
             numberOfUnratedRegistrants: row.numberofratedregistrants,
@@ -337,7 +343,8 @@ function transferResult(src) {
             submissionEndDate: formatDate(row.submissionenddate),
             prize: [],
             reliabilityBonus: row.reliabilitybonus,
-            digitalRunPoints: row.digitalrunpoints
+            digitalRunPoints: row.digitalrunpoints,
+            cmc: convertNull(row.cmc)
         },
             i,
             prize;
@@ -366,7 +373,7 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
-            "prizeUpperBound"],
+            "prizeUpperBound", "cmc"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -510,7 +517,8 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                 reliabilityBonus: data.reliabilitybonus,
                 digitalRunPoints: data.digitalrunpoints,
                 registrants: [],
-                submissions: []
+                submissions: [],
+                cmc: convertNull(data.cmc)
             };
             for (i = 1; i < 10; i = i + 1) {
                 prize = data["prize" + i];
