@@ -28,11 +28,11 @@ configData.general = {
     welcomeMessage : "Hello! Welcome to the TopCoder API",          // The welcome message seen by TCP and webSocket clients upon connection
     flatFileNotFoundMessage : "Sorry, that file is not found :(",   // The body message to accompany 404 (file not found) errors regading flat files
     serverErrorMessage : "The server experienced an internal error",// The message to accompany 500 errors (internal server errors)
-    defaultChatRoom : "defaultRoom",                                // The chatRoom that TCP and webSocket clients are joined to when the connect
+    defaultChatRoom : "default",                                // The chatRoom that TCP and webSocket clients are joined to when the connect
     defaultLimit : 100,                                             // defaultLimit & defaultOffset are useful for limiting the length of response lists.
     defaultOffset : 0,
     workers : 5,                                                    // The number of internal "workers" (timers) this node will have.
-    developmentMode : false,                                        // Watch for changes in actions and tasks, and reload/restart them on the fly
+    developmentMode : (process.env.NODE_ENV === 'development') ? true : false,  // Watch for changes in actions and tasks, and reload/restart them on the fly
     simultaneousActions : 5,                                        // How many pending actions can a single connection be working on
     paths : {                                                       // configuration for your actionHero project structure
         "action" : __dirname + "/actions",
@@ -76,7 +76,8 @@ fs.mkdir("./log", function (err) {
 configData.logger.transports.push(function (api, winston) {
     return new (winston.transports.File)({
         filename : configData.general.paths.log + "/" + api.pids.title + '.log',
-        level : "info",
+        level : "debug",
+        json : false,
         timestamp : true
     });
 });
@@ -140,8 +141,8 @@ configData.servers = {
     //   port: 5000,                           // Port or Socket
     //   bindIP: "0.0.0.0",                    // which IP to listen on (use 0.0.0.0 for all)
     // },
-    // "websocket" : {
-    // },
+    "websocket" : {
+    },
 };
 
 /**
