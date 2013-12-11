@@ -8,13 +8,13 @@
 #
 
 export TC_DB_NAME=informixoltp_tcp
-export TC_DB_HOST=54.196.54.170
+export TC_DB_HOST=54.234.146.23
 export TC_DB_PORT=2021
 export TC_DB_USER=informix
 export TC_DB_PASSWORD=1nf0rm1x
 
 export TC_DW_NAME=informixoltp_tcp
-export TC_DW_HOST=54.196.54.170
+export TC_DW_HOST=54.234.146.23
 #export TC_DW_NAME=datawarehouse_tcp
 #export TC_DW_HOST=54.204.103.114
 export TC_DW_PORT=2021
@@ -26,7 +26,7 @@ export TC_DW_PASSWORD=1nf0rm1x
 export TC_API_HOST=api.topcoder.com
 
 # LDAP settings
-export TC_LDAP_HOST=54.196.54.170
+export TC_LDAP_HOST=54.234.146.23
 export TC_LDAP_PORT=636
 export TC_LDAP_PASSWORD=secret
 export TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com"

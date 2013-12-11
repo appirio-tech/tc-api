@@ -556,8 +556,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Software Member Rating History [/develop/statistics/{handle}/{challengeType}]
-### Software Member Rating History [GET]
+## Member Rating History [/develop/statistics/{handle}/{challengeType}]
+### Member Rating History [GET]
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
@@ -575,6 +575,60 @@ Register a new user.
                 {
                     date: "2012.10.10",
                     rating: 1100
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Member Rating Distribution [/develop/statistics/rating/{challengeType}]
+### Member Rating Distribution [GET]
+
++ Parameters
+    + challengeType (required, String, `Development`) ... Challenge Type
+
++ Response 200 (application/json)
+
+        {
+            ratingDistribution:
+            [
+                {
+                    range: "2000-2100",
+                    number: 10
+                },
+                {
+                    range: "2100-2200",
+                    number: 5
                 }
             ]
         }
@@ -2483,11 +2537,13 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Top Ranked SRM Members [/data/srm/statistics/tops?rankType={rankType}]
+## Top Ranked SRM Members [/data/srm/statistics/tops?rankType={rankType}&pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked SRM Members [GET]
 
 + Parameters
     + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries." Currently only applicable to SRM contest type.
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
 
 + Response 200 (application/json)
 

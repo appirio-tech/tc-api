@@ -68,12 +68,15 @@ var testMethods = {
 };
 
 
+
 ////////////
 // ROUTES //
 ////////////
 
 exports.routes = {
     get: [
+        { path: "/:apiVersion/logs", action: "getLogTail" },
+
         { path: "/:apiVersion/develop/challengetypes", action: "contestTypes" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },

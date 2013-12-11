@@ -7,6 +7,8 @@
 # Author: vangavroche
 #
 
+export NODE_ENV=development
+
 export TC_DB_NAME=informixoltp_tcp
 export TC_DB_HOST=50.17.140.110
 export TC_DB_PORT=2021

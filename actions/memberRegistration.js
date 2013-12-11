@@ -100,21 +100,23 @@ var activationEmailSenderName = "Topcoder API";
 /**
  * this is the random int generator class
  */
-function CodeRandom(coderId) {
-    this.coderId = coderId;
-    this.multiplier = 0x5DEECE66D;
-    this.addend = 0xB;
-    this.mask = 281474976710655;
-    this.seed = bignum(this.coderId).xor(this.multiplier).and(this.mask);
-    this.nextInt = function() {
-        var oldseed = this.seed,
+function codeRandom(coderId) {
+    var cr = {};
+    var multiplier = 0x5DEECE66D;
+    var addend = 0xB;
+    var mask = 281474976710655;
+    cr.seed = bignum(coderId).xor(multiplier).and(mask);
+    cr.nextInt = function() {
+        var oldseed = cr.seed,
             nextseed;
             do {
-                nextseed = oldseed.mul(this.multiplier).add(this.addend).and(this.mask);
+                nextseed = oldseed.mul(multiplier).add(addend).and(mask);
             } while (oldseed.toNumber() === nextseed.toNumber());
-            this.seed = nextseed;
+            cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
     }
+
+    return cr;
 }
 
 /**
@@ -123,7 +125,7 @@ function CodeRandom(coderId) {
  * @return the coder id generated hash string.
  */
 function getCode(coderId) {
-    var r = new CodeRandom(coderId);
+    var r = codeRandom(coderId);
     var nextBytes = function(bytes) {
         for (var i = 0, len = bytes.length; i < len;)
             for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
@@ -185,7 +187,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                 function (callback) {
                     var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
                     // use user id as activation code for now
-                    activationCode = getCode(user.id.toString());
+                    activationCode = getCode(user.id);
                     api.dataAccess.executeUpdate("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
