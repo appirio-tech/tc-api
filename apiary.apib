@@ -2537,11 +2537,13 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Top Ranked SRM Members [/data/srm/statistics/tops?rankType={rankType}]
+## Top Ranked SRM Members [/data/srm/statistics/tops?rankType={rankType}&pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked SRM Members [GET]
 
 + Parameters
     + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries." Currently only applicable to SRM contest type.
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
 
 + Response 200 (application/json)
 
