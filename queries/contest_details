@@ -32,6 +32,7 @@ SELECT
 , phase.registrationEndDate AS registrationEndDate
 , not exists (select * from project_info pi45 where pi45.project_info_type_id=45 and pi45.project_id=project.project_id and (pi45.value='false' or pi45.value='False')) AS reliability_bonus_eligible
 , CAST((CASE WHEN digitalRunFlagInfo.value = 'On' THEN NVL((SELECT value FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = project.project_id), (SELECT round(nvl(pi16.value, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = project.project_id)) ELSE '0' END) AS float) AS digitalRunPoints
+, cmc.value as cmc
 FROM  
 project 
 LEFT JOIN ( 
@@ -93,7 +94,7 @@ JOIN (
 JOIN project_category_lu projectCategory ON project.project_category_id = projectCategory.project_category_id AND projectCategory.project_type_id IN (1, 2, 3)  
 LEFT JOIN project_catalog_lu projectCatalog ON projectCategory.project_catalog_id = projectCatalog.project_catalog_id 
 left JOIN phase_type_lu ptl ON ptl.phase_type_id = currentPhase.phase_type_id 
-
+LEFT JOIN project_info cmc ON cmc.project_Id = project.project_id AND cmc.project_info_type_id = 70
 LEFT JOIN ( 
   SELECT  
   pr.prize_amount, 
@@ -117,4 +118,7 @@ WHERE
 project.project_id = @contestId@
 AND digitalRunFlagInfo.project_id = project.project_id
 AND digitalRunFlagInfo.project_info_type_id = 26
-
+AND NOT EXISTS (
+    SELECT 1 FROM contest_eligibility ce 
+    JOIN group_contest_eligibility gce on gce.contest_eligibility_id = ce.contest_eligibility_id   
+    WHERE ce.contest_id = project.project_id AND gce.group_id = 218)

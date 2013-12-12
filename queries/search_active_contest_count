@@ -1,5 +1,6 @@
 SELECT count(*) AS total
   FROM project
+       LEFT JOIN project_info cmc ON cmc.project_Id = project.project_id AND cmc.project_info_type_id = 70
        LEFT JOIN project_phase finalReviewPhase ON project.project_id = finalReviewPhase.project_id AND finalReviewPhase.phase_type_id = 10,
        project_category_lu projectCategory
        LEFT JOIN project_catalog_lu projectCatalog ON projectCategory.project_catalog_id = projectCatalog.project_catalog_id,
@@ -30,8 +31,10 @@ SELECT count(*) AS total
    AND project.project_category_id NOT IN (27)
    AND digitalRunFlagInfo.project_id = project.project_id
    AND digitalRunFlagInfo.project_info_type_id = 26
-   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce
-     WHERE ce.contest_id = project.project_id)
+   AND NOT EXISTS (
+       SELECT 1 FROM contest_eligibility ce 
+       JOIN group_contest_eligibility gce on gce.contest_eligibility_id = ce.contest_eligibility_id   
+       WHERE ce.contest_id = project.project_id AND gce.group_id = 218)
    AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
    AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
    AND LOWER(projectNameInfo.value) LIKE ('@pjn@')
@@ -44,3 +47,4 @@ SELECT count(*) AS total
    AND EXTEND(submissionPhase.scheduled_end_time, year to day) >= '@subendstart@'
    AND NVL(EXTEND(finalReviewPhase.scheduled_end_time, year to day), '2199-01-01') <= '@frendend@'
    AND NVL(EXTEND(finalReviewPhase.scheduled_end_time, year to day), '1900-01-01') >= '@frendstart@'
+   AND NVL(LOWER(cmc.value), '') = DECODE('@cmc@', '', NVL(LOWER(cmc.value), ''), '@cmc@')
