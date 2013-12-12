@@ -5,8 +5,6 @@ FIRST @ps@
 , submissionPhase.scheduled_end_time AS submissionEndDate
 , projectCatalog.name AS catalog
 , projectNameInfo.value AS contestName
-, projectSpec.detailed_requirements_text AS descText
-, projectStudioSpec.contest_introduction AS studioDescHtml
 , ratedReg.ctn AS numberOfUnratedRegistrants
 , ratedReg.ctn AS numberOfRatedRegistrants
 , prizes.prize1 as firstprize
@@ -31,9 +29,9 @@ FIRST @ps@
 , project.project_category_id AS categoryId
 , registrationPhase.scheduled_start_time AS registrationStartDate
 , not exists (select * from project_info pi45 where pi45.project_info_type_id=45 and pi45.project_id=project.project_id and (pi45.value='false' or pi45.value='False')) AS reliability_bonus_eligible
+, cmc.value as cmc
   FROM project
-       LEFT JOIN project_spec projectSpec ON projectSpec.project_id = project.project_id AND projectSpec.version = (SELECT max(version) FROM project_spec WHERE project_id = project.project_id)
-       LEFT JOIN project_studio_specification projectStudioSpec ON projectStudioSpec.project_studio_spec_id = project.project_studio_spec_id
+       LEFT JOIN project_info cmc ON cmc.project_Id = project.project_id AND cmc.project_info_type_id = 70
        LEFT JOIN (
             select project_id
             , max(case when place = 1 then prize_amount else -1 end) as prize1
@@ -49,6 +47,7 @@ FIRST @ps@
        LEFT JOIN project_phase finalReviewPhase ON project.project_id = finalReviewPhase.project_id AND finalReviewPhase.phase_type_id = 10,
        project_category_lu projectCategory
        LEFT JOIN project_catalog_lu projectCatalog ON projectCategory.project_catalog_id = projectCatalog.project_catalog_id,
+
        project_phase registrationPhase,
        project_phase submissionPhase,
        project_phase current_phase,
@@ -76,8 +75,10 @@ FIRST @ps@
    AND project.project_category_id NOT IN (27)
    AND digitalRunFlagInfo.project_id = project.project_id
    AND digitalRunFlagInfo.project_info_type_id = 26
-   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce
-     WHERE ce.contest_id = project.project_id)
+   AND NOT EXISTS (
+       SELECT 1 FROM contest_eligibility ce 
+       JOIN group_contest_eligibility gce on gce.contest_eligibility_id = ce.contest_eligibility_id   
+       WHERE ce.contest_id = project.project_id AND gce.group_id = 218)
    AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
    AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
    AND LOWER(projectNameInfo.value) LIKE ('@pjn@')
@@ -90,5 +91,6 @@ FIRST @ps@
    AND EXTEND(submissionPhase.scheduled_end_time, year to day) >= '@subendstart@'
    AND NVL(EXTEND(finalReviewPhase.scheduled_end_time, year to day), '2199-01-01') <= '@frendend@'
    AND NVL(EXTEND(finalReviewPhase.scheduled_end_time, year to day), '1900-01-01') >= '@frendstart@'
+   AND NVL(LOWER(cmc.value), '') = DECODE('@cmc@', '', NVL(LOWER(cmc.value), ''), '@cmc@')
 ORDER BY @sf@ @sd@
 
