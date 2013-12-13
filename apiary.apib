@@ -556,8 +556,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Member Rating History [/develop/statistics/{handle}/{challengeType}]
-### Member Rating History [GET]
+## Software Member Rating History and Distribution [/develop/statistics/{handle}/{challengeType}]
+### Software Member Rating History and Distribution [GET]
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
@@ -566,61 +566,24 @@ Register a new user.
 + Response 200 (application/json)
 
         {
-            ratingHistory:
+            "history":
             [
                 {
+                    challengeId : 12345,
+                    challengeName : 'awesome component',
                     date: "2012.9.10",
-                    rating: 1000
+                    rating: 1000,
+                    placement: 3
                 },
                 {
+                    challengeId : 12346,
+                    challengeName : 'awesome component',
                     date: "2012.10.10",
-                    rating: 1100
+                    rating: 1100,
+                    placement: 1
                 }
-            ]
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-        
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
-        }
-        
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
-## Member Rating Distribution [/develop/statistics/rating/{challengeType}]
-### Member Rating Distribution [GET]
-
-+ Parameters
-    + challengeType (required, String, `Development`) ... Challenge Type
-
-+ Response 200 (application/json)
-
-        {
-            ratingDistribution:
+            ],
+            "distribution":
             [
                 {
                     range: "2000-2100",
@@ -630,7 +593,8 @@ Register a new user.
                     range: "2100-2200",
                     number: 5
                 }
-            ]
+            ] 
+        
         }
 
 + Response 400 (application/json)
@@ -664,7 +628,6 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-
         
 ## Contest Types Collection [/develop/challengetypes]
 ### List all contest types [GET]
@@ -741,7 +704,6 @@ Register a new user.
                 {
                     "type": "Web Design",
                     "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "description": "Welcome to ¡°Cornell ¨C Responsive Storyboard Economics Site Redesign contest¡±. The goal of this contest is to redesign look and feel for one of our college site departments (economics) using base design and customer feedback provided in this contest. There are two pages that needs to be redesigned a",
                     "numberOfSubmissions": 16,
                     "numberOfRatedRegistrants": 27,
                     "numberOfUnratedRegistrants": 27,
@@ -751,13 +713,13 @@ Register a new user.
                     "submissionEndDate": "10.31.2013 10:09 EDT",
                     "prize": [1250, 500],
                     "reliabilityBonus": 0,
-                    "digitalRunPoints": 500
+                    "digitalRunPoints": 500,
+                    "cmc": "ab"
                 },
                 {
                     "type": "UI Prototype Competition",
                     "catalog": "UI Development",
                     "contestName": "Corningstone App UI Prototype 2",
-                    "description": "http://apps.topcoder.com/wiki/display/docs/Corningstone+App+UI+Prototype+2\n\n",
                     "numberOfSubmissions": 0,
                     "numberOfRatedRegistrants": 27,
                     "numberOfUnratedRegistrants": 27,
@@ -767,13 +729,13 @@ Register a new user.
                     "submissionEndDate": "10.31.2013 16:06 EDT",
                     "prize": [1250, 500],
                     "reliabilityBonus": 660,
-                    "digitalRunPoints": 990
+                    "digitalRunPoints": 990,
+                    "cmc": "ab"
                 },
                 {
                     "type": "Content Creation",
                     "catalog": "UI Development",
                     "contestName": "Crowdsourced Application Security Standards and Review",
-                    "description": "Project Overview:\n\n\nWe would like TopCoders help in designing a security standards document that will be included with every TC project to help define a uniform approach to secure code development across this diverse community of contributors. Also we are hoping to have TopCoder design the review an",
                     "numberOfSubmissions": 4,
                     "numberOfRatedRegistrants": 27,
                     "numberOfUnratedRegistrants": 27,
@@ -783,7 +745,8 @@ Register a new user.
                     "submissionEndDate": "10.31.2013 10:34 EDT",
                     "prize": [1250, 500],
                     "reliabilityBonus": 360,
-                    "digitalRunPoints": 0
+                    "digitalRunPoints": 0,
+                    "cmc": "ab"
                 }
             ]
         }
@@ -854,7 +817,8 @@ Register a new user.
                     "number": 5
                 },
             "reliabilityBonus": 0,
-            "digitalRunPoints": 500
+            "digitalRunPoints": 500,
+            "cmc": "ab",
             "registrants" :
                 [
                     {
@@ -1028,7 +992,8 @@ Register a new user.
                     "prize": 1750,
                     "points": 600,
                     "registrants": 15,
-                    "submissions": 0
+                    "submissions": 0,
+                    "cmc": "ab"
                 },
                 {
                     "type": "Web Design",
@@ -1040,7 +1005,8 @@ Register a new user.
                     "prize": 1750,
                     "points": 650,
                     "registrants": 15,
-                    "submissions": 0
+                    "submissions": 0,
+                    "cmc": "ab"
                 }
             ]
         }
@@ -1106,6 +1072,7 @@ Register a new user.
             "points": 500,
             "nextDeadlineTime": "10.31.2013 10:10 EDT",
             "nextDeadlineName": "Checkpoint Submission Deadline",
+            "cmc": "ab",
             "checkpoints":
             [
                 {
@@ -1598,7 +1565,6 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
         
 ## Review Opportunities Collection [/data/reviewOpportunities]
 ### List all review opportunities [GET]
@@ -2156,61 +2122,6 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
-## Algorithm Member Rating History [/data/statistics/{handle}/{challengeType}]
-### Algorithm Member Rating History [GET]
-
-+ Parameters
-    + handle (required, string, `iRabbit`) ... Member Handle
-    + challengeType (required, String, `Algorithm`) ... Challenge Type
-
-+ Response 200 (application/json)
-
-        {
-            ratingHistory:
-            [
-                {
-                    date: "2012.9.10",
-                    rating: 1000
-                },
-                {
-                    date: "2012.10.10",
-                    rating: 1100
-                }
-            ]
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-        
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
-        }
-        
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
 
 ## Algorithm Member Marathon Statistics [/data/marathon/statistics/{handle}]
 ### Algorithm Member Marathon Statistics [GET]
@@ -2245,6 +2156,36 @@ Register a new user.
             [
                 "Five Rated Algorithm Competition",
                 "Twenty-Five Rated Algorithm Competition",
+            ],
+            "history":
+            [
+                {
+                    "challengeId" : 12345,
+                    "challengeName" : 'awesome component',
+                    "date": "2012.9.10",
+                    "rating": 1000,
+                    "placement": 3,
+                    "percentile": 88.3
+                },
+                {
+                    "challengeId" : 12346,
+                    "challengeName" : 'awesome component',
+                    "date": "2012.10.10",
+                    "rating": 1100,
+                    "placement": 1,
+                    "percentile": 86.3
+                }
+            ],
+            "distribution":
+            [
+                {
+                    "range": "2000-2100",
+                    "number": 10
+                },
+                {
+                    "range": "2100-2200",
+                    "number": 5
+                }
             ]
         }        
 
@@ -2309,99 +2250,129 @@ Register a new user.
                 "Twenty-Five Rated Algorithm Competition",
             ]
             "Divisions":
-            [
+            {
                 "Division I":
-                [
+                {
                     "Level One":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success %": 76.00%
-                    ]
+                    },
                     "Level Two":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success%": 76.00%
-                    ]
+                    },
                     "Level Three":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys. Test": 4,
                         "success%": 76.00%
-                    ]
+                    },
                     "Level Total":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success%": 76.00%
-                    ]
-                ]
+                    }
+                },
                 "Division II":
-                [
+                {
                     "Level One":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success%": 76.00%
-                    ]
+                    },
                     "Level Two":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success%": 76.00%
-                    ]
+                    },
                     "Level Three":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success%": 76.00%
-                    ]
+                    },
                     "Level Total":
-                    [
+                    {
                         "submitted": 25,
                         "failedChallenge": 2,
                         "failedSys.Test": 4,
                         "success%": 76.00%
-                    ]
-                ]
-            ],
+                    }
+                }
+            },
             "Challenges":
-            [
+            {
                 "Levels":
-                [
+                {
                     "Level One":
-                    [
+                    {
                         "failedChallenge": 0,
                         "challenges": 1,
                         "success%": 100%
-                    ]
+                    },
                     "Level Two":
-                    [
+                    {
                         "failedChallenge": 0,
                         "challenges": 1,
                         "success%": 100%
-                    ]
+                    },
                     "Level Three":
-                    [
+                    {
                         "failedChallenge": 0,
                         "challenges": 1,
                         "success%": 100%
-                    ]
+                    },
                     "Total":
-                    [
+                    {
                         "failedChallenge": 0,
                         "challenges": 1,
                         "success%": 100%
-                    ]
-                ]
+                    }
+                }
+            },
+            "History":
+            [
+                {
+                    "challengeId" : 12345,
+                    "challengeName" : 'awesome component',
+                    "date": "2012.9.10",
+                    "rating": 1000,
+                    "placement": 3,
+                    "percentile": 88.3
+                },
+                {
+                    "challengeId" : 12346,
+                    "challengeName" : 'awesome component',
+                    "date": "2012.10.10",
+                    "rating": 1100,
+                    "placement": 1,
+                    "percentile": 86.3
+                }
+            ],
+            "Distribution":
+            [
+                {
+                    "range": "2000-2100",
+                    "number": 10
+                },
+                {
+                    "range": "2100-2200",
+                    "number": 5
+                }
             ]
         }
 
