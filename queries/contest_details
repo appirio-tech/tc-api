@@ -10,7 +10,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
      , pc3.parameter AS screeningScorecardId
      , pc4.parameter AS reviewScorecardId
      , pi70.value AS cmcTaskId
-     , (SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14) AS numberOfCheckpointsPrizes
+     , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS numberOfCheckpointsPrizes
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14 AND pr.place = 1)::DECIMAL(10,2) AS topCheckpointPrize
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1)::DECIMAL(10,2) AS prize1
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 2)::DECIMAL(10,2) AS prize2
