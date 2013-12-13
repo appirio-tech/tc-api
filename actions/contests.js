@@ -295,19 +295,6 @@ function convertNull(str) {
     return str;
 }
 
-/**
- * Gets the contest description from database record.
- * @param {Object} row the database row record.
- * @return {String} the contest description.
- */
-function getContestDescription(row) {
-    var html = row.desctext, text;
-    if (row.projecttype === 3) {
-        html = row.studiodeschtml;
-    }
-    text = new S(convertNull(html)).stripTags().s;
-    return text.substring(0, 300);
-}
 
 /**
  * Format date
@@ -501,24 +488,34 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                 return;
             }
             contest = {
-                type: data.type,
-                contestName: data.contestname,
-                description: getContestDescription(data),
-                numberOfSubmissions: data.numberofsubmissions,
-                numberOfRegistrants: data.numberofregistrants,
-                numberOfPassedScreeningSubmissions: data.passedscreeningcount,
-                contestId: data.contestid,
-                projectId: data.projectid,
-                registrationEndDate: formatDate(data.registrationenddate),
-                submissionEndDate: formatDate(data.submissionenddate),
-                prize: [],
-                milestonePrize: data.checkpoint || 0,
-                milestoneNumber: data.checkpoint_count || 0,
-                reliabilityBonus: data.reliabilitybonus,
+                challengeType : data.challengetype,
+                challengeName : data.challengename,
+                challengeId : data.challengeid,
+                projectId : data.projectid,
+                detailedRequirements : data.detailedrequirements,
+                finalSubmissionGuidelines : data.finalsubmissionguidelines,
+                screeningScorecardId : data.screeningscorecardid,
+                reviewScorecardId : data.reviewscorecardid,
+                cmcTaskId : convertNull(data.cmctaskid),
+                numberOfCheckpointsPrizes : data.numberofcheckpointsprizes,
+                topCheckPointPrize : convertNull(data.topcheckPointprize),
+                postingDate : formatDate(data.postingdate),
+                registrationEndDate : formatDate(data.registrationenddate),
+                checkpointSubmissionEndDate : formatDate(data.checkpointsubmissionenddate),
+                submissionEndDate : formatDate(data.submissionenddate),
+                appealsEndDate : formatDate(data.appealsenddate),
+                finalFixEndDate : formatDate(data.finalfixenddate),
+                currentPhaseEndDate : formatDate(data.currentphaseenddate),
+                currentPhaseName : convertNull(data.currentphasename),
                 digitalRunPoints: data.digitalrunpoints,
+                
+                //TODO: move these out to constants and/or helper 
+                reliabilityBonus: _.isNumber(data.prize1) ? data.prize1 * 0.2 : 0,
+                directUrl : 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + data.challengeid,
+                
+                prize: [],
                 registrants: [],
-                submissions: [],
-                cmc: convertNull(data.cmc)
+                submissions: []
             };
             for (i = 1; i < 10; i = i + 1) {
                 prize = data["prize" + i];
@@ -528,6 +525,7 @@ var getContest = function (api, connection, dbConnectionMap, next) {
             }
             api.dataAccess.executeQuery("contest_registrants", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
+            contest.numberOfRegistrants = rows.length;
             rows.forEach(function (item) {
                 contest.registrants.push({
                     handle: item.handle,
@@ -537,6 +535,7 @@ var getContest = function (api, connection, dbConnectionMap, next) {
             });
             api.dataAccess.executeQuery("contest_submissions", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
+            contest.numberOfSubmissions = rows.length;
             var passedReview = 0, drTable;
             rows.forEach(function (item) {
                 if (item.placement) {
@@ -550,8 +549,9 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                     placement: item.placement || "",
                     screeningScore: item.screening_score,
                     initialScore: item.initial_score,
-                    "final": item.final_score,
+                    finalScore: item.final_score,
                     points: 0,
+                    submissionStatus: item.submission_status,
                     submissionDate: formatDate(item.submission_date)
                 };
                 if (submission.placement && drTable.length >= submission.placement) {
