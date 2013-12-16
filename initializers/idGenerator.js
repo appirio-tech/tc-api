@@ -23,7 +23,7 @@ exports.idGenerator = function (api, next) {
         /**
          * Get the next value of an id sequence.
          * The result will be passed to the "next" callback. It is a number representing the next id value.
-         * 
+         *
          * @param {String} idName - the name of the id sequence
          * @param {Object} dbConnectionMap - The database connection map
          * @param {Function} next - The callback function
@@ -42,7 +42,7 @@ exports.idGenerator = function (api, next) {
 
                 highest += idBlockSize;
 
-                api.dataAccess.executeUpdate("update_highest_id", {nextBlockStart : highest, name : idName}, dbConnectionMap, function (err, result) {
+                api.dataAccess.executeQuery("update_highest_id", {nextBlockStart : highest, name : idName}, dbConnectionMap, function (err, result) {
                     api.log("Execute result returned", "debug");
                     if (err) {
                         api.log("Error occured: " + err + " " + (err.stack || ''), "error");
