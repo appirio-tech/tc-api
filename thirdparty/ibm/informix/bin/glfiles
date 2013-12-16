@@ -1,0 +1,393 @@
+#!/bin/sh
+:'
+: ************************************************************************
+:
+:                                 IBM INC.
+:
+:                             PROPRIETARY DATA
+:
+:    Licensed Material - Property Of IBM
+:
+:    "Restricted Materials of IBM"
+:
+:    IBM Informix Client SDK
+:
+:    (c)  Copyright IBM Corporation 2002, 2008. All rights reserved.
+:
+:
+:   Title:      glfiles
+:   Description:Source for shell script which determines installed GLS locale
+:               and GLS codeset conversion object files.
+:
+:		This script requires that the INFORMIXDIR environment variable
+:		is set or that the Informix directory is /usr/informix.
+:
+:		Depending upon the arguments passed to this script,
+:		for each $INFORMIXDIR/gls/lcX, $INFORMIXDIR/gls/cvY and
+:		$INFORMIXDIR/gls/cmZ directory that exists, this script
+:		creates three files in the current directory, "lcX.txt",
+:		"cvY.txt" and "cmZ.txt", that list the locale object files,
+:		codeset conversion object files and charmap source files that
+:		exist in those directories, respectively.
+:
+:		This script can accept any of the '-lc', '-cv' or '-cm'
+:		arguments in any order.
+: 
+:		If no arguments are passed to this script, then the default
+:		is to act as if the single '-lc' argument was passed.
+:
+:		If incorrect arguments are passed to this script, then
+:		a usage message is printed and it exits with a return
+:		code of 1.
+:
+: *************************************************************************
+: '
+
+
+#
+# Process arguments
+#
+
+if [ $# -eq 0 ]
+then
+    DO_LCDIRS=yes
+    DO_CVDIRS=no
+    DO_CMDIRS=no
+else
+    DO_LCDIRS=no
+    DO_CVDIRS=no
+    DO_CMDIRS=no
+
+    for arg
+    do
+        case $arg in
+            -lc) DO_LCDIRS=yes
+                 ;;
+            -cv) DO_CVDIRS=yes
+                 ;;
+            -cm) DO_CMDIRS=yes
+                 ;;
+              *) echo "usage: glfiles [-lc] [-cv] [-cm]"
+		 exit 1
+                 ;;
+        esac
+    done
+fi
+
+
+#
+# Save current directory for later use
+#
+
+CURRDIR=`pwd`
+
+
+#
+# Temporary files created during the execution of the script
+#
+
+CVONEWAYLIST=${TMPDIR:-/tmp}/glfiles1.$$
+CVTWOWAYLIST=${TMPDIR:-/tmp}/glfiles2.$$
+
+TEMPFILES="$CVONEWAYLIST $CVTWOWAYLIST"
+
+
+#
+# Remove all temporary files created during the execution of the script
+# upon interrupt
+#
+
+trap "rm -f $TEMPFILES; exit 2" 2
+
+
+#
+# Use INFORMIXDIR or /usr/informix if INFORMIXDIR is not set
+#
+
+if [ x$INFORMIXDIR != x ]
+then
+    GLSDIR=$INFORMIXDIR/gls
+else
+    GLSDIR=/usr/informix/gls
+fi
+
+
+#
+# Exit if $GLSDIR does not exist or is not a directory
+#
+
+if [ ! -d $GLSDIR ]
+then
+    echo "$GLSDIR does not exist, please check the value of \$INFORMIXDIR"
+    exit 1
+fi
+
+cd $GLSDIR
+
+
+#
+# For each $INFORMIXDIR/gls/lcX directory, write the list of locale object
+# files into './lcX.txt'
+#
+
+if [ $DO_LCDIRS = yes ]
+then
+    LCDIRS=`ls | grep '^lc[1-9][0-9]*$'`
+else
+    LCDIRS=
+fi
+
+for LCDIR in $LCDIRS
+do
+    cd $LCDIR
+
+    LCLIST=$CURRDIR/$LCDIR.txt
+    cat /dev/null > $LCLIST
+
+    #
+    # Write the IBM Informix proprietary locale object files. These locales are
+    # provided to ensure that IBM Informix servers, starting with version 7.2, can
+    # consistently process non-U.S. ASCII English data in a heterogeneous
+    # client/server environment.
+    #
+
+    LANGTERRS=`ls | grep '^[a-z][a-z]_[a-z][a-z]$'`
+
+    for LANGTERR in $LANGTERRS
+    do
+        cd $LANGTERR
+
+	LCOFILES=`ls | grep '\.lco$'`
+
+	for LCOFILE in $LCOFILES
+	do
+            FILENAME="Filename: $LCDIR/$LANGTERR/$LCOFILE"
+            echo $FILENAME >> $LCLIST
+
+            LANGUAGE="Language: `grep LANGUAGE= $LCOFILE | sed 's/.*=//'`"
+            echo $LANGUAGE >> $LCLIST
+
+            TERRITORY="Territory: `grep TERRITORY= $LCOFILE | sed 's/.*=//'`"
+            echo $TERRITORY >> $LCLIST
+
+	    MODIFIER0=`grep MODIFIER= $LCOFILE | sed 's/.*=//'`
+
+	    if [ x$MODIFIER0 != xNone ]
+	    then
+                MODIFIER="Modifier: $MODIFIER0"
+                echo $MODIFIER >> $LCLIST
+	    fi
+
+            CODESET0=`grep CODESET= $LCOFILE | sed 's/.*=//'`
+
+            CODESET="Code Set: $CODESET0"
+            echo $CODESET >> $LCLIST
+
+            LC_NAME="Locale Name: $LANGTERR.$CODESET0"
+            echo $LC_NAME >> $LCLIST
+
+            echo "" >> $LCLIST
+	done
+
+        cd ..
+    done
+
+    #
+    # Write the operating system-compliant locale object files. These locales
+    # are provided to ensure that IBM Informix servers, starting with version 7.20,
+    # can open databases created by version 6.xx and 7.1x IBM Informix servers.
+    #
+
+    if [ -d os ]
+    then
+        cd os
+
+        LCOFILES=`ls | grep -v '\.lc$'`
+
+	if [ -n "$LCOFILES" ]
+	then
+            echo "" >> $LCLIST
+            echo "*****************************************************" >> $LCLIST
+            echo "*                                                   *" >> $LCLIST
+            echo "* The following locales are provided to ensure that *" >> $LCLIST
+            echo "* Informix servers, starting with version 7.20, can *" >> $LCLIST
+            echo "* open databases created by version 6.xx and 7.1x   *" >> $LCLIST
+            echo "* Informix servers. Because these locales are based *" >> $LCLIST
+            echo "* on operating system locales and operating system  *" >> $LCLIST
+            echo "* locales do not provide the required information,  *" >> $LCLIST
+            echo "* no Language, Territory, Modifier, or Code Set     *" >> $LCLIST
+            echo "* names are provided below.                         *" >> $LCLIST
+            echo "*                                                   *" >> $LCLIST
+            echo "*****************************************************" >> $LCLIST
+            echo "" >> $LCLIST
+            echo "" >> $LCLIST
+	fi
+
+        for LCOFILE in $LCOFILES
+        do
+            FILENAME="Filename: $LCDIR/os/$LCOFILE"
+            echo $FILENAME >> $LCLIST
+ 
+            LC_NAME="Locale Name: $LCOFILE"
+            echo $LC_NAME >> $LCLIST
+ 
+            echo "" >> $LCLIST
+        done
+ 
+        cd ..
+    fi
+                     
+    cd ..
+done
+
+
+#
+# For each $INFORMIXDIR/gls/cvY directory, write the list of codeset
+# conversion object files into './cvY.txt'
+#
+
+if [ $DO_CVDIRS = yes ]
+then
+    CVDIRS=`ls | grep '^cv[1-9][0-9]*$'`
+else
+    CVDIRS=
+fi
+
+for CVDIR in $CVDIRS
+do
+    cd $CVDIR
+
+    CVLIST=$CURRDIR/$CVDIR.txt
+    cat /dev/null > $CVLIST 
+
+    cat /dev/null > $CVTWOWAYLIST 
+    cat /dev/null > $CVONEWAYLIST 
+
+    #
+    # Determine the matching codeset conversion pairs and the codeset
+    # conversions that are only supplied in one direction.
+    #
+
+    CVOFILES=`ls | grep '\.cvo$'`
+
+    for CVOFILE in $CVOFILES
+    do
+        BASE=`echo $CVOFILE | sed 's/\.cvo//'`
+        FIRST=`echo $BASE | sed 's/....$//'`
+        SECOND=`echo $BASE | sed 's/^....//'`
+
+	if [ -f $SECOND$FIRST.cvo ]
+	then
+	    fgrep -s "$SECOND$FIRST.cvo" $CVTWOWAYLIST > /dev/null
+	    if [ $? -eq 1 ]
+	    then
+	        echo "$CVOFILE" >> $CVTWOWAYLIST
+	    fi
+	else
+	    echo "$CVOFILE" >> $CVONEWAYLIST
+	fi
+    done
+
+    #
+    # Write the codeset conversion pairs that are provided between
+    # the indicated codesets.
+    #
+
+    cat $CVTWOWAYLIST | \
+    while read CVOFILE
+    do
+        BASE=`echo $CVOFILE | sed 's/\.cvo//'`
+        FIRST=`echo $BASE | sed 's/....$//'`
+        SECOND=`echo $BASE | sed 's/^....//'`
+
+        FILENAME="Filenames: $CVDIR/$CVOFILE and $CVDIR/$SECOND$FIRST.cvo"
+        echo $FILENAME >> $CVLIST
+
+        CODESET0=`grep SOURCE_CODESET= $CVOFILE | sed 's/.*=//'`
+        echo "Between Code Set: $CODESET0" >> $CVLIST
+
+        CODESET0=`grep TARGET_CODESET= $CVOFILE | sed 's/.*=//'`
+        echo "    and Code Set: $CODESET0" >> $CVLIST
+
+        echo "" >> $CVLIST
+    done
+
+    rm $CVTWOWAYLIST
+
+    #
+    # Write the codeset conversion that are provided in only one
+    # direction.
+    #
+
+    if [ -s $CVONEWAYLIST ]
+    then
+        echo "" >> $CVLIST
+        echo "**********************************************" >> $CVLIST
+        echo "*                                            *" >> $CVLIST
+        echo "* The following codeset conversions are only *" >> $CVLIST
+        echo "* provided in the direction indicated by the *" >> $CVLIST
+        echo "* from and to codeset names.                 *" >> $CVLIST
+        echo "*                                            *" >> $CVLIST
+        echo "**********************************************" >> $CVLIST
+        echo "" >> $CVLIST
+        echo "" >> $CVLIST
+    fi
+
+    cat $CVONEWAYLIST | \
+    while read CVOFILE
+    do
+        FILENAME="Filename: $CVDIR/$CVOFILE"
+        echo $FILENAME >> $CVLIST
+
+        CODESET0=`grep SOURCE_CODESET= $CVOFILE | sed 's/.*=//'`
+        echo "From Code Set: $CODESET0" >> $CVLIST
+
+        CODESET0=`grep TARGET_CODESET= $CVOFILE | sed 's/.*=//'`
+        echo "  to Code Set: $CODESET0" >> $CVLIST
+
+        echo "" >> $CVLIST
+    done
+
+    rm $CVONEWAYLIST
+
+    cd ..
+done
+
+
+#
+# For each $INFORMIXDIR/gls/cmZ directory, write the list of charmap
+# source files into './cmZ.txt'
+#
+
+if [ $DO_CMDIRS = yes ]
+then
+    CMDIRS=`ls | grep '^cm[1-9][0-9]*$'`
+else
+    CMDIRS=
+fi
+
+for CMDIR in $CMDIRS
+do
+    cd $CMDIR
+
+    CMLIST=$CURRDIR/$CMDIR.txt
+    cat /dev/null > $CMLIST
+
+    CMFILES=`ls | grep '\.cm$'`
+
+    for CMFILE in $CMFILES
+    do
+        FILENAME="Filename: $CMDIR/$CMFILE"
+        echo $FILENAME >> $CMLIST
+
+        CODESET0=`fgrep '<code_set_name>' $CMFILE | awk '{print $2}' | sed 's/"\(.*\)"/\1/'`
+        echo "Code Set: $CODESET0" >> $CMLIST
+
+        echo "" >> $CMLIST
+    done
+
+    cd ..
+done
+
+
+exit 0

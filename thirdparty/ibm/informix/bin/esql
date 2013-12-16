@@ -1,0 +1,945 @@
+#!/bin/sh 
+: '
+: ************************************************************************
+:
+:
+:    Licensed Material - Property Of IBM
+:
+:    "Restricted Materials of IBM"
+:
+:    IBM Informix Client SDK
+:
+:    Copyright IBM Corporation 2006, 2013. All rights reserved.
+:
+:
+:   Title:         esql.sh
+:   Description:   Source for shell script for running the ESQL/C preprocessor
+:
+: *************************************************************************
+: '
+INFDIR=${INFORMIXDIR=/usr/informix}
+PREPCC=${INFDIR}/lib/esql/esqlc
+CC="${INFORMIXC=cc} "
+CC_TH="${INFORMIXC=gcc} "
+CPP="${INFORMIXCPP=g++} "
+CPP_TH="${INFORMIXCPP=g++} "
+STATICFLAGS=""
+
+CP=${INFORMIXCP="$CC -E -C"}                    # cpp which runs before esqlc
+PROTECT=${INFDIR}/lib/esql/eprotect             # make SQL keyword protection
+UPROTECT="${INFDIR}/lib/esql/eprotect -u"       # undo SQL keyword protection
+UNAMEM=`uname -m`
+
+
+CC_AMD32=""
+
+Usage()
+{
+    echo ' 
+Usage: esql [-e] [-thread] [-glu] [esqlcargs] [-cc] [otherargs] [-o outfile]
+            [-cp] [-onlycp] [-np] [-nup]
+            [-libs] esqlfile.ec [othersrc.c...] [otherobj.o...] [-lyourlib...]
+         '
+    infxmsg 33490 -e
+    infxmsg 33491 -thread
+    infxmsg 33492 -glu
+    infxmsg 33494 -esqlcargs
+    infxmsg 33495 -cc
+    infxmsg 33496 otherargs
+    infxmsg 33497 -o
+    infxmsg 33498 -libs
+    infxmsg 33499 -cp
+    infxmsg 38700 -onlycp
+    infxmsg 38701 -np
+    infxmsg 38702 -nup
+
+}
+
+
+
+if [  x$UNAMEM = "xx86_64" ]
+then 
+    CC="$CC $CC_AMD32"
+    CPP="$CPP $CC_AMD32"
+else 
+    CC=$CC
+    CPP=$CPP
+fi
+
+
+: '
+: INFORMIX Global Language Support extensions
+:
+:     Please set an appropriate value to the CC8BITLEVEL shell variable.
+:     See guidelines below for specifying appropriate CC8BITLEVEL values.
+: '
+
+MBFILTER=${INFDIR}/lib/esql/esqlmf
+CC8BITLEVEL=${CC8BITLEVEL-0}
+
+: '
+: ----------------------------------------------------------------------------
+: CC8BITLEVEL    Remarks
+: ----------------------------------------------------------------------------
+:
+:      0         C compiler does not allow 8th bit set bytes in literal
+:                strings and comments.
+:
+:      1         C compiler does not allow 8th bit set bytes in literal
+:                strings.
+:
+:      2         C compiler allows 8th bit set bytes in literal strings; it
+:                expects all bytes in a multiple-byte character to have the
+:                8th bit set. The compiler complains about literal strings if
+:                any byte of a multiple-byte character is not 8th bit set.
+:
+:                Compilers on Japanese EUC codeset machines usually exhibit
+:                this behavior.
+:
+:                For example, the compiler will not allow literal multiple
+:                byte characters with the bytes (\), ("), and (%).
+:
+:      3         C compiler allows 8th bit set bytes in literal strings; it
+:                does not expect all bytes in a multiple-byte character to
+:                have the 8th bit set.
+:
+:                Compilers on Japanese Shift-JIS codeset machines exhibit this
+:                behavior. This also applies to Chinese Shift-Big5 codeset
+:                C compilers.
+:
+:                For example, the compiler will accept literal multiple byte
+:                characters with bytes (\), ("), or (%) as the non-zeroth
+:                byte of a multibyte character.
+:
+: ----------------------------------------------------------------------------
+: CC8BITLEVEL    Causes $MBFILTER to be invoked as follows:
+: ----------------------------------------------------------------------------
+:
+:      0         $MBFILTER -all -comm
+:      1         $MBFILTER -all
+:      2         $MBFILTER
+:      3         -- $MBFILTER is not executed --
+:
+: ----------------------------------------------------------------------------
+:
+: End of INFORMIX Global Language Support extensions
+:
+: '
+
+STAT=0
+TYPE=unix
+A=
+AO=
+B=
+BO=
+CA=
+PA=
+PREONLY=
+NOLINK=
+INCLUDE=
+THREAD=
+THREAD_SUB=
+STATOPT=
+TLIB=
+THRLIB=
+THLIB_SUB=
+CPFIRSTFILE=FALSE
+CPONLY=FALSE
+CPPOPTS=
+ETARGET=
+STAT=0
+CFILE=FALSE
+CCOPT=
+CPF_DEF=
+## Check for static option and set STATOPT if option is set
+
+for pass in $*
+do
+    case $pass in
+        -cc )
+            CCOPT=TRUE
+            ;;
+        -glu  )
+            if [ "x$CCOPT" =  "x" ]
+            then
+                GLUOPT=TRUE
+                GL_USEGLU=1; export GL_USEGLU
+            fi
+            ;;
+        -thread )
+            if [ "x$CCOPT" =  "x" ]
+            then
+                THREAD_SUB="-thread"
+            fi
+            ;;
+        -static )
+            if [ "x$CCOPT" =  "x" ]
+            then
+                STATOPT="TRUE"
+            fi
+            ;;
+        * )
+            ;;
+     esac
+done
+
+CCOPT=
+
+# If libraries are added or removed make sure to update -libs option
+if [ "x$STATOPT" != "x" ]
+then
+    SLIB=${INFDIR}/lib/esql/libifsql.a
+    GLIB=${INFDIR}/lib/esql/libifgen.a
+    OLIB=${INFDIR}/lib/esql/libifos.a
+    ALIB=${INFDIR}/lib/libifasf.a
+    GLSLIB=${INFDIR}/lib/esql/libifgls.a
+    GLXLIB=${INFDIR}/lib/esql/libifglx.a
+    COMB="$OLIB $GLIB"
+    NETSTUB=${INFDIR}/lib/netstub.a
+else
+    SLIB=-lifsql
+    GLIB=-lifgen
+    OLIB=-lifos
+    ALIB=-lifasf
+    GLSLIB=-lifgls
+    GLXLIB=-lifglx
+    NETSTUB="-lnetstub "
+fi
+
+SYSLIB="-lm -ldl -lcrypt"
+SYSNLIB="-lpthread"
+TLILIB=" "
+THLIB=$THREADLIB
+CHKAPI=${INFDIR}/lib/esql/checkapi.o
+LPATH=${LPATH=${INFDIR}/lib}
+
+nettli="FALSE"
+# check for the existence of libraries specified in TLILIB
+if test "x$TLILIB" != "x " -a "x$TLILIB" != "x" 
+then
+    for lib in $TLILIB
+    do
+        if test -f $lib
+        then
+            nettli="TRUE"
+            break 
+        else
+            continue
+        fi
+    done
+    # Update SYSNLIB if nettli is false
+    if test "$nettli" = "FALSE" 
+    then
+        remove=`echo $lib | sed -e s:\/.*\/lib:-l: -e s:[.].*$::`
+        SYSNLIB=`echo $SYSNLIB | sed -e s:"$remove":: `
+    fi
+else
+    nettli=""
+fi
+
+# check if -thread option is used, then dynamic binding to be used by making
+# sure that -thread option is applied before the .ec file is processed.
+
+case $# in
+0)
+    Usage
+    echo ""
+    $PREPCC
+    exit 1
+esac
+
+ONLYCFILES=
+
+while true 
+do
+    case $1 in
+        *.c )
+            A="$A $1"
+            BASE="`basename $1 .c`"
+            AO="$AO $BASE.o"
+            ONLYCFILES="$ONLYCFILES $1"
+            CFILE="TRUE"
+            shift
+            ;;
+        *.C )
+            B="$B $1"
+            BASE="`basename $1 .C`"
+            BO="$BO $BASE.o"
+            shift
+            ;;
+        *.cpp )
+            B="$B $1"
+            BASE="`basename $1 .cpp`"
+            BO="$BO $BASE.o"
+            shift
+            ;;
+        *.cxx )
+            B="$B $1"
+            BASE="`basename $1 .cxx`"
+            BO="$BO $BASE.o"
+            shift
+            ;;
+        -cc )
+            CCOPT=TRUE
+            shift
+            ;;
+        -shared )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            fi
+            shift
+            ;;
+        -static )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                STATOPT="TRUE"
+                if [ "x$THREAD" != "x" ]
+                then
+                    SLIB=${INFDIR}/lib/esql/libthsql.a
+                    GLIB=${INFDIR}/lib/esql/libthgen.a
+                    OLIB=${INFDIR}/lib/esql/libthos.a
+                    ALIB=${INFDIR}/lib/libthasf.a
+                    GLSLIB=${INFDIR}/lib/esql/libifgls.a
+                    GLXLIB=${INFDIR}/lib/esql/libifglx.a
+                    COMB="$OLIB $GLIB"
+                    NETSTUB=${INFDIR}/lib/netstub.a
+                    if [ "x$THLIB" = "xDCE" -o "x$THLIB" = "xdce" ]
+                    then
+                        TLIB="-ldce"
+                    else
+                        if [ "x$THLIB" = "xSOL" -o "x$THLIB" = "xsol" ]
+                        then
+                            TLIB=""
+                        else
+                            if [ "x$THLIB" = "xPOSIX" -o "x$THLIB" = "xposix" ]
+                            then
+                                TLIB="-lpthread"
+                            else
+                                if [ "x$THLIB" = "xdynamic" -o "x$THLIB" = "xDYNAMIC" ]
+                                then
+                                    TLIB=""
+                                else
+                                    infxmsg -33413
+                                    exit 1
+                                fi
+                            fi
+                        fi
+                    fi
+                    if [ "x$THLIB" != "x" ]
+                    then
+                        THRLIB="$TLIB "
+                    fi
+                else
+                    SLIB=${INFDIR}/lib/esql/libifsql.a
+                    GLIB=${INFDIR}/lib/esql/libifgen.a
+                    OLIB=${INFDIR}/lib/esql/libifos.a
+                    ALIB=${INFDIR}/lib/libifasf.a
+                    GLSLIB=${INFDIR}/lib/esql/libifgls.a
+                    GLXLIB=${INFDIR}/lib/esql/libifglx.a
+                    COMB="$OLIB $GLIB"
+                    NETSTUB=${INFDIR}/lib/netstub.a
+                fi
+            fi
+            shift
+            ;;
+        -thread)
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                SYSTHRLIB="-lm -ldl -lcrypt"
+                SYSTHRNLIB=""
+                if [ "x$STATOPT" != "x" ]
+                then
+                    SLIB=${INFDIR}/lib/esql/libthsql.a
+                    GLIB=${INFDIR}/lib/esql/libthgen.a
+                    OLIB=${INFDIR}/lib/esql/libthos.a
+                    ALIB=${INFDIR}/lib/libthasf.a
+                    GLSLIB=${INFDIR}/lib/esql/libifgls.a
+                    GLXLIB=${INFDIR}/lib/esql/libifglx.a
+                    COMB="$OLIB $GLIB"
+                    NETSTUB=${INFDIR}/lib/netstub.a
+                else
+                    SLIB=-lthsql
+                    GLIB=-lthgen
+                    OLIB=-lthos
+                    ALIB=-lthasf
+                    GLSLIB=-lifgls
+                    GLXLIB=-lifglx
+                fi
+                PA="$PA $1"
+                THREAD=TRUE
+                if [ "x$THLIB" = "xDCE" -o "x$THLIB" = "xdce" ]
+                then
+                    TLIB="-ldce"
+                    THLIB_SUB=dce
+                    INCLUDE="$INCLUDE -I/usr/include/dce"
+                else
+                    if [ "x$THLIB" = "xSOL" -o "x$THLIB" = "xsol" ]
+                    then
+                        TLIB=""
+                        THLIB_SUB=thread
+                    else
+                        if [ "x$THLIB" = "xPOSIX" -o "x$THLIB" = "xposix" ]
+                        then
+                            TLIB="-lpthread"
+                            THLIB_SUB="pthread"
+                        else
+                            if [ "x$THLIB" = "xdynamic" -o "x$THLIB" = "xDYNAMIC" ]
+                            then
+                                TLIB=""
+                                THLIB_SUB=""
+                            else
+                                infxmsg -33413
+                                exit 1
+                            fi
+                        fi
+                    fi
+                fi
+                THRLIB="$TLIB "
+                if [ "x$THLIB" != "x" -a "x$THLIB_SUB" != "x" ]
+                then
+                    if [ ! -f /usr/lib64/lib$THLIB_SUB.so ]
+                    then
+                        infxmsg -33413
+                        exit 1
+                    fi
+                fi
+                CC="$CC_TH -DIFX_THREAD -D_REENTRANT" 
+                CPP="$CPP_TH -DIFX_THREAD -D_REENTRANT" 
+                SYSLIB="$SYSTHRLIB"
+                SYSNLIB="$SYSNLIB"
+            fi
+            shift
+            ;;
+        *.ec )
+            FNAME=$1
+            ECFILE=TRUE
+            X="`basename $1 .ec`"
+            Y="$X.c"
+            ONLYCFILES="$ONLYCFILES $Y"
+            A="$A $Y"
+            AO="$AO $X.o"
+            shift
+            ;;
+        *.ecpp )
+            FNAME=$1
+            ECPPFILE=TRUE
+            X="`basename $1 .ecpp`"
+            Y="$X.C"
+            B="$B $Y"
+            BO="$BO $X.o"
+            shift
+            ;;
+        -o )
+            if [ "x$2" = "x" ]
+            then
+                infxmsg -33414
+                exit 1
+            fi
+
+            case $2 in
+                *.ec)
+                    infxmsg -33415 $2
+                    exit 1
+            esac
+
+            #
+            # Accumulate the -o options in a new variable called
+            # ETARGET.  If the user has set GL_USEGLU, will need just the
+            # filenames if "-c" option is not given.  Later on, ETARGET
+            # is merged in with the variable A
+            #
+            # Same with CPPOPTS.
+            #
+            # No change in behaviour, if GL_USEGLU is not set.
+            #
+            if [ x$GL_USEGLU = "x1" ]
+            then
+                ETARGET="$ETARGET $1"
+            else
+                A="$A $1"
+                CPPOPTS="$CPPOPTS $1"
+            fi
+            CA="$CA $1"
+            shift
+            if [ x$GL_USEGLU = "x1" ]
+            then
+                ETARGET="$ETARGET $1"
+            else
+                A="$A $1"
+                CPPOPTS="$CPPOPTS $1"
+            fi
+            CA="$CA $1"
+            shift
+            ;;
+        -e )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PREONLY=1;
+            fi
+            shift
+            ;;
+        -c )
+            NOLINK=1;
+            A="$A $1"
+            shift
+            ;;
+        -I* )
+            if [ "x$CCOPT" = "x" ]
+            then
+                PA="$PA $1"
+            fi
+            INCLUDE="$INCLUDE $1"
+            shift
+            ;;
+        -V )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+                shift
+            else
+                $PREPCC $1
+                STAT=$?
+                exit $STAT
+            fi
+            ;;
+        -version )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+                shift
+            else
+                $PREPCC $1
+                STAT=$?
+                exit $STAT
+            fi
+            ;;
+        -T )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1 $2"
+                CA="$CA $1 $2"
+                CPPOPTS="$CPPOPTS $1 $2"
+            else
+                TYPE="$2"
+            fi
+            shift
+            shift
+            ;;
+        -icheck )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -P )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+                PREONLY=1;
+            fi
+            shift
+            ;;
+        -g )
+            CC="$CC -g"
+            CPP="$CPP -g"
+            PA="$PA $1"
+            shift
+            ;;
+        -G )
+            CC="$CC -g"
+            CPP="$CPP -g"
+            PA="$PA $1"
+            shift
+            ;;
+        -nln )
+            CC="$CC -g"
+            CPP="$CPP -g"
+            PA="$PA $1"
+            shift
+            ;;
+        -ED* )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -EU* )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -ansi )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -keepccomment )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -xopen )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -nowarn )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;   
+        -local )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            else
+                PA="$PA $1"
+            fi
+            shift
+            ;;
+        -log )
+            if test $# -lt 2
+            then
+# esql: file name required with -log
+                infxmsg -33412
+                exit 1
+            else
+                if [ "x$CCOPT" != "x" ]
+                then
+                    A="$A $1 $2"
+                    CA="$CA $1 $2"
+                    CPPOPTS="$CPPOPTS $1 $2"
+                else
+                    PA="$PA $1 $2"
+                fi
+                shift 2
+            fi
+            ;;
+       -libs )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            shift
+            else
+                # missing TLILIBS, add the stub library
+                if [ "$nettli" = "FALSE" ]
+                then
+                    SYSNLIB="$SYSNLIB $NETSTUB "
+                fi
+                if test "$STATOPT"
+                then
+                    for library in $A $B $COMB $SLIB $ALIB $COMB $GLSLIB $SYSNLIB $SYSLIB $GLXLIB $THRLIB
+                    do
+                        echo $library
+                    done
+                else
+                    for library in $A $B $SLIB $ALIB $GLIB $OLIB $GLSLIB $SYSNLIB $SYSLIB $CHKAPI $GLXLIB $THRLIB
+                    do
+                        echo $library
+                    done
+                fi
+                STAT=$?
+                exit $STAT
+            fi
+            ;;
+
+        -onlycp )  # run only C preprocessor
+            CPFIRST=TRUE;
+            CPONLY=TRUE;
+            PREONLY=1;
+            shift
+            ;;
+        -cp ) # run C preprocessor before esqlc
+            CPFIRST=TRUE;
+            shift
+            ;;
+        -np ) # noprotect
+            PROTECTOPT=-n
+            UPROTECTOPT=-n
+            shift
+            ;;
+        -nup ) # nounprotect
+            UPROTECTOPT=-n
+            CPFIRST=TRUE;
+            CPONLY=TRUE;
+            PREONLY=1
+            shift
+            ;;
+        *.ecp ) # run C preprocessor before esqlc
+            FNAME=$1
+            ECFILE=TRUE
+            Y="`basename $1 .ecp`".c
+            A="$A $Y"
+            ONLYCFILES="$ONLYCFILES $Y"
+            Y="`basename $1 .ecp`"
+            AO="$AO $Y.o"
+            CPFIRSTFILE=TRUE;
+            shift
+            ;;
+        -glu )
+            if [ "x$CCOPT" != "x" ]
+            then
+                A="$A $1"
+                CA="$CA $1"
+                CPPOPTS="$CPPOPTS $1"
+            fi 
+            shift
+            ;;
+
+        -* ) # collect the options
+            A="$A $1"
+            CA="$CA $1"
+            if [ "x$GL_USEGLU" = "x1" -a "x$CCOPT" = "xTRUE" ]
+            then
+                    CPPOPTS="$CPPOPTS"
+            else
+                    CPPOPTS="$CPPOPTS $1"
+            fi
+            shift
+            ;;
+
+        "" )
+            break;
+            ;;
+        * )
+            A="$A $1"
+            CPPOPTS="$CPPOPTS $1"
+            shift
+            ;;
+    esac
+
+# preprocess .ec, .ecp or .ecpp files
+
+    if test  "$ECFILE" -o "$ECPPFILE"
+    then
+        if [ "$CPFIRST" = "TRUE" -o "$CPFIRSTFILE" = "TRUE" ]; then
+            base=`basename $FNAME .ecp`
+            base=`basename $base .ec`
+
+            if [ "$PROTECTOPT" = "-n" ]; then
+                cpinput=$base.pcp
+                cp $FNAME $cpinput
+                cpoutput=$base.icp
+            else                #make protected file for C-preprocessor
+                cpinput=$base.pcp
+                if [ "$UPROTECTOPT" = "-n" ]; then
+                    cpoutput=$base.icp
+                else
+                    cpoutput=$base.tmp
+                fi
+                CPF_DEF=-CP
+                $PROTECT $PROTECTOPT $FNAME >$cpinput
+            fi
+
+            $CP $INCLUDE -I$INFDIR/incl/esql $CA $cpinput > $cpoutput
+            STAT=$?
+
+            if [ "$UPROTECTOPT" != "-n" ]; then
+                $UPROTECT $UPROTECTOPT < $cpoutput > $base.icp
+            fi
+ 
+            if [ "$STAT" = 0 ]; then
+                rm -f $base.tmp $base.pcp
+            fi
+
+            FNAME=$base.icp
+            CPFIRSTFILE=FALSE
+        fi
+        if [ "$STAT" = 0  -a "$CPONLY"  != "TRUE" ]; then
+            if [ "x$THREAD_SUB" != "x" ]
+            then
+                $PREPCC $THREAD_SUB $PA $CPF_DEF -t $TYPE $FNAME
+                STAT=$?
+            else
+                $PREPCC $PA $CPF_DEF -t $TYPE $FNAME
+                STAT=$?
+            fi
+            CFILE="TRUE"
+        fi
+        if [ "$STAT" = 0 -a "$CPONLY" != "TRUE" ]; then
+            rm -f $base.icp
+        fi
+
+        if test "$STAT" != "0"
+        then
+            exit $STAT
+        fi
+        ECFILE=
+        ECPPFILE=
+    fi
+done
+
+if test "$PREONLY"
+then
+    exit $STAT
+fi
+
+# missing TLILIBS, add the stub library
+if [ "$nettli" = "FALSE" ]
+then
+    SYSNLIB="$SYSNLIB $NETSTUB "
+fi
+
+: '
+: INFORMIX Global Language Support extensions
+:
+:     Preprocess multibyte characters in .c files before invoking C compiler
+: '
+
+if [ "X$CC8BITLEVEL" != "X3" -a "X$ESQLMF" = "X1" ] ; then
+    if [ X$CC8BITLEVEL = X0 ] ; then
+        $MBFILTER -all -comm $A $B
+    elif [ X$CC8BITLEVEL = X1 ] ; then
+        $MBFILTER -all $A $B
+    else
+        $MBFILTER $A $B
+    fi
+fi
+: End INFORMIX Global Language Support extensions
+
+# If the command line includes '-c', no linking happens; zap library options.
+# Do not do it earlier (-c -static would overwrite the library options again).
+if test "$NOLINK"
+then
+    COMB=""
+    SLIB=""
+    ALIB=""
+    GLSLIB=""
+    SYSNLIB=""
+    SYSLIB=""
+    GLXLIB=""
+    THRLIB=""
+    CHKAPI=""
+    LIBPATHS=""
+    GLIB=""
+    OLIB=""
+else
+    LIBPATHS="-L$LPATH -L$LPATH/esql"
+    #
+    # If GL_USEGLU is set to 1, then compile the .C files
+    # with the C compiler and set the compiler to C++.  This is so that
+    # the linking phase will use C++.  To avoid further changes to the
+    # linker line, simple set the variable A to AO.
+    #
+    if [ x$GL_USEGLU = "x1" ]
+    then
+        if [ "x`which $INFORMIXCPP 2> /dev/null`" = "x" ]
+        then
+            if [ "x$GLUOPT" != "x" ]
+            then
+                infxmsg -33488
+            else
+                infxmsg -33489
+            fi
+            exit 1
+        fi
+        if test "$ONLYCFILES" -a "X$CFILE" = "XTRUE"
+        then
+            $CC -I$INFDIR/incl/esql $INCLUDE  $CPF_DEF -c $ONLYCFILES
+            STAT=$?
+        fi
+        #
+        # Set the linker to CPP
+        # Set the source files to objects
+        #
+        CC=$CPP
+        A="$AO $CPPOPTS"
+    fi
+fi
+
+#
+# Put back the -o options removed from A and CPPOPTS, if
+# GL_USEGLU is set.
+#
+if [ x$GL_USEGLU = "x1" ]
+then
+    A="$A $ETARGET"
+    STATICFLAGS="$STATICFLAGS "
+fi
+
+# compile .C (c++) files
+if test "$B"
+then
+    $CPP -I$INFDIR/incl/esql $INCLUDE $CPPOPTS -c $B
+    STAT=`expr $STAT + $?`
+fi
+
+if [ x$STAT = x0 ]
+then
+    # compile .c files, link with c++ .o's in $BO
+    if test "$STATOPT"
+    then
+        exec $CC -I$INFDIR/incl/esql $INCLUDE $STATICFLAGS $A $BO $COMB $SLIB $ALIB $COMB $SLIB $GLSLIB $GLXLIB $SYSNLIB $THRLIB $SYSLIB
+    else
+        exec $CC -I$INFDIR/incl/esql $INCLUDE   $LIBPATHS $A $CHKAPI $BO $SLIB $ALIB $GLIB $OLIB $GLSLIB $GLXLIB $SYSNLIB $THRLIB $SYSLIB
+    fi
+    STAT=$?
+fi
+exit $STAT

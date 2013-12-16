@@ -1,0 +1,560 @@
+# *************************************************************************
+# *  "Restricted Materials of IBM"
+# *
+# *  IBM Informix Client-SDK
+# *  Copyright IBM Corporation 1996, 2013
+# *
+# *  Title:       clientsdkfiles
+# *  Description: List of files in Informix ClientSDK
+# *
+# ***************************************************************************
+
+PRODUCT IBM INFORMIX-Client SDK
+
+.			informix	informix	755
+
+etc			informix	informix	775
+etc/brand		informix	informix	755
+
+bin			informix	informix	755
+bin/esql		informix	informix	755
+bin/esqldemo		informix	informix	755
+bin/finderr		informix	informix	755
+bin/rofferr		informix	informix	755
+bin/crtcmap		informix	informix	755
+bin/chkenv		informix	informix	755
+bin/check_version	informix	informix	755
+bin/infxmsg		informix	informix	755
+bin/ifx_getversion	informix	informix	755
+bin/msgfile		informix	informix	755
+bin/glfiles		informix	informix	755
+bin/oncmsm		informix	informix	755 	BRAND 	VRSN
+bin/onpassword          informix        informix        755
+bin/sqliprint     informix informix 755   BRAND VRSN
+
+lib			informix	informix	755
+lib/netstub.a		informix	informix	644
+lib/libnetstub.so	informix	informix	755
+lib/libifasf.a		informix	informix	644
+lib/libasf.a		informix	informix	644	LINK	lib/libifasf.a
+lib/libthasf.a		informix	informix	644
+lib/iasfs09b.so		informix	informix	755
+lib/libifasf.so	informix	informix	755 	LINK	lib/iasfs09b.so
+lib/libixasf.so	informix	informix	755 	LINK	lib/iasfs09b.so
+lib/iasft09b.so		informix	informix	755
+lib/libthasf.so		informix	informix	755 	LINK	lib/iasft09b.so
+lib/libtasf.so		informix	informix	755 	LINK	lib/iasft09b.so
+lib/libifcss.a		informix	informix	644
+lib/icsss09a.so		informix	informix	755
+lib/libifcss.so		informix	informix	755 	LINK	lib/icsss09a.so
+lib/client		informix	informix	755
+lib/client/csm		informix	informix	755
+lib/client/csm/ispws11a.so   informix  informix        755
+lib/client/csm/libifspw.so    informix  informix        755     LINK   lib/client/csm/ispws11a.so
+lib/client/csm/libixspw.so    informix  informix        755     LINK   lib/client/csm/ispws11a.so
+lib/client/csm/iencs11a.so           informix  informix  755
+lib/client/csm/libixenc.so           informix  informix  755   LINK    lib/client/csm/iencs11a.so
+lib/client/csm/igsss11a.so           informix  informix  755
+lib/client/csm/libixgss.so           informix  informix  755   LINK    lib/client/csm/igsss11a.so
+lib/esql		informix	informix	755
+lib/esql/esqlc		informix	informix	755	BRAND	VRSN
+lib/esql/esqlmf		informix	informix	755	BRAND	VRSN
+lib/esql/eprotect	informix	informix	755	BRAND	VRSN
+lib/esql/libifsql.a	informix	informix	644
+lib/esql/libiffgisql.a	informix	informix	644
+lib/esql/libifcobsql.a	informix	informix	644
+lib/esql/libsql.a	informix	informix	644	LINK	lib/esql/libifsql.a
+lib/esql/libfgisql.a	informix	informix	644	LINK	lib/esql/libiffgisql.a
+lib/esql/libcobsql.a	informix	informix	644	LINK	lib/esql/libifcobsql.a
+lib/esql/libthsql.a	informix	informix	644
+lib/esql/isqls09b.so	informix	informix	755
+lib/esql/ifgisqls09b.so	informix	informix	755
+lib/esql/icobsqls09b.so	informix	informix	755
+lib/esql/libifsql.so	informix	informix	755	LINK	lib/esql/isqls09b.so
+lib/esql/libiffgisql.so	informix	informix	755	LINK	lib/esql/ifgisqls09b.so
+lib/esql/libifcobsql.so	informix	informix	755	LINK	lib/esql/icobsqls09b.so
+lib/esql/libixsql.so	informix	informix	755	LINK	lib/esql/isqls09b.so
+lib/esql/libixfgisql.so	informix	informix	755	LINK	lib/esql/ifgisqls09b.so
+lib/esql/libixcobsql.so	informix	informix	755	LINK	lib/esql/icobsqls09b.so
+lib/esql/isqlt09b.so	informix	informix	755
+lib/esql/libthsql.so	informix	informix	755	LINK	lib/esql/isqlt09b.so
+lib/esql/libtsql.so	informix	informix	755	LINK	lib/esql/isqlt09b.so
+lib/esql/libifgen.a	informix	informix	644	BRAND	VRSN
+lib/esql/libgen.a	informix	informix	644	LINK	lib/esql/libifgen.a
+lib/esql/libthgen.a	informix	informix	644	BRAND	VRSN
+lib/esql/igens09a.so	informix	informix	755	BRAND	VRSN
+lib/esql/libifgen.so	informix	informix	755	LINK 	lib/esql/igens09a.so
+lib/esql/libixgen.so	informix	informix	755	LINK 	lib/esql/igens09a.so
+lib/esql/igent09a.so	informix	informix	755	BRAND	VRSN
+lib/esql/libthgen.so	informix	informix	755	LINK 	lib/esql/igent09a.so
+lib/esql/libtgen.so	informix	informix	755	LINK 	lib/esql/igent09a.so
+lib/esql/libifos.a	informix	informix	644
+lib/esql/libos.a	informix	informix	644	LINK	lib/esql/libifos.a
+lib/esql/iosls09a.so	informix	informix	755
+lib/esql/libifos.so	informix	informix	755	LINK	lib/esql/iosls09a.so
+lib/esql/libixos.so	informix	informix	755	LINK	lib/esql/iosls09a.so
+lib/esql/libthos.a	informix	informix	644
+lib/esql/ioslt09a.so	informix	informix	755
+lib/esql/libthos.so	informix	informix	755	LINK	lib/esql/ioslt09a.so
+lib/esql/libtos.so	informix	informix	755	LINK	lib/esql/ioslt09a.so
+lib/esql/checkapi.o	informix	informix	644
+lib/esql/libifgls.a	informix	informix	644
+lib/esql/libgls.a	informix	informix	644	LINK	lib/esql/libifgls.a
+lib/esql/libifglx.a	informix	informix	644
+lib/esql/libglx.a	informix	informix	644	LINK	lib/esql/libifglx.a
+lib/esql/igl4a304.so	informix	informix	755
+lib/esql/libifgls.so	informix	informix	755	LINK	lib/esql/igl4a304.so
+lib/esql/libixgls.so	informix	informix	755	LINK	lib/esql/igl4a304.so
+lib/esql/iglxa304.so	informix	informix	755
+lib/esql/libifglx.so	informix	informix	755	LINK	lib/esql/iglxa304.so
+lib/esql/libixglx.so	informix	informix	755	LINK	lib/esql/iglxa304.so
+lib/esql/libifxa.a	informix	informix	644
+lib/esql/isxas09a.so	informix	informix	755
+lib/esql/libifxa.so	informix	informix	755	LINK 	lib/esql/isxas09a.so
+lib/esql/libixxa.so	informix	informix	755	LINK 	lib/esql/isxas09a.so
+lib/esql/ixacursor.o	informix	informix	644
+lib/esql/libthxa.a	informix	informix	644
+lib/esql/isxat09a.so	informix	informix	755
+lib/esql/libthxa.so	informix	informix	755	LINK 	lib/esql/isxat09a.so
+lib/esql/libtxa.so	informix	informix	755	LINK 	lib/esql/isxat09a.so
+
+#
+# LIBDMI libraries
+#
+lib/dmi			informix	informix	755
+lib/dmi/libifdmi.a	informix	informix	644	-	VRSN
+lib/dmi/libdmi.a	informix	informix	644	LINK	lib/dmi/libifdmi.a
+lib/dmi/libthdmi.a	informix	informix	644	-	VRSN
+lib/dmi/idmis09a.so	informix	informix	755	-	VRSN
+lib/dmi/libifdmi.so	informix	informix	755	LINK	lib/dmi/idmis09a.so
+lib/dmi/idmit09a.so	informix	informix	755	-	VRSN
+lib/dmi/libthdmi.so	informix	informix	755	LINK	lib/dmi/idmit09a.so
+
+#
+# C++ libraries
+#
+lib/c++			informix	informix	755
+lib/c++/libifc++.a	informix	informix 	644	-	VRSN
+lib/c++/libthc++.a	informix	informix	644	-	VRSN
+lib/c++/ic++s02a.so	informix	informix	755	-	VRSN
+lib/c++/libifc++.so	informix	informix	755	LINK	lib/c++/ic++s02a.so
+lib/c++/ic++t02a.so	informix	informix	755	-	VRSN
+lib/c++/libthc++.so	informix	informix	755	LINK	lib/c++/ic++t02a.so
+
+#
+# CLI libraries
+#
+lib/cli 		  informix	  informix	  755
+lib/cli/libifcli.a        informix        informix        644	-	VRSN
+lib/cli/libcli.a          informix        informix        644     LINK    lib/cli/libifcli.a
+lib/cli/libifdmr.a        informix        informix        644
+lib/cli/libdmr.a          informix        informix        644     LINK    lib/cli/libifdmr.a
+lib/cli/libthcli.a        informix        informix        644	-	VRSN
+lib/cli/iclis09b.so       informix        informix        755	-	VRSN
+lib/cli/libifcli.so       informix        informix        755     LINK    lib/cli/iclis09b.so
+lib/cli/idmrs09a.so       informix        informix        755
+lib/cli/libifdmr.so       informix        informix        755     LINK    lib/cli/idmrs09a.so
+lib/cli/libixcli.so       informix        informix        755     LINK    lib/cli/iclis09b.so
+lib/esql/igo4a304.so	  informix	  informix	  755
+lib/cli/iclit09b.so       informix        informix        755	-	VRSN
+lib/cli/libthcli.so       informix        informix        755     LINK    lib/cli/iclit09b.so
+lib/cli/libtcli.so	  informix        informix        755     LINK    lib/cli/iclit09b.so
+
+#
+# ODBC -KPIC based static libraries
+#
+
+etc/ClientSDK-cr	informix	informix	644
+etc/clientsdkfiles	informix	informix	644
+etc/installc		informix	informix	755
+etc/sqlhosts.demo	informix	informix	644
+etc/ASF-cr		informix	informix	644
+etc/GENLIB-cr		informix	informix	644
+etc/OSLIB-cr		informix	informix	644
+etc/SQLI-cr		informix	informix	644
+etc/CLI-cr              informix        informix        644
+etc/CPLUS-cr            informix        informix        644
+etc/DMI-cr              informix        informix        644
+etc/ESQL-cr             informix        informix        644
+etc/odbc.ini		informix	informix	644
+etc/odbcinst.ini	informix	informix	644
+etc/setup.odbc		informix	informix	644
+etc/cmsm.cfg.sample	informix	informix	644
+etc/sqlhosts.cmsm.sample	informix	informix	644
+
+release			informix	informix	755
+release/en_us		informix	informix	755
+release/en_us/0333	informix	informix	755
+release/en_us/0333/CPP_4.1  		informix        informix        644
+release/en_us/0333/ESQLC_4.1		informix        informix        644
+release/en_us/0333/GLSAPI_6.0		informix        informix        644
+release/en_us/0333/GLSAPIREL.HTML	informix        informix        644
+release/en_us/0333/INFODBC_4.1  	informix        informix        644
+release/en_us/0333/clinst.pdf		informix        informix        644
+
+incl			informix	informix	755
+incl/esql		informix	informix	755
+incl/esql/ifxtypes.h    informix        informix        644
+incl/esql/blob.h	informix	informix	644
+incl/esql/datetime.h	informix	informix	644
+incl/esql/decimal.h	informix	informix	644
+incl/esql/locator.h	informix	informix	644
+incl/esql/sqlca.h	informix	informix	644
+incl/esql/sqlda.h	informix	informix	644
+incl/esql/sqlhdr.h	informix	informix	644
+incl/esql/sqliapi.h	informix	informix	644
+incl/esql/sqlstype.h	informix	informix	644
+incl/esql/sqltypes.h	informix	informix	644
+incl/esql/sqlxtype.h	informix	informix	644
+incl/esql/value.h	informix	informix	644
+incl/esql/varchar.h	informix	informix	644
+incl/esql/xa.h		informix	informix	644
+incl/esql/int8.h	informix	informix	644
+incl/esql/collct.h	informix	informix	644
+incl/esql/ifxgls.h	informix	informix	644
+incl/esql/srvinfo.h 	informix        informix        644
+incl/esql/gls.h		informix	informix	644
+
+#
+# LIBDMI headers and needed copies of ESQL headers
+#
+incl/dmi		 informix	informix	755
+incl/dmi/ifxtypes.h      informix       informix        644
+incl/dmi/memdur.h	 informix	informix	644
+incl/dmi/mi.h		 informix	informix	644
+incl/dmi/miback.h	 informix	informix	644
+incl/dmi/miconv.h	 informix	informix	644
+incl/dmi/milib.h	 informix	informix	644
+incl/dmi/milo.h		 informix	informix	644
+incl/dmi/miloback.h	 informix	informix	644
+incl/dmi/mitrace.h	 informix	informix	644
+incl/dmi/mitypes.h	 informix	informix	644
+incl/dmi/blob.h		 informix	informix	644
+incl/dmi/collct.h	 informix	informix	644
+incl/dmi/datetime.h	 informix	informix	644
+incl/dmi/decimal.h	 informix	informix	644
+incl/dmi/gls.h		 informix	informix	644
+incl/dmi/ifxgls.h	 informix	informix	644
+incl/dmi/int8.h		 informix	informix	644
+incl/dmi/locator.h	 informix	informix	644
+incl/dmi/sqlca.h	 informix	informix	644
+incl/dmi/sqlda.h	 informix	informix	644
+incl/dmi/sqlhdr.h	 informix	informix	644
+incl/dmi/sqlstype.h	 informix	informix	644
+incl/dmi/sqltypes.h	 informix	informix	644
+incl/dmi/sqlxtype.h	 informix	informix	644
+incl/dmi/value.h	 informix	informix	644
+incl/dmi/varchar.h	 informix	informix	644
+incl/dmi/xa.h		 informix	informix	644
+
+#
+# C++ Interface headers
+#
+incl/c++		informix	informix	755
+incl/c++/it.h		informix	informix	644
+incl/c++/itcppop.h	informix	informix	644
+incl/c++/itcppval.h	informix	informix	644
+
+#
+# CLI headers
+#
+incl/cli                     informix        informix        755
+incl/cli/infxcli.h           informix        informix        644
+incl/cli/infxsql.h           informix        informix        644
+# for Unicode
+incl/cli/sqlext.h            informix        informix        644
+
+demo				informix	informix	755
+demo/esqlc			informix	informix	755
+demo/esqlc/mkstores		informix	informix	755
+demo/esqlc/dbload1.cmd		informix	informix	644
+demo/esqlc/dbload2.cmd		informix	informix	644
+demo/esqlc/blobload.ec 		informix	informix	644
+demo/esqlc/bycmpr.ec		informix	informix	644
+demo/esqlc/bycopy.ec		informix	informix	644
+demo/esqlc/byfill.ec		informix	informix	644
+demo/esqlc/byleng.ec		informix	informix	644
+demo/esqlc/decadd.ec		informix	informix	644
+demo/esqlc/deccmp.ec		informix	informix	644
+demo/esqlc/deccopy.ec		informix	informix	644
+demo/esqlc/deccvasc.ec		informix	informix	644
+demo/esqlc/deccvdbl.ec		informix	informix	644
+demo/esqlc/deccvint.ec		informix	informix	644
+demo/esqlc/deccvlong.ec		informix	informix	644
+demo/esqlc/decdiv.ec		informix	informix	644
+demo/esqlc/dececvt.ec		informix	informix	644
+demo/esqlc/decfcvt.ec		informix	informix	644
+demo/esqlc/decmul.ec		informix	informix	644
+demo/esqlc/decround.ec		informix	informix	644
+demo/esqlc/decsub.ec		informix	informix	644
+demo/esqlc/dectoasc.ec		informix	informix	644
+demo/esqlc/dectodbl.ec		informix	informix	644
+demo/esqlc/dectoint.ec		informix	informix	644
+demo/esqlc/dectolong.ec		informix	informix	644
+demo/esqlc/dectrunc.ec		informix	informix	644
+demo/esqlc/demo1.ec		informix	informix	644
+demo/esqlc/demo2.ec		informix	informix	644
+demo/esqlc/demo3.ec		informix	informix	644
+demo/esqlc/demo4.ec		informix	informix	644
+demo/esqlc/dispcat_pic.ec	informix	informix	644
+demo/esqlc/dtcurrent.ec		informix	informix	644
+demo/esqlc/dtcvasc.ec		informix	informix	644
+demo/esqlc/dtextend.ec		informix	informix	644
+demo/esqlc/dttoasc.ec		informix	informix	644
+demo/esqlc/getcd_me.ec		informix	informix	644
+demo/esqlc/getcd_nf.ec		informix	informix	644
+demo/esqlc/getcd_of.ec		informix	informix	644
+demo/esqlc/incvasc.ec		informix	informix	644
+demo/esqlc/intoasc.ec		informix	informix	644
+demo/esqlc/ldchar.ec		informix	informix	644
+demo/esqlc/pamdemo.ec		informix	informix	644
+demo/esqlc/rdayofweek.ec	informix	informix	644
+demo/esqlc/rdefmtdate.ec	informix	informix	644
+demo/esqlc/rdownshift.ec	informix	informix	644
+demo/esqlc/rfmtdate.ec		informix	informix	644
+demo/esqlc/rfmtdec.ec		informix	informix	644
+demo/esqlc/rfmtdouble.ec	informix	informix	644
+demo/esqlc/rfmtlong.ec		informix	informix	644
+demo/esqlc/rgetmsg.ec		informix	informix	644
+demo/esqlc/risnull.ec		informix	informix	644
+demo/esqlc/rjulmdy.ec		informix	informix	644
+demo/esqlc/rleapyear.ec		informix	informix	644
+demo/esqlc/rmdyjul.ec		informix	informix	644
+demo/esqlc/rsetnull.ec		informix	informix	644
+demo/esqlc/rstod.ec		informix	informix	644
+demo/esqlc/rstoi.ec		informix	informix	644
+demo/esqlc/rstol.ec		informix	informix	644
+demo/esqlc/rstrdate.ec		informix	informix	644
+demo/esqlc/rtoday.ec		informix	informix	644
+demo/esqlc/rtypalign.ec		informix	informix	644
+demo/esqlc/rtypmsize.ec		informix	informix	644
+demo/esqlc/rtypname.ec		informix	informix	644
+demo/esqlc/rtypwidth.ec		informix	informix	644
+demo/esqlc/rupshift.ec		informix	informix	644
+demo/esqlc/stcat.ec		informix	informix	644
+demo/esqlc/stchar.ec		informix	informix	644
+demo/esqlc/stcmpr.ec		informix	informix	644
+demo/esqlc/stcopy.ec		informix	informix	644
+demo/esqlc/stleng.ec		informix	informix	644
+demo/esqlc/unload.ec		informix	informix	644
+demo/esqlc/updcd_me.ec		informix	informix	644
+demo/esqlc/updcd_nf.ec		informix	informix	644
+demo/esqlc/updcd_of.ec		informix	informix	644
+demo/esqlc/varchar.ec		informix	informix	644
+demo/esqlc/dtaddinv.ec		informix	informix	644
+demo/esqlc/dtsub.ec		informix	informix	644
+demo/esqlc/dtsubinv.ec		informix	informix	644
+demo/esqlc/dyn_sql.ec		informix	informix	644
+demo/esqlc/invdivdbl.ec		informix	informix	644
+demo/esqlc/invdivinv.ec		informix	informix	644
+demo/esqlc/invextend.ec		informix	informix	644
+demo/esqlc/invmuldbl.ec		informix	informix	644
+demo/esqlc/incvfmtasc.ec	informix	informix	644
+demo/esqlc/intofmtasc.ec	informix	informix	644
+demo/esqlc/dtcvfmtasc.ec	informix	informix	644
+demo/esqlc/dttofmtasc.ec	informix	informix	644
+demo/esqlc/rgetlmsg.ec		informix	informix	644
+demo/esqlc/exp_chk.ec		informix	informix	644
+demo/esqlc/getdiag.ec		informix	informix	644
+demo/esqlc/inpfuncs.c		informix	informix	644
+demo/esqlc/prdesc.c		informix	informix	644
+demo/esqlc/sqldetachdemo.ec		informix	informix	644
+demo/esqlc/timeout.ec		informix	informix	644
+demo/esqlc/sqgetdbs.ec		informix	informix	644
+demo/esqlc/call_type.unl	informix	informix	644
+demo/esqlc/catalog.unl		informix	informix	644
+demo/esqlc/cust_calls.unl	informix	informix	644
+demo/esqlc/customer.unl		informix	informix	644
+demo/esqlc/items.unl		informix	informix	644
+demo/esqlc/manufact.unl		informix	informix	644
+demo/esqlc/orders.unl		informix	informix	644
+demo/esqlc/state.unl		informix	informix	644
+demo/esqlc/stock.unl		informix	informix	644
+demo/esqlc/cn_10001.gif		informix	informix	644
+demo/esqlc/cn_10027.gif		informix	informix	644
+demo/esqlc/cn_10031.gif		informix	informix	644
+demo/esqlc/cn_10046.gif		informix	informix	644
+demo/esqlc/cn_10049.gif		informix	informix	644
+demo/esqlc/cn_10001.rs		informix	informix	644
+demo/esqlc/cn_10027.rs		informix	informix	644
+demo/esqlc/cn_10031.rs		informix	informix	644
+demo/esqlc/cn_10046.rs		informix	informix	644
+demo/esqlc/cn_10049.rs		informix	informix	644
+demo/esqlc/int8add.ec		informix	informix	644
+demo/esqlc/int8cvasc.ec		informix	informix	644
+demo/esqlc/int8cvdec.ec		informix	informix	644
+demo/esqlc/int8div.ec		informix	informix	644
+demo/esqlc/int8sub.ec		informix	informix	644
+demo/esqlc/int8toasc.ec		informix	informix	644
+demo/esqlc/int8todec.ec		informix	informix	644
+demo/esqlc/collect.ec		informix	informix	644
+demo/esqlc/lvarptr.ec		informix	informix	644
+demo/esqlc/create_clob.ec	informix	informix	644
+demo/esqlc/get_lo_info.ec	informix	informix	644
+demo/esqlc/upd_lo_descr.ec	informix	informix	644
+demo/esqlc/README		informix	informix	644
+demo/esqlc/makefile		informix	informix	644
+
+#
+# C++ demos
+#
+demo/c++			informix	informix	755
+demo/c++/Makefile		informix	informix	644
+demo/c++/queryex.cpp		informix	informix	644
+demo/c++/README			informix	informix	644
+
+#
+# CLI demos
+#
+demo/cli                        informix        informix        755
+demo/cli/blkinsrt.c             informix        informix        644
+demo/cli/catalog.c              informix        informix        644
+demo/cli/dbcreate.h             informix        informix        644
+demo/cli/dbcreate.c             informix        informix        644
+demo/cli/dbdrop.c               informix        informix        644
+demo/cli/desc.c                 informix        informix        644
+demo/cli/distsel.c              informix        informix        644
+demo/cli/locreate.c             informix        informix        644
+demo/cli/loinfo.c               informix        informix        644
+demo/cli/loselect.c             informix        informix        644
+demo/cli/posupdt.c              informix        informix        644
+demo/cli/proc.c                 informix        informix        644
+demo/cli/rccreate.c             informix        informix        644
+demo/cli/rcselect.c             informix        informix        644
+demo/cli/rcupdate.c             informix        informix        644
+demo/cli/rsetinfo.c             informix        informix        644
+demo/cli/transact.c             informix        informix        644
+demo/cli/advert.txt             informix        informix        644
+demo/cli/item_1.txt             informix        informix        644
+demo/cli/item_2.txt             informix        informix        644
+demo/cli/item_3.txt             informix        informix        644
+demo/cli/item_4.txt             informix        informix        644
+demo/cli/makefile               informix        informix        644
+demo/cli/readme.txt             informix        informix        644
+
+#
+# CLI XA demo
+#
+demo/cli/OnePhaseCommitRollback.c informix      informix        644
+
+#
+# Unicode CLI demos
+#
+demo/cli/blkinsrtW.c             informix        informix        644
+demo/cli/catalogW.c              informix        informix        644
+demo/cli/dbcreateW.h             informix        informix        644
+demo/cli/dbcreateW.c             informix        informix        644
+demo/cli/dbdropW.c               informix        informix        644
+demo/cli/descW.c                 informix        informix        644
+demo/cli/distselW.c              informix        informix        644
+demo/cli/locreateW.c             informix        informix        644
+demo/cli/loinfoW.c               informix        informix        644
+demo/cli/loselectW.c             informix        informix        644
+demo/cli/posupdtW.c              informix        informix        644
+demo/cli/procW.c                 informix        informix        644
+demo/cli/rccreateW.c             informix        informix        644
+demo/cli/rcselectW.c             informix        informix        644
+demo/cli/rcupdateW.c             informix        informix        644
+demo/cli/rsetinfoW.c             informix        informix        644
+demo/cli/transactW.c             informix        informix        644
+
+doc                                                    informix informix 755
+doc/gls_api                                            informix informix 755
+doc/gls_api/en_us                                      informix informix 755
+doc/gls_api/en_us/0333                                 informix informix 755
+doc/gls_api/en_us/0333/ifx_gl_case_conv_outbuflen.htm  informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_conv_needed.htm          informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_convert_date.htm         informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_convert_datetime.htm     informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_convert_money.htm        informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_convert_number.htm       informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_cv_mconv.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_cv_outbuflen.htm         informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_cv_sb2sb_table.htm       informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_format_date.htm          informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_format_datetime.htm      informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_format_money.htm         informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_format_number.htm        informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_getmb.htm                informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_init.htm                 informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismalnum.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismalpha.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismblank.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismcntrl.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismdigit.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismgraph.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismlower.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismprint.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismpunct.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismspace.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismupper.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_ismxdigit.htm            informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswalnum.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswalpha.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswblank.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswcntrl.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswdigit.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswgraph.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswlower.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswprint.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswpunct.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswspace.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswupper.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_iswxdigit.htm            informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_lc_errno.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mb_loc_max.htm           informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mblen.htm                informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbscat.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbschr.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbscoll.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbscpy.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbscspn.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbslen.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsmbs.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsncat.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsncpy.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsnext.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsntsbytes.htm          informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsntslen.htm            informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbspbrk.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsprev.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsrchr.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbsspn.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbstowcs.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_mbtowc.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_putmb.htm                informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_tomlower.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_tomupper.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_towlower.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_towupper.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcscat.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcschr.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcscoll.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcscpy.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcscspn.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcslen.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcsncat.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcsncpy.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcsntslen.htm            informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcspbrk.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcsrchr.htm              informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcsspn.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcstombs.htm             informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wcswcs.htm               informix informix 644
+doc/gls_api/en_us/0333/ifx_gl_wctomb.htm               informix informix 644
+doc/gls_api/en_us/0333/index.htm                       informix informix 644
+doc/gls_api/en_us/0333/is.htm                          informix informix 644
+doc/gls_api/en_us/0333/macros.htm                      informix informix 644
+doc/gls_api/en_us/0333/memmgmt.htm                     informix informix 644
+doc/gls_api/en_us/0333/to.htm                          informix informix 644
+
+properties												informix informix 755
+properties/version										informix informix 755
+properties/version/IBM_Informix_Client_SDK-4.10.0.swtag	informix informix 644
+
+tmp                     informix        informix        755
+gskit               informix        informix        755
+gskit/installgskit  root            informix        744
+gskit/README        informix        informix        555
+gskit/gskcrypt64-8.0.50.10.linux.x86_64.tar     informix        informix        755
+gskit/gskssl64-8.0.50.10.linux.x86_64.tar     informix        informix        755

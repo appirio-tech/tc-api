@@ -1,0 +1,250 @@
+FILE_TYPE=charmap_object
+COMPILER_VERSION=3
+HEADER_LENGTH=7
+SOURCE_VERSION=2
+MODIFIED_DATE=05-04-2004
+CODESET=ksc
+CM_AUTHOR=INFORMIX
+ksc
+s  3 NUL 1 00
+s  3 SOH 1 01
+s  3 STX 1 02
+s  3 ETX 1 03
+s  3 EOT 1 04
+s  3 ENQ 1 05
+s  3 ACK 1 06
+s  5 alert 1 07
+s  3 BEL 1 07
+s  9 backspace 1 08
+s  2 BS 1 08
+s  3 tab 1 09
+s  2 HT 1 09
+s  7 newline 1 0a
+s  2 LF 1 0a
+s 12 vertical-tab 1 0b
+s  2 VT 1 0b
+s  9 form-feed 1 0c
+s  2 FF 1 0c
+s 15 carriage-return 1 0d
+s  2 CR 1 0d
+s  2 SO 1 0e
+s  2 SI 1 0f
+s  3 DLE 1 10
+s  3 DC1 1 11
+s  3 DC2 1 12
+s  3 DC3 1 13
+s  3 DC4 1 14
+s  3 NAK 1 15
+s  3 SYN 1 16
+s  3 ETB 1 17
+s  3 CAN 1 18
+s  2 EM 1 19
+s  3 SUB 1 1a
+s  3 ESC 1 1b
+s  3 IS4 1 1c
+s  2 FS 1 1c
+s  3 IS3 1 1d
+s  2 GS 1 1d
+s  3 IS2 1 1e
+s  2 RS 1 1e
+s  3 IS1 1 1f
+s  2 US 1 1f
+s  5 space 1 20
+s 16 exclamation-mark 1 21
+s 14 quotation-mark 1 22
+s 11 number-sign 1 23
+s 11 dollar-sign 1 24
+s 12 percent-sign 1 25
+s  9 ampersand 1 26
+s 10 apostrophe 1 27
+s 16 left-parenthesis 1 28
+s 17 right-parenthesis 1 29
+s  8 asterisk 1 2a
+s  9 plus-sign 1 2b
+s  5 comma 1 2c
+s  6 hyphen 1 2d
+s 12 hyphen-minus 1 2d
+s  6 period 1 2e
+s  9 full-stop 1 2e
+s  5 slash 1 2f
+s  7 solidus 1 2f
+s  4 zero 1 30
+s  3 one 1 31
+s  3 two 1 32
+s  5 three 1 33
+s  4 four 1 34
+s  4 five 1 35
+s  3 six 1 36
+s  5 seven 1 37
+s  5 eight 1 38
+s  4 nine 1 39
+s  5 colon 1 3a
+s  9 semicolon 1 3b
+s 14 less-than-sign 1 3c
+s 11 equals-sign 1 3d
+s 17 greater-than-sign 1 3e
+s 13 question-mark 1 3f
+s 13 commercial-at 1 40
+s  1 A 1 41
+s  1 B 1 42
+s  1 C 1 43
+s  1 D 1 44
+s  1 E 1 45
+s  1 F 1 46
+s  1 G 1 47
+s  1 H 1 48
+s  1 I 1 49
+s  1 J 1 4a
+s  1 K 1 4b
+s  1 L 1 4c
+s  1 M 1 4d
+s  1 N 1 4e
+s  1 O 1 4f
+s  1 P 1 50
+s  1 Q 1 51
+s  1 R 1 52
+s  1 S 1 53
+s  1 T 1 54
+s  1 U 1 55
+s  1 V 1 56
+s  1 W 1 57
+s  1 X 1 58
+s  1 Y 1 59
+s  1 Z 1 5a
+s 19 left-square-bracket 1 5b
+s  9 backslash 1 5c
+s 15 reverse-solidus 1 5c
+s 20 right-square-bracket 1 5d
+s 10 circumflex 1 5e
+s 17 circumflex-accent 1 5e
+s 10 underscore 1 5f
+s  9 underline 1 5f
+s  8 low-line 1 5f
+s 12 grave-accent 1 60
+s  1 a 1 61
+s  1 b 1 62
+s  1 c 1 63
+s  1 d 1 64
+s  1 e 1 65
+s  1 f 1 66
+s  1 g 1 67
+s  1 h 1 68
+s  1 i 1 69
+s  1 j 1 6a
+s  1 k 1 6b
+s  1 l 1 6c
+s  1 m 1 6d
+s  1 n 1 6e
+s  1 o 1 6f
+s  1 p 1 70
+s  1 q 1 71
+s  1 r 1 72
+s  1 s 1 73
+s  1 t 1 74
+s  1 u 1 75
+s  1 v 1 76
+s  1 w 1 77
+s  1 x 1 78
+s  1 y 1 79
+s  1 z 1 7a
+s 18 left-curly-bracket 1 7b
+s 10 left-brace 1 7b
+s 13 vertical-line 1 7c
+s 19 right-curly-bracket 1 7d
+s 11 right-brace 1 7d
+s  5 tilde 1 7e
+s  3 DEL 1 7f
+r  6 ks0000 101 94 2 a1a1
+r  6 ks0000 201 94 2 a2a1
+r  6 ks0000 301 94 2 a3a1
+r  6 ks0000 401 94 2 a4a1
+r  6 ks0000 501 94 2 a5a1
+r  6 ks0000 601 94 2 a6a1
+r  6 ks0000 701 94 2 a7a1
+r  6 ks0000 801 94 2 a8a1
+r  6 ks0000 901 94 2 a9a1
+r  6 ks0000 1001 94 2 aaa1
+r  6 ks0000 1101 94 2 aba1
+r  6 ks0000 1201 94 2 aca1
+r  6 ks0000 1301 94 2 ada1
+r  6 ks0000 1401 94 2 aea1
+r  6 ks0000 1501 94 2 afa1
+r  6 ks0000 1601 94 2 b0a1
+r  6 ks0000 1701 94 2 b1a1
+r  6 ks0000 1801 94 2 b2a1
+r  6 ks0000 1901 94 2 b3a1
+r  6 ks0000 2001 94 2 b4a1
+r  6 ks0000 2101 94 2 b5a1
+r  6 ks0000 2201 94 2 b6a1
+r  6 ks0000 2301 94 2 b7a1
+r  6 ks0000 2401 94 2 b8a1
+r  6 ks0000 2501 94 2 b9a1
+r  6 ks0000 2601 94 2 baa1
+r  6 ks0000 2701 94 2 bba1
+r  6 ks0000 2801 94 2 bca1
+r  6 ks0000 2901 94 2 bda1
+r  6 ks0000 3001 94 2 bea1
+r  6 ks0000 3101 94 2 bfa1
+r  6 ks0000 3201 94 2 c0a1
+r  6 ks0000 3301 94 2 c1a1
+r  6 ks0000 3401 94 2 c2a1
+r  6 ks0000 3501 94 2 c3a1
+r  6 ks0000 3601 94 2 c4a1
+r  6 ks0000 3701 94 2 c5a1
+r  6 ks0000 3801 94 2 c6a1
+r  6 ks0000 3901 94 2 c7a1
+r  6 ks0000 4001 94 2 c8a1
+r  6 ks0000 4101 94 2 c9a1
+r  6 ks0000 4201 94 2 caa1
+r  6 ks0000 4301 94 2 cba1
+r  6 ks0000 4401 94 2 cca1
+r  6 ks0000 4501 94 2 cda1
+r  6 ks0000 4601 94 2 cea1
+r  6 ks0000 4701 94 2 cfa1
+r  6 ks0000 4801 94 2 d0a1
+r  6 ks0000 4901 94 2 d1a1
+r  6 ks0000 5001 94 2 d2a1
+r  6 ks0000 5101 94 2 d3a1
+r  6 ks0000 5201 94 2 d4a1
+r  6 ks0000 5301 94 2 d5a1
+r  6 ks0000 5401 94 2 d6a1
+r  6 ks0000 5501 94 2 d7a1
+r  6 ks0000 5601 94 2 d8a1
+r  6 ks0000 5701 94 2 d9a1
+r  6 ks0000 5801 94 2 daa1
+r  6 ks0000 5901 94 2 dba1
+r  6 ks0000 6001 94 2 dca1
+r  6 ks0000 6101 94 2 dda1
+r  6 ks0000 6201 94 2 dea1
+r  6 ks0000 6301 94 2 dfa1
+r  6 ks0000 6401 94 2 e0a1
+r  6 ks0000 6501 94 2 e1a1
+r  6 ks0000 6601 94 2 e2a1
+r  6 ks0000 6701 94 2 e3a1
+r  6 ks0000 6801 94 2 e4a1
+r  6 ks0000 6901 94 2 e5a1
+r  6 ks0000 7001 94 2 e6a1
+r  6 ks0000 7101 94 2 e7a1
+r  6 ks0000 7201 94 2 e8a1
+r  6 ks0000 7301 94 2 e9a1
+r  6 ks0000 7401 94 2 eaa1
+r  6 ks0000 7501 94 2 eba1
+r  6 ks0000 7601 94 2 eca1
+r  6 ks0000 7701 94 2 eda1
+r  6 ks0000 7801 94 2 eea1
+r  6 ks0000 7901 94 2 efa1
+r  6 ks0000 8001 94 2 f0a1
+r  6 ks0000 8101 94 2 f1a1
+r  6 ks0000 8201 94 2 f2a1
+r  6 ks0000 8301 94 2 f3a1
+r  6 ks0000 8401 94 2 f4a1
+r  6 ks0000 8501 94 2 f5a1
+r  6 ks0000 8601 94 2 f6a1
+r  6 ks0000 8701 94 2 f7a1
+r  6 ks0000 8801 94 2 f8a1
+r  6 ks0000 8901 94 2 f9a1
+r  6 ks0000 9001 94 2 faa1
+r  6 ks0000 9101 94 2 fba1
+r  6 ks0000 9201 94 2 fca1
+r  6 ks0000 9301 94 2 fda1
+r  6 ks0000 9401 94 2 fea1

@@ -1,0 +1,18 @@
+if ( ! $?INFORMIXDIR ) then
+	setenv INFORMIXDIR /usr/informix
+endif
+setenv PATH ${INFORMIXDIR}/bin:${PATH}
+if ( ! $?INFORMIXSERVER ) then
+	setenv INFORMIXSERVER demo_on
+endif
+if ( ! $?ONCONFIG ) then
+	setenv ONCONFIG onconfig.$INFORMIXSERVER
+endif
+if ( ! $?INFORMIXSQLHOSTS ) then
+	setenv INFORMIXSQLHOSTS ${INFORMIXDIR}/etc/sqlhosts
+endif
+if ( ! $?LD_LIBRARY_PATH ) then
+       setenv LD_LIBRARY_PATH ${INFORMIXDIR}/lib:${INFORMIXDIR}/lib/cli:${INFORMIXDIR}/lib/esql
+else
+       setenv LD_LIBRARY_PATH ${INFORMIXDIR}/lib:${INFORMIXDIR}/lib/cli:${INFORMIXDIR}/lib/esql:$LD_LIBRARY_PATH
+endif

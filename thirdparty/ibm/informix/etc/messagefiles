@@ -1,0 +1,63 @@
+# *************************************************************************
+# *  "Restricted Materials of IBM"
+# *
+# *  IBM Informix Client-SDK
+# *  Copyright IBM Corporation 1996, 2011 
+# *
+# *
+# *  Title       : messagefiles
+# *  Description :
+# *                list of files in message archive.
+# *
+# ***************************************************************************
+
+PRODUCT messages
+
+etc				informix	informix	775
+etc/messagefiles		informix	informix	644
+msg				informix	informix	755
+msg/en_us			informix	informix	755
+msg/en_us/0333			informix	informix	755
+msg/en_us/0333/csql.iem		informix	informix	644
+msg/en_us/0333/cmiapi.iem	informix	informix	644
+msg/en_us/0333/c++.iem		informix	informix	644
+msg/en_us/0333/cli.iem		informix	informix	644
+msg/en_us/0333/ceami.iem	informix	informix	644
+msg/en_us/0333/os.iem		informix	informix	644
+msg/en_us/0333/crds.iem		informix	informix	644
+msg/en_us/0333/rdsterm.iem	informix	informix	644
+msg/en_us/0333/nesql.iem	informix	informix	644
+msg/en_us/0333/cisam.iem	informix	informix	644
+msg/en_us/0333/necc.iem		informix	informix	644
+msg/en_us/0333/csecure.iem	informix	informix	644
+msg/en_us/0333/cerrmsg.txt	informix	informix	644
+msg/citoxmsg.pam		informix	informix	644
+msg/clixmsg.pam			informix	informix	644
+msg/cli3xmsg.pam		informix	informix	644
+msg/en_us/0333/nls.iem		informix	informix	644
+msg/en_us/0333/csqli.iem	informix	informix	644
+msg/en_us/0333/cutil.iem	informix	informix	644
+msg/en_us/0333/cxopen.iem	informix	informix	644
+msg/en_us/0333/cshell.iem	informix	informix	644
+msg/en_us/0333/cnerm.iem	informix	informix	644
+msg/en_us/0333/cnet.iem		informix	informix	644
+msg/en_us/0333/cnetsrv.iem	informix	informix	644
+msg/en_us/0333/ccals.iem	informix	informix	644
+msg/en_us/0333/cnals.iem	informix	informix	644
+msg/en_us/0333/ccss.iem		informix	informix	644
+msg/en_us/0333/ccsm.iem		informix	informix	644
+msg/en_us/0333/cxps.iem		informix	informix	644
+msg/en_us/0333/coptical.iem	informix	informix	644
+msg/en_us/0333/cmls.iem		informix	informix	644
+msg/en_us/0333/cmls2.iem	informix	informix	644
+msg/en_us/0333/password.iem	informix	informix	644
+# dbautility message files 
+msg/itoxmsg.pam 		informix	informix	644
+msg/en_us/0333/rds.iem		informix	informix	644
+msg/en_us/0333/menukey.iem	informix	informix	644
+msg/en_us/0333/dbacc.iem	informix	informix	644
+msg/en_us/0333/dbacc.lmk	informix	informix	644
+msg/en_us/0333/isam.iem		informix	informix	644
+msg/en_us/0333/dbised.iem	informix	informix	644
+msg/en_us/0333/dbised.lmk	informix	informix	644
+

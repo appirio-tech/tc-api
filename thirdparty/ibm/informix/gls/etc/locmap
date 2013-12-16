@@ -1,0 +1,281 @@
+#*************************************************************************
+#                                                                        *
+#  Licensed Materials - Property of IBM                                  *
+#                                                                        *
+#  "Restricted Materials of IBM"                                         *
+#                                                                        *
+#  IBM Informix Dynamic Server                                           *
+#  (c) Copyright IBM Corporation 2002, 2011                              *
+#                                                                        *
+#*************************************************************************
+# Collation Attribute Type:
+# 0 	 French
+# 1 	 Alternate Handling
+# 2 	 Case First
+# 3 	 Case Level
+# 4 	 Normalization Mode
+# 4 	 Decomposition Mode
+# 5 	 Strength
+# 6 	 Hiragana Quaternary Mode
+# 
+# Collation Attribute Value:
+# -1 	 Default
+# 0 	 Primary
+# 1 	 Secondary
+# 2 	 Tertiary
+# 2 	 Default Strength
+# 3 	 CE Strength Limit
+# 3 	 Quaternary
+# 15 	 Identical
+# 16 	 Strength Limit
+# 16	 Off
+# 17	 On
+# 20 	 Shifted
+# 21 	 Non-Ignorable
+# 24 	 Lower First
+# 25 	 Upper First
+# 28 	 On Without Hangul
+#
+# NOTE:
+#   If you are adding locales and the ICU does not define the country flavor 
+#   of the lanuage, use the base language ICU locale.  If the ICU does not
+#   define a locale for the language at all, use en as the default.
+#
+# GLS lcspec	ICU locale name		Collation Attribute (type, value)
+af_na           af
+af_za           af_ZA
+am_et           am_ET
+ar_ae		ar_AE
+ar_ae_greg	ar_AE
+ar_ae_isla	ar_AE
+ar_bh		ar_BH
+ar_bh_greg	ar_BH
+ar_bh_isla	ar_BH
+ar_dz           ar_DZ
+ar_eg           ar_EG
+ar_iq           ar_IQ
+ar_jo           ar_JO
+ar_kw		ar_KW
+ar_kw_greg	ar_KW
+ar_kw_isla	ar_KW
+ar_lb		ar_LB
+ar_ly  		ar_LY
+ar_ma		ar_MA 
+ar_om		ar_OM
+ar_om_greg	ar_OM
+ar_om_isla	ar_OM
+ar_qa		ar_QA
+ar_qa_greg	ar_QA
+ar_qa_isla	ar_QA
+ar_sa		ar_SA
+ar_sa_greg	ar_SA
+ar_sa_isla	ar_SA
+ar_sy		ar_SY
+ar_tn		ar_TN
+ar_ye		ar_YE
+as_in		en
+az_az		en
+be_by		be_BY
+bg_bg		bg_BG
+bn_bd		bn
+bn_in		bn_IN
+bo_cn		en
+bo_in		en
+ca_es		ca_ES
+cs_cz		cs_CZ
+cs_cz_sis	cs_CZ
+cy_gb		cy_GB
+da_dk		da_DK
+da_dk_euro	da_DK
+de_at		de_AT_PREEURO
+de_at_bun1	de_AT_PREEURO
+de_at_bund	de_AT_PREEURO
+de_at_dud1	de_AT_PREEURO
+de_at_dude	de_AT_PREEURO
+de_at_ebu1	de_AT_PREEURO
+de_at_edu1	de_AT_PREEURO
+de_at_euro	de_AT
+de_be		de_BE
+de_ch		de_CH
+de_ch_bun1	de_CH
+de_ch_bund	de_CH
+de_ch_dude	de_CH
+de_ch_dud1	de_CH
+de_ch_ebu1	de_CH
+de_ch_edu1	de_CH
+de_ch_euro	de_CH
+de_de		de_DE_PREEURO
+de_de_bund	de_DE_PREEURO
+de_de_dude	de_DE_PREEURO
+de_de_bun1	de_DE_PREEURO
+de_de_dud1	de_DE_PREEURO
+de_de_ebu1	de_DE_PREEURO
+de_de_edu1	de_DE_PREEURO
+de_de_euro	de_DE
+de_li		de
+de_lu		de_LU
+el_cy		el
+el_gr		el_GR_PREEURO
+en_au		en_AU
+en_be		en_BE
+en_ca		en_CA
+en_gb		en_GB_PREEURO
+en_gb_euro	en_GB
+en_hk		en_HK
+en_ie		en_IE
+en_in		en_IN
+en_nz		en_NZ
+en_ph		en_PH
+en_sg		en_SG
+en_us		en_US
+en_us_dict	en_US
+en_us_dresdner	en_US
+en_us_edic	en_US
+en_us_euro	en_US
+en_za		en_ZA
+es_ar		es_AR
+es_bo		es_BO
+es_cl		es_CL
+es_co		es_CO
+es_cr		es_CR
+es_do		es_DO
+es_ec		es_EC
+es_es		es_ES_PREEURO
+es_es_ra94	es_ES
+es_es_euro	es_ES
+es_gt		es_GT
+es_hn		es_HN
+es_mx		es_MX
+es_ni		es_NI
+es_pa		es_PA
+es_pe		es_PE
+es_pr		es_PR
+es_py		es_PY
+es_sv		es_SV
+es_us		es_US
+es_uy		es_UY
+es_ve		es_VE
+et_ee		et_EE
+eu_es		eu_ES
+fa_af		fa_AF
+fa_ir		fa_IR
+fi_fi		fi_FI_PREEURO
+fi_fi_euro	fi_FI
+fo_fo		fo_FO
+fr_be		fr_BE_PREEURO
+fr_be_euro	fr_BE
+fr_ca		fr_CA
+fr_ch		fr_CH
+fr_ch_euro	fr_CH
+fr_fr		fr_FR_PREEURO
+fr_fr_euro	fr_FR
+fr_lu		fr_LU
+fr_mc		fr
+fr_sn		fr
+ga_ie		ga_IE
+gl_es		gl_ES
+gsw_ch		gsw_CH
+gu_in		gu_IN
+gv_gb		gv_GB
+ha_gh		ha_GH
+ha_ne		en
+ha_ng		en
+haw_us		haw_US
+he_il		en
+hi_in		hi_IN
+hr_hr		hr_HR
+hu_hu		hu_HU
+hy_am		hy_AM
+id_id		id_ID
+ii_cn		en
+in_id		in_ID
+is_is		is_IS
+it_ch		it_CH
+it_it		it_IT_PREEURO
+it_it_euro	it_IT
+iw_il		iw_IL
+iw_il_greg	iw_IL
+iw_il_hebr	iw_IL
+ja_jp		ja_JP
+ja_jp_emat	ja_JP
+ka_ge	 	en
+kk_kz		kk_KZ
+kl_gl		kl_GL
+km_kh		en
+kn_in		kn_IN
+ko_kr		ko_KR
+kok_in		kok_IN
+kw_gb		kw_GB
+lt_lt		lt_LT
+lv_lv		lv_LV
+mk_mk		mk_MK
+ml_in		ml_IN
+mr_in		mr_IN
+ms_bn		ms_BN
+ms_my		ms_MY
+mt_mt		mt_MT
+nb_no		nb_NO
+ne_in		en
+ne_np		en
+nl_be		nl_BE_PREEURO
+nl_be_euro	nl_BE
+nl_nl		nl_NL_PREEURO
+nl_nl_euro	nl_NL
+nn_no		nn_NO
+no_no		no_NO
+no_no_euro	no_NO	
+om_et		om_ET
+om_ke		om_KE
+or_in		or_IN
+pa_in		pa_IN
+pa_pk		pa
+pl_pl		pl_PL
+ps_af		ps_AF
+pt_br		pt_BR
+pt_pt		pt_PT_PREEURO
+pt_pt_euro	pt_PT
+ro_md		ro
+ro_ro		ro_RO
+ru_ua		ru_UA
+ru_ru		ru_RU
+sh_ba		sh
+sh_cs		sh
+sh_hr		sh
+sh_yu		sh_YU
+si_lk		en
+sk_sk		sk_SK
+sk_sk_sn	sk_SK
+sl_si		sl_SI
+so_dj		so_DJ
+so_et		so_ET
+so_ke		so_KE
+so_so		so_SO
+sq_al		sq_AL
+sr_ba		sr
+sr_cs		sr
+sr_me		sr
+sr_rs		sr
+sv_fi		sv_FI
+sv_se		sv_SE
+sv_se_euro	sv_SE
+sw_ke		sw_KE
+sw_tz		sw_TZ
+ta_in		ta_IN
+te_in		te_IN
+th_th		th_TH
+ti_er		ti_ER
+ti_et		ti_ET
+tr_tr		tr_TR
+tr_tr_ifix	tr_TR
+uk_ua		uk_UA
+ur_in		en
+ur_pk		en
+uz_af		en
+uz_uz		en
+vi_vn		vi_VN
+zh_cn		zh_CN
+zh_hk		zh_HK
+zh_mo		zh_MO
+zh_sg		zh_SG
+zh_tw		zh_TW
+zu_za		en

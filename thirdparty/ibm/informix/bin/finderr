@@ -1,0 +1,236 @@
+#!/bin/sh
+: '
+: *************************************************************************
+:
+:  Licensed Material - Property Of IBM
+:
+:  "Restricted Materials of IBM"
+:
+:  IBM Informix Product
+:  (c) Copyright IBM Corporation 1996, 2004 All rights reserved.
+:
+:  Title:	finderr
+:  Description: finderr scans the ascii file $INFORMIXDIR/msg/[c]errmsg.txt
+:
+:
+: *************************************************************************
+: '
+# The following variable is for porting
+# Please set '1' if sed program of the platform supports the Locale
+# specific codeset and set '0' if the sed does't support the codeset.
+LCSED=1
+
+
+INFDIR=${INFORMIXDIR-/usr/informix}
+INTLMSGDIR="en_us/0333"
+SEF="errmsg.txt"
+CEF="cerrmsg.txt"
+
+# make sure we have arguments, give usage if not
+case $# in
+    0)
+	# Print usage message
+	infxmsg 33510
+	exit 1
+esac
+
+# Now find the english errmsg.txt -- pathname variable EEP
+
+# Function to figure out which errmsg.txt to use (errmsg.txt or
+# cerrmsg.txt) by comparing version numbers
+# the version numbers are multiplied by 10 to get integer values
+# since the comparisons of the test command (-ge) work only with ints
+
+
+get_file()
+{
+
+   F1=$1
+   F2=$2
+
+   if test -s ${F1} ; then
+      if test "`head -5 ${F1}|grep Version`" != ""; then
+         VERS=`head -5 ${F1} |awk '/Informix Messages/ {getline; print $2}' \
+		| sed 's/\.//' `
+      else
+         VERS="0"
+      fi
+   else
+         VERS="0"
+   fi
+
+   if test -s ${F2} ; then
+      if test "`head -5 ${F2}|grep Version`" != ""; then
+         CVERS=`head -5 ${F2}| awk '/Informix Messages/ {getline; print $2}' \
+		| sed 's/\.//' `
+      else
+         CVERS="0"
+      fi
+   else
+      CVERS="0"
+   fi
+
+   if test $VERS -ge $CVERS ; then
+      EEP=${F1}
+      EF=${SEF}
+      MLIMIT="`head -5 ${F1} | awk '/Informix Messages/ {getline ; print $5}'`"
+      PLIMIT="`head -5 ${F1} | awk '/Informix Messages/ {getline ; print $7}'`"
+   else
+      EEP=${F2}
+      EF=${CEF}
+      MLIMIT="`head -5 ${F2} | awk '/Informix Messages/ {getline ; print $5}'`"
+      PLIMIT="`head -5 ${F2} | awk '/Informix Messages/ {getline ; print $7}'`"
+   fi
+
+   RESULT="$EEP $EF $MLIMIT $PLIMIT"
+
+   return 0
+
+}
+
+#
+# Decide which [c]errmsg.txt file to use
+#
+DIR1=${INFDIR}/msg/${INTLMSGDIR}/${SEF}
+CDIR1=${INFDIR}/msg/${INTLMSGDIR}/${CEF}
+DIR2=${INFDIR}/msg/english/${SEF}
+CDIR2=${INFDIR}/msg/english/${CEF}
+
+if test -s ${DIR1} -o -s ${CDIR1} ; then
+   get_file $DIR1 $CDIR1    # returns result in $RESULT
+   EEP="`echo $RESULT | awk '{print $1}'`"
+   EF="`echo $RESULT | awk '{print $2}'`"
+   MINUSLIMIT="`echo $RESULT | awk '{print $3}'`"
+   PLUSLIMIT="`echo $RESULT | awk '{print $4}'`"
+elif test -s ${DIR2} -o -s ${CDIR2} ; then
+   get_file $DIR2 $CDIR2    # returns result in $RESULT
+   EEP="`echo $RESULT | awk '{print $1}'`"
+   EF="`echo $RESULT | awk '{print $2}'`"
+   MINUSLIMIT="`echo $RESULT | awk '{print $3}'`"
+   PLUSLIMIT="`echo $RESULT | awk '{print $4}'`"
+else
+   EEP=""
+fi
+
+# find localized errmsg.txt if both of LCSED is 1
+
+if test "$LCSED" = "1"
+then
+    EP=`msgfile $EF`
+else
+    EP=$EEP
+fi
+
+# Error if no errmsg.txt is found
+
+if test "$EP" = ""
+then
+    infxmsg -33512 $EF
+    exit 2
+fi
+
+
+# Function to extract message info from errmsg.txt file
+
+tmp=/tmp/fe$$
+tmpa=/tmp/fe$$a
+
+geterr()
+{
+  # Use sed to extract all lines for the specified message, if it exists.
+  # Note that there can be more than one entry for each message.
+
+  grep -n "^$1 *[	 ]" $2 | sed "s@:@	@" > $tmp
+  if test -s $tmp
+  then
+      if test `cat $tmp | wc -l` -eq 1
+      then
+          sed -n "/^$1 *[	 ]/,/^[-]*[0-9][0-9]* *[	 ]/p" $2 | sed '$d'
+      else
+	  cat /dev/null > $tmpa
+	  while read flno msgnum msgtxt
+	  do
+	      sed -n "$flno,/^[-]*[0-9][0-9]* *[	 ]/p" $2 | sed '$d' >> $tmpa
+	  done < $tmp
+          cat $tmpa
+      fi
+      rm -f $tmp $tmpa
+      return 0
+  else 
+      return 1
+  fi
+}
+ec=0
+while true ; do
+
+
+  # Special undocumented options used by rofferr only
+  if test "x$1" = "xplus" ; then
+     echo $PLUSLIMIT
+     exit 0
+  fi
+  if test "x$1" = "xminus" ; then
+     echo $MINUSLIMIT
+     exit 0
+  fi
+
+  case $1 in
+     -v|-V)     sed -n "1,/^#/p" $EP | sed '$d'
+		exit
+		;;
+    [0-9]*)     if test "`echo $1 | sed 's/[0-9+-]//g'`" != ""
+                then # echo argument $1 is non-numeric
+		     infxmsg -33514 $1
+		     exit 3
+                fi
+		N1=-$1 
+                if expr $N1 \< -$MINUSLIMIT > /dev/null
+		then # echo "$N1 is outside the range of documented messages."
+		     infxmsg -33513 $N1
+		     exit 1
+		fi
+		;;
+    -[0-9]*)    if test "`echo $1 | sed 's/[0-9+-]//g'`" != ""
+                then # echo argument $1 is non-numeric
+		     infxmsg -33514 $1
+		     exit 3
+                fi
+		N1=$1
+		if expr $N1 \< -$MINUSLIMIT > /dev/null
+		then # echo "$N1 is outside the range of documented messages."
+		     infxmsg -33513 $N1
+		     exit 1
+                fi
+		;;
+    +[0-9]*)    if test "`echo $1 | sed 's/[0-9+-]//g'`" != ""
+                then # echo argument $1 is non-numeric
+		     infxmsg -33514 $1
+		     exit 3
+                fi
+		N1=`echo $1 | tr -d "+"`
+		if expr $N1 \> $PLUSLIMIT > /dev/null
+		then # echo "$N1 is outside the range of documented messages."
+		     infxmsg -33513 $N1
+		     exit 1
+                fi
+		;;
+   "")          break;;
+   *)           # echo "argument ($1) is not numeric."
+		infxmsg -33514 $1
+                exit 3;;
+  esac
+
+  geterr $N1 $EP
+  if test $? -ne 0
+  then
+      # echo "Message $N1 not found"
+      infxmsg -33515 $N1
+      ec=1
+  fi
+  shift
+
+done
+
+rm -f $tmp $tmp.bak
+exit $ec
+

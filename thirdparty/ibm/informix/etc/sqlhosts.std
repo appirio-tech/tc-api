@@ -1,0 +1,62 @@
+#**************************************************************************
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix Dynamic Server
+#  Copyright IBM Corporation 1996, 2011
+#
+#  Title:       sqlhosts.demo
+#  Description: Default sqlhosts file for running demos.
+#
+#**************************************************************************
+# The connectivity information for each database server includes four fields
+# of required information and one optional field. You can also configure
+# database server groups.
+#
+# The format for the five fields of connectivity information for a database
+# server is one line in the UNIX  sqlhosts file, as follows:
+#
+# <dbservername> <nettype> <hostname> <servicename> <options>
+#
+# dbservername is the name of a database server on the network.
+#
+# nettype is an 8-character string specifying the protocol in this format:
+#
+# ddiiippp
+#
+# where
+#   dd  =  Database product [|ol|on|dr]
+#   iii =  Interface type [ipc|soc|tli|sql]
+#   ppp =  Protocol [imc|nmp|shm|spx|str|tcp|ssl|mux]
+#
+# hostname is the name of the computer where the database server resides.
+#
+# servicename is a service name entry from the services file.
+#
+# options in the fifth field:
+#
+#   b=<connection buffer size>
+#   c=<connection redirection>
+#   g=<group name>
+#   i=<group identifier>
+#   e=<end of group>
+#   m=<multiplexed connection>
+#   k=<keep alive setting>
+#   r=<client security setting>
+#   s=<server security setting>
+#   csm=<communication support module>
+#
+# To create an entry for a group, put a group name in the dbservername field,
+# the word group in the nettype field, a hyphen in both the hostname and the
+# servicename fileds, and i=<group identifier> in the options field.
+#
+# For additional information on the parameters, see the IBM Informix
+# Administrator's Guide.
+#**************************************************************************
+# IANA (www.iana.org) assigned port number/service names for Informix:
+# sqlexec 9088/tcp
+# sqlexec-ssl 9089/tcp
+
+demo_on	onipcshm	on_hostname	on_servername

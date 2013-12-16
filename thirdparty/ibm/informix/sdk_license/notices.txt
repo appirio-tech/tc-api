@@ -1,0 +1,35 @@
+NOTICES AND INFORMATION
+
+IBM Informix JDBC / Embedded SQL V4.10
+
+The IBM license agreement and any applicable information on the web
+download page for IBM products refers Licensee to this file for details
+concerning notices applicable to code included in the products listed
+above ("the Program").
+
+Notwithstanding the terms and conditions of any other agreement Licensee
+may have with IBM or any of its related or affiliated entities
+(collectively "IBM"), the third party code identified below is subject
+to the terms and conditions of the IBM license agreement for the Program
+and not the license terms that may be contained in the notices below.
+The notices are provided for informational purposes.
+
+Please note: This Notices file may identify information that is not used
+by, or that was not shipped with, the Program as Licensee installed it.
+
+IMPORTANT: IBM does not represent or warrant that the information in this
+NOTICES file is accurate. Third party websites are independent of IBM and
+IBM does not represent or warrant that the information on any third party
+website referenced in this NOTICES file is accurate. IBM disclaims any
+and all liability for errors and omissions or for any damages accruing
+from the use of this NOTICES file or its contents, including without
+limitation URLs or references to any third party websites.
+
+ The following are covered by the SQL/J Notices
+SQL/J 0.9.1.1
+
+Copyright Information
+This document Copyright © 1997-1998 by Oracle Corporation. All rights reserved.
+Legal disclaimer for the associated software, 
+SQLJ Reference Implementation Release 0.9.1.1:
+Oracle expressly places this Software in the public domain. However, Oracle grants no other rights, whether express or implied, to users of this Software, and Oracle provides this Software on an "AS-IS" basis, exclusive of any warranty including, without limitation, all warranties of merchantability or fitness for a particular purpose, noninfringement or any other warranty, whether expressed or implied. You use this Software at your own risk and agree that Oracle shall not be liable for any damages, including but not limited to, direct, indirect, incidental, special, cover, reliance, or consequential damages, arising from your use of the Software.   

@@ -1,0 +1,210 @@
+#!/bin/sh
+: '
+: ************************************************************************
+:
+:                                 IBM INC.
+:
+:                             PROPRIETARY DATA
+:
+:    Licensed Material - Property Of IBM
+:
+:    "Restricted Materials of IBM"
+:
+:    IBM Informix Product
+:
+:    (c)  Copyright IBM Corporation 1996, 2008. All rights reserved.
+:
+:   Title:	rofferr
+:   Description: rofferr scans the ascii file $INFORMIXDIR/msg/[c]errmsg.txt
+:	and copies the text of a range of error messages to standard output,
+: 	embedding -man troff macros so [nt]roff can be used to format them.
+:
+: *************************************************************************
+: '
+
+# The following variables define the upper limit of + and - message numbers,
+# as documented in the errmsg.txt file.
+
+PLUSLIMIT="`finderr plus`"
+MINUSLIMIT="`finderr minus`"
+
+tmp=/tmp/re$$
+tmpm=/tmp/re$$m
+
+# make sure we have arguments, give usage if not
+case $# in
+
+   1|2)
+       ;;
+
+   *)
+      # Print usage message
+      infxmsg 33511
+      exit 1
+
+esac
+
+case $1 in
+     -v|-V)     finderr -V
+		exit;;
+    [0-9]*)     if test "`echo $1 | tr -d \"+\-0123456789\"`" != ""
+                then # echo argument $1 is non-numeric
+		     infxmsg -33514 $1
+		     exit 3
+                fi
+		N1=-$1
+		if expr $N1 \< -$MINUSLIMIT > /dev/null
+		then # echo "-$1 is outside the range of documented messages."
+		     infxmsg -33513 -$1
+		     exit 1
+                fi
+		;;
+    -[0-9]*)    if test "`echo $1 | tr -d \"+\-0123456789\"`" != ""
+                then # echo argument $1 is non-numeric
+		     infxmsg -33514 $1
+		     exit 3
+                fi
+		N1=$1
+	        if expr $N1 \< -$MINUSLIMIT > /dev/null
+		then # echo "$N1 is outside the range of documented messages."
+		     infxmsg -33513 $N1
+		     exit 1
+                fi
+		;;
+    +[0-9]*)    if test "`echo $1 | tr -d \"+\-0123456789\"`" != ""
+                then # echo argument $1 is non-numeric
+		     infxmsg -33514 $1
+		     exit 3
+                fi
+		N1=`echo $1 | tr -d "+"`
+		if expr $N1 \> $PLUSLIMIT > /dev/null
+		then # echo "$N1 is outside the range of documented messages."
+		     infxmsg -33513 $N1
+		     exit 1
+                fi
+		;;
+    *)          # echo "argument ($1) is not numeric."
+		infxmsg -33514 $1
+                exit 3;;
+esac
+
+case $2 in
+    [0-9]*)     if test "`echo $2 | tr -d \"+\-0123456789\"`" != ""
+                then # echo argument $2 is non-numeric
+		     infxmsg -33514 $2
+		     exit 3
+                fi
+		N2=-$2 
+	        if expr $N2 \< -$MINUSLIMIT > /dev/null
+		then # echo "$N2 is outside the range of documented messages."
+		     infxmsg -33513 $N2
+		     exit 1
+	        fi
+		;;
+    -[0-9]*)    if test "`echo $2 | tr -d \"+\-0123456789\"`" != ""
+                then # echo argument $2 is non-numeric
+		     infxmsg -33514 $2
+		     exit 3
+                fi
+		N2=$2
+		if expr $2 \< -$MINUSLIMIT > /dev/null
+		then # echo "$N2 is outside the range of documented messages."
+		     infxmsg -33513 $N2
+		     exit 1
+                fi
+		;;
+    +[0-9]*)    if test "`echo $2 | tr -d \"+\-0123456789\"`" != ""
+                then # echo argument $2 is non-numeric
+		     infxmsg -33514 $2
+		     exit 3
+                fi
+		N2=`echo $2 | tr -d "+"`
+		if expr $N2 \> $PLUSLIMIT > /dev/null
+		then # echo "$N2 is outside the range of documented messages."
+		     infxmsg -33513 $N2
+		     exit 1
+                fi
+		;;
+    "")         N2=$N1;;
+    *)          # echo "argument ($2) is not numeric."
+		infxmsg -33514 $2
+		exit 3;;
+esac
+
+# use finderr to extract messages in the range desired.
+# Add in formatting commands
+fmterr()
+{
+    if finderr $1 > $tmpm
+    then
+         echo ".ne 4v" >> $tmp
+	 cat $tmpm >> $tmp
+    fi
+    rm -f $tmpm
+}
+
+if test $N1 -gt 0
+then
+    # Positive numbers
+    if test $N1 -eq $N2
+    then
+	# Only one number
+	fmterr +$N1 > $tmp
+    else
+	# make sure both numbers are positive
+	if test $N2 -le 0
+	then # echo "Both ends of message number range must be of same sign"
+	     infxmsg -33517
+	     exit 1
+	fi
+	# make sure numbers are in right order
+	if test $N1 -gt $N2
+	then
+	    N=$N1; N1=$N2; N2=$N
+	fi
+	cat /dev/null > $tmp
+	N=$N1
+	while test $N -le $N2 -a $N -le $PLUSLIMIT
+	do
+	    fmterr +$N >> $tmp
+	    N=`expr $N + 1`
+	done
+    fi
+else
+    # Negative numbers
+    if test $N1 -eq $N2
+    then
+	# Only one number
+	fmterr $N1 > $tmp
+    else
+	# make sure both numbers are negative
+	if test $N2 -ge 0
+	then # echo "Both ends of message number range must be of same sign"
+	     infxmsg -33517
+	     exit 1
+	fi
+	# make sure numbers are in right order
+	if test $N1 -lt $N2
+	then
+	    N=$N1; N1=$N2; N2=$N
+	fi
+	cat /dev/null > $tmp
+	N=$N1
+	while test $N -ge $N2 -a $N -ge -$MINUSLIMIT
+	do
+	    fmterr $N >> $tmp
+	    N=`expr $N - 1`
+	done
+    fi
+fi
+
+if test -s $tmp
+then
+    echo ".TH \"$N1 to $N2\" \"\" \"\" \" \" \"Informix Messages\" "
+    cat $tmp
+else
+    # echo "No messages found between $N1 and $N2"
+    infxmsg -33516 $N1 $N2
+fi
+rm -f $tmp $tmpm
+

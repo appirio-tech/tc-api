@@ -1,0 +1,68 @@
+###########################################################################
+#
+#  Licensed Material - Property Of IBM
+#
+#  "Restricted Materials of IBM"
+#
+#  IBM Informix 
+#  Copyright IBM Corporation 2012
+#
+#  Title:      cmsm.cfg.sample 
+#  Description:
+#     Sample Connection Manager configuration file for one cluster.
+#     See also INFOMIXSQLHOSTS sqlhosts.sqlhosts.cmsm.sample 
+#
+###########################################################################
+
+###########################################################################
+# Global configuration parameters
+###########################################################################
+# NAME           - the name of the Connection Manager instance
+# LOGFILE        - the name and location of the Connection Manager log file
+###########################################################################
+
+NAME		mySampleCM
+LOGFILE		${INFORMIXDIR}/tmp/cm1.log
+
+###########################################################################
+# Settings for a high-availability cluster
+###########################################################################
+# CLUSTER        - start the definition a cluster connection unit
+#
+# INFORMIXSERVER - a list of servers to connect with during initialization
+#
+# SLA            - Specifies the redirection policy 
+#       for example:
+#       1) Re-route clients to the primary only
+#
+#           SLA oltp_w   DBSERVERS=primary
+#
+#       2) Re-route DRDA clients to the primary DRDA DBSERVERALIASES only
+#
+#           SLA oltpdr_w DBSERVERS=primary 
+#
+#       3) Re-route clients to the HDR or any SDS depending on which
+#          server has the least workload
+#
+#           SLA report_w DBSERVERS=(HDR,SDS)
+#
+# FOC             - Specifies the failover configuration (FOC) that the 
+#                   Connection Manager uses to determine which server should 
+#                   take over in case the primary server fails. 
+#
+# CMALARMPROGRAM  - Specifies the path and file name of a program or script 
+#                   to run if failover processing encounters an error. 
+###########################################################################
+
+CLUSTER	g_west 
+{
+  INFORMIXSERVER	west1,west2	
+
+  SLA oltp_w 	DBSERVERS=primary 
+  SLA oltpdr_w  DBSERVERS=primary
+  SLA report_w 	DBSERVERS=(HDR,SDS)
+
+  FOC ORDER=SDS,HDR TIMEOUT=10 RETRY=2
+  CMALARMPROGRAM ${INFORMIXDIR}/etc/cmalarmprogram.sh
+}
+
