@@ -4,7 +4,7 @@
  * @version 1.1
  * @author mekanizumu, Sky_
  * changes in 1.1:
- * - disable cache for member register action 
+ * - disable cache for member register action
  */
 "use strict";
 
@@ -168,7 +168,7 @@ function getCode(coderId) {
 /**
  * Register a new user.
  * The result will be passed to the "next" callback.
- * 
+ *
  * @param {Object} user - the user to register. It contains the same properties as connection.params of memberRegister action.
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -188,7 +188,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
-                    api.dataAccess.executeUpdate("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -196,7 +196,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var url, task;
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
-                        api.dataAccess.executeUpdate("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
+                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
                     } else {
@@ -213,7 +213,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     }
                 },
                 function (callback) {
-                    api.dataAccess.executeUpdate("insert_coder", {coderId : user.id, compCountryCode : user.country}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_coder", {coderId : user.id, compCountryCode : user.country}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -239,7 +239,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         },
                         function (hash, callback) {
                             // insert with the hash password
-                            api.dataAccess.executeUpdate("insert_security_user", {loginId : user.id, userId : user.handle, password : hash, createUserId : null}, dbConnectionMap, function (err, result) {
+                            api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hash, createUserId : null}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -257,7 +257,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         },
                         function (emailId, callback) {
                             // insert email
-                            api.dataAccess.executeUpdate("insert_email", {userId : user.id, emailId : emailId, address : user.email}, dbConnectionMap, function (err, result) {
+                            api.dataAccess.executeQuery("insert_email", {userId : user.id, emailId : emailId, address : user.email}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -275,7 +275,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         },
                         function (userGroupId, callback) {
                             // insert user group relation for USERS_GROUP_ID
-                            api.dataAccess.executeUpdate("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID}, dbConnectionMap, function (err, result) {
+                            api.dataAccess.executeQuery("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -293,7 +293,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         },
                         function (userGroupId, callback) {
                             // insert user group relation for ANONYMOUS_GROUP_ID
-                            api.dataAccess.executeUpdate("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : ANONYMOUS_GROUP_ID}, dbConnectionMap, function (err, result) {
+                            api.dataAccess.executeQuery("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : ANONYMOUS_GROUP_ID}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
@@ -316,7 +316,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 /**
  * Check if a handle exists.
  * The result will be passed to the "next" callback. It's true if the handle exists, false otherwise.
- * 
+ *
  * @param {String} handle - handle to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -339,7 +339,7 @@ var userHandleExist = function (handle, api, dbConnectionMap, next) {
 /**
  * Checks whether given handle exactly matches invalid handle in persistence.
  * The result will be passed to the "next" callback. It's true if the handle matches any invalid handle.
- * 
+ *
  * @param {String} handle - the handle to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -364,7 +364,7 @@ var isExactInvalidHandle = function (handle, api, dbConnectionMap, next) {
 /**
  * Checks whether given email already exists.
  * The result will be passed to the "next" callback. It's true if the email already exists.
- * 
+ *
  * @param {String} email - the email to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -391,7 +391,7 @@ var isEmailAvailable = function (email, api, dbConnectionMap, next) {
 /**
  * Checks whether given country name is valid.
  * The result will be passed to the "next" callback. It's true if the country name is valid.
- * 
+ *
  * @param {String} countryName - the country name to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -417,7 +417,7 @@ var isCountryNameValid = function (countryName, api, dbConnectionMap, next) {
 /**
  * Checks whether given social provider id is valid.
  * The result will be passed to the "next" callback. It's true if the social provider id is valid.
- * 
+ *
  * @param {String} socialProviderId - the social provider id to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -441,7 +441,7 @@ var isSoicalProviderIdValid = function (socialProviderId, api, dbConnectionMap, 
 
 /**
  * Check if a string is null or empty.
- * 
+ *
  * @param {String} s The string to check
  * @return {boolean} true if the string is null or empty
  */
@@ -451,7 +451,7 @@ var isNullOrEmptyString = function (s) {
 
 /**
  * Check the handle's validness removing leading and trailing numbers.
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Array} checkedHandles The handles that are already checked
@@ -522,7 +522,7 @@ var checkLeadingTrailingNumbers = function (api, handle, checkedHandles, dbConne
 
 /**
  * Check if the handle is invalid
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Object} dbConnectionMap The database connection object
@@ -617,7 +617,7 @@ var checkInvalidHandle = function (api, handle, dbConnectionMap, next) {
 
 /**
  * Validate the handle
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Object} dbConnectionMap The database connection object
@@ -689,7 +689,7 @@ var validateHandle = function (api, handle, dbConnectionMap, next) {
 
 /**
  * Validate the first name
- * 
+ *
  * @param {String} firstName The name to check
  * @return {String} the error message or null if the name is valid.
  */
@@ -707,7 +707,7 @@ var validateFirstName = function (firstName) {
 
 /**
  * Validate the last name
- * 
+ *
  * @param {String} lastName The name to check
  * @return {String} the error message or null if the name is valid.
  */
@@ -725,7 +725,7 @@ var validateLastName = function (lastName) {
 
 /**
  * Validate the email
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} email The email to check
  * @param {Object} dbConnectionMap The database connection object
@@ -765,7 +765,7 @@ var validateEmail = function (api, email, dbConnectionMap, next) {
 
 /**
  * Validate the country
- * 
+ *
  * @param {String} country The country to check
  * @return {String} the error message or null if the country is valid.
  */
@@ -779,7 +779,7 @@ var validateCountry = function (country) {
 
 /**
  * Validate the social provider id
- * 
+ *
  * @param {String} socialProviderId The social provider id to check
  * @return {String} the error message or null if the social provider id is valid.
  */
@@ -793,7 +793,7 @@ var validateSocialProviderId = function (socialProviderId) {
 
 /**
  * Validate the social user name
- * 
+ *
  * @param {String} socialUserName The social user name to check
  * @return {String} the error message or null if the social user name is valid.
  */
@@ -811,7 +811,7 @@ var validateSocialUserName = function (socialUserName) {
 
 /**
  * Validate the social email
- * 
+ *
  * @param {String} email The social email to check
  * @return {String} the error message or null if the social email is valid.
  */
@@ -834,7 +834,7 @@ var validateSocialEmail = function (email) {
 
 /**
  * Validate the social email verified flag
- * 
+ *
  * @param {String} verified The social email verified flag to check
  * @return {String} the error message or null if the verified flag is valid.
  */
