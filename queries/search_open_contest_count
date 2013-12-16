@@ -64,6 +64,7 @@ LEFT JOIN (
   AND sub.submission_type_id = 1 
   GROUP BY project_id 
 ) place ON place.project_id = project.project_id 
+LEFT JOIN project_info cmc ON cmc.project_Id = project.project_id AND cmc.project_info_type_id = 70
 LEFT JOIN ( 
   SELECT  
   pr.prize_amount, 
@@ -76,7 +77,10 @@ WHERE
 project.project_status_id = 1  
 AND project.project_category_id not IN (27)  
 AND projectCategory.project_type_id IN (@project_type_id@)
-AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce WHERE ce.contest_id = project.project_id)
+AND NOT EXISTS (
+       SELECT 1 FROM contest_eligibility ce 
+       JOIN group_contest_eligibility gce on gce.contest_eligibility_id = ce.contest_eligibility_id   
+       WHERE ce.contest_id = project.project_id AND gce.group_id = 218)
 AND project.tc_direct_project_id = DECODE(@tcdirectid@, 0, project.tc_direct_project_id, @tcdirectid@)
 AND EXTEND(phase.registrationStartDate, year to day) <= '@registstartend@'
 AND EXTEND(phase.registrationStartDate, year to day) >= '@registstartstart@'
@@ -92,4 +96,5 @@ AND EXTEND(NVL(phase.finalReviewActualDate, '1900-01-01'), year to day) >= '@fra
 AND LOWER(projectInfo.projectName) LIKE ('@pjn@')
 AND LOWER(projectCategory.description) = DECODE('@ctn@', '', LOWER(projectCategory.description), '@ctn@')
 AND NVL(LOWER(projectCatalog.name), '') = DECODE('@catalog@', '', NVL(LOWER(projectCatalog.name), ''), '@catalog@')
+AND NVL(LOWER(cmc.value), '') = DECODE('@cmc@', '', NVL(LOWER(cmc.value), ''), '@cmc@')
 

@@ -1,12 +1,16 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Sky_, mekanizumu
+ * @version 1.2
+ * @author Sky_, mekanizumu, TCSASSEMBLER
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
  * 1. add stub for Get Studio Contest Detail
+ * changes in 1.2:
+ * 1. Add an optional parameter to search contest api - cmc
+ * 2. Display cmc value search contest and contest detail API response.
+ * 3. Remove contest description from search contest API response.
  */
 "use strict";
 
@@ -34,7 +38,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "type", "catalog", "contestName", "registrationStartDate.type",
     "registrationStartDate.firstDate", "registrationStartDate.secondDate", "submissionEndDate.type",
     "submissionEndDate.firstDate", "submissionEndDate.secondDate", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound"];
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmc"];
 
 /**
  * Represents a predefined list of valid sort column for active contest.
@@ -274,6 +278,9 @@ function setFilter(helper, listType, filter, sqlParams) {
     if (_.isDefined(filter.projectId)) {
         sqlParams.tcdirectid = filter.projectId;
     }
+    if (_.isDefined(filter.cmc)) {
+        sqlParams.cmc = filter.cmc;
+    }
 }
 
 /**
@@ -288,19 +295,6 @@ function convertNull(str) {
     return str;
 }
 
-/**
- * Gets the contest description from database record.
- * @param {Object} row the database row record.
- * @return {String} the contest description.
- */
-function getContestDescription(row) {
-    var html = row.desctext, text;
-    if (row.projecttype === 3) {
-        html = row.studiodeschtml;
-    }
-    text = new S(convertNull(html)).stripTags().s;
-    return text.substring(0, 300);
-}
 
 /**
  * Format date
@@ -327,7 +321,6 @@ function transferResult(src) {
             type: row.type,
             catalog: row.catalog,
             contestName: row.contestname,
-            description: getContestDescription(row),
             numberOfSubmissions: row.numberofsubmissions,
             numberOfRatedRegistrants: row.numberofunratedregistrants,
             numberOfUnratedRegistrants: row.numberofratedregistrants,
@@ -337,7 +330,8 @@ function transferResult(src) {
             submissionEndDate: formatDate(row.submissionenddate),
             prize: [],
             reliabilityBonus: row.reliabilitybonus,
-            digitalRunPoints: row.digitalrunpoints
+            digitalRunPoints: row.digitalrunpoints,
+            cmc: convertNull(row.cmc)
         },
             i,
             prize;
@@ -366,7 +360,7 @@ var searchContests = function (api, connection, next, software) {
     	dbConnectionMap = connection.dbConnectionMap,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
-            "prizeUpperBound"],
+            "prizeUpperBound", "cmc"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -493,21 +487,32 @@ var getContest = function (api, connection, next) {
                 return;
             }
             contest = {
-                type: data.type,
-                contestName: data.contestname,
-                description: getContestDescription(data),
-                numberOfSubmissions: data.numberofsubmissions,
-                numberOfRegistrants: data.numberofregistrants,
-                numberOfPassedScreeningSubmissions: data.passedscreeningcount,
-                contestId: data.contestid,
-                projectId: data.projectid,
-                registrationEndDate: formatDate(data.registrationenddate),
-                submissionEndDate: formatDate(data.submissionenddate),
-                prize: [],
-                milestonePrize: data.checkpoint || 0,
-                milestoneNumber: data.checkpoint_count || 0,
-                reliabilityBonus: data.reliabilitybonus,
+                challengeType : data.challengetype,
+                challengeName : data.challengename,
+                challengeId : data.challengeid,
+                projectId : data.projectid,
+                detailedRequirements : data.detailedrequirements,
+                finalSubmissionGuidelines : data.finalsubmissionguidelines,
+                screeningScorecardId : data.screeningscorecardid,
+                reviewScorecardId : data.reviewscorecardid,
+                cmcTaskId : convertNull(data.cmctaskid),
+                numberOfCheckpointsPrizes : data.numberofcheckpointsprizes,
+                topCheckPointPrize : convertNull(data.topcheckPointprize),
+                postingDate : formatDate(data.postingdate),
+                registrationEndDate : formatDate(data.registrationenddate),
+                checkpointSubmissionEndDate : formatDate(data.checkpointsubmissionenddate),
+                submissionEndDate : formatDate(data.submissionenddate),
+                appealsEndDate : formatDate(data.appealsenddate),
+                finalFixEndDate : formatDate(data.finalfixenddate),
+                currentPhaseEndDate : formatDate(data.currentphaseenddate),
+                currentPhaseName : convertNull(data.currentphasename),
                 digitalRunPoints: data.digitalrunpoints,
+                
+                //TODO: move these out to constants and/or helper 
+                reliabilityBonus: _.isNumber(data.prize1) ? data.prize1 * 0.2 : 0,
+                directUrl : 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + data.challengeid,
+                
+                prize: [],
                 registrants: [],
                 submissions: []
             };
@@ -519,6 +524,7 @@ var getContest = function (api, connection, next) {
             }
             api.dataAccess.executeQuery("contest_registrants", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
+            contest.numberOfRegistrants = rows.length;
             rows.forEach(function (item) {
                 contest.registrants.push({
                     handle: item.handle,
@@ -528,6 +534,7 @@ var getContest = function (api, connection, next) {
             });
             api.dataAccess.executeQuery("contest_submissions", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
+            contest.numberOfSubmissions = rows.length;
             var passedReview = 0, drTable;
             rows.forEach(function (item) {
                 if (item.placement) {
@@ -541,8 +548,9 @@ var getContest = function (api, connection, next) {
                     placement: item.placement || "",
                     screeningScore: item.screening_score,
                     initialScore: item.initial_score,
-                    "final": item.final_score,
+                    finalScore: item.final_score,
                     points: 0,
+                    submissionStatus: item.submission_status,
                     submissionDate: formatDate(item.submission_date)
                 };
                 if (submission.placement && drTable.length >= submission.placement) {
