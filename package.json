@@ -26,7 +26,7 @@
         "bigdecimal": "*",
         "bignum": "*",
         "java": "~0.2.9",
-        "informix-wrapper": "~0.1.0"
+        "informix-wrapper": "0.1.1"
     },
     "devDependencies": {
         "supertest": "~0.8.0",
