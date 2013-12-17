@@ -283,8 +283,8 @@ exports.searchStudioContests = {
                 results.data.forEach(function (item) {
                     var days = Math.ceil(item.time_left / (60 * 24)), contest; //minutes to days
                     contest = {
-                        type: item.type_name,
-                        contestName: item.name,
+                        challengeType: item.type_name,
+                        challengeName: item.name,
                         startDate: item.start_time,
                         round1EndDate: item.milestone_date,
                         endDate: item.end_time,
@@ -326,7 +326,6 @@ exports.getStudioContest = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
@@ -380,19 +379,17 @@ exports.getStudioContest = {
                 },
                     details = results.details[0];
                 result = {
-                    type: details.type,
-                    contestName: details.name,
-                    description: helper.convertToString(details.description),
+                    challengeType: details.challengetype,
+                    challengeName: details.challengename,
+                    detailedRequirements: helper.convertToString(details.detailedrequirements),
                     prize: _.map(results.prize, function (s) {
                         return s.amount;
                     }),
-                    milestone: {
-                        prize: details.milestone_prize,
-                        number: details.milestone_number
-                    },
-                    points: details.dr_point,
-                    nextDeadlineTime: details.nexttimelinedate,
-                    nextDeadlineName: details.nexttimelinename.trim(),
+                    numberOfCheckpointsPrizes: details.numberofcheckpointsprizes,
+                    topCheckPointPrize: details.topcheckpointprize,
+                    digitalRunPoints: details.dr_point,
+                    currentPhaseEndDate: details.currentphaseenddate,
+                    currentStatus: details.currentstatus.trim(),
                     checkpoints: _.map(results.checkpoints, mapCheckpointOrSubmission),
                     submissions: _.map(results.submissions, mapCheckpointOrSubmission),
                     winners: _.map(results.winners, function (s) {

@@ -1,26 +1,26 @@
 SELECT
-    pcl.name AS type,
-    pi_name.value AS name,
-    (SELECT pss.contest_description
+    pcl.name AS challengetype,
+    pi_name.value AS challengename,
+    (SELECT pss.contest_description_text
         FROM project_studio_specification pss 
-        WHERE pss.project_studio_spec_id = p.project_studio_spec_id) AS description,
+        WHERE pss.project_studio_spec_id = p.project_studio_spec_id) AS detailedrequirements,
     (CASE WHEN drFlag.value = 'On' THEN pi_dr.value ELSE '0' END)::DECIMAL(10,2) AS dr_point,
-    pz.number_of_submissions AS milestone_number,
-    pz.prize_amount AS milestone_prize,
+    NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS numberOfCheckpointsPrizes,
+    (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14 AND pr.place = 1)::DECIMAL(10,2) AS topCheckpointPrize,
     (CASE 
         WHEN status.waitsForFinalFix = 1
             THEN 'Final Fix'
         WHEN status.waitsForFinalReview = 1
             THEN 'Final Review'
         WHEN status.isFinished = 1
-            THEN 'Contest has ended'
+            THEN 'Complete'
         WHEN status.isStarted = 0 
-            THEN 'Contest has not started yet'
+            THEN 'Not Started'
         WHEN status.isRunning = 1 AND status.isMultiRound = 1 AND status.isCheckpointRoundPassed=0
             THEN 'Checkpoint Submission'
         ELSE 
-            'Final Submission'
-        END) AS nextTimelineName,
+            'Submission'
+        END) AS currentStatus,
     (CASE 
         WHEN status.waitsForFinalFix = 1
             THEN (select pp.scheduled_end_time from project_phase pp where pp.project_id = p.project_id and pp.phase_type_id = 9)
@@ -34,7 +34,7 @@ SELECT
             THEN (select pp.scheduled_end_time from project_phase pp where pp.project_id = p.project_id and pp.phase_type_id = 15)
         ELSE 
             (select pp.scheduled_end_time from project_phase pp where pp.project_id = p.project_id and pp.phase_type_id = 2)
-        END) AS nextTimelineDate
+        END) AS currentPhaseEndDate
 
 FROM
     table(MULTISET(
@@ -51,14 +51,12 @@ FROM
             ip.project_id = @ct@
         )) AS status,
     project p
-    INNER JOIN prize pz ON p.project_id = pz.project_id 
     INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
     INNER JOIN project_info pi_name ON pi_name.project_id = p.project_id
     INNER JOIN project_info pi_dr ON pi_dr.project_id = p.project_id
     LEFT JOIN project_info drFlag ON drFlag.project_id = p.project_id AND drFlag.project_info_type_id = 26
     
-WHERE
-    pz.prize_type_id = 14
+WHERE 1=1
     AND pcl.project_type_id = 3
     AND pi_name.project_info_type_id = 6
     AND pi_dr.project_info_type_id = 30

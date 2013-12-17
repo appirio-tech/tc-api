@@ -66,7 +66,7 @@ describe('Get Contests API', function () {
     });
 
 
-    describe("Search Contests", function () {
+    describe("Search Design Contests", function () {
 
         /**
          * Create request to search contests API and assert 400 http code
@@ -110,10 +110,10 @@ describe('Get Contests API', function () {
                     assert.equal(res.body.pageSize, pageSize, "invalid pageSize");
                     for (i = 0; i < results.length; i = i + 1) {
                         item = results[i];
-                        assert.isString(item.type, "invalid type for result: " + i);
-                        assert.isString(item.contestName);
-                        assert.equal(item.contestName, "Studio Contest " + contests[i],
-                            "invalid contestName for result: " + i);
+                        assert.isString(item.challengeType, "invalid type for result: " + i);
+                        assert.isString(item.challengeName);
+                        assert.equal(item.challengeName, "Studio Contest " + contests[i],
+                            "invalid challengeName for result: " + i);
                         if (type !== "PAST") {
                             assert.isString(item.timeLeft, "invalid timeLeft for result: " + i);
                         } else {

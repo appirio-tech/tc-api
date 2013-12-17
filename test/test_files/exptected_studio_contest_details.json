@@ -1,19 +1,17 @@
 ﻿{
-  "type": "Banners/Icons",
-  "contestName": "Studio Contest 5",
-  "description": "Description of Studio Contest 5.",
+  "challengeType": "Banners/Icons",
+  "challengeName": "Studio Contest 5",
+  "detailedRequirements": "",
   "prize": [
     1000,
     500,
     200
   ],
-  "milestone": {
-    "prize": 250,
-    "number": 1
-  },
-  "points": 450,
-  "nextDeadlineTime": "2013-11-03T00:00:00.000Z",
-  "nextDeadlineName": "Contest has ended",
+  "numberOfCheckpointsPrizes" : 1,
+  "topCheckPointPrize": 250,
+  "digitalRunPoints": 450,
+  "currentPhaseEndDate": "2013-11-03T00:00:00.000Z",
+  "currentStatus": "Complete",
   "checkpoints": [
     {
       "submissionId": 10042,
