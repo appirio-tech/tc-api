@@ -492,6 +492,7 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                 challengeName : data.challengename,
                 challengeId : data.challengeid,
                 projectId : data.projectid,
+                forumId : data.forumid,
                 detailedRequirements : data.detailedrequirements,
                 finalSubmissionGuidelines : data.finalsubmissionguidelines,
                 screeningScorecardId : data.screeningscorecardid,
@@ -506,6 +507,7 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                 appealsEndDate : formatDate(data.appealsenddate),
                 finalFixEndDate : formatDate(data.finalfixenddate),
                 currentPhaseEndDate : formatDate(data.currentphaseenddate),
+                currentStatus : data.currentstatus,
                 currentPhaseName : convertNull(data.currentphasename),
                 digitalRunPoints: data.digitalrunpoints,
                 

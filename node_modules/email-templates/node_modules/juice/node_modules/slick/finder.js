@@ -754,8 +754,8 @@ var finders = {}
 
 var finder = function(context){
     var doc = context || document
-    if (doc.document) doc = doc.document
-    else if (doc.ownerDocument) doc = doc.ownerDocument
+    if (doc.ownerDocument) doc = doc.ownerDocument
+    else if (doc.document) doc = doc.document
 
     if (doc.nodeType !== 9) throw new TypeError("invalid document")
 
