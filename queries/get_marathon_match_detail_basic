@@ -1,0 +1,66 @@
+SELECT 
+  rd.round_id AS roundId
+, p.name AS fullName
+, rd.name AS shortName
+, nRegistrants.count AS numberOfRegistrants
+, nCompetitors.count AS numberOfCompetitors
+, nSubmissions.count AS numberOfSubmissions
+, rs.start_time AS startDate
+, rs.end_time AS endDate
+, winnerTable.winner_score AS winnerScore
+, winnerTable.winner_handle AS winnerHandle
+, strs.start_time AS systemTestDate
+FROM 
+  round rd 
+LEFT JOIN (
+  SELECT
+    COUNT(*) AS count
+  , round_id
+  FROM 
+    round_registration
+  GROUP BY round_id
+) nRegistrants ON nRegistrants.round_id = rd.round_id
+LEFT JOIN (
+  SELECT 
+    COUNT(*) AS count
+  , round_id
+  FROM 
+    long_comp_result
+  WHERE attended = 'Y'
+  GROUP BY round_id
+) nCompetitors ON nCompetitors.round_id = rd.round_id
+LEFT JOIN (
+  SELECT 
+    COUNT(*) AS count 
+  , cs.round_id
+  FROM
+    long_component_state cs 
+  , long_submission s
+  WHERE s.example = 0
+  AND s.long_component_state_id = cs.long_component_state_id
+  GROUP BY round_id
+) nSubmissions ON nSubmissions.round_id = rd.round_id
+LEFT JOIN (
+  SELECT
+    lcr.system_point_total AS winner_score
+  , lcr.round_id
+  , u.handle AS winner_handle 
+  FROM 
+    long_comp_result lcr
+  , coder c 
+  , user u
+  WHERE placed = 1
+  AND c.coder_id = lcr.coder_id
+  AND u.user_id = c.coder_id
+) winnerTable ON winnerTable.round_id = rd.round_id
+INNER JOIN contest ct ON ct.contest_id = rd.contest_id
+INNER JOIN round_component rc ON rc.round_id = rd.round_id
+INNER JOIN round_segment rs ON rs.round_id = rd.round_id AND rs.segment_id = 1
+INNER JOIN round_segment strs ON strs.round_id = rd.round_id AND strs.segment_id = 5
+, problem p
+, component cm
+WHERE rd.round_id = @rd@
+AND rc.component_Id = cm.component_id
+AND p.problem_id = cm.problem_id
+AND rd.round_type_id IN (10,13,15,19,22,24,25,27)
+

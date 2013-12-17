@@ -12,6 +12,7 @@ var async = require('async');
 var fs = require('fs');
 var util = require('util');
 var _ = require('underscore');
+var assert = require('chai').assert;
 
 /**
  * The test helper
@@ -226,6 +227,25 @@ helper.generatePartPaths = function (fileName, extension, count) {
         ret.push(path);
     }
     return ret;
+};
+
+/**
+ * Assert response from api to given file.
+ * Fields serverInformation and requestorInformation are not compared.
+ * @param {Error} error - the error from response
+ * @param {Object} res - the response object
+ * @param {String} filename - the filename to match. Path must be relative to /test/ directory.
+ * @param {Function} done - the callback
+ */
+helper.assertResponse = function (err, res, filename, done) {
+    var expected = require("../" + filename), body;
+    assert.ifError(err);
+    body = res.body;
+    assert.isObject(body, "response body should be object");
+    delete body.serverInformation;
+    delete body.requestorInformation;
+    assert.deepEqual(body, expected, "invalid response");
+    done();
 };
 
 module.exports = helper;

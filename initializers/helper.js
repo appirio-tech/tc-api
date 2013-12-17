@@ -5,7 +5,9 @@
 /**
 * This module contains helper functions.
 * @author Sky_
-* @version 1.0
+* @version 1.1
+* changes in 1.1:
+* - add mapProperties
 */
 "use strict";
 
@@ -394,10 +396,40 @@ helper.handleError = function (api, connection, err) {
 };
 
 /**
+ * Map properties from db object and return new object.
+ * Db object has always all properties in lowercase.
+ *
+ * @param {Object} source - The source db object
+ * @param {Array<String>} properties - The properties to map
+ * @param {Object} target - The target object that will have appended properties. Optional.
+ * @return {Object} the new object
+ */
+helper.mapProperties = function (source, properties, target) {
+    var ret = target || {};
+    properties.forEach(function (p) {
+        ret[p] = source[p.toLowerCase()];
+    });
+    return ret;
+};
+
+/**
+ * Handle no dbConnectionMap
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Function} next - The callback function
+ */
+helper.handleNoConnection = function (api, connection, next) {
+    api.log("dbConnectionMap is null", "debug");
+    connection.rawConnection.responseHttpCode = 500;
+    connection.response = { message: "No connection object." };
+    next(connection, true);
+};
+
+/**
 * Expose the "helper" utility.
 *
 * @param {Object} api The api object that is used to access the infrastructure
-* @param {Function<err>} next The callback function to be called when everyting is done
+* @param {Function<err>} next The callback function to be called when everything is done
 */
 exports.helper = function (api, next) {
     api.helper = helper;
@@ -416,6 +448,25 @@ exports.helper = function (api, next) {
             return null;
         }
     });
+
+    /**
+     * Create optional validation
+     */
+    var prop;
+    for (prop in helper) {
+        if (helper.hasOwnProperty(prop)) {
+            (function(p) {
+                if (/^check/.test(p) && _.isFunction(helper[p])) {
+                    helper[prop + "Optional"] = function() {
+                        if (!_.isDefined(arguments[0])) {
+                            return null;
+                        }
+                        return helper[p].apply(this, arguments);
+                    };
+                }
+            })(prop);
+        }
+    }
 
     next();
 };

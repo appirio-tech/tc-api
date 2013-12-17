@@ -1,0 +1,5 @@
+{
+  "name"    : "get_marathon_match_past_challenges_count",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_marathon_match_past_challenges_count"
+}

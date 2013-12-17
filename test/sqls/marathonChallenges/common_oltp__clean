@@ -1,0 +1,2 @@
+﻿
+DELETE FROM user WHERE user_id >= 3001 and user_id <= 3100;
