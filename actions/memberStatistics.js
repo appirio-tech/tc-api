@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author Sky_, TCSASSEMBLER
  * changes in 1.1:
  * - implement marathon statistics
+ * changes in 1.2:
+ * - implement studio and sofware statistics
  */
 "use strict";
 var async = require('async');
@@ -12,15 +14,6 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 
-/**
- * Sample result from specification for Software Member Statistics
- */
-var sampleStatistics;
-
-/**
- * Sample result from specification for Studio Member Statistics
- */
-var sampleStudioStatistics;
 
 /**
  * Sample result from specification for Algorithm Member Statistics
@@ -149,18 +142,123 @@ exports.getSoftwareStatistics = {
     name: "getSoftwareStatistics",
     description: "getSoftwareStatistics",
     inputs: {
-        required: [],
+        required: ["handle"],
         optional: []
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getSoftwareStatistics#run", 'debug');
-        connection.response = sampleStatistics;
-        next(connection, true);
+        var dbConnectionMap = this.dbConnectionMap,
+            handle = connection.params.handle,
+            helper = api.helper,
+            sqlParams = {
+                ha: handle
+            },
+            result = {
+                handle: handle,
+                Achievements: [],
+                Tracks: {}
+            };
+        if (!this.dbConnectionMap) {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = { message: "No connection object." };
+            next(connection, true);
+            return;
+        }
+        async.waterfall([
+            function (cb) {
+                checkUserExists(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var execQuery = function (name, cbx) {
+                    api.dataAccess.executeQuery(name,
+                        sqlParams,
+                        dbConnectionMap,
+                        cbx);
+                };
+                async.parallel({
+                    achievements: function (cbx) {
+                        execQuery("get_software_member_statistics_achievements", cbx);
+                    },
+                    tracks: function (cbx) {
+                        execQuery("get_software_member_statistics_track", cbx);
+                    },
+                    copilotStats: function (cbx) {
+                        execQuery("get_software_member_statistics_copilot", cbx);
+                    }
+                }, cb);
+            }, function (results, cb) {
+                results.achievements.forEach(function (item) {
+                    result.Achievements.push(item.description);
+                });
+                var round2 = function (n) {
+                    return Math.round(n * 100) / 100;
+                };
+                results.tracks.forEach(function (track) {
+                    result.Tracks[track.category_name] = {
+                        rating: track.rating,
+                        percentile: track.percentile.toFixed(2) + "%",
+                        rank: track.rank,
+                        countryRank: track.country_rank,
+                        schoolRank: track.school_rank,
+                        volatility: track.vol,
+                        competitions: track.num_ratings,
+                        maximumRating: track.max_rating,
+                        minimumRating: track.min_rating,
+                        inquiries: track.num_ratings,
+                        submissions: track.submissions,
+                        submissionRate: _.getPercent(track.submission_rate, 2),
+                        passedScreening: track.passed_screening,
+                        screeningSuccessRate: _.getPercent(track.screening_success_rate, 2),
+                        passedReview: track.passed_review,
+                        reviewSuccessRate: _.getPercent(track.review_success_rate, 2),
+                        appeals: track.appeals,
+                        appealSuccessRate: _.getPercent(track.appeal_success_rate, 2),
+                        maximumScore: round2(track.max_score),
+                        minimumScore: round2(track.min_score),
+                        averageScore: round2(track.avg_score),
+                        averagePlacement: round2(track.avg_placement),
+                        wins: track.wins,
+                        winPercentage: _.getPercent(track.win_percent, 2)
+                    };
+                });
+                results.copilotStats.forEach(function (track) {
+                    if (helper.checkNumber(track.reviewer_rating) && track.completed_contests === 0) {
+                        return;
+                    }
+                    if (!result.Tracks[track.category_name]) {
+                        result.Tracks[track.category_name] = {};
+                    }
+                    var data = result.Tracks[track.category_name], copilotFulfillment;
+                    if (!helper.checkNumber(track.reviewer_rating)) {
+                        data.reviewerRating = track.reviewer_rating;
+                    }
+                    if (track.completed_contests !== 0) {
+                        data.copilotCompletedContests = track.completed_contests;
+                        data.copilotRepostedContests = track.reposted_contests;
+                        data.copilotFailedContests = track.failed_contests;
+                        copilotFulfillment = 1 - data.copilotFailedContests / data.copilotCompletedContests;
+                        data.copilotFulfillment = _.getPercent(copilotFulfillment, 0);
+                    }
+                });
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
     }
 };
+
 
 /**
 * The API for getting studio statistics
@@ -169,16 +267,89 @@ exports.getStudioStatistics = {
     name: "getStudioStatistics",
     description: "getStudioStatistics",
     inputs: {
-        required: [],
+        required: ["handle"],
         optional: []
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ["topcoder_dw", "tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         api.log("Execute getStudioStatistics#run", 'debug');
-        connection.response = sampleStudioStatistics;
-        next(connection, true);
+        var dbConnectionMap = this.dbConnectionMap,
+            handle = connection.params.handle,
+            helper = api.helper,
+            sqlParams = {
+                ha: handle
+            },
+            result = {
+                handle: handle,
+                Achievements: [],
+                Tracks: {}
+            };
+        if (!this.dbConnectionMap) {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = { message: "No connection object." };
+            next(connection, true);
+            return;
+        }
+
+        async.waterfall([
+            function (cb) {
+                checkUserExists(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var execQuery = function (name, cbx) {
+                    api.dataAccess.executeQuery(name,
+                        sqlParams,
+                        dbConnectionMap,
+                        cbx);
+                };
+                async.parallel({
+                    achievements: function (cbx) {
+                        execQuery("get_studio_member_statistics_achievements", cbx);
+                    },
+                    tracks: function (cbx) {
+                        execQuery("get_studio_member_statistics_track", cbx);
+                    },
+                    copilotStats: function (cbx) {
+                        execQuery("get_studio_member_statistics_copilot", cbx);
+                    }
+                }, cb);
+            }, function (results, cb) {
+                results.achievements.forEach(function (item) {
+                    result.Achievements.push(item.user_achievement_name);
+                });
+                results.tracks.forEach(function (track) {
+                    result.Tracks[track.category_name] = {
+                        numberOfSubmissions: track.submissions,
+                        numberOfPassedScreeningSubmissions: track.passed_screening,
+                        numberOfWinningSubmissions: track.wins
+                    };
+                });
+                results.copilotStats.forEach(function (track) {
+                    if (track.completed_contests === 0) {
+                        return;
+                    }
+                    if (!result.Tracks[track.name]) {
+                        result.Tracks[track.name] = {};
+                    }
+                    var data = result.Tracks[track.name];
+                    data.copilotCompletedContests = track.completed_contests;
+                    data.copilotFailedContests = track.failed_contests;
+                });
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
     }
 };
 
@@ -202,100 +373,6 @@ exports.getAlgorithmStatistics = {
     }
 };
 
-
-sampleStatistics = {
-    "handle": "iRabbit",
-    "Archievements": [
-        "Five Rated Algorithm Competition",
-        "Twenty-Five Rated Algorithm Competition"
-    ],
-    "Tracks": {
-        "Development": {
-            "rating": 1659,
-            "percentile": "50%",
-            "rank": 9999,
-            "country Rank": 9999,
-            "school Rank": 9999,
-            "volatility": 280,
-            "compeititions": 37,
-            "maximum Rating": 1693,
-            "minimum Rating": 1035,
-            "reviewer Rating": 1035,
-            "inquiries": 37,
-            "submissions": 36,
-            "submissionRate": "97.30%",
-            "passedScreening": 36,
-            "screeningSuccessRate": "100.00%",
-            "passedReview": 36,
-            "reviewSuccessRate": "100.00%",
-            "appeals": 279,
-            "appealSuccessRate": "33.33%",
-            "maximumScore": 100.00,
-            "minimumScore": 86.04,
-            "averageScore": 95.64,
-            "averagePlacement": 3.19,
-            "wins": 21,
-            "winPercentage": "58.33%",
-            "copilotCompletedContests": 300,
-            "copilotRepostedContests": 300,
-            "copilotFailedContests": 300,
-            "copilotFulfillment": "90%"
-        },
-        "Assembly": {
-            "rating": 1659,
-            "percentile": "50%",
-            "rank": 9999,
-            "country Rank": 9999,
-            "school Rank": 9999,
-            "volatility": 280,
-            "compeititions": 37,
-            "maximum Rating": 1693,
-            "minimum Rating": 1035,
-            "reviewer Rating": 1035,
-            "inquiries": 37,
-            "submissions": 36,
-            "submissionRate": "97.30%",
-            "passedScreening": 36,
-            "screeningSuccessRate": "100.00%",
-            "passedReview": 36,
-            "reviewSuccessRate": "100.00%",
-            "appeals": 279,
-            "appealSuccessRate": "33.33%",
-            "maximumScore": 100.00,
-            "minimumScore": 86.04,
-            "averageScore": 95.64,
-            "averagePlacement": 3.19,
-            "wins": 21,
-            "winPercentage": "58.33%",
-            "copilotCompletedContests": 300,
-            "copilotRepostedContests": 300,
-            "copilotFailedContests": 300,
-            "copilotFulfillment": "90%"
-        }
-    }
-};
-
-sampleStudioStatistics = {
-    "handle": "iRabbit",
-    "Archievements": [
-        "Five Rated Algorithm Competition",
-        "Twenty-Five Rated Algorithm Competition"
-    ],
-    "Web Design": {
-        "numberOfSubmissions": 100,
-        "numberOfPassedScreeningSubmissions": 100,
-        "numberofWinningSubmissions": 80,
-        "copilotCompletedContests": 100,
-        "copilotFailedContests": 100
-    },
-    "Mobile Design": {
-        "numberOfSubmissions": 100,
-        "numberOfPassedScreeningSubmissions": 100,
-        "numberofWinningSubmissions": 80,
-        "copilotCompletedContests": 100,
-        "copilotFailedContests": 100
-    }
-};
 
 
 sampleAlgorithmStatistics = {

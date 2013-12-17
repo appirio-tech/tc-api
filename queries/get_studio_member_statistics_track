@@ -1,0 +1,13 @@
+SELECT 
+p.phase_id - 111 AS category_id
+, p.phase_desc AS category_name
+, NVL(SUM(submit_ind), 0) AS submissions
+, NVL(SUM(CASE WHEN valid_submission_ind = 1 AND submit_ind = 1 THEN 1 ELSE 0 END), 0) AS passed_screening
+, NVL(SUM(CASE WHEN placed = 1 AND passed_review_ind = 1 THEN 1 ELSE 0 END), 0) AS wins
+FROM tcs_dw:project_result pr, tcs_dw:project p, coder cc
+WHERE pr.user_id = cc.coder_id
+AND p.project_id = pr.project_id
+AND p.status_id in (4,5,7,8)
+AND LOWER(cc.handle) = LOWER('@ha@')
+AND p.phase_id IN (127, 128, 129, 131, 132, 133, 141, 142, 143, 145)
+GROUP BY p.phase_id, p.phase_desc

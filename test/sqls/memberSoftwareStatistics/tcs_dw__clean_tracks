@@ -1,0 +1,7 @@
+﻿DELETE FROM user_rating WHERE user_id = 132456;
+DELETE FROM user_rank WHERE user_id = 132456;
+DELETE FROM country_user_rank WHERE user_id = 132456;
+DELETE FROM school_user_rank WHERE user_id = 132456;
+DELETE FROM user_rank_type_lu;
+DELETE FROM project_result WHERE project_id >= 1000 AND project_id < 2000;
+DELETE FROM project WHERE project_id >= 1000 AND project_id < 2000;

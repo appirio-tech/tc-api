@@ -1,0 +1,5 @@
+﻿DELETE FROM reviewer_rating WHERE project_id >= 2000 AND project_id <= 4000;
+DELETE FROM resource_info WHERE resource_id >= 2000 AND resource_id <= 4000;
+DELETE FROM resource WHERE resource_id >= 2000 AND resource_id <= 4000;
+DELETE FROM linked_project_xref WHERE source_project_id >= 2000;
+DELETE FROM project WHERE project_id >= 2000 AND project_id <= 4000;

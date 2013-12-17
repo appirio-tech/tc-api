@@ -4,10 +4,12 @@
 
 /**
 * This module contains helper functions.
-* @author Sky_
-* @version 1.1
+* @author Sky_, TCSASSEMBLER
+* @version 1.2
 * changes in 1.1:
 * - add mapProperties
+* changes in 1.2:
+* - add getPercent to underscore mixin
 */
 "use strict";
 
@@ -446,6 +448,16 @@ exports.helper = function (api, next) {
                 return new IllegalArgumentError(errorMessage);
             }
             return null;
+        },
+
+        /**
+         * Format float number to percent with fixed decimal places.
+         * @param {Number} number - the number to fix
+         * @param {Number} fixedSize - the decimal places
+         * @return {String} the formatted percent
+         */
+        getPercent: function (number, fixedSize) {
+            return (number * 100).toFixed(fixedSize) + "%";
         }
     });
 
