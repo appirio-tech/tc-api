@@ -1,0 +1,5 @@
+{
+  "name"    : "get_srm_detail_leader",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_srm_detail_leader"
+}
