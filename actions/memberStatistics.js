@@ -1,25 +1,20 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author Sky_, TCSASSEMBLER
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
  * - implement studio and sofware statistics
+ * changes in 1.3:
+ * - implement srm (Algorithm) statistics
  */
 "use strict";
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
-
-
-/**
- * Sample result from specification for Algorithm Member Statistics
- */
-var sampleAlgorithmStatistics;
-
 
 /**
  * Check whether given user is registered.
@@ -353,6 +348,7 @@ exports.getStudioStatistics = {
     }
 };
 
+
 /**
 * The API for getting algorithm statistics
 */
@@ -360,115 +356,148 @@ exports.getAlgorithmStatistics = {
     name: "getAlgorithmStatistics",
     description: "getAlgorithmStatistics",
     inputs: {
-        required: [],
+        required: ["handle"],
         optional: []
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        connection.response = sampleAlgorithmStatistics;
-        next(connection, true);
-    }
-};
-
-
-
-sampleAlgorithmStatistics = {
-    "handle": "iRabbit",
-    "rating": 1659,
-    "Percentile": "50%",
-    "Rank": 9999,
-    "Country Rank": 9999,
-    "School Rank": 9999,
-    "Volatility": 280,
-    "Maximum Rating": 1693,
-    "Minimum Rating": 1035,
-    "Default Language": "C++",
-    "Competitions": 29,
-    "Most Recent Event Name": "SRM 441",
-    "Most Recent Event Date": "05.27.09",
-    "Archievements": [
-        "Five Rated Algorithm Competition",
-        "Twenty-Five Rated Algorithm Competition"
-    ],
-    "Divisions": {
-        "Division I": {
-            "Level One": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
+        var dbConnectionMap = this.dbConnectionMap,
+            handle = connection.params.handle,
+            helper = api.helper,
+            sqlParams = {
+                ha: handle
             },
-            "Level Two": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            },
-            "Level Three": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            },
-            "Level Total": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            }
-        },
-        "Division II": {
-            "Level One": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            },
-            "Level Two": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            },
-            "Level Three": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            },
-            "Level Total": {
-                "Submitted": 25,
-                "Failed Challenge": 2,
-                "Failed Sys. Test": 4,
-                "Success %": "76.00%"
-            }
+            result;
+        if (!this.dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
         }
-    },
-    "Challenges": {
-        "Levels": {
-            "Level One": {
-                "Failed Challenge": 0,
-                "Challenges": 1,
-                "Success %": "100%"
-            },
-            "Level Two": {
-                "Failed Challenge": 0,
-                "Challenges": 1,
-                "Success %": "100%"
-            },
-            "Level Three": {
-                "Failed Challenge": 0,
-                "Challenges": 1,
-                "Success %": "100%"
-            },
-            "Total": {
-                "Failed Challenge": 0,
-                "Challenges": 1,
-                "Success %": "100%"
+        async.waterfall([
+            function (cb) {
+                checkUserExists(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var execQuery = function (name) {
+                    return function (cbx) {
+                        api.dataAccess.executeQuery("get_srm_statistics_" + name,
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    };
+                };
+                async.parallel({
+                    achievements: execQuery("achievements"),
+                    basic: execQuery("basic"),
+                    challenges: execQuery("challenges"),
+                    div1: execQuery("division_1"),
+                    div2: execQuery("division_2")
+                }, cb);
+            }, function (results, cb) {
+                if (results.basic.length === 0) {
+                    cb(new NotFoundError('statistics not found'));
+                    return;
+                }
+                var details = results.basic[0],
+                    getSuccess = function (failed, total) {
+                        if (total === 0) {
+                            return "0.00%";
+                        }
+                        return (100 - failed / total * 100).toFixed(2) + "%";
+                    },
+                    mapLevel = function (ele) {
+                        return {
+                            "submitted": ele.submitted,
+                            "failedChallenge": ele.failedchallenge,
+                            "failedSys.Test": ele.failedsystest,
+                            "success%": getSuccess(ele.failedchallenge + ele.failedsystest, ele.submitted)
+                        };
+                    },
+                    mapChallenge = function (ele) {
+                        return {
+                            "failedChallenge": ele.failedchallenge,
+                            "challenges": ele.challenges,
+                            "success%": getSuccess(ele.failedchallenge, ele.challenges)
+                        };
+                    },
+                    createTotal = function (total, level) {
+                        total.submitted = total.submitted + level.submitted;
+                        total.failedChallenge = total.failedChallenge + level.failedchallenge;
+                        total["failedSys.Test"] = total["failedSys.Test"] + level.failedsystest;
+                        total["success%"] = getSuccess(total.failedChallenge +
+                            total["failedSys.Test"], total.submitted);
+                        return total;
+                    },
+                    createTotalChallenge = function (total, level) {
+                        total.failedChallenge = total.failedChallenge + level.failedchallenge;
+                        total.challenges = total.challenges + level.challenges;
+                        total["success%"] = getSuccess(total.failedChallenge, total.challenges);
+                        return total;
+                    };
+                result = {
+                    handle: details.handle,
+                    rating: details.rating,
+                    percentile: details.percentile + (details.percentile === "N/A" ? "" : "%"),
+                    rank: details.rank || "not ranked",
+                    countryRank: details.countryrank || "not ranked",
+                    schoolRank: details.schoolrank || "not ranked",
+                    volatility: details.volatility,
+                    maximumRating: details.maximumrating,
+                    minimumRating: details.minimumrating,
+                    defaultLanguage: details.defaultlanguage,
+                    competitions: details.competitions,
+                    mostRecentEventName: details.mostrecenteventname,
+                    mostRecentEventDate: details.mostrecenteventdate.toString("MM.dd.yy"),
+                    Achievements: _.map(results.achievements, function (ele) {
+                        return ele.description;
+                    }),
+                    Divisions: {
+                        "Division I": {},
+                        "Division II": {}
+                    },
+                    Challenges: {
+                        Levels: {}
+                    }
+                };
+                results.div1.forEach(function (ele) {
+                    result.Divisions["Division I"][ele.levelname] = mapLevel(ele);
+                });
+                results.div2.forEach(function (ele) {
+                    result.Divisions["Division II"][ele.levelname] = mapLevel(ele);
+                });
+                result.Divisions["Division I"]["Level Total"] = _.reduce(results.div1, createTotal, {
+                    "submitted": 0,
+                    "failedChallenge": 0,
+                    "failedSys.Test": 0,
+                    "success%": "0.00%"
+                });
+                result.Divisions["Division II"]["Level Total"] = _.reduce(results.div2, createTotal, {
+                    "submitted": 0,
+                    "failedChallenge": 0,
+                    "failedSys.Test": 0,
+                    "success%": "0.00%"
+                });
+                results.challenges.forEach(function (ele) {
+                    result.Challenges.Levels[ele.levelname] = mapChallenge(ele);
+                });
+                result.Challenges.Levels.Total = _.reduce(results.challenges, createTotalChallenge, {
+                    "failedChallenge": 0,
+                    "challenges": 0,
+                    "success%": "0.00%"
+                });
+                cb();
             }
-        }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
     }
 };

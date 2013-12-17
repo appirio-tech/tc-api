@@ -1,0 +1,100 @@
+{
+  "handle": "heffan",
+  "rating": 2525,
+  "percentile": "N/A",
+  "rank": "not ranked",
+  "countryRank": "not ranked",
+  "schoolRank": "not ranked",
+  "volatility": 11,
+  "maximumRating": 3455,
+  "minimumRating": 2072,
+  "defaultLanguage": "Java",
+  "competitions": 35,
+  "mostRecentEventName": "test round 2001",
+  "mostRecentEventDate": "12.31.11",
+  "Achievements": [
+    "Algorithm Target",
+    "Fifty SRM Room Wins (Any Division)",
+    "Fifty Solved Algorithm Problems",
+    "First Rated Algorithm Competition",
+    "First SRM Room Win (Any Division)",
+    "First Solved Algorithm Problem",
+    "First Successful Challenge",
+    "Five Hundred Solved Algorithm Problems",
+    "Five SRM Room Wins (Any Division)",
+    "Algorithm Coder of the Month",
+    "Five Successful Challenges",
+    "Two Hundred Solved Algorithm Problems",
+    "One Hundred SRM Room Wins (Any Division)",
+    "One Hundred Successful Challenges",
+    "SRM Winner Div 1",
+    "SRM Winner Div 2",
+    "Solved Hard Div1 Problem in SRM",
+    "Solved Hard Div2 Problem in SRM",
+    "Ten Solved Algorithm Problems",
+    "Twenty Five Successful Challenges",
+    "Twenty SRM Room Wins (Any Division)",
+    "Two Hundred And Fifty Successful Challenges"
+  ],
+  "Divisions": {
+    "Division I": {
+      "test level 1": {
+        "submitted": 207,
+        "failedChallenge": 3,
+        "failedSys.Test": 5,
+        "success%": "96.14%"
+      },
+      "test level 2": {
+        "submitted": 107,
+        "failedChallenge": 1,
+        "failedSys.Test": 14,
+        "success%": "85.98%"
+      },
+      "Level Total": {
+        "submitted": 314,
+        "failedChallenge": 4,
+        "failedSys.Test": 19,
+        "success%": "92.68%"
+      }
+    },
+    "Division II": {
+      "test level 1": {
+        "submitted": 297,
+        "failedChallenge": 8,
+        "failedSys.Test": 7,
+        "success%": "94.95%"
+      },
+      "test level 2": {
+        "submitted": 491,
+        "failedChallenge": 9,
+        "failedSys.Test": 7,
+        "success%": "96.74%"
+      },
+      "Level Total": {
+        "submitted": 788,
+        "failedChallenge": 17,
+        "failedSys.Test": 14,
+        "success%": "96.07%"
+      }
+    }
+  },
+  "Challenges": {
+    "Levels": {
+      "test level 1": {
+        "failedChallenge": 248,
+        "challenges": 875,
+        "success%": "71.66%"
+      },
+      "test level 2": {
+        "failedChallenge": 302,
+        "challenges": 751,
+        "success%": "59.79%"
+      },
+      "Total": {
+        "failedChallenge": 550,
+        "challenges": 1626,
+        "success%": "66.17%"
+      }
+    }
+  }
+}

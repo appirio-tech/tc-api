@@ -1,0 +1,11 @@
+{
+  "name"    : "topcoder_dw__insert_test_data",
+  "db"      : "topcoder_dw",
+  "sqlfile" : [
+    "topcoder_dw__insert_test_data.part1",
+    "topcoder_dw__insert_test_data.part2",
+    "topcoder_dw__insert_test_data.part3",
+    "topcoder_dw__insert_test_data.part4",
+    "topcoder_dw__insert_test_data.part5"
+  ]
+}

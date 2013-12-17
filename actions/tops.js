@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author Sky_, mekanizumu, TCSASSEMBLER
  * @changes from 1.0
  * merged with Member Registration API
@@ -9,6 +9,8 @@
  * - add stub for Top Ranked Members for studio, SRM and Marathon
  * changes in 1.2:
  * - implement marathon tops
+ * changes in 1.3:
+ * - implement SRM Tops
  */
 "use strict";
 var async = require('async');
@@ -312,15 +314,135 @@ exports.getMarathonTops = {
     }
 };
 
+
+/**
+ * The API for getting srm top users
+ */
+exports.getSRMTops = {
+    name: "getSRMTops",
+    description: "getSRMTops",
+    inputs: {
+        required: ["rankType"],
+        optional: ["pageIndex", "pageSize"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read', // this action is read-only
+    databases: ["topcoder_dw"],
+    run: function (api, connection, next) {
+        api.log("Execute getSRMTops#run", 'debug');
+        var helper = api.helper,
+            sqlParams = {},
+            pageIndex,
+            pageSize,
+            error,
+            rankType = connection.params.rankType.toLowerCase(),
+            dbConnectionMap = this.dbConnectionMap,
+            result = {};
+        if (!this.dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+        pageIndex = Number(connection.params.pageIndex || 1);
+        pageSize = Number(connection.params.pageSize || 10);
+
+        async.waterfall([
+            function (cb) {
+                var queryName = "";
+                if (_.isDefined(connection.params.pageIndex) && pageIndex !== -1) {
+                    error = helper.checkDefined(connection.params.pageSize, "pageSize");
+                }
+                error = error ||
+                    helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
+                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkPageIndex(pageIndex, "pageIndex") ||
+                    helper.checkPositiveInteger(pageSize, "pageSize") ||
+                    helper.checkContains(["competitors", "schools", "countries"], rankType, "rankType");
+                if (error) {
+                    cb(error);
+                    return;
+                }
+                if (pageIndex === -1) {
+                    pageIndex = 1;
+                    pageSize = MAX_INT;
+                }
+                switch (rankType) {
+                case "competitors":
+                    queryName = "get_top_ranked_srm_members_competitor";
+                    break;
+                case "schools":
+                    queryName = "get_top_ranked_srm_members_school";
+                    break;
+                case "countries":
+                    queryName = "get_top_ranked_srm_members_country";
+                    break;
+                }
+                sqlParams.fri = (pageIndex - 1) * pageSize;
+                sqlParams.ps = pageSize;
+                async.parallel({
+                    data: function (cbx) {
+                        api.dataAccess.executeQuery(queryName, sqlParams, dbConnectionMap, cbx);
+                    },
+                    count: function (cbx) {
+                        api.dataAccess.executeQuery(queryName + "_count", sqlParams, dbConnectionMap, cbx);
+                    }
+                }, cb);
+            }, function (results, cb) {
+                if (results.data.length === 0) {
+                    cb(new NotFoundError("No results found"));
+                    return;
+                }
+                var total = results.count[0].total, rank;
+                result.total = total;
+                result.pageIndex = pageIndex;
+                result.pageSize = Number(connection.params.pageIndex) === -1 ? total : pageSize;
+                result.data = [];
+                if (rankType === "competitors") {
+                    result.data = _.map(results.data, function (ele) {
+                        return {
+                            rank: ele.rank,
+                            handle: ele.handle,
+                            rating: ele.rating,
+                            country: ele.country
+                        };
+                    });
+                } else {
+                    rank = (pageIndex - 1) * pageSize + 1;
+                    result.data = _.map(results.data, function (ele) {
+                        var obj = {
+                            rank: rank,
+                            name: ele.name,
+                            country: ele.country,
+                            memberCount: ele.membercount,
+                            rating: ele.rating
+                        };
+                        if (rankType === "countries") {
+                            delete obj.name;
+                        }
+                        rank = rank + 1;
+                        return obj;
+                    });
+                }
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
+    }
+};
+
 /**
  * Sample result from specification for studio top users
  */
 var sampleStudioTopUsers;
 
-/**
- * Sample result from specification for srm top users
- */
-var sampleSRMTopUsers;
 
 /**
  * The API for getting studio top users
@@ -342,26 +464,6 @@ exports.getStudioTops = {
     }
 };
 
-
-/**
- * The API for getting srm top users
- */
-exports.getSRMTops = {
-    name: "getSRMTops",
-    description: "getSRMTops",
-    inputs : {
-        required: ["rankType"],
-        optional : []
-    },
-    blockedConnectionTypes : [],
-    outputExample : {},
-    version : 'v2',
-    run : function (api, connection, next) {
-        api.log("Execute getSRMTops#run", 'debug');
-        connection.response = sampleSRMTopUsers;
-        next(connection, true);
-    }
-};
 
 sampleStudioTopUsers = {
     "total": 30,
@@ -388,36 +490,6 @@ sampleStudioTopUsers = {
             "userId": 123457891,
             "Color": "Yellow",
             "numberOfWinningSubmissions": 2000
-        }
-    ]
-};
-
-
-sampleSRMTopUsers = {
-    "total": 30,
-    "pageIndex": 1,
-    "pageSize": 3,
-    "data": [
-        {
-            "Rank": 1,
-            "Name": "University of Tokyo",
-            "Country": "Japan",
-            "Member Count": 73,
-            "Rating": 3000
-        },
-        {
-            "Rank": 2,
-            "Name": "University of Washington",
-            "Country": "USA",
-            "Member Count": 73,
-            "Rating": 3000
-        },
-        {
-            "Rank": 3,
-            "Name": "Tsinghua University",
-            "Country": "China",
-            "Member Count": 73,
-            "Rating": 3000
         }
     ]
 };

@@ -1,0 +1,9 @@
+DELETE FROM user_achievement_xref;
+DELETE FROM user_rating WHERE user_id = 132457;
+DELETE FROM user_rank WHERE user_id = 132457;
+DELETE FROM country_user_rank WHERE user_id = 132457;
+DELETE FROM school_user_rank WHERE user_id = 132457;
+DELETE FROM user_rank_type_lu;
+DELETE FROM project_result WHERE project_id >= 1001 AND project_id <= 1005;
+DELETE FROM project WHERE project_id >= 1001 AND project_id <= 1005;
+
