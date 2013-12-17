@@ -1,0 +1,5 @@
+{
+  "name"    : "check_coder_exist",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "check_coder_exist"
+}
