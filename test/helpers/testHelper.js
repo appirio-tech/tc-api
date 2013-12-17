@@ -77,7 +77,7 @@ helper.runSqlQueries = function (queries, databaseName, callback) {
             callback(error);
             return;
         }
-        async.forEach(queries, function (query, cb) {
+        async.forEachSeries(queries, function (query, cb) {
             connection.query(query, [], cb, {
                 async: true,
                 cast: true
