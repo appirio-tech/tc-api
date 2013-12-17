@@ -1,0 +1,4 @@
+SELECT r.round_id AS roundId
+     , r.short_name AS name
+FROM round AS r
+     WHERE r.round_id = @rd@

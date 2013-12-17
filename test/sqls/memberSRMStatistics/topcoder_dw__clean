@@ -1,0 +1,19 @@
+DELETE FROM coder_level WHERE coder_id = 132456;
+DELETE FROM division_lu;
+DELETE FROM level_lu;
+DELETE FROM coder_rank WHERE coder_id = 132456;
+DELETE FROM school_coder_rank WHERE coder_id = 132456;
+DELETE FROM country_coder_rank WHERE coder_id = 132456;
+DELETE FROM country;
+DELETE FROM school;
+DELETE FROM algo_rating WHERE coder_id = 132456;
+DELETE FROM round WHERE round_id = 2001;
+DELETE FROM round_type_lu WHERE round_type_id = 1;
+DELETE FROM contest WHERE contest_id = 2001;
+DELETE FROM algo_rating_type_lu WHERE algo_rating_type_id = 1;
+DELETE FROM language_lu WHERE language_id = 1;
+DELETE FROM user_achievement;
+DELETE FROM coder WHERE coder_id = 132456;
+DELETE FROM coder_rank_type_lu;
+DELETE FROM coder WHERE coder_id == 132457;
+

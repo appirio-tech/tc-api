@@ -1,0 +1,52 @@
+﻿{
+  "handle": "heffan",
+  "Achievements": [
+    "Studio Twenty Five First Placement Win",
+    "Studio Two Hundred And Fifty Placements",
+    "Studio First Forum Post",
+    "Studio One Hundred Forum Posts",
+    "Studio Five Hundred Passing Submissions"
+  ],
+  "Tracks": {
+    "Banners/Icons": {
+      "copilotCompletedContests": 4,
+      "copilotFailedContests": 2
+    },
+    "Web Design": {
+      "copilotCompletedContests": 7,
+      "copilotFailedContests": 7
+    },
+    "Wireframes": {
+      "copilotCompletedContests": 3,
+      "copilotFailedContests": 2
+    },
+    "Logo Design": {
+      "copilotCompletedContests": 5,
+      "copilotFailedContests": 2
+    },
+    "Print/Presentation": {
+      "copilotCompletedContests": 7,
+      "copilotFailedContests": 7
+    },
+    "Idea Generation": {
+      "copilotCompletedContests": 7,
+      "copilotFailedContests": 4
+    },
+    "Widget or Mobile Screen Design": {
+      "copilotCompletedContests": 6,
+      "copilotFailedContests": 6
+    },
+    "Front-End Flash": {
+      "copilotCompletedContests": 4,
+      "copilotFailedContests": 3
+    },
+    "Application Front-End Design": {
+      "copilotCompletedContests": 6,
+      "copilotFailedContests": 6
+    },
+    "Other": {
+      "copilotCompletedContests": 1,
+      "copilotFailedContests": 1
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "total": 100,
+  "pageIndex": 1,
+  "pageSize": 10,
+  "data": [
+    {
+      "rank": 1,
+      "handle": "testUser67",
+      "rating": 2089,
+      "country": "country7"
+    },
+    {
+      "rank": 2,
+      "handle": "testUser19",
+      "rating": 2055,
+      "country": "country5"
+    },
+    {
+      "rank": 3,
+      "handle": "testUser16",
+      "rating": 2020,
+      "country": "country2"
+    },
+    {
+      "rank": 4,
+      "handle": "testUser63",
+      "rating": 2020,
+      "country": "country2"
+    },
+    {
+      "rank": 5,
+      "handle": "testUser47",
+      "rating": 2007,
+      "country": "country5"
+    },
+    {
+      "rank": 6,
+      "handle": "testUser56",
+      "rating": 1987,
+      "country": "country5"
+    },
+    {
+      "rank": 7,
+      "handle": "testUser52",
+      "rating": 1981,
+      "country": "country4"
+    },
+    {
+      "rank": 8,
+      "handle": "testUser74",
+      "rating": 1955,
+      "country": "country8"
+    },
+    {
+      "rank": 9,
+      "handle": "testUser23",
+      "rating": 1953,
+      "country": "country3"
+    },
+    {
+      "rank": 10,
+      "handle": "testUser31",
+      "rating": 1922,
+      "country": "country7"
+    }
+  ]
+}

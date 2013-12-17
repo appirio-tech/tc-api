@@ -1,0 +1,17 @@
+select 
+     SKIP @fri@
+     FIRST @ps@
+     co.country_name as country
+     , TRUNC(sum(r.rating*(pow(.87, rank_no_tie-1)))*((1-.87)/(1-pow(.87, count(*)))),2) as rating
+     , count(*) as membercount
+  from country co
+     , country_coder_rank ccr
+     , algo_rating r
+ where co.country_code = ccr.country_code
+   and ccr.coder_id = r.coder_id
+   and ccr.coder_rank_type_id = 2
+   and ccr.algo_rating_type_id = 3
+   and r.algo_rating_type_id = 3
+ group by 1
+ having count(*) > 9
+ order by 2 desc

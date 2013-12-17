@@ -1,0 +1,19 @@
+{
+  "total": 17,
+  "pageIndex": 3,
+  "pageSize": 2,
+  "data": [
+    {
+      "rank": 5,
+      "handle": "lightspeed",
+      "rating": 3304,
+      "country": "Japan"
+    },
+    {
+      "rank": 6,
+      "handle": "reassembler",
+      "rating": 3301,
+      "country": "Japan"
+    }
+  ]
+}

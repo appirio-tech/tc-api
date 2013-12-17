@@ -1,0 +1,6 @@
+﻿DELETE FROM long_comp_result;
+DELETE FROM round;
+DELETE FROM contest;
+DELETE FROM round_type_lu;
+DELETE FROM algo_rating_type_lu;
+DELETE FROM coder;

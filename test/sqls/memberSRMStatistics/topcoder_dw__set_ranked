@@ -1,0 +1,4 @@
+
+UPDATE country_coder_rank  SET rank = NULL WHERE coder_id = 132456;
+UPDATE school_coder_rank  SET rank = NULL WHERE coder_id = 132456;
+UPDATE coder_rank  SET rank = NULL, percentile = NULL WHERE coder_id = 132456;

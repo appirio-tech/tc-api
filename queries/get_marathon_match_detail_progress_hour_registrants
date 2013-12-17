@@ -1,0 +1,19 @@
+SELECT 
+  rr.date
+, NVL(rr.num_registrants, 0) AS currentNoOfRegistrants
+FROM
+round r 
+LEFT JOIN (
+  SELECT 
+    rs.start_time + (((rr.timestamp - rs.start_time)::INTERVAL HOUR(9) TO HOUR) + 1 Units HOUR) AS date
+  , rr.round_id
+  , COUNT(DISTINCT coder_id) AS num_registrants
+  FROM 
+    round_registration rr
+  , round_segment rs 
+  WHERE rr.round_id = rs.round_id
+  AND rs.segment_id = 1
+  GROUP BY 1, 2
+) rr ON rr.round_id = r.round_id 
+WHERE r.round_id = @rd@
+ORDER BY rr.date ASC

@@ -20,7 +20,7 @@ VALUES (30400003, 30400002, 132456, null, 1, 497, 147, 132456, 0, CURRENT, 30400
 
 INSERT INTO prize (prize_id, place, prize_amount, prize_type_id, project_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES (30400004, 1, 1000, 15, 30400000, 1, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO prize (prize_id, place, prize_amount, prize_type_id, project_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES (30400005, 2, 500, 15, 30400000, 1, 132456, CURRENT, 132456, CURRENT);
-INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400006, 30400000, 1, 3, CURRENT + -44640 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, CURRENT + -41760 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, CURRENT + -41760 UNITS MINUTE, 172800000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400006, 30400000, 1, 3, CURRENT + -44640 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, CURRENT + -41760 UNITS MINUTE, CURRENT + -44540 UNITS MINUTE, CURRENT + -41760 UNITS MINUTE, 172800000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400007, 30400000, 2, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400008, 30400000, 3, 1, null, CURRENT + -36000 UNITS MINUTE, CURRENT + -35280 UNITS MINUTE, null, null, 43200000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400009, 30400000, 4, 1, null, CURRENT + -35280 UNITS MINUTE, CURRENT + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
@@ -38,3 +38,18 @@ VALUES (30400010, 5, '100', 132456, CURRENT, 132456, CURRENT);
 
 INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date, project_phase_id) VALUES (30400011, 30400000, 30400010, 1, 1, '30010038_30010845_30010535.zip', 132456, '2013-07-10 18:27:31', 132456, CURRENT, 30400007);
 INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (30400012, 30400011, 1, 100, 80, 90, 1, 1, 132456, CURRENT, 132456, CURRENT, null);
+
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400010, 30400000, 6, 1, null, CURRENT + -35280 UNITS MINUTE, CURRENT + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400011, 30400000, 9, 1, null, CURRENT + -35280 UNITS MINUTE, CURRENT + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400012, 30400000, 15, 1, null, CURRENT + -35280 UNITS MINUTE, CURRENT + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 16, '1000', 132456, CURRENT, 132456, CURRENT);
+
+insert into phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+values (30400009, 1, 1, 132456, CURRENT, 132456, CURRENT);
+insert into phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+values (30400008, 1, 3, 132456, CURRENT, 132456, CURRENT);
+
+insert into project_spec(project_spec_id, project_id, version)
+values (31500000, 30400000, 1)

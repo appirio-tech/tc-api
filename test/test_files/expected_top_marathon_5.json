@@ -1,0 +1,14 @@
+{
+  "total": 2,
+  "pageIndex": 2,
+  "pageSize": 1,
+  "data": [
+    {
+      "rank": 2,
+      "name": "Tsinghua University",
+      "country": "China",
+      "memberCount": 5,
+      "rating": 1043.22
+    }
+  ]
+}

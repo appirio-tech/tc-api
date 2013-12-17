@@ -1,0 +1,41 @@
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124764,3738,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124766,3693,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124772,3420,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124776,3339,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124834,3304,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124835,3301,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124836,2200,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124852,2199,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124853,1500,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124856,1499,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124857,1200,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124861,1199,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124916,900,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(132457,899,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(132458,888,3);
+
+INSERT INTO coder(coder_id,coder_type_id) VALUES(1000001,2);
+INSERT INTO coder(coder_id,coder_type_id) VALUES(1000002,2);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(1000001,888,3);
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(1000002,888,3);
+
+INSERT INTO common_oltp:user(user_id,handle,status) VALUES(1000001,'user1000001','A');
+INSERT INTO common_oltp:user(user_id,handle,status) VALUES(1000002,'user1000002','A');

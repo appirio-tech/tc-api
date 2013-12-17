@@ -1,0 +1,21 @@
+{
+  "total": 2,
+  "pageIndex": 1,
+  "pageSize": 10,
+  "data": [
+    {
+      "rank": 1,
+      "name": "University of Tokyo",
+      "country": "Japan",
+      "memberCount": 10,
+      "rating": 3110.04
+    },
+    {
+      "rank": 2,
+      "name": "Tsinghua University",
+      "country": "China",
+      "memberCount": 5,
+      "rating": 1043.22
+    }
+  ]
+}
