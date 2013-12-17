@@ -78,6 +78,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
    AND pp15.phase_type_id = 15 --checkpoint submission phase
    AND pp9.project_id = p.project_id
    AND pp9.phase_type_id = 9  --final fix phase
+   AND pp9.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_type_id = 9) --last final fix only
    AND pi16.project_info_type_id = 16  --payments
    AND pi16.project_id = p.project_id
    AND pp3.project_id = p.project_id
