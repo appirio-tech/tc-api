@@ -1,0 +1,37 @@
+﻿{
+  "type": "Banners/Icons",
+  "contestName": "Studio Contest 5",
+  "description": "Description of Studio Contest 5.",
+  "prize": [
+    1000,
+    500,
+    200
+  ],
+  "milestone": {
+    "prize": 250,
+    "number": 1
+  },
+  "points": 450,
+  "nextDeadlineTime": "2013-11-03T00:00:00.000Z",
+  "nextDeadlineName": "Contest has ended",
+  "checkpoints": [
+    {
+      "submissionId": 10042,
+      "submitter": "user"
+    }
+  ],
+  "submissions": [
+    {
+      "submissionId": 10041,
+      "submitter": "super"
+    }
+  ],
+  "winners": [
+    {
+      "submissionId": 10041,
+      "submitter": "super",
+      "points": 450,
+      "rank": 1
+    }
+  ]
+}

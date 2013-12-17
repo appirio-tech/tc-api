@@ -10,6 +10,8 @@
 * - add mapProperties
 * changes in 1.2:
 * - add getPercent to underscore mixin
+* changes in 1.3:
+* - add convertToString
 */
 "use strict";
 
@@ -425,6 +427,18 @@ helper.handleNoConnection = function (api, connection, next) {
     connection.rawConnection.responseHttpCode = 500;
     connection.response = { message: "No connection object." };
     next(connection, true);
+};
+
+/**
+ * Convert null string or if string is equal to "null"
+ * @param {String} str - the string to convert.
+ * @return {String} converted string
+ */
+helper.convertToString = function (str) {
+    if (!str || str === "null") {
+        return "";
+    }
+    return str;
 };
 
 /**
