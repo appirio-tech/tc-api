@@ -89,7 +89,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
    AND pi70.project_id = p.project_id
    AND pi70.project_info_type_id = 70  --cmc project id
    AND p.project_Id = nd_phase.project_id
-   AND nd_phase.phase_type_id = (SELECT phase_type_id FROM project_phase WHERE project_id = p.project_id AND actual_start_time = (SELECT min(actual_start_time)
+   AND nd_phase.phase_type_id = (SELECT MAX(phase_type_id) FROM project_phase WHERE project_id = p.project_id AND actual_start_time = (SELECT min(actual_start_time)
                                                                     FROM project_phase WHERE phase_status_id = 2 AND project_id = p.project_id AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12)))
    AND p.project_category_id = pcl.project_category_id
    AND pcl.project_type_id IN (1, 2)
