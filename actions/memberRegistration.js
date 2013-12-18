@@ -389,26 +389,25 @@ var isEmailAvailable = function (email, api, dbConnectionMap, next) {
 };
 
 /**
- * Checks whether given country name is valid.
- * The result will be passed to the "next" callback. It's true if the country name is valid.
+ * Get country code from country name.
+ * The result will be passed to the "next" callback.
  * 
  * @param {String} countryName - the country name to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
  * @param {Function} next - The callback function
  */
-var isCountryNameValid = function (countryName, api, dbConnectionMap, next) {
-    api.dataAccess.executeQuery("check_country_name", {countryName : countryName}, dbConnectionMap, function (err, result) {
+var getCountryCode = function (countryName, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("get_country_code", {countryName : countryName}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
             next(err);
         } else {
-            api.log("Forward email availability result", "debug");
             if (result[0] === null || result[0] === undefined) {
-                next(null, false);
+                next(null, null);
             } else {
-                next(null, result[0].count > 0);
+                next(null, result[0].country_code);
             }
         }
     });
@@ -900,10 +899,13 @@ exports.memberRegister = {
                     if (checkResult !== null) {
                         callback(null, "Country name is not valid.");
                     } else {
-                        isCountryNameValid(connection.params.country, api, dbConnectionMap, function (err, result) {
-                            if (result !== true) {
+                        getCountryCode(connection.params.country, api, dbConnectionMap, function (err, countryCode) {
+                            if (countryCode === null) {
+                                api.log("Country code invalid", "debug");
                                 callback(err, "Country name is not valid.");
                             } else {
+                                api.log("Country code: " + countryCode, "debug");
+                                connection.params.country = countryCode;
                                 callback(err, null);
                             }
                         });

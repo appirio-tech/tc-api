@@ -10,13 +10,13 @@
 export NODE_ENV=development
 
 export TC_DB_NAME=informixoltp_tcp
-export TC_DB_HOST=50.17.140.110
+export TC_DB_HOST=54.205.9.249
 export TC_DB_PORT=2021
 export TC_DB_USER=informix
 export TC_DB_PASSWORD=1nf0rm1x
 
 export TC_DW_NAME=informixoltp_tcp
-export TC_DW_HOST=50.17.140.110
+export TC_DW_HOST=54.205.9.249
 #export TC_DW_NAME=datawarehouse_tcp
 #export TC_DW_HOST=54.204.103.114
 export TC_DW_PORT=2021
