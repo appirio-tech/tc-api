@@ -901,10 +901,11 @@ exports.memberRegister = {
                     } else {
                         getCountryCode(connection.params.country, api, dbConnectionMap, function (err, countryCode) {
                             if (countryCode === null) {
+                                api.log("Country code invalid", "debug");
                                 callback(err, "Country name is not valid.");
                             } else {
                                 api.log("Country code: " + countryCode, "debug");
-                                params.country = countryCode;
+                                connection.params.country = countryCode;
                                 callback(err, null);
                             }
                         });
