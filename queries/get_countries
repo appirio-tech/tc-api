@@ -1,1 +1,1 @@
-select * from 'informix'.country sort by country_code
+select * from 'informix'.country order by country_code asc
