@@ -54,7 +54,6 @@ exports.searchSRMChallenges = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw"],
@@ -167,7 +166,6 @@ exports.getSRMChallenge = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw"],
