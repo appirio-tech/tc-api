@@ -43,7 +43,7 @@ describe('Get Marathon Challenges API', function () {
 
 
     /**
-     * This function is run after each test case.
+     * This function is run after each all test cases.
      * Clean up all data.
      * @param {Function<err>} done the callback
      */
@@ -52,6 +52,8 @@ describe('Get Marathon Challenges API', function () {
     });
 
 
+    
+    
     describe("Search Contests", function () {
         /**
          * This function is run before all tests.
