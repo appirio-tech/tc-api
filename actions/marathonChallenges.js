@@ -125,7 +125,6 @@ exports.searchMarathonChallenges = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw", "informixoltp"],
@@ -408,7 +407,6 @@ exports.getMarathonChallenge = {
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["informixoltp"],
-    cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute getMarathonChallenge#run", 'debug');
         var dbConnectionMap = this.dbConnectionMap,

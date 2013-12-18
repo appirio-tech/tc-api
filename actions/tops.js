@@ -195,8 +195,8 @@ exports.getMarathonTops = {
     name: "getMarathonTops",
     description: "getMarathonTops",
     inputs: {
-        required: ["rankType"],
-        optional: ["pageIndex", "pageSize"]
+        required: [],
+        optional: ["rankType", "pageIndex", "pageSize"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -218,7 +218,7 @@ exports.getMarathonTops = {
             pageIndex,
             pageSize,
             error,
-            rankType = connection.params.rankType.toLowerCase(),
+            rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
             dbConnectionMap = this.dbConnectionMap,
             result = {};
         pageIndex = Number(connection.params.pageIndex || 1);
@@ -322,8 +322,8 @@ exports.getSRMTops = {
     name: "getSRMTops",
     description: "getSRMTops",
     inputs: {
-        required: ["rankType"],
-        optional: ["pageIndex", "pageSize"]
+        required: [],
+        optional: ["rankType", "pageIndex", "pageSize"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -338,7 +338,7 @@ exports.getSRMTops = {
             pageIndex,
             pageSize,
             error,
-            rankType = connection.params.rankType.toLowerCase(),
+            rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
             dbConnectionMap = this.dbConnectionMap,
             result = {};
         if (!this.dbConnectionMap) {
