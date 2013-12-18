@@ -62,7 +62,7 @@ exports.countries = {
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute countries#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, next);
+            getCountries(api, connection, this.dbConnectionMap, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
