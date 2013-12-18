@@ -1,1 +1,0 @@
-select count(*) as count from 'informix'.country where country_name = '@countryName@'
