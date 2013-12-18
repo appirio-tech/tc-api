@@ -75,7 +75,7 @@ exports.countries = {
 /**
  * The API for getting countries, while this is guarded by OAuth
  */
-exports.countries = {
+exports.countriesSecured = {
     name : 'countriesSecured',
     description : 'countriesSecured',
     inputs : {
