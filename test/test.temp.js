@@ -54,10 +54,11 @@ describe('Test Contests API', function () {
                     .concat(generatePath("software-active-contests", 4))
                     .concat(generatePath("software-past-contests", 4))
                     .concat(generatePath("software-upcoming-contests", 4))
+                    /*
                     .concat(generatePath("software-active-private", 1))
                     .concat(generatePath("software-past-private", 1))
                     .concat(generatePath("software-upcoming-private", 1))
-                    .concat(generatePath("software-details-contests", 1));
+                    .concat(generatePath("software-details-contests", 1));*/;
                 testHelper.runSqlFiles(files, DATABASE_NAME, cb);
             }
         ], done);
