@@ -287,9 +287,6 @@ describe('Test Contests API', function () {
             async.series([
                 function (cb) {
                     assertContestDetailsNotFound(31210000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31200000, cb);
                 }
             ], done);
         });
