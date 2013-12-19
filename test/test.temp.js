@@ -37,8 +37,6 @@ describe('Test Contests API', function () {
      * @param {Function<err>} done the callback
      */
     before(function (done) {
-        done();
-        /*
         async.waterfall([
             clearDb,
             function (cb) {
@@ -68,7 +66,6 @@ describe('Test Contests API', function () {
                 testHelper.runSqlFiles(files, DATABASE_NAME, cb);
             }
         ], done);
-*/
     });
 
     /**
