@@ -70,7 +70,8 @@ describe('Test Contests API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
-        clearDb(done);
+      //  clearDb(done);
+      done();
     });
 
     /**
@@ -271,13 +272,6 @@ describe('Test Contests API', function () {
      */
     describe('-- Contest Detail API --', function () {
 
-        /**
-         * develop/challenges/30400000
-         */
-        it('should return PAST sfotware details', function (done) {
-            assertContestDetails(30400000, "this is DETAIL software ACTIVE/OPEN contest 01", done);
-        });
-
 
         /**
          * develop/challenges/31210000
@@ -291,86 +285,8 @@ describe('Test Contests API', function () {
             async.series([
                 function (cb) {
                     assertContestDetailsNotFound(31210000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31200000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31220000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31300000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31310000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31320002, cb);
                 }
             ], done);
-        });
-    });
-
-    /**
-     * Tests for software contests
-     */
-    describe('-- Software Contests API --', function () {
-
-        /**
-         * Test develop/challenges?listType=active
-         */
-        it('should return 50 ACTIVE contests', function (done) {
-            assertCollection("ACTIVE", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=open
-         */
-        it('should return 50 OPEN contests', function (done) {
-            assertCollection("OPEN",  done);
-        });
-
-        /**
-         * Test develop/challenges?listType=past
-         */
-        it('should return 50 PAST contests', function (done) {
-            assertCollection("PAST", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=upcoming
-         */
-        it('should return 50 UPCOMING contests', function (done) {
-            assertCollection("UPCOMING", done);
-        });
-
-
-        /**
-         * Test develop/challenges?listType=active&cmc=ab
-         */
-        it('should return 14 ACTIVE contests with cmc=ab', function (done) {
-            assertCMC("ACTIVE", 14, "ab", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=open&cmc=ab
-         */
-        it('should return 14 OPEN contests with cmc=ab', function (done) {
-            assertCMC("OPEN", 14, "ab", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=past&cmc=ab
-         */
-        it('should return 13 PAST contests with cmc=ab', function (done) {
-            assertCMC("PAST", 13, "ab", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=upcoming&cmc=ab
-         */
-        it('should return 13 UPCOMING contests with cmc=ab', function (done) {
-            assertCMC("UPCOMING", 13, "ab", done);
         });
     });
 
