@@ -74,7 +74,7 @@ describe('Test Contests API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
-        clearDb(done);
+        //clearDb(done);
     });
 
     /**
@@ -317,11 +317,13 @@ describe('Test Contests API', function () {
          * develop/challenges/31320002
          */
         it('should return 404 when access PRIVATE contest', function (done) {
+            
             async.series([
                 function (cb) {
                     assertContestDetailsNotFound(31210000, cb);
                 }
             ], done);
+
         });
     });
 
