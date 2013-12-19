@@ -37,6 +37,8 @@ describe('Test Contests API', function () {
      * @param {Function<err>} done the callback
      */
     before(function (done) {
+        done();
+        /*
         async.waterfall([
             clearDb,
             function (cb) {
@@ -66,6 +68,7 @@ describe('Test Contests API', function () {
                 testHelper.runSqlFiles(files, DATABASE_NAME, cb);
             }
         ], done);
+*/
     });
 
     /**
@@ -318,13 +321,11 @@ describe('Test Contests API', function () {
          * develop/challenges/31320002
          */
         it('should return 404 when access PRIVATE contest', function (done) {
-            /*
             async.series([
                 function (cb) {
                     assertContestDetailsNotFound(31210000, cb);
                 }
             ], done);
-*/
         });
     });
 
