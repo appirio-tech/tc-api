@@ -20,7 +20,7 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 var DATABASE_NAME = "tcs_catalog";
 
 describe('Test Contests API', function () {
-    this.timeout(60000); // The api with testing remote db could be quit slow
+    this.timeout(600000); // The api with testing remote db could be quit slow
 
 
     /**
@@ -66,7 +66,6 @@ describe('Test Contests API', function () {
                 testHelper.runSqlFiles(files, DATABASE_NAME, cb);
             }
         ], done);
-
     });
 
     /**
@@ -321,21 +320,6 @@ describe('Test Contests API', function () {
             async.series([
                 function (cb) {
                     assertContestDetailsNotFound(31210000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31200000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31220000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31300000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31310000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31320002, cb);
                 }
             ], done);
         });
