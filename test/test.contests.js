@@ -290,18 +290,6 @@ describe('Test Contests API', function () {
                 },
                 function (cb) {
                     assertContestDetailsNotFound(31200000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31220000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31300000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31310000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31320002, cb);
                 }
             ], done);
         });
