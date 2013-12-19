@@ -107,7 +107,7 @@ describe("Informix JDDBC Library", function() {
         it("connection refused - no informix database in server", function(done) {
             settings = {
                 "user" : "informix",
-                "host" : "www.google.com",
+                "host" : "www.youtube.com",
                 "port" : 2021,
                 "password" : "1nf0rm1x",
                 "database": "",
@@ -121,6 +121,7 @@ describe("Informix JDDBC Library", function() {
 
             async.series([
                 function(callback) {
+                    console.log("!!!!before execute");
                      executeQuery('corporate_oltp', 'select * from command_group_lu', function(err, result) {
                         callback(err, result);
                     });
