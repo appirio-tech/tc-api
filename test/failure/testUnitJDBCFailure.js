@@ -23,7 +23,7 @@ var log = function(msg, type){
 };
 
 // Use this to point to the correct server.
-var host = "192.168.0.1";
+var host = process.env.TC_DB_HOST;
 
 var settings = {};
 
@@ -104,6 +104,7 @@ describe("Informix JDDBC Library", function() {
             });
         });
 
+        /* TO BE FIXED The driver doesn't timeout in 3 seconds, instead, each test takes about more than 8 mins*/
         it("connection refused - no informix database in server", function(done) {
             settings = {
                 "user" : "informix",

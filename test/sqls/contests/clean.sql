@@ -14,6 +14,7 @@ delete from comp_categories where comp_categories_id > 30000000;
 delete from comp_catalog where component_id > 30000000;
 delete from group_contest_eligibility;
 delete from contest_eligibility;
+delete from project_spec;
 delete from project_info;
 delete from project;
 delete from project_studio_specification;
