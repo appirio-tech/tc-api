@@ -147,27 +147,6 @@ describe('Get Top Ranked SRM Members API', function () {
         assertResponse("rankType=competitors&pageIndex=-1", "expected_top_srm_7", done);
     });
 
-
-    /**
-     * /v2/data/srm/statistics/tops
-     */
-    it("should return error when rankType is missing", function (done) {
-        request(API_ENDPOINT)
-            .get('/v2/data/srm/statistics/tops')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200) //action hero set always code 200 if requred parameter is missing
-            .end(function (err, res) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                assert.equal(res.body.error, "Error: rankType is a required parameter for this action");
-                done();
-            });
-    });
-
-
     /**
      * /v2/data/srm/statistics/tops?rankType=xyz
      */
