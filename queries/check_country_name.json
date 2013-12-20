@@ -1,5 +1,0 @@
-{
-  "name"    : "check_country_name",
-  "db"      : "common_oltp",
-  "sqlfile" : "check_country_name"
-}

@@ -1,0 +1,129 @@
+﻿
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 47, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 45, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 26, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 27, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 35, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 1, CURRENT);
+
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4001, 4, 127, 'Banners/Icons');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4002, 4, 127, 'Banners/Icons');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4003, 4, 127, 'Banners/Icons');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4004, 4, 127, 'Banners/Icons');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4005, 4, 127, 'Banners/Icons');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4001, 132456, 0, 0, 34.3, 3, 0, 8, 4, 932);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4002, 132456, 0, 0, 36.28, 1, 1, 9, 2, 1682);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4003, 132456, 1, 1, 47.66, 1, 1, 8, 2, 3214);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4004, 132456, 0, 0, 52.82, 4, 0, 8, 1, 923);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4005, 132456, 0, 0, 46.57, 4, 0, 8, 1, 2816);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4006, 4, 128, 'Web Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4007, 4, 128, 'Web Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4008, 4, 128, 'Web Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4009, 4, 128, 'Web Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4010, 4, 128, 'Web Design');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4006, 132456, 0, 0, 38.81, 4, 0, 2, 1, 543);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4007, 132456, 0, 0, 66.81, 5, 0, 10, 9, 1721);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4008, 132456, 1, 1, 21.25, 2, 1, 10, 3, 3175);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4009, 132456, 1, 1, 98.28, 0, 1, 10, 3, 410);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4010, 132456, 1, 0, 30.4, 4, 0, 6, 1, 1557);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4011, 4, 129, 'Wireframes');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4012, 4, 129, 'Wireframes');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4013, 4, 129, 'Wireframes');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4014, 4, 129, 'Wireframes');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4015, 4, 129, 'Wireframes');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4011, 132456, 1, 0, 97.7, 5, 0, 4, 0, 240);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4012, 132456, 1, 0, 77.36, 1, 1, 9, 8, 3236);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4013, 132456, 1, 0, 68.34, 1, 1, 9, 6, 77);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4014, 132456, 0, 0, 62.45, 4, 0, 1, 0, 3140);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4015, 132456, 0, 0, 7.35, 4, 0, 4, 3, 277);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4016, 4, 131, 'Logo Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4017, 4, 131, 'Logo Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4018, 4, 131, 'Logo Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4019, 4, 131, 'Logo Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4020, 4, 131, 'Logo Design');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4016, 132456, 1, 1, 78.4, 5, 1, 8, 4, 3307);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4017, 132456, 1, 0, 84.06, 4, 0, 5, 2, 1282);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4018, 132456, 1, 1, 28.28, 5, 1, 1, 0, 2936);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4019, 132456, 1, 1, 49.71, 0, 1, 6, 4, 942);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4020, 132456, 1, 1, 42.05, 3, 1, 9, 4, 2950);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4021, 4, 132, 'Print/Presentation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4022, 4, 132, 'Print/Presentation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4023, 4, 132, 'Print/Presentation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4024, 4, 132, 'Print/Presentation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4025, 4, 132, 'Print/Presentation');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4021, 132456, 1, 1, 13.76, 0, 1, 4, 3, 934);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4022, 132456, 0, 0, 39.38, 3, 0, 10, 2, 119);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4023, 132456, 1, 1, 83.42, 0, 1, 4, 1, 2555);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4024, 132456, 1, 0, 66.51, 4, 0, 8, 2, 2100);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4025, 132456, 1, 1, 24.08, 0, 1, 5, 2, 684);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4026, 4, 133, 'Idea Generation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4027, 4, 133, 'Idea Generation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4028, 4, 133, 'Idea Generation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4029, 4, 133, 'Idea Generation');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4030, 4, 133, 'Idea Generation');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4026, 132456, 1, 0, 35.63, 1, 1, 9, 3, 1391);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4027, 132456, 1, 0, 87.44, 4, 0, 3, 2, 953);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4028, 132456, 1, 0, 71.54, 4, 0, 3, 2, 2132);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4029, 132456, 0, 0, 81.3, 0, 0, 7, 4, 845);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4030, 132456, 0, 0, 92.86, 3, 0, 3, 2, 751);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4031, 4, 141, 'Widget or Mobile Screen Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4032, 4, 141, 'Widget or Mobile Screen Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4033, 4, 141, 'Widget or Mobile Screen Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4034, 4, 141, 'Widget or Mobile Screen Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4035, 4, 141, 'Widget or Mobile Screen Design');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4031, 132456, 1, 0, 28.54, 4, 0, 3, 2, 396);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4032, 132456, 1, 0, 39.44, 0, 0, 2, 1, 526);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4033, 132456, 1, 1, 14.03, 0, 1, 3, 0, 91);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4034, 132456, 0, 0, 25.54, 4, 0, 1, 0, 1639);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4035, 132456, 0, 0, 84.37, 0, 0, 5, 1, 3158);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4036, 4, 142, 'Front-End Flash');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4037, 4, 142, 'Front-End Flash');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4038, 4, 142, 'Front-End Flash');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4039, 4, 142, 'Front-End Flash');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4040, 4, 142, 'Front-End Flash');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4036, 132456, 1, 0, 9.98, 2, 0, 10, 3, 2550);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4037, 132456, 1, 0, 87.83, 3, 0, 6, 3, 1946);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4038, 132456, 0, 0, 69.66, 2, 0, 3, 2, 3044);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4039, 132456, 0, 0, 97.36, 1, 1, 3, 0, 2372);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4040, 132456, 0, 0, 4.88, 3, 0, 9, 0, 826);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4041, 4, 143, 'Application Front-End Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4042, 4, 143, 'Application Front-End Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4043, 4, 143, 'Application Front-End Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4044, 4, 143, 'Application Front-End Design');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4045, 4, 143, 'Application Front-End Design');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4041, 132456, 1, 1, 55.01, 5, 1, 6, 4, 2389);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4042, 132456, 1, 0, 52.98, 1, 1, 9, 5, 297);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4043, 132456, 0, 0, 46.82, 2, 0, 1, 0, 829);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4044, 132456, 0, 0, 5.16, 3, 0, 3, 1, 2016);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4045, 132456, 0, 0, 49.47, 5, 0, 4, 3, 1163);
+
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4046, 4, 145, 'Other');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4047, 4, 145, 'Other');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4048, 4, 145, 'Other');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4049, 4, 145, 'Other');
+INSERT INTO 'informix'.project(project_id, status_id, phase_id, phase_desc) VALUES(4050, 4, 145, 'Other');
+
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4046, 132456, 0, 0, 35.74, 2, 0, 9, 8, 1799);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4047, 132456, 1, 0, 19.45, 1, 1, 4, 2, 2065);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4048, 132456, 0, 0, 32.3, 5, 0, 4, 0, 1646);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4049, 132456, 1, 0, 40.49, 0, 0, 5, 2, 3029);
+INSERT INTO 'informix'.project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(4050, 132456, 0, 0, 49.26, 5, 0, 1, 0, 3062);
+

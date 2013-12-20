@@ -1,0 +1,21 @@
+
+SELECT
+  COUNT(*) as total
+FROM (
+    SELECT 
+      NVL(s.short_name, s.name) AS name
+      , country.country_name AS country
+    FROM 
+      school s
+    , school_coder_rank scr
+    , rating r
+    , OUTER country
+    WHERE s.school_id = scr.school_id
+    AND scr.coder_id = r.coder_id
+    AND scr.coder_rank_type_id = 2
+    AND s.school_id not IN (0, 3519)
+    AND scr.algo_rating_type_id = 1
+    AND country.country_code = s.country_code
+    GROUP BY 1, 2
+    having COUNT(*) > 9
+)

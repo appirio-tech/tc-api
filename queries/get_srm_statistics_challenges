@@ -1,0 +1,22 @@
+SELECT 
+  level_desc AS levelName
+, NVL(challenges, 0) as challenges
+, NVL(failedChallenges, 0) as failedChallenge
+FROM level_lu ll
+LEFT JOIN (
+SELECT 
+  l.level_id
+, l.level_desc AS levelName
+, SUM(cl.challenge_attempts_made) AS challenges
+, SUM(cl.challenges_made_failed) AS failedChallenges
+FROM 
+  level_lu l
+, coder_level cl
+, coder c
+WHERE cl.coder_id = c.coder_id
+AND LOWER(c.handle) = LOWER('@ha@')
+AND l.level_id = cl.level_id
+AND cl.algo_rating_type_id = 1
+GROUP by l.level_desc, l.level_id
+ORDER by levelName
+) res on res.level_id = ll.level_id

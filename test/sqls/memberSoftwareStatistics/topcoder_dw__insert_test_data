@@ -1,0 +1,14 @@
+﻿INSERT INTO coder(coder_id, handle, status) VALUES(132456, 'heffan', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(132457, 'super', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(132458, 'twight', 'A');
+
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 1, 'test achievement 0');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 2, 'test achievement 1');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 3, 'test achievement 2');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 4, 'test achievement 3');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 5, 'test achievement 4');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 6, 'test achievement 5');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 7, 'test achievement 6');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 8, 'test achievement 7');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 9, 'test achievement 8');
+INSERT INTO 'informix'.user_achievement(coder_id, achievement_date, achievement_type_id, description) VALUES(132456, CURRENT, 10, 'test achievement 9');

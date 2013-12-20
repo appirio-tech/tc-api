@@ -1,0 +1,109 @@
+{
+  "total": 17,
+  "pageIndex": 1,
+  "pageSize": 17,
+  "data": [
+    {
+      "rank": 1,
+      "handle": "Hung",
+      "rating": 3738,
+      "country": "Japan"
+    },
+    {
+      "rank": 2,
+      "handle": "twight",
+      "rating": 3693,
+      "country": "Japan"
+    },
+    {
+      "rank": 3,
+      "handle": "Partha",
+      "rating": 3420,
+      "country": "Japan"
+    },
+    {
+      "rank": 4,
+      "handle": "sandking",
+      "rating": 3339,
+      "country": "Japan"
+    },
+    {
+      "rank": 5,
+      "handle": "lightspeed",
+      "rating": 3304,
+      "country": "Japan"
+    },
+    {
+      "rank": 6,
+      "handle": "reassembler",
+      "rating": 3301,
+      "country": "Japan"
+    },
+    {
+      "rank": 7,
+      "handle": "annej9ny",
+      "rating": 2200,
+      "country": "Japan"
+    },
+    {
+      "rank": 8,
+      "handle": "plinehan",
+      "rating": 2199,
+      "country": "Japan"
+    },
+    {
+      "rank": 9,
+      "handle": "chelseasimon",
+      "rating": 1500,
+      "country": "Japan"
+    },
+    {
+      "rank": 10,
+      "handle": "wyzmo",
+      "rating": 1499,
+      "country": "Japan"
+    },
+    {
+      "rank": 11,
+      "handle": "cartajs",
+      "rating": 1200,
+      "country": "China"
+    },
+    {
+      "rank": 12,
+      "handle": "ksmith",
+      "rating": 1199,
+      "country": "China"
+    },
+    {
+      "rank": 13,
+      "handle": "Yoshi",
+      "rating": 900,
+      "country": "China"
+    },
+    {
+      "rank": 14,
+      "handle": "super",
+      "rating": 899,
+      "country": "China"
+    },
+    {
+      "rank": 15,
+      "handle": "user",
+      "rating": 888,
+      "country": "China"
+    },
+    {
+      "rank": 16,
+      "handle": "user1000001",
+      "rating": 888,
+      "country": "United States"
+    },
+    {
+      "rank": 17,
+      "handle": "user1000002",
+      "rating": 888,
+      "country": "United States"
+    }
+  ]
+}

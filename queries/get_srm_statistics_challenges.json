@@ -1,0 +1,5 @@
+{
+  "name"    : "get_srm_statistics_challenges",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_srm_statistics_challenges"
+}

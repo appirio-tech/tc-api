@@ -1,0 +1,2 @@
+﻿DELETE FROM user_achievement WHERE coder_id = 132456;
+DELETE FROM coder WHERE coder_id <= 132458;

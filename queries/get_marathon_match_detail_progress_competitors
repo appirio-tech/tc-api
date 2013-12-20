@@ -1,0 +1,13 @@
+
+SELECT 
+  lcs.coder_id
+, extend(dbinfo("UTC_TO_DATETIME",ls.submit_time/1000), YEAR TO fraction) AS submit_time
+FROM 
+  long_component_state lcs
+, long_submission ls
+, user u 
+WHERE ls.example = 0 
+AND lcs.round_id = @rd@
+AND lcs.coder_id = u.user_id 
+AND ls.long_component_state_id = lcs.long_component_state_id 
+ORDER BY ls.submit_time

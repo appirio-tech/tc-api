@@ -1,0 +1,5 @@
+{
+  "name"    : "get_top_ranked_srm_members_country",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_top_ranked_srm_members_country"
+}

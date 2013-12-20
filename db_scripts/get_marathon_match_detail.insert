@@ -1,0 +1,1142 @@
+-- Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+-- description: Insert test data that prepared for get marathon match detail related queries.
+-- author: Ghost_141
+-- version 1.0
+-- since 1.0 (Module Assembly - Topcoder NodeJS Marathon Contests API Queries)
+
+database common_oltp;
+
+INSERT INTO user(user_id, handle, status) VALUES(3001, 'user3001', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3002, 'user3002', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3003, 'user3003', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3004, 'user3004', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3005, 'user3005', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3006, 'user3006', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3007, 'user3007', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3008, 'user3008', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3009, 'user3009', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3010, 'user3010', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3011, 'user3011', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3012, 'user3012', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3013, 'user3013', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3014, 'user3014', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3015, 'user3015', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3016, 'user3016', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3017, 'user3017', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3018, 'user3018', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3019, 'user3019', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3020, 'user3020', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3021, 'user3021', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3022, 'user3022', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3023, 'user3023', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3024, 'user3024', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3025, 'user3025', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3026, 'user3026', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3027, 'user3027', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3028, 'user3028', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3029, 'user3029', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3030, 'user3030', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3031, 'user3031', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3032, 'user3032', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3033, 'user3033', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3034, 'user3034', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3035, 'user3035', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3036, 'user3036', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3037, 'user3037', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3038, 'user3038', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3039, 'user3039', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3040, 'user3040', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3041, 'user3041', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3042, 'user3042', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3043, 'user3043', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3044, 'user3044', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3045, 'user3045', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3046, 'user3046', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3047, 'user3047', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3048, 'user3048', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3049, 'user3049', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3050, 'user3050', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3051, 'user3051', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3052, 'user3052', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3053, 'user3053', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3054, 'user3054', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3055, 'user3055', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3056, 'user3056', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3057, 'user3057', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3058, 'user3058', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3059, 'user3059', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3060, 'user3060', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3061, 'user3061', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3062, 'user3062', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3063, 'user3063', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3064, 'user3064', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3065, 'user3065', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3066, 'user3066', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3067, 'user3067', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3068, 'user3068', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3069, 'user3069', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3070, 'user3070', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3071, 'user3071', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3072, 'user3072', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3073, 'user3073', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3074, 'user3074', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3075, 'user3075', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3076, 'user3076', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3077, 'user3077', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3078, 'user3078', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3079, 'user3079', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3080, 'user3080', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3081, 'user3081', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3082, 'user3082', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3083, 'user3083', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3084, 'user3084', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3085, 'user3085', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3086, 'user3086', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3087, 'user3087', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3088, 'user3088', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3089, 'user3089', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3090, 'user3090', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3091, 'user3091', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3092, 'user3092', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3093, 'user3093', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3094, 'user3094', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3095, 'user3095', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3096, 'user3096', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3097, 'user3097', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3098, 'user3098', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3099, 'user3099', 'A');
+INSERT INTO user(user_id, handle, status) VALUES(3100, 'user3100', 'A');
+
+database informixoltp;
+
+INSERT INTO coder(coder_id) VALUES(3001);
+INSERT INTO coder(coder_id) VALUES(3002);
+INSERT INTO coder(coder_id) VALUES(3003);
+INSERT INTO coder(coder_id) VALUES(3004);
+INSERT INTO coder(coder_id) VALUES(3005);
+INSERT INTO coder(coder_id) VALUES(3006);
+INSERT INTO coder(coder_id) VALUES(3007);
+INSERT INTO coder(coder_id) VALUES(3008);
+INSERT INTO coder(coder_id) VALUES(3009);
+INSERT INTO coder(coder_id) VALUES(3010);
+INSERT INTO coder(coder_id) VALUES(3011);
+INSERT INTO coder(coder_id) VALUES(3012);
+INSERT INTO coder(coder_id) VALUES(3013);
+INSERT INTO coder(coder_id) VALUES(3014);
+INSERT INTO coder(coder_id) VALUES(3015);
+INSERT INTO coder(coder_id) VALUES(3016);
+INSERT INTO coder(coder_id) VALUES(3017);
+INSERT INTO coder(coder_id) VALUES(3018);
+INSERT INTO coder(coder_id) VALUES(3019);
+INSERT INTO coder(coder_id) VALUES(3020);
+INSERT INTO coder(coder_id) VALUES(3021);
+INSERT INTO coder(coder_id) VALUES(3022);
+INSERT INTO coder(coder_id) VALUES(3023);
+INSERT INTO coder(coder_id) VALUES(3024);
+INSERT INTO coder(coder_id) VALUES(3025);
+INSERT INTO coder(coder_id) VALUES(3026);
+INSERT INTO coder(coder_id) VALUES(3027);
+INSERT INTO coder(coder_id) VALUES(3028);
+INSERT INTO coder(coder_id) VALUES(3029);
+INSERT INTO coder(coder_id) VALUES(3030);
+INSERT INTO coder(coder_id) VALUES(3031);
+INSERT INTO coder(coder_id) VALUES(3032);
+INSERT INTO coder(coder_id) VALUES(3033);
+INSERT INTO coder(coder_id) VALUES(3034);
+INSERT INTO coder(coder_id) VALUES(3035);
+INSERT INTO coder(coder_id) VALUES(3036);
+INSERT INTO coder(coder_id) VALUES(3037);
+INSERT INTO coder(coder_id) VALUES(3038);
+INSERT INTO coder(coder_id) VALUES(3039);
+INSERT INTO coder(coder_id) VALUES(3040);
+INSERT INTO coder(coder_id) VALUES(3041);
+INSERT INTO coder(coder_id) VALUES(3042);
+INSERT INTO coder(coder_id) VALUES(3043);
+INSERT INTO coder(coder_id) VALUES(3044);
+INSERT INTO coder(coder_id) VALUES(3045);
+INSERT INTO coder(coder_id) VALUES(3046);
+INSERT INTO coder(coder_id) VALUES(3047);
+INSERT INTO coder(coder_id) VALUES(3048);
+INSERT INTO coder(coder_id) VALUES(3049);
+INSERT INTO coder(coder_id) VALUES(3050);
+INSERT INTO coder(coder_id) VALUES(3051);
+INSERT INTO coder(coder_id) VALUES(3052);
+INSERT INTO coder(coder_id) VALUES(3053);
+INSERT INTO coder(coder_id) VALUES(3054);
+INSERT INTO coder(coder_id) VALUES(3055);
+INSERT INTO coder(coder_id) VALUES(3056);
+INSERT INTO coder(coder_id) VALUES(3057);
+INSERT INTO coder(coder_id) VALUES(3058);
+INSERT INTO coder(coder_id) VALUES(3059);
+INSERT INTO coder(coder_id) VALUES(3060);
+INSERT INTO coder(coder_id) VALUES(3061);
+INSERT INTO coder(coder_id) VALUES(3062);
+INSERT INTO coder(coder_id) VALUES(3063);
+INSERT INTO coder(coder_id) VALUES(3064);
+INSERT INTO coder(coder_id) VALUES(3065);
+INSERT INTO coder(coder_id) VALUES(3066);
+INSERT INTO coder(coder_id) VALUES(3067);
+INSERT INTO coder(coder_id) VALUES(3068);
+INSERT INTO coder(coder_id) VALUES(3069);
+INSERT INTO coder(coder_id) VALUES(3070);
+INSERT INTO coder(coder_id) VALUES(3071);
+INSERT INTO coder(coder_id) VALUES(3072);
+INSERT INTO coder(coder_id) VALUES(3073);
+INSERT INTO coder(coder_id) VALUES(3074);
+INSERT INTO coder(coder_id) VALUES(3075);
+INSERT INTO coder(coder_id) VALUES(3076);
+INSERT INTO coder(coder_id) VALUES(3077);
+INSERT INTO coder(coder_id) VALUES(3078);
+INSERT INTO coder(coder_id) VALUES(3079);
+INSERT INTO coder(coder_id) VALUES(3080);
+INSERT INTO coder(coder_id) VALUES(3081);
+INSERT INTO coder(coder_id) VALUES(3082);
+INSERT INTO coder(coder_id) VALUES(3083);
+INSERT INTO coder(coder_id) VALUES(3084);
+INSERT INTO coder(coder_id) VALUES(3085);
+INSERT INTO coder(coder_id) VALUES(3086);
+INSERT INTO coder(coder_id) VALUES(3087);
+INSERT INTO coder(coder_id) VALUES(3088);
+INSERT INTO coder(coder_id) VALUES(3089);
+INSERT INTO coder(coder_id) VALUES(3090);
+INSERT INTO coder(coder_id) VALUES(3091);
+INSERT INTO coder(coder_id) VALUES(3092);
+INSERT INTO coder(coder_id) VALUES(3093);
+INSERT INTO coder(coder_id) VALUES(3094);
+INSERT INTO coder(coder_id) VALUES(3095);
+INSERT INTO coder(coder_id) VALUES(3096);
+INSERT INTO coder(coder_id) VALUES(3097);
+INSERT INTO coder(coder_id) VALUES(3098);
+INSERT INTO coder(coder_id) VALUES(3099);
+INSERT INTO coder(coder_id) VALUES(3100);
+
+INSERT INTO contest(contest_id, name) VALUES(2001, 'test contest 2001');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2001, 2001, 'test round 2001', 13);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 1, '2013-10-20 12:00:00', '2013-12-6 12:00:00', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 5, '2013-12-1 12:00:00', '2013-12-5 12:00:00', 'A');
+
+INSERT INTO problem(problem_id, name) VALUES(2001, 'test problem');
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name) VALUES(2001, 2001, 1, 'test method', 'test class');
+INSERT INTO division(division_id, division_desc) VALUES(100, 'test division');
+INSERT INTO round_component(round_id, component_id, division_id) VALUES(2001, 2001, 100);
+
+
+
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3022, 'Y', 787234.4113839092, 22);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3066, 'Y', 120162.18460392581, 66);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3047, 'Y', 236587.15677268748, 47);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3010, 'Y', 210319.847429175, 10);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3032, 'Y', 350618.1054801801, 32);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3045, 'Y', 219276.28148617983, 45);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3048, 'Y', 459698.3498893832, 48);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3061, 'Y', 308405.22774454235, 61);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3092, 'Y', 832801.9974527684, 92);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3007, 'Y', 451428.45857095823, 7);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3031, 'Y', 53500.945191481966, 31);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3077, 'Y', 958899.0936123244, 77);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3040, 'Y', 62935.53608999658, 40);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3027, 'Y', 961336.1789492662, 27);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3064, 'Y', 227141.62153765926, 64);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3062, 'Y', 771656.4805762053, 62);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3017, 'Y', 450197.08869809116, 17);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3035, 'Y', 824942.7941006633, 35);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3088, 'Y', 107904.39689728037, 88);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3020, 'Y', 315329.5001622368, 20);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3053, 'Y', 517784.6624871557, 53);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3028, 'Y', 572321.1481718326, 28);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3072, 'Y', 216781.50753870074, 72);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3075, 'Y', 951758.5476645028, 75);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3056, 'Y', 493140.0007672202, 56);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3008, 'Y', 572604.3337001399, 8);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3025, 'Y', 246448.09824188674, 25);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3038, 'Y', 575557.8558748949, 38);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3019, 'Y', 240935.84964715454, 19);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3049, 'Y', 882170.3274613781, 49);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3014, 'Y', 411079.7201230789, 14);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3091, 'Y', 315688.56554938696, 91);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3036, 'Y', 892738.3156620611, 36);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3051, 'Y', 732502.9677783392, 51);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3087, 'Y', 532960.7879080962, 87);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3029, 'Y', 784132.7822971584, 29);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3055, 'Y', 500889.7420359566, 55);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3080, 'Y', 565596.2309535863, 80);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3052, 'Y', 332588.8343379455, 52);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3057, 'Y', 641352.5006972412, 57);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3024, 'Y', 924040.0518314769, 24);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3033, 'Y', 412464.8557064382, 33);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3068, 'Y', 96987.83286427903, 68);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3005, 'Y', 89037.4570633643, 5);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3079, 'Y', 937887.3364480201, 79);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3015, 'Y', 454269.2640835847, 15);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3041, 'Y', 15201.865323399954, 41);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3060, 'Y', 397716.72705402237, 60);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3069, 'Y', 257071.2650774716, 69);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3093, 'Y', 805758.312821232, 93);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3034, 'Y', 990447.199104402, 34);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3065, 'Y', 730128.14200012, 65);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3026, 'Y', 752795.7442194015, 26);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3096, 'Y', 917178.2202504384, 96);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3004, 'Y', 665160.1933445989, 4);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3012, 'Y', 330811.4711173138, 12);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3090, 'Y', 655640.0916895781, 90);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3006, 'Y', 503491.98770729586, 6);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3073, 'Y', 728184.5495396126, 73);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3076, 'Y', 618210.0389350146, 76);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3067, 'Y', 944150.6279128722, 67);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3030, 'Y', 578698.461355858, 30);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3089, 'Y', 312600.91946541227, 89);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3023, 'Y', 837636.9191687537, 23);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3002, 'Y', 437187.9227438059, 2);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3013, 'Y', 998235.752801679, 13);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3016, 'Y', 438208.31537125737, 16);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3059, 'Y', 711781.5975389052, 59);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3009, 'Y', 331636.614221654, 9);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3050, 'Y', 893898.7733676541, 50);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3044, 'Y', 4425.215311882113, 44);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3021, 'Y', 960003.3959812092, 21);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3100, 'Y', 56969.326099788, 100);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3099, 'Y', 523396.3593167514, 99);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3003, 'Y', 797386.425465522, 3);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3098, 'Y', 648478.4181578936, 98);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3039, 'Y', 354286.8693543908, 39);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3063, 'Y', 350618.30901627336, 63);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3071, 'Y', 339268.50394212716, 71);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3085, 'Y', 80336.89392990318, 85);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3046, 'Y', 429841.78501209634, 46);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3011, 'Y', 622878.4657894812, 11);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3097, 'Y', 178385.51770782517, 97);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3095, 'Y', 338248.20924077526, 95);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3042, 'Y', 881683.3547147985, 42);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3001, 'Y', 317844.7205336561, 1);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3058, 'Y', 395354.02782036865, 58);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3018, 'Y', 651481.279865474, 18);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3084, 'Y', 852946.5346132388, 84);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3094, 'Y', 95562.74107547403, 94);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3081, 'Y', 683634.0858891546, 81);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3070, 'Y', 475287.9795709809, 70);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3037, 'Y', 526438.643664805, 37);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3043, 'Y', 809924.9168944957, 43);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3082, 'Y', 352011.0953971396, 82);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3074, 'Y', 542528.1979078568, 74);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3054, 'Y', 642561.796152301, 54);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3086, 'Y', 209132.01617450238, 86);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3083, 'Y', 992090.9597971804, 83);
+INSERT INTO long_comp_result(round_id, coder_id, attended, system_point_total, placed) VALUES(2001, 3078, 'Y', 175774.57473150472, 78);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3046, '2013-11-12 18:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3001, 2001, 3046);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3001, 1, 0, 1385071837935, 574748.0536385728);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3001, 2, 0, 1385219437935, 725207.1694698554);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3001, 3, 0, 1385338237935, 452432.13574913);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3001, 4, 0, 1385403037935, 769391.7629395606);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3001, 5, 0, 1385536237935, 594977.6115444888);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3075, '2013-11-12 22:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3002, 2001, 3075);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 1, 0, 1385266237935, 448581.9763613361);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 2, 0, 1385327437935, 497699.3230985751);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 3, 0, 1385453437935, 743044.2291034565);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 4, 0, 1385629837935, 898650.7789541845);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 5, 0, 1385788237935, 870244.5737393921);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 6, 0, 1385950237935, 892960.0357603686);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 7, 0, 1386112237935, 26399.754405978747);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3002, 8, 0, 1386173437935, 282872.4041365093);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3003, '2013-11-12 04:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3003, 2001, 3003);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3003, 1, 0, 1384510237935, 182147.99091999023);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3003, 2, 0, 1384578637935, 24129.35413049877);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3003, 3, 0, 1384625437935, 678958.8754780836);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3057, '2013-11-19 19:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3004, 2001, 3057);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3004, 1, 0, 1384963837935, 267857.08204934775);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3033, '2013-11-18 23:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3005, 2001, 3033);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3005, 1, 0, 1384863037935, 974305.5546738652);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3005, 2, 0, 1384873837935, 327964.31730719);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3005, 3, 0, 1384989037935, 482959.724683136);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3005, 4, 0, 1385143837935, 70644.92967542235);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3041, '2013-11-15 21:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3006, 2001, 3041);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3006, 1, 0, 1384611037935, 702834.3459591804);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3006, 2, 0, 1384737037935, 278676.1444417675);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3006, 3, 0, 1384852237935, 920325.9798685734);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3006, 4, 0, 1385028637935, 598337.5973733903);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3080, '2013-11-19 05:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3007, 2001, 3080);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3007, 1, 0, 1384873837935, 490585.6372864139);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3007, 2, 0, 1385046637935, 45287.291800000465);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3007, 3, 0, 1385100637935, 436794.4127587364);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3038, '2013-11-20 20:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3008, 2001, 3038);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3008, 1, 0, 1385115037935, 77110.97010797952);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3008, 2, 0, 1385143837935, 708749.1934150339);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3008, 3, 0, 1385248237935, 457155.8221375096);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3078, '2013-11-20 11:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3009, 2001, 3078);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 1, 0, 1385086237935, 475007.15308176214);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 2, 0, 1385201437935, 279163.3356662474);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 3, 0, 1385370637935, 360165.0790076537);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 4, 0, 1385421037935, 343969.39682622085);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 5, 0, 1385424637935, 966385.8487471716);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 6, 0, 1385482237935, 253563.26190120427);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 7, 0, 1385619037935, 766723.0620104895);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3009, 8, 0, 1385680237935, 356031.8689990144);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3026, '2013-11-17 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3010, 2001, 3026);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3010, 1, 0, 1384791037935, 980927.4229992537);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3010, 2, 0, 1384884637935, 451337.22247977916);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3010, 3, 0, 1384895437935, 219911.36672606893);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3068, '2013-11-19 00:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3011, 2001, 3068);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3011, 1, 0, 1384884637935, 292585.53906962427);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3011, 2, 0, 1385039437935, 292184.42564351024);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3011, 3, 0, 1385187037935, 735943.9701242783);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3011, 4, 0, 1385277037935, 986519.354184868);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3043, '2013-11-14 22:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3012, 2001, 3043);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3012, 1, 0, 1384535437935, 707318.5909472565);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3012, 2, 0, 1384614637935, 502810.8260577453);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3012, 3, 0, 1384632637935, 212553.7062502175);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3087, '2013-11-22 05:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3013, 2001, 3087);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3013, 1, 0, 1385194237935, 596554.8900594466);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3013, 2, 0, 1385359837935, 299439.9003683279);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3076, '2013-11-16 20:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3014, 2001, 3076);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 1, 0, 1384683037935, 620765.3544258889);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 2, 0, 1384834237935, 58561.147257076176);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 3, 0, 1384884637935, 692310.4472145959);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 4, 0, 1385043037935, 229354.64365488844);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 5, 0, 1385064637935, 479203.4037587023);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 6, 0, 1385118637935, 402688.3572143889);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 7, 0, 1385287837935, 700191.7687463368);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3014, 8, 0, 1385313037935, 235667.99166487594);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3097, '2013-11-22 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3015, 2001, 3097);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3015, 1, 0, 1385115037935, 225070.8233320291);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3015, 2, 0, 1385284237935, 598347.216218274);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3044, '2013-11-20 08:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3016, 2001, 3044);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3016, 1, 0, 1385079037935, 398664.31342190347);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3016, 2, 0, 1385097037935, 568527.9135855796);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3016, 3, 0, 1385097037935, 194234.62579052543);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3016, 4, 0, 1385190637935, 906041.727099697);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3084, '2013-11-21 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3017, 2001, 3084);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3017, 1, 0, 1385025037935, 435798.2127024676);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3017, 2, 0, 1385028637935, 156734.87772694527);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3017, 3, 0, 1385205037935, 972579.7473312325);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3017, 4, 0, 1385205037935, 805588.0311421566);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3017, 5, 0, 1385266237935, 175637.28533518963);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3017, 6, 0, 1385323837935, 230939.24324765604);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3073, '2013-11-17 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3018, 2001, 3073);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3018, 1, 0, 1384751437935, 254617.12319467677);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3018, 2, 0, 1384794637935, 511310.790164739);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3018, 3, 0, 1384863037935, 420527.3195056195);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3018, 4, 0, 1384917037935, 745359.2984096187);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3098, '2013-11-18 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3019, 2001, 3098);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3019, 1, 0, 1384769437935, 231013.55610515396);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3019, 2, 0, 1384924237935, 469766.31380110455);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3019, 3, 0, 1385100637935, 206592.0047854326);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3019, 4, 0, 1385201437935, 436244.0700522499);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3008, '2013-11-20 09:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3020, 2001, 3008);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3020, 1, 0, 1384992637935, 227163.38064635123);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3020, 2, 0, 1385133037935, 805579.7060417071);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3069, '2013-11-22 00:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3021, 2001, 3069);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3021, 1, 0, 1385082637935, 482181.27410294267);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3021, 2, 0, 1385169037935, 722801.8547506741);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3021, 3, 0, 1385291437935, 657577.811323617);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3021, 4, 0, 1385367037935, 349237.1853525096);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3021, 5, 0, 1385503837935, 536047.4385316785);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3021, 6, 0, 1385583037935, 41392.94197727694);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3052, '2013-11-15 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3022, 2001, 3052);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3022, 1, 0, 1384524637935, 334733.22733863076);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3022, 2, 0, 1384564237935, 845567.5684986523);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3022, 3, 0, 1384589437935, 323073.88270537206);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3022, 4, 0, 1384668637935, 878513.8386946829);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3065, '2013-11-15 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3023, 2001, 3065);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 1, 0, 1384459837935, 914477.3791809691);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 2, 0, 1384596637935, 473984.0974948125);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 3, 0, 1384711837935, 167182.57171293226);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 4, 0, 1384715437935, 765775.633288839);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 5, 0, 1384888237935, 948158.6849153528);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 6, 0, 1384906237935, 418650.26243160694);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 7, 0, 1384920637935, 634972.2542859969);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3023, 8, 0, 1384971037935, 821118.6981533441);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3090, '2013-11-19 01:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3024, 2001, 3090);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3024, 1, 0, 1384960237935, 976211.7867986211);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3024, 2, 0, 1385010637935, 885367.6003053812);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3024, 3, 0, 1385165437935, 936056.3578370324);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3002, '2013-11-21 02:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3025, 2001, 3002);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3025, 1, 0, 1384989037935, 692517.9012201558);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3025, 2, 0, 1385115037935, 954300.4478762511);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3025, 3, 0, 1385154637935, 935195.9390975791);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3025, 4, 0, 1385327437935, 699444.7560218042);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3025, 5, 0, 1385341837935, 210127.46384625812);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3025, 6, 0, 1385493037935, 747364.6496912007);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3010, '2013-11-16 19:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3026, 2001, 3010);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3026, 1, 0, 1384740637935, 474603.96267548867);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3026, 2, 0, 1384902637935, 8243.072705065413);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3026, 3, 0, 1384942237935, 562785.3514678527);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3099, '2013-11-22 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3027, 2001, 3099);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 1, 0, 1385151037935, 289692.7888090458);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 2, 0, 1385179837935, 594610.2267105874);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 3, 0, 1385190637935, 94673.75949688662);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 4, 0, 1385197837935, 926804.7068261453);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 5, 0, 1385273437935, 166072.24674309074);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 6, 0, 1385385037935, 481413.22031177726);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3027, 7, 0, 1385385037935, 561099.0534153467);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3042, '2013-11-20 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3028, 2001, 3042);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3028, 1, 0, 1385075437935, 287491.3398135626);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3028, 2, 0, 1385248237935, 527198.983656873);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3028, 3, 0, 1385370637935, 851508.2695803426);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3049, '2013-11-21 05:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3029, 2001, 3049);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 1, 0, 1384999837935, 8255.395919439357);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 2, 0, 1385039437935, 476859.69644209003);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 3, 0, 1385172637935, 838025.5801899947);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 4, 0, 1385302237935, 598523.9368596306);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 5, 0, 1385406637935, 816289.1866878521);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 6, 0, 1385471437935, 781706.0653214824);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 7, 0, 1385565037935, 245162.3374191202);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3029, 8, 0, 1385590237935, 173868.10761693682);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3031, '2013-11-20 04:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3030, 2001, 3031);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3030, 1, 0, 1384953037935, 31661.98128834441);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3030, 2, 0, 1385079037935, 722468.8830334195);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3048, '2013-11-20 02:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3031, 2001, 3048);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3031, 1, 0, 1384924237935, 182857.23767865036);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3031, 2, 0, 1385089837935, 581612.0073207149);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3094, '2013-11-21 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3032, 2001, 3094);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3032, 1, 0, 1385136637935, 271053.9121115915);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3051, '2013-11-17 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3033, 2001, 3051);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3033, 1, 0, 1384783837935, 203933.10560534918);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3033, 2, 0, 1384917037935, 373742.24556714843);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3033, 3, 0, 1384945837935, 960148.1913497264);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3033, 4, 0, 1384978237935, 92773.24348553884);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3033, 5, 0, 1385043037935, 849241.4958391796);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3047, '2013-11-21 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3034, 2001, 3047);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3034, 1, 0, 1385115037935, 188167.84032907154);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3034, 2, 0, 1385266237935, 165471.95049780406);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3034, 3, 0, 1385399437935, 847386.2699894655);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3034, 4, 0, 1385482237935, 410138.7770819298);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3072, '2013-11-20 04:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3035, 2001, 3072);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3035, 1, 0, 1384971037935, 729187.611563132);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3035, 2, 0, 1385050237935, 130720.6773633942);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3035, 3, 0, 1385129437935, 865786.464317072);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3035, 4, 0, 1385208637935, 14822.473045535966);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3035, 5, 0, 1385377837935, 485696.38836579764);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3035, 6, 0, 1385395837935, 311682.71281891625);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3059, '2013-11-20 23:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3036, 2001, 3059);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3036, 1, 0, 1385097037935, 71000.55353550606);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3036, 2, 0, 1385154637935, 194870.56873600383);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3036, 3, 0, 1385291437935, 696715.7357030602);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3036, 4, 0, 1385421037935, 697886.3637507034);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3019, '2013-11-21 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3037, 2001, 3019);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3037, 1, 0, 1385046637935, 110703.25347832855);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3037, 2, 0, 1385208637935, 568560.9535151881);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3037, 3, 0, 1385287837935, 845765.1558892786);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3037, 4, 0, 1385341837935, 236962.42681970858);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3037, 5, 0, 1385493037935, 817540.5007629993);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3028, '2013-11-16 18:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3038, 2001, 3028);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3038, 1, 0, 1384683037935, 242036.19678506762);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3038, 2, 0, 1384765837935, 598340.2389130017);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3038, 3, 0, 1384931437935, 986052.3066607198);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3038, 4, 0, 1385061037935, 263747.120552886);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3038, 5, 0, 1385125837935, 769552.9545612034);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3063, '2013-11-20 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3039, 2001, 3063);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3039, 1, 0, 1384935037935, 818473.5806096421);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3039, 2, 0, 1384949437935, 222517.9629644668);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3039, 3, 0, 1385125837935, 15480.91689912967);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3039, 4, 0, 1385233837935, 436616.1318298828);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3039, 5, 0, 1385273437935, 202646.38263650148);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3091, '2013-11-22 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3040, 2001, 3091);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3040, 1, 0, 1385122237935, 52689.72261212656);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3040, 2, 0, 1385269837935, 800431.4686135732);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3056, '2013-11-17 17:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3041, 2001, 3056);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3041, 1, 0, 1384776637935, 713941.6676661422);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3041, 2, 0, 1384834237935, 552993.3839598409);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3041, 3, 0, 1384859437935, 421782.1461252251);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3041, 4, 0, 1384866637935, 897762.8088696053);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3067, '2013-11-21 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3042, 2001, 3067);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3042, 1, 0, 1385093437935, 376769.9056413839);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3042, 2, 0, 1385107837935, 960814.364785477);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3042, 3, 0, 1385277037935, 862649.2893240676);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3011, '2013-11-20 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3043, 2001, 3011);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3043, 1, 0, 1384963837935, 33491.63993217075);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3043, 2, 0, 1385089837935, 769210.2273377072);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3043, 3, 0, 1385129437935, 769366.2956538778);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3043, 4, 0, 1385215837935, 558222.1944143914);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3096, '2013-11-21 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3044, 2001, 3096);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3044, 1, 0, 1385021437935, 875025.2758264221);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3083, '2013-11-17 05:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3045, 2001, 3083);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3045, 1, 0, 1384794637935, 592661.0088930378);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3045, 2, 0, 1384953037935, 394937.7061278778);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3045, 3, 0, 1385061037935, 483944.4857314984);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3050, '2013-11-18 20:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3046, 2001, 3050);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3046, 1, 0, 1384866637935, 604267.8288248638);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3046, 2, 0, 1384967437935, 342224.74497377075);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3046, 3, 0, 1385039437935, 453987.9049178672);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3046, 4, 0, 1385183437935, 262647.08428012586);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3064, '2013-11-16 07:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3047, 2001, 3064);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3047, 1, 0, 1384600237935, 437517.4624087622);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3047, 2, 0, 1384769437935, 450697.4268087571);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3047, 3, 0, 1384819837935, 16174.909940451122);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3074, '2013-11-20 10:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3048, 2001, 3074);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3048, 1, 0, 1385057437935, 942773.9328384871);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3092, '2013-11-22 04:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3049, 2001, 3092);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3049, 1, 0, 1385104237935, 324671.8928003084);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3049, 2, 0, 1385255437935, 477555.6727747539);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3049, 3, 0, 1385302237935, 415101.79460891715);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3049, 4, 0, 1385327437935, 824627.7266439303);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3049, 5, 0, 1385475037935, 805498.0779660773);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3049, 6, 0, 1385539837935, 514792.77870336204);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3006, '2013-11-20 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3050, 2001, 3006);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3050, 1, 0, 1384981837935, 384579.3645680551);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3050, 2, 0, 1385079037935, 72906.58452783871);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3050, 3, 0, 1385165437935, 470922.2786712235);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3015, '2013-11-17 18:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3051, 2001, 3015);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3051, 1, 0, 1384819837935, 222898.85913585994);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3051, 2, 0, 1384899037935, 921138.6783604409);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3051, 3, 0, 1384960237935, 585548.1026729911);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3081, '2013-11-22 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3052, 2001, 3081);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3052, 1, 0, 1385133037935, 179557.76964557578);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3052, 2, 0, 1385233837935, 220226.16930826622);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3052, 3, 0, 1385287837935, 922675.4407794959);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3052, 4, 0, 1385349037935, 425928.9690662045);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3052, 5, 0, 1385431837935, 217019.35748865997);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3052, 6, 0, 1385575837935, 44032.82425880639);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3035, '2013-11-21 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3053, 2001, 3035);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3053, 1, 0, 1385140237935, 252917.72663122148);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3053, 2, 0, 1385251837935, 135667.14940303704);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3053, 3, 0, 1385323837935, 800065.44825416);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3053, 4, 0, 1385442637935, 61375.15519648995);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3053, 5, 0, 1385518237935, 394426.992742442);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3070, '2013-11-20 11:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3054, 2001, 3070);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3054, 1, 0, 1384949437935, 380586.6306193667);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3054, 2, 0, 1385064637935, 842743.8682280458);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3054, 3, 0, 1385194237935, 17628.803325820285);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3013, '2013-11-21 06:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3055, 2001, 3013);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 1, 0, 1385021437935, 604559.7263003042);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 2, 0, 1385107837935, 549807.6852258818);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 3, 0, 1385165437935, 769331.0828501644);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 4, 0, 1385226637935, 110076.6725777147);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 5, 0, 1385248237935, 469957.7490150971);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 6, 0, 1385273437935, 743222.7656589461);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3055, 7, 0, 1385417437935, 643917.7075005145);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3088, '2013-11-21 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3056, 2001, 3088);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3056, 1, 0, 1385118637935, 985967.156193696);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3056, 2, 0, 1385190637935, 695099.152136387);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3056, 3, 0, 1385208637935, 34698.903095233494);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3040, '2013-11-16 20:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3057, 2001, 3040);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 1, 0, 1384747837935, 604618.0607485451);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 2, 0, 1384801837935, 721586.0996170172);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 3, 0, 1384812637935, 613203.8573790784);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 4, 0, 1384859437935, 479835.596279071);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 5, 0, 1384989037935, 521371.8720027383);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 6, 0, 1385100637935, 334610.2069432045);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3057, 7, 0, 1385226637935, 930946.3869685255);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3089, '2013-11-19 19:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3058, 2001, 3089);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3058, 1, 0, 1384938637935, 364197.7294552289);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3058, 2, 0, 1385032237935, 44797.73021123002);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3018, '2013-11-17 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3059, 2001, 3018);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3059, 1, 0, 1384672237935, 232418.2046161989);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3059, 2, 0, 1384740637935, 40668.843468200765);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3059, 3, 0, 1384758637935, 897612.1035875861);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3071, '2013-11-16 02:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3060, 2001, 3071);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3060, 1, 0, 1384564237935, 131222.64094453884);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3060, 2, 0, 1384618237935, 762610.3673264876);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3060, 3, 0, 1384758637935, 74738.12903964172);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3060, 4, 0, 1384884637935, 353957.0157816302);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3007, '2013-11-20 01:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3061, 2001, 3007);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3061, 1, 0, 1385050237935, 517829.5347745377);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3061, 2, 0, 1385215837935, 142743.97234885505);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3061, 3, 0, 1385259037935, 404397.2487701222);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3061, 4, 0, 1385302237935, 977163.3030745354);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3001, '2013-11-21 09:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3062, 2001, 3001);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3062, 1, 0, 1385097037935, 781052.2406104469);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3023, '2013-11-21 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3063, 2001, 3023);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3063, 1, 0, 1385107837935, 209659.60141396968);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3063, 2, 0, 1385248237935, 325449.135151362);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3063, 3, 0, 1385388637935, 71251.37544526238);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3063, 4, 0, 1385449837935, 770500.1475270452);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3063, 5, 0, 1385604637935, 661802.4079817027);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3063, 6, 0, 1385662237935, 878726.8825244288);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3016, '2013-11-21 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3064, 2001, 3016);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3064, 1, 0, 1385082637935, 324246.05369079096);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3060, '2013-11-16 10:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3065, 2001, 3060);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3065, 1, 0, 1384672237935, 352574.9366219829);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3065, 2, 0, 1384773037935, 516005.9883614866);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3065, 3, 0, 1384891837935, 805547.9786621161);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3093, '2013-11-17 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3066, 2001, 3093);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 1, 0, 1384780237935, 705740.1896149567);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 2, 0, 1384848637935, 697759.9368396357);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 3, 0, 1385007037935, 516271.89249099046);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 4, 0, 1385039437935, 30319.183569691544);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 5, 0, 1385061037935, 485815.91105307086);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 6, 0, 1385118637935, 906306.7719812262);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 7, 0, 1385201437935, 938822.653163274);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 8, 0, 1385273437935, 64784.260764499835);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 9, 0, 1385363437935, 977424.6303713378);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3066, 10, 0, 1385460637935, 462834.4114430368);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3037, '2013-11-21 17:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3067, 2001, 3037);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3067, 1, 0, 1385100637935, 223688.41368312386);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3067, 2, 0, 1385158237935, 953733.5684618368);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3066, '2013-11-18 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3068, 2001, 3066);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3068, 1, 0, 1384917037935, 236762.7499594751);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3068, 2, 0, 1384956637935, 93488.8436233885);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3068, 3, 0, 1384978237935, 550833.7286705825);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3068, 4, 0, 1385107837935, 519808.96135882416);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3068, 5, 0, 1385215837935, 700722.5190640222);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3027, '2013-11-17 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3069, 2001, 3027);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3069, 1, 0, 1384722637935, 34514.133833627224);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3069, 2, 0, 1384762237935, 42153.32693805529);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3069, 3, 0, 1384888237935, 842081.1129370128);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3069, 4, 0, 1384967437935, 382701.93948406575);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3034, '2013-11-22 17:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3070, 2001, 3034);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3070, 1, 0, 1385223037935, 972213.1906567268);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3070, 2, 0, 1385356237935, 171360.06551553463);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3070, 3, 0, 1385377837935, 770533.4632515811);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3070, 4, 0, 1385489437935, 626921.8710865837);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3070, 5, 0, 1385550637935, 972579.69679935);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3058, '2013-11-20 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3071, 2001, 3058);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3071, 1, 0, 1384942237935, 342973.7539208603);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3071, 2, 0, 1384953037935, 450840.0703708416);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3071, 3, 0, 1384989037935, 49834.820048355374);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3071, 4, 0, 1385089837935, 943267.449994866);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3039, '2013-11-16 03:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3072, 2001, 3039);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3072, 1, 0, 1384679437935, 184533.71064555712);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3072, 2, 0, 1384690237935, 978384.1579531637);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3072, 3, 0, 1384726237935, 479747.76339036564);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3012, '2013-11-15 11:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3073, 2001, 3012);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 1, 0, 1384643437935, 844907.6405371287);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 2, 0, 1384729837935, 102036.42304727079);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 3, 0, 1384816237935, 752671.0739709726);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 4, 0, 1384920637935, 952221.0246662176);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 5, 0, 1384971037935, 513255.12847121415);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 6, 0, 1385086237935, 95360.77198152349);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 7, 0, 1385233837935, 966886.7925513571);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 8, 0, 1385302237935, 251471.44142113053);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3073, 9, 0, 1385385037935, 895672.2518953602);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3100, '2013-11-17 19:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3074, 2001, 3100);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3074, 1, 0, 1384701037935, 450447.3354766411);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3074, 2, 0, 1384848637935, 303616.00565617153);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3074, 3, 0, 1384935037935, 932117.2243902702);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3074, 4, 0, 1385039437935, 235943.22040003046);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3074, 5, 0, 1385197837935, 467189.1287396029);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3053, '2013-11-16 02:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3075, 2001, 3053);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3075, 1, 0, 1384650637935, 473645.9572940481);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3075, 2, 0, 1384758637935, 65872.21498806661);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3075, 3, 0, 1384899037935, 326005.6788592367);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3075, 4, 0, 1384989037935, 274058.1654323366);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3075, 5, 0, 1385165437935, 297355.2008925272);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3009, '2013-11-19 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3076, 2001, 3009);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3076, 1, 0, 1384841437935, 681343.5656980975);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3076, 2, 0, 1384899037935, 385046.56270522287);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3076, 3, 0, 1384906237935, 978564.4351401521);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3076, 4, 0, 1384978237935, 174892.72957166945);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3062, '2013-11-17 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3077, 2001, 3062);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3077, 1, 0, 1384704637935, 736248.9248556532);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3077, 2, 0, 1384769437935, 389767.81771161925);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3077, 3, 0, 1384773037935, 768258.1394605262);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3077, 4, 0, 1384891837935, 774923.8643561892);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3032, '2013-11-15 10:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3078, 2001, 3032);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3078, 1, 0, 1384506637935, 845887.3071946786);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3078, 2, 0, 1384665037935, 620367.9404336753);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3045, '2013-11-16 08:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3079, 2001, 3045);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3079, 1, 0, 1384690237935, 915900.9958914315);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3079, 2, 0, 1384719037935, 165358.41078533576);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3079, 3, 0, 1384798237935, 704390.1973042132);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3020, '2013-11-17 00:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3080, 2001, 3020);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3080, 1, 0, 1384729837935, 524596.0913323353);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3080, 2, 0, 1384841437935, 166579.6221417928);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3005, '2013-11-20 07:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3081, 2001, 3005);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3081, 1, 0, 1384953037935, 964883.2360852683);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3061, '2013-11-19 09:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3082, 2001, 3061);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3082, 1, 0, 1384899037935, 369256.9317031379);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3082, 2, 0, 1385003437935, 622373.0012190453);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3082, 3, 0, 1385089837935, 717880.6188742608);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3082, 4, 0, 1385226637935, 161328.58724542364);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3082, 5, 0, 1385280637935, 920174.5868878353);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3082, '2013-11-20 23:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3083, 2001, 3082);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3083, 1, 0, 1385082637935, 895983.0233796886);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3083, 2, 0, 1385097037935, 112037.58464688262);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3083, 3, 0, 1385118637935, 12923.342916993819);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3079, '2013-11-14 21:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3084, 2001, 3079);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 1, 0, 1384459837935, 878011.4592119772);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 2, 0, 1384589437935, 858232.137339312);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 3, 0, 1384589437935, 321117.55304081657);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 4, 0, 1384755037935, 547011.4578055252);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 5, 0, 1384909837935, 45502.73701669827);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 6, 0, 1384931437935, 547549.608828863);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3084, 7, 0, 1385071837935, 214632.21225334227);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3025, '2013-11-16 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3085, 2001, 3025);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3085, 1, 0, 1384593037935, 194655.69140714058);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3004, '2013-11-20 08:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3086, 2001, 3004);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3086, 1, 0, 1384931437935, 778391.2958232992);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3086, 2, 0, 1385032237935, 335122.6904122449);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3086, 3, 0, 1385158237935, 479344.4490049821);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3086, 4, 0, 1385230237935, 781070.6989010096);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3086, 5, 0, 1385284237935, 903238.6184848921);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3085, '2013-11-16 15:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3087, 2001, 3085);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3087, 1, 0, 1384704637935, 779729.7755804363);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3087, 2, 0, 1384841437935, 423664.71086075995);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3087, 3, 0, 1384953037935, 968422.4438576325);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3087, 4, 0, 1385003437935, 781908.0901362734);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3036, '2013-11-18 14:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3088, 2001, 3036);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3088, 1, 0, 1384798237935, 733393.6648033318);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3088, 2, 0, 1384891837935, 885225.2264012266);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3088, 3, 0, 1384909837935, 669058.4213570169);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3088, 4, 0, 1384996237935, 176771.03521584626);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3088, 5, 0, 1385068237935, 406766.70874070306);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3017, '2013-11-21 12:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3089, 2001, 3017);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3089, 1, 0, 1385154637935, 236768.77463013836);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3089, 2, 0, 1385280637935, 581682.5355993037);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3089, 3, 0, 1385280637935, 405800.6826278648);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3022, '2013-11-20 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3090, 2001, 3022);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 1, 0, 1385104237935, 604431.6440269271);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 2, 0, 1385187037935, 147711.33869258812);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 3, 0, 1385287837935, 800584.593782584);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 4, 0, 1385460637935, 820090.8919065028);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 5, 0, 1385568637935, 196726.34458132688);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 6, 0, 1385604637935, 928743.8302683876);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3090, 7, 0, 1385619037935, 179044.04585404665);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3055, '2013-11-14 19:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3091, 2001, 3055);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3091, 1, 0, 1384452637935, 873994.9115411999);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3091, 2, 0, 1384499437935, 447931.9819808295);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3091, 3, 0, 1384596637935, 330936.38059159135);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3091, 4, 0, 1384693837935, 413896.93161890993);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3091, 5, 0, 1384733437935, 409114.4994989107);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3054, '2013-11-20 06:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3092, 2001, 3054);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3092, 1, 0, 1384920637935, 163108.15965738235);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3092, 2, 0, 1385035837935, 400571.8653567104);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3029, '2013-11-19 06:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3093, 2001, 3029);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3093, 1, 0, 1384981837935, 89599.86935872011);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3093, 2, 0, 1385071837935, 53046.1108126844);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3021, '2013-11-21 04:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3094, 2001, 3021);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3094, 1, 0, 1385032237935, 900051.9021613956);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3094, 2, 0, 1385064637935, 210543.99756504883);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3094, 3, 0, 1385089837935, 97752.68143384942);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3094, 4, 0, 1385107837935, 863857.5476780849);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3077, '2013-11-16 13:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3095, 2001, 3077);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3095, 1, 0, 1384708237935, 593285.0145024875);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3095, 2, 0, 1384852237935, 964977.6738649638);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3095, 3, 0, 1384855837935, 281226.2024080332);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3095, 4, 0, 1384996237935, 428696.3736821807);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3095, 5, 0, 1385122237935, 332335.0264260042);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3095, '2013-11-19 04:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3096, 2001, 3095);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 1, 0, 1384920637935, 593687.6974696359);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 2, 0, 1384956637935, 51161.65961123287);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 3, 0, 1384981837935, 727859.1309815955);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 4, 0, 1385032237935, 921849.9489804285);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 5, 0, 1385097037935, 782713.1709063442);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 6, 0, 1385266237935, 867280.262730436);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3096, 7, 0, 1385316637935, 339406.19241169625);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3014, '2013-11-15 12:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3097, 2001, 3014);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3097, 1, 0, 1384575037935, 414050.1519734131);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3097, 2, 0, 1384614637935, 722379.1935743325);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3097, 3, 0, 1384679437935, 238675.6325339323);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3097, 4, 0, 1384773037935, 350833.03757911763);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3097, 5, 0, 1384816237935, 153581.2372126011);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3097, 6, 0, 1384852237935, 6927.130468428521);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3024, '2013-11-20 17:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3098, 2001, 3024);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3098, 1, 0, 1384971037935, 782677.0292065046);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3098, 2, 0, 1384992637935, 667765.228513481);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3098, 3, 0, 1385071837935, 443282.31059446797);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3098, 4, 0, 1385158237935, 64030.782350706475);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3086, '2013-11-16 01:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3099, 2001, 3086);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3099, 1, 0, 1384578637935, 428192.05213743926);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3099, 2, 0, 1384578637935, 289249.60964426707);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3099, 3, 0, 1384740637935, 396291.2186665908);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3099, 4, 0, 1384830637935, 875507.9526852258);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3099, 5, 0, 1385007037935, 189782.7814057331);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3099, 6, 0, 1385133037935, 40477.805869251315);
+
+INSERT INTO round_registration(round_id, coder_id, timestamp) VALUES(2001, 3030, '2013-11-19 16:10:37');
+INSERT INTO long_component_state(long_component_state_id, round_id, coder_id) VALUES(3100, 2001, 3030);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3100, 1, 0, 1385025037935, 89515.47832974949);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3100, 2, 0, 1385061037935, 162165.77655387865);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3100, 3, 0, 1385143837935, 963728.5794010955);
+INSERT INTO long_submission(long_component_state_id, submission_number, example, submit_time, submission_points) VALUES(3100, 4, 0, 1385277037935, 2261.6294648180046);
+
+
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3001, 1952, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3002, 2914, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3003, 1418, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3004, 888, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3005, 1608, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3006, 1908, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3007, 2737, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3008, 3887, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3009, 2687, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3010, 2583, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3011, 320, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3012, 35, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3013, 2593, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3014, 1229, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3015, 3829, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3016, 881, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3017, 1040, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3018, 657, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3019, 3272, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3020, 2355, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3021, 2393, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3022, 2281, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3023, 1236, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3024, 2447, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3025, 2293, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3026, 3144, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3027, 1552, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3028, 2777, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3029, 3755, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3030, 3299, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3031, 3611, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3032, 1350, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3033, 1267, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3034, 3053, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3035, 1302, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3036, 2318, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3037, 2677, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3038, 594, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3039, 3275, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3040, 541, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3041, 2863, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3042, 717, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3043, 2731, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3044, 118, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3045, 3573, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3046, 3686, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3047, 822, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3048, 1220, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3049, 3475, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3050, 3595, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3051, 3123, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3052, 3359, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3053, 1678, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3054, 3529, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3055, 192, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3056, 1975, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3057, 2857, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3058, 1223, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3059, 3171, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3060, 2497, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3061, 1508, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3062, 2079, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3063, 1470, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3064, 3099, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3065, 3230, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3066, 731, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3067, 2657, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3068, 1532, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3069, 155, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3070, 840, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3071, 3482, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3072, 829, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3073, 2656, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3074, 2105, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3075, 3783, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3076, 3519, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3077, 1467, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3078, 3835, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3079, 1388, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3080, 1719, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3081, 2528, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3082, 2992, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3083, 3456, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3084, 2365, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3085, 1487, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3086, 2955, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3087, 1282, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3088, 749, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3089, 145, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3090, 3463, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3091, 3913, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3092, 375, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3093, 928, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3094, 1731, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3095, 2872, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3096, 2537, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3097, 998, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3098, 2078, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3099, 3281, 3);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(3100, 1335, 3);
+
+

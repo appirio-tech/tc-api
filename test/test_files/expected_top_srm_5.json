@@ -1,0 +1,21 @@
+{
+  "total": 27,
+  "pageIndex": 3,
+  "pageSize": 2,
+  "data": [
+    {
+      "rank": 5,
+      "name": "school 0048",
+      "country": "country11",
+      "memberCount": 13,
+      "rating": 137.9
+    },
+    {
+      "rank": 6,
+      "name": "school 001",
+      "country": "country13",
+      "memberCount": 13,
+      "rating": 55.5
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+SELECT
+    ual.user_achievement_name AS achievement_name
+FROM
+    coder c, 
+    tcs_dw:user_achievement_xref uax,
+    tcs_dw:user_achievement_rule ual
+WHERE
+    c.coder_id = uax.user_id
+    AND c.handle_lower = LOWER('@ha@')
+    AND uax.user_achievement_rule_id = ual.user_achievement_rule_id
+    AND ((ual.user_achievement_rule_id BETWEEN 109 AND 118) 
+            OR ual.user_achievement_rule_id IN (121,123,125) )
+ORDER BY ual.user_achievement_name asc
+

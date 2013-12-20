@@ -10,6 +10,8 @@
  * Changes in 1.3:
  * - add routes for all stub methods
  * - add routes for cache test
+ * Changes in 1.4:
+ * - reorder route for studio contest details
  */
 
 /* ---------------------
@@ -82,6 +84,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
+        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioContest" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
         
         //example secure route using oauth. for future reference.
@@ -101,7 +104,6 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/:handle", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
         { path: "/:apiVersion/design/statistics/:handle", action: "getStudioStatistics" },
-        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioContest" },
         { path: "/:apiVersion/design/challengetypes", action: "studioContestTypes" },
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsContestTypes" },
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },

@@ -1,0 +1,5 @@
+{
+  "name"    : "topcoder_dw__clean",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "topcoder_dw__clean"
+}

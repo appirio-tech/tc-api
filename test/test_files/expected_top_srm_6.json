@@ -1,0 +1,19 @@
+{
+  "total": 20,
+  "pageIndex": 3,
+  "pageSize": 2,
+  "data": [
+    {
+      "rank": 5,
+      "country": "country6",
+      "memberCount": 26,
+      "rating": 123.66
+    },
+    {
+      "rank": 6,
+      "country": "country18",
+      "memberCount": 24,
+      "rating": 88.51
+    }
+  ]
+}

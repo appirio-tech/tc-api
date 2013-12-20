@@ -1,0 +1,5 @@
+SELECT 
+user_achievement_name
+FROM user_achievement_xref uax, user_achievement_rule uar, coder c 
+WHERE uax.user_id = c.coder_id AND uax.user_achievement_rule_id = uar.user_achievement_rule_id 
+AND uar.user_achievement_type_id = 1 AND LOWER(c.handle) = LOWER('@ha@')

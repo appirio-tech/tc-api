@@ -1,0 +1,10 @@
+SELECT c.handle
+     , rr.final_points AS score
+     , rr.division_placed AS placed
+     , rr.room_id AS room
+     , dl.division_desc AS division
+  FROM coder c
+       JOIN room_result AS rr ON rr.coder_id =c.coder_id
+       JOIN division_lu AS dl ON dl.division_id = rr.division_id
+WHERE c.status = 'A' AND rr.round_id = @rd@ AND rr.division_placed <= @er@
+ORDER BY rr.division_id, final_points DESC

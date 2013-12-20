@@ -1,0 +1,35 @@
+﻿{
+  "challengeType": "Banners/Icons",
+  "challengeName": "Studio Contest 5",
+  "detailedRequirements": "",
+  "prize": [
+    1000,
+    500,
+    200
+  ],
+  "numberOfCheckpointsPrizes" : 1,
+  "topCheckPointPrize": 250,
+  "digitalRunPoints": 450,
+  "currentPhaseEndDate": "2013-11-03T00:00:00.000Z",
+  "currentStatus": "Complete",
+  "checkpoints": [
+    {
+      "submissionId": 10042,
+      "submitter": "user"
+    }
+  ],
+  "submissions": [
+    {
+      "submissionId": 10041,
+      "submitter": "super"
+    }
+  ],
+  "winners": [
+    {
+      "submissionId": 10041,
+      "submitter": "super",
+      "points": 450,
+      "rank": 1
+    }
+  ]
+}
