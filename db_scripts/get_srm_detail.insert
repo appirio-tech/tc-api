@@ -1,0 +1,138 @@
+DATABASE topcoder_dw;
+
+INSERT INTO round_type_lu(round_type_id,round_type_desc) VALUES(1,'Single Round Match');
+INSERT INTO round_type_lu(round_type_id,round_type_desc) VALUES(2,'Tournament Round');
+INSERT INTO round_type_lu(round_type_id,round_type_desc) VALUES(10,'Long Round');
+
+INSERT INTO division_lu(division_id,division_desc) VALUES(1,'Division-I');
+INSERT INTO division_lu(division_id,division_desc) VALUES(2,'Division-II');
+
+INSERT INTO level_lu(level_id,level,level_desc) VALUES(1,'One','Level One');
+INSERT INTO level_lu(level_id,level,level_desc) VALUES(2,'Two','Level Two');
+INSERT INTO level_lu(level_id,level,level_desc) VALUES(3,'Three','Level Three');
+
+INSERT INTO coder(coder_id,handle,status) VALUES(132457,'super','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(132458,'user','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124764,'Hung','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124772,'Partha','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124766,'twight','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124776,'sandking','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124834,'lightspeed','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124835,'reassembler','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124836,'annej9ny','A');
+INSERT INTO coder(coder_id,handle,status) VALUES(124852,'plinehan','A');
+
+INSERT INTO calendar(calendar_id,date) VALUES(10011,'2013-10-15');
+INSERT INTO calendar(calendar_id,date) VALUES(10012,'2013-11-12');
+
+INSERT INTO contest(contest_id,name) VALUES(10001,'Single Round Match 20000');
+INSERT INTO contest(contest_id,name) VALUES(10002,'Hello Kitty World Cup Final');
+
+INSERT INTO round(round_id,contest_id,name,short_name,failed,calendar_id,round_type_id) VALUES(20000,10001,'Round 1','Round 1',0,10011,1);
+INSERT INTO round(round_id,contest_id,name,short_name,failed,calendar_id,round_type_id) VALUES(20001,10002,'Round 1','Round 1',0,10012,2);
+
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(1,20000,'Room 1',1);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(2,20000,'Room 2',1);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(3,20000,'Room 3',1);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(4,20000,'Room 4',1);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(5,20000,'Room 5',2);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(6,20000,'Room 6',2);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(7,20000,'Room 7',2);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(8,20000,'Room 8',2);
+
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,1,132457,2650,1211.11,1,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,2,132458,2539,1111.11,2,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,3,124764,2210,1011.11,3,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,4,124772,2009,411.11,4,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,1,124766,1100,211.11,5,1);
+
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,5,124776,1409,1211.11,1,2);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,6,124834,1288,1111.11,2,2);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,7,124835,1119,1011.11,3,2);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,8,124836,890,411.11,4,2);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20000,5,124852,809,211.11,5,2);
+
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(1,20000,'GuessNumber',1,1,1,'getNumber');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(2,20000,'GetSum',2,1,1,'sum');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(3,20000,'HelloWorld',3,1,1,'hello');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(4,20000,'BestBuy',1,2,18,'buy');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(5,20000,'GoodBoy',2,2,1,'collect');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(6,20000,'GoHome',3,2,1,'run');
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132457,20000,1,1,250.0,250.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132457,20000,1,2,450.0,450.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132457,20000,1,3,511.11,511.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132458,20000,1,2,300.0,300.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132458,20000,1,3,811.11,811.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124764,20000,1,1,250.0,0.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124764,20000,1,2,300.0,300.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124764,20000,1,3,711.11,711.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124772,20000,1,2,411.11,411.11);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124772,20000,1,1,211.11,0.0);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124766,20000,1,2,411.11,0.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124766,20000,1,1,211.11,211.11);
+
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124776,20000,2,4,250.0,250.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124776,20000,2,5,450.0,450.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124776,20000,2,6,511.11,511.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124834,20000,2,5,300.0,300.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124834,20000,2,6,811.11,811.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124835,20000,2,4,250.0,0.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124835,20000,2,5,300.0,300.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124835,20000,2,6,711.11,711.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124836,20000,2,4,211.11,0.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124836,20000,2,5,411.11,411.11);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124852,20000,2,4,211.11,211.11);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124852,20000,2,5,411.11,0.0);
+
+
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(11,20001,'Room 1',1);
+INSERT INTO room(room_id,round_id,name,division_id) VALUES(12,20001,'Room 2',1);
+
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,11,132457,2600,1293.33,1,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,12,132458,2599,516.33,2,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,11,124764,2200,430.01,3,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,12,124772,2199,332.89,4,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,11,124766,1500,256.58,5,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,12,124776,1499,196.22,6,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,11,124834,1200,182.85,7,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,12,124835,1199,174.46,8,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,11,124836,900,117.35,9,1);
+INSERT INTO room_result(round_id,room_id,coder_id,new_rating,final_points,division_placed,division_id) VALUES(20001,12,124852,899,0.0,10,1);
+
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(11,20001,'Mountain',1,1,14,'getHeight');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(12,20001,'River',2,1,15,'getLength');
+INSERT INTO problem(problem_id,round_id,class_name,level_id,division_id,result_type_id,method_name) VALUES(13,20001,'Elephant',3,1,18,'getWeight');
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132457,20001,1,11,266.65,266.65);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132457,20001,1,12,427.89,427.89);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132457,20001,1,13,573.79,573.79);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124764,20001,1,11,229.82,229.82);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124764,20001,1,12,286.51,286.51);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124764,20001,1,13,858.76,0.0);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124772,20001,1,11,155.47,155.47);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124772,20001,1,12,274.54,274.54);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124766,20001,1,11,232.89,232.89);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124766,20001,1,13,349.22,0.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124776,20001,1,12,256.58,256.58);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124834,20001,1,11,196.22,196.22);
+
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124835,20001,1,11,182.85,182.85);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124835,20001,1,13,457.18,0.0);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124836,20001,1,11,174.46,174.46);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(124852,20001,1,11,117.35,117.35);
+INSERT INTO coder_problem(coder_id,round_id,division_id,problem_id,submission_points,final_points) VALUES(132458,20001,1,13,378.76,0.0);
+
+

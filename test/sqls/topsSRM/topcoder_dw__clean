@@ -1,0 +1,10 @@
+DELETE FROM school_coder_rank;
+DELETE FROM coder_rank;
+DELETE FROM country_coder_rank;
+DELETE FROM country;
+DELETE FROM algo_rating;
+DELETE FROM coder;
+DELETE FROM school;
+DELETE FROM coder_rank_type_lu;
+DELETE FROM algo_rating_type_lu;
+DELETE FROM language_lu;

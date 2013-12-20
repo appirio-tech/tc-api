@@ -1,0 +1,50 @@
+﻿{
+    "1": {
+      "roundId": 1,
+      "name": "SRM 1",
+      "startDate": "2010-01-05T00:00:00.000Z",
+      "totalCompetitors": 150,
+      "divICompetitors": 100,
+      "divIICompetitors": 50,
+      "divITotalSolutionsSubmitted": 290,
+      "divIAverageSolutionsSubmitted": 2.9,
+      "divIITotalSolutionsSubmitted": 100,
+      "divIIAverageSolutionsSubmitted": 2,
+      "divITotalSolutionsChallenged": 50,
+      "divIAverageSolutionsChallenged": 0.5,
+      "divIITotalSolutionsChallenged": 50,
+      "divIIAverageSolutionsChallenged": 1
+    },
+    "2": {
+      "roundId": 2,
+      "name": "SRM 2",
+      "startDate": "2010-01-12T00:00:00.000Z",
+      "totalCompetitors": 180,
+      "divICompetitors": 120,
+      "divIICompetitors": 60,
+      "divITotalSolutionsSubmitted": 290,
+      "divIAverageSolutionsSubmitted": 2.42,
+      "divIITotalSolutionsSubmitted": 100,
+      "divIIAverageSolutionsSubmitted": 1.67,
+      "divITotalSolutionsChallenged": 50,
+      "divIAverageSolutionsChallenged": 0.42,
+      "divIITotalSolutionsChallenged": 50,
+      "divIIAverageSolutionsChallenged": 0.83
+    },
+    "3": {
+      "roundId": 3,
+      "name": "SRM 3",
+      "startDate": "2010-01-19T00:00:00.000Z",
+      "totalCompetitors": 210,
+      "divICompetitors": 200,
+      "divIICompetitors": 10,
+      "divITotalSolutionsSubmitted": 290,
+      "divIAverageSolutionsSubmitted": 1.45,
+      "divIITotalSolutionsSubmitted": 15,
+      "divIIAverageSolutionsSubmitted": 1.5,
+      "divITotalSolutionsChallenged": 50,
+      "divIAverageSolutionsChallenged": 0.25,
+      "divIITotalSolutionsChallenged": 50,
+      "divIIAverageSolutionsChallenged": 5
+    }
+}

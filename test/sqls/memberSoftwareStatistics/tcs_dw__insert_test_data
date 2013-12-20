@@ -1,0 +1,373 @@
+﻿
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 1, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 2, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 6, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 11, CURRENT);
+INSERT INTO 'informix'.user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 16, CURRENT);
+
+
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 112, 3, 1577);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 113, 102, 478);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 114, 347, 1897);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 115, 249, 1647);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 116, 206, 2457);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 117, 231, 1789);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 118, 65, 1628);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 119, 416, 1838);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 120, 194, 114);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 121, 3, 689);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 124, 498, 2088);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 125, 476, 428);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 126, 365, 2304);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 127, 16, 2296);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 128, 126, 748);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 129, 430, 1291);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 130, 143, 505);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 131, 64, 106);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 132, 199, 1045);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 133, 339, 2267);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 134, 138, 1682);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 135, 80, 959);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 136, 30, 1118);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 137, 389, 2413);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 138, 188, 987);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 139, 15, 406);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 140, 315, 1900);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 141, 146, 2437);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 142, 361, 1463);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 143, 187, 906);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 145, 359, 1695);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 146, 73, 863);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 147, 448, 1389);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 148, 428, 149);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 149, 56, 1082);
+INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 150, 678, 1300);
+
+INSERT INTO user_rank_type_lu(user_rank_type_id, user_rank_type_desc) VALUES(2, 'test rank');
+
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 112, 2, 92.2066, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 113, 2, 65.4464, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 114, 2, 90.3265, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 115, 2, 89.3959, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 116, 2, 72.8029, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 117, 2, 43.8223, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 118, 2, 95.6443, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 119, 2, 2.7691, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 120, 2, 83.208, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 121, 2, 38.1818, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 124, 2, 10.1238, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 125, 2, 28.0868, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 126, 2, 86.0765, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 127, 2, 34.109, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 128, 2, 4.0381, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 129, 2, 3.558, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 130, 2, 39.5218, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 131, 2, 0.3328, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 132, 2, 70.7303, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 133, 2, 35.6456, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 134, 2, 96.4383, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 135, 2, 39.2549, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 136, 2, 29.487, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 137, 2, 21.7916, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 138, 2, 68.9562, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 139, 2, 31.5656, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 140, 2, 82.0141, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 141, 2, 41.6022, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 142, 2, 82.2494, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 143, 2, 68.4148, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 145, 2, 72.6357, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 146, 2, 73.8788, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 147, 2, 29.1246, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 148, 2, 87.7754, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 149, 2, 95.7754, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 150, 2, 23.7754, 1);
+
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 112, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 113, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 114, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 115, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 116, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 117, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 118, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 119, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 120, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 121, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 124, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 125, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 126, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 127, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 128, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 129, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 130, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 131, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 132, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 133, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 134, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 135, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 136, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 137, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 138, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 139, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 140, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 141, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 142, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 143, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 145, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 146, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 147, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 148, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 149, 2, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 150, 2, 10, 1);
+
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 112, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 113, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 114, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 115, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 116, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 117, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 118, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 119, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 120, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 121, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 124, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 125, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 126, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 127, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 128, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 129, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 130, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 131, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 132, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 133, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 134, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 135, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 136, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 137, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 138, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 139, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 140, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 141, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 142, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 143, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 145, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 146, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 147, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 148, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 149, 2, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 150, 2, 1, 10);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1001, 4, 112, 'Design');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1002, 4, 112, 'Design');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1003, 4, 112, 'Design');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1004, 4, 112, 'Design');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1005, 4, 112, 'Design');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1001, 132456, 1, 1, 89.63, 5, 1, 2, 1, 2896);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1002, 132456, 0, 0, 33.73, 4, 0, 7, 3, 316);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1003, 132456, 0, 0, 45.96, 5, 0, 9, 2, 2989);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1004, 132456, 0, 0, 56.35, 1, 1, 6, 2, 979);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1005, 132456, 1, 0, 68.93, 5, 0, 1, 0, 2082);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1006, 4, 113, 'Development');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1007, 4, 113, 'Development');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1008, 4, 113, 'Development');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1009, 4, 113, 'Development');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1010, 4, 113, 'Development');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1006, 132456, 1, 1, 21.57, 4, 1, 5, 4, 585);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1007, 132456, 1, 1, 34.37, 4, 1, 3, 0, 1943);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1008, 132456, 1, 1, 87.74, 1, 1, 6, 3, 2696);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1009, 132456, 1, 0, 74.41, 4, 0, 3, 0, 1161);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1010, 132456, 0, 0, 17.91, 5, 0, 1, 0, 2129);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1011, 4, 117, 'Specification');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1012, 4, 117, 'Specification');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1013, 4, 117, 'Specification');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1014, 4, 117, 'Specification');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1015, 4, 117, 'Specification');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1011, 132456, 0, 0, 55.91, 0, 0, 4, 2, 2465);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1012, 132456, 1, 0, 46.44, 5, 0, 5, 3, 1949);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1013, 132456, 0, 0, 71.29, 1, 1, 3, 2, 2458);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1014, 132456, 0, 0, 82.45, 2, 0, 6, 3, 1540);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1015, 132456, 1, 0, 87.33, 1, 1, 3, 1, 288);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1016, 4, 118, 'Architecture');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1017, 4, 118, 'Architecture');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1018, 4, 118, 'Architecture');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1019, 4, 118, 'Architecture');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1020, 4, 118, 'Architecture');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1016, 132456, 1, 1, 28.46, 5, 1, 2, 0, 528);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1017, 132456, 0, 0, 20.31, 5, 0, 1, 0, 439);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1018, 132456, 0, 0, 48.19, 1, 1, 4, 0, 1878);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1019, 132456, 1, 0, 16.88, 0, 0, 4, 2, 1549);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1020, 132456, 1, 1, 90.98, 0, 1, 5, 2, 9);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1021, 4, 120, 'Bug Hunt');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1022, 4, 120, 'Bug Hunt');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1023, 4, 120, 'Bug Hunt');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1024, 4, 120, 'Bug Hunt');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1025, 4, 120, 'Bug Hunt');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1021, 132456, 0, 0, 85.57, 4, 0, 5, 4, 3314);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1022, 132456, 0, 0, 43.9, 0, 0, 2, 0, 101);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1023, 132456, 0, 0, 7.06, 3, 0, 6, 1, 1121);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1024, 132456, 0, 0, 28.13, 3, 0, 4, 0, 2106);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1025, 132456, 0, 0, 90.88, 2, 0, 1, 0, 1836);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1026, 4, 124, 'Test Suites');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1027, 4, 124, 'Test Suites');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1028, 4, 124, 'Test Suites');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1029, 4, 124, 'Test Suites');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1030, 4, 124, 'Test Suites');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1026, 132456, 1, 1, 50.11, 0, 1, 2, 0, 2924);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1027, 132456, 0, 0, 68.34, 5, 0, 4, 1, 1406);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1028, 132456, 1, 0, 60.58, 4, 0, 4, 0, 1873);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1029, 132456, 1, 1, 4.55, 1, 1, 5, 0, 257);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1030, 132456, 0, 0, 2.71, 5, 0, 4, 1, 935);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1031, 4, 125, 'Assembly Competition');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1032, 4, 125, 'Assembly Competition');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1033, 4, 125, 'Assembly Competition');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1034, 4, 125, 'Assembly Competition');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1035, 4, 125, 'Assembly Competition');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1031, 132456, 1, 0, 98.57, 3, 0, 1, 0, 762);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1032, 132456, 1, 0, 20.92, 1, 1, 8, 2, 220);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1033, 132456, 1, 0, 34.46, 5, 0, 6, 5, 978);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1034, 132456, 0, 0, 88.2, 2, 0, 8, 7, 567);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1035, 132456, 1, 1, 6.79, 4, 1, 7, 2, 3231);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1036, 4, 130, 'UI Prototypes');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1037, 4, 130, 'UI Prototypes');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1038, 4, 130, 'UI Prototypes');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1039, 4, 130, 'UI Prototypes');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1040, 4, 130, 'UI Prototypes');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1036, 132456, 0, 0, 57.67, 0, 0, 3, 0, 568);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1037, 132456, 1, 0, 10.58, 3, 0, 1, 0, 3495);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1038, 132456, 0, 0, 23.52, 4, 0, 10, 6, 59);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1039, 132456, 1, 0, 85.94, 2, 0, 6, 1, 470);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1040, 132456, 1, 0, 19.49, 2, 0, 4, 1, 3333);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1041, 4, 134, 'Conceptualization');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1042, 4, 134, 'Conceptualization');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1043, 4, 134, 'Conceptualization');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1044, 4, 134, 'Conceptualization');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1045, 4, 134, 'Conceptualization');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1041, 132456, 0, 0, 47.84, 1, 1, 6, 0, 1045);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1042, 132456, 0, 0, 14.05, 5, 0, 5, 0, 2730);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1043, 132456, 1, 0, 71.92, 1, 1, 9, 6, 1846);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1044, 132456, 0, 0, 19.21, 1, 1, 3, 1, 947);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1045, 132456, 1, 1, 20.53, 5, 1, 7, 0, 998);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1046, 4, 135, 'RIA Build');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1047, 4, 135, 'RIA Build');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1048, 4, 135, 'RIA Build');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1049, 4, 135, 'RIA Build');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1050, 4, 135, 'RIA Build');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1046, 132456, 1, 0, 57.08, 5, 0, 3, 1, 3345);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1047, 132456, 1, 1, 98.97, 5, 1, 10, 8, 1176);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1048, 132456, 1, 1, 93.46, 1, 1, 5, 2, 3480);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1049, 132456, 1, 1, 81.05, 5, 1, 5, 0, 3119);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1050, 132456, 0, 0, 60.95, 2, 0, 9, 5, 2402);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1051, 4, 136, 'RIA Component');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1052, 4, 136, 'RIA Component');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1053, 4, 136, 'RIA Component');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1054, 4, 136, 'RIA Component');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1055, 4, 136, 'RIA Component');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1051, 132456, 0, 0, 9.11, 4, 0, 9, 6, 2628);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1052, 132456, 0, 0, 98.45, 0, 0, 7, 6, 79);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1053, 132456, 1, 0, 31.97, 2, 0, 7, 0, 2912);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1054, 132456, 0, 0, 17.34, 4, 0, 3, 1, 874);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1055, 132456, 1, 0, 86.09, 1, 1, 7, 6, 3418);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1056, 4, 137, 'Test Scenarios');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1057, 4, 137, 'Test Scenarios');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1058, 4, 137, 'Test Scenarios');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1059, 4, 137, 'Test Scenarios');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1060, 4, 137, 'Test Scenarios');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1056, 132456, 0, 0, 19.49, 0, 0, 5, 1, 429);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1057, 132456, 1, 1, 46.81, 5, 1, 5, 4, 2141);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1058, 132456, 1, 1, 31.08, 3, 1, 7, 0, 1410);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1059, 132456, 0, 0, 49.2, 1, 1, 5, 2, 2514);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1060, 132456, 1, 0, 75.2, 5, 0, 1, 0, 515);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1061, 4, 140, 'Copilot Posting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1062, 4, 140, 'Copilot Posting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1063, 4, 140, 'Copilot Posting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1064, 4, 140, 'Copilot Posting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1065, 4, 140, 'Copilot Posting');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1061, 132456, 1, 1, 67.03, 1, 1, 7, 1, 1604);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1062, 132456, 1, 0, 19.03, 1, 1, 7, 0, 2601);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1063, 132456, 0, 0, 82.26, 1, 1, 10, 6, 2627);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1064, 132456, 1, 1, 44.91, 2, 1, 2, 1, 1513);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1065, 132456, 0, 0, 85.75, 2, 0, 6, 2, 1418);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1066, 4, 146, 'Content Creation');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1067, 4, 146, 'Content Creation');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1068, 4, 146, 'Content Creation');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1069, 4, 146, 'Content Creation');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1070, 4, 146, 'Content Creation');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1066, 132456, 0, 0, 87.87, 3, 0, 8, 3, 2001);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1067, 132456, 0, 0, 98.66, 1, 1, 10, 0, 329);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1068, 132456, 1, 0, 14.53, 4, 0, 6, 3, 2530);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1069, 132456, 1, 0, 84.56, 4, 0, 3, 1, 2685);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1070, 132456, 1, 1, 37.04, 2, 1, 8, 3, 3021);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1071, 4, 147, 'Reporting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1072, 4, 147, 'Reporting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1073, 4, 147, 'Reporting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1074, 4, 147, 'Reporting');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1075, 4, 147, 'Reporting');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1071, 132456, 1, 1, 46.2, 5, 1, 9, 1, 457);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1072, 132456, 0, 0, 78.58, 4, 0, 2, 1, 1619);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1073, 132456, 0, 0, 4.89, 2, 0, 6, 5, 3017);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1074, 132456, 0, 0, 22.41, 0, 0, 5, 4, 750);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1075, 132456, 0, 0, 20.14, 5, 0, 7, 2, 3270);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1076, 4, 148, 'Marathon Match');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1077, 4, 148, 'Marathon Match');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1078, 4, 148, 'Marathon Match');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1079, 4, 148, 'Marathon Match');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1080, 4, 148, 'Marathon Match');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1076, 132456, 1, 0, 18.1, 1, 1, 10, 4, 906);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1077, 132456, 0, 0, 91.08, 2, 0, 3, 0, 176);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1078, 132456, 1, 1, 3.32, 0, 1, 1, 0, 1175);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1079, 132456, 1, 1, 85.66, 1, 1, 3, 0, 810);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1080, 132456, 0, 0, 3.51, 4, 0, 4, 1, 3300);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1081, 4, 149, 'First2Finish');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1082, 4, 149, 'First2Finish');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1083, 4, 149, 'First2Finish');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1084, 4, 149, 'First2Finish');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1085, 4, 149, 'First2Finish');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1081, 132456, 0, 0, 74.46, 0, 0, 6, 5, 838);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1082, 132456, 1, 1, 37.69, 0, 1, 9, 3, 891);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1083, 132456, 0, 0, 63.1, 1, 1, 6, 3, 97);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1084, 132456, 0, 0, 70.53, 0, 0, 6, 4, 2667);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1085, 132456, 1, 1, 0.73, 5, 1, 2, 1, 462);
+
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1086, 4, 150, 'Code');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1087, 4, 150, 'Code');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1088, 4, 150, 'Code');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1089, 4, 150, 'Code');
+INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1090, 4, 150, 'Code');
+
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1086, 132456, 1, 1, 82.76, 0, 1, 3, 2, 2721);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1087, 132456, 1, 1, 17.49, 4, 1, 1, 0, 429);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1088, 132456, 0, 0, 3.98, 1, 1, 9, 5, 2564);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1089, 132456, 0, 0, 86.64, 3, 0, 10, 2, 3375);
+INSERT INTO project_result(project_id, user_id, submit_ind, valid_submission_ind, final_score, placed, passed_review_ind, num_appeals, num_successful_appeals, new_rating) VALUES(1090, 132456, 1, 0, 8.72, 3, 0, 4, 1, 1834);

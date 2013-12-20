@@ -1,0 +1,5 @@
+{
+  "name"    : "get_top_ranked_marathon_members_school_count",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_top_ranked_marathon_members_school_count"
+}

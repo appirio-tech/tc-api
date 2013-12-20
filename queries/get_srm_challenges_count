@@ -1,0 +1,5 @@
+SELECT COUNT(*) AS totalCount
+FROM contest AS c 
+JOIN round r ON c.contest_id = r.contest_id
+JOIN calendar AS cal ON cal.calendar_id = r.calendar_id
+WHERE r.round_type_id IN (1,2,10)

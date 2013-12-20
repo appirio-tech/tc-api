@@ -1,0 +1,1 @@
+﻿DELETE FROM long_comp_result where round_id = 2001 and placed = 1

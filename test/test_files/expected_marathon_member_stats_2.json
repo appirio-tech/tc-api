@@ -1,0 +1,26 @@
+{
+  "handle": "Hung",
+  "rating": 2868,
+  "percentile": "N/A",
+  "rank": "not ranked",
+  "countryRank": "not ranked",
+  "schoolRank": "not ranked",
+  "volatility": 311,
+  "maximumRating": 2890,
+  "minimumRating": 1527,
+  "defaultLanguage": "Java",
+  "competitions": 72,
+  "mostRecentEventName": "TCO13 Championship Round",
+  "mostRecentEventDate": "2013-11-11T00:00:00.000Z",
+  "bestRank": 1,
+  "wins": 1,
+  "topFiveFinishes": 3,
+  "topTenFinishes": 5,
+  "avgRank": 6.83,
+  "avgNumSubmissions": 13.17,
+  "achievements": [
+    "First Marathon Competition",
+    "First Marathon Top-5 Placement",
+    "Marathon Target"
+  ]
+}

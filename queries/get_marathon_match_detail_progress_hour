@@ -1,0 +1,40 @@
+
+SELECT 
+  sub.date
+, NVL(sub.top_score, 0.0) AS currentTopProvisionalScore
+, NVL(sub.num_submissions, 0) AS currentNoOfSubmissions
+, uu.handle AS topUserHandle
+FROM
+round r 
+LEFT JOIN (
+  SELECT
+    rs.start_time + (((dbinfo("UTC_TO_DATETIME", ls.submit_time/1000) - rs.start_time)::INTERVAL HOUR(9) TO HOUR) + 1 UNITS HOUR) AS date
+  , lcs.round_id
+  , COUNT(*) AS num_submissions
+  , MAX(ls.submission_points) AS top_score
+  FROM 
+    long_component_state lcs 
+  , long_submission ls
+  , user u 
+  , round_segment rs
+  WHERE ls.example = 0 
+  AND lcs.coder_id = u.user_id 
+  AND ls.long_component_state_id = lcs.long_component_state_id
+  AND rs.segment_id = 1
+  AND rs.round_id = lcs.round_id
+  GROUP BY 1, 2
+) sub ON sub.round_id = r.round_id
+LEFT JOIN (
+  SELECT 
+    u.handle
+  , ls.submission_points
+  , lcs.round_id
+  FROM 
+  user u 
+  , long_submission ls
+  , long_component_state lcs
+  WHERE u.user_id = lcs.coder_id
+  AND lcs.long_component_state_id = ls.long_component_state_id
+) uu ON uu.submission_points = sub.top_score AND uu.round_id = r.round_id
+WHERE r.round_id = @rd@
+ORDER BY sub.date ASC

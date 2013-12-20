@@ -1,4 +1,3 @@
-
 SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
      , pcl.description AS challengeType
      , pn.value AS challengeName
@@ -10,6 +9,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
      , pc3.parameter AS screeningScorecardId
      , pc4.parameter AS reviewScorecardId
      , pi70.value AS cmcTaskId
+     , pi4.value AS forumId
      , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS numberOfCheckpointsPrizes
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14 AND pr.place = 1)::DECIMAL(10,2) AS topCheckpointPrize
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1)::DECIMAL(10,2) AS prize1
@@ -35,6 +35,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
      , NVL(pp6.scheduled_end_time, pp4.scheduled_end_time) AS appealsEndDate
      , NVL(pp9.scheduled_end_time, pp4.scheduled_end_time) finalFixEndDate
      , nd_phase.scheduled_end_time AS currentPhaseEndDate
+     , pstatus.name AS currentStatus
      , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
                 (SELECT phase_type_lu.description FROM phase_type_lu
                 WHERE phase_type_id = nd_phase.phase_type_id)
@@ -44,6 +45,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
        NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id)) 
        ELSE NULL END AS digitalRunPoints
   FROM project p
+     , project_status_lu pstatus
      , project_spec ps
      , project_phase pp1 --registration phase
      , project_phase pp2 --submission phase
@@ -60,8 +62,10 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
      , project_info pi16
      , outer project_info pi70 --cmc taskid
      , project_category_lu pcl
+     , outer project_info pi4 --forum id
  WHERE 1=1
    AND p.project_id = @contestId@
+   AND p.project_status_id = pstatus.project_status_id
    AND p.project_id = pn.project_id
    AND pn.project_info_type_id = 6
    AND pp1.project_id = p.project_id
@@ -74,6 +78,7 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
    AND pp15.phase_type_id = 15 --checkpoint submission phase
    AND pp9.project_id = p.project_id
    AND pp9.phase_type_id = 9  --final fix phase
+   AND pp9.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_type_id = 9) --last final fix only
    AND pi16.project_info_type_id = 16  --payments
    AND pi16.project_id = p.project_id
    AND pp3.project_id = p.project_id
@@ -88,9 +93,10 @@ SELECT (p.project_studio_spec_id IS NOT NULL) AS is_studio
    AND pidr.project_info_type_id = 26  --digital run
    AND pi70.project_id = p.project_id
    AND pi70.project_info_type_id = 70  --cmc project id
+   AND pi4.project_id = p.project_id
+   AND pi4.project_info_type_id = 4  --forum id
    AND p.project_Id = nd_phase.project_id
-   AND nd_phase.phase_type_id = (SELECT phase_type_id FROM project_phase WHERE project_id = p.project_id AND actual_start_time = (SELECT min(actual_start_time)
-                                                                    FROM project_phase WHERE phase_status_id = 2 AND project_id = p.project_id AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12)))
+   AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
    AND p.project_category_id = pcl.project_category_id
    AND pcl.project_type_id IN (1, 2)
    AND ps.project_id = p.project_id

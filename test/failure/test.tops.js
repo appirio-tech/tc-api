@@ -29,22 +29,6 @@ describe('Get Tops Statistics API - ', function () {
     // Test the topsData /v2/develop/statistics/tops/ for failures
     describe('GET /v2/develop/statistics/tops: ', function () {
 
-        /// Check if the data are in expected struture and data
-        it('missing contestType - should response api error', function (done) {
-            request = request(API_ENDPOINT);
-
-            request = request.get('/v2/develop/statistics/tops')
-                .set('Accept', 'application/json');
-
-            // should respond with JSON
-            request.expect('Content-Type', /json/);
-
-            // should respond with 200 status
-            request.expect(200);
-
-            // end request
-            request.end(done);
-        });
 
         /// Check if the data are in expected struture and data
         it('incorrect contestType - should response with bad request', function (done) {
