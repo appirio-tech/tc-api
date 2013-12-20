@@ -196,8 +196,8 @@ exports.getMarathonTops = {
     name: "getMarathonTops",
     description: "getMarathonTops",
     inputs: {
-        required: [],
-        optional: ["rankType", "pageIndex", "pageSize"]
+        required: ["rankType"],
+        optional: ["pageIndex", "pageSize"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -323,8 +323,8 @@ exports.getSRMTops = {
     name: "getSRMTops",
     description: "getSRMTops",
     inputs: {
-        required: [],
-        optional: ["rankType", "pageIndex", "pageSize"]
+        required: ["rankType"],
+        optional: ["pageIndex", "pageSize"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
