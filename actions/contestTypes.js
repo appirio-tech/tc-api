@@ -10,14 +10,13 @@
 
 /**
  * This is the function that actually get the contest types.
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function} next The callback to be called after this function is done
  */
-var getContestTypes = function (api, connection, dbConnectionMap, next) {
-    api.dataAccess.executeQuery("get_contest_types", {}, dbConnectionMap, function (err, result) {
+var getContestTypes = function (api, connection, next) {
+    api.dataAccess.executeQuery("get_contest_types", {}, connection.dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occured: " + err + " " + (err.stack || ''), "error");
@@ -58,9 +57,9 @@ exports.contestTypes = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute contestTypes#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, next);
+            getContestTypes(api, connection, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -86,9 +85,9 @@ exports.contestTypesSecured = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute contestTypesSecured#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, next);
+            getContestTypes(api, connection, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;

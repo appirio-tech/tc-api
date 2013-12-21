@@ -351,15 +351,15 @@ function transferResult(src) {
 
 /**
  * This is the function that actually search contests
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  * @param {Boolean} software - The flag if search only software contests
  */
-var searchContests = function (api, connection, dbConnectionMap, next, software) {
+var searchContests = function (api, connection, next, software) {
     var helper = api.helper,
+    	dbConnectionMap = connection.dbConnectionMap,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
             "prizeUpperBound", "cmc"],
@@ -466,14 +466,13 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
 
 /**
  * This is the function that actually search contests
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var getContest = function (api, connection, dbConnectionMap, next) {
-    var contest, error, helper = api.helper, sqlParams;
+var getContest = function (api, connection, next) {
+    var contest, error, helper = api.helper, sqlParams, dbConnectionMap = connection.dbConnectionMap;
     async.waterfall([
         function (cb) {
             error = helper.checkInteger(Number(connection.params.contestId));
@@ -512,11 +511,11 @@ var getContest = function (api, connection, dbConnectionMap, next) {
                 currentStatus : data.currentstatus,
                 currentPhaseName : convertNull(data.currentphasename),
                 digitalRunPoints: data.digitalrunpoints,
-                
-                //TODO: move these out to constants and/or helper 
+
+                //TODO: move these out to constants and/or helper
                 reliabilityBonus: _.isNumber(data.prize1) ? data.prize1 * 0.2 : 0,
                 directUrl : 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + data.challengeid,
-                
+
                 prize: [],
                 registrants: [],
                 submissions: []
@@ -591,9 +590,9 @@ exports.getContest = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getContest#run", 'debug');
-            getContest(api, connection, this.dbConnectionMap, next);
+            getContest(api, connection, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -619,9 +618,9 @@ exports.searchSoftwareContests = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute searchContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, true);
+            searchContests(api, connection, next, true);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -629,4 +628,115 @@ exports.searchSoftwareContests = {
             next(connection, true);
         }
     }
+};
+
+/**
+ * The API for searching contests
+ */
+exports.searchStudioContests = {
+    name: "searchStudioContests",
+    description: "searchStudioContests",
+    inputs: {
+        required: [],
+        optional: ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute searchStudioContests#run", 'debug');
+            searchContests(api, connection, next, false);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
+    }
+};
+
+/**
+ * Sample result from specification for Get Studio Contest Detail
+ */
+var sampleStudioContest;
+
+/**
+ * The API for getting studio contest
+ */
+exports.getStudioContest = {
+    name: "getStudioContest",
+    description: "getStudioContest",
+    inputs: {
+        required: ["contestId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    run: function (api, connection, next) {
+        api.log("Execute getStudioContest#run", 'debug');
+        connection.response = sampleStudioContest;
+        next(connection, true);
+    }
+};
+
+
+sampleStudioContest = {
+    "type": "Web Design",
+    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+    "description": "Welcome to ¡°Cornell ¨C Responsive Storyboard Economics Site Redesign contest¡±. " +
+        "The goal of this contest  is to redesign look and feel for one of our college site departments " +
+        "(economics) using base design and customer feedback provided in this contest. There are two pages " +
+        "that needs to be redesigned a",
+    "prize": [1000, 250],
+    "milestone": {
+        "prize": 100,
+        "number": 5
+    },
+    "points": 500,
+    "nextDeadlineTime": "10.31.2013 10:10 EDT",
+    "nextDeadlineName": "Checkpoint Submission Deadline",
+    "checkpoints": [
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        },
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        }
+    ],
+    "submissions": [
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        },
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT"
+        }
+    ],
+    "winners": [
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT",
+            "points": 50,
+            "rank": 1
+        },
+        {
+            "submissionId": 12345,
+            "submitter": "iamtong",
+            "submissionTime": "10.31.2013 10:10 EDT",
+            "points": 50,
+            "rank": 2
+        }
+    ]
 };

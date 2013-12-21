@@ -1,2 +1,2 @@
-user_id, social_login_provider_id, social_user_name, social_email, social_email_verified 
+select user_id, social_login_provider_id, social_user_name, social_email, social_email_verified
 from user_social_login where user_id=22758854
