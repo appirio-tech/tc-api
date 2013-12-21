@@ -1,0 +1,26 @@
+SELECT 
+  COUNT(*) as totalCount
+FROM 
+  round r
+, contest c
+, long_comp_result lcr
+, coder co
+WHERE r.contest_id = c.contest_id
+AND r.round_type_id IN (10,13,15,19,22,24,25,27)
+AND r.failed = 0
+AND r.round_id = lcr.round_id
+AND co.coder_id = lcr.coder_id
+AND lcr.attended = 'Y'
+AND lcr.placed = 1
+
+AND r.round_id = DECODE(@round_id@, 0, r.round_id, @round_id@)
+AND LOWER(c.name) LIKE (LOWER('%@full_name@%'))
+AND LOWER(r.name) LIKE (LOWER('%@short_name@%'))
+AND LOWER(co.handle) LIKE (LOWER('%@winner_handle@%'))
+AND lcr.system_point_total BETWEEN @score_lower@ AND @score_upper@
+
+AND EXTEND(c.end_date , year to day) <= '@end_time_end@'
+AND EXTEND(c.end_date , year to day) >= '@end_time_start@'
+
+AND EXTEND(c.start_date , year to day) <= '@start_time_end@'
+AND EXTEND(c.start_date , year to day) >= '@start_time_start@'

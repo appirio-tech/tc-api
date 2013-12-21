@@ -1,0 +1,77 @@
+{
+  "total": 27,
+  "pageIndex": 1,
+  "pageSize": 10,
+  "data": [
+    {
+      "rank": 1,
+      "name": "school 0031",
+      "country": "country1",
+      "memberCount": 11,
+      "rating": 767.11
+    },
+    {
+      "rank": 2,
+      "name": "school 0045",
+      "country": "country16",
+      "memberCount": 11,
+      "rating": 545.95
+    },
+    {
+      "rank": 3,
+      "name": "school 0038",
+      "country": "country13",
+      "memberCount": 11,
+      "rating": 278.51
+    },
+    {
+      "rank": 4,
+      "name": "school 008",
+      "country": "country17",
+      "memberCount": 14,
+      "rating": 156.49
+    },
+    {
+      "rank": 5,
+      "name": "school 0048",
+      "country": "country11",
+      "memberCount": 13,
+      "rating": 137.9
+    },
+    {
+      "rank": 6,
+      "name": "school 001",
+      "country": "country13",
+      "memberCount": 13,
+      "rating": 55.5
+    },
+    {
+      "rank": 7,
+      "name": "school 0042",
+      "country": "country19",
+      "memberCount": 12,
+      "rating": 32.41
+    },
+    {
+      "rank": 8,
+      "name": "school 0040",
+      "country": "country1",
+      "memberCount": 14,
+      "rating": 31.4
+    },
+    {
+      "rank": 9,
+      "name": "school 0027",
+      "country": "country16",
+      "memberCount": 15,
+      "rating": 23.52
+    },
+    {
+      "rank": 10,
+      "name": "school 0036",
+      "country": "country17",
+      "memberCount": 15,
+      "rating": 22.55
+    }
+  ]
+}

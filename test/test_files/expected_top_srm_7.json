@@ -1,0 +1,607 @@
+{
+  "total": 100,
+  "pageIndex": 1,
+  "pageSize": 100,
+  "data": [
+    {
+      "rank": 1,
+      "handle": "testUser67",
+      "rating": 2089,
+      "country": "country7"
+    },
+    {
+      "rank": 2,
+      "handle": "testUser19",
+      "rating": 2055,
+      "country": "country5"
+    },
+    {
+      "rank": 3,
+      "handle": "testUser16",
+      "rating": 2020,
+      "country": "country2"
+    },
+    {
+      "rank": 4,
+      "handle": "testUser63",
+      "rating": 2020,
+      "country": "country2"
+    },
+    {
+      "rank": 5,
+      "handle": "testUser47",
+      "rating": 2007,
+      "country": "country5"
+    },
+    {
+      "rank": 6,
+      "handle": "testUser56",
+      "rating": 1987,
+      "country": "country5"
+    },
+    {
+      "rank": 7,
+      "handle": "testUser52",
+      "rating": 1981,
+      "country": "country4"
+    },
+    {
+      "rank": 8,
+      "handle": "testUser74",
+      "rating": 1955,
+      "country": "country8"
+    },
+    {
+      "rank": 9,
+      "handle": "testUser23",
+      "rating": 1953,
+      "country": "country3"
+    },
+    {
+      "rank": 10,
+      "handle": "testUser31",
+      "rating": 1922,
+      "country": "country7"
+    },
+    {
+      "rank": 11,
+      "handle": "testUser70",
+      "rating": 1888,
+      "country": "country5"
+    },
+    {
+      "rank": 12,
+      "handle": "testUser2",
+      "rating": 1857,
+      "country": "country4"
+    },
+    {
+      "rank": 13,
+      "handle": "testUser89",
+      "rating": 1824,
+      "country": "country6"
+    },
+    {
+      "rank": 14,
+      "handle": "testUser1",
+      "rating": 1792,
+      "country": "country1"
+    },
+    {
+      "rank": 15,
+      "handle": "testUser25",
+      "rating": 1786,
+      "country": "country0"
+    },
+    {
+      "rank": 16,
+      "handle": "testUser4",
+      "rating": 1750,
+      "country": "country8"
+    },
+    {
+      "rank": 17,
+      "handle": "testUser49",
+      "rating": 1746,
+      "country": "country9"
+    },
+    {
+      "rank": 18,
+      "handle": "testUser84",
+      "rating": 1720,
+      "country": "country9"
+    },
+    {
+      "rank": 19,
+      "handle": "testUser99",
+      "rating": 1689,
+      "country": "country3"
+    },
+    {
+      "rank": 20,
+      "handle": "testUser92",
+      "rating": 1689,
+      "country": "country8"
+    },
+    {
+      "rank": 21,
+      "handle": "testUser87",
+      "rating": 1683,
+      "country": "country2"
+    },
+    {
+      "rank": 22,
+      "handle": "testUser45",
+      "rating": 1662,
+      "country": "country4"
+    },
+    {
+      "rank": 23,
+      "handle": "testUser64",
+      "rating": 1661,
+      "country": "country7"
+    },
+    {
+      "rank": 24,
+      "handle": "testUser59",
+      "rating": 1625,
+      "country": "country6"
+    },
+    {
+      "rank": 25,
+      "handle": "testUser27",
+      "rating": 1610,
+      "country": "country3"
+    },
+    {
+      "rank": 26,
+      "handle": "testUser86",
+      "rating": 1580,
+      "country": "country9"
+    },
+    {
+      "rank": 27,
+      "handle": "testUser81",
+      "rating": 1565,
+      "country": "country6"
+    },
+    {
+      "rank": 28,
+      "handle": "testUser29",
+      "rating": 1561,
+      "country": "country2"
+    },
+    {
+      "rank": 29,
+      "handle": "testUser66",
+      "rating": 1522,
+      "country": "country3"
+    },
+    {
+      "rank": 30,
+      "handle": "testUser68",
+      "rating": 1511,
+      "country": "country2"
+    },
+    {
+      "rank": 31,
+      "handle": "testUser42",
+      "rating": 1481,
+      "country": "country9"
+    },
+    {
+      "rank": 32,
+      "handle": "testUser62",
+      "rating": 1475,
+      "country": "country5"
+    },
+    {
+      "rank": 33,
+      "handle": "testUser10",
+      "rating": 1452,
+      "country": "country4"
+    },
+    {
+      "rank": 34,
+      "handle": "testUser41",
+      "rating": 1452,
+      "country": "country2"
+    },
+    {
+      "rank": 35,
+      "handle": "testUser21",
+      "rating": 1420,
+      "country": "country9"
+    },
+    {
+      "rank": 36,
+      "handle": "testUser6",
+      "rating": 1382,
+      "country": "country3"
+    },
+    {
+      "rank": 37,
+      "handle": "testUser13",
+      "rating": 1372,
+      "country": "country7"
+    },
+    {
+      "rank": 38,
+      "handle": "testUser94",
+      "rating": 1336,
+      "country": "country3"
+    },
+    {
+      "rank": 39,
+      "handle": "testUser33",
+      "rating": 1308,
+      "country": "country9"
+    },
+    {
+      "rank": 40,
+      "handle": "testUser82",
+      "rating": 1282,
+      "country": "country8"
+    },
+    {
+      "rank": 41,
+      "handle": "testUser76",
+      "rating": 1264,
+      "country": "country6"
+    },
+    {
+      "rank": 42,
+      "handle": "testUser51",
+      "rating": 1230,
+      "country": "country6"
+    },
+    {
+      "rank": 43,
+      "handle": "testUser90",
+      "rating": 1219,
+      "country": "country5"
+    },
+    {
+      "rank": 44,
+      "handle": "testUser80",
+      "rating": 1195,
+      "country": "country3"
+    },
+    {
+      "rank": 45,
+      "handle": "testUser26",
+      "rating": 1166,
+      "country": "country2"
+    },
+    {
+      "rank": 46,
+      "handle": "testUser55",
+      "rating": 1128,
+      "country": "country1"
+    },
+    {
+      "rank": 47,
+      "handle": "testUser69",
+      "rating": 1123,
+      "country": "country3"
+    },
+    {
+      "rank": 48,
+      "handle": "testUser37",
+      "rating": 1114,
+      "country": "country9"
+    },
+    {
+      "rank": 49,
+      "handle": "testUser85",
+      "rating": 1099,
+      "country": "country0"
+    },
+    {
+      "rank": 50,
+      "handle": "testUser0",
+      "rating": 1079,
+      "country": "country2"
+    },
+    {
+      "rank": 51,
+      "handle": "testUser15",
+      "rating": 1046,
+      "country": "country4"
+    },
+    {
+      "rank": 52,
+      "handle": "testUser40",
+      "rating": 1012,
+      "country": "country1"
+    },
+    {
+      "rank": 53,
+      "handle": "testUser11",
+      "rating": 1010,
+      "country": "country1"
+    },
+    {
+      "rank": 54,
+      "handle": "testUser79",
+      "rating": 988,
+      "country": "country7"
+    },
+    {
+      "rank": 55,
+      "handle": "testUser9",
+      "rating": 969,
+      "country": "country2"
+    },
+    {
+      "rank": 56,
+      "handle": "testUser34",
+      "rating": 962,
+      "country": "country7"
+    },
+    {
+      "rank": 57,
+      "handle": "testUser36",
+      "rating": 937,
+      "country": "country8"
+    },
+    {
+      "rank": 58,
+      "handle": "testUser72",
+      "rating": 903,
+      "country": "country1"
+    },
+    {
+      "rank": 59,
+      "handle": "testUser32",
+      "rating": 887,
+      "country": "country5"
+    },
+    {
+      "rank": 60,
+      "handle": "testUser7",
+      "rating": 852,
+      "country": "country2"
+    },
+    {
+      "rank": 61,
+      "handle": "testUser17",
+      "rating": 817,
+      "country": "country7"
+    },
+    {
+      "rank": 62,
+      "handle": "testUser39",
+      "rating": 811,
+      "country": "country2"
+    },
+    {
+      "rank": 63,
+      "handle": "testUser60",
+      "rating": 790,
+      "country": "country3"
+    },
+    {
+      "rank": 64,
+      "handle": "testUser73",
+      "rating": 751,
+      "country": "country7"
+    },
+    {
+      "rank": 65,
+      "handle": "testUser61",
+      "rating": 716,
+      "country": "country2"
+    },
+    {
+      "rank": 66,
+      "handle": "testUser44",
+      "rating": 706,
+      "country": "country3"
+    },
+    {
+      "rank": 67,
+      "handle": "testUser83",
+      "rating": 676,
+      "country": "country3"
+    },
+    {
+      "rank": 68,
+      "handle": "testUser88",
+      "rating": 654,
+      "country": "country3"
+    },
+    {
+      "rank": 69,
+      "handle": "testUser58",
+      "rating": 649,
+      "country": "country7"
+    },
+    {
+      "rank": 70,
+      "handle": "testUser96",
+      "rating": 624,
+      "country": "country1"
+    },
+    {
+      "rank": 71,
+      "handle": "testUser3",
+      "rating": 590,
+      "country": "country7"
+    },
+    {
+      "rank": 72,
+      "handle": "testUser93",
+      "rating": 571,
+      "country": "country1"
+    },
+    {
+      "rank": 73,
+      "handle": "testUser14",
+      "rating": 535,
+      "country": "country9"
+    },
+    {
+      "rank": 74,
+      "handle": "testUser20",
+      "rating": 507,
+      "country": "country7"
+    },
+    {
+      "rank": 75,
+      "handle": "testUser71",
+      "rating": 496,
+      "country": "country4"
+    },
+    {
+      "rank": 76,
+      "handle": "testUser57",
+      "rating": 489,
+      "country": "country5"
+    },
+    {
+      "rank": 77,
+      "handle": "testUser24",
+      "rating": 481,
+      "country": "country6"
+    },
+    {
+      "rank": 78,
+      "handle": "testUser38",
+      "rating": 447,
+      "country": "country6"
+    },
+    {
+      "rank": 79,
+      "handle": "testUser97",
+      "rating": 421,
+      "country": "country6"
+    },
+    {
+      "rank": 80,
+      "handle": "testUser95",
+      "rating": 419,
+      "country": "country6"
+    },
+    {
+      "rank": 81,
+      "handle": "testUser28",
+      "rating": 384,
+      "country": "country7"
+    },
+    {
+      "rank": 82,
+      "handle": "testUser43",
+      "rating": 360,
+      "country": "country8"
+    },
+    {
+      "rank": 83,
+      "handle": "testUser12",
+      "rating": 327,
+      "country": "country2"
+    },
+    {
+      "rank": 84,
+      "handle": "testUser35",
+      "rating": 291,
+      "country": "country9"
+    },
+    {
+      "rank": 85,
+      "handle": "testUser78",
+      "rating": 288,
+      "country": "country1"
+    },
+    {
+      "rank": 86,
+      "handle": "testUser8",
+      "rating": 286,
+      "country": "country2"
+    },
+    {
+      "rank": 87,
+      "handle": "testUser48",
+      "rating": 251,
+      "country": "country7"
+    },
+    {
+      "rank": 88,
+      "handle": "testUser46",
+      "rating": 243,
+      "country": "country6"
+    },
+    {
+      "rank": 89,
+      "handle": "testUser98",
+      "rating": 240,
+      "country": "country2"
+    },
+    {
+      "rank": 90,
+      "handle": "testUser91",
+      "rating": 236,
+      "country": "country7"
+    },
+    {
+      "rank": 91,
+      "handle": "testUser54",
+      "rating": 222,
+      "country": "country3"
+    },
+    {
+      "rank": 92,
+      "handle": "testUser30",
+      "rating": 208,
+      "country": "country0"
+    },
+    {
+      "rank": 93,
+      "handle": "testUser22",
+      "rating": 197,
+      "country": "country9"
+    },
+    {
+      "rank": 94,
+      "handle": "testUser53",
+      "rating": 173,
+      "country": "country5"
+    },
+    {
+      "rank": 95,
+      "handle": "testUser50",
+      "rating": 165,
+      "country": "country5"
+    },
+    {
+      "rank": 96,
+      "handle": "testUser77",
+      "rating": 162,
+      "country": "country5"
+    },
+    {
+      "rank": 97,
+      "handle": "testUser18",
+      "rating": 132,
+      "country": "country9"
+    },
+    {
+      "rank": 98,
+      "handle": "testUser75",
+      "rating": 96,
+      "country": "country7"
+    },
+    {
+      "rank": 99,
+      "handle": "testUser5",
+      "rating": 57,
+      "country": "country2"
+    },
+    {
+      "rank": 100,
+      "handle": "testUser65",
+      "rating": 35,
+      "country": "country6"
+    }
+  ]
+}

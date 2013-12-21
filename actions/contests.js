@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author Sky_, mekanizumu, TCSASSEMBLER
  * @changes from 1.0
  * merged with Member Registration API
@@ -11,6 +11,8 @@
  * 1. Add an optional parameter to search contest api - cmc
  * 2. Display cmc value search contest and contest detail API response.
  * 3. Remove contest description from search contest API response.
+ * changes in 1.3:
+ * 1. move studio API to separated file
  */
 "use strict";
 
@@ -491,6 +493,7 @@ var getContest = function (api, connection, next) {
                 challengeName : data.challengename,
                 challengeId : data.challengeid,
                 projectId : data.projectid,
+                forumId : data.forumid,
                 detailedRequirements : data.detailedrequirements,
                 finalSubmissionGuidelines : data.finalsubmissionguidelines,
                 screeningScorecardId : data.screeningscorecardid,
@@ -505,13 +508,14 @@ var getContest = function (api, connection, next) {
                 appealsEndDate : formatDate(data.appealsenddate),
                 finalFixEndDate : formatDate(data.finalfixenddate),
                 currentPhaseEndDate : formatDate(data.currentphaseenddate),
+                currentStatus : data.currentstatus,
                 currentPhaseName : convertNull(data.currentphasename),
                 digitalRunPoints: data.digitalrunpoints,
-                
-                //TODO: move these out to constants and/or helper 
+
+                //TODO: move these out to constants and/or helper
                 reliabilityBonus: _.isNumber(data.prize1) ? data.prize1 * 0.2 : 0,
                 directUrl : 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + data.challengeid,
-                
+
                 prize: [],
                 registrants: [],
                 submissions: []

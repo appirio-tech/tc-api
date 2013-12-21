@@ -1,0 +1,193 @@
+
+INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(1,'TopCoder Rating');
+INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(2,'TopCoder High School Rating');
+INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(3,'Marathon Match Rating');
+
+INSERT INTO coder_rank_type_lu(coder_rank_type_id,coder_rank_type_desc) VALUES(1,'Overall Rating');
+INSERT INTO coder_rank_type_lu(coder_rank_type_id,coder_rank_type_desc) VALUES(2,'Active Rating');
+
+INSERT INTO country(country_code,country_name) VALUES(156,'China');
+INSERT INTO country(country_code,country_name) VALUES(392,'Japan');
+INSERT INTO country(country_code,country_name) VALUES(840,'United States');
+
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124764,'Hung','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124766,'twight','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124772,'Partha','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124776,'sandking','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124834,'lightspeed','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124835,'reassembler','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124836,'annej9ny','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124852,'plinehan','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124853,'chelseasimon','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124856,'wyzmo','A',392);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124857,'cartajs','A',156);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124861,'ksmith','A',156);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(124916,'Yoshi','A',156);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(132457,'super','A',156);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(132458,'user','A',156);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(1000001,'user1000001','A',840);
+INSERT INTO coder(coder_id, handle, status,country_code) VALUES(1000002,'user1000002','A',840);
+
+
+INSERT INTO school(school_id,name,country_code) 
+VALUES(1,'University of Tokyo',392);
+INSERT INTO school(school_id,name,country_code) 
+VALUES(2,'Tsinghua University',156);
+INSERT INTO school(school_id,name,country_code) 
+VALUES(3,'Carnegie Mellon University',840);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124764,3738,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124764,2,3,1);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124764,392,1,2,3,1);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124764,1,1,2,3,1);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124766,3693,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124766,2,3,2);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124766,392,2,2,3,2);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124766,1,2,2,3,2);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124772,3420,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124772,2,3,3);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124772,392,3,2,3,3);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124772,1,3,2,3,3);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124776,3339,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124776,2,3,4);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124776,392,4,2,3,4);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124776,1,4,2,3,4);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124834,3304,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124834,2,3,5);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124834,392,5,2,3,5);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124834,1,5,2,3,5);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124835,3301,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124835,2,3,6);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124835,392,6,2,3,6);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124835,1,6,2,3,6);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124836,2200,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124836,2,3,7);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124836,392,7,2,3,7);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124836,1,7,2,3,7);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124852,2199,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124852,2,3,8);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124852,392,8,2,3,8);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124852,1,8,2,3,8);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124853,1500,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124853,2,3,9);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124853,392,9,2,3,9);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124853,1,9,2,3,9);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124856,1499,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124856,2,3,10);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124856,392,10,2,3,10);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124856,1,10,2,3,10);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124857,1200,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124857,2,3,11);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124857,156,1,2,3,1);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124857,2,1,2,3,1);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124861,1199,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124861,2,3,12);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124861,156,2,2,3,2);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124861,2,2,2,3,2);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(124916,900,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(124916,2,3,13);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124916,156,3,2,3,3);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(124916,2,3,2,3,3);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(132457,899,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(132457,2,3,14);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(132457,156,4,2,3,4);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(132457,2,4,2,3,4);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(132458,888,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(132458,2,3,15);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(132458,156,5,2,3,5);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(132458,2,5,2,3,5);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(1000001,888,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(1000001,2,3,16);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(1000001,840,1,2,3,1);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(1000001,3,1,2,3,1);
+
+INSERT INTO algo_rating(coder_id,rating,algo_rating_type_id) 
+VALUES(1000002,888,3);
+INSERT INTO coder_rank(coder_id,coder_rank_type_id,algo_rating_type_id,rank) 
+VALUES(1000002,2,3,17);
+INSERT INTO country_coder_rank(coder_id,country_code,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(1000002,840,2,2,3,2);
+INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id,rank_no_tie) 
+VALUES(1000002,3,2,2,3,2);
+
+
+

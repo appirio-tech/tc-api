@@ -1,0 +1,24 @@
+SELECT 
+pc.name ,
+pc.project_category_id,
+ (SELECT 
+	COUNT(*) 
+	FROM tcs_catalog:project p
+	INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
+	INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
+	WHERE u.user_id = ri.value AND p.project_status_id in (4, 5, 6, 10, 11) AND p.project_category_id = pc.project_category_id
+) AS failed_contests
+, (SELECT 
+	COUNT(*)
+	FROM project p
+	INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
+	INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1 
+	WHERE u.user_id = ri.value AND p.project_category_id = pc.project_category_id
+) AS completed_contests
+FROM 
+user u 
+, project_category_lu pc
+WHERE 
+u.handle_lower = LOWER('@ha@')
+AND pc.project_type_id = 3 
+AND display = 't';

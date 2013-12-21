@@ -1,0 +1,32 @@
+
+SELECT 
+  ar.type AS color
+, COUNT(*) AS numberOfMembers
+FROM 
+  round_registration rr
+, round rd
+, coder c
+, OUTER (
+  SELECT 
+    coder_id
+  , (CASE
+        WHEN rating > 0 AND rating < 900
+            THEN 'Gray'
+        WHEN rating > 899 AND rating < 1200
+            THEN 'Green'
+        WHEN rating > 1199 AND rating < 1500
+            THEN 'Blue'
+        WHEN rating > 1499 AND rating < 2200
+            THEN 'Yellow'
+        WHEN rating > 2199
+            THEN 'Red'
+    ELSE 'Unrated' END ) AS type
+  FROM 
+    algo_rating
+  WHERE algo_rating_type_id = 3
+) ar
+WHERE rd.round_id= @rd@
+AND rr.round_id = rd.round_id
+AND c.coder_id = rr.coder_id 
+AND ar.coder_id = c.coder_id 
+GROUP BY 1

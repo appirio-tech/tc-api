@@ -1,0 +1,3 @@
+﻿INSERT INTO 'informix'.coder(coder_id, handle, status) VALUES(132456, "heffan", 'A');
+INSERT INTO 'informix'.coder(coder_id, handle, status) VALUES(132457, "super", 'A');
+INSERT INTO 'informix'.coder(coder_id, handle, status) VALUES(132458, "twight", 'A');

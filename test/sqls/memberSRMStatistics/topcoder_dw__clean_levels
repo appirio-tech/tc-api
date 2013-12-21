@@ -1,0 +1,2 @@
+DELETE FROM coder_level WHERE coder_id = 132456;
+

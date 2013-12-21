@@ -1,0 +1,13 @@
+SELECT 
+  COUNT(*) AS total
+FROM 
+  coder c
+, rating r
+, coder_rank cr
+, country cc
+WHERE c.coder_id = r.coder_id
+AND c.status = 'A'
+AND cr.coder_rank_type_id = 2
+AND cr.coder_id = c.coder_id
+AND cr.algo_rating_type_id = 1
+AND cc.country_code = c.country_code

@@ -1,0 +1,67 @@
+{
+  "total": 20,
+  "pageIndex": 1,
+  "pageSize": 10,
+  "data": [
+    {
+      "rank": 1,
+      "country": "country14",
+      "memberCount": 16,
+      "rating": 247.21
+    },
+    {
+      "rank": 2,
+      "country": "country4",
+      "memberCount": 24,
+      "rating": 240.81
+    },
+    {
+      "rank": 3,
+      "country": "country17",
+      "memberCount": 22,
+      "rating": 153.2
+    },
+    {
+      "rank": 4,
+      "country": "country15",
+      "memberCount": 24,
+      "rating": 128.54
+    },
+    {
+      "rank": 5,
+      "country": "country6",
+      "memberCount": 26,
+      "rating": 123.66
+    },
+    {
+      "rank": 6,
+      "country": "country18",
+      "memberCount": 24,
+      "rating": 88.51
+    },
+    {
+      "rank": 7,
+      "country": "country2",
+      "memberCount": 28,
+      "rating": 43.05
+    },
+    {
+      "rank": 8,
+      "country": "country7",
+      "memberCount": 26,
+      "rating": 41.02
+    },
+    {
+      "rank": 9,
+      "country": "country3",
+      "memberCount": 30,
+      "rating": 40.84
+    },
+    {
+      "rank": 10,
+      "country": "country1",
+      "memberCount": 26,
+      "rating": 40.72
+    }
+  ]
+}

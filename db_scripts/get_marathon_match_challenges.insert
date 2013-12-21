@@ -1,0 +1,1025 @@
+-- Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+-- description: Insert test data for get_marathon_match_active_challenges query.
+-- author: Ghost_141
+-- version 1.0
+-- since 1.0 (Module Assembly - Topcoder NodeJS Marathon Contests API Queries)
+
+database informixoltp;
+
+INSERT INTO contest(contest_id, name) VALUES(2001, 'test contest 2001');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2001, 2001, 'test round 2001', 6);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2002, 2001, 'test round 2002', 11);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2002, 2, '2013-11-25 01:50:51', '2053-12-25 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2003, 2001, 'test round 2003', 18);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2003, 2, '2013-10-19 01:50:51', '2053-11-18 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2004, 2001, 'test round 2004', 13);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2004, 2, '2013-11-20 01:50:51', '2053-12-20 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2005, 2001, 'test round 2005', 9);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2005, 2, '2013-10-18 01:50:51', '2053-11-17 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2006, 2001, 'test round 2006', 19);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2006, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2007, 2001, 'test round 2007', 14);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2007, 2, '2013-11-19 01:50:51', '2053-12-19 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2008, 2001, 'test round 2008', 23);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2008, 2, '2013-10-27 01:50:51', '2053-11-26 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2009, 2001, 'test round 2009', 10);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2009, 2, '2013-10-11 01:50:51', '2053-11-10 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2010, 2001, 'test round 2010', 15);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2010, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2011, 2001, 'test round 2011', 17);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2011, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2012, 2001, 'test round 2012', 23);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2012, 2, '2013-10-26 01:50:51', '2053-11-25 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2013, 2001, 'test round 2013', 13);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2013, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2014, 2001, 'test round 2014', 13);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2014, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2015, 2001, 'test round 2015', 10);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2015, 2, '2013-10-25 01:50:51', '2053-11-24 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2016, 2001, 'test round 2016', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2016, 2, '2013-10-28 01:50:51', '2053-11-27 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2017, 2001, 'test round 2017', 15);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2017, 2, '2013-10-19 01:50:51', '2053-11-18 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2018, 2001, 'test round 2018', 22);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2018, 2, '2013-11-09 01:50:51', '2053-12-09 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2019, 2001, 'test round 2019', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2019, 2, '2013-11-15 01:50:51', '2053-12-15 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2020, 2001, 'test round 2020', 10);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2020, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+
+INSERT INTO contest(contest_id, name) VALUES(2002, 'test contest 2002');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2021, 2002, 'test round 2021', 2);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2021, 2, '2013-10-25 01:50:51', '2053-11-24 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2022, 2002, 'test round 2022', 22);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2022, 2, '2013-11-22 01:50:51', '2053-12-22 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2023, 2002, 'test round 2023', 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2023, 2, '2013-11-17 01:50:51', '2053-12-17 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2024, 2002, 'test round 2024', 18);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2024, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2025, 2002, 'test round 2025', 14);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2025, 2, '2013-11-01 01:50:51', '2053-12-01 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2026, 2002, 'test round 2026', 9);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2026, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2027, 2002, 'test round 2027', 14);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2027, 2, '2013-10-30 01:50:51', '2053-11-29 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2028, 2002, 'test round 2028', 19);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2028, 2, '2013-10-23 01:50:51', '2053-11-22 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2029, 2002, 'test round 2029', 7);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2029, 2, '2013-11-09 01:50:51', '2053-12-09 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2030, 2002, 'test round 2030', 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2030, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2031, 2002, 'test round 2031', 7);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2031, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2032, 2002, 'test round 2032', 15);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2032, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2033, 2002, 'test round 2033', 27);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2033, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2034, 2002, 'test round 2034', 15);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2034, 2, '2013-11-18 01:50:51', '2053-12-18 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2035, 2002, 'test round 2035', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2035, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2036, 2002, 'test round 2036', 23);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2036, 2, '2013-11-25 01:50:51', '2053-12-25 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2037, 2002, 'test round 2037', 3);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2037, 2, '2013-11-21 01:50:51', '2053-12-21 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2038, 2002, 'test round 2038', 23);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2038, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2039, 2002, 'test round 2039', 21);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2039, 2, '2013-10-16 01:50:51', '2053-11-15 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2040, 2002, 'test round 2040', 7);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2040, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+
+INSERT INTO contest(contest_id, name) VALUES(2003, 'test contest 2003');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2041, 2003, 'test round 2041', 18);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2041, 2, '2013-10-19 01:50:51', '2053-11-18 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2042, 2003, 'test round 2042', 7);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2042, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2043, 2003, 'test round 2043', 9);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2043, 2, '2013-11-07 01:50:51', '2053-12-07 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2044, 2003, 'test round 2044', 9);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2044, 2, '2013-10-27 01:50:51', '2053-11-26 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2045, 2003, 'test round 2045', 2);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2045, 2, '2013-10-24 01:50:51', '2053-11-23 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2046, 2003, 'test round 2046', 10);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2046, 2, '2013-10-20 01:50:51', '2053-11-19 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2047, 2003, 'test round 2047', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2047, 2, '2013-11-07 01:50:51', '2053-12-07 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2048, 2003, 'test round 2048', 20);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2048, 2, '2013-11-10 01:50:51', '2053-12-10 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2049, 2003, 'test round 2049', 6);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2049, 2, '2013-10-28 01:50:51', '2053-11-27 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2050, 2003, 'test round 2050', 12);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2050, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2051, 2003, 'test round 2051', 22);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2051, 2, '2013-11-26 01:50:51', '2053-12-26 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2052, 2003, 'test round 2052', 3);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2052, 2, '2013-11-08 01:50:51', '2053-12-08 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2053, 2003, 'test round 2053', 12);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2053, 2, '2013-11-11 01:50:51', '2053-12-11 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2054, 2003, 'test round 2054', 11);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2054, 2, '2013-11-20 01:50:51', '2053-12-20 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2055, 2003, 'test round 2055', 2);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2055, 2, '2013-11-01 01:50:51', '2053-12-01 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2056, 2003, 'test round 2056', 13);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2056, 2, '2013-10-14 01:50:51', '2053-11-13 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2057, 2003, 'test round 2057', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2057, 2, '2013-10-11 01:50:51', '2053-11-10 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2058, 2003, 'test round 2058', 15);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2058, 2, '2013-10-12 01:50:51', '2053-11-11 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2059, 2003, 'test round 2059', 11);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2059, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2060, 2003, 'test round 2060', 19);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2060, 2, '2013-11-25 01:50:51', '2053-12-25 01:50:51', 'A');
+
+INSERT INTO contest(contest_id, name) VALUES(2004, 'test contest 2004');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2061, 2004, 'test round 2061', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2061, 2, '2013-11-19 01:50:51', '2053-12-19 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2062, 2004, 'test round 2062', 2);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2062, 2, '2013-10-21 01:50:51', '2053-11-20 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2063, 2004, 'test round 2063', 27);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2063, 2, '2013-10-13 01:50:51', '2053-11-12 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2064, 2004, 'test round 2064', 14);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2064, 2, '2013-11-03 01:50:51', '2053-12-03 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2065, 2004, 'test round 2065', 27);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2065, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2066, 2004, 'test round 2066', 17);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2066, 2, '2013-11-12 01:50:51', '2053-12-12 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2067, 2004, 'test round 2067', 3);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2067, 2, '2013-10-10 01:50:51', '2053-11-09 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2068, 2004, 'test round 2068', 14);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2068, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2069, 2004, 'test round 2069', 23);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2069, 2, '2013-11-07 01:50:51', '2053-12-07 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2070, 2004, 'test round 2070', 20);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2070, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2071, 2004, 'test round 2071', 6);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2071, 2, '2013-10-22 01:50:51', '2053-11-21 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2072, 2004, 'test round 2072', 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2072, 2, '2013-10-30 01:50:51', '2053-11-29 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2073, 2004, 'test round 2073', 18);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2073, 2, '2013-10-31 01:50:51', '2053-11-30 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2074, 2004, 'test round 2074', 11);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2074, 2, '2013-11-21 01:50:51', '2053-12-21 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2075, 2004, 'test round 2075', 17);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2075, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2076, 2004, 'test round 2076', 11);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2076, 2, '2013-10-23 01:50:51', '2053-11-22 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2077, 2004, 'test round 2077', 3);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2077, 2, '2013-11-11 01:50:51', '2053-12-11 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2078, 2004, 'test round 2078', 17);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2078, 2, '2013-10-20 01:50:51', '2053-11-19 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2079, 2004, 'test round 2079', 17);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2079, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2080, 2004, 'test round 2080', 2);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2080, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+
+INSERT INTO contest(contest_id, name) VALUES(2005, 'test contest 2005');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2081, 2005, 'test round 2081', 12);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2081, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2082, 2005, 'test round 2082', 10);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2082, 2, '2013-10-25 01:50:51', '2053-11-24 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2083, 2005, 'test round 2083', 17);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2083, 2, '2013-10-20 01:50:51', '2053-11-19 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2084, 2005, 'test round 2084', 23);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2084, 2, '2013-10-27 01:50:51', '2053-11-26 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2085, 2005, 'test round 2085', 6);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2085, 2, '2013-11-06 01:50:51', '2053-12-06 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2086, 2005, 'test round 2086', 20);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2086, 2, '2013-10-18 01:50:51', '2053-11-17 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2087, 2005, 'test round 2087', 7);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2087, 2, '2013-11-05 01:50:51', '2053-12-05 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2088, 2005, 'test round 2088', 27);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2088, 2, '2013-10-13 01:50:51', '2053-11-12 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2089, 2005, 'test round 2089', 20);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2089, 2, '2013-11-16 01:50:51', '2053-12-16 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2090, 2005, 'test round 2090', 20);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2090, 2, '2013-10-31 01:50:51', '2053-11-30 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2091, 2005, 'test round 2091', 20);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2091, 2, '2013-11-26 01:50:51', '2053-12-26 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2092, 2005, 'test round 2092', 12);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2092, 2, '2013-10-16 01:50:51', '2053-11-15 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2093, 2005, 'test round 2093', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2093, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2094, 2005, 'test round 2094', 4);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2094, 2, '2013-11-26 01:50:51', '2053-12-26 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2095, 2005, 'test round 2095', 27);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2095, 2, '2013-11-17 01:50:51', '2053-12-17 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2096, 2005, 'test round 2096', 10);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2096, 2, '2013-11-18 01:50:51', '2053-12-18 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2097, 2005, 'test round 2097', 21);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2097, 2, '2013-11-10 01:50:51', '2053-12-10 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2098, 2005, 'test round 2098', 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2098, 2, '2013-10-31 01:50:51', '2053-11-30 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2099, 2005, 'test round 2099', 8);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2099, 2, '2013-11-24 01:50:51', '2053-12-24 01:50:51', 'A');
+
+INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2100, 2005, 'test round 2100', 19);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2100, 2, '2013-10-16 01:50:51', '2053-11-15 01:50:51', 'A');
+-- Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+-- description: Insert test data that prepared for get_marathon_match_past_challenges query.
+-- author: Ghost_141
+-- version 1.0
+-- since 1.0 (Module Assembly - Topcoder NodeJS Marathon Contests API Queries)
+
+database topcoder_dw;
+
+INSERT INTO coder(coder_id, handle, status) VALUES(2001, 'user_2001', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2002, 'user_2002', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2003, 'user_2003', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2004, 'user_2004', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2005, 'user_2005', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2006, 'user_2006', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2007, 'user_2007', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2008, 'user_2008', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2009, 'user_2009', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2010, 'user_2010', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2011, 'user_2011', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2012, 'user_2012', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2013, 'user_2013', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2014, 'user_2014', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2015, 'user_2015', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2016, 'user_2016', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2017, 'user_2017', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2018, 'user_2018', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2019, 'user_2019', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2020, 'user_2020', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2021, 'user_2021', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2022, 'user_2022', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2023, 'user_2023', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2024, 'user_2024', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2025, 'user_2025', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2026, 'user_2026', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2027, 'user_2027', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2028, 'user_2028', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2029, 'user_2029', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2030, 'user_2030', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2031, 'user_2031', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2032, 'user_2032', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2033, 'user_2033', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2034, 'user_2034', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2035, 'user_2035', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2036, 'user_2036', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2037, 'user_2037', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2038, 'user_2038', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2039, 'user_2039', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2040, 'user_2040', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2041, 'user_2041', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2042, 'user_2042', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2043, 'user_2043', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2044, 'user_2044', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2045, 'user_2045', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2046, 'user_2046', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2047, 'user_2047', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2048, 'user_2048', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2049, 'user_2049', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2050, 'user_2050', 'A');
+
+INSERT INTO algo_rating_type_lu(algo_rating_type_id, algo_rating_type_desc) VALUES(1, 'TopCoder Rating');
+INSERT INTO algo_rating_type_lu(algo_rating_type_id, algo_rating_type_desc) VALUES(2, 'TopCoder High School Rating');
+INSERT INTO algo_rating_type_lu(algo_rating_type_id, algo_rating_type_desc) VALUES(3, 'Marathon Match Rating');
+
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(1, 'Single Round Match', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(2, 'Tournament Round', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(3, 'Practice Round', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(4, 'Moderated Chat Session', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(10, 'Long Round', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(6, 'Screening Tool Problem Sets', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(11, 'Weakest Link Round', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(7, 'Team Single Round Match', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(8, 'Team Tournament Round', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(9, 'Team Practice Round', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(12, 'Private Label Tournament', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(13, 'Marathon Match', 3);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(14, 'Marathon Match Practice Round', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(15, 'Intel Marathon Match', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(16, 'Intel Marathon Match Practice Round', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(17, 'HS Single Round Match', 2);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(18, 'HS Tournament Round', 2);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(19, 'Marathon Match Tournament Round', 3);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(20, 'Intro Event Round', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(21, 'Education Round', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(22, 'AMD Marathon Match', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(23, 'AMD Marathon Match Practice', NULL);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(27, 'Marathon Match QA', NULL);
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2001, 'test contest 2001', '2013-10-16 01:50:51', '2013-10-18 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2001, 2001, 'test round 2001', 'test round 2001', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2001, 2046, 1, 833123.1153184418, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2002, 2001, 'test round 2002', 'test round 2002', 18, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2002, 2041, 1, 714933.4865390199, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2003, 2001, 'test round 2003', 'test round 2003', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2003, 2008, 1, 912914.6852547326, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2004, 2001, 'test round 2004', 'test round 2004', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2004, 2002, 1, 54270.97469090702, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2005, 2001, 'test round 2005', 'test round 2005', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2005, 2016, 1, 277730.1106080666, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2006, 2001, 'test round 2006', 'test round 2006', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2006, 2025, 1, 231088.14503224817, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2007, 2001, 'test round 2007', 'test round 2007', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2007, 2047, 1, 375241.1867177493, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2008, 2001, 'test round 2008', 'test round 2008', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2008, 2040, 1, 961047.056019283, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2009, 2001, 'test round 2009', 'test round 2009', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2009, 2026, 1, 550825.8599231571, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2010, 2001, 'test round 2010', 'test round 2010', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2010, 2020, 1, 493574.4659758717, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2011, 2001, 'test round 2011', 'test round 2011', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2011, 2029, 1, 200199.51267142378, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2012, 2001, 'test round 2012', 'test round 2012', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2012, 2012, 1, 911054.0832389537, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2013, 2001, 'test round 2013', 'test round 2013', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2013, 2046, 1, 302212.3823469846, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2014, 2001, 'test round 2014', 'test round 2014', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2014, 2002, 1, 279269.85483304824, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2015, 2001, 'test round 2015', 'test round 2015', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2015, 2007, 1, 588679.3944877596, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2016, 2001, 'test round 2016', 'test round 2016', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2016, 2009, 1, 8016.861965785882, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2017, 2001, 'test round 2017', 'test round 2017', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2017, 2020, 1, 320023.05304572196, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2018, 2001, 'test round 2018', 'test round 2018', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2018, 2004, 1, 633336.5621815757, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2019, 2001, 'test round 2019', 'test round 2019', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2019, 2030, 1, 878674.0035153953, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2020, 2001, 'test round 2020', 'test round 2020', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2020, 2010, 1, 116621.47766755571, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2002, 'test contest 2002','2013-11-02 01:50:51', '2013-11-12 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2021, 2002, 'test round 2021', 'test round 2021', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2021, 2003, 1, 654988.117507891, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2022, 2002, 'test round 2022', 'test round 2022', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2022, 2006, 1, 338209.3808624973, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2023, 2002, 'test round 2023', 'test round 2023', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2023, 2012, 1, 134920.6814027717, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2024, 2002, 'test round 2024', 'test round 2024', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2024, 2038, 1, 554170.4570179362, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2025, 2002, 'test round 2025', 'test round 2025', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2025, 2028, 1, 836923.9131689791, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2026, 2002, 'test round 2026', 'test round 2026', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2026, 2011, 1, 762254.7288893719, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2027, 2002, 'test round 2027', 'test round 2027', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2027, 2006, 1, 613907.01123638, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2028, 2002, 'test round 2028', 'test round 2028', 23, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2028, 2041, 1, 248394.13958119028, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2029, 2002, 'test round 2029', 'test round 2029', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2029, 2041, 1, 113030.27575605607, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2030, 2002, 'test round 2030', 'test round 2030', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2030, 2031, 1, 327981.56333950354, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2031, 2002, 'test round 2031', 'test round 2031', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2031, 2009, 1, 40299.05480690876, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2032, 2002, 'test round 2032', 'test round 2032', 27, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2032, 2030, 1, 915308.9797894647, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2033, 2002, 'test round 2033', 'test round 2033', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2033, 2004, 1, 102664.08048531295, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2034, 2002, 'test round 2034', 'test round 2034', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2034, 2034, 1, 317402.4385469245, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2035, 2002, 'test round 2035', 'test round 2035', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2035, 2021, 1, 842746.5825140878, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2036, 2002, 'test round 2036', 'test round 2036', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2036, 2024, 1, 588954.2629294004, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2037, 2002, 'test round 2037', 'test round 2037', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2037, 2017, 1, 644783.3741684002, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2038, 2002, 'test round 2038', 'test round 2038', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2038, 2001, 1, 614154.159358316, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2039, 2002, 'test round 2039', 'test round 2039', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2039, 2023, 1, 35113.11014317264, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2040, 2002, 'test round 2040', 'test round 2040', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2040, 2050, 1, 191573.21447511876, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2003, 'test contest 2003', '2013-12-02 01:50:51', '2013-12-12 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2041, 2003, 'test round 2041', 'test round 2041', 10, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2041, 2008, 1, 82001.99006778563, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2042, 2003, 'test round 2042', 'test round 2042', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2042, 2007, 1, 900317.208056979, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2043, 2003, 'test round 2043', 'test round 2043', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2043, 2042, 1, 38603.41402957079, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2044, 2003, 'test round 2044', 'test round 2044', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2044, 2013, 1, 454299.3176293847, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2045, 2003, 'test round 2045', 'test round 2045', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2045, 2035, 1, 516890.9932433913, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2046, 2003, 'test round 2046', 'test round 2046', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2046, 2043, 1, 536362.8540734523, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2047, 2003, 'test round 2047', 'test round 2047', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2047, 2037, 1, 149760.33503411477, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2048, 2003, 'test round 2048', 'test round 2048', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2048, 2005, 1, 954427.2491778216, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2049, 2003, 'test round 2049', 'test round 2049', 17, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2049, 2049, 1, 42751.3301915865, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2050, 2003, 'test round 2050', 'test round 2050', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2050, 2014, 1, 298546.29387673916, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2051, 2003, 'test round 2051', 'test round 2051', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2051, 2038, 1, 593309.6648675045, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2052, 2003, 'test round 2052', 'test round 2052', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2052, 2007, 1, 395935.16614758695, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2053, 2003, 'test round 2053', 'test round 2053', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2053, 2025, 1, 947065.6236689356, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2054, 2003, 'test round 2054', 'test round 2054', 10, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2054, 2007, 1, 604812.4713697627, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2055, 2003, 'test round 2055', 'test round 2055', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2055, 2039, 1, 438328.71336345735, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2056, 2003, 'test round 2056', 'test round 2056', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2056, 2036, 1, 716618.372487955, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2057, 2003, 'test round 2057', 'test round 2057', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2057, 2014, 1, 839535.498716478, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2058, 2003, 'test round 2058', 'test round 2058', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2058, 2045, 1, 104335.54618250918, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2059, 2003, 'test round 2059', 'test round 2059', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2059, 2045, 1, 753177.3124718216, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2060, 2003, 'test round 2060', 'test round 2060', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2060, 2014, 1, 154051.91654400685, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2004, 'test contest 2004', '2013-11-12 01:50:51', '2013-11-22 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2061, 2004, 'test round 2061', 'test round 2061', 17, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2061, 2041, 1, 740104.7975098254, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2062, 2004, 'test round 2062', 'test round 2062', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2062, 2031, 1, 388047.47089306836, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2063, 2004, 'test round 2063', 'test round 2063', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2063, 2027, 1, 210516.59176428174, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2064, 2004, 'test round 2064', 'test round 2064', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2064, 2025, 1, 971932.3828898227, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2065, 2004, 'test round 2065', 'test round 2065', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2065, 2001, 1, 31078.540658891485, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2066, 2004, 'test round 2066', 'test round 2066', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2066, 2008, 1, 954333.3885272696, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2067, 2004, 'test round 2067', 'test round 2067', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2067, 2043, 1, 36706.27680004635, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2068, 2004, 'test round 2068', 'test round 2068', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2068, 2003, 1, 433964.56216691213, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2069, 2004, 'test round 2069', 'test round 2069', 10, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2069, 2038, 1, 451486.7208530137, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2070, 2004, 'test round 2070', 'test round 2070', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2070, 2017, 1, 807575.7176409204, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2071, 2004, 'test round 2071', 'test round 2071', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2071, 2034, 1, 751165.0795400362, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2072, 2004, 'test round 2072', 'test round 2072', 23, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2072, 2018, 1, 642125.6042173498, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2073, 2004, 'test round 2073', 'test round 2073', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2073, 2037, 1, 638334.4062996865, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2074, 2004, 'test round 2074', 'test round 2074', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2074, 2047, 1, 134525.91860867236, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2075, 2004, 'test round 2075', 'test round 2075', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2075, 2024, 1, 486559.0825265902, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2076, 2004, 'test round 2076', 'test round 2076', 18, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2076, 2022, 1, 769583.1618186964, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2077, 2004, 'test round 2077', 'test round 2077', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2077, 2009, 1, 63765.70601110232, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2078, 2004, 'test round 2078', 'test round 2078', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2078, 2006, 1, 256490.24382430353, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2079, 2004, 'test round 2079', 'test round 2079', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2079, 2024, 1, 80586.02820123795, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2080, 2004, 'test round 2080', 'test round 2080', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2080, 2045, 1, 75197.78956541434, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2005, 'test contest 2005', '2013-11-03 01:50:51', '2013-11-05 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2081, 2005, 'test round 2081', 'test round 2081', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2081, 2018, 1, 789366.4900703524, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2082, 2005, 'test round 2082', 'test round 2082', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2082, 2030, 1, 485869.00582860195, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2083, 2005, 'test round 2083', 'test round 2083', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2083, 2050, 1, 487649.5767321485, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2084, 2005, 'test round 2084', 'test round 2084', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2084, 2043, 1, 550708.8077634955, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2085, 2005, 'test round 2085', 'test round 2085', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2085, 2006, 1, 90955.46464625814, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2086, 2005, 'test round 2086', 'test round 2086', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2086, 2003, 1, 921159.0825652857, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2087, 2005, 'test round 2087', 'test round 2087', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2087, 2014, 1, 546232.5570098484, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2088, 2005, 'test round 2088', 'test round 2088', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2088, 2027, 1, 608842.0946309092, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2089, 2005, 'test round 2089', 'test round 2089', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2089, 2047, 1, 113203.8331738645, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2090, 2005, 'test round 2090', 'test round 2090', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2090, 2030, 1, 827665.9114170093, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2091, 2005, 'test round 2091', 'test round 2091', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2091, 2036, 1, 425705.74506895244, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2092, 2005, 'test round 2092', 'test round 2092', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2092, 2009, 1, 260333.4716817316, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2093, 2005, 'test round 2093', 'test round 2093', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2093, 2027, 1, 359249.1348730883, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2094, 2005, 'test round 2094', 'test round 2094', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2094, 2009, 1, 98740.3111759213, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2095, 2005, 'test round 2095', 'test round 2095', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2095, 2018, 1, 775145.1388124705, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2096, 2005, 'test round 2096', 'test round 2096', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2096, 2041, 1, 796279.5477812826, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2097, 2005, 'test round 2097', 'test round 2097', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2097, 2036, 1, 704703.0188783042, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2098, 2005, 'test round 2098', 'test round 2098', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2098, 2048, 1, 603862.2686671232, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2099, 2005, 'test round 2099', 'test round 2099', 18, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2099, 2039, 1, 561421.4506838255, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2100, 2005, 'test round 2100', 'test round 2100', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2100, 2037, 1, 126499.96558369692, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2006, 'test contest 2006', '2013-11-09 01:50:51', '2013-11-23 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2101, 2006, 'test round 2101', 'test round 2101', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2101, 2044, 1, 680044.9184522735, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2102, 2006, 'test round 2102', 'test round 2102', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2102, 2014, 1, 769759.5487676922, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2103, 2006, 'test round 2103', 'test round 2103', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2103, 2020, 1, 270305.8736685775, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2104, 2006, 'test round 2104', 'test round 2104', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2104, 2045, 1, 937790.8991023995, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2105, 2006, 'test round 2105', 'test round 2105', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2105, 2038, 1, 170172.09288487522, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2106, 2006, 'test round 2106', 'test round 2106', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2106, 2003, 1, 422531.0736822494, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2107, 2006, 'test round 2107', 'test round 2107', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2107, 2041, 1, 357730.13989868306, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2108, 2006, 'test round 2108', 'test round 2108', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2108, 2007, 1, 557292.5599379606, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2109, 2006, 'test round 2109', 'test round 2109', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2109, 2005, 1, 630168.7921356639, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2110, 2006, 'test round 2110', 'test round 2110', 23, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2110, 2027, 1, 586534.3775787567, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2111, 2006, 'test round 2111', 'test round 2111', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2111, 2029, 1, 890887.9247465677, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2112, 2006, 'test round 2112', 'test round 2112', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2112, 2018, 1, 940082.0698458076, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2113, 2006, 'test round 2113', 'test round 2113', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2113, 2036, 1, 109750.28606633274, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2114, 2006, 'test round 2114', 'test round 2114', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2114, 2022, 1, 524743.3240682834, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2115, 2006, 'test round 2115', 'test round 2115', 27, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2115, 2026, 1, 399132.94851590286, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2116, 2006, 'test round 2116', 'test round 2116', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2116, 2047, 1, 988184.2823000662, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2117, 2006, 'test round 2117', 'test round 2117', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2117, 2048, 1, 743162.6878933554, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2118, 2006, 'test round 2118', 'test round 2118', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2118, 2035, 1, 270282.2828433761, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2119, 2006, 'test round 2119', 'test round 2119', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2119, 2020, 1, 793496.061520964, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2120, 2006, 'test round 2120', 'test round 2120', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2120, 2004, 1, 398772.7447725141, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2007, 'test contest 2007', '2013-11-01 01:50:51', '2013-11-06 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2121, 2007, 'test round 2121', 'test round 2121', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2121, 2046, 1, 426777.139095953, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2122, 2007, 'test round 2122', 'test round 2122', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2122, 2005, 1, 673355.546911597, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2123, 2007, 'test round 2123', 'test round 2123', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2123, 2040, 1, 522328.9081719138, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2124, 2007, 'test round 2124', 'test round 2124', 17, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2124, 2008, 1, 423852.1899664891, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2125, 2007, 'test round 2125', 'test round 2125', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2125, 2041, 1, 108325.26800841902, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2126, 2007, 'test round 2126', 'test round 2126', 27, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2126, 2012, 1, 681919.5032871278, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2127, 2007, 'test round 2127', 'test round 2127', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2127, 2034, 1, 328526.451442574, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2128, 2007, 'test round 2128', 'test round 2128', 17, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2128, 2046, 1, 267624.7733047731, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2129, 2007, 'test round 2129', 'test round 2129', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2129, 2011, 1, 947430.44101998, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2130, 2007, 'test round 2130', 'test round 2130', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2130, 2023, 1, 457916.7615579736, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2131, 2007, 'test round 2131', 'test round 2131', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2131, 2032, 1, 243906.77092332725, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2132, 2007, 'test round 2132', 'test round 2132', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2132, 2002, 1, 190112.8264174131, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2133, 2007, 'test round 2133', 'test round 2133', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2133, 2040, 1, 484016.9081713581, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2134, 2007, 'test round 2134', 'test round 2134', 17, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2134, 2003, 1, 675764.241120977, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2135, 2007, 'test round 2135', 'test round 2135', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2135, 2010, 1, 524320.9883098507, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2136, 2007, 'test round 2136', 'test round 2136', 17, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2136, 2011, 1, 414188.3977517955, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2137, 2007, 'test round 2137', 'test round 2137', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2137, 2042, 1, 855760.2083518296, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2138, 2007, 'test round 2138', 'test round 2138', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2138, 2004, 1, 244370.16181741422, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2139, 2007, 'test round 2139', 'test round 2139', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2139, 2035, 1, 188243.1172669128, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2140, 2007, 'test round 2140', 'test round 2140', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2140, 2044, 1, 254598.91607122697, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2008, 'test contest 2008', '2013-11-22 01:50:51', '2013-11-27 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2141, 2008, 'test round 2141', 'test round 2141', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2141, 2006, 1, 890707.6636398942, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2142, 2008, 'test round 2142', 'test round 2142', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2142, 2027, 1, 990454.210686528, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2143, 2008, 'test round 2143', 'test round 2143', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2143, 2011, 1, 795193.5698602506, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2144, 2008, 'test round 2144', 'test round 2144', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2144, 2041, 1, 742259.1283271747, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2145, 2008, 'test round 2145', 'test round 2145', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2145, 2047, 1, 640342.9944533602, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2146, 2008, 'test round 2146', 'test round 2146', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2146, 2002, 1, 596632.0497239153, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2147, 2008, 'test round 2147', 'test round 2147', 23, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2147, 2044, 1, 374706.32022234227, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2148, 2008, 'test round 2148', 'test round 2148', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2148, 2044, 1, 950946.2244988579, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2149, 2008, 'test round 2149', 'test round 2149', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2149, 2048, 1, 596463.6654013068, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2150, 2008, 'test round 2150', 'test round 2150', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2150, 2030, 1, 740042.9406836912, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2151, 2008, 'test round 2151', 'test round 2151', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2151, 2027, 1, 56850.76100098374, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2152, 2008, 'test round 2152', 'test round 2152', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2152, 2007, 1, 584978.8939809866, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2153, 2008, 'test round 2153', 'test round 2153', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2153, 2042, 1, 370067.6404552299, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2154, 2008, 'test round 2154', 'test round 2154', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2154, 2047, 1, 865800.7794924347, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2155, 2008, 'test round 2155', 'test round 2155', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2155, 2032, 1, 529066.1134032484, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2156, 2008, 'test round 2156', 'test round 2156', 27, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2156, 2038, 1, 212762.68808123443, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2157, 2008, 'test round 2157', 'test round 2157', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2157, 2010, 1, 811963.0796645647, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2158, 2008, 'test round 2158', 'test round 2158', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2158, 2023, 1, 411378.17049995315, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2159, 2008, 'test round 2159', 'test round 2159', 23, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2159, 2001, 1, 930428.6828310731, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2160, 2008, 'test round 2160', 'test round 2160', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2160, 2011, 1, 998925.0561029329, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2009, 'test contest 2009', '2013-12-05 01:50:51', '2013-12-07 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2161, 2009, 'test round 2161', 'test round 2161', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2161, 2022, 1, 791025.7527740124, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2162, 2009, 'test round 2162', 'test round 2162', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2162, 2035, 1, 740189.2929234, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2163, 2009, 'test round 2163', 'test round 2163', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2163, 2021, 1, 708859.2934243579, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2164, 2009, 'test round 2164', 'test round 2164', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2164, 2016, 1, 970005.9673604419, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2165, 2009, 'test round 2165', 'test round 2165', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2165, 2031, 1, 317181.739069103, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2166, 2009, 'test round 2166', 'test round 2166', 3, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2166, 2038, 1, 112423.46533066627, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2167, 2009, 'test round 2167', 'test round 2167', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2167, 2037, 1, 935236.416750804, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2168, 2009, 'test round 2168', 'test round 2168', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2168, 2001, 1, 207196.73830115824, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2169, 2009, 'test round 2169', 'test round 2169', 10, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2169, 2001, 1, 80622.9220629796, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2170, 2009, 'test round 2170', 'test round 2170', 8, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2170, 2050, 1, 798136.0392503109, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2171, 2009, 'test round 2171', 'test round 2171', 23, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2171, 2037, 1, 83417.2808736433, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2172, 2009, 'test round 2172', 'test round 2172', 21, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2172, 2048, 1, 983369.4542229364, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2173, 2009, 'test round 2173', 'test round 2173', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2173, 2031, 1, 910108.785058424, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2174, 2009, 'test round 2174', 'test round 2174', 10, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2174, 2045, 1, 530295.9758562258, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2175, 2009, 'test round 2175', 'test round 2175', 22, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2175, 2043, 1, 112423.58954886744, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2176, 2009, 'test round 2176', 'test round 2176', 7, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2176, 2004, 1, 103599.47006063041, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2177, 2009, 'test round 2177', 'test round 2177', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2177, 2041, 1, 90518.2878547155, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2178, 2009, 'test round 2178', 'test round 2178', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2178, 2001, 1, 69733.12446831659, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2179, 2009, 'test round 2179', 'test round 2179', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2179, 2041, 1, 665691.3762970979, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2180, 2009, 'test round 2180', 'test round 2180', 13, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2180, 2040, 1, 787572.6295987242, 'Y');
+
+
+INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2010, 'test contest 2010', '2013-11-02 01:50:51', '2013-11-08 01:50:51');
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2181, 2010, 'test round 2181', 'test round 2181', 18, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2181, 2017, 1, 874082.7762709424, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2182, 2010, 'test round 2182', 'test round 2182', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2182, 2011, 1, 570530.4436977339, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2183, 2010, 'test round 2183', 'test round 2183', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2183, 2031, 1, 995634.6929456756, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2184, 2010, 'test round 2184', 'test round 2184', 14, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2184, 2032, 1, 9425.038636142302, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2185, 2010, 'test round 2185', 'test round 2185', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2185, 2045, 1, 537082.1028064349, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2186, 2010, 'test round 2186', 'test round 2186', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2186, 2046, 1, 58610.76531204368, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2187, 2010, 'test round 2187', 'test round 2187', 19, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2187, 2046, 1, 131092.1052473979, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2188, 2010, 'test round 2188', 'test round 2188', 10, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2188, 2013, 1, 703055.082245916, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2189, 2010, 'test round 2189', 'test round 2189', 9, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2189, 2040, 1, 852827.057849648, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2190, 2010, 'test round 2190', 'test round 2190', 1, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2190, 2028, 1, 192406.30199036922, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2191, 2010, 'test round 2191', 'test round 2191', 16, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2191, 2040, 1, 57675.54209098591, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2192, 2010, 'test round 2192', 'test round 2192', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2192, 2045, 1, 552496.2433196461, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2193, 2010, 'test round 2193', 'test round 2193', 6, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2193, 2048, 1, 841863.5765482029, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2194, 2010, 'test round 2194', 'test round 2194', 15, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2194, 2018, 1, 876964.4386737903, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2195, 2010, 'test round 2195', 'test round 2195', 11, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2195, 2034, 1, 77392.23647102012, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2196, 2010, 'test round 2196', 'test round 2196', 4, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2196, 2047, 1, 753282.9610693044, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2197, 2010, 'test round 2197', 'test round 2197', 2, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2197, 2006, 1, 98725.00060215672, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2198, 2010, 'test round 2198', 'test round 2198', 20, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2198, 2043, 1, 69061.50901121233, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2199, 2010, 'test round 2199', 'test round 2199', 12, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2199, 2028, 1, 25874.11834864595, 'Y');
+
+INSERT INTO round(round_id, contest_id, name, short_name, round_type_id, failed, calendar_id) VALUES(2200, 2010, 'test round 2200', 'test round 2200', 18, 0, 4017);
+INSERT INTO long_comp_result(round_id, coder_id, placed, system_point_total, attended) VALUES(2200, 2007, 1, 617364.9091943814, 'Y');
+
+
