@@ -20,7 +20,7 @@ Platform APIs
             "prizePurse": "$100000"
         }
 
-# Group Registration
+# Group User Profile
 Register a new user.
 
 ## Users [/users]
@@ -91,6 +91,268 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Basic User Profile [/users/{handle}]
+### Basic User Profile [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+             "handle": "hohosky",
+             "country": "China",
+             "memberSince": "09.28.2005 15:47 EDT",
+             "overallEarning": 0,
+             "quote": "Focus is a matter of deciding what things you're not going to do.",
+             "ratingsSummary": [
+                  {
+                   "name": "Development",
+                   "rating": 1906,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Design",
+                   "rating": 1516,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Specification",
+                   "rating": 1747,
+                   "colorStyle": "color: #DDCC00"
+                  }
+             ],
+             "photoLink": "/i/m/hohosky_big.jpg",
+             "isCopilot": {
+                  "value": true,
+                  "software": false,
+                  "studio": false
+             },
+             "isPM": false,
+            "Achievements":
+            [
+                {
+                  "date": "03.17.2013 00:00 EDT",
+                  "description": "First Forum Post",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "02.19.2013 00:00 EST",
+                  "description": "One Hundred Forum Posts",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "10.03.2012 00:00 EDT",
+                  "description": "First Passing Submission",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -17
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Successful Challenge",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -255
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Rated Algorithm Competitions",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -204
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Successful Challenges",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -255
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "SRM Winner Div 2",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -34,
+                   "topOffset": -85
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div1 Problem in SRM",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -68,
+                   "topOffset": -102
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Rated Algorithm Competition",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -204
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div2 Problem in SRM",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -119
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First SRM Room Win (Any Division)",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -221
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Ten Solved Algorithm Problems",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -238
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Solved Algorithm Problem",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -238
+                  }
+                 },
+                 {
+                  "date": "09.17.2012 00:00 EDT",
+                  "description": "Five Hundred Forum Posts",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -34,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Win",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -68
+                  }
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Placement",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -51
+                  }
+                 },
+                 {
+                  "date": "08.20.2012 00:00 EDT",
+                  "description": "TopCoder Reviewer",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png"
+                  }
+                 },
+                 {
+                  "date": "04.10.2012 00:00 EDT",
+                  "description": "2012 TopCoder Open Mod Dash Champion",
+                  "badgeLink": {}
+                 },
+                 {
+                  "date": "04.07.2012 00:00 EDT",
+                  "description": "One Thousand Forum Posts",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -51,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "09.28.2011 00:00 EDT",
+                  "description": "2011 TopCoder Open Mod Dash Finalists",
+                  "badgeLink": {}
+                 },
+                 {
+                  "date": "10.14.2010 00:00 EDT",
+                  "description": "2010 TopCoder Open Mod Dash Finalist",
+                  "badgeLink": {}
+                 },
+                 {
+                  "date": "10.21.2005 00:00 EDT",
+                  "description": "Twenty Five Placements",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -51
+                  }
+                 }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 
 
 #Group Software Contests
