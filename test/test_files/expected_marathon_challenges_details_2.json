@@ -4,10 +4,12 @@
   "shortName": "test round 2001",
   "numberOfRegistrants": 100,
   "numberOfSubmissions": 413,
-  "numberOfCompetitors": 99,
+  "numberOfCompetitors": 100,
   "startDate": "2013-10-20T12:00:00.000Z",
   "endDate": "2013-12-06T12:00:00.000Z",
   "systemTestDate": "2013-12-01T12:00:00.000Z",
+  "winnerHandle": "user3001",
+  "winnerScore": 317844.72,
   "currentProgress": {
     "groupType": "DAY",
     "progressResources": [
