@@ -1242,59 +1242,184 @@ Register a new user.
 + Response 200 (application/json)
         
         {
-            "type": "Web Design",
-            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-            "description": "Welcome to Cornell Responsive Storyboard Economics Site Redesign contest. The goal of this contest is to redesign look and feel for one of our college site departments (economics) using base design and customer feedback provided in this contest. There are two pages that needs to be redesigned a",
-            "numberOfSubmissions": 16,
-            "numberOfRegistrants": 27,
-            "numberOfPassedScreeningSubmissions": 27,
-            "contestId": 30036096,
-            "projectId": 6789,
-            "registrationEndDate": "10.31.2013 10:10 EDT",
-            "submissionEndDate": "10.31.2013 10:09 EDT",
-            "prize":[1000, 250],
-            "checkpoints":
-                {
-                    "prize": 100,
-                    "number": 5
-                },
-            "reliabilityBonus": 0,
-            "digitalRunPoints": 500,
-            "cmc": "ab",
-            "registrants" :
-                [
-                    {
-                        "handle": "iRabbit",
-                        "reliability": "100%",
-                        "registrationDate": "10.31.2013 10:10 EDT"
-                    },
-                    {
-                        "handle": "hohosky",
-                        "reliability": "100%",
-                        "registrationDate": "10.31.2013 10:10 EDT"
-                    }
-                ]
-            "submissions" :
-                [
-                    {
-                        "handle": "iRabbit",
-                        "placement": 1,
-                        "screeningScore": 97,
-                        "initialScore": 97,
-                        "final": 97,
-                        "points": 100,
-                        "submissionDate": "10.31.2013 10:10 EDT"
-                    },
-                    {
-                        "handle": "hohosky",
-                        "placement": 2,
-                        "screeningScore": 97,
-                        "initialScore": 96,
-                        "final": 96,
-                        "points": 50,
-                        "submissionDate": "10.31.2013 10:10 EDT"
-                    }
-                ]
+          "challengeType": "Assembly Competition",
+          "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
+          "challengeId": 30036437,
+          "projectId": 6757,
+          "forumId": "19553",
+          "detailedRequirements": "<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Project Overview</span></h2>\n\n<p>TopCoder and the TopCoder community have worked hard to get the platform to its currently level of maturity, but we&#39;re far from done. It&#39;s time to take the platform to the next level. TopCoder is going to start taking some steps to open up the platform API to the outside and community developers so they could incorporate it in their websites, applications or build their own applications (web, mobile or desktop).</p>\n\n<p>The ultimate goal is to open up and build an &quot;API&quot; that is targeting all different type of audiences - Software and Studio Competitors, SRM/MM competitors, Copilots, Admins and TopCoder partners - each audience will have different interests and usages of the API, so it will be a huge project and we need to make sure that we are in the right direction from the beginning.</p>\n\n<p>Currently, we have run several contests to build the APIs and write tests for testing the APIs.&nbsp; All the tests can be found at https://github.com/cloudspokes/tc-api/tree/master/test</p>\n\n<p>Through these contests, we have found several problems for the tests part as following</p>\n\n<ol>\n\t<li>The tests are not properly named, we&#39;d like to follow the way like &#39;test.[api name].js&#39;, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> should be renamed to <u>test.register_member.js</u>.</span></li>\n\t<li>Some of the tests have to presetup the database manually, Some of the tests automically setup and clear the related database tables wisely.</li>\n\t<li>The tests can be passed if run separately, but failed when running togather.</li>\n</ol>\n\n<p>For this contest, we&#39;d like to improve and standarize the way to write tests, so it will be good for further addon and CI integration.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Competition Task Overview</span></h2>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /> <strong>Please raise questions as quick as you can, I am familiar with related database and code base, I can provide as much support as I can.</strong></span></span></p>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /></span><strong>The updated code must still deploy and work on heroku - any submission which can&#39;t be deployed on heroku successfully will be failed in screening phase - primary reviewer must check this.</strong></span></p>\n\n<p>The implementation will base on the node.js version of TC platform API - <span class=\"nobr\"><a href=\"https://github.com/cloudspokes/tc-api\" rel=\"nofollow\">https://github.com/cloudspokes/tc-api</a>.</span> <strong>Please follow the existing actionhero pattern for your development.</strong></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Clean State for Running Tests</span></h3>\n\n<p>Currently, some tests requires presetup the database, some tests automically setup and clear the related database tables.</p>\n\n<p>We&#39;d like to follow the approach to setup and clear the related database tables before and after running the tests.</p>\n\n<p>Currently, <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> used similar approach to setup the data before running tests. We&#39;d like to extra similar logic as utility methods, which can be used to execute a batch of sqls (for example, inside one file) or single sql against one database (Currently we can not do with multiple databases, due to the limitation of nodejs informix module).</span></p>\n\n<p>With this utility methods we can easily do setup and teardown databases.</p>\n\n<p><u>before, after, before each, after each hooks</u></p>\n\n<p>Utilize <code>before()</code>, <code>after()</code>, <code>beforeEach()</code>, <code>afterEach()</code>&nbsp; to setup the tests more wise. For detail information, please check http://visionmedia.github.io/mocha/</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Test Directory Restructure and Normalization</span></h3>\n\n<p>We&#39;d like to normalize the directory structure inside <a href=\"https://github.com/cloudspokes/tc-api/blob/master/test\">test</a> directory. Currently, it already gives good starting point, but we&#39;d like revise it as we are making the above changes. Here is the general rules to following</p>\n\n<ol>\n\t<li>All tests should be named like test.[api name].js, so normally, for each api, there should be separated test js files.</li>\n\t<li>All tests from contest winner, should be put directly under test directory.</li>\n\t<li>All reviewers tests should be put under corresponding directory under test directory, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory.</li>\n\t<li>All sql files used for tests presetup and teardown should be put under <u>sqls</u> directory, sqls files for accuray, failture, security tests, will be in different directory, directly under the <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory, like accuracy/sqls, failure/sqls etc.</li>\n\t<li>All other test related files will be still put under <u>test_files</u> directory.</li>\n</ol>\n\n<p><span style=\"color:#FF0000;\">If you have better idea and improvement to make the test directory well orginized, please suggest. This can be considered as improvement, reviewers and PMs will consider that.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Scope </span></h3>\n\n<p>All tests under test directory are in scope. If it tests didn&#39;t pass orignally, you should be responsible to fix that.</p>\n\n<p>The ultimate goal is we can run all tests or single test successfully. like</p>\n\n<p>Run a single test:&nbsp; <u>./node_modules/.bin/mocha ./test/test.tops.js</u></p>\n\n<p>Run all tests: <u>./node_modules/.bin/mocha ./test</u></p>\n\n<p>Following steps&nbsp; to run the tests.</p>\n\n<ol>\n\t<li>setup environment varibales: . deploy/development.sh</li>\n\t<li>start the local server: npm start</li>\n\t<li>run the tests: as above commands.</li>\n</ol>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Tests Creation Guide</span></h3>\n\n<p>Beside the above requirements for current tests normalization and improvement, we&#39;d like you to write a general guide which can be followed to further test creation. It just need to be easy to follow.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Testing</span></h3>\n\n<p><span style=\"font-size:12px;\">The API Framework supports tests. </span>Use <a href=\"https://github.com/visionmedia/supertest\">supertest</a> with <a href=\"http://visionmedia.github.io/mocha/\">mocha</a>. Don&#39;t install mocha globally.</p>\n\n<p><span style=\"color:#FF0000;\">you must use mocha BDD style (which is the default), within that, you can optionally use chai.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Code Format</span></h3>\n\n<p>All code must pass <a href=\"http://www.jslint.com/\">jslint</a>. You may use &quot;nomen: true&quot;.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Winner Only</span></h3>\n\n<p>Winner will create pull request against the main github repo in final fix phase and merge the code.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color:#FF0000;\">Virutal Machines (VMs)</span></h3>\n\n<p>VM specific information is found here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/docs/VM+Image+2.5\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/docs/VM+Image+2.5</a></span></p>\n\n<p>Upon registration as a submitter or reviewer you will need to request a VM based on the TopCoder systems image. The VM will be active through aggregation review, after which it will be terminated except for the winner&#39;s and the reviewers&#39;. To request your image, please post in contest forum.</p>\n\n<p>Before requesting your VM, you need to ensure that you have an SSH key created and in your member profile. Instructions to do so are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key</a></span>, and instructions to connect afterwards are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key</a></span>.</p>\n\n<p>Please realize that VMs are currently issued manually. We make every attempt to issue the VM as soon as it is requested, however, there may be delays of up to 12 hours depending on time of day when you request. We encourage everyone to request a VM as soon as possible to minimize any such delays.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Technology Overview</span></h2>\n\n<ul style=\"font-family: Arial, Helvetica, Verdana, sans-serif; font-size: 12px; line-height: 16px;\">\n\t<li>JavaScript</li>\n\t<li><span class=\"nobr\"><a href=\"http://nodejs.org/\" rel=\"nofollow\">Node.js 0.10.x</a></span></li>\n\t<li><a href=\"https://github.com/evantahler/actionHero\">actionhero.js framework</a></li>\n\t<li><a href=\"https://github.com/visionmedia/supertest\">supertest</a></li>\n\t<li><a href=\"http://visionmedia.github.io/mocha/\">mocha</a></li>\n</ul>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Documentation Provided</span></h2>\n\n<p>Please check the deployment guide in codebase for reference.</p>\n",
+          "finalSubmissionGuidelines": "<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Submission Deliverables</span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">A complete list of deliverables can be viewed in the TopCoder Assembly competition Tutorial at: </span><a href=\"http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials\">http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials</a></p>\n\n<p><span style=\"font-size:12px;\">Below is an overview of the deliverables:</span></p>\n\n<ul>\n\t<li>Source Code.</li>\n\t<li>Deployment guide to configure and verify the application.</li>\n\t<li>General Test Creation Guide</li>\n</ul>\n\n<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Final Submission </span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">For each member, the final submission should be uploaded to the Online Review Tool.</span></p>\n",
+          "screeningScorecardId": "30000412",
+          "reviewScorecardId": "30001470",
+          "cmcTaskId": "",
+          "numberOfCheckpointsPrizes": 0,
+          "topCheckPointPrize": "",
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "registrationEndDate": "2013-12-04T09:00:21.000Z",
+          "checkpointSubmissionEndDate": "-000001-11-30T00:00:00.000Z",
+          "submissionEndDate": "2013-12-06T21:20:56.000Z",
+          "appealsEndDate": "2013-12-09T07:05:33.000Z",
+          "finalFixEndDate": "2013-12-10T08:33:19.000Z",
+          "currentPhaseEndDate": "-000001-11-30T00:00:00.000Z",
+          "currentStatus": "Completed",
+          "currentPhaseName": "",
+          "currentPhaseRemainingTime": 0,
+          "digitalRunPoints": 360,
+          "reliabilityBonus": 160,
+          "challengeCommunity": "develop",
+          "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30036437",
+          "prize": [
+            800,
+            400
+          ],
+          "registrants": [
+            {
+              "handle": "Luca",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:09:08.000Z"
+            },
+            {
+              "handle": "freegod",
+              "reliability": "40%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:27:46.000Z"
+            },
+            {
+              "handle": "Ghost_141",
+              "reliability": "53%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:31:53.000Z"
+            },
+            {
+              "handle": "Gando19850304",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:56:15.000Z"
+            },
+            {
+              "handle": "saarixx",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T10:19:36.000Z"
+            },
+            {
+              "handle": "moulyg",
+              "reliability": "30%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T10:21:05.000Z"
+            },
+            {
+              "handle": "DanLazar",
+              "reliability": "13%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T12:09:28.000Z"
+            },
+            {
+              "handle": "Schpotsky",
+              "reliability": "100%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T12:27:50.000Z"
+            },
+            {
+              "handle": "Fantoccini",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T19:21:55.000Z"
+            },
+            {
+              "handle": "Standlove",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T19:50:41.000Z"
+            },
+            {
+              "handle": "brain_cn",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T21:41:37.000Z"
+            },
+            {
+              "handle": "phead",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T21:44:32.000Z"
+            },
+            {
+              "handle": "alfiya_Zi",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T00:49:54.000Z"
+            },
+            {
+              "handle": "sunbinbrother",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T02:13:48.000Z"
+            },
+            {
+              "handle": "muzehyun",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T03:15:31.000Z"
+            },
+            {
+              "handle": "KeSyren",
+              "reliability": "13%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T05:39:21.000Z"
+            },
+            {
+              "handle": "Sky_",
+              "reliability": "100%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T06:18:30.000Z"
+            },
+            {
+              "handle": "woodjhon",
+              "reliability": "6%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T07:19:29.000Z"
+            }
+          ],
+          "generalCheckpointFeedback": "This is general feedback from all competitors.",
+          "checkpoints": [
+            {
+              "submissionId": 162433,
+              "submitter": "t3uku",
+              "submissionTime": "2013-11-24T11:36:23.000Z",
+              "feedback": "This is the checkpoint feedback."
+            },
+            {
+              "submissionId": 162470,
+              "submitter": "CoralBlue",
+              "submissionTime": "2013-11-25T06:24:16.000Z",
+              "feedback": "This is the checkpoint feedback."
+            },
+          "submissions": [
+            {
+              "handle": "Sky_",
+              "placement": 1,
+              "screeningScore": 100,
+              "initialScore": 98.98,
+              "finalScore": 99.95,
+              "points": 360,
+              "submissionStatus": "Active",
+              "submissionDate": "2013-12-06T08:12:59.000Z"
+            },
+            {
+              "handle": "Sky_",
+              "placement": "",
+              "screeningScore": null,
+              "initialScore": null,
+              "finalScore": null,
+              "points": 0,
+              "submissionStatus": "Deleted",
+              "submissionDate": "2013-12-05T12:22:07.000Z"
+            }
+          ],
+          "numberOfRegistrants": 18,
+          "numberOfSubmissions": 2
         }
 
 + Response 400 (application/json)
