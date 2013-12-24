@@ -1,0 +1,5 @@
+{
+  "name"    : "get_countries",
+  "db"      : "common_oltp",
+  "sqlfile" : "get_countries"
+}

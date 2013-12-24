@@ -1,0 +1,2422 @@
+[
+  {
+    "countryCode": "004",
+    "countryName": "Afghanistan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 65.917969,
+    "latitude": 34.089061,
+    "region": "null"
+  },
+  {
+    "countryCode": "008",
+    "countryName": "Albania",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 19.907227,
+    "latitude": 41.310824,
+    "region": "null"
+  },
+  {
+    "countryCode": "010",
+    "countryName": "Antarctica",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 5.625,
+    "latitude": -84.267172,
+    "region": "null"
+  },
+  {
+    "countryCode": "012",
+    "countryName": "Algeria",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 3.339844,
+    "latitude": 27.994401,
+    "region": "null"
+  },
+  {
+    "countryCode": "016",
+    "countryName": "American Samoa",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -170.727539,
+    "latitude": -14.306969,
+    "region": "null"
+  },
+  {
+    "countryCode": "020",
+    "countryName": "Andorra",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 1.516667,
+    "latitude": 42.5,
+    "region": "null"
+  },
+  {
+    "countryCode": "028",
+    "countryName": "Antigua and Barbuda",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.85,
+    "latitude": 17.116667,
+    "region": "null"
+  },
+  {
+    "countryCode": "031",
+    "countryName": "Azerbaijan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 49.883333,
+    "latitude": 40.366667,
+    "region": "null"
+  },
+  {
+    "countryCode": "032",
+    "countryName": "Argentina",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -58.5,
+    "latitude": -34.333333,
+    "region": "null"
+  },
+  {
+    "countryCode": "036",
+    "countryName": "Australia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 149.133333,
+    "latitude": -35.3,
+    "region": "null"
+  },
+  {
+    "countryCode": "040",
+    "countryName": "Austria",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 16.35,
+    "latitude": 48.2,
+    "region": "null"
+  },
+  {
+    "countryCode": "044",
+    "countryName": "Bahamas",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -77.958984,
+    "latitude": 24.527135,
+    "region": "null"
+  },
+  {
+    "countryCode": "048",
+    "countryName": "Bahrain",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 50.556335,
+    "latitude": 25.972861,
+    "region": "null"
+  },
+  {
+    "countryCode": "050",
+    "countryName": "Bangladesh",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 90.395508,
+    "latitude": 23.735069,
+    "region": "null"
+  },
+  {
+    "countryCode": "051",
+    "countryName": "Armenia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 44.516602,
+    "latitude": 40.388397,
+    "region": "null"
+  },
+  {
+    "countryCode": "052",
+    "countryName": "Barbados",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -59.557571,
+    "latitude": 13.171091,
+    "region": "null"
+  },
+  {
+    "countryCode": "056",
+    "countryName": "Belgium",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 4.378052,
+    "latitude": 50.854509,
+    "region": "null"
+  },
+  {
+    "countryCode": "060",
+    "countryName": "Bermuda",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -64.768524,
+    "latitude": 32.304545,
+    "region": "null"
+  },
+  {
+    "countryCode": "064",
+    "countryName": "Bhutan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 90.252686,
+    "latitude": 27.469287,
+    "region": "null"
+  },
+  {
+    "countryCode": "068",
+    "countryName": "Bolivia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -64.863281,
+    "latitude": -16.783506,
+    "region": "null"
+  },
+  {
+    "countryCode": "070",
+    "countryName": "Bosnia and Herzegowina",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 17.753906,
+    "latitude": 44.276671,
+    "region": "null"
+  },
+  {
+    "countryCode": "072",
+    "countryName": "Botswana",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 23.664551,
+    "latitude": -22.105999,
+    "region": "null"
+  },
+  {
+    "countryCode": "074",
+    "countryName": "Bouvet Island",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 3.400269,
+    "latitude": -54.422126,
+    "region": "null"
+  },
+  {
+    "countryCode": "076",
+    "countryName": "Brazil",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -52.602539,
+    "latitude": -8.559294,
+    "region": "null"
+  },
+  {
+    "countryCode": "084",
+    "countryName": "Belize",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -88.665161,
+    "latitude": 17.37161,
+    "region": "null"
+  },
+  {
+    "countryCode": "086",
+    "countryName": "British Indian Ocean Territory",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 72.427368,
+    "latitude": -7.291639,
+    "region": "null"
+  },
+  {
+    "countryCode": "090",
+    "countryName": "Solomon Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 160.180664,
+    "latitude": -9.60075,
+    "region": "null"
+  },
+  {
+    "countryCode": "092",
+    "countryName": "Virgin Islands (British)",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -64.613342,
+    "latitude": 18.430108,
+    "region": "null"
+  },
+  {
+    "countryCode": "096",
+    "countryName": "Brunei Darussalam",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 114.584656,
+    "latitude": 4.513452,
+    "region": "null"
+  },
+  {
+    "countryCode": "100",
+    "countryName": "Bulgaria",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 24.8213,
+    "latitude": 42.63523,
+    "region": "null"
+  },
+  {
+    "countryCode": "104",
+    "countryName": "Myanmar",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 96.196289,
+    "latitude": 22.075459,
+    "region": "null"
+  },
+  {
+    "countryCode": "108",
+    "countryName": "Burundi",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 29.937744,
+    "latitude": -3.30505,
+    "region": "null"
+  },
+  {
+    "countryCode": "112",
+    "countryName": "Belarus",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 27.729492,
+    "latitude": 53.592505,
+    "region": "null"
+  },
+  {
+    "countryCode": "116",
+    "countryName": "Cambodia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 104.666748,
+    "latitude": 12.522391,
+    "region": "null"
+  },
+  {
+    "countryCode": "120",
+    "countryName": "Cameroon",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 12.436523,
+    "latitude": 5.025283,
+    "region": "null"
+  },
+  {
+    "countryCode": "124",
+    "countryName": "Canada",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -103.447266,
+    "latitude": 55.37911,
+    "region": "null"
+  },
+  {
+    "countryCode": "132",
+    "countryName": "Cape Verde",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -23.659058,
+    "latitude": 15.045601,
+    "region": "null"
+  },
+  {
+    "countryCode": "136",
+    "countryName": "Cayman Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -81.235657,
+    "latitude": 19.308551,
+    "region": "null"
+  },
+  {
+    "countryCode": "140",
+    "countryName": "Central African Republic",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 20.170898,
+    "latitude": 6.511815,
+    "region": "null"
+  },
+  {
+    "countryCode": "144",
+    "countryName": "Sri Lanka",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 80.683594,
+    "latitude": 7.493196,
+    "region": "null"
+  },
+  {
+    "countryCode": "148",
+    "countryName": "Chad",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 18.457031,
+    "latitude": 15.496032,
+    "region": "null"
+  },
+  {
+    "countryCode": "152",
+    "countryName": "Chile",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -71.455078,
+    "latitude": -34.957995,
+    "region": "null"
+  },
+  {
+    "countryCode": "156",
+    "countryName": "China",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 102.568359,
+    "latitude": 33.72434,
+    "region": "null"
+  },
+  {
+    "countryCode": "158",
+    "countryName": "Taiwan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 120.844116,
+    "latitude": 23.719983,
+    "region": "null"
+  },
+  {
+    "countryCode": "162",
+    "countryName": "Christmas Island",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 105.650024,
+    "latitude": -10.48241,
+    "region": "null"
+  },
+  {
+    "countryCode": "166",
+    "countryName": "Cocos (Keeling) Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 96.840363,
+    "latitude": -12.165541,
+    "region": "null"
+  },
+  {
+    "countryCode": "170",
+    "countryName": "Colombia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -73.168945,
+    "latitude": 3.688855,
+    "region": "null"
+  },
+  {
+    "countryCode": "174",
+    "countryName": "Comoros",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 43.349304,
+    "latitude": -11.70872,
+    "region": "null"
+  },
+  {
+    "countryCode": "175",
+    "countryName": "Mayotte",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 45.153122,
+    "latitude": -12.821844,
+    "region": "null"
+  },
+  {
+    "countryCode": "178",
+    "countryName": "Congo",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 15.666504,
+    "latitude": -0.439449,
+    "region": "null"
+  },
+  {
+    "countryCode": "180",
+    "countryName": "Zaire",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 14.0625,
+    "latitude": -5.260538,
+    "region": "null"
+  },
+  {
+    "countryCode": "184",
+    "countryName": "Cook Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -27.210388,
+    "latitude": -59.468803,
+    "region": "null"
+  },
+  {
+    "countryCode": "188",
+    "countryName": "Costa Rica",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -84.04541,
+    "latitude": 9.817329,
+    "region": "null"
+  },
+  {
+    "countryCode": "191",
+    "countryName": "Croatia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 15.205078,
+    "latitude": 44.980342,
+    "region": "null"
+  },
+  {
+    "countryCode": "192",
+    "countryName": "Cuba",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 0,
+    "default_taxform_id": 2,
+    "longitude": -78.706055,
+    "latitude": 21.71868,
+    "region": "null"
+  },
+  {
+    "countryCode": "196",
+    "countryName": "Cyprus",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 33.206177,
+    "latitude": 35.088451,
+    "region": "null"
+  },
+  {
+    "countryCode": "203",
+    "countryName": "Czech Republic",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 15.358887,
+    "latitude": 49.880478,
+    "region": "null"
+  },
+  {
+    "countryCode": "204",
+    "countryName": "Benin",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 2.362061,
+    "latitude": 9.871452,
+    "region": "null"
+  },
+  {
+    "countryCode": "208",
+    "countryName": "Denmark",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 9.239502,
+    "latitude": 56.340901,
+    "region": "null"
+  },
+  {
+    "countryCode": "212",
+    "countryName": "Dominica",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.350403,
+    "latitude": 15.435148,
+    "region": "null"
+  },
+  {
+    "countryCode": "214",
+    "countryName": "Dominican Republic",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -70.570679,
+    "latitude": 18.895893,
+    "region": "null"
+  },
+  {
+    "countryCode": "218",
+    "countryName": "Ecuador",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -78.310547,
+    "latitude": -1.274309,
+    "region": "null"
+  },
+  {
+    "countryCode": "222",
+    "countryName": "El Salvador",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -88.829956,
+    "latitude": 13.691356,
+    "region": "null"
+  },
+  {
+    "countryCode": "226",
+    "countryName": "Equatorial Guinea",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 10.458984,
+    "latitude": 1.58183,
+    "region": "null"
+  },
+  {
+    "countryCode": "231",
+    "countryName": "Ethiopia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 39.528809,
+    "latitude": 9.058702,
+    "region": "null"
+  },
+  {
+    "countryCode": "232",
+    "countryName": "Eritrea",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 38.825684,
+    "latitude": 15.601875,
+    "region": "null"
+  },
+  {
+    "countryCode": "233",
+    "countryName": "Estonia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 25.905762,
+    "latitude": 58.711189,
+    "region": "null"
+  },
+  {
+    "countryCode": "234",
+    "countryName": "Faroe Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -7.086182,
+    "latitude": 62.155241,
+    "region": "null"
+  },
+  {
+    "countryCode": "238",
+    "countryName": "Falkland Islands (Malvinas)",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -58.886719,
+    "latitude": -51.740636,
+    "region": "null"
+  },
+  {
+    "countryCode": "239",
+    "countryName": "South Georgia and The S.Sandwich Is.",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -36.738281,
+    "latitude": -54.265224,
+    "region": "null"
+  },
+  {
+    "countryCode": "242",
+    "countryName": "Fiji",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 178.044434,
+    "latitude": -17.811456,
+    "region": "null"
+  },
+  {
+    "countryCode": "246",
+    "countryName": "Finland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 26.89313,
+    "latitude": 64.24854,
+    "region": "null"
+  },
+  {
+    "countryCode": "250",
+    "countryName": "France",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 2.548828,
+    "latitude": 47.100045,
+    "region": "null"
+  },
+  {
+    "countryCode": "254",
+    "countryName": "French Guiana",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -53.041992,
+    "latitude": 3.951941,
+    "region": "null"
+  },
+  {
+    "countryCode": "258",
+    "countryName": "French Polynesia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -149.545898,
+    "latitude": -17.811456,
+    "region": "null"
+  },
+  {
+    "countryCode": "260",
+    "countryName": "French Southern Territories",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 69.463806,
+    "latitude": -49.351967,
+    "region": "null"
+  },
+  {
+    "countryCode": "262",
+    "countryName": "Djibouti",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 42.519836,
+    "latitude": 11.786703,
+    "region": "null"
+  },
+  {
+    "countryCode": "266",
+    "countryName": "Gabon",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 11.953125,
+    "latitude": 0.021973,
+    "region": "null"
+  },
+  {
+    "countryCode": "268",
+    "countryName": "Georgia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 43.395996,
+    "latitude": 42.220382,
+    "region": "null"
+  },
+  {
+    "countryCode": "270",
+    "countryName": "Gambia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -16.018066,
+    "latitude": 13.368243,
+    "region": "null"
+  },
+  {
+    "countryCode": "276",
+    "countryName": "Germany",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 10.546875,
+    "latitude": 51.234407,
+    "region": "null"
+  },
+  {
+    "countryCode": "288",
+    "countryName": "Ghana",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -1.40625,
+    "latitude": 8.233237,
+    "region": "null"
+  },
+  {
+    "countryCode": "292",
+    "countryName": "Gibraltar",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -5.346565,
+    "latitude": 36.139816,
+    "region": "null"
+  },
+  {
+    "countryCode": "296",
+    "countryName": "Kiribati",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -157.5,
+    "latitude": 1.889306,
+    "region": "null"
+  },
+  {
+    "countryCode": "300",
+    "countryName": "Greece",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 22.346191,
+    "latitude": 39.027719,
+    "region": "null"
+  },
+  {
+    "countryCode": "304",
+    "countryName": "Greenland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -44.472656,
+    "latitude": 64.848937,
+    "region": "null"
+  },
+  {
+    "countryCode": "308",
+    "countryName": "Grenada",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.699219,
+    "latitude": 12.189704,
+    "region": "null"
+  },
+  {
+    "countryCode": "312",
+    "countryName": "Guadeloupe",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -62.825317,
+    "latitude": 17.901648,
+    "region": "null"
+  },
+  {
+    "countryCode": "316",
+    "countryName": "Guam",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 1,
+    "longitude": 144.775085,
+    "latitude": 13.445723,
+    "region": "null"
+  },
+  {
+    "countryCode": "320",
+    "countryName": "Guatemala",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -90.021973,
+    "latitude": 15.707663,
+    "region": "null"
+  },
+  {
+    "countryCode": "324",
+    "countryName": "Guinea",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -11.337891,
+    "latitude": 11.049038,
+    "region": "null"
+  },
+  {
+    "countryCode": "328",
+    "countryName": "Guyana",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -58.974609,
+    "latitude": 5.047171,
+    "region": "null"
+  },
+  {
+    "countryCode": "332",
+    "countryName": "Haiti",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -72.355957,
+    "latitude": 19.207429,
+    "region": "null"
+  },
+  {
+    "countryCode": "334",
+    "countryName": "Heard and Mc Donald Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 73.528748,
+    "latitude": -53.098972,
+    "region": "null"
+  },
+  {
+    "countryCode": "336",
+    "countryName": "Vatican City State (Holy See)",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 12.453432,
+    "latitude": 41.903938,
+    "region": "null"
+  },
+  {
+    "countryCode": "340",
+    "countryName": "Honduras",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -86.791992,
+    "latitude": 14.85985,
+    "region": "null"
+  },
+  {
+    "countryCode": "344",
+    "countryName": "Hong Kong",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 114.180908,
+    "latitude": 22.806567,
+    "region": "null"
+  },
+  {
+    "countryCode": "348",
+    "countryName": "Hungary",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 19.6875,
+    "latitude": 46.920255,
+    "region": "null"
+  },
+  {
+    "countryCode": "352",
+    "countryName": "Iceland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -17.753906,
+    "latitude": 65.07213,
+    "region": "null"
+  },
+  {
+    "countryCode": "356",
+    "countryName": "India",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 78.530273,
+    "latitude": 23.402765,
+    "region": "null"
+  },
+  {
+    "countryCode": "360",
+    "countryName": "Indonesia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 114.609375,
+    "latitude": -0.878872,
+    "region": "null"
+  },
+  {
+    "countryCode": "364",
+    "countryName": "Iran",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 0,
+    "default_taxform_id": 2,
+    "longitude": 53.876953,
+    "latitude": 33.027088,
+    "region": "null"
+  },
+  {
+    "countryCode": "368",
+    "countryName": "Iraq",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 0,
+    "default_taxform_id": 2,
+    "longitude": 43.549805,
+    "latitude": 33.541395,
+    "region": "null"
+  },
+  {
+    "countryCode": "372",
+    "countryName": "Ireland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -8.005,
+    "latitude": 53.37603,
+    "region": "null"
+  },
+  {
+    "countryCode": "376",
+    "countryName": "Israel",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 35.112305,
+    "latitude": 31.090574,
+    "region": "null"
+  },
+  {
+    "countryCode": "380",
+    "countryName": "Italy",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 11.33095,
+    "latitude": 43.7295,
+    "region": "null"
+  },
+  {
+    "countryCode": "384",
+    "countryName": "Cote D'Ivoire",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -5.888672,
+    "latitude": 8.05923,
+    "region": "null"
+  },
+  {
+    "countryCode": "388",
+    "countryName": "Jamaica",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -77.255859,
+    "latitude": 18.104087,
+    "region": "null"
+  },
+  {
+    "countryCode": "392",
+    "countryName": "Japan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 137.900391,
+    "latitude": 35.85344,
+    "region": "null"
+  },
+  {
+    "countryCode": "398",
+    "countryName": "Kazakhstan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 66.708984,
+    "latitude": 48.806863,
+    "region": "null"
+  },
+  {
+    "countryCode": "400",
+    "countryName": "Jordan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 36.276855,
+    "latitude": 31.16581,
+    "region": "null"
+  },
+  {
+    "countryCode": "404",
+    "countryName": "Kenya",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 37.96875,
+    "latitude": 0.79099,
+    "region": "null"
+  },
+  {
+    "countryCode": "408",
+    "countryName": "South Korea",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 128.144531,
+    "latitude": 36.738884,
+    "region": "null"
+  },
+  {
+    "countryCode": "410",
+    "countryName": "North Korea",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 0,
+    "default_taxform_id": 2,
+    "longitude": 126.518555,
+    "latitude": 39.876019,
+    "region": "null"
+  },
+  {
+    "countryCode": "414",
+    "countryName": "Kuwait",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 47.658691,
+    "latitude": 29.51611,
+    "region": "null"
+  },
+  {
+    "countryCode": "417",
+    "countryName": "Kyrgyzstan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 74.487305,
+    "latitude": 41.541478,
+    "region": "null"
+  },
+  {
+    "countryCode": "418",
+    "countryName": "Lao People's Democratic Republic",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 103.007813,
+    "latitude": 19.228177,
+    "region": "null"
+  },
+  {
+    "countryCode": "422",
+    "countryName": "Lebanon",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 35.936279,
+    "latitude": 34.066312,
+    "region": "null"
+  },
+  {
+    "countryCode": "426",
+    "countryName": "Lesotho",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 28.075562,
+    "latitude": -29.520891,
+    "region": "null"
+  },
+  {
+    "countryCode": "428",
+    "countryName": "Latvia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 24.818115,
+    "latitude": 56.944974,
+    "region": "null"
+  },
+  {
+    "countryCode": "430",
+    "countryName": "Liberia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -9.228516,
+    "latitude": 6.489983,
+    "region": "null"
+  },
+  {
+    "countryCode": "434",
+    "countryName": "Libya",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 17.929688,
+    "latitude": 26.74561,
+    "region": "null"
+  },
+  {
+    "countryCode": "438",
+    "countryName": "Liechtenstein",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 9.562912,
+    "latitude": 47.143029,
+    "region": "null"
+  },
+  {
+    "countryCode": "440",
+    "countryName": "Lithuania",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 23.884277,
+    "latitude": 55.291628,
+    "region": "null"
+  },
+  {
+    "countryCode": "442",
+    "countryName": "Luxembourg",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 6.16333,
+    "latitude": 49.61249,
+    "region": "null"
+  },
+  {
+    "countryCode": "446",
+    "countryName": "Macau",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 113.527222,
+    "latitude": 22.202663,
+    "region": "null"
+  },
+  {
+    "countryCode": "450",
+    "countryName": "Madagascar",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 46.054688,
+    "latitude": -19.808054,
+    "region": "null"
+  },
+  {
+    "countryCode": "454",
+    "countryName": "Malawi",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 34.035645,
+    "latitude": -13.517838,
+    "region": "null"
+  },
+  {
+    "countryCode": "458",
+    "countryName": "Malaysia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 102.041016,
+    "latitude": 4.346411,
+    "region": "null"
+  },
+  {
+    "countryCode": "462",
+    "countryName": "Maldives",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 73.037109,
+    "latitude": -0.57128,
+    "region": "null"
+  },
+  {
+    "countryCode": "466",
+    "countryName": "Mali",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -3.251953,
+    "latitude": 18.562947,
+    "region": "null"
+  },
+  {
+    "countryCode": "470",
+    "countryName": "Malta",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 14.370804,
+    "latitude": 35.937988,
+    "region": "null"
+  },
+  {
+    "countryCode": "474",
+    "countryName": "Martinique",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.062012,
+    "latitude": 14.796128,
+    "region": "null"
+  },
+  {
+    "countryCode": "478",
+    "countryName": "Mauritania",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -9.84375,
+    "latitude": 20.550509,
+    "region": "null"
+  },
+  {
+    "countryCode": "480",
+    "countryName": "Mauritius",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 57.392578,
+    "latitude": -20.179724,
+    "region": "null"
+  },
+  {
+    "countryCode": "484",
+    "countryName": "Mexico",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -102.678223,
+    "latitude": 25.025884,
+    "region": "null"
+  },
+  {
+    "countryCode": "492",
+    "countryName": "Monaco",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 7.41687,
+    "latitude": 43.73593,
+    "region": "null"
+  },
+  {
+    "countryCode": "496",
+    "countryName": "Mongolia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 102.304688,
+    "latitude": 47.279229,
+    "region": "null"
+  },
+  {
+    "countryCode": "498",
+    "countryName": "Moldova, Republic of",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 28.520508,
+    "latitude": 47.309034,
+    "region": "null"
+  },
+  {
+    "countryCode": "500",
+    "countryName": "Montserrat",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -62.20459,
+    "latitude": 16.762468,
+    "region": "null"
+  },
+  {
+    "countryCode": "504",
+    "countryName": "Morocco",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -7.119141,
+    "latitude": 31.503629,
+    "region": "null"
+  },
+  {
+    "countryCode": "508",
+    "countryName": "Mozambique",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 37.96875,
+    "latitude": -14.944785,
+    "region": "null"
+  },
+  {
+    "countryCode": "512",
+    "countryName": "Oman",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 56.601563,
+    "latitude": 21.002471,
+    "region": "null"
+  },
+  {
+    "countryCode": "516",
+    "countryName": "Namibia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 15.644531,
+    "latitude": -20.96144,
+    "region": "null"
+  },
+  {
+    "countryCode": "520",
+    "countryName": "Nauru",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 166.904297,
+    "latitude": -0.483393,
+    "region": "null"
+  },
+  {
+    "countryCode": "524",
+    "countryName": "Nepal",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 84.243164,
+    "latitude": 28.149503,
+    "region": "null"
+  },
+  {
+    "countryCode": "528",
+    "countryName": "Netherlands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 5.844727,
+    "latitude": 52.268157,
+    "region": "null"
+  },
+  {
+    "countryCode": "530",
+    "countryName": "Netherlands Antilles",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -68.356934,
+    "latitude": 12.168226,
+    "region": "null"
+  },
+  {
+    "countryCode": "533",
+    "countryName": "Aruba",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -70.114746,
+    "latitude": 12.533115,
+    "region": "null"
+  },
+  {
+    "countryCode": "540",
+    "countryName": "New Caledonia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 165.366211,
+    "latitude": -21.371244,
+    "region": "null"
+  },
+  {
+    "countryCode": "548",
+    "countryName": "Vanuatu",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 166.92627,
+    "latitude": -15.262989,
+    "region": "null"
+  },
+  {
+    "countryCode": "554",
+    "countryName": "New Zealand",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 171.738281,
+    "latitude": -43.325178,
+    "region": "null"
+  },
+  {
+    "countryCode": "558",
+    "countryName": "Nicaragua",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -84.990234,
+    "latitude": 12.983148,
+    "region": "null"
+  },
+  {
+    "countryCode": "562",
+    "countryName": "Niger",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 9.667969,
+    "latitude": 18.479609,
+    "region": "null"
+  },
+  {
+    "countryCode": "566",
+    "countryName": "Nigeria",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 8.701172,
+    "latitude": 10.314919,
+    "region": "null"
+  },
+  {
+    "countryCode": "570",
+    "countryName": "Niue",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -169.867859,
+    "latitude": -19.049138,
+    "region": "null"
+  },
+  {
+    "countryCode": "574",
+    "countryName": "Norfolk Island",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 167.947998,
+    "latitude": -29.027355,
+    "region": "null"
+  },
+  {
+    "countryCode": "578",
+    "countryName": "Norway",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 8.964844,
+    "latitude": 62.431074,
+    "region": "null"
+  },
+  {
+    "countryCode": "580",
+    "countryName": "Northern Mariana Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 145.766602,
+    "latitude": 15.220589,
+    "region": "null"
+  },
+  {
+    "countryCode": "581",
+    "countryName": "United States Minor Outlying Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 1,
+    "longitude": -156.796875,
+    "latitude": 21.125498,
+    "region": "null"
+  },
+  {
+    "countryCode": "583",
+    "countryName": "Micronesia, Federated States of",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 158.334961,
+    "latitude": 6.8828,
+    "region": "null"
+  },
+  {
+    "countryCode": "584",
+    "countryName": "Marshall Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 168.442383,
+    "latitude": 7.536764,
+    "region": "null"
+  },
+  {
+    "countryCode": "585",
+    "countryName": "Palau",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 134.428711,
+    "latitude": 7.667441,
+    "region": "null"
+  },
+  {
+    "countryCode": "586",
+    "countryName": "Pakistan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 69.389648,
+    "latitude": 29.726222,
+    "region": "null"
+  },
+  {
+    "countryCode": "591",
+    "countryName": "Panama",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -80.771484,
+    "latitude": 8.733077,
+    "region": "null"
+  },
+  {
+    "countryCode": "598",
+    "countryName": "Papua New Guinea",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 143.613281,
+    "latitude": -5.266008,
+    "region": "null"
+  },
+  {
+    "countryCode": "600",
+    "countryName": "Paraguay",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -57.65625,
+    "latitude": -23.241346,
+    "region": "null"
+  },
+  {
+    "countryCode": "604",
+    "countryName": "Peru",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -75.849609,
+    "latitude": -8.494105,
+    "region": "null"
+  },
+  {
+    "countryCode": "608",
+    "countryName": "Philippines",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 123.398438,
+    "latitude": 12.511665,
+    "region": "null"
+  },
+  {
+    "countryCode": "612",
+    "countryName": "Pitcairn",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -128.320312,
+    "latitude": -24.44715,
+    "region": "null"
+  },
+  {
+    "countryCode": "616",
+    "countryName": "Poland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 19.16894,
+    "latitude": 52.38688,
+    "region": "null"
+  },
+  {
+    "countryCode": "620",
+    "countryName": "Portugal",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -7.954102,
+    "latitude": 39.75788,
+    "region": "null"
+  },
+  {
+    "countryCode": "624",
+    "countryName": "Guinea-Bissau",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -14.666748,
+    "latitude": 12.178965,
+    "region": "null"
+  },
+  {
+    "countryCode": "626",
+    "countryName": "East Timor",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 125.562744,
+    "latitude": -8.847079,
+    "region": "null"
+  },
+  {
+    "countryCode": "630",
+    "countryName": "Puerto Rico",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 1,
+    "longitude": -67.016602,
+    "latitude": 18.271086,
+    "region": "null"
+  },
+  {
+    "countryCode": "634",
+    "countryName": "Qatar",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 51.196289,
+    "latitude": 25.244696,
+    "region": "null"
+  },
+  {
+    "countryCode": "638",
+    "countryName": "Reunion",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 55.496063,
+    "latitude": -21.090907,
+    "region": "null"
+  },
+  {
+    "countryCode": "642",
+    "countryName": "Romania",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 24.873047,
+    "latitude": 46.346928,
+    "region": "null"
+  },
+  {
+    "countryCode": "643",
+    "countryName": "Russian Federation",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 93.691406,
+    "latitude": 62.674143,
+    "region": "null"
+  },
+  {
+    "countryCode": "646",
+    "countryName": "Rwanda",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 29.858093,
+    "latitude": -1.933227,
+    "region": "null"
+  },
+  {
+    "countryCode": "654",
+    "countryName": "St. Helena",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -5.932617,
+    "latitude": -15.834536,
+    "region": "null"
+  },
+  {
+    "countryCode": "659",
+    "countryName": "Saint Kitts and Nevis",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -62.756653,
+    "latitude": 17.336219,
+    "region": "null"
+  },
+  {
+    "countryCode": "660",
+    "countryName": "Anguilla",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -63.058777,
+    "latitude": 18.217612,
+    "region": "null"
+  },
+  {
+    "countryCode": "662",
+    "countryName": "Saint Lucia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.018066,
+    "latitude": 13.966054,
+    "region": "null"
+  },
+  {
+    "countryCode": "666",
+    "countryName": "St. Pierre and Miquelon",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -56.329651,
+    "latitude": 46.989621,
+    "region": "null"
+  },
+  {
+    "countryCode": "670",
+    "countryName": "Saint Vincent and The Grenadines",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.181488,
+    "latitude": 13.206524,
+    "region": "null"
+  },
+  {
+    "countryCode": "674",
+    "countryName": "San Marino",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 12.448196,
+    "latitude": 43.932022,
+    "region": "null"
+  },
+  {
+    "countryCode": "678",
+    "countryName": "Sao Tome and Principe",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 6.641235,
+    "latitude": 0.258178,
+    "region": "null"
+  },
+  {
+    "countryCode": "682",
+    "countryName": "Saudi Arabia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 44.077148,
+    "latitude": 25.045792,
+    "region": "null"
+  },
+  {
+    "countryCode": "686",
+    "countryName": "Senegal",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -14.194336,
+    "latitude": 14.732386,
+    "region": "null"
+  },
+  {
+    "countryCode": "690",
+    "countryName": "Seychelles",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 55.393066,
+    "latitude": -4.477856,
+    "region": "null"
+  },
+  {
+    "countryCode": "694",
+    "countryName": "Sierra Leone",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -11.777344,
+    "latitude": 8.581021,
+    "region": "null"
+  },
+  {
+    "countryCode": "702",
+    "countryName": "Singapore",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 103.815308,
+    "latitude": 1.357371,
+    "region": "null"
+  },
+  {
+    "countryCode": "703",
+    "countryName": "Slovakia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 19.65532,
+    "latitude": 48.74611,
+    "region": "null"
+  },
+  {
+    "countryCode": "704",
+    "countryName": "Viet Nam",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 108.588867,
+    "latitude": 13.496473,
+    "region": "null"
+  },
+  {
+    "countryCode": "705",
+    "countryName": "Slovenia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 15.073242,
+    "latitude": 46.164614,
+    "region": "null"
+  },
+  {
+    "countryCode": "706",
+    "countryName": "Somalia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 46.757813,
+    "latitude": 4.65308,
+    "region": "null"
+  },
+  {
+    "countryCode": "710",
+    "countryName": "South Africa",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 24.082031,
+    "latitude": -28.459033,
+    "region": "null"
+  },
+  {
+    "countryCode": "716",
+    "countryName": "Zimbabwe",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 30.058594,
+    "latitude": -19.145168,
+    "region": "null"
+  },
+  {
+    "countryCode": "724",
+    "countryName": "Spain",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -4.394531,
+    "latitude": 40.313043,
+    "region": "null"
+  },
+  {
+    "countryCode": "732",
+    "countryName": "Western Sahara",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -13.31543,
+    "latitude": 25.085599,
+    "region": "null"
+  },
+  {
+    "countryCode": "736",
+    "countryName": "Sudan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 0,
+    "default_taxform_id": 2,
+    "longitude": 29.443359,
+    "latitude": 14.604847,
+    "region": "null"
+  },
+  {
+    "countryCode": "740",
+    "countryName": "Suriname",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -56.293945,
+    "latitude": 4.258768,
+    "region": "null"
+  },
+  {
+    "countryCode": "744",
+    "countryName": "Svalbard and Jan Mayen Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 17.182617,
+    "latitude": 78.793443,
+    "region": "null"
+  },
+  {
+    "countryCode": "748",
+    "countryName": "Swaziland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 31.536255,
+    "latitude": -26.49024,
+    "region": "null"
+  },
+  {
+    "countryCode": "752",
+    "countryName": "Sweden",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 15.644531,
+    "latitude": 62.754726,
+    "region": "null"
+  },
+  {
+    "countryCode": "756",
+    "countryName": "Switzerland",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 8.4375,
+    "latitude": 46.950262,
+    "region": "null"
+  },
+  {
+    "countryCode": "760",
+    "countryName": "Syria",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 0,
+    "default_taxform_id": 2,
+    "longitude": 38.012695,
+    "latitude": 35.137879,
+    "region": "null"
+  },
+  {
+    "countryCode": "762",
+    "countryName": "Tajikistan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 71.499023,
+    "latitude": 38.85682,
+    "region": "null"
+  },
+  {
+    "countryCode": "764",
+    "countryName": "Thailand",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 101.118164,
+    "latitude": 15.834536,
+    "region": "null"
+  },
+  {
+    "countryCode": "768",
+    "countryName": "Togo",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 1.07666,
+    "latitude": 8.472372,
+    "region": "null"
+  },
+  {
+    "countryCode": "772",
+    "countryName": "Tokelau",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -171.853638,
+    "latitude": -9.191581,
+    "region": "null"
+  },
+  {
+    "countryCode": "776",
+    "countryName": "Tonga",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -175.012207,
+    "latitude": -21.350781,
+    "region": "null"
+  },
+  {
+    "countryCode": "780",
+    "countryName": "Trinidad and Tobago",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.281738,
+    "latitude": 10.509417,
+    "region": "null"
+  },
+  {
+    "countryCode": "784",
+    "countryName": "United Arab Emirates",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 54.228516,
+    "latitude": 23.966176,
+    "region": "null"
+  },
+  {
+    "countryCode": "788",
+    "countryName": "Tunisia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 9.821777,
+    "latitude": 34.524661,
+    "region": "null"
+  },
+  {
+    "countryCode": "792",
+    "countryName": "Turkey",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 37.133789,
+    "latitude": 38.891033,
+    "region": "null"
+  },
+  {
+    "countryCode": "795",
+    "countryName": "Turkmenistan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 59.106445,
+    "latitude": 39.909736,
+    "region": "null"
+  },
+  {
+    "countryCode": "796",
+    "countryName": "Turks and Caicos Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -71.83136,
+    "latitude": 21.792657,
+    "region": "null"
+  },
+  {
+    "countryCode": "798",
+    "countryName": "Tuvalu",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 179.208984,
+    "latitude": -8.667918,
+    "region": "null"
+  },
+  {
+    "countryCode": "800",
+    "countryName": "Uganda",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 32.431641,
+    "latitude": 1.669686,
+    "region": "null"
+  },
+  {
+    "countryCode": "804",
+    "countryName": "Ukraine",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 31.860352,
+    "latitude": 49.037868,
+    "region": "null"
+  },
+  {
+    "countryCode": "807",
+    "countryName": "Macedonia, Former Yugoslav Rep. of",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 21.687012,
+    "latitude": 41.623655,
+    "region": "null"
+  },
+  {
+    "countryCode": "818",
+    "countryName": "Egypt",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 29.267578,
+    "latitude": 26.509905,
+    "region": "null"
+  },
+  {
+    "countryCode": "826",
+    "countryName": "United Kingdom",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -2.373047,
+    "latitude": 54.673831,
+    "region": "null"
+  },
+  {
+    "countryCode": "834",
+    "countryName": "Tanzania, United Republic of",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 34.365234,
+    "latitude": -6.83917,
+    "region": "null"
+  },
+  {
+    "countryCode": "840",
+    "countryName": "United States",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 1,
+    "longitude": -101.074219,
+    "latitude": 40.647304,
+    "region": "null"
+  },
+  {
+    "countryCode": "850",
+    "countryName": "Virgin Islands (U.S.)",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 1,
+    "longitude": -64.750671,
+    "latitude": 17.722526,
+    "region": "null"
+  },
+  {
+    "countryCode": "854",
+    "countryName": "Burkina Faso",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -1.395264,
+    "latitude": 12.683215,
+    "region": "null"
+  },
+  {
+    "countryCode": "858",
+    "countryName": "Uruguay",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -55.942383,
+    "latitude": -32.842674,
+    "region": "null"
+  },
+  {
+    "countryCode": "860",
+    "countryName": "Uzbekistan",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 63.500977,
+    "latitude": 42.065607,
+    "region": "null"
+  },
+  {
+    "countryCode": "862",
+    "countryName": "Venezuela",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -66.09375,
+    "latitude": 7.580328,
+    "region": "null"
+  },
+  {
+    "countryCode": "876",
+    "countryName": "Wallis and Futuna Islands",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -178.198242,
+    "latitude": -14.264383,
+    "region": "null"
+  },
+  {
+    "countryCode": "882",
+    "countryName": "Samoa",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -172.298584,
+    "latitude": -13.656663,
+    "region": "null"
+  },
+  {
+    "countryCode": "887",
+    "countryName": "Yemen",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 47.988281,
+    "latitude": 15.707663,
+    "region": "null"
+  },
+  {
+    "countryCode": "891",
+    "countryName": "Serbia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 20.961914,
+    "latitude": 43.992815,
+    "region": "null"
+  },
+  {
+    "countryCode": "894",
+    "countryName": "Zambia",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 27.597656,
+    "latitude": -13.83808,
+    "region": "null"
+  },
+  {
+    "countryCode": "895",
+    "countryName": "Montenegro",
+    "modifyDate": "2006-09-25T13:48:56.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 19.165649,
+    "latitude": 42.803462,
+    "region": "null"
+  },
+  {
+    "countryCode": "897",
+    "countryName": "St. Kitts and Nevis",
+    "modifyDate": "2007-01-01T22:16:12.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -62.801971,
+    "latitude": 17.357192,
+    "region": "null"
+  },
+  {
+    "countryCode": "898",
+    "countryName": "St. Lucia",
+    "modifyDate": "2007-01-01T22:16:12.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -60.961075,
+    "latitude": 13.890078,
+    "region": "null"
+  },
+  {
+    "countryCode": "899",
+    "countryName": "St. Vincent and Grenadines",
+    "modifyDate": "2007-01-01T22:16:12.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": -61.188354,
+    "latitude": 13.249303,
+    "region": "null"
+  },
+  {
+    "countryCode": "900",
+    "countryName": "Palestine",
+    "modifyDate": "2007-10-31T13:39:21.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": null,
+    "latitude": null,
+    "region": "null"
+  }
+]
