@@ -1,79 +1,6 @@
 FORMAT: 1A
 HOST: http://api.topcoder.com/v2
 
-## Countries Collection [/develop/data/countries]
-### List of countries [GET]
-
-+ Parameters
-    + None
-
-+ Response 200 (application/json)
-
-        [
-            {
-              "countryCode": "004",
-              "countryName": "Afghanistan",
-              "modifyDate": "2003-01-06T16:06:26.000Z",
-              "participating": 1,
-              "default_taxform_id": 2,
-              "longitude": 65.917969,
-              "latitude": 34.089061,
-              "region": "null"
-            },
-            {
-              "countryCode": "005",
-              "countryName": "Angola",
-              "modifyDate": "2003-01-06T16:06:26.000Z",
-              "participating": 1,
-              "default_taxform_id": 2,
-              "longitude": 65.917969,
-              "latitude": 34.089061,
-              "region": "null"
-            },
-            {
-              "countryCode": "006",
-              "countryName": "United States",
-              "modifyDate": "2003-01-06T16:06:26.000Z",
-              "participating": 1,
-              "default_taxform_id": 2,
-              "longitude": 65.917969,
-              "latitude": 34.089061,
-              "region": "null"
-            }
-        ]
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-        
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
-        }
-        
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
 # TopCoder API
 Programmatically access TopCoder contests and members.
 
@@ -3860,3 +3787,78 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Countries Collection [/data/countries]
+### List of countries [GET]
+
++ Parameters
+    + None
+
++ Response 200 (application/json)
+
+        [
+            {
+              "countryCode": "004",
+              "countryName": "Afghanistan",
+              "modifyDate": "2003-01-06T16:06:26.000Z",
+              "participating": 1,
+              "default_taxform_id": 2,
+              "longitude": 65.917969,
+              "latitude": 34.089061,
+              "region": "null"
+            },
+            {
+              "countryCode": "005",
+              "countryName": "Angola",
+              "modifyDate": "2003-01-06T16:06:26.000Z",
+              "participating": 1,
+              "default_taxform_id": 2,
+              "longitude": 65.917969,
+              "latitude": 34.089061,
+              "region": "null"
+            },
+            {
+              "countryCode": "006",
+              "countryName": "United States",
+              "modifyDate": "2003-01-06T16:06:26.000Z",
+              "participating": 1,
+              "default_taxform_id": 2,
+              "longitude": 65.917969,
+              "latitude": 34.089061,
+              "region": "null"
+            }
+        ]
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
