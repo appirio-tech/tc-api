@@ -71,7 +71,7 @@ function createConnection(databaseName) {
 
     console.log('Settings for ' + dbServerPrefix + ': ' + JSON.stringify(settings));
 
-    return new Jdbc(settings, null);
+    return new Jdbc(settings, null).initialize();
 };
 
 
@@ -89,10 +89,18 @@ helper.runSqlQueries = function (queries, databaseName, callback) {
             return;
         }
         async.forEachSeries(queries, function (query, cb) {
-            connection.query(query, [], cb, {
-                async: true,
-                cast: true
-            }).execute();
+            // connection.query(query, [], cb, {
+            //     async: true,
+            //     cast: true
+            // }).execute();
+
+
+            connection.query(query, cb, {
+                            start: function (q) {
+                            },
+                            finish: function (f) {
+                            }
+                        }).execute();
         }, function (err) {
             connection.disconnect();
             callback(err);
