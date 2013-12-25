@@ -20,14 +20,20 @@ var assert = require('chai').assert;
 var helper = {};
 
 /**
- * The Informix bindings
- */
-var bindings = require("nodejs-db-informix");
-
-/**
  * Heroku config
  */
-var config = require('../../config');
+var configs = require('../../config');
+var java = require('java');
+var Jdbc = require('informix-wrapper');
+
+/**
+ * Default jdbc connection pool configuration. Used when environment variables are not set.
+ */
+var DEFAULT_MINPOOL = 1;
+var DEFAULT_MAXPOOL = 60;
+var DEFAULT_MAXSIZE = 0;
+var DEFAULT_IDLETIMEOUT = 3600; // 3600s
+var DEFAULT_TIMEOUT = 30000; // 30s
 
 /**
  * create connection for given database
@@ -35,33 +41,38 @@ var config = require('../../config');
  * @return {Object} the created connection
  */
 function createConnection(databaseName) {
-    var dbServerPrefix = config.configData.databaseMapping[databaseName], user, password, hostname, error;
+    var error, dbServerPrefix = configs.configData.databaseMapping[databaseName],
+        user, password, hostname, server, port, settings;
+    
     if (!dbServerPrefix) {
         throw new Error("database server prefix not found for database: " + databaseName);
     }
 
-    user = process.env[dbServerPrefix + "_USER"];
-    password = process.env[dbServerPrefix + "_PASSWORD"];
-    hostname = process.env[dbServerPrefix + "_NAME"];
-    if (!user) {
-        error = "variable: '" + dbServerPrefix + "_USER" + "' is null";
-    }
-    if (!password) {
-        error = "variable: '" + dbServerPrefix + "_PASSWORD" + "' is null";
-    }
-    if (!hostname) {
-        error = "variable: '" + dbServerPrefix + "_NAME" + "' is null";
-    }
-    if (error) {
-        throw new Error(error + ". Did you run '. deploy/development.sh'?");
-    }
-    return new bindings.Informix({
-        "user": user,
-        "password": password,
-        "database": databaseName,
-        "hostname": hostname
-    });
-}
+    user = eval('process.env.' + dbServerPrefix + "_USER");
+    password = eval('process.env.' + dbServerPrefix + "_PASSWORD");
+    hostname = eval('process.env.' + dbServerPrefix + "_HOST");
+    server = eval('process.env.' + dbServerPrefix + "_NAME");
+    port = eval('process.env.' + dbServerPrefix + "_PORT");
+
+    // Initialize the database settings
+    settings = {
+        "user" : user,
+        "host" : hostname,
+        "port" : parseInt(port, 10),
+        "password" : password,
+        "database" : databaseName,
+        "server" : server,
+        "minpool" : parseInt(process.env.MINPOOL, 10) || DEFAULT_MINPOOL,
+        "maxpool" : parseInt(process.env.MAXPOOL, 10) || DEFAULT_MAXPOOL,
+        "maxsize" : parseInt(process.env.MAXSIZE, 10) || DEFAULT_MAXSIZE,
+        "idleTimeout" : parseInt(process.env.IDLETIMEOUT, 10) || DEFAULT_IDLETIMEOUT,
+        "timeout" : parseInt(process.env.TIMEOUT, 10) || DEFAULT_TIMEOUT
+    };
+
+    console.log('Settings for ' + dbServerPrefix + ': ' + JSON.stringify(settings));
+
+    return new Jdbc(settings, null);
+};
 
 
 /**
