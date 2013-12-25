@@ -140,7 +140,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
                             },
                             finish: function (f) {
                             }
-                        }).select(query).execute();
+                        }).execute();
         }
     ], function (err, result) {
         connection.disconnect();
