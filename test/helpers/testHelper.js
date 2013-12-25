@@ -130,10 +130,17 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
         function (cb) {
             connection.connect(cb);
         }, function (res, cb) {
-            connection.query('', [], cb, {
-                async: true,
-                cast: true
-            }).select(query).execute();
+            // connection.query('', [], cb, {
+            //     async: true,
+            //     cast: true
+            // }).select(query).execute();
+
+            connection.query(query, cb, {
+                            start: function (q) {
+                            },
+                            finish: function (f) {
+                            }
+                        }).select(query).execute();
         }
     ], function (err, result) {
         connection.disconnect();
