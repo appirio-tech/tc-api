@@ -126,6 +126,27 @@ helper.runSqlQuery = function (query, databaseName, callback) {
  */
 helper.runSqlSelectQuery = function (query, databaseName, callback) {
     var connection = createConnection(databaseName);
+
+    connection.connect(function(err, result) {
+        if (err) {
+            connection.disconnect();
+            callback(err, result);
+        } else {
+            connection.query(query, function(err, result){
+                if (err) {
+                    connection.disconnect();
+                }
+                 
+                callback(err, result);
+            }, {
+                            start: function (q) {
+                            },
+                            finish: function (f) {
+                            }
+                        }).execute();
+        }
+    })
+    /*
     async.waterfall([
         function (cb) {
             connection.connect(cb);
@@ -146,7 +167,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
     ], function (err, result) {
         connection.disconnect();
         callback(err, result);
-    });
+    });*/
 };
 
 /**
