@@ -134,6 +134,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
             //     async: true,
             //     cast: true
             // }).select(query).execute();
+            console.log("cb: " + cb);
 
             connection.query(query, cb, {
                             start: function (q) {

@@ -64,7 +64,7 @@ describe('Test Register Member API', function () {
     after(function (done) {
         clearDb(done);
     });
-
+/*
     /// Check if the data are in expected struture and data
     it('should return errors if inputs are spaces only', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_1.txt", 'utf8'),
@@ -119,7 +119,7 @@ describe('Test Register Member API', function () {
                 done(err);
             });
     });
-
+*/
     //validateDatabase for test successInput
     var validateDatabase = function (done) {
         var text, userExpected, securityUserExpected, userGroupExpected, userSocialExpected;
@@ -186,7 +186,7 @@ describe('Test Register Member API', function () {
                 validateDatabase(done);
             });
     });
-
+/*
     /// Check if the data are in expected struture and data
     it('should return if handle and email exists', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_existing.txt", 'utf8'),
@@ -217,5 +217,5 @@ describe('Test Register Member API', function () {
                 done(err);
             });
     });
-
+*/
 });
