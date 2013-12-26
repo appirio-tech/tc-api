@@ -133,7 +133,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
             callback(err, result);
         } else {
             console.log("query: " + query);
-            connection.query(query, function(err, result){
+            connection.query("select " + query, function(err, result){
                 if (err) {
                     connection.disconnect();
                 }
