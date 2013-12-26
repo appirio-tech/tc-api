@@ -132,43 +132,21 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
             connection.disconnect();
             callback(err, result);
         } else {
-            console.log("query: " + query);
-            connection.query("select " + query, function(err, result){
+            connection.query("select " + query, function(err, result) {
                 if (err) {
                     connection.disconnect();
                 }
                  
                 callback(err, result);
-            }, {
-                            start: function (q) {
-                            },
-                            finish: function (f) {
-                            }
-                        }).execute();
+                }, 
+                {
+                    start: function (q) {
+                    },
+                    finish: function (f) {
+                    }
+                }).execute();
         }
     })
-    /*
-    async.waterfall([
-        function (cb) {
-            connection.connect(cb);
-        }, function (res, cb) {
-            // connection.query('', [], cb, {
-            //     async: true,
-            //     cast: true
-            // }).select(query).execute();
-            console.log("cb: " + cb);
-
-            connection.query(query, cb, {
-                            start: function (q) {
-                            },
-                            finish: function (f) {
-                            }
-                        }).execute();
-        }
-    ], function (err, result) {
-        connection.disconnect();
-        callback(err, result);
-    });*/
 };
 
 /**
