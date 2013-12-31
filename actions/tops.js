@@ -169,6 +169,7 @@ exports.getTops = {
         required: ["contestType"],
         optional : ["pageIndex", "pageSize"]
     },
+    cacheEnabled: false,
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',

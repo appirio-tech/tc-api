@@ -32,21 +32,13 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
         // if the action is transactional, end the transaction
         if (actionTemplate.transaction === "write") {
             if (actionTemplate.dbConnectionMap[databaseName].isConnected()) {
-                actionTemplate.dbConnectionMap[databaseName].query('ROLLBACK WORK', [], callback, {
-                    start : function (q) {
-                        api.log('Start to execute ' + q, 'debug');
-                    },
-                    finish : function (f) {
-                        api.log('Finish executing ' + f, 'debug');
-                    },
-                    async : false,
-                    cast : true
-                }).execute();
+                actionTemplate.dbConnectionMap[databaseName].endTransaction(error, callback);
             }
         } else {
-            actionTemplate.dbConnectionMap[databaseName].disconnect();
-            connection.error = error;
-            next(connection, false);
+            callback(error);
+            // actionTemplate.dbConnectionMap[databaseName].disconnect();
+            // connection.error = error;
+            // next(connection, false);
         }
     });
 };
@@ -62,7 +54,7 @@ exports.transaction = function (api, next) {
     /**
      * The pre processor to create connection and optionally start a transaction.
      * The result will be passed to the "next" callback.
-     * 
+     *
      * @param {Object} connection - the action hero connection
      * @param {Object} actionTemplate - The action template
      * @param {Function} next - The callback function
@@ -96,7 +88,7 @@ exports.transaction = function (api, next) {
                     dbConnectionMap[databaseName].disconnect();
                     api.log("Database connection to " + databaseName + " error: " + err + " " + (err.stack || ''), 'error');
                     handleConnectionFailure(api, connection, actionTemplate, err, next);
-                }).connect(function (err) {
+                }).initialize().connect(function (err) {
                     if (err) {
                         dbConnectionMap[databaseName].disconnect();
                         api.log("Database " + databaseName + " cannot be connected: " + err + " " + (err.stack || ''), 'error');
@@ -107,18 +99,10 @@ exports.transaction = function (api, next) {
                         // if the aciton is transactional, start a transaction
                         if (actionTemplate.transaction === "write" && dbConnectionMap[databaseName].isConnected()) {
                             // Begin transaction
-                            dbConnectionMap[databaseName].query('BEGIN WORK', [], callback, {
-                                start : function (q) {
-                                    api.log('Start to execute ' + q, 'debug');
-                                },
-                                finish : function (f) {
-                                    api.log('Finish executing ' + f, 'debug');
-                                },
-                                async : false,
-                                cast : true
-                            }).execute();
+                            dbConnectionMap[databaseName].beginTransaction(callback);
                         } else {
-                            next(connection, true);
+                            // next(connection, true);
+                            callback();
                         }
                     }
 
@@ -136,7 +120,7 @@ exports.transaction = function (api, next) {
     /**
      * The post processor to disconnect a connection and optionally commit/rollback a transaction.
      * The result will be passed to the "next" callback.
-     * 
+     *
      * @param {Object} connection - the action hero connection
      * @param {Object} actionTemplate - The action template
      * @param {Object} toRender - The to render object
@@ -165,19 +149,11 @@ exports.transaction = function (api, next) {
 
                 // if the action is transactional, end the transaction
                 if (actionTemplate.transaction === "write") {
-                    actionTemplate.dbConnectionMap[databaseName].query(connection.error ? 'ROLLBACK WORK' : 'COMMIT WORK', [], callback, {
-                        start : function (q) {
-                            api.log('Start to execute ' + q, 'debug');
-                        },
-                        finish : function (f) {
-                            api.log('Finish executing ' + f, 'debug');
-                        },
-                        async : false,
-                        cast : true
-                    }).execute();
+                    actionTemplate.dbConnectionMap[databaseName].endTransaction(connection.error, callback);
                 } else {
-                    actionTemplate.dbConnectionMap[databaseName].disconnect();
-                    next(connection);
+                    // actionTemplate.dbConnectionMap[databaseName].disconnect();
+                    // next(connection);
+                    callback();
                 }
             });
         } else {
