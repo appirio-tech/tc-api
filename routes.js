@@ -113,7 +113,8 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
         { path: "/:apiVersion/data/marathon/statistics/:handle", action: "getMarathonStatistics" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
-        { path: "/:apiVersion/data/srm/statistics/:handle", action: "getAlgorithmStatistics" }
+        { path: "/:apiVersion/data/srm/statistics/:handle", action: "getAlgorithmStatistics" },
+        { path: "/:apiVersion/data/countries", action: "countries" }
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/develop/users", action: "memberRegister" },
