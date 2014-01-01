@@ -101,9 +101,9 @@ exports.routes = {
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
 
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getContestReviewers" },
-        { path: "/:apiVersion/develop/statistics/:handle", action: "getSoftwareStatistics" },
+        { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
-        { path: "/:apiVersion/design/statistics/:handle", action: "getStudioStatistics" },
+        { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/design/challengetypes", action: "studioContestTypes" },
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsContestTypes" },
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
@@ -111,12 +111,12 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
-        { path: "/:apiVersion/data/marathon/statistics/:handle", action: "getMarathonStatistics" },
+        { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
-        { path: "/:apiVersion/data/srm/statistics/:handle", action: "getAlgorithmStatistics" },
+        { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
         { path: "/:apiVersion/data/countries", action: "countries" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/develop/users", action: "memberRegister" },
+        { path: "/:apiVersion/users", action: "memberRegister" },
     ]
 };

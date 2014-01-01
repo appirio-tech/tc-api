@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
@@ -64,7 +64,7 @@ describe('Get Member Marathon Statistics API', function () {
      */
     function assertResponse(handle, file, done) {
         request(API_ENDPOINT)
-            .get('/v2/data/marathon/statistics/' + handle)
+            .get('/v2/users/' +handle + '/statistics/data/marathon')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -82,7 +82,7 @@ describe('Get Member Marathon Statistics API', function () {
     }
 
     /**
-     * Test /v2/data/marathon/statistics/Hung
+     * Test /v2/users/Hung/statistics/data/marathon
      */
     it("should return correct statistics for Hung", function (done) {
         assertResponse("Hung", "expected_marathon_member_stats_1.json", done);
@@ -90,14 +90,14 @@ describe('Get Member Marathon Statistics API', function () {
 
 
     /**
-     * Test /v2/data/marathon/statistics/hung
+     * Test /v2/users/hung/statistics/data/marathon
      */
     it("should return correct statistics for hung", function (done) {
         assertResponse("hung", "expected_marathon_member_stats_1.json", done);
     });
 
     /**
-     * Test /v2/data/marathon/statistics/hung
+     * Test /v2/users/hung/statistics/data/marathon
      * Percentile should be N/A; rank, countryRank and schoolRank should be 'not ranked'
      */
     it("should return correct statistics for hung (not ranked)", function (done) {
@@ -111,11 +111,11 @@ describe('Get Member Marathon Statistics API', function () {
     });
 
     /**
-     * Test /v2/data/marathon/statistics/notfounduser
+     * Test /v2/users/notfounduser/statistics/data/marathon
      */
     it("should return 404 if user is not found", function (done) {
         request(API_ENDPOINT)
-            .get('/v2/data/marathon/statistics/notfounduser')
+            .get('/v2/users/notfounduser/statistics/data/marathon')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)
