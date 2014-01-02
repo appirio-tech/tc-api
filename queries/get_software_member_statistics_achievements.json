@@ -1,5 +1,0 @@
-{
-  "name"    : "get_software_member_statistics_achievements",
-  "db"      : "topcoder_dw",
-  "sqlfile" : "get_software_member_statistics_achievements"
-}

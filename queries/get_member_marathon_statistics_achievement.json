@@ -1,5 +1,0 @@
-{
-  "name"    : "get_member_marathon_statistics_achievement",
-  "db"      : "topcoder_dw",
-  "sqlfile" : "get_member_marathon_statistics_achievement"
-}

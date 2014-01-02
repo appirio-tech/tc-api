@@ -1,5 +1,0 @@
-{
-  "name"    : "get_studio_member_statistics_achievements",
-  "db"      : "tcs_dw",
-  "sqlfile" : "get_studio_member_statistics_achievements"
-}
