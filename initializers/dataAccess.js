@@ -92,7 +92,7 @@ function parameterizeQuery(query, params, callback) {
             escapeParam(params[paramName], cb);
         }, function (param, cb) {
             if (paramName === 'password') {
-                // password hash doens't work well with paramReg, so special handling is performed
+                // password hash doesn't work well with paramReg, so special handling is performed
                 query = query.replace("@password@", param);
             } else {
                 query = query.replace(paramReg, param);
@@ -248,7 +248,7 @@ exports.dataAccess = function (api, next) {
 
             sql = queries[queryName].sql;
             if (!sql) {
-                api.log('Unregisterd query ' + queryName + ' is asked for.', 'error');
+                api.log('Unregistered query ' + queryName + ' is asked for.', 'error');
                 next('The query for name ' + queryName + ' is not registered');
                 return;
             }
@@ -275,7 +275,7 @@ exports.dataAccess = function (api, next) {
                 }
             ], function (err, result) {
                 if (err) {
-                    api.log("Error occured: " + err + " " + (err.stack || ''), 'error');
+                    api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
                 } else {
                     api.log("Query executed", "debug");
                 }

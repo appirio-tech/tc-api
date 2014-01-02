@@ -19,6 +19,6 @@ FROM
 user u 
 , project_category_lu pc
 WHERE 
-u.handle_lower = LOWER('@ha@')
+u.handle_lower = LOWER('@handle@')
 AND pc.project_type_id = 3 
 AND display = 't';

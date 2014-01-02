@@ -87,6 +87,7 @@ var apiName2dbMap = {
 /**
  * Set the date to request by given input.
  *
+ * @param {Object} helper - the helper.
  * @param {Object} sqlParams - the data access request.
  * @param {Object} dateInterval - the date interval from filter.
  * @param {String} inputCodePrefix - the input code prefix.
@@ -117,9 +118,9 @@ function setDateToParams(helper, sqlParams, dateInterval, inputCodePrefix) {
 /**
  * The API for searching contests
  */
-exports.searchStudioContests = {
-    name: "searchStudioContests",
-    description: "searchStudioContests",
+exports.action = {
+    name: "searchStudioContestsOLD",
+    description: "searchStudioContestsOLD",
     inputs: {
         required: [],
         optional: ["listType", "pageSize", "pageIndex", "sortColumn", "sortOrder"].concat(FILTER_COLUMS)
@@ -300,108 +301,6 @@ exports.searchStudioContests = {
                     }
                     result.data.push(contest);
                 });
-                cb();
-            }
-        ], function (err) {
-            if (err) {
-                helper.handleError(api, connection, err);
-            } else {
-                connection.response = result;
-            }
-            next(connection, true);
-        });
-    }
-};
-
-
-/**
- * The API for getting studio contest
- */
-exports.getStudioContest = {
-    name: "getStudioContest",
-    description: "getStudioContest",
-    inputs: {
-        required: ["contestId"],
-        optional: []
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read', // this action is read-only
-    databases: ["tcs_catalog", "tcs_dw"],
-    run: function (api, connection, next) {
-        api.log("Execute getStudioContest#run", 'debug');
-        if (!this.dbConnectionMap) {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = { message: "No connection object." };
-            next(connection, true);
-            return;
-        }
-        var helper = api.helper,
-            contestId = Number(connection.params.contestId),
-            result,
-            dbConnectionMap = this.dbConnectionMap;
-
-        async.waterfall([
-            function (cb) {
-                var error = helper.checkPositiveInteger(contestId, "contestId") ||
-                        helper.checkMaxNumber(contestId, MAX_INT, "contestId");
-                cb(error);
-            },
-            function (cb) {
-                var execQuery = function (name) {
-                    return function (cbx) {
-                        api.dataAccess.executeQuery(name,
-                            { ct: contestId },
-                            dbConnectionMap,
-                            cbx);
-                    };
-                };
-                async.parallel({
-                    details: execQuery("get_studio_contest_detail"),
-                    checkpoints: execQuery("get_studio_contest_detail_checkpoints"),
-                    prize: execQuery("get_studio_contest_detail_prize"),
-                    submissions: execQuery("get_studio_contest_detail_submissions"),
-                    winners: execQuery("get_studio_contest_detail_winners")
-                }, cb);
-            }, function (results, cb) {
-                if (results.details.length === 0) {
-                    cb(new NotFoundError("Contest not found"));
-                    return;
-                }
-                var mapCheckpointOrSubmission = function (s) {
-                    return {
-                        submissionId: s.submission_id,
-                        submitter: s.handle,
-                        submissionTime: s.create_date
-                    };
-                },
-                    details = results.details[0];
-                result = {
-                    challengeType: details.challengetype,
-                    challengeName: details.challengename,
-                    detailedRequirements: helper.convertToString(details.detailedrequirements),
-                    prize: _.map(results.prize, function (s) {
-                        return s.amount;
-                    }),
-                    numberOfCheckpointsPrizes: details.numberofcheckpointsprizes,
-                    topCheckPointPrize: details.topcheckpointprize,
-                    digitalRunPoints: details.dr_point,
-                    currentPhaseEndDate: details.currentphaseenddate,
-                    currentStatus: details.currentstatus.trim(),
-                    checkpoints: _.map(results.checkpoints, mapCheckpointOrSubmission),
-                    submissions: _.map(results.submissions, mapCheckpointOrSubmission),
-                    winners: _.map(results.winners, function (s) {
-                        return {
-                            submissionId: s.submission_id,
-                            submitter: s.submitter,
-                            submissionTime: s.submission_time,
-                            points: s.points,
-                            rank: s.rank
-                        };
-                    })
-                };
                 cb();
             }
         ], function (err) {

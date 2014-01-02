@@ -5,36 +5,40 @@
  * @author vangavroche, mekanizumu
  * @changes from 1.0
  * merged with Member Registration API
+ * @changes from 1.1
+ * Add studio types in this action.
  */
 "use strict";
 
 /**
  * This is the function that actually get the contest types.
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Boolean} isStudio - The flag that represents if to search studio contest types.
  * @param {Function} next The callback to be called after this function is done
  */
-var getContestTypes = function (api, connection, dbConnectionMap, next) {
-    api.dataAccess.executeQuery("get_contest_types", {}, dbConnectionMap, function (err, result) {
+var getContestTypes = function (api, connection, dbConnectionMap, isStudio, next) {
+    var sqlParameters, type = isStudio ? api.helper.studio : api.helper.software;
+    sqlParameters = { project_type_id: type.category };
+    api.dataAccess.executeQuery("get_contest_types", sqlParameters, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             connection.error = err;
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
-            var ret = new Array();
-            var len = result.length;
-            for(var i=0; i<result.length; i = i + 1) {
-                var t = {};
-                t.challengeCategoryId = result[i].challengecategoryid;
-                t.challengeTypeId = result[i].challengetypeid;
-                t.name = result[i].name;
-                t.description = result[i].description;
-                ret.push(t);
-            }
+            var ret = [];
+            result.forEach(function (item) {
+                ret.push({
+                    challengeCategoryId: item.challenge_category_id,
+                    challengeTypeId: item.challenge_type_id,
+                    name: item.name,
+                    description: item.description
+                });
+            });
             connection.response = ret;
             next(connection, true);
         }
@@ -45,9 +49,9 @@ var getContestTypes = function (api, connection, dbConnectionMap, next) {
 /**
  * The API for getting contest types
  */
-exports.contestTypes = {
-    name : "contestTypes",
-    description : "contestTypes",
+exports.softwareTypes = {
+    name : "softwareTypes",
+    description : "softwareTypes",
     inputs : {
         required : [],
         optional : []
@@ -59,13 +63,32 @@ exports.contestTypes = {
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute contestTypes#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, next);
+            api.log("Execute softwareTypes#run", 'debug');
+            getContestTypes(api, connection, this.dbConnectionMap, false, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+exports.studioTypes = {
+    name : "studioTypes",
+    description : "studioTypes",
+    inputs : {
+        required : [],
+        optional : []
+    },
+    blockedConnectionTypes : [],
+    outputExample : {},
+    version : 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ['tcs_catalog'],
+    run : function (api, connection, next) {
+        if (this.dbConnectionMap) {
+            api.log("Execute studioTypes#run", 'debug');
+            getContestTypes(api, connection, this.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };
@@ -73,9 +96,9 @@ exports.contestTypes = {
 /**
  * The API for getting contest types, while this is guarded by OAuth
  */
-exports.contestTypesSecured = {
-    name : 'contestTypesSecured',
-    description : 'contestTypesSecured',
+exports.softwareTypesSecured = {
+    name : 'softwareTypesSecured',
+    description : 'softwareTypesSecured',
     inputs : {
         required : [],
         optional : []
@@ -87,13 +110,10 @@ exports.contestTypesSecured = {
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute contestTypesSecured#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, next);
+            api.log("Execute softwareTypesSecured#run", 'debug');
+            getContestTypes(api, connection, this.dbConnectionMap, false, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };

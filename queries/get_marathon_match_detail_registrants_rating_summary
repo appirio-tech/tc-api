@@ -1,7 +1,7 @@
 
 SELECT 
   ar.type AS color
-, COUNT(*) AS numberOfMembers
+, COUNT(*) AS number_of_members
 FROM 
   round_registration rr
 , round rd
@@ -25,7 +25,7 @@ FROM
     algo_rating
   WHERE algo_rating_type_id = 3
 ) ar
-WHERE rd.round_id= @rd@
+WHERE rd.round_id= @roundId@
 AND rr.round_id = rd.round_id
 AND c.coder_id = rr.coder_id 
 AND ar.coder_id = c.coder_id 

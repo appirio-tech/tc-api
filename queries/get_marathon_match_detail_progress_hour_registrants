@@ -1,6 +1,6 @@
 SELECT 
   rr.date
-, NVL(rr.num_registrants, 0) AS currentNoOfRegistrants
+, NVL(rr.num_registrants, 0) AS current_no_of_registrants
 FROM
 round r 
 LEFT JOIN (
@@ -15,5 +15,5 @@ LEFT JOIN (
   AND rs.segment_id = 1
   GROUP BY 1, 2
 ) rr ON rr.round_id = r.round_id 
-WHERE r.round_id = @rd@
+WHERE r.round_id = @roundId@
 ORDER BY rr.date ASC

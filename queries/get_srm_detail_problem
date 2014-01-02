@@ -1,15 +1,15 @@
 SELECT dl.division_desc AS division,
   p.level_id AS level,
-  p.class_name AS problemName,
+  p.class_name AS problem_name,
   SUM(CASE WHEN cp.submission_points > 0 THEN 1 ELSE 0 END) AS submissions,
   (CASE WHEN SUM(CASE WHEN cp.submission_points > 0 THEN 1 ELSE 0 END) = 0 THEN 0.0 
-        ELSE SUM(CASE WHEN cp.final_points > 0 THEN 1 ELSE 0 END)/SUM(CASE WHEN cp.submission_points > 0 THEN 1 ELSE 0 END) END)::DECIMAL(10,2) AS correctPercent,
+        ELSE SUM(CASE WHEN cp.final_points > 0 THEN 1 ELSE 0 END)/SUM(CASE WHEN cp.submission_points > 0 THEN 1 ELSE 0 END) END)::DECIMAL(10,2) AS correct_percent,
   (CASE WHEN SUM(CASE WHEN final_points > 0 THEN 1 ELSE 0 END) = 0 THEN 0.0 
-   ELSE SUM(final_points)/SUM(CASE WHEN final_points > 0 THEN 1 ELSE 0 END) END)::DECIMAL(10,2) AS averagePoints
+   ELSE SUM(final_points)/SUM(CASE WHEN final_points > 0 THEN 1 ELSE 0 END) END)::DECIMAL(10,2) AS average_points
 FROM problem p
      JOIN division_lu AS dl ON dl.division_id = p.division_id
      JOIN coder_problem AS cp ON cp.problem_id = p.problem_id AND cp.round_id = p.round_id
      JOIN round AS rd ON rd.round_id = p.round_id
-WHERE rd.round_id = @rd@
+WHERE rd.round_id = @roundId@
 GROUP BY dl.division_desc, p.level_id, p.class_name
 ORDER BY 1,2 ASC

@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7968603f-fdad-4340-9e91-fc20d0622fbd" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/actions/studioTypes.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib.node.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib.node" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Release/.deps/Release/obj.target/bignum.node.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Release/obj.target/bignum.node" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings.node.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/build/depsVerified.d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings.node" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail_prize" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail_prize.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queries/get_studio_types" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queries/get_studio_types.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/accuracy/test.contesttypes.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/accuracy/test.studiotypes.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/accuracy/test_files/expected_get_contesttypes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/accuracy/test_files/expected_get_studiotypes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/sqls/contests/data/software-details-contests.part1.sql" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/Readme_zh-cn.md" afterPath="$PROJECT_DIR$/node_modules/jade/Readme_zh-cn.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib/src/bcrypt.o" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib/src/bcrypt.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib/src/bcrypt_node.o" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib/src/bcrypt_node.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Release/obj.target/bignum/bignum.o" afterPath="$PROJECT_DIR$/node_modules/bignum/build/Release/obj.target/bignum/bignum.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib/src/blowfish.o" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/obj.target/bcrypt_lib/src/blowfish.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/java.o" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/java.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/javaObject.o" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/javaObject.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/javaScope.o" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/javaScope.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/methodCallBaton.o" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/methodCallBaton.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/nodeJavaBridge.o" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/nodeJavaBridge.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/utils.o" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/obj.target/nodejavabridge_bindings/src/utils.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/.gitattributes" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/.gitattributes" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/node_modules/is-promise/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/node_modules/is-promise/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/.npmignore" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/.npmignore" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/.travis.yml" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/.travis.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/.travis.yml" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/.travis.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/LICENSE" afterPath="$PROJECT_DIR$/node_modules/jade/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/LICENSE" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/LICENSE" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/LICENSE" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/LICENSE" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Makefile" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Makefile" afterPath="$PROJECT_DIR$/node_modules/bignum/build/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Makefile" afterPath="$PROJECT_DIR$/node_modules/java/build/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/Makefile" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/cryptiles/Makefile" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/cryptiles/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/sntp/Makefile" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/sntp/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/README.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/README.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/README.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/README.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/README.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/README.md" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/README.md" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/Readme.md" afterPath="$PROJECT_DIR$/node_modules/jade/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/Readme.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/address" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/address" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apiary.apib" afterPath="$PROJECT_DIR$/apiary.apib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/attrs.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/attrs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib/src/bcrypt.o.d" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib/src/bcrypt.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/bcrypt_lib.node.d" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/bcrypt_lib.node.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/bcrypt_lib.node" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/bcrypt_lib.node" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/bcrypt_lib.target.mk" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/bcrypt_lib.target.mk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib/src/bcrypt_node.o.d" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib/src/bcrypt_node.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/beta-sticker-1.png.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/beta-sticker-1.png.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/nodemailer/node_modules/mailcomposer/node_modules/mimelib/node_modules/encoding/node_modules/iconv-lite/test/big5File.txt" afterPath="$PROJECT_DIR$/node_modules/nodemailer/node_modules/mailcomposer/node_modules/mimelib/node_modules/encoding/node_modules/iconv-lite/test/big5File.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Release/.deps/Release/bignum.node.d" afterPath="$PROJECT_DIR$/node_modules/bignum/build/Release/.deps/Release/bignum.node.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Release/bignum.node" afterPath="$PROJECT_DIR$/node_modules/bignum/build/Release/bignum.node" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/Release/.deps/Release/obj.target/bignum/bignum.o.d" afterPath="$PROJECT_DIR$/node_modules/bignum/build/Release/.deps/Release/obj.target/bignum/bignum.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/bignum.target.mk" afterPath="$PROJECT_DIR$/node_modules/bignum/build/bignum.target.mk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/binaryfile.tar.gz.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/binaryfile.tar.gz.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/blank.gif.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/blank.gif.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/block-comment.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/block-comment.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/block.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/block.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib/src/blowfish.o.d" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/Release/.deps/Release/obj.target/bcrypt_lib/src/blowfish.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/calendar" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/calendar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/card" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/card" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/case.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/case.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/check_coder_exist" afterPath="$PROJECT_DIR$/queries/check_coder_exist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/check_user_handle_exist" afterPath="$PROJECT_DIR$/queries/check_user_handle_exist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/client.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/client.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/client.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/client.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/code.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/code.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/comment.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/comment.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__clean.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__clean.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__clean" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__clean" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__insert_test_data.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__insert_test_data.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__insert_test_data" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__insert_test_data" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_security_user.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_security_user.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user_group.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user_group.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user_social.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user_social.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user_social" afterPath="$PROJECT_DIR$/test/sqls/register_member/common_oltp__select_user_social" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/compiler.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/compiler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/component.json" afterPath="$PROJECT_DIR$/node_modules/jade/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/build/config.gypi" afterPath="$PROJECT_DIR$/node_modules/bcrypt/build/config.gypi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/build/config.gypi" afterPath="$PROJECT_DIR$/node_modules/bignum/build/config.gypi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/config.gypi" afterPath="$PROJECT_DIR$/node_modules/java/build/config.gypi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/contestTypes.js" afterPath="$PROJECT_DIR$/actions/contestTypes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/contest_details" afterPath="$PROJECT_DIR$/queries/contest_details" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/contests.js" afterPath="$PROJECT_DIR$/actions/contests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/contestsStudio.js" afterPath="$PROJECT_DIR$/actions/contestsStudio.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/preamble/crlf.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/preamble/crlf.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/crypto.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/crypto.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/crypto.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/crypto.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/initializers/dataAccess.js" afterPath="$PROJECT_DIR$/initializers/dataAccess.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/doctype.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/doctype.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/doctypes.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/doctypes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-zyp-json-schema-03.xml" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-zyp-json-schema-03.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-zyp-json-schema-04.xml" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-zyp-json-schema-04.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/each.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/each.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/lib/escape.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/lib/escape.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/test/escaper.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/test/escaper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/expected_get_contesttypes.txt" afterPath="$PROJECT_DIR$/test/test_files/expected_get_contesttypes.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/expected_get_studiotypes.txt" afterPath="$PROJECT_DIR$/test/test_files/expected_get_studiotypes.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_1.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_1.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_2.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_2.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_3.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_3.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_existing.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_invalid_existing.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_security_user.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_security_user.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_user.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_user.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_user_group.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_user_group.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_user_social.txt" afterPath="$PROJECT_DIR$/test/test_files/exptected_member_register_validate_user_social.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/exptected_studio_contest_details.json" afterPath="$PROJECT_DIR$/test/test_files/exptected_studio_contest_details.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/no-filename/filename-name.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/no-filename/filename-name.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/filter.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/filter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/filters-client.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/filters-client.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/filters.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/filters.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/nodemailer/node_modules/mailcomposer/node_modules/mimelib/node_modules/encoding/node_modules/iconv-lite/test/gbkFile.txt" afterPath="$PROJECT_DIR$/node_modules/nodemailer/node_modules/mailcomposer/node_modules/mimelib/node_modules/encoding/node_modules/iconv-lite/test/gbkFile.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/no-filename/generic.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/no-filename/generic.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/geo" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/geo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_contest_types" afterPath="$PROJECT_DIR$/queries/get_contest_types" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_email_availability" afterPath="$PROJECT_DIR$/queries/get_email_availability" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_active_challenges" afterPath="$PROJECT_DIR$/queries/get_marathon_match_active_challenges" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_active_challenges_count" afterPath="$PROJECT_DIR$/queries/get_marathon_match_active_challenges_count" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_detail_basic" afterPath="$PROJECT_DIR$/queries/get_marathon_match_detail_basic" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_detail_progress_competitors" afterPath="$PROJECT_DIR$/queries/get_marathon_match_detail_progress_competitors" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_detail_progress_hour" afterPath="$PROJECT_DIR$/queries/get_marathon_match_detail_progress_hour" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_detail_progress_hour_registrants" afterPath="$PROJECT_DIR$/queries/get_marathon_match_detail_progress_hour_registrants" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_detail_registrants_rating_summary" afterPath="$PROJECT_DIR$/queries/get_marathon_match_detail_registrants_rating_summary" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_past_challenges" afterPath="$PROJECT_DIR$/queries/get_marathon_match_past_challenges" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_marathon_match_past_challenges_count" afterPath="$PROJECT_DIR$/queries/get_marathon_match_past_challenges_count" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_member_marathon_statistics" afterPath="$PROJECT_DIR$/queries/get_member_marathon_statistics" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_software_member_statistics_copilot" afterPath="$PROJECT_DIR$/queries/get_software_member_statistics_copilot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_software_member_statistics_track" afterPath="$PROJECT_DIR$/queries/get_software_member_statistics_track" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_challenges" afterPath="$PROJECT_DIR$/queries/get_srm_challenges" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_challenges_count" afterPath="$PROJECT_DIR$/queries/get_srm_challenges_count" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_detail_basic" afterPath="$PROJECT_DIR$/queries/get_srm_detail_basic" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_detail_leader" afterPath="$PROJECT_DIR$/queries/get_srm_detail_leader" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_detail_problem" afterPath="$PROJECT_DIR$/queries/get_srm_detail_problem" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_statistics_basic" afterPath="$PROJECT_DIR$/queries/get_srm_statistics_basic" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_statistics_challenges" afterPath="$PROJECT_DIR$/queries/get_srm_statistics_challenges" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_statistics_division_1" afterPath="$PROJECT_DIR$/queries/get_srm_statistics_division_1" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_srm_statistics_division_2" afterPath="$PROJECT_DIR$/queries/get_srm_statistics_division_2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail_checkpoints" afterPath="$PROJECT_DIR$/queries/get_studio_contest_detail_checkpoints" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail_submissions" afterPath="$PROJECT_DIR$/queries/get_studio_contest_detail_submissions" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_studio_contest_detail_winners" afterPath="$PROJECT_DIR$/queries/get_studio_contest_detail_winners" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_studio_member_statistics_copilot" afterPath="$PROJECT_DIR$/queries/get_studio_member_statistics_copilot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_studio_member_statistics_track" afterPath="$PROJECT_DIR$/queries/get_studio_member_statistics_track" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_top_ranked_marathon_members_competitors" afterPath="$PROJECT_DIR$/queries/get_top_ranked_marathon_members_competitors" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_top_ranked_marathon_members_country" afterPath="$PROJECT_DIR$/queries/get_top_ranked_marathon_members_country" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_top_ranked_marathon_members_school" afterPath="$PROJECT_DIR$/queries/get_top_ranked_marathon_members_school" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_top_ranked_srm_members_competitor" afterPath="$PROJECT_DIR$/queries/get_top_ranked_srm_members_competitor" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_top_ranked_srm_members_country" afterPath="$PROJECT_DIR$/queries/get_top_ranked_srm_members_country" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_top_ranked_srm_members_school" afterPath="$PROJECT_DIR$/queries/get_top_ranked_srm_members_school" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_tops" afterPath="$PROJECT_DIR$/queries/get_tops" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/get_tops_active" afterPath="$PROJECT_DIR$/queries/get_tops_active" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/initializers/helper.js" afterPath="$PROJECT_DIR$/initializers/helper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/history.md" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/history.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/hyper-schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/hyper-schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/hyper-schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/hyper-schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/hyper-schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/hyper-schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/hyper-schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/hyper-schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-04/hyper-schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-04/hyper-schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/character-parser/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/constantinople/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/node_modules/is-promise/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/node_modules/promise/node_modules/is-promise/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/test/index.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/with/node_modules/uglify-js/node_modules/uglify-to-browserify/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/boom/lib/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/boom/lib/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/boom/test/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/boom/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/cryptiles/test/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/cryptiles/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/lib/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/lib/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/test/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/hoek/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/sntp/test/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/node_modules/sntp/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/index.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/informixoltp__clean.json" afterPath="$PROJECT_DIR$/test/sqls/register_member/informixoltp__clean.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/register_member/informixoltp__clean" afterPath="$PROJECT_DIR$/test/sqls/register_member/informixoltp__clean" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/contests/init_data.sql" afterPath="$PROJECT_DIR$/test/sqls/contests/init_data.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/inline-tags.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/inline-tags.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/interfaces" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/examples/interfaces" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/jade-language.md" afterPath="$PROJECT_DIR$/node_modules/jade/jade-language.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/jade.js" afterPath="$PROJECT_DIR$/node_modules/jade/jade.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/jade.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/jade.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/jade.md" afterPath="$PROJECT_DIR$/node_modules/jade/jade.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/java.o.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/java.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/javaObject.o.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/javaObject.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/javaScope.o.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/javaScope.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/json-ref" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/json-ref" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/json-ref" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/json-ref" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/json-ref" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/json-ref" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/json-ref" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/json-ref" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/lexer.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/lexer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/lib/links.js" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/lib/links.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/links" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/links" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/links" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/links" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/links" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/links" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/links" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/links" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-04/links" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-04/links" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/literal.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/literal.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/marathonChallenges.js" afterPath="$PROJECT_DIR$/actions/marathonChallenges.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/memberRegistration.js" afterPath="$PROJECT_DIR$/actions/memberRegistration.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/memberStatistics.js" afterPath="$PROJECT_DIR$/actions/memberStatistics.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/menu_seperator.png.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/menu_seperator.png.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/methodCallBaton.o.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/methodCallBaton.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/workarounds/missing-hyphens1.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/workarounds/missing-hyphens1.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/workarounds/missing-hyphens2.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/workarounds/missing-hyphens2.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/mixin.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/mixin.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/mocha.opts" afterPath="$PROJECT_DIR$/test/mocha.opts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/node.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/node.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/nodeJavaBridge.o.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/nodeJavaBridge.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/nodejavabridge_bindings.node.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/nodejavabridge_bindings.node.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/nodejavabridge_bindings.node" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/nodejavabridge_bindings.node" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/nodejavabridge_bindings.target.mk" afterPath="$PROJECT_DIR$/node_modules/java/build/nodejavabridge_bindings.target.mk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/osx-chrome-13.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/osx-chrome-13.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/osx-firefox-3.6.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/osx-firefox-3.6.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/osx-safari-5.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/osx-safari-5.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bcrypt/package.json" afterPath="$PROJECT_DIR$/node_modules/bcrypt/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/bignum/package.json" afterPath="$PROJECT_DIR$/node_modules/bignum/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/parser.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/parser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/plain.txt.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/encoding/plain.txt.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/preamble/preamble.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/preamble/preamble.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/readme.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/readme.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/restapi_statistics_category_name_valid" afterPath="$PROJECT_DIR$/queries/restapi_statistics_category_name_valid" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes.js" afterPath="$PROJECT_DIR$/routes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/runtime.js" afterPath="$PROJECT_DIR$/node_modules/jade/runtime.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/runtime.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/runtime.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-00/schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-01/schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-02/schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-03/schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-04/schema" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/draft-04/schema" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/search_open_contest" afterPath="$PROJECT_DIR$/queries/search_open_contest" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/search_open_contest_count" afterPath="$PROJECT_DIR$/queries/search_open_contest_count" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/search_past_contest" afterPath="$PROJECT_DIR$/queries/search_past_contest" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/search_past_contest_count" afterPath="$PROJECT_DIR$/queries/search_past_contest_count" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/search_upcoming_contest" afterPath="$PROJECT_DIR$/queries/search_upcoming_contest" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/queries/search_upcoming_contest_count" afterPath="$PROJECT_DIR$/queries/search_upcoming_contest_count" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/self-closing.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/self-closing.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/server.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/server.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/lib/shared.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/lib/shared.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/srmChallenges.js" afterPath="$PROJECT_DIR$/actions/srmChallenges.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/tag.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/tag.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/tcDirectFacts.js" afterPath="$PROJECT_DIR$/actions/tcDirectFacts.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/sqls/tcDirectFacts/tcs_catalog__clean" afterPath="$PROJECT_DIR$/test/accuracy/sqls/tcDirectFacts/tcs_catalog__clean" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/sqls/tcDirectFacts/tcs_catalog__insert_test_data" afterPath="$PROJECT_DIR$/test/accuracy/sqls/tcDirectFacts/tcs_catalog__insert_test_data" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/contestsStudio/tcs_catalog__insert_test_data" afterPath="$PROJECT_DIR$/test/sqls/contestsStudio/tcs_catalog__insert_test_data" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/sqls/tops/tcs_dw__clean" afterPath="$PROJECT_DIR$/test/accuracy/sqls/tops/tcs_dw__clean" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/tops/tcs_dw__clean" afterPath="$PROJECT_DIR$/test/sqls/tops/tcs_dw__clean" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.caching.js" afterPath="$PROJECT_DIR$/test/test.caching.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.contests.js" afterPath="$PROJECT_DIR$/test/test.contests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.contestsStudio.js" afterPath="$PROJECT_DIR$/test/test.contestsStudio.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.memberSoftwareStatistics.js" afterPath="$PROJECT_DIR$/test/test.memberSoftwareStatistics.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.parameterizeQuery.js" afterPath="$PROJECT_DIR$/test/test.parameterizeQuery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.register_member.js" afterPath="$PROJECT_DIR$/test/test.register_member.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/test.tcDirectFacts.js" afterPath="$PROJECT_DIR$/test/accuracy/test.tcDirectFacts.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test.tops.js" afterPath="$PROJECT_DIR$/test/test.tops.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/test.tops.js" afterPath="$PROJECT_DIR$/test/accuracy/test.tops.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/helpers/testHelper.js" afterPath="$PROJECT_DIR$/test/helpers/testHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/test_queries/test_data_prepare" afterPath="$PROJECT_DIR$/test/test_files/test_queries/test_data_prepare" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_files/test_queries/test_validate_user_social" afterPath="$PROJECT_DIR$/test/test_files/test_queries/test_validate_user_social" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/test/tests.js" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/test/tests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/nodes/text.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/nodes/text.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/sqls/tops/topcoder_dw__insert_test_data.part1" afterPath="$PROJECT_DIR$/test/accuracy/sqls/tops/topcoder_dw__insert_test_data.part1" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/tops/topcoder_dw__insert_test_data.part1" afterPath="$PROJECT_DIR$/test/sqls/tops/topcoder_dw__insert_test_data.part1" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/accuracy/sqls/tops/topcoder_dw__insert_test_data.part2" afterPath="$PROJECT_DIR$/test/accuracy/sqls/tops/topcoder_dw__insert_test_data.part2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/sqls/tops/topcoder_dw__insert_test_data.part2" afterPath="$PROJECT_DIR$/test/sqls/tops/topcoder_dw__insert_test_data.part2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/tops.js" afterPath="$PROJECT_DIR$/actions/tops.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/lib/transformers.js" afterPath="$PROJECT_DIR$/node_modules/jade/node_modules/transformers/lib/transformers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/uri.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/uri.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/example/usage.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/example/usage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/utils.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/utils.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/lib/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/utils.js" afterPath="$PROJECT_DIR$/node_modules/winston/node_modules/request/node_modules/hawk/test/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/utils.o.d" afterPath="$PROJECT_DIR$/node_modules/java/build/Release/.deps/Release/obj.target/nodejavabridge_bindings/src/utils.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/lib/validate.js" afterPath="$PROJECT_DIR$/node_modules/ldapjs/node_modules/pooling/node_modules/vasync/node_modules/jsprim/node_modules/json-schema/lib/validate.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-chrome-12.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-chrome-12.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-ie-7.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-ie-7.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-ie-8.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-ie-8.http" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-safari-5.http" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/test/fixture/http/special-chars-in-filename/xp-safari-5.http" />
+    </list>
+    <ignored path="master.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="master" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="apiary.apib" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/apiary.apib">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1059" column="34" selection-start="37575" selection-end="37575" vertical-scroll-proportion="0.8258786" vertical-offset="22264" max-vertical-offset="68684">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="contests.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/actions/contests.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="617" column="21" selection-start="24827" selection-end="24827" vertical-scroll-proportion="0.0" vertical-offset="12397" max-vertical-offset="16698">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/actions/memberStatistics.js" />
+        <option value="$PROJECT_DIR$/actions/memberRegistration.js" />
+        <option value="$PROJECT_DIR$/test/helpers/testHelper.js" />
+        <option value="$PROJECT_DIR$/queries/get_tops_active" />
+        <option value="$PROJECT_DIR$/queries/get_tops" />
+        <option value="$PROJECT_DIR$/test/test.contests.js" />
+        <option value="$PROJECT_DIR$/test/test.contestsStudio.js" />
+        <option value="$PROJECT_DIR$/test/test.register_member.js" />
+        <option value="$PROJECT_DIR$/queries/contest_details" />
+        <option value="$PROJECT_DIR$/test/test_files/expected_software_contest_detail.json" />
+        <option value="$PROJECT_DIR$/test/test_files/exptected_studio_contest_details.json" />
+        <option value="$PROJECT_DIR$/test/test.memberSoftwareStatistics.js" />
+        <option value="$PROJECT_DIR$/routes.js" />
+        <option value="$PROJECT_DIR$/actions/contests.js" />
+        <option value="$PROJECT_DIR$/initializers/dataAccess.js" />
+        <option value="$PROJECT_DIR$/apiary.apib" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
+    <option name="width" value="2560" />
+    <option name="height" value="1414" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test_files" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="topsSRM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="topsMarathon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tops" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="softwareContestDetail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="register_member" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="memberSoftwareStatistics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="initializers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deploy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="Settings.JavaScript.Linters.JSLint" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="name" value="Dart" />
+      <option name="saveOutputToFile" value="false" />
+      <option name="showConsoleOnStdErr" value="false" />
+      <option name="showConsoleOnStdOut" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
+      <setting name="configLocationType" value="CONFIG_FILE" />
+      <setting name="settingsFile" value="" />
+      <setting name="serverType" value="INTERNAL" />
+      <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
+      <method />
+    </configuration>
+    <list size="0" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7968603f-fdad-4340-9e91-fc20d0622fbd" name="Default" comment="" />
+      <created>1388648107522</created>
+      <updated>1388648107522</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="2560" height="1414" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998455" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998455" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.67001545" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32998455" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998455" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.67001545" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="4" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/initializers/helper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="11121" max-vertical-offset="12826">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/memberRegistration.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="22374">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/initializers/dataAccess.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="250" column="36" selection-start="8565" selection-end="8565" vertical-scroll-proportion="0.0" vertical-offset="2695" max-vertical-offset="6468">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/memberStatistics.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10406">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy/ci.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1166">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/srmChallenges.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5918">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy/heroku.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="29" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="2134">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/tcDirectFacts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1386">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/tops.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10912">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/contestsStudio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="14" selection-start="866" selection-end="866" vertical-scroll-proportion="0.0" vertical-offset="5797" max-vertical-offset="7062">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/contestTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="2750">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2838">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/logTail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1430">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy/development.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="30" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/contests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="617" column="21" selection-start="24827" selection-end="24827" vertical-scroll-proportion="0.0" vertical-offset="12397" max-vertical-offset="16698">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apiary.apib">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1059" column="34" selection-start="37575" selection-end="37575" vertical-scroll-proportion="0.8258786" vertical-offset="22264" max-vertical-offset="68684">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+
