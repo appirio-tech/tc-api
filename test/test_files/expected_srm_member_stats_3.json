@@ -12,30 +12,6 @@
   "competitions": 35,
   "mostRecentEventName": "test round 2001",
   "mostRecentEventDate": "2011-12-31T00:00:00.000Z",
-  "Achievements": [
-    "Algorithm Target",
-    "Fifty SRM Room Wins (Any Division)",
-    "Fifty Solved Algorithm Problems",
-    "First Rated Algorithm Competition",
-    "First SRM Room Win (Any Division)",
-    "First Solved Algorithm Problem",
-    "First Successful Challenge",
-    "Five Hundred Solved Algorithm Problems",
-    "Five SRM Room Wins (Any Division)",
-    "Algorithm Coder of the Month",
-    "Five Successful Challenges",
-    "Two Hundred Solved Algorithm Problems",
-    "One Hundred SRM Room Wins (Any Division)",
-    "One Hundred Successful Challenges",
-    "SRM Winner Div 1",
-    "SRM Winner Div 2",
-    "Solved Hard Div1 Problem in SRM",
-    "Solved Hard Div2 Problem in SRM",
-    "Ten Solved Algorithm Problems",
-    "Twenty Five Successful Challenges",
-    "Twenty SRM Room Wins (Any Division)",
-    "Two Hundred And Fifty Successful Challenges"
-  ],
   "Divisions": {
     "Division I": {
       "test level 1": {

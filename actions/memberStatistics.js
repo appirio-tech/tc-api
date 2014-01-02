@@ -74,24 +74,16 @@ exports.getMarathonStatistics = {
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
-                var execQuery = function (name) {
-                    return function (cbx) {
-                        api.dataAccess.executeQuery("get_member_marathon_" + name,
-                            sqlParams,
-                            dbConnectionMap,
-                            cbx);
-                    };
-                };
-                async.parallel({
-                    achievements: execQuery("statistics_achievement"),
-                    basic: execQuery("statistics")
-                }, cb);
+                api.dataAccess.executeQuery("get_member_marathon_statistics",
+                  sqlParams,
+                  dbConnectionMap,
+                  cb);
             }, function (results, cb) {
-                if (results.basic.length === 0) {
+                if (results.length === 0) {
                     cb(new NotFoundError('statistics not found'));
                     return;
                 }
-                var details = results.basic[0];
+                var details = results[0];
                 result = {
                     "handle": details.handle,
                     "rating": details.rating,
@@ -112,9 +104,6 @@ exports.getMarathonStatistics = {
                     "topTenFinishes": details.top_ten_finishes,
                     "avgRank": details.avg_rank,
                     "avgNumSubmissions": details.avg_num_submissions,
-                    "achievements": _.map(results.achievements, function (a) {
-                        return a.achievement_name;
-                    })
                 };
                 cb();
             }
@@ -156,7 +145,6 @@ exports.getSoftwareStatistics = {
             },
             result = {
                 handle: handle,
-                Achievements: [],
                 Tracks: {}
             };
         if (!this.dbConnectionMap) {
@@ -177,9 +165,6 @@ exports.getSoftwareStatistics = {
                         cbx);
                 };
                 async.parallel({
-                    achievements: function (cbx) {
-                        execQuery("get_software_member_statistics_achievements", cbx);
-                    },
                     tracks: function (cbx) {
                         execQuery("get_software_member_statistics_track", cbx);
                     },
@@ -188,9 +173,6 @@ exports.getSoftwareStatistics = {
                     }
                 }, cb);
             }, function (results, cb) {
-                results.achievements.forEach(function (item) {
-                    result.Achievements.push(item.description);
-                });
                 var round2 = function (n) {
                     return Math.round(n * 100) / 100;
                 };
@@ -281,7 +263,6 @@ exports.getStudioStatistics = {
             },
             result = {
                 handle: handle,
-                Achievements: [],
                 Tracks: {}
             };
         if (!this.dbConnectionMap) {
@@ -303,9 +284,6 @@ exports.getStudioStatistics = {
                         cbx);
                 };
                 async.parallel({
-                    achievements: function (cbx) {
-                        execQuery("get_studio_member_statistics_achievements", cbx);
-                    },
                     tracks: function (cbx) {
                         execQuery("get_studio_member_statistics_track", cbx);
                     },
@@ -314,9 +292,6 @@ exports.getStudioStatistics = {
                     }
                 }, cb);
             }, function (results, cb) {
-                results.achievements.forEach(function (item) {
-                    result.Achievements.push(item.user_achievement_name);
-                });
                 results.tracks.forEach(function (track) {
                     result.Tracks[track.category_name] = {
                         numberOfSubmissions: track.submissions,
@@ -391,7 +366,6 @@ exports.getAlgorithmStatistics = {
                     };
                 };
                 async.parallel({
-                    achievements: execQuery("achievements"),
                     basic: execQuery("basic"),
                     challenges: execQuery("challenges"),
                     div1: execQuery("division_1"),
@@ -452,9 +426,6 @@ exports.getAlgorithmStatistics = {
                     competitions: details.competitions,
                     mostRecentEventName: details.mostrecenteventname,
                     mostRecentEventDate: details.mostrecenteventdate.toString("MM.dd.yy"),
-                    Achievements: _.map(results.achievements, function (ele) {
-                        return ele.description;
-                    }),
                     Divisions: {
                         "Division I": {},
                         "Division II": {}
