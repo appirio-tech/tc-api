@@ -24,12 +24,12 @@ SELECT
             '0.0'
         END)::DECIMAL(10, 2) AS dr_points
     , milestonePhase.scheduled_end_time AS milestone_date
-    , (CASE 
+    , (CASE
         WHEN milestonePhase.scheduled_end_time IS NOT NULL AND milestonePhase.scheduled_end_time > CURRENT
             THEN milestonePhase.scheduled_end_time - CURRENT
         ELSE
             pps.scheduled_end_time - CURRENT
-        END)::INTERVAL MINUTE(9) TO MINUTE AS time_left
+        END)::INTERVAL MINUTE(9) TO MINUTE::char(10)::int  AS time_left
 FROM project p
 INNER JOIN project_info pi ON pi.project_id = p.project_id AND pi.project_info_type_id = 6
 INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id

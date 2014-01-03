@@ -1,8 +1,10 @@
 ﻿/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, freegod
+ * changes in 1.1:
+ * - Use empty result set instead of 404 error in get studio challenges API.
  */
 "use strict";
 
@@ -270,7 +272,13 @@ exports.searchStudioContests = {
                 }, cb);
             }, function (results, cb) {
                 if (results.data.length === 0) {
-                    cb(new NotFoundError("No results found"));
+                    result = {
+                        data: [],
+                        total: 0,
+                        pageIndex: pageIndex,
+                        pageSize: Number(params.pageIndex) === -1 ? 0 : pageSize
+                    };
+                    cb();
                     return;
                 }
                 var total = results.count[0].total_count;

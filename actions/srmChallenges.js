@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Sky_, TCSASSEMBLER
+ * @version 1.2
+ * @author Sky_, TCSASSEMBLER, freegod
  * changes in 1.1:
  * - implement srm API
+ * changes in 1.2:
+ * - Use empty result set instead of 404 error in get srm challenges API.
  */
 "use strict";
 var async = require('async');
@@ -121,7 +123,13 @@ exports.searchSRMChallenges = {
                 }, cb);
             }, function (results, cb) {
                 if (results.data.length === 0) {
-                    cb(new NotFoundError("No results found"));
+                    result = {
+                        total: 0,
+                        pageIndex: pageIndex,
+                        pageSize: Number(params.pageIndex) === -1 ? 0 : pageSize,
+                        data: []
+                    };
+                    cb();
                     return;
                 }
                 var total = results.count[0].totalcount;

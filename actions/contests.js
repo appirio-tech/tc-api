@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, mekanizumu, TCSASSEMBLER
+ * @version 1.4
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -13,6 +13,8 @@
  * 3. Remove contest description from search contest API response.
  * changes in 1.3:
  * 1. move studio API to separated file
+ * changes in 1.4:
+ *  - Use empty result set instead of 404 error in get challenges API.
  */
 "use strict";
 
@@ -445,7 +447,11 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
             api.dataAccess.executeQuery(command, sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
-                cb(new NotFoundError("No results found"));
+                result.data = [];
+                result.total = total;
+                result.pageIndex = pageIndex;
+                result.pageSize = pageIndex === -1 ? total : pageSize;
+                cb();
                 return;
             }
             result.data = transferResult(rows);

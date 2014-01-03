@@ -582,12 +582,12 @@ describe('Get Contests API', function () {
         /**
          * /v2/design/challenges?pageIndex=100&pageSize=100
          */
-        it("should return error 404 when no results returned", function (done) {
+        it("should return empty result when no results returned", function (done) {
             request(API_ENDPOINT)
                 .get('/v2/design/challenges?pageIndex=100&pageSize=100')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
-                .expect(404)
+                .expect(200)
                 .end(done);
         });
 

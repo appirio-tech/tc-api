@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Sky_, TCSASSEMBLER
+ * @version 1.2
+ * @author Sky_, TCSASSEMBLER, freegod
  * changes in 1.1:
  * - implement marathon API
+ * changes in 1.2:
+ * - Use empty result set instead of 404 error in get marathon challenges API.
  */
 "use strict";
 var async = require('async');
@@ -254,11 +256,17 @@ exports.searchMarathonChallenges = {
                     }
                 }, cb);
             }, function (results, cb) {
-                if (results.data.length === 0) {
-                    cb(new NotFoundError("No results found"));
+                var total = results.count[0].totalcount;
+                if (total === 0 || results.data.length === 0) {
+                    result = {
+                        data : [],
+                        total: total,
+                        pageIndex: pageIndex,
+                        pageSize: Number(params.pageIndex) === -1 ? total : pageSize
+                    };
+                    cb();
                     return;
                 }
-                var total = results.count[0].totalcount;
                 result = {
                     data: _.map(results.data, function (item) {
                         var contest = helper.mapProperties(item, SEARCH_API_COLUMNS);
