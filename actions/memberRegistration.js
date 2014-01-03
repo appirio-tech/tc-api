@@ -406,7 +406,7 @@ var getCountryCode = function (countryName, api, dbConnectionMap, next) {
     api.dataAccess.executeQuery("get_country_code", {countryName : countryName}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             next(err);
         } else {
             if (result[0] === null || result[0] === undefined) {
@@ -872,7 +872,7 @@ exports.memberRegister = {
     databases : ["common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         var dbConnectionMap, messages, checkResult;
-        if (this.dbConnectionMapMap !== null) {
+        if (this.dbConnectionMap !== null) {
             dbConnectionMap = this.dbConnectionMap;
             messages = [];
 
@@ -971,7 +971,7 @@ exports.memberRegister = {
                         // register the user into database
                         registerUser(connection.params, api, dbConnectionMap, function (err, result) {
                             if (err) {
-                                api.log("Error occured in server: " + err + " " + (err.stack || ''), "error");
+                                api.log("Error occurred in server: " + err + " " + (err.stack || ''), "error");
                                 connection.rawConnection.responseHttpCode = apiCodes.serverError;
                                 connection.error = err;
                                 connection.response = {message : err};

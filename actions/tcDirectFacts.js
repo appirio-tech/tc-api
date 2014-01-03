@@ -23,7 +23,15 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
-            connection.response = result;
+            var data = result[0];
+            connection.response = {
+                activeContestsCount: data.active_contests_count,
+                activeMembersCount: data.active_members_count,
+                memberCount: data.member_count,
+                activeProjectsCount: data.active_projects_count,
+                completedProjectCount: data.completed_projects_count,
+                prizePurse: data.prize_purse
+            };
             next(connection, true);
         }
 
