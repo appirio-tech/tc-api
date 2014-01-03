@@ -468,7 +468,7 @@ exports.getMarathonChallenge = {
                     roundId: details.round_id,
                     fullName: details.full_name,
                     shortName: details.short_name,
-                    description: helper.convertToString(details.description)
+                    description: helper.convertToString(details.description),
                     numberOfRegistrants: details.number_of_registrants,
                     numberOfCompetitors: details.number_of_competitors,
                     numberOfSubmissions: details.number_of_submissions,
