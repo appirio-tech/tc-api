@@ -3,15 +3,15 @@ SELECT
 , r.rating
 , TRIM(NVL(round(cr.percentile, 2), 'N/A')) AS percentile
 , cr.rank
-, ccr.rank AS countryRank
-, scr.rank AS schoolRank
+, ccr.rank AS country_rank
+, scr.rank AS school_rank
 , r.vol AS volatility
-, r.highest_rating AS maximumRating
-, r.lowest_rating AS minimumRating
-, l.language_name AS defaultLanguage
+, r.highest_rating AS maximum_rating
+, r.lowest_rating AS minimum_rating
+, l.language_name AS default_language
 , r.num_ratings AS competitions
-, rd.short_name AS mostRecentEventName
-, cl.date AS mostRecentEventDate
+, rd.short_name AS most_recent_event_name
+, cl.date AS most_recent_event_date
 FROM 
   rating r
 , coder c
@@ -20,7 +20,7 @@ FROM
 , OUTER coder_rank cr
 , OUTER school_coder_rank scr
 , OUTER country_coder_rank ccr
-WHERE LOWER(c.handle) = LOWER('@ha@')
+WHERE LOWER(c.handle) = LOWER('@handle@')
 AND c.coder_id = r.coder_id
 AND l.language_id = c.language_id
 AND rd.round_id = r.last_rated_round_id

@@ -1,8 +1,8 @@
 SELECT 
-  level_desc AS levelName
+  level_desc AS level_name
 , NVL(submitted, 0) as submitted
-, NVL(failedChallenge, 0) as failedChallenge
-, NVL(failedSysTest, 0) as failedSysTest
+, NVL(failedChallenge, 0) as failed_challenge
+, NVL(failedSysTest, 0) as failed_sys_test
 FROM level_lu ll
 LEFT JOIN (
     SELECT 
@@ -16,7 +16,7 @@ LEFT JOIN (
     , coder_level cl
     , coder c
     WHERE cl.coder_id = c.coder_id
-    AND LOWER(c.handle) = LOWER('@ha@')
+    AND LOWER(c.handle) = LOWER('@handle@')
     AND l.level_id = cl.level_id
     AND cl.division_id = 1
     AND cl.algo_rating_type_id = 1

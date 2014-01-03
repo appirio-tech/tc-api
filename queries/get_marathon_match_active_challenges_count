@@ -1,5 +1,5 @@
 SELECT 
-  COUNT(*) AS totalCount
+  COUNT(*) AS total_count
 FROM 
   round_segment rs
 , round r

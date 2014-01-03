@@ -1,9 +1,9 @@
 
 SELECT 
   sub.date
-, NVL(sub.top_score, 0.0) AS currentTopProvisionalScore
-, NVL(sub.num_submissions, 0) AS currentNoOfSubmissions
-, uu.handle AS topUserHandle
+, NVL(sub.top_score, 0.0) AS current_top_provisional_score
+, NVL(sub.num_submissions, 0) AS current_no_of_submissions
+, uu.handle AS top_user_handle
 FROM
 round r 
 LEFT JOIN (
@@ -36,5 +36,5 @@ LEFT JOIN (
   WHERE u.user_id = lcs.coder_id
   AND lcs.long_component_state_id = ls.long_component_state_id
 ) uu ON uu.submission_points = sub.top_score AND uu.round_id = r.round_id
-WHERE r.round_id = @rd@
+WHERE r.round_id = @roundId@
 ORDER BY sub.date ASC

@@ -7,7 +7,7 @@ FROM
 , long_submission ls
 , user u 
 WHERE ls.example = 0 
-AND lcs.round_id = @rd@
+AND lcs.round_id = @roundId@
 AND lcs.coder_id = u.user_id 
 AND ls.long_component_state_id = lcs.long_component_state_id 
 ORDER BY ls.submit_time

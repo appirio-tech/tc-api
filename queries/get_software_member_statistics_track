@@ -1,5 +1,5 @@
 SELECT DISTINCT(c.coder_id)
-     , c.handle AS handle
+     , c.handle
      , sub_info.category_name AS category_name
      , sub_info.phase_id - 111 AS category_id
      , NVL(ur.rating, 0.0) AS rating
@@ -65,11 +65,11 @@ SELECT DISTINCT(c.coder_id)
         WHERE pr.user_id = cc.coder_id
         AND p.project_id = pr.project_id
         AND p.status_id in (4,5,7,8)
-        AND LOWER(cc.handle) = LOWER('@ha@')
+        AND LOWER(cc.handle) = LOWER('@handle@')
         GROUP BY p.phase_id, p.phase_desc
       ) sub_info ON sub_info.phase_id = ur.phase_id
      , coder AS c
  WHERE ur.user_id = c.coder_id
    AND ur.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
-   AND LOWER(c.handle)= LOWER('@ha@')
+   AND LOWER(c.handle)= LOWER('@handle@')
 

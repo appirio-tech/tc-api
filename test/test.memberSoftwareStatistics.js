@@ -68,9 +68,9 @@ describe('Get Member Software Statistics API', function () {
      * Clean up all data.
      * @param {Function<err>} done the callback
      */
-    after(function (done) {
-        clearDb(done);
-    });
+//    after(function (done) {
+//        clearDb(done);
+//    });
 
     /**
      * Test /v2/users/heffan/statistics/develop

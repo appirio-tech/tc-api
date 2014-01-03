@@ -1,5 +1,5 @@
-select c.handle as handle
-      , ar.rating as rating
+select c.handle
+      , ar.rating
       , ar.num_competitions as competitions
       , ROUND((select avg(lcr.placed) from long_comp_result lcr where lcr.coder_id = c.coder_id and attended='Y'),2) as avg_rank
       , ROUND((select avg(lcr.num_submissions) from long_comp_result lcr where lcr.coder_id = c.coder_id and attended='Y'),2) as avg_num_submissions
@@ -7,9 +7,9 @@ select c.handle as handle
       , (select count(*) from long_comp_result where placed =1 and coder_id = c.coder_id) as wins
       , (select count(*) from long_comp_result where placed between 1 and 5 and coder_id = c.coder_id) as top_five_finishes
       , (select count(*) from long_comp_result where placed between 1 and 10 and coder_id = c.coder_id) as top_ten_finishes
-      , cr.rank as rank 
+      , cr.rank
       , TRIM(NVL(cr.percentile,'N/A')) as percentile
-      , ar.vol as vol
+      , ar.vol
       , ar.lowest_rating as  minimum_rating
       , ar.highest_rating as maximum_rating
       , ccr.rank as country_rank
@@ -22,7 +22,7 @@ select c.handle as handle
        , OUTER country_coder_rank ccr
        , OUTER school_coder_rank scr
        , OUTER(algo_rating ar, round rd, calendar cl)
- where c.handle_lower = LOWER('@ha@')
+ where c.handle_lower = LOWER('@handle@')
    and ar.coder_id = c.coder_id
    and ar.algo_Rating_type_id = 3
    and cr.coder_id = c.coder_id

@@ -1,13 +1,13 @@
 SELECT 
-  SKIP @fri@
-  FIRST @ps@
-  r.round_id AS roundId
-, c.name AS fullName
-, r.name AS shortName
-, c.start_date AS startDate
-, c.end_date AS endDate
-, co.handle AS winnerHandle
-, lcr.system_point_total AS winnerScore
+  SKIP @firstRowIndex@
+  FIRST @pageSize@
+  r.round_id
+, c.name AS full_name
+, r.name AS short_name
+, c.start_date
+, c.end_date
+, co.handle AS winner_handle
+, lcr.system_point_total AS winner_score
 FROM 
   round r
 , contest c
@@ -35,4 +35,4 @@ AND EXTEND(c.start_date , year to day) >= '@start_time_start@'
 
 
 
-ORDER BY @sc@ @sdir@, roundId desc
+ORDER BY @sortColumn@ @sortOrder@, round_id desc

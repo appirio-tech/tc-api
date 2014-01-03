@@ -1,11 +1,11 @@
 SELECT 
-  SKIP @fri@
-  FIRST @ps@
-  r.round_id AS roundId
-, ct.name AS fullName
-, r.name AS shortName
-, rs.start_time AS startDate
-, rs.end_time AS endDate
+  SKIP @firstRowIndex@
+  FIRST @pageSize@
+  r.round_id
+, ct.name AS full_name
+, r.name AS short_name
+, rs.start_time AS start_date
+, rs.end_time AS end_date
 FROM 
   round_segment rs
 , round r
@@ -27,4 +27,4 @@ AND EXTEND(rs.end_time , year to day) >= '@end_time_start@'
 AND EXTEND(rs.start_time , year to day) <= '@start_time_end@'
 AND EXTEND(rs.start_time , year to day) >= '@start_time_start@'
 
-ORDER BY @sc@ @sdir@, roundId desc
+ORDER BY @sortColumn@ @sortOrder@, round_id desc

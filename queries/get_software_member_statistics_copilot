@@ -40,9 +40,9 @@ LEFT JOIN (
   WHERE
   p.project_id = rr.project_id
   AND rr.user_id = u.user_id
-  AND u.handle_lower = LOWER('@ha@')
+  AND u.handle_lower = LOWER('@handle@')
 ) temp_table ON temp_table.project_category_id = pc.project_category_id 
-JOIN user usr on usr.handle_lower = LOWER('@ha@')
+JOIN user usr on usr.handle_lower = LOWER('@handle@')
 WHERE (temp_table.review_date = 
        (SELECT max(rr1.review_date) FROM reviewer_rating rr1 INNER JOIN project p1 ON p1.project_id = rr1.project_id AND p1.project_category_id = pc.project_category_id)
        OR temp_table.review_date IS NULL)
