@@ -936,16 +936,16 @@ Register a new user.
         }
 
         
-## Search Contests [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Search Contests [GET]
+## Search Software Contests [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Search Software Contests [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ALL', 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'ALL' will be should used.
-    + filter (optional, string, `type`) ... Key of the filter key-value pair
+    + listType (optional, string, `Open`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     
 
@@ -957,51 +957,88 @@ Register a new user.
             "pageSize": 3,
             "data": [
                 {
-                    "type": "Web Design",
-                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "numberOfSubmissions": 16,
-                    "numberOfRatedRegistrants": 27,
-                    "numberOfUnratedRegistrants": 27,
-                    "contestId": 30036096,
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
                     "projectId": 6789,
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
                     "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
                     "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
                     "prize": [1250, 500],
                     "reliabilityBonus": 0,
                     "digitalRunPoints": 500,
-                    "cmc": "ab"
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 },
                 {
-                    "type": "UI Prototype Competition",
-                    "catalog": "UI Development",
-                    "contestName": "Corningstone App UI Prototype 2",
-                    "numberOfSubmissions": 0,
-                    "numberOfRatedRegistrants": 27,
-                    "numberOfUnratedRegistrants": 27,
-                    "contestId": 30036099,
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
                     "projectId": 6484,
-                    "registrationEndDate": "10.26.2013 16:01 EDT",
-                    "submissionEndDate": "10.31.2013 16:06 EDT",
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
                     "prize": [1250, 500],
                     "reliabilityBonus": 660,
                     "digitalRunPoints": 990,
-                    "cmc": "ab"
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 },
                 {
-                    "type": "Content Creation",
-                    "catalog": "UI Development",
-                    "contestName": "Crowdsourced Application Security Standards and Review",
-                    "numberOfSubmissions": 4,
-                    "numberOfRatedRegistrants": 27,
-                    "numberOfUnratedRegistrants": 27,
-                    "contestId": 30036091,
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
                     "projectId": 6778,
-                    "registrationEndDate": "10.28.2013 10:28 EDT",
-                    "submissionEndDate": "10.31.2013 10:34 EDT",
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
                     "prize": [1250, 500],
                     "reliabilityBonus": 360,
                     "digitalRunPoints": 0,
-                    "cmc": "ab"
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 }
             ]
         }
@@ -1348,14 +1385,16 @@ Register a new user.
 
 # Group Studio Contests
 
-## View Studio Contests [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### View Studio Contests [GET]
+## Search Studio Contests [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Search Studio Contests [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + listType (optional, string, `Open`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     
 + Response 200 (application/json)
@@ -1367,30 +1406,60 @@ Register a new user.
             "data": 
             [
                 {
-                    "type": "Web Design",
-                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "startDate": "10.31.2013 10:10 EDT",
-                    "round1EndDate": "10.31.2013 10:10 EDT",
-                    "endDate": "10.31.2013 10:10 EDT",
-                    "timeLeft": "2 days",
-                    "prize": 1750,
-                    "points": 600,
-                    "registrants": 15,
-                    "submissions": 0,
-                    "cmc": "ab"
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 },
                 {
-                    "type": "Web Design",
-                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "startDate": "10.31.2013 10:10 EDT",
-                    "round1EndDate": "10.31.2013 10:10 EDT",
-                    "endDate": "10.31.2013 10:10 EDT",
-                    "timeLeft": "2 days",
-                    "prize": 1750,
-                    "points": 650,
-                    "registrants": 15,
-                    "submissions": 0,
-                    "cmc": "ab"
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 }
             ]
         }

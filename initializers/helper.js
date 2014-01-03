@@ -4,7 +4,7 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, TCSASSEMBLER, TCSASSEMBLER
+ * @author Sky_, TCSASSEMBLER, Ghost_141
  * @version 1.4
  * changes in 1.1:
  * - add mapProperties
@@ -70,7 +70,16 @@ var apiName2dbNameMap = {
     divitotalsolutionschallenged: 'div_i_total_solutions_challenged',
     diviitotalsolutionschallenged: 'div_ii_total_solutions_challenged',
     diviaveragesolutionschallenged: 'div_i_average_solutions_challenged',
-    diviiaveragesolutionschallenged: 'div_ii_average_solutions_challenged'
+    diviiaveragesolutionschallenged: 'div_ii_average_solutions_challenged',
+    challengetype: 'challenge_type',
+    challengename: 'challenge_name',
+    challengeid: 'challenge_id',
+    cmctaskid: 'cmc_task_id',
+    registrationenddate: 'registration_end_date',
+    submissionenddate: 'submission_end_date',
+    finalfixenddate: 'final_fix_end_date',
+    currentstatus: 'current_status',
+    digitalrunpoints: 'digital_run_points'
 };
 
 /**
@@ -437,7 +446,7 @@ helper.apiCodes = {
  * @param {Object} err - The error to return
  */
 helper.handleError = function (api, connection, err) {
-    api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+    api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
     var errdetail, helper = api.helper, baseError = helper.apiCodes.serverError;
     if (err instanceof IllegalArgumentError) {
         baseError = helper.apiCodes.badRequest;
