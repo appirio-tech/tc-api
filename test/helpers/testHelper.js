@@ -43,7 +43,7 @@ var DEFAULT_TIMEOUT = 30000; // 30s
 function createConnection(databaseName) {
     var error, dbServerPrefix = configs.configData.databaseMapping[databaseName],
         user, password, hostname, server, port, settings;
-    
+
     if (!dbServerPrefix) {
         throw new Error("database server prefix not found for database: " + databaseName);
     }
@@ -72,7 +72,7 @@ function createConnection(databaseName) {
     console.log('Settings for ' + dbServerPrefix + ': ' + JSON.stringify(settings));
 
     return new Jdbc(settings, null).initialize();
-};
+}
 
 
 /**
@@ -96,11 +96,11 @@ helper.runSqlQueries = function (queries, databaseName, callback) {
 
 
             connection.query(query, cb, {
-                            start: function (q) {
-                            },
-                            finish: function (f) {
-                            }
-                        }).execute();
+                start: function (q) {
+                },
+                finish: function (f) {
+                }
+            }).execute();
         }, function (err) {
             connection.disconnect();
             callback(err);
@@ -127,7 +127,7 @@ helper.runSqlQuery = function (query, databaseName, callback) {
 helper.runSqlSelectQuery = function (query, databaseName, callback) {
     var connection = createConnection(databaseName);
 
-    connection.connect(function(err, result) {
+    connection.connect(function (err, result) {
         if (err) {
             connection.disconnect();
             callback(err, result);
@@ -136,9 +136,9 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
                 if (err) {
                     connection.disconnect();
                 }
-                 
+
                 callback(err, result);
-                }, 
+            },
                 {
                     start: function (q) {
                     },
@@ -146,7 +146,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
                     }
                 }).execute();
         }
-    })
+    });
 };
 
 /**
@@ -259,7 +259,7 @@ helper.generatePartPaths = function (fileName, extension, count) {
 /**
  * Assert response from api to given file.
  * Fields serverInformation and requestorInformation are not compared.
- * @param {Error} error - the error from response
+ * @param {Error} err - the error from response
  * @param {Object} res - the response object
  * @param {String} filename - the filename to match. Path must be relative to /test/ directory.
  * @param {Function} done - the callback

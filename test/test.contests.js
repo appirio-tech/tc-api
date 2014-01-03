@@ -26,54 +26,6 @@ describe('Test Contests API', function () {
 
 
     /**
-     * Clear database
-     * @param {Function<err>} done the callback
-     */
-    function clearDb(done) {
-        testHelper.runSqlFile(__dirname + "/sqls/contests/clean.sql", DATABASE_NAME, done);
-    }
-
-    /**
-     * This function is run before all tests.
-     * Generate tests data.
-     * @param {Function<err>} done the callback
-     */
-    before(function (done) {
-        async.waterfall([
-            clearDb,
-            function (cb) {
-                testHelper.runSqlFile(__dirname + "/sqls/contests/init_data.sql", DATABASE_NAME, cb);
-            },
-            function (cb) {
-                var files = [], prefix = __dirname + "/sqls/contests/data", generatePath;
-                //shortcut for testHelper.generatePartPaths
-                generatePath = function (name, count) {
-                    return testHelper.generatePartPaths(prefix + "/" + name, "sql", count);
-                };
-                files = files
-                    .concat(generatePath("software-active-contests", 4))
-                    .concat(generatePath("software-past-contests", 4))
-                    .concat(generatePath("software-upcoming-contests", 4))
-                    .concat(generatePath("software-active-private", 1))
-                    .concat(generatePath("software-past-private", 1))
-                    .concat(generatePath("software-upcoming-private", 1))
-                    .concat(generatePath("software-details-contests", 1));
-                testHelper.runSqlFiles(files, DATABASE_NAME, cb);
-            }
-        ], done);
-
-    });
-
-    /**
-     * This function is run after all tests.
-     * Clean up all data.
-     * @param {Function<err>} done the callback
-     */
-    after(function (done) {
-        clearDb(done);
-    });
-
-    /**
      * Add leading zero to number if less than 10
      * @param {Number} nr the number to format
      * @return {String} number with padding
@@ -218,41 +170,6 @@ describe('Test Contests API', function () {
     }
 
     /**
-     * Assert contests details.
-     * @param {Number} contestId - the contest id
-     * @param {String} contestName - the contest name to assert
-     * @param {Function<err>} done the callback
-     */
-    function assertContestDetails(contestId, contestName, done) {
-        request(API_ENDPOINT)
-            .get('/v2/develop/challenges/' + contestId)
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function (err, res) {
-                assert.ifError(err);
-                var contest = res.body, errMsg = "(contest: " + contestId + ")";
-                assert.ok(contest);
-                assert.equal(contest.challengeName, contestName, "Invalid contestName " + errMsg);
-                assert.ok(contest.challengeType, "Invalid type " + errMsg);
-                assert.equal(contest.challengeId, contestId, "Invalid contestId " + errMsg);
-                assert.ok(contest.projectId, "Invalid projectId " + errMsg);
-                assert.ok(new Date(contest.registrationEndDate).toString() !== "InvalidDate",
-                    "Invalid registrationEndDate" + errMsg);
-                assert.ok(new Date(contest.submissionEndDate).toString() !== "InvalidDate",
-                    "Invalid submissionEndDate" + errMsg);
-                assert.ok(contest.prize, "Invalid prize " + errMsg);
-                assert.ok(!isNaN(contest.topCheckPointPrize), "Invalid milestonePrize " + errMsg);
-                assert.ok(!isNaN(contest.numberOfCheckpointsPrizes), "Invalid milestoneNumber " + errMsg);
-                assert.ok(!isNaN(contest.digitalRunPoints), "Invalid digitalRunPoints " + errMsg);
-                assert.ok(contest.submissions, "Invalid submissions " + errMsg);
-                assert.ok(contest.registrants, "Invalid registrants " + errMsg);
-                assert.ok(contest.cmcTaskId || contest.cmcTaskId === "", "Invalid cmc " + errMsg);
-                done();
-            });
-    }
-
-    /**
      * Assert contests details are not found
      * @param {Number} contestId - the contest id
      * @param {Function<err>} done the callback
@@ -267,15 +184,58 @@ describe('Test Contests API', function () {
     }
 
     /**
-     * Tests for Studio contest detail
+     * Tests for Software contest detail
      */
-    describe('-- Contest Detail API --', function () {
+    describe('-- Software Contest Detail API --', function () {
+        var SQL_DIR = __dirname + '/sqls/softwareContestDetail/';
+
+        function clearDb(done) {
+            testHelper.runSqlFile(SQL_DIR + "tcs_catalog__delete.sql", DATABASE_NAME, done);
+        }
+
+        before(function (done) {
+            async.waterfall([
+                clearDb,
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert.sql", DATABASE_NAME, cb);
+                }
+            ], done);
+        });
+
+        after(function (done) {
+            clearDb(done);
+        });
 
         /**
          * develop/challenges/30400000
          */
-        it('should return PAST sfotware details', function (done) {
-            assertContestDetails(30400000, "this is DETAIL software ACTIVE/OPEN contest 01", done);
+        it('should return PAST software details', function (done) {
+            request(API_ENDPOINT)
+                .get('/v2/develop/challenges/' + '30400000')
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    }
+                    var expected = require('./test_files/expected_software_contest_detail.json');
+                    delete res.body.serverInformation;
+                    delete res.body.requestorInformation;
+                    // The time in test data is not constant.
+                    delete res.body.postingDate;
+                    delete res.body.registrationEndDate;
+                    delete res.body.checkpointSubmissionEndDate;
+                    delete res.body.appealsEndDate;
+                    delete res.body.finalFixEndDate;
+                    delete res.body.submissionEndDate;
+                    delete res.body.currentPhaseEndDate;
+                    delete res.body.currentPhaseRemainingTime;
+                    delete res.body.registrants[0].registrationDate;
+                    delete res.body.submissions[0].submissionDate;
+                    assert.deepEqual(res.body, expected, 'Invalid response');
+                    done();
+                });
         });
 
 
@@ -287,27 +247,25 @@ describe('Test Contests API', function () {
          * develop/challenges/31310000
          * develop/challenges/31320002
          */
-        it('should return 404 when access PRIVATE contest', function (done) {
-            async.series([
-                function (cb) {
-                    assertContestDetailsNotFound(31210000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31200000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31220000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31300000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31310000, cb);
-                },
-                function (cb) {
-                    assertContestDetailsNotFound(31320002, cb);
-                }
-            ], done);
+
+        it('should return 404 while access PRIVATE contest 31200000', function (done) {
+            assertContestDetailsNotFound(31200000, done);
+        });
+
+        it('should return 404 while access PRIVATE contest 31220000', function (done) {
+            assertContestDetailsNotFound(31220000, done);
+        });
+
+        it('should return 404 while access PRIVATE contest 31300000', function (done) {
+            assertContestDetailsNotFound(31300000, done);
+        });
+
+        it('should return 404 while access PRIVATE contest 31310000', function (done) {
+            assertContestDetailsNotFound(31310000, done);
+        });
+
+        it('should return 404 while access PRIVATE contest 31320002', function (done) {
+            assertContestDetailsNotFound(31320002, done);
         });
     });
 
@@ -317,62 +275,223 @@ describe('Test Contests API', function () {
     describe('-- Software Contests API --', function () {
 
         /**
-         * Test develop/challenges?listType=active
+         * Clear database
+         * @param {Function<err>} done the callback
          */
-        it('should return 50 ACTIVE contests', function (done) {
-            assertCollection("ACTIVE", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=open
-         */
-        it('should return 50 OPEN contests', function (done) {
-            assertCollection("OPEN",  done);
-        });
-
-        /**
-         * Test develop/challenges?listType=past
-         */
-        it('should return 50 PAST contests', function (done) {
-            assertCollection("PAST", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=upcoming
-         */
-        it('should return 50 UPCOMING contests', function (done) {
-            assertCollection("UPCOMING", done);
-        });
-
-
-        /**
-         * Test develop/challenges?listType=active&cmc=ab
-         */
-        it('should return 14 ACTIVE contests with cmc=ab', function (done) {
-            assertCMC("ACTIVE", 14, "ab", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=open&cmc=ab
-         */
-        it('should return 14 OPEN contests with cmc=ab', function (done) {
-            assertCMC("OPEN", 14, "ab", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=past&cmc=ab
-         */
-        it('should return 13 PAST contests with cmc=ab', function (done) {
-            assertCMC("PAST", 13, "ab", done);
-        });
-
-        /**
-         * Test develop/challenges?listType=upcoming&cmc=ab
-         */
-        it('should return 13 UPCOMING contests with cmc=ab', function (done) {
-            assertCMC("UPCOMING", 13, "ab", done);
-        });
+//        function clearDb(done) {
+//            testHelper.runSqlFile(__dirname + "/sqls/contests/clean.sql", DATABASE_NAME, done);
+//        }
+//
+//        /**
+//         * This function is run before all tests.
+//         * Generate tests data.
+//         * @param {Function<err>} done the callback
+//         */
+//        before(function (done) {
+//            async.waterfall([
+//                clearDb,
+//                function (cb) {
+//                    testHelper.runSqlFile(__dirname + "/sqls/contests/init_data.sql", DATABASE_NAME, cb);
+//                },
+//                function (cb) {
+//                    var files = [], prefix = __dirname + "/sqls/contests/data", generatePath;
+////                shortcut for testHelper.generatePartPaths
+//                    generatePath = function (name, count) {
+//                        return testHelper.generatePartPaths(prefix + "/" + name, "sql", count);
+//                    };
+//                    files = files
+//                        .concat(generatePath("software-active-contests", 4))
+//                        .concat(generatePath("software-past-contests", 4))
+//                        .concat(generatePath("software-upcoming-contests", 4))
+//                        .concat(generatePath("software-active-private", 1))
+//                        .concat(generatePath("software-past-private", 1))
+//                        .concat(generatePath("software-upcoming-private", 1))
+//                    testHelper.runSqlFiles(files, DATABASE_NAME, cb);
+//                }
+//            ], done);
+//
+//        });
+//
+//        /**
+//         * This function is run after all tests.
+//         * Clean up all data.
+//         * @param {Function<err>} done the callback
+//         */
+//        after(function (done) {
+//            clearDb(done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=active
+//         */
+//        it('should return 50 ACTIVE contests', function (done) {
+//            assertCollection("ACTIVE", done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=open
+//         */
+//        it('should return 50 OPEN contests', function (done) {
+//            assertCollection("OPEN",  done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=past
+//         */
+//        it('should return 50 PAST contests', function (done) {
+//            assertCollection("PAST", done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=upcoming
+//         */
+//        it('should return 50 UPCOMING contests', function (done) {
+//            assertCollection("UPCOMING", done);
+//        });
+//
+//
+//        /**
+//         * Test develop/challenges?listType=active&cmc=ab
+//         */
+//        it('should return 14 ACTIVE contests with cmc=ab', function (done) {
+//            assertCMC("ACTIVE", 14, "ab", done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=open&cmc=ab
+//         */
+//        it('should return 14 OPEN contests with cmc=ab', function (done) {
+//            assertCMC("OPEN", 14, "ab", done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=past&cmc=ab
+//         */
+//        it('should return 13 PAST contests with cmc=ab', function (done) {
+//            assertCMC("PAST", 13, "ab", done);
+//        });
+//
+//        /**
+//         * Test develop/challenges?listType=upcoming&cmc=ab
+//         */
+//        it('should return 13 UPCOMING contests with cmc=ab', function (done) {
+//            assertCMC("UPCOMING", 13, "ab", done);
+//        });
     });
 
+    describe("-- Studio Contests Detail API --", function () {
+
+        var SQL_DIR = __dirname + "/sqls/contestsStudio/";
+
+        /**
+         * Clear database
+         * @param {Function<err>} done the callback
+         */
+        function clearDb(done) {
+            async.waterfall([
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean", "tcs_catalog", cb);
+                },
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + "tcs_dw__clean", "tcs_dw", cb);
+                }
+            ], done);
+        }
+
+        before(function (done) {
+            async.waterfall([
+                clearDb,
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert_test_data", "tcs_catalog", cb);
+                },
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + "tcs_dw__insert_test_data", "tcs_dw", cb);
+                }
+            ], done);
+        });
+
+        after(function (done) {
+            clearDb(done);
+        });
+
+        /**
+         * Create request to search contests API and assert 400 http code
+         * @param {String} contestId - the contest id
+         * @param {Function} done - the callback function
+         */
+        function assert400(contestId, done) {
+            request(API_ENDPOINT)
+                .get('/v2/design/challenges/' + contestId)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(400)
+                .end(done);
+        }
+
+        /**
+         * /v2/design/challenges/10041
+         */
+        it("should return contest details", function (done) {
+            request(API_ENDPOINT)
+                .get('/v2/design/challenges/10041')
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    var body = res.body;
+                    assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                    assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                    assert.lengthOf(body.winners, 1, "invalid winners count");
+                    //submissionTime is not constant value
+                    assert.ok(body.submissions[0].submissionTime);
+                    assert.ok(body.checkpoints[0].submissionTime);
+                    assert.ok(body.winners[0].submissionTime);
+                    delete body.submissions[0].submissionTime;
+                    delete body.checkpoints[0].submissionTime;
+                    delete body.winners[0].submissionTime;
+                    delete body.currentPhaseEndDate;
+                    testHelper.assertResponse(err,
+                        res,
+                        "test_files/exptected_studio_contest_details.json",
+                        done);
+                });
+        });
+
+
+        /**
+         * /v2/design/challenges/xyz
+         */
+        it("should return 400 error if contestId is not number", function (done) {
+            assert400("xyz", done);
+        });
+
+        /**
+         * /v2/design/challenges/0
+         */
+        it("should return 400 error if contestId is 0", function (done) {
+            assert400("0", done);
+        });
+
+        /**
+         * /v2/design/challenges/-1
+         */
+        it("should return 400 error if contestId is -1", function (done) {
+            assert400("-1", done);
+        });
+
+        /**
+         * /v2/design/challenges/1.23
+         */
+        it("should return 400 error if contestId is 1.23", function (done) {
+            assert400("1.23", done);
+        });
+
+        /**
+         * /v2/design/challenges/10000000000000000
+         */
+        it("should return 400 error if contestId is too big number", function (done) {
+            assert400("10000000000000000", done);
+        });
+    });
 
 });

@@ -33,7 +33,7 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
 /**
  * The API for getting TC Direct Facts
  */
-exports.action= {
+exports.action = {
     name : "tcDirectFacts",
     description : "tcDirectFacts",
     inputs : {
@@ -47,13 +47,10 @@ exports.action= {
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute contestTypes#run", 'debug');
+            api.log("Execute tcDirectFacts#run", 'debug');
             getTcDirectFacts(api, connection, this.dbConnectionMap, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };

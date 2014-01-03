@@ -3,15 +3,18 @@
  */
 
 /**
-* This module contains helper functions.
-* @author Sky_, TCSASSEMBLER
-* @version 1.2
-* changes in 1.1:
-* - add mapProperties
-* changes in 1.2:
-* - add getPercent to underscore mixin
-* changes in 1.3:
-* - add convertToString
+ * This module contains helper functions.
+ * @author Sky_, TCSASSEMBLER, TCSASSEMBLER
+ * @version 1.4
+ * changes in 1.1:
+ * - add mapProperties
+ * changes in 1.2:
+ * - add getPercent to underscore mixin
+ * changes in 1.3:
+ * - add convertToString
+ * changes in 1.4:
+ * - add software and studio contest type object.
+ * - add function to get direct project link for a contest.
 */
 "use strict";
 
@@ -21,6 +24,54 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var helper = {};
 
+/**
+ * software type.
+ */
+
+helper.software = {
+    community: 'develop',
+    category: [1, 2]
+};
+
+/**
+ * studio type.
+ */
+helper.studio = {
+    community: 'design',
+    category: [3]
+};
+
+/**
+ * The studio and software type.
+ */
+helper.both = {
+    community: 'both',
+    category: [1, 2, 3]
+};
+
+/**
+ * The name in api response to database name map.
+ */
+var apiName2dbNameMap = {
+    roundid: 'round_id',
+    fullname: 'full_name',
+    shortname: 'short_name',
+    startdate: 'start_date',
+    enddate: 'end_date',
+    winnerhandle: 'winner_handle',
+    winnerscore: 'winner_score',
+    totalcompetitors: 'total_competitors',
+    divicompetitors: 'div_i_competitors',
+    diviicompetitors: 'div_ii_competitors',
+    divitotalsolutionssubmitted: 'div_i_total_solutions_submitted',
+    diviitotalsolutionssubmitted: 'div_ii_total_solutions_submitted',
+    diviaveragesolutionssubmitted: 'div_i_average_solutions_submitted',
+    diviiaveragesolutionssubmitted: 'div_ii_average_solutions_submitted',
+    divitotalsolutionschallenged: 'div_i_total_solutions_challenged',
+    diviitotalsolutionschallenged: 'div_ii_total_solutions_challenged',
+    diviaveragesolutionschallenged: 'div_i_average_solutions_challenged',
+    diviiaveragesolutionschallenged: 'div_ii_average_solutions_challenged'
+};
 
 /**
  * Checks whether given object is defined.
@@ -66,7 +117,7 @@ helper.checkFunction = function (obj, objName) {
 
 /**
  * Check Object given object is string.
- * @param {Obejct} obj the obj to check.
+ * @param {Object} obj the obj to check.
  * @param {String} objName the obj name.
  * @return {Error} if invalid or null if valid.
  */
@@ -205,8 +256,8 @@ helper.checkPositiveInteger = function (obj, objName) {
 
 /**
  * Check date valid or not.
- * @param {Object} obj the obj to check.
- * @param {String} objName the obj name.
+ * @param {Object} date the obj to check.
+ * @param {String} dateName the obj name.
  * @return {Error} if input not valid.
  */
 helper.checkFilterDate = function (date, dateName) {
@@ -258,7 +309,7 @@ helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
     }
     async.waterfall([
         function (cb) {
-            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { ctn: name }, dbConnectionMap, cb);
+            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { categoryName: name }, dbConnectionMap, cb);
         }, function (result, cb) {
             if (!result.length) {
                 cb(error);
@@ -275,7 +326,8 @@ helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
 /**
  * Check whether given integer is not greater than given max.
  * @param {Object} obj the obj to check.
- * @param {String} objName the obj name.
+ * @param {Number} max the obj name.
+ * @param {String} objName the object name.
  * @return {Error} if input not valid.
  */
 helper.checkMaxNumber = function (obj, max, objName) {
@@ -442,6 +494,33 @@ helper.convertToString = function (str) {
 };
 
 /**
+ * Get the project link in direct for this contest.
+ * @param {Number} challengeId - the challenge id(project id) of this contest.
+ */
+helper.getDirectProjectLink = function (challengeId) {
+    return 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + challengeId;
+};
+
+/**
+ * Get the reliability bonus based on the given first prize.
+ * @param {Number} prize - the prize.
+ */
+helper.getReliabilityBonus = function (prize) {
+    return _.isNumber(prize) ? prize * 0.2 : 0;
+};
+
+/**
+ * Get the sort column name in database based on given sort column.
+ * @param {String} apiName - the api name to sort.
+ */
+helper.getSortColumnDBName = function (apiName) {
+    if (_.isDefined(apiName2dbNameMap[apiName])) {
+        return apiName2dbNameMap[apiName];
+    }
+    return apiName;
+};
+
+/**
 * Expose the "helper" utility.
 *
 * @param {Object} api The api object that is used to access the infrastructure
@@ -481,9 +560,9 @@ exports.helper = function (api, next) {
     var prop;
     for (prop in helper) {
         if (helper.hasOwnProperty(prop)) {
-            (function(p) {
+            (function (p) {
                 if (/^check/.test(p) && _.isFunction(helper[p])) {
-                    helper[prop + "Optional"] = function() {
+                    helper[prop + "Optional"] = function () {
                         if (!_.isDefined(arguments[0])) {
                             return null;
                         }
