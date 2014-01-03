@@ -2,6 +2,7 @@ SELECT
   rd.round_id AS roundId
 , p.name AS fullName
 , rd.name AS shortName
+, p.problem_text as description
 , nRegistrants.count AS numberOfRegistrants
 , nCompetitors.count AS numberOfCompetitors
 , nSubmissions.count AS numberOfSubmissions

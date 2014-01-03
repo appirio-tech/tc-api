@@ -474,6 +474,8 @@ exports.getMarathonChallenge = {
                 default:
                 }
                 result = helper.mapProperties(details, DETAILS_BASIC_COLUMNS);
+                // the result will have a description field even if it's null
+                result.description = helper.convertToString(details.description);
 
                 //no winner
                 if (_.isNaN(result.winnerScore) && result.winnerHandle === "null") {
