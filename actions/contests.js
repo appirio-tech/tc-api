@@ -637,7 +637,7 @@ exports.searchSoftwareContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchContests#run", 'debug');
+            api.log("Execute searchSoftwareContests#run", 'debug');
             searchContests(api, connection, this.dbConnectionMap, 'develop', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
@@ -662,7 +662,7 @@ exports.searchStudioContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchContests#run", 'debug');
+            api.log("Execute searchStudioContests#run", 'debug');
             searchContests(api, connection, this.dbConnectionMap, 'design', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
@@ -687,7 +687,7 @@ exports.searchSoftwareAndStudioContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchContests#run", 'debug');
+            api.log("Execute searchSoftwareAndStudioContests#run", 'debug');
             searchContests(api, connection, this.dbConnectionMap, 'both', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
