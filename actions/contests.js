@@ -17,6 +17,8 @@
  *  - Use empty result set instead of 404 error in get challenges API.
  * changes in 1.5:
  * 1. Update the logic when get results from database since the query has been updated.
+ * changes in 1.6:
+ * merge the backend logic of search software contests and studio contests together.
  */
 "use strict";
 
@@ -38,19 +40,17 @@ var SORT_COLUMN = "sortColumn";
 var DEFAULT_SORT_COLUMN = "challengeName";
 
 /**
- * Represents a predefined list of valid query parameter for active contest.
+ * Represents a predefined list of valid query parameter for all contest types.
  */
 var ALLOWABLE_QUERY_PARAMETER = [
-    "listType", "type", "contestName", "registrationStartDate.type",
-    "registrationStartDate.firstDate", "registrationStartDate.secondDate", "submissionEndDate.type",
-    "submissionEndDate.firstDate", "submissionEndDate.secondDate", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmc"];
+    "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId"];
 
 /**
  * Represents a predefined list of valid sort column for active contest.
  */
 var ALLOWABLE_SORT_COLUMN = [
-    "challengeName", "challengeName", "challengeId", "cmcTaskId", "registrationEndDate",
+    "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
     "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints"
 ];
 
@@ -73,43 +73,24 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-/**
- * Min date for sql query
- */
-var MIN_DATE = "1900-01-01";
-/**
- * Max date for sql query
- */
-var MAX_DATE = "2199-01-01";
 
 /**
- * Project_type_id for Software category
+ * The list type and submission phase status map.
  */
-var SOFTWARE_CATEGORY = [1, 2];
-
+var LIST_TYPE_SUBMISSION_STATUS_MAP = {};
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.ACTIVE] = [1, 2, 3];
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.OPEN] = [1, 2];
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.UPCOMING] = [1];
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.PAST] = [3];
 
 /**
- * Project_type_id for Studio category
+ * The list type and project status map.
  */
-var STUDIO_CATEGORY = [3];
-
-
-/**
- * The list type command multiple value map. This map will used to store the mapped query/command name for each
- * contest type.
- */
-var LIST_TYPE_COMMAND_MAP = {};
-LIST_TYPE_COMMAND_MAP[ListType.ACTIVE] = ["search_active_contest", "search_active_contest_count"];
-LIST_TYPE_COMMAND_MAP[ListType.OPEN] = ["search_open_contest", "search_open_contest_count"];
-LIST_TYPE_COMMAND_MAP[ListType.UPCOMING] = ["search_upcoming_contest", "search_upcoming_contest_count"];
-LIST_TYPE_COMMAND_MAP[ListType.PAST] = ["search_past_contest", "search_past_contest_count"];
-
-
-/**
- * This data format instance will transfer date to a string that can use in query.
- */
-var databaseDateFormat = "yyyy-MM-dd";
-
+var LIST_TYPE_PROJECT_STATUS_MAP = {};
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * This method will used to check the query parameter and sort column of the request.
@@ -149,25 +130,18 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {String} sortColumn - the sort column.
  * @param {String} sortOrder - the sort order.
  * @param {String} type - the type of contest.
- * @param {Object} dbConnectionMap - the database connection map object.
+ * @param {Object} dbConnectionMap - the database connection map.
  * @param {Function<err>} callback - the callback function.
  */
 function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
-    var error = helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder") ||
+    var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
+            helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+            helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
             helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
-    if (_.isDefined(filter.registrationStartDate)) {
-        error = error || helper.checkFilterDate(filter.registrationStartDate, "registrationStartDate");
-    }
-    if (_.isDefined(filter.submissionEndDate)) {
-        error = error || helper.checkFilterDate(filter.submissionEndDate, "submissionEndDate");
-    }
-    if (_.isDefined(filter.contestFinalizationDate)) {
-        error = error || helper.checkFilterDate(filter.contestFinalizationDate, "contestFinalizationDate");
-    }
     if (_.isDefined(filter.projectId)) {
         error = error || helper.checkPositiveInteger(Number(filter.projectId), "projectId");
     }
@@ -181,76 +155,30 @@ function validateInputParameter(helper, query, filter, pageIndex, pageSize, sort
         callback(error);
         return;
     }
-    if (_.isDefined(query.type)) {
-        helper.isCategoryNameValid(query.type, dbConnectionMap, callback);
+    if (_.isDefined(query.challengeType)) {
+        helper.isCategoryNameValid(query.challengeType, dbConnectionMap, callback);
     } else {
         callback();
     }
 }
 
 /**
- * Set the date to request by given input.
- *
- * @param {Object} helper - the helper.
- * @param {Object} sqlParams - the data access request.
- * @param {Object} dateInterval - the date interval from filter.
- * @param {String} inputCodePrefix - the input code prefix.
- */
-function setDateToParams(helper, sqlParams, dateInterval, inputCodePrefix) {
-    var dateType = dateInterval.type,
-        firstDate = new Date(dateInterval.firstDate).toString(databaseDateFormat),
-        secondDate = new Date(dateInterval.secondDate).toString(databaseDateFormat),
-        today = new Date().toString(databaseDateFormat);
-
-    if (dateType.toUpperCase() === helper.consts.BEFORE) {
-        sqlParams[inputCodePrefix + "end"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.consts.AFTER) {
-        sqlParams[inputCodePrefix + "start"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.consts.ON) {
-        sqlParams[inputCodePrefix + "start"] = firstDate;
-        sqlParams[inputCodePrefix + "end"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.consts.BEFORE_CURRENT_DATE) {
-        sqlParams[inputCodePrefix + "end"] = today;
-    } else if (dateType.toUpperCase() === helper.consts.AFTER_CURRENT_DATE) {
-        sqlParams[inputCodePrefix + "start"] = today;
-    } else if (dateType.toUpperCase() === helper.consts.BETWEEN_DATES) {
-        sqlParams[inputCodePrefix + "start"] = firstDate;
-        sqlParams[inputCodePrefix + "end"] = secondDate;
-    }
-}
-
-/**
  * This method will set up filter for sql query.
  *
- * @param {Object} helper - the helper.
- * @param {String} listType - the type of searching contest.
  * @param {Object} filter - the filter from http request.
  * @param {Object} sqlParams - the parameters for sql query.
  */
-function setFilter(helper, listType, filter, sqlParams) {
-    sqlParams.pjn = "%";
-    sqlParams.hn = "%";
+function setFilter(filter, sqlParams) {
+    sqlParams.challengeName = "%";
     sqlParams.prilower = 0;
     sqlParams.priupper = MAX_INT;
     sqlParams.tcdirectid = 0;
 
-    sqlParams.registstartend = MAX_DATE;
-    sqlParams.subendend = MAX_DATE;
-    sqlParams.frendend = MAX_DATE;
-    sqlParams.fractualend = MAX_DATE;
-    sqlParams.frendend = MAX_DATE;
-
-    sqlParams.registstartstart = MIN_DATE;
-    sqlParams.subendstart = MIN_DATE;
-    sqlParams.frendstart = MIN_DATE;
-    sqlParams.fractualstart = MIN_DATE;
-    sqlParams.frendstart = MIN_DATE;
-
-    if (_.isDefined(filter.type)) {
-        sqlParams.ctn = filter.type.toLowerCase();
+    if (_.isDefined(filter.challengeType)) {
+        sqlParams.categoryName = filter.challengeType.toLowerCase();
     }
-    if (_.isDefined(filter.contestName)) {
-        sqlParams.pjn = "%" + filter.contestName.toLowerCase() + "%";
+    if (_.isDefined(filter.challengeName)) {
+        sqlParams.challengeName = "%" + filter.challengeName.toLowerCase() + "%";
     }
     if (_.isDefined(filter.prizeLowerBound)) {
         sqlParams.prilower = filter.prizeLowerBound.toLowerCase();
@@ -258,30 +186,11 @@ function setFilter(helper, listType, filter, sqlParams) {
     if (_.isDefined(filter.prizeUpperBound)) {
         sqlParams.priupper = filter.prizeUpperBound.toLowerCase();
     }
-    if (_.isDefined(filter.registrationStartDate)) {
-        setDateToParams(helper, sqlParams, filter.registrationStartDate, "registstart");
-    }
-    if (_.isDefined(filter.submissionEndDate)) {
-        setDateToParams(helper, sqlParams, filter.submissionEndDate, "subend");
-    }
-    if (_.isDefined(filter.contestFinalizationDate)) {
-        switch (listType) {
-        case ListType.ACTIVE:
-            setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "frend");
-            break;
-        case ListType.OPEN:
-            setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "fractual");
-            break;
-        case ListType.PAST:
-            setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "frend");
-            break;
-        }
-    }
     if (_.isDefined(filter.projectId)) {
         sqlParams.tcdirectid = filter.projectId;
     }
-    if (_.isDefined(filter.cmc)) {
-        sqlParams.cmc = filter.cmc;
+    if (_.isDefined(filter.cmcTaskId)) {
+        sqlParams.cmc = filter.cmcTaskId;
     }
 }
 
@@ -300,7 +209,7 @@ function convertNull(str) {
 
 /**
  * Format date
- * @param {Date} date - the date to format
+ * @param {Date} date date to format
  * @return {String} formatted date
  */
 function formatDate(date) {
@@ -314,40 +223,40 @@ function formatDate(date) {
  * This method will get data from the query result.
  *
  * @param {Array} src - the query result.
+ * @param {Object} helper - the helper object.
+ * @param {Object} contestType - the contest type object.
  * @return {Array} a list of transferred contests
  */
-function transferResult(src) {
+function transferResult(src, helper, contestType) {
     var ret = [];
     src.forEach(function (row) {
         var contest = {
-            challengeType : row.challengetype,
-            challengeName : row.challengename,
-            challengeId : row.challengeid,
-            projectId : row.projectid,
-            forumId : row.forumid,
-            numSubmissions : row.numsubmissions,
-            numRegistrants : row.numregistrants,
-            screeningScorecardId : row.screeningscorecardid,
-            reviewScorecardId : row.reviewscorecardid,
-            cmcTaskId : convertNull(row.cmctaskid),
-            numberOfCheckpointsPrizes : row.numberofcheckpointsprizes,
-            topCheckPointPrize : convertNull(row.topcheckPointprize),
-            postingDate : formatDate(row.postingdate),
-            registrationEndDate : formatDate(row.registrationenddate),
-            checkpointSubmissionEndDate : formatDate(row.checkpointsubmissionenddate),
-            submissionEndDate : formatDate(row.submissionenddate),
-            appealsEndDate : formatDate(row.appealsenddate),
-            finalFixEndDate : formatDate(row.finalfixenddate),
-            currentPhaseEndDate : formatDate(row.currentphaseenddate),
-            currentPhaseRemainingTime : row.currentphaseremainingtime,
-            currentStatus : row.currentstatus,
-            currentPhaseName : convertNull(row.currentphasename),
-            digitalRunPoints: row.digitalrunpoints,
+            challengeType : row.challenge_type,
+            challengeName : row.challenge_name,
+            challengeId : row.challenge_id,
+            projectId : row.project_id,
+            forumId : row.forum_id,
+            numSubmissions : row.num_submissions,
+            numRegistrants : row.num_registrants,
+            screeningScorecardId : row.screening_scorecard_id,
+            reviewScorecardId : row.review_scorecard_id,
+            cmcTaskId : convertNull(row.cmc_task_id),
+            numberOfCheckpointsPrizes : row.number_of_checkpoints_prizes,
+            topCheckPointPrize : convertNull(row.top_checkpoint_prize),
+            postingDate : formatDate(row.posting_date),
+            registrationEndDate : formatDate(row.registration_end_date),
+            checkpointSubmissionEndDate : formatDate(row.checkpoint_submission_end_date),
+            submissionEndDate : formatDate(row.submission_end_date),
+            appealsEndDate : formatDate(row.appeals_end_date),
+            finalFixEndDate : formatDate(row.final_fix_end_date),
+            currentPhaseEndDate : formatDate(row.current_phase_end_date),
+            currentPhaseRemainingTime : row.current_phase_remaining_time,
+            currentStatus : row.current_status,
+            currentPhaseName : convertNull(row.current_phase_name),
+            digitalRunPoints: row.digital_run_points,
             prize: [],
-
-            //TODO: move these out to constants and/or helper 
-            reliabilityBonus: _.isNumber(row.prize1) ? row.prize1 * 0.2 : 0,
-            challengeCommunity: (row.isstudio) ? 'design' : 'develop'
+            reliabilityBonus: helper.getReliabilityBonus(row.prize1),
+            challengeCommunity: contestType.community
         },
             i,
             prize;
@@ -365,18 +274,18 @@ function transferResult(src) {
 
 /**
  * This is the function that actually search contests
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {String} community - The community string that represent which contest to search.
  * @param {Function<connection, render>} next - The callback to be called after this function is done
- * @param {String} community - The community that represent which contest type will be search.
  */
-var searchContests = function (api, connection, dbConnectionMap, next, community) {
+var searchContests = function (api, connection, dbConnectionMap, community, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
-        copyToFilter = ["type", "contestName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmc"],
+        copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
+            "prizeUpperBound", "cmcTaskId"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -385,19 +294,30 @@ var searchContests = function (api, connection, dbConnectionMap, next, community
         sortOrder,
         listType,
         prop,
-        command,
-        commandCount,
         result = {},
-        total;
+        total,
+        contestType;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
         }
     }
 
+    switch (community) {
+    case helper.studio.community:
+        contestType = helper.studio;
+        break;
+    case helper.software.community:
+        contestType = helper.software;
+        break;
+    case helper.both.community:
+        contestType = helper.both;
+        break;
+    }
+
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    listType = (query.listtype || ListType.ACTIVE).toUpperCase();
+    listType = (query.listtype || ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
 
@@ -407,11 +327,6 @@ var searchContests = function (api, connection, dbConnectionMap, next, community
         }
     });
 
-    //default to software
-    sqlParams.project_type_id = SOFTWARE_CATEGORY;
-    if (community === 'design') {  sqlParams.project_type_id = STUDIO_CATEGORY; }
-    if (community === 'both') {  sqlParams.project_type_id = SOFTWARE_CATEGORY.concat(STUDIO_CATEGORY); }
-
     async.waterfall([
         function (cb) {
             validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
@@ -420,17 +335,22 @@ var searchContests = function (api, connection, dbConnectionMap, next, community
                 pageIndex = 1;
                 pageSize = MAX_INT;
             }
-            command = LIST_TYPE_COMMAND_MAP[listType][0];
-            commandCount = LIST_TYPE_COMMAND_MAP[listType][1];
-            setFilter(helper, listType, filter, sqlParams);
-            sqlParams.fri = (pageIndex - 1) * pageSize;
-            sqlParams.ps = pageSize;
-            sqlParams.sf = sortColumn.toLowerCase();
-            sqlParams.sd = sortOrder.toLowerCase();
-            api.dataAccess.executeQuery(commandCount, sqlParams, dbConnectionMap, cb);
+
+            setFilter(filter, sqlParams);
+            sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
+            sqlParams.pageSize = pageSize;
+            sqlParams.sortColumn = sortColumn.toLowerCase();
+            sqlParams.sortColumn = helper.getSortColumnDBName(sortColumn.toLowerCase());
+            sqlParams.sortOrder = sortOrder.toLowerCase();
+            // Set the project type id
+            sqlParams.project_type_id = contestType.category;
+            // Set the submission phase status id.
+            sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
+            sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
+            api.dataAccess.executeQuery('search_software_studio_contests_count', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             total = rows[0].total;
-            api.dataAccess.executeQuery(command, sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery('search_software_studio_contests', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 result.data = [];
@@ -440,7 +360,7 @@ var searchContests = function (api, connection, dbConnectionMap, next, community
                 cb();
                 return;
             }
-            result.data = transferResult(rows);
+            result.data = transferResult(rows, helper, contestType);
             result.total = total;
             result.pageIndex = pageIndex;
             result.pageSize = pageIndex === -1 ? total : pageSize;
@@ -462,8 +382,8 @@ var searchContests = function (api, connection, dbConnectionMap, next, community
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Function<connection, render>} next - The callback to be called after this function is done
  * @param {Boolean} isStudio - the flag that represent if to search studio contests.
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
 var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
     var contest, error, helper = api.helper, sqlParams, contestType = isStudio ? helper.studio : helper.software;
@@ -718,7 +638,7 @@ exports.searchSoftwareContests = {
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute searchContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, 'develop');
+            searchContests(api, connection, this.dbConnectionMap, 'develop', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -743,7 +663,7 @@ exports.searchStudioContests = {
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute searchContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, 'design');
+            searchContests(api, connection, this.dbConnectionMap, 'design', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -768,7 +688,7 @@ exports.searchSoftwareAndStudioContests = {
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute searchContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, 'both');
+            searchContests(api, connection, this.dbConnectionMap, 'both', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

@@ -1,0 +1,5 @@
+DELETE FROM project_result WHERE project_id = 10041;
+
+DELETE FROM submission WHERE submission_id = 10041;
+
+DELETE FROM coder WHERE coder_id = 132457;

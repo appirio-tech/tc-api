@@ -1,0 +1,7 @@
+INSERT INTO coder(coder_id,handle,status) VALUES(132457,'super','A');
+
+INSERT INTO submission(submission_id,submitter_id,project_id,submission_url,submission_type)
+VALUES(10041,132457,10041,'',1);
+
+INSERT INTO project_result(project_id,user_id,placed,final_points,submit_timestamp,submit_ind)
+VALUES(10041,132457,1,450.0,CURRENT,1);

@@ -1,5 +1,0 @@
-{
-  "name"    : "search_upcoming_contest",
-  "db"      : "tcs_catalog",
-  "sqlfile" : "search_upcoming_contest"
-}
