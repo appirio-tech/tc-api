@@ -1,6 +1,6 @@
 SELECT 
-SKIP @fri@
-FIRST @ps@
+SKIP @firstRowIndex@
+FIRST @pageSize@
   cr.rank
 , c.handle
 , r.rating

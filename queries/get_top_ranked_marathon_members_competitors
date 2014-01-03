@@ -1,10 +1,10 @@
 SELECT 
-     SKIP @fri@
-     FIRST @ps@
-     r.rating as rating
+     SKIP @firstRowIndex@
+     FIRST @pageSize@
+     r.rating
      , ctr.country_name as country
-     , c.handle as handle
-     , cr.rank  as rank
+     , c.handle
+     , cr.rank
   FROM coder c
      , algo_rating r
      , coder_rank cr

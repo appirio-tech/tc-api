@@ -1,5 +1,5 @@
 SELECT 
-  COUNT(*) as totalCount
+  COUNT(*) as total_count
 FROM 
   round r
 , contest c

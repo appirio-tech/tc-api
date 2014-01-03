@@ -1,9 +1,0 @@
-SELECT
-    pz.prize_amount AS amount
-FROM
-    prize pz
-WHERE
-    pz.prize_type_id = 15
-    AND pz.project_id = @ct@
-ORDER BY pz.prize_amount desc
-

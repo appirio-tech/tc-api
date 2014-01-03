@@ -8,6 +8,6 @@ FROM tcs_dw:project_result pr, tcs_dw:project p, coder cc
 WHERE pr.user_id = cc.coder_id
 AND p.project_id = pr.project_id
 AND p.status_id in (4,5,7,8)
-AND LOWER(cc.handle) = LOWER('@ha@')
+AND LOWER(cc.handle) = LOWER('@handle@')
 AND p.phase_id IN (127, 128, 129, 131, 132, 133, 141, 142, 143, 145)
 GROUP BY p.phase_id, p.phase_desc

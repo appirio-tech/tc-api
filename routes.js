@@ -78,9 +78,10 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
+        { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioContests" },
 
-        { path: "/:apiVersion/develop/challengetypes", action: "contestTypes" },
-        { path: "/:apiVersion/develop/challenges/:contestId", action: "getContest" },
+        { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
+        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
@@ -88,7 +89,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
         
         //example secure route using oauth. for future reference.
-        { path: "/:apiVersion/secure/challengetypes", action: "contestTypesSecured" },
+        { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
         
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
 

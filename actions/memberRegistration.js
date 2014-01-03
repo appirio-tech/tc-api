@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author mekanizumu, Sky_
  * changes in 1.1:
  * - disable cache for member register action
+ * changes in 1.2:
+ * - Update few function since the query has been standardized.
  */
 "use strict";
 
@@ -101,20 +103,20 @@ var activationEmailSenderName = "Topcoder API";
  * this is the random int generator class
  */
 function codeRandom(coderId) {
-    var cr = {};
-    var multiplier = 0x5DEECE66D;
-    var addend = 0xB;
-    var mask = 281474976710655;
+    var cr = {},
+        multiplier = 0x5DEECE66D,
+        addend = 0xB,
+        mask = 281474976710655;
     cr.seed = bignum(coderId).xor(multiplier).and(mask);
-    cr.nextInt = function() {
+    cr.nextInt = function () {
         var oldseed = cr.seed,
             nextseed;
-            do {
-                nextseed = oldseed.mul(multiplier).add(addend).and(mask);
-            } while (oldseed.toNumber() === nextseed.toNumber());
-            cr.seed = nextseed;
+        do {
+            nextseed = oldseed.mul(multiplier).add(addend).and(mask);
+        } while (oldseed.toNumber() === nextseed.toNumber());
+        cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
+    };
 
     return cr;
 }
@@ -125,42 +127,45 @@ function codeRandom(coderId) {
  * @return the coder id generated hash string.
  */
 function getCode(coderId) {
-    var r = codeRandom(coderId);
-    var nextBytes = function(bytes) {
-        for (var i = 0, len = bytes.length; i < len;)
-            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
-                var val = rnd & 0xff;
+    var r = codeRandom(coderId), nextBytes, i, len, rnd, n, val, randomBits, id, baseHash, arr, bb, hash, result;
+    nextBytes = function (bytes) {
+        for (i = 0, len = bytes.length; i < len; i = i + 1) {
+            for (rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
+                val = rnd & 0xff;
                 if (val > 127) {
                     val = val - 256;
                 }
-                bytes[i++] = val;
+                bytes[i] = val;
             }
+        }
     };
-    var randomBits = function(numBits) {
-        if (numBits < 0)
+    randomBits = function (numBits) {
+        if (numBits < 0) {
             throw new Error("numBits must be non-negative");
-        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
-        var randomBits = new Int8Array(numBytes);
+        }
+        var numBytes = Math.floor((numBits + 7) / 8), // avoid overflow
+            randomBits = new Int8Array(numBytes),
+            excessBits;
 
         // Generate random bytes and mask out any excess bits
         if (numBytes > 0) {
             nextBytes(randomBits);
-            var excessBits = 8 * numBytes - numBits;
+            excessBits = 8 * numBytes - numBits;
             randomBits[0] &= (1 << (8 - excessBits)) - 1;
         }
         return randomBits;
-    }
-    var id = coderId + "";
-    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
-    var len = coderId.toString(2).length;
-    var arr = randomBits(len);
-    var bb = bignum.fromBuffer(new Buffer(arr));
-    var hash = bb.add(baseHash).toString();
+    };
+    id = coderId.toString();
+    baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
+    len = coderId.toString(2).length;
+    arr = randomBits(len);
+    bb = bignum.fromBuffer(new Buffer(arr));
+    hash = bb.add(baseHash).toString();
     while (hash.length < id.length) {
         hash = "0" + hash;
     }
     hash = hash.substring(hash.length - id.length);
-    var result = new bigdecimal.BigInteger(id + hash);
+    result = new bigdecimal.BigInteger(id + hash);
     result = result.toString(36).toUpperCase();
     return result;
 }
@@ -168,7 +173,7 @@ function getCode(coderId) {
 /**
  * Register a new user.
  * The result will be passed to the "next" callback.
- *
+ * 
  * @param {Object} user - the user to register. It contains the same properties as connection.params of memberRegister action.
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -316,7 +321,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 /**
  * Check if a handle exists.
  * The result will be passed to the "next" callback. It's true if the handle exists, false otherwise.
- *
+ * 
  * @param {String} handle - handle to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -330,7 +335,7 @@ var userHandleExist = function (handle, api, dbConnectionMap, next) {
             if (result[0] === null || result[0] === undefined) {
                 next(null, false);
             } else {
-                next(null, result[0].handleexist > 0);
+                next(null, result[0].handle_exist > 0);
             }
         }
     });
@@ -339,7 +344,7 @@ var userHandleExist = function (handle, api, dbConnectionMap, next) {
 /**
  * Checks whether given handle exactly matches invalid handle in persistence.
  * The result will be passed to the "next" callback. It's true if the handle matches any invalid handle.
- *
+ * 
  * @param {String} handle - the handle to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -349,7 +354,7 @@ var isExactInvalidHandle = function (handle, api, dbConnectionMap, next) {
     api.dataAccess.executeQuery("check_invalid_handle", {invalidHandle : handle}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             next(err);
         } else {
             if (result[0] === null || result[0] === undefined) {
@@ -364,7 +369,7 @@ var isExactInvalidHandle = function (handle, api, dbConnectionMap, next) {
 /**
  * Checks whether given email already exists.
  * The result will be passed to the "next" callback. It's true if the email already exists.
- *
+ * 
  * @param {String} email - the email to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -374,7 +379,7 @@ var isEmailAvailable = function (email, api, dbConnectionMap, next) {
     api.dataAccess.executeQuery("get_email_availability", {address : email}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             next(err);
         } else {
             api.log("Forward email availability result", "debug");
@@ -382,7 +387,7 @@ var isEmailAvailable = function (email, api, dbConnectionMap, next) {
             if (result[0] === null || result[0] === undefined) {
                 next(null, true);
             } else {
-                next(null, result[0].notavailable === 0);
+                next(null, result[0].not_available === 0);
             }
         }
     });
@@ -416,7 +421,7 @@ var getCountryCode = function (countryName, api, dbConnectionMap, next) {
 /**
  * Checks whether given social provider id is valid.
  * The result will be passed to the "next" callback. It's true if the social provider id is valid.
- *
+ * 
  * @param {String} socialProviderId - the social provider id to check
  * @param {Object} api The api object that is used to access the infrastructure
  * @param {Object} dbConnectionMap - The database connection map
@@ -440,7 +445,7 @@ var isSoicalProviderIdValid = function (socialProviderId, api, dbConnectionMap, 
 
 /**
  * Check if a string is null or empty.
- *
+ * 
  * @param {String} s The string to check
  * @return {boolean} true if the string is null or empty
  */
@@ -450,7 +455,7 @@ var isNullOrEmptyString = function (s) {
 
 /**
  * Check the handle's validness removing leading and trailing numbers.
- *
+ * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Array} checkedHandles The handles that are already checked
@@ -521,7 +526,7 @@ var checkLeadingTrailingNumbers = function (api, handle, checkedHandles, dbConne
 
 /**
  * Check if the handle is invalid
- *
+ * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Object} dbConnectionMap The database connection object
@@ -616,7 +621,7 @@ var checkInvalidHandle = function (api, handle, dbConnectionMap, next) {
 
 /**
  * Validate the handle
- *
+ * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} handle The handle to check
  * @param {Object} dbConnectionMap The database connection object
@@ -688,7 +693,7 @@ var validateHandle = function (api, handle, dbConnectionMap, next) {
 
 /**
  * Validate the first name
- *
+ * 
  * @param {String} firstName The name to check
  * @return {String} the error message or null if the name is valid.
  */
@@ -706,7 +711,7 @@ var validateFirstName = function (firstName) {
 
 /**
  * Validate the last name
- *
+ * 
  * @param {String} lastName The name to check
  * @return {String} the error message or null if the name is valid.
  */
@@ -724,7 +729,7 @@ var validateLastName = function (lastName) {
 
 /**
  * Validate the email
- *
+ * 
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {String} email The email to check
  * @param {Object} dbConnectionMap The database connection object
@@ -737,7 +742,7 @@ var validateEmail = function (api, email, dbConnectionMap, next) {
     }
 
     if (email.length > MAX_EMAIL_LENGTH) {
-        next(null, "Maxiumum lenght of email address is " + MAX_EMAIL_LENGTH);
+        next(null, "Maximum length of email address is " + MAX_EMAIL_LENGTH);
         return;
     }
 
@@ -764,7 +769,7 @@ var validateEmail = function (api, email, dbConnectionMap, next) {
 
 /**
  * Validate the country
- *
+ * 
  * @param {String} country The country to check
  * @return {String} the error message or null if the country is valid.
  */
@@ -778,7 +783,7 @@ var validateCountry = function (country) {
 
 /**
  * Validate the social provider id
- *
+ * 
  * @param {String} socialProviderId The social provider id to check
  * @return {String} the error message or null if the social provider id is valid.
  */
@@ -792,7 +797,7 @@ var validateSocialProviderId = function (socialProviderId) {
 
 /**
  * Validate the social user name
- *
+ * 
  * @param {String} socialUserName The social user name to check
  * @return {String} the error message or null if the social user name is valid.
  */
@@ -810,7 +815,7 @@ var validateSocialUserName = function (socialUserName) {
 
 /**
  * Validate the social email
- *
+ * 
  * @param {String} email The social email to check
  * @return {String} the error message or null if the social email is valid.
  */
@@ -820,7 +825,7 @@ var validateSocialEmail = function (email) {
     }
 
     if (email.length > MAX_EMAIL_LENGTH) {
-        return "Maxiumum lenght of social email address is " + MAX_EMAIL_LENGTH;
+        return "Maximum length of social email address is " + MAX_EMAIL_LENGTH;
     }
 
     var match = emailPattern.exec(email);
@@ -833,7 +838,7 @@ var validateSocialEmail = function (email) {
 
 /**
  * Validate the social email verified flag
- *
+ * 
  * @param {String} verified The social email verified flag to check
  * @return {String} the error message or null if the verified flag is valid.
  */
@@ -980,10 +985,7 @@ exports.memberRegister = {
                     }
                 });
         } else {
-            api.log("dbConnectionMap is null", "error");
-            connection.rawConnection.responseHttpCode = apiCodes.serverError;
-            connection.response = {message: "No database connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };

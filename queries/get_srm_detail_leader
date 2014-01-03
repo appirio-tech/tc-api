@@ -6,5 +6,5 @@ SELECT c.handle
   FROM coder c
        JOIN room_result AS rr ON rr.coder_id =c.coder_id
        JOIN division_lu AS dl ON dl.division_id = rr.division_id
-WHERE c.status = 'A' AND rr.round_id = @rd@ AND rr.division_placed <= @er@
+WHERE c.status = 'A' AND rr.round_id = @roundId@ AND rr.division_placed <= @er@
 ORDER BY rr.division_id, final_points DESC
