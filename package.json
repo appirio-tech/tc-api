@@ -14,24 +14,24 @@
     },
     "dependencies": {
         "actionHero": "6.4.1",
-        "xml2js": "~0.2.8",
-        "async": "~0.2.9",
-        "underscore" : "*",
-        "datejs" : "*",
-        "string" : "*",
-        "ldapjs" : "*",
-        "nodemailer" : "*",
-        "email-templates" : "*",
-        "bcrypt" : ">=0.5.*",
-        "bigdecimal": "*",
-        "bignum": "*",
-        "java": "~0.2.9",
-        "informix-wrapper": "~0.1.0"
+        "xml2js": "0.2.8",
+        "async": "0.2.9",
+        "underscore" : "1.5.2",
+        "datejs" : "0.0.2",
+        "string" : "1.6.1",
+        "ldapjs" : "0.6.3",
+        "nodemailer" : "0.5.7",
+        "email-templates" : "0.1.1",
+        "bcrypt" : "0.7.7",
+        "bigdecimal": "0.6.1",
+        "bignum": "0.6.2",
+        "java": "0.2.9",
+        "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#99df932d62d5e737a7b08e487e3e8b29775b78bd"
     },
     "devDependencies": {
-        "supertest": "~0.8.0",
-        "mocha": "~1.13.0",
-        "chai": "*"
+        "supertest": "0.8.1",
+        "mocha": "1.13.0",
+        "chai": "1.8.1"
     },
     "scripts": {
         "start": "node ./node_modules/.bin/actionHero start &",
