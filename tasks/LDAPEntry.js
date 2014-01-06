@@ -9,7 +9,7 @@
 /**
  * Dependency 
  */
-var ldap = require('ldapjs'), async = require('async');
+var ldap = require('ldapjs'), async = require('async'), Ber = require('asn1').Ber;
 
 /// environment variables
 var ldap_host = process.env.TC_LDAP_HOST,
@@ -19,6 +19,15 @@ var ldap_host = process.env.TC_LDAP_HOST,
     topcoder_member_base_dn = process.env.TC_LDAP_MEMBER_BASE_DN,
     topcoder_member_active = 'A',
     topcoder_member_unactive = 'U';
+
+/** The OID of the modify password extended operation */
+var LDAP_EXOP_X_MODIFY_PASSWD = '1.3.6.1.4.1.4203.1.11.1';
+/** The BER tag for the modify password dn entry */
+var LDAP_TAG_EXOP_X_MODIFY_PASSWD_ID = 0x80;
+/** The BER tag for the modify password new password entry */
+var LDAP_TAG_EXOP_X_MODIFY_PASSWD_OLD = 0x81;
+/** The BER tag for the modify password new password entry */
+var LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW = 0x82;
 
 /**
  * This function is used to translate the error of LADP
@@ -74,6 +83,7 @@ var createClient = function () {
 var bindClient = function (api, client, callback) {
     client.bind(ldap_host_bind_dn, ldap_password, function (err) {
         if (err) {
+            api.log('binding failed');
             callback('cannot bind to ldap server', translateLdapError(err));
         } else {
             api.log('Sucessfully bind to ldap server', 'info');
@@ -106,6 +116,36 @@ var addClient = function (api, client, params, callback) {
         } else {
             api.log('Sucessfully add to ldap server', 'info');
             callback(null, 'add to ldap server');
+        }
+    });
+};
+
+/**
+ * Function used to update the password in order to create a hashed version of it
+ * 
+ * @param {Object} api - object used to access infrustrature
+ * @param {Object} client - an object of current client of ldap server
+ * @param {Object} params - the parameters of task
+ * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
+ */
+var passwordModify = function (api, client, params, callback) {
+    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn;
+    var op = params.oldPassword || params.password;
+    var np = params.newPassword || params.password;
+    var writer = new Ber.Writer();
+    writer.startSequence();
+    writer.writeString(dn, LDAP_TAG_EXOP_X_MODIFY_PASSWD_ID);
+    writer.writeString(op, LDAP_TAG_EXOP_X_MODIFY_PASSWD_OLD);
+    writer.writeString(np, LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW);
+    writer.endSequence();
+
+    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function(err, result) {
+        if (err) {
+            client.unbind();
+            callback('cannot modify password for user', translateLdapError(err));
+        } else {
+            api.log('Sucessfully modified password', 'info');
+            callback(null, 'modified password');
         }
     });
 };
@@ -164,7 +204,7 @@ exports.addMemberProfileLDAPEntry = {
                 return next(null, true);
             }
         }
-
+try {
         async.series([
             function (callback) {
                 client  = createClient();
@@ -175,6 +215,9 @@ exports.addMemberProfileLDAPEntry = {
             },
             function (callback) {
                 addClient(api, client, params, callback);
+            },
+            function (callback) {
+                passwordModify(api, client, params, callback);
             }
         ], function (err, result) {
             if (err) {
@@ -185,6 +228,9 @@ exports.addMemberProfileLDAPEntry = {
             }
             api.log('Leave addMemberProfileLDAPEntry task', 'debug');
         });
+} catch (error) {
+  console.log('CAUGHT: ' + error);
+}
         return next(null, true);
     }
 };
@@ -221,6 +267,7 @@ exports.activateMemberProfileLDAPEntry = {
         async.series([
             function (callback) {
                 client = createClient();
+                
                 callback(null, 'create client');
             },
             function (callback) {
