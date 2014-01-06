@@ -1,6 +1,3 @@
-delete from 'informix'.country where country_name = 'Angola';
-insert into 'informix'.country (country_code, country_name) values('AGL', 'Angola');
-
 delete from 'informix'.invalid_handles where invalid_handle_id = 1000000;
 insert into 'informix'.invalid_handles (invalid_handle_id, invalid_handle) values(1000000, 'invalidHandle');
 
