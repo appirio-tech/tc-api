@@ -5,7 +5,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141
- * @version 1.5
+ * @version 1.4
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -15,8 +15,6 @@
  * changes in 1.4:
  * - add software and studio contest type object.
  * - add function to get direct project link for a contest.
- * changes in 1.5:
- * - add contestTypes and studioContestTypes
 */
 "use strict";
 
@@ -52,103 +50,6 @@ helper.both = {
 };
 
 /**
- * The contests types
- */
-helper.contestTypes = {
-    design: {
-        name: "Design",
-        phaseId: 112
-    },
-    development: {
-        name: "Development",
-        phaseId: 113,
-        active: true
-    },
-    conceptualization: {
-        name: "Conceptualization",
-        phaseId: 134
-    },
-    specification: {
-        name: "Specification",
-        phaseId: 117
-    },
-    architecture: {
-        name: "Architecture",
-        phaseId: 118
-    },
-    assembly: {
-        name: "Assembly",
-        phaseId: 125
-    },
-    test_suites: {
-        name: "Test Suites",
-        phaseId: 124
-    },
-    test_scenarios: {
-        name: "Test Scenarios",
-        phaseId: 137
-    },
-    ui_prototype: {
-        name: "UI Prototype",
-        phaseId: 130
-    },
-    ria_build: {
-        name: "RIA Build",
-        phaseId: 135
-    },
-    content_creation: {
-        name: "Content Creation",
-        phaseId: 146
-    }
-};
-
-/**
- * The studio contest types.
- */
-helper.studioContestTypes = {
-    banners_icons: {
-        name: "Banners/Icons",
-        phaseId: 127
-    },
-    web_design: {
-        name: "Web Design",
-        phaseId: 128
-    },
-    wireframes: {
-        name: "Wireframes",
-        phaseId: 129
-    },
-    logo_design: {
-        name: "Logo Design",
-        phaseId: 131
-    },
-    print_presentation: {
-        name: "Print/Presentation",
-        phaseId: 132
-    },
-    idea_generation: {
-        name: "Idea Generation",
-        phaseId: 133
-    },
-    widget_or_mobile_screen_design: {
-        name: "Widget or Mobile Screen Design",
-        phaseId: 141
-    },
-    front_end_flash: {
-        name: "Front-End Flash",
-        phaseId: 142
-    },
-    application_front_end_design: {
-        name: "Application Front-End Design",
-        phaseId: 143
-    },
-    other: {
-        name: "Other",
-        phaseId: 145
-    }
-};
-
-/**
  * The name in api response to database name map.
  */
 var apiName2dbNameMap = {
@@ -178,10 +79,7 @@ var apiName2dbNameMap = {
     submissionenddate: 'submission_end_date',
     finalfixenddate: 'final_fix_end_date',
     currentstatus: 'current_status',
-    digitalrunpoints: 'digital_run_points',
-    round1scheduledstartdate: 'round_1_scheduled_start_date',
-    round2scheduledstartdate: 'round_2_scheduled_start_date',
-    reviewerpayment: 'reviewer_payment'
+    digitalrunpoints: 'digital_run_points'
 };
 
 /**

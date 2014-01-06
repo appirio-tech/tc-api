@@ -1,7 +1,0 @@
-DELETE FROM submission WHERE submission_id >= 3001 AND submission_id <= 4000;
-DELETE FROM upload WHERE upload_id >= 3001 AND upload_id <= 4000;
-DELETE FROM prize WHERE prize_id >= 3001 AND prize_id <= 4000;
-DELETE FROM resource_info WHERE resource_id >= 3001 AND resource_id <= 4000;
-DELETE FROM resource WHERE resource_id >= 3001 AND resource_id <= 4000;
-DELETE FROM project WHERE project_id >= 3001 AND project_id <= 4000;
-DELETE FROM user_rating WHERE user_id IN (132456, 132457, 132458, 124764, 124772, 124766, 124776, 124834, 124835, 124836, 124852, 124856, 124857, 124861, 124916);

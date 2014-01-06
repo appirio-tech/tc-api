@@ -1,5 +1,0 @@
-{
-    "name"    : "get_studio_tops",
-    "db"      : "tcs_catalog",
-    "sqlfile" : "get_studio_tops"
-}

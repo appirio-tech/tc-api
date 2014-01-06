@@ -54,6 +54,6 @@ exports.dummy = {
     outputExample: {},
     version: 'v2',
     run: function (api, connection, next) {
-            next(connection, true);
+        next(connection, true);
     }
 };
