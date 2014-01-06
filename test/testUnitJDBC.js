@@ -18,7 +18,7 @@ var clone = require('underscore').clone;
 
 var startDate = new Date();
 
-var log = function(msg, type){
+var log = function (msg, type) {
     console.log(msg + ' (time elapsed = ' + (new Date().getTime() - startDate.getTime()) + 'ms)');
 };
 
@@ -30,20 +30,20 @@ var settings = {};
 function executeQuery(db, sql, done, params) {
     log('\n\nQuery about to initiate', 'info');
 
-    var isWrite = false;
+    var isWrite = false, c;
 
     settings.database = db;
 
     if (sql.trim().toLowerCase().indexOf('insert') === 0 ||
-        sql.trim().toLowerCase().indexOf('update') === 0 ||
-        sql.trim().toLowerCase().indexOf('delete') === 0) {
+            sql.trim().toLowerCase().indexOf('update') === 0 ||
+            sql.trim().toLowerCase().indexOf('delete') === 0) {
         isWrite = true;
     }
 
-    var c = new jdbc(settings, log);
+    c = new jdbc(settings, log);
     c.on('error', function (err) {
         if (isWrite) {
-            c.endTransaction(err, function(error) {
+            c.endTransaction(err, function (error) {
                 c.disconnect();
                 done(error, null);
             });
@@ -57,7 +57,7 @@ function executeQuery(db, sql, done, params) {
         } else {
             // Run the query
             if (isWrite) {
-                c.beginTransaction(function() {
+                c.beginTransaction(function () {
                     c.query(sql, function (err, result) {
                         if (err) {
                             log("Error while executing query: " + err + " " + (err.stack || ''), 'error');
@@ -71,7 +71,7 @@ function executeQuery(db, sql, done, params) {
                             log('Start to execute ' + q, 'debug');
                         },
                         finish: function (f) {
-                            c.endTransaction(null, function() {
+                            c.endTransaction(null, function () {
                                 c.disconnect();
                                 log('Finish executing ' + f, 'debug');
                             });
@@ -100,22 +100,22 @@ function executeQuery(db, sql, done, params) {
         }
     });
 
-    log('End method\n\n');
+    log('End method\n\n', 'info');
 }
 
-describe("Informix JDDBC Library", function() {
+describe("Informix JDBC Library", function () {
     this.timeout(0);  // No timeout restriction
 
-    after(function() {
+    after(function () {
         try {
-            java.callStaticMethod('java.lang.System', 'exit', 0, function() {});
+            java.callStaticMethod('java.lang.System', 'exit', 0, function () {});
         } catch (e) {
-            log('Error : ' + e);
+            log('Error : ' + e, 'info');
         }
     });
 
-    describe("Multiple Async Queries", function() {
-        beforeEach(function() {
+    describe("Multiple Async Queries", function () {
+        beforeEach(function () {
             settings = {
                 "user" : "informix",
                 "host" : host,
@@ -130,23 +130,23 @@ describe("Informix JDDBC Library", function() {
                 "timeout" : 30000
             };
 
-            executeQuery('corporate_oltp', "delete command_group_lu where command_group_id > 9999", function(err, count) {
+            executeQuery('corporate_oltp', "delete command_group_lu where command_group_id > 9999", function (err, count) {
             });
         });
 
-        it("should return proper result for select", function(done) {
+        it("should return proper result for select", function (done) {
             async.parallel([
-                function(callback) {
-                    executeQuery('corporate_oltp', 'select * from command_group_lu', function(err, result) {
+                function (callback) {
+                    executeQuery('corporate_oltp', 'select * from command_group_lu', function (err, result) {
                         callback(err, result);
                     });
                 },
-                function(callback) {
-                    executeQuery('common_oltp', 'select * from address_type_lu', function(err, result) {
+                function (callback) {
+                    executeQuery('common_oltp', 'select * from address_type_lu', function (err, result) {
                         callback(err, result);
                     });
                 }
-            ], function(err, results) {
+            ], function (err, results) {
                 // The err should be null or undefined.
                 assert.ok(err === null || err === undefined, "There should be no ERROR: " + err);
                 assert.ok(results[0].length > 0, 'Should have results');
@@ -155,24 +155,24 @@ describe("Informix JDDBC Library", function() {
             });
         });
 
-        it("should return proper result for insert/delete", function(done) {
+        it("should return proper result for insert/delete", function (done) {
             async.series([
-                function(callback) {
-                    executeQuery('corporate_oltp', "insert into command_group_lu(command_group_name, command_group_id) values('Name', 10000)", function(err, count) {
+                function (callback) {
+                    executeQuery('corporate_oltp', "insert into command_group_lu(command_group_name, command_group_id) values('Name', 10000)", function (err, count) {
                         callback(err, count);
                     });
                 },
-                function(callback) {
-                    executeQuery('corporate_oltp', 'select * from command_group_lu where command_group_id = 10000', function(err, result) {
+                function (callback) {
+                    executeQuery('corporate_oltp', 'select * from command_group_lu where command_group_id = 10000', function (err, result) {
                         callback(err, result);
                     });
                 },
-                function(callback) {
-                    executeQuery('corporate_oltp', "delete command_group_lu where command_group_id = 10000", function(err, count) {
+                function (callback) {
+                    executeQuery('corporate_oltp', "delete command_group_lu where command_group_id = 10000", function (err, count) {
                         callback(err, count);
                     });
                 }
-            ], function(err, results) {
+            ], function (err, results) {
                 // The err should be null or undefined.
                 assert.ok(err === null || err === undefined, "There should be no ERROR: " + err);
                 assert.equal(results[0], 1);
@@ -183,8 +183,8 @@ describe("Informix JDDBC Library", function() {
         });
     });
 
-    describe("Prepared Queries", function() {
-        beforeEach(function() {
+    describe("Prepared Queries", function () {
+        beforeEach(function () {
             settings = {
                 "user" : "informix",
                 "host" : host,
@@ -199,28 +199,28 @@ describe("Informix JDDBC Library", function() {
                 "timeout" : 30000
             };
 
-            executeQuery('corporate_oltp', "delete command_group_lu where command_group_id > 9999", function(err, count) {
+            executeQuery('corporate_oltp', "delete command_group_lu where command_group_id > 9999", function (err, count) {
             });
         });
 
-        it("should return proper result for prepared insert/select/delete", function(done) {
+        it("should return proper result for prepared insert/select/delete", function (done) {
             async.series([
-                function(callback) {
-                    executeQuery('corporate_oltp', "insert into command_group_lu(command_group_name, command_group_id) values(?, ?)", function(err, count) {
+                function (callback) {
+                    executeQuery('corporate_oltp', "insert into command_group_lu(command_group_name, command_group_id) values(?, ?)", function (err, count) {
                         callback(err, count);
                     },  [{type: "string", value: "Name"}, {type: "int", value: 10000}]);
                 },
-                function(callback) {
-                    executeQuery('corporate_oltp', 'select * from command_group_lu where command_group_id = ?', function(err, result) {
+                function (callback) {
+                    executeQuery('corporate_oltp', 'select * from command_group_lu where command_group_id = ?', function (err, result) {
                         callback(err, result);
                     }, [{type: "int", value: 10000}]);
                 },
-                function(callback) {
-                    executeQuery('corporate_oltp', "delete command_group_lu where command_group_id = ?", function(err, count) {
+                function (callback) {
+                    executeQuery('corporate_oltp', "delete command_group_lu where command_group_id = ?", function (err, count) {
                         callback(err, count);
                     }, [{type: "int", value: 10000}]);
                 }
-            ], function(err, results) {
+            ], function (err, results) {
                 // The err should be null or undefined.
                 assert.ok(err === null || err === undefined, "There should be no ERROR: " + err);
                 assert.equal(results[0], 1);
