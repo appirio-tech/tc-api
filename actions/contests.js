@@ -224,10 +224,9 @@ function formatDate(date) {
  *
  * @param {Array} src - the query result.
  * @param {Object} helper - the helper object.
- * @param {Object} contestType - the contest type object.
  * @return {Array} a list of transferred contests
  */
-function transferResult(src, helper, contestType) {
+function transferResult(src, helper) {
     var ret = [];
     src.forEach(function (row) {
         var contest = {
@@ -256,7 +255,7 @@ function transferResult(src, helper, contestType) {
             digitalRunPoints: row.digital_run_points,
             prize: [],
             reliabilityBonus: helper.getReliabilityBonus(row.prize1),
-            challengeCommunity: contestType.community
+            challengeCommunity: row.is_studio ? 'design' : 'develop'
         },
             i,
             prize;
@@ -360,7 +359,7 @@ var searchContests = function (api, connection, dbConnectionMap, community, next
                 cb();
                 return;
             }
-            result.data = transferResult(rows, helper, contestType);
+            result.data = transferResult(rows, helper);
             result.total = total;
             result.pageIndex = pageIndex;
             result.pageSize = pageIndex === -1 ? total : pageSize;
@@ -468,7 +467,7 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             handle: item.handle,
-                            reliability: item.reliability === null ? "n/a" : item.reliability + "%",
+                            reliability: _.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
                             registrationDate: formatDate(item.inquiry_date)
                         };
                     });
