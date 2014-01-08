@@ -43,7 +43,8 @@ INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 148, 428,
 INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 149, 56, 1082);
 INSERT INTO user_rating(user_id, phase_id, vol, rating) VALUES(132456, 150, 678, 1300);
 
-INSERT INTO user_rank_type_lu(user_rank_type_id, user_rank_type_desc) VALUES(2, 'test rank');
+INSERT INTO user_rank_type_lu(user_rank_type_id, user_rank_type_desc) VALUES(2, 'active rank');
+INSERT INTO user_rank_type_lu(user_rank_type_id, user_rank_type_desc) VALUES(1, 'overall rank');
 
 INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 112, 2, 92.2066, 1);
 INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 113, 2, 65.4464, 1);
@@ -82,6 +83,24 @@ INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VA
 INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 149, 2, 95.7754, 1);
 INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 150, 2, 23.7754, 1);
 
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 112, 1, 81.4722, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 113, 1, 9.5014, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 117, 1, 48.7411, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 118, 1, 3.7687, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 120, 1, 62.1741, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 124, 1, 77.0197, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 125, 1, 8.1471, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 130, 1, 73.9996, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 134, 1, 29.4591, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 135, 1, 2.3466, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 136, 1, 42.5307, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 137, 1, 71.6775, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 146, 1, 11.4350, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 147, 1, 35.7283, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 148, 1, 95.4490, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 149, 1, 85.1342, 1);
+INSERT INTO user_rank(user_id, phase_id, user_rank_type_id, percentile, rank) VALUES(132456, 150, 1, 95.9487, 1);
+
 INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 112, 2, 10, 1);
 INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 113, 2, 10, 1);
 INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 114, 2, 10, 1);
@@ -119,6 +138,24 @@ INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code
 INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 149, 2, 10, 1);
 INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 150, 2, 10, 1);
 
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 112, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 113, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 117, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 118, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 120, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 124, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 125, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 130, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 134, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 135, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 136, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 137, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 146, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 147, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 148, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 149, 1, 10, 1);
+INSERT INTO country_user_rank(user_id, phase_id, user_rank_type_id, country_code, rank) VALUES(132456, 150, 1, 10, 1);
+
 INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 112, 2, 1, 10);
 INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 113, 2, 1, 10);
 INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 114, 2, 1, 10);
@@ -155,6 +192,24 @@ INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_
 INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 148, 2, 1, 10);
 INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 149, 2, 1, 10);
 INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 150, 2, 1, 10);
+
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 112, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 113, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 117, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 118, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 120, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 124, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 125, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 130, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 134, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 135, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 136, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 137, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 146, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 147, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 148, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 149, 1, 1, 10);
+INSERT INTO school_user_rank(user_id, phase_id, user_rank_type_id, rank, school_id) VALUES(132456, 150, 1, 1, 10);
 
 INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1001, 4, 112, 'Design');
 INSERT INTO project(project_id, status_id, phase_id, phase_desc) VALUES(1002, 4, 112, 'Design');

@@ -175,10 +175,14 @@ exports.getSoftwareStatistics = {
                 results.tracks.forEach(function (track) {
                     result.Tracks[track.category_name] = {
                         rating: track.rating,
-                        percentile: track.percentile.toFixed(2) + "%",
-                        rank: track.rank,
-                        countryRank: track.country_rank,
-                        schoolRank: track.school_rank,
+                        activePercentile: track.active_percentile.toFixed(2) + "%",
+                        activeRank: track.active_rank,
+                        activeCountryRank: track.active_country_rank,
+                        activeSchoolRank: track.active_school_rank,
+                        overallPercentile: track.overall_percentile.toFixed(2) + "%",
+                        overallRank: track.overall_rank,
+                        overallCountryRank: track.overall_country_rank,
+                        overallSchoolRank: track.overall_school_rank,
                         volatility: track.vol,
                         competitions: track.num_ratings,
                         maximumRating: track.max_rating,
