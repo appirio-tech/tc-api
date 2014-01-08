@@ -205,8 +205,11 @@ public class InformixWrapper {
             for (int column = 1; column <= resultSetMetaData.getColumnCount(); column++) {
                 String columnName = resultSetMetaData.getColumnName(column);
                 Object columnValue = resultSet.getObject(column);
-
-                row.put(columnName, columnValue);
+                if (columnValue instanceof byte[]) {
+                    row.put(columnName, new String((byte[]) columnValue));
+                } else {
+                    row.put(columnName, columnValue);
+                }
             }
 
             rows.add(row);
@@ -242,10 +245,10 @@ public class InformixWrapper {
             } else if (type.toLowerCase().equals("float")) {
                 st.setFloat(i + 1, Float.parseFloat(value));
             } else if (type.toLowerCase().equals("date")) {
-            	Date parsed = DATE_PARSER.parse(value);
+                Date parsed = DATE_PARSER.parse(value);
                 st.setDate(i + 1, new java.sql.Date(parsed.getTime()));
             } else if (type.toLowerCase().equals("boolean")) {
-            	st.setBoolean(i + 1, Boolean.parseBoolean(value));
+                st.setBoolean(i + 1, Boolean.parseBoolean(value));
             } else {
                 st.setString(i + 1, value);
             }
