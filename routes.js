@@ -84,38 +84,36 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
+        { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioContest" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
-        
-        //example secure route using oauth. for future reference.
-        { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
-        
-        { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
-
-        //stubs
-        { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
-        { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
-        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
-        { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
-        { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
-
-        { path: "/:apiVersion/software/reviewers/:contestType", action: "getContestReviewers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
-        { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
-        { path: "/:apiVersion/design/challengetypes", action: "studioContestTypes" },
-        { path: "/:apiVersion/data/challengetypes", action: "algorithmsContestTypes" },
+        { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
+        { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
-        { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
-        { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
-        { path: "/:apiVersion/data/countries", action: "countries" }
+        { path: "/:apiVersion/data/countries", action: "countries" },
+
+        //example secure route using oauth. for future reference.
+        { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
+        
+        { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+
+        //Stubs APIs
+        { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
+        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
+        { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
+        { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
+        { path: "/:apiVersion/software/reviewers/:contestType", action: "getContestReviewers" },
+        { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsContestTypes" }
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
