@@ -1,5 +1,0 @@
-{
-  "name"    : "common_oltp__select_user_reg_source",
-  "db"      : "common_oltp",
-  "sqlfile" : "common_oltp__select_user_reg_source"
-}

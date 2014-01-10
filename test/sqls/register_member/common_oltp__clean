@@ -11,11 +11,3 @@ delete from 'informix'.user where handle = 'testHandleFoo';
 delete from 'informix'.security_user where user_id = 'testForEmail';
 delete from 'informix'.email where address = 'testForEmail@foobar.com';
 delete from 'informix'.user where handle = 'testForEmail';
-
-delete from 'informix'.security_user where user_id = 'testDRegSource';
-delete from 'informix'.email where address = 'testDRegSource@foobar.com';
-delete from 'informix'.user where handle = 'testDRegSource';
-
-delete from 'informix'.security_user where user_id = 'testRegSource';
-delete from 'informix'.email where address = 'testRegSource@foobar.com';
-delete from 'informix'.user where handle = 'testRegSource';

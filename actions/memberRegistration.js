@@ -188,10 +188,9 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             async.series([
                 function (callback) {
                     var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
-                    var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
-                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : regSource}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -860,7 +859,7 @@ exports.action = {
     description: "Register a new member",
     inputs: {
         required: ["firstName", "lastName", "handle", "country", "email", "password"],
-        optional: ["socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource"]
+        optional: ["socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified"]
     },
     blockedConnectionTypes : [],
     outputExample : {},

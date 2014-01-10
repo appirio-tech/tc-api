@@ -467,7 +467,7 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                            reliability: _.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
                             registrationDate: formatDate(item.inquiry_date)
                         };
                     });

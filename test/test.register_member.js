@@ -174,7 +174,7 @@ describe('Test Register Member API', function () {
 
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Angola', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1" })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Angola', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't' })
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {
@@ -185,58 +185,6 @@ describe('Test Register Member API', function () {
                 assert.equal(expected, JSON.parse(result.res.text).userId, "Invalid returned message");
                 validateDatabase(done);
             });
-    });
-    
-    /// Check if the user is registered successfully with the correct default reg source
-    it('should register successfully with the correct default reg source', function (done) {
-        var text = fs.readFileSync("test/test_files/expected_member_register_validate_default_reg_source.txt", 'utf8'),
-            expected = JSON.parse(text);
-
-        supertest(API_ENDPOINT)
-            .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testDRegSource', email: 'testDRegSource@foobar.com', password: '123456', country: 'Angola' })
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function (err, result) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_default_reg_source.json", true, function (err, result) {
-                   if (!err) {
-                        assert.deepEqual(expected, result, "Invalid returned message");
-                        done(err);
-                   } else {
-                      done(err);
-                   }
-                });
-             });
-    });
-    
-    /// Check if the user is registered successfully with reg source "source1"
-    it('should register successfully with reg source "source1"', function (done) {
-        var text = fs.readFileSync("test/test_files/expected_member_register_validate_reg_source.txt", 'utf8'),
-            expected = JSON.parse(text);
-
-        supertest(API_ENDPOINT)
-            .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testRegSource', email: 'testRegSource@foobar.com', password: '123456', country: 'Angola', regSource: "source1" })
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function (err, result) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_reg_source.json", true, function (err, result) {
-                   if (!err) {
-                        assert.deepEqual(expected, result, "Invalid returned message");
-                        done(err);
-                   } else {
-                      done(err);
-                   }
-                });
-             });
     });
 
     /// Check if the data are in expected struture and data

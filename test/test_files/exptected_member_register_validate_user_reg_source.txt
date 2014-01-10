@@ -1,6 +1,0 @@
-[
-  {
-    "user_id": 22758854,
-    "reg_source": "source1"
-  }
-]
