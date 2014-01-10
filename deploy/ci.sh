@@ -45,3 +45,10 @@ export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 
 #export DISABLE_CONSOLE_LOG=true
 
+## JDBC connection pool environment variables - set for all databases
+export MINPOOL=1
+export MAXPOOL=20
+export MAXSIZE=0
+export IDLETIMEOUT=3600
+export TIMEOUT=3000
+
