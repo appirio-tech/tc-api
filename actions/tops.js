@@ -116,8 +116,8 @@ var getTops = function (api, connection, dbConnectionMap, next) {
                 pageIndex = 1;
                 pageSize = MAX_INT;
             }
-            sqlParams.fri = (pageIndex - 1) * pageSize;
-            sqlParams.ps = pageSize;
+            sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
+            sqlParams.pageSize = pageSize;
             sqlParams.phaseId = contestTypes[contestType].phaseId;
             api.dataAccess.executeQuery(active ? "get_tops_active_count" : "get_tops_count", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
@@ -169,6 +169,7 @@ exports.getTops = {
         required: ["contestType"],
         optional : ["pageIndex", "pageSize"]
     },
+    cacheEnabled: false,
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',
@@ -179,10 +180,7 @@ exports.getTops = {
             api.log("Execute getTops#run", 'debug');
             getTops(api, connection, this.dbConnectionMap, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };
@@ -195,8 +193,8 @@ exports.getMarathonTops = {
     name: "getMarathonTops",
     description: "getMarathonTops",
     inputs: {
-        required: ["rankType"],
-        optional: ["pageIndex", "pageSize"]
+        required: [],
+        optional: ["rankType", "pageIndex", "pageSize"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -207,10 +205,7 @@ exports.getMarathonTops = {
     run: function (api, connection, next) {
         api.log("Execute getMarathonTops#run", 'debug');
         if (!this.dbConnectionMap) {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = { message: "No connection object." };
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
             return;
         }
         var helper = api.helper,
@@ -218,7 +213,7 @@ exports.getMarathonTops = {
             pageIndex,
             pageSize,
             error,
-            rankType = connection.params.rankType.toLowerCase(),
+            rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
             dbConnectionMap = this.dbConnectionMap,
             result = {};
         pageIndex = Number(connection.params.pageIndex || 1);
@@ -255,8 +250,8 @@ exports.getMarathonTops = {
                     queryName = "get_top_ranked_marathon_members_country";
                     break;
                 }
-                sqlParams.fri = (pageIndex - 1) * pageSize;
-                sqlParams.ps = pageSize;
+                sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
+                sqlParams.pageSize = pageSize;
                 async.parallel({
                     data: function (cbx) {
                         api.dataAccess.executeQuery(queryName, sqlParams, dbConnectionMap, cbx);
@@ -291,7 +286,7 @@ exports.getMarathonTops = {
                             rank: rank,
                             name: ele.name,
                             country: ele.country,
-                            memberCount: ele.membercount,
+                            memberCount: ele.member_count,
                             rating: ele.rating
                         };
                         if (rankType === "countries") {
@@ -322,8 +317,8 @@ exports.getSRMTops = {
     name: "getSRMTops",
     description: "getSRMTops",
     inputs: {
-        required: ["rankType"],
-        optional: ["pageIndex", "pageSize"]
+        required: [],
+        optional: ["rankType", "pageIndex", "pageSize"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -338,7 +333,7 @@ exports.getSRMTops = {
             pageIndex,
             pageSize,
             error,
-            rankType = connection.params.rankType.toLowerCase(),
+            rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
             dbConnectionMap = this.dbConnectionMap,
             result = {};
         if (!this.dbConnectionMap) {
@@ -379,8 +374,8 @@ exports.getSRMTops = {
                     queryName = "get_top_ranked_srm_members_country";
                     break;
                 }
-                sqlParams.fri = (pageIndex - 1) * pageSize;
-                sqlParams.ps = pageSize;
+                sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
+                sqlParams.pageSize = pageSize;
                 async.parallel({
                     data: function (cbx) {
                         api.dataAccess.executeQuery(queryName, sqlParams, dbConnectionMap, cbx);
@@ -415,7 +410,7 @@ exports.getSRMTops = {
                             rank: rank,
                             name: ele.name,
                             country: ele.country,
-                            memberCount: ele.membercount,
+                            memberCount: ele.member_count,
                             rating: ele.rating
                         };
                         if (rankType === "countries") {

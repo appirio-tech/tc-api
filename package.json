@@ -16,7 +16,6 @@
         "actionHero": "6.4.1",
         "xml2js": "~0.2.8",
         "async": "~0.2.9",
-        "nodejs-db-informix": "*",
         "underscore" : "*",
         "datejs" : "*",
         "string" : "*",
@@ -25,7 +24,10 @@
         "email-templates" : "*",
         "bcrypt" : ">=0.5.*",
         "bigdecimal": "*",
-        "bignum": "*"
+        "bignum": "*",
+        "java": "~0.2.9",           
+        "informix-wrapper": "~0.1.0",
+        "asn1": "*"
     },
     "devDependencies": {
         "supertest": "~0.8.0",

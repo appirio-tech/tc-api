@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, mekanizumu, TCSASSEMBLER
+ * @version 1.5
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -13,6 +13,12 @@
  * 3. Remove contest description from search contest API response.
  * changes in 1.3:
  * 1. move studio API to separated file
+ * changes in 1.4:
+ *  - Use empty result set instead of 404 error in get challenges API.
+ * changes in 1.5:
+ * 1. Update the logic when get results from database since the query has been updated.
+ * changes in 1.6:
+ * merge the backend logic of search software contests and studio contests together.
  */
 "use strict";
 
@@ -31,24 +37,21 @@ var SORT_COLUMN = "sortColumn";
 /**
  * Represents the default sort column.
  */
-var DEFAULT_SORT_COLUMN = "contestName";
+var DEFAULT_SORT_COLUMN = "challengeName";
 
 /**
- * Represents a predefined list of valid query parameter for active contest.
+ * Represents a predefined list of valid query parameter for all contest types.
  */
 var ALLOWABLE_QUERY_PARAMETER = [
-    "listType", "type", "catalog", "contestName", "registrationStartDate.type",
-    "registrationStartDate.firstDate", "registrationStartDate.secondDate", "submissionEndDate.type",
-    "submissionEndDate.firstDate", "submissionEndDate.secondDate", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmc"];
+    "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId"];
 
 /**
  * Represents a predefined list of valid sort column for active contest.
  */
 var ALLOWABLE_SORT_COLUMN = [
-    "type", "catalog", "contestName", "numberOfSubmissions", "numberOfRatedRegistrants", "numberOfUnratedRegistrants",
-    "registrationEndDate", "submissionEndDate", "firstPrize", "digitalRunPoints", "contestId",
-    "projectId", "reliabilityBonus"
+    "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
+    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints"
 ];
 
 /**
@@ -70,43 +73,24 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-/**
- * Min date for sql query
- */
-var MIN_DATE = "1900-01-01";
-/**
- * Max date for sql query
- */
-var MAX_DATE = "2199-01-01";
 
 /**
- * Project_type_id for Software category
+ * The list type and submission phase status map.
  */
-var SOFTWARE_CATEGORY = [1, 2];
-
+var LIST_TYPE_SUBMISSION_STATUS_MAP = {};
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.ACTIVE] = [1, 2, 3];
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.OPEN] = [1, 2];
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.UPCOMING] = [1];
+LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.PAST] = [3];
 
 /**
- * Project_type_id for Studio category
+ * The list type and project status map.
  */
-var STUDIO_CATEGORY = [3];
-
-
-/**
- * The list type command multiple value map. This map will used to store the mapped query/command name for each
- * contest type.
- */
-var LIST_TYPE_COMMAND_MAP = {};
-LIST_TYPE_COMMAND_MAP[ListType.ACTIVE] = ["search_active_contest", "search_active_contest_count"];
-LIST_TYPE_COMMAND_MAP[ListType.OPEN] = ["search_open_contest", "search_open_contest_count"];
-LIST_TYPE_COMMAND_MAP[ListType.UPCOMING] = ["search_upcoming_contest", "search_upcoming_contest_count"];
-LIST_TYPE_COMMAND_MAP[ListType.PAST] = ["search_past_contest", "search_past_contest_count"];
-
-
-/**
- * This data format instance will transfer date to a string that can use in query.
- */
-var databaseDateFormat = "yyyy-MM-dd";
-
+var LIST_TYPE_PROJECT_STATUS_MAP = {};
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
+LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * This method will used to check the query parameter and sort column of the request.
@@ -115,8 +99,6 @@ var databaseDateFormat = "yyyy-MM-dd";
  * @param {String} type - the contest type.
  * @param {Object} queryString - the query string object
  * @param {String} sortColumn - the sort column from the request.
- * @param {Object} allowableValuesMap - a multiple map contains the allowed sort column
- *      and query parameter for all four types.
  */
 function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn) {
     var allowedQuery = helper.getLowerCaseList(ALLOWABLE_QUERY_PARAMETER),
@@ -148,24 +130,18 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {String} sortColumn - the sort column.
  * @param {String} sortOrder - the sort order.
  * @param {String} type - the type of contest.
+ * @param {Object} dbConnectionMap - the database connection map.
  * @param {Function<err>} callback - the callback function.
  */
 function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
-    var error = helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder") ||
+    var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
+            helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+            helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
             helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
-    if (_.isDefined(filter.registrationStartDate)) {
-        error = error || helper.checkFilterDate(filter.registrationStartDate, "registrationStartDate");
-    }
-    if (_.isDefined(filter.submissionEndDate)) {
-        error = error || helper.checkFilterDate(filter.submissionEndDate, "submissionEndDate");
-    }
-    if (_.isDefined(filter.contestFinalizationDate)) {
-        error = error || helper.checkFilterDate(filter.contestFinalizationDate, "contestFinalizationDate");
-    }
     if (_.isDefined(filter.projectId)) {
         error = error || helper.checkPositiveInteger(Number(filter.projectId), "projectId");
     }
@@ -179,78 +155,30 @@ function validateInputParameter(helper, query, filter, pageIndex, pageSize, sort
         callback(error);
         return;
     }
-    if (_.isDefined(query.type)) {
-        helper.isCategoryNameValid(query.type, dbConnectionMap, callback);
+    if (_.isDefined(query.challengeType)) {
+        helper.isCategoryNameValid(query.challengeType, dbConnectionMap, callback);
     } else {
         callback();
     }
 }
 
 /**
- * Set the date to request by given input.
- *
- * @param {Object} sqlParams - the data access request.
- * @param {Object} dateInterval - the date interval from filter.
- * @param {String} inputCodePrefix - the input code prefix.
- */
-function setDateToParams(helper, sqlParams, dateInterval, inputCodePrefix) {
-    var dateType = dateInterval.type,
-        firstDate = new Date(dateInterval.firstDate).toString(databaseDateFormat),
-        secondDate = new Date(dateInterval.secondDate).toString(databaseDateFormat),
-        today = new Date().toString(databaseDateFormat);
-
-    if (dateType.toUpperCase() === helper.consts.BEFORE) {
-        sqlParams[inputCodePrefix + "end"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.consts.AFTER) {
-        sqlParams[inputCodePrefix + "start"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.consts.ON) {
-        sqlParams[inputCodePrefix + "start"] = firstDate;
-        sqlParams[inputCodePrefix + "end"] = firstDate;
-    } else if (dateType.toUpperCase() === helper.consts.BEFORE_CURRENT_DATE) {
-        sqlParams[inputCodePrefix + "end"] = today;
-    } else if (dateType.toUpperCase() === helper.consts.AFTER_CURRENT_DATE) {
-        sqlParams[inputCodePrefix + "start"] = today;
-    } else if (dateType.toUpperCase() === helper.consts.BETWEEN_DATES) {
-        sqlParams[inputCodePrefix + "start"] = firstDate;
-        sqlParams[inputCodePrefix + "end"] = secondDate;
-    }
-}
-
-/**
  * This method will set up filter for sql query.
  *
- * @param {Object} helper - the helper.
- * @param {String} listType - the type of searching contest.
  * @param {Object} filter - the filter from http request.
  * @param {Object} sqlParams - the parameters for sql query.
  */
-function setFilter(helper, listType, filter, sqlParams) {
-    sqlParams.pjn = "%";
-    sqlParams.hn = "%";
+function setFilter(filter, sqlParams) {
+    sqlParams.challengeName = "%";
     sqlParams.prilower = 0;
     sqlParams.priupper = MAX_INT;
     sqlParams.tcdirectid = 0;
 
-    sqlParams.registstartend = MAX_DATE;
-    sqlParams.subendend = MAX_DATE;
-    sqlParams.frendend = MAX_DATE;
-    sqlParams.fractualend = MAX_DATE;
-    sqlParams.frendend = MAX_DATE;
-
-    sqlParams.registstartstart = MIN_DATE;
-    sqlParams.subendstart = MIN_DATE;
-    sqlParams.frendstart = MIN_DATE;
-    sqlParams.fractualstart = MIN_DATE;
-    sqlParams.frendstart = MIN_DATE;
-
-    if (_.isDefined(filter.type)) {
-        sqlParams.ctn = filter.type.toLowerCase();
+    if (_.isDefined(filter.challengeType)) {
+        sqlParams.categoryName = filter.challengeType.toLowerCase();
     }
-    if (_.isDefined(filter.catalog)) {
-        sqlParams.catalog = filter.catalog.toLowerCase();
-    }
-    if (_.isDefined(filter.contestName)) {
-        sqlParams.pjn = "%" + filter.contestName.toLowerCase() + "%";
+    if (_.isDefined(filter.challengeName)) {
+        sqlParams.challengeName = "%" + filter.challengeName.toLowerCase() + "%";
     }
     if (_.isDefined(filter.prizeLowerBound)) {
         sqlParams.prilower = filter.prizeLowerBound.toLowerCase();
@@ -258,30 +186,11 @@ function setFilter(helper, listType, filter, sqlParams) {
     if (_.isDefined(filter.prizeUpperBound)) {
         sqlParams.priupper = filter.prizeUpperBound.toLowerCase();
     }
-    if (_.isDefined(filter.registrationStartDate)) {
-        setDateToParams(helper, sqlParams, filter.registrationStartDate, "registstart");
-    }
-    if (_.isDefined(filter.submissionEndDate)) {
-        setDateToParams(helper, sqlParams, filter.submissionEndDate, "subend");
-    }
-    if (_.isDefined(filter.contestFinalizationDate)) {
-        switch (listType) {
-        case ListType.ACTIVE:
-            setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "frend");
-            break;
-        case ListType.OPEN:
-            setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "fractual");
-            break;
-        case ListType.PAST:
-            setDateToParams(helper, sqlParams, filter.contestFinalizationDate, "frend");
-            break;
-        }
-    }
     if (_.isDefined(filter.projectId)) {
         sqlParams.tcdirectid = filter.projectId;
     }
-    if (_.isDefined(filter.cmc)) {
-        sqlParams.cmc = filter.cmc;
+    if (_.isDefined(filter.cmcTaskId)) {
+        sqlParams.cmc = filter.cmcTaskId;
     }
 }
 
@@ -300,8 +209,8 @@ function convertNull(str) {
 
 /**
  * Format date
- * @param {Date} the date to format
- * @return {String} formated date
+ * @param {Date} date date to format
+ * @return {String} formatted date
  */
 function formatDate(date) {
     if (!date) {
@@ -314,26 +223,39 @@ function formatDate(date) {
  * This method will get data from the query result.
  *
  * @param {Array} src - the query result.
- * @return {Array} a list of transfered contests
+ * @param {Object} helper - the helper object.
+ * @return {Array} a list of transferred contests
  */
-function transferResult(src) {
+function transferResult(src, helper) {
     var ret = [];
     src.forEach(function (row) {
         var contest = {
-            type: row.type,
-            catalog: row.catalog,
-            contestName: row.contestname,
-            numberOfSubmissions: row.numberofsubmissions,
-            numberOfRatedRegistrants: row.numberofunratedregistrants,
-            numberOfUnratedRegistrants: row.numberofratedregistrants,
-            contestId: row.contestid,
-            projectId: row.projectid,
-            registrationEndDate: formatDate(row.registrationenddate),
-            submissionEndDate: formatDate(row.submissionenddate),
+            challengeType : row.challenge_type,
+            challengeName : row.challenge_name,
+            challengeId : row.challenge_id,
+            projectId : row.project_id,
+            forumId : row.forum_id,
+            numSubmissions : row.num_submissions,
+            numRegistrants : row.num_registrants,
+            screeningScorecardId : row.screening_scorecard_id,
+            reviewScorecardId : row.review_scorecard_id,
+            cmcTaskId : convertNull(row.cmc_task_id),
+            numberOfCheckpointsPrizes : row.number_of_checkpoints_prizes,
+            topCheckPointPrize : convertNull(row.top_checkpoint_prize),
+            postingDate : formatDate(row.posting_date),
+            registrationEndDate : formatDate(row.registration_end_date),
+            checkpointSubmissionEndDate : formatDate(row.checkpoint_submission_end_date),
+            submissionEndDate : formatDate(row.submission_end_date),
+            appealsEndDate : formatDate(row.appeals_end_date),
+            finalFixEndDate : formatDate(row.final_fix_end_date),
+            currentPhaseEndDate : formatDate(row.current_phase_end_date),
+            currentPhaseRemainingTime : row.current_phase_remaining_time,
+            currentStatus : row.current_status,
+            currentPhaseName : convertNull(row.current_phase_name),
+            digitalRunPoints: row.digital_run_points,
             prize: [],
-            reliabilityBonus: row.reliabilitybonus,
-            digitalRunPoints: row.digitalrunpoints,
-            cmc: convertNull(row.cmc)
+            reliabilityBonus: helper.getReliabilityBonus(row.prize1),
+            challengeCommunity: row.is_studio ? 'design' : 'develop'
         },
             i,
             prize;
@@ -351,18 +273,18 @@ function transferResult(src) {
 
 /**
  * This is the function that actually search contests
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {String} community - The community string that represent which contest to search.
  * @param {Function<connection, render>} next - The callback to be called after this function is done
- * @param {Boolean} software - The flag if search only software contests
  */
-var searchContests = function (api, connection, dbConnectionMap, next, software) {
+var searchContests = function (api, connection, dbConnectionMap, community, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
-        copyToFilter = ["type", "catalog", "contestName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmc"],
+        copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
+            "prizeUpperBound", "cmcTaskId"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -371,58 +293,38 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
         sortOrder,
         listType,
         prop,
-        command,
-        commandCount,
         result = {},
-        total;
+        total,
+        contestType;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
         }
     }
 
+    switch (community) {
+    case helper.studio.community:
+        contestType = helper.studio;
+        break;
+    case helper.software.community:
+        contestType = helper.software;
+        break;
+    case helper.both.community:
+        contestType = helper.both;
+        break;
+    }
+
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    listType = (query.listtype || ListType.ACTIVE).toUpperCase();
+    listType = (query.listtype || ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
-
-    //create date or return null if all properties are null
-    function createDate(type, firstDate, secondDate) {
-        if (!type && !firstDate && !secondDate) {
-            return null;
-        }
-        return {
-            type: String(type).toUpperCase(),
-            firstDate: firstDate,
-            secondDate: secondDate
-        };
-    }
-    filter.registrationStartDate = createDate(
-        query["registrationstartdate.type"],
-        query["registrationstartdate.firstdate"],
-        query["registrationstartdate.seconddate"]
-    );
-
-    filter.submissionEndDate = createDate(
-        query["submissionenddate.type"],
-        query["submissionenddate.firstdate"],
-        query["submissionenddate.seconddate"]
-    );
-
-    filter.contestFinalizationDate = createDate(
-        query["contestfinalizationdate.type"],
-        query["contestfinalizationdate.firstdate"],
-        query["contestfinalizationdate.seconddate"]
-    );
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
             filter[p] = query[p.toLowerCase()];
         }
     });
-
-    sqlParams.project_type_id = software ? SOFTWARE_CATEGORY : STUDIO_CATEGORY;
 
     async.waterfall([
         function (cb) {
@@ -432,23 +334,32 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
                 pageIndex = 1;
                 pageSize = MAX_INT;
             }
-            command = LIST_TYPE_COMMAND_MAP[listType][0];
-            commandCount = LIST_TYPE_COMMAND_MAP[listType][1];
-            setFilter(helper, listType, filter, sqlParams);
-            sqlParams.fri = (pageIndex - 1) * pageSize;
-            sqlParams.ps = pageSize;
-            sqlParams.sf = sortColumn.toLowerCase();
-            sqlParams.sd = sortOrder.toLowerCase();
-            api.dataAccess.executeQuery(commandCount, sqlParams, dbConnectionMap, cb);
+
+            setFilter(filter, sqlParams);
+            sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
+            sqlParams.pageSize = pageSize;
+            sqlParams.sortColumn = sortColumn.toLowerCase();
+            sqlParams.sortColumn = helper.getSortColumnDBName(sortColumn.toLowerCase());
+            sqlParams.sortOrder = sortOrder.toLowerCase();
+            // Set the project type id
+            sqlParams.project_type_id = contestType.category;
+            // Set the submission phase status id.
+            sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
+            sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
+            api.dataAccess.executeQuery('search_software_studio_contests_count', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             total = rows[0].total;
-            api.dataAccess.executeQuery(command, sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery('search_software_studio_contests', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
-                cb(new NotFoundError("No results found"));
+                result.data = [];
+                result.total = total;
+                result.pageIndex = pageIndex;
+                result.pageSize = pageIndex === -1 ? total : pageSize;
+                cb();
                 return;
             }
-            result.data = transferResult(rows);
+            result.data = transferResult(rows, helper);
             result.total = total;
             result.pageIndex = pageIndex;
             result.pageSize = pageIndex === -1 ? total : pageSize;
@@ -465,104 +376,187 @@ var searchContests = function (api, connection, dbConnectionMap, next, software)
 };
 
 /**
- * This is the function that actually search contests
+ * This is the function that gets contest details
  * 
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Boolean} isStudio - the flag that represent if to search studio contests.
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var getContest = function (api, connection, dbConnectionMap, next) {
-    var contest, error, helper = api.helper, sqlParams;
+var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
+    var contest, error, helper = api.helper, sqlParams, contestType = isStudio ? helper.studio : helper.software;
     async.waterfall([
         function (cb) {
-            error = helper.checkInteger(Number(connection.params.contestId));
+            error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
+                helper.checkMaxNumber(Number(connection.params.contestId), MAX_INT, 'contestId');
             if (error) {
                 cb(error);
                 return;
             }
-            sqlParams = { contestId: connection.params.contestId };
-            api.dataAccess.executeQuery("contest_details", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            var data = rows[0], i, prize;
-            if (rows.length === 0) {
-                cb(new NotFoundError("Contest not found"));
+            sqlParams = {
+                contestId: connection.params.contestId,
+                project_type_id: contestType.category
+            };
+
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+                };
+            };
+            if (isStudio) {
+                async.parallel({
+                    details: execQuery('contest_details'),
+                    checkpoints: execQuery("get_studio_contest_detail_checkpoints"),
+                    submissions: execQuery("get_studio_contest_detail_submissions"),
+                    winners: execQuery("get_studio_contest_detail_winners")
+                }, cb);
+            } else {
+                async.parallel({
+                    details: execQuery('contest_details'),
+                    registrants: execQuery('contest_registrants'),
+                    submissions: execQuery('contest_submissions')
+                }, cb);
+            }
+        }, function (results, cb) {
+            if (results.details.length === 0) {
+                cb(new NotFoundError('Contest not found.'));
                 return;
             }
-            contest = {
-                challengeType : data.challengetype,
-                challengeName : data.challengename,
-                challengeId : data.challengeid,
-                projectId : data.projectid,
-                forumId : data.forumid,
-                detailedRequirements : data.detailedrequirements,
-                finalSubmissionGuidelines : data.finalsubmissionguidelines,
-                screeningScorecardId : data.screeningscorecardid,
-                reviewScorecardId : data.reviewscorecardid,
-                cmcTaskId : convertNull(data.cmctaskid),
-                numberOfCheckpointsPrizes : data.numberofcheckpointsprizes,
-                topCheckPointPrize : convertNull(data.topcheckPointprize),
-                postingDate : formatDate(data.postingdate),
-                registrationEndDate : formatDate(data.registrationenddate),
-                checkpointSubmissionEndDate : formatDate(data.checkpointsubmissionenddate),
-                submissionEndDate : formatDate(data.submissionenddate),
-                appealsEndDate : formatDate(data.appealsenddate),
-                finalFixEndDate : formatDate(data.finalfixenddate),
-                currentPhaseEndDate : formatDate(data.currentphaseenddate),
-                currentStatus : data.currentstatus,
-                currentPhaseName : convertNull(data.currentphasename),
-                digitalRunPoints: data.digitalrunpoints,
-                
-                //TODO: move these out to constants and/or helper 
-                reliabilityBonus: _.isNumber(data.prize1) ? data.prize1 * 0.2 : 0,
-                directUrl : 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + data.challengeid,
-                
-                prize: [],
-                registrants: [],
-                submissions: []
-            };
-            for (i = 1; i < 10; i = i + 1) {
-                prize = data["prize" + i];
-                if (prize && prize !== -1) {
-                    contest.prize.push(prize);
-                }
-            }
-            api.dataAccess.executeQuery("contest_registrants", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            contest.numberOfRegistrants = rows.length;
-            rows.forEach(function (item) {
-                contest.registrants.push({
-                    handle: item.handle,
-                    reliability: item.reliability === null ? "n/a" : item.reliability + "%",
-                    registrationDate: formatDate(item.inquiry_date)
-                });
-            });
-            api.dataAccess.executeQuery("contest_submissions", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            contest.numberOfSubmissions = rows.length;
-            var passedReview = 0, drTable;
-            rows.forEach(function (item) {
-                if (item.placement) {
-                    passedReview = passedReview + 1;
-                }
-            });
-            drTable = DR_POINT[Math.min(passedReview - 1, 4)];
-            rows.forEach(function (item) {
-                var submission = {
-                    handle: item.handle,
-                    placement: item.placement || "",
-                    screeningScore: item.screening_score,
-                    initialScore: item.initial_score,
-                    finalScore: item.final_score,
-                    points: 0,
-                    submissionStatus: item.submission_status,
-                    submissionDate: formatDate(item.submission_date)
+            var data = results.details[0], i = 0, prize = 0,
+                mapSubmissions = function (results) {
+                    var submissions = [], passedReview = 0, drTable, submission = {};
+                    if (isStudio) {
+                        submissions = _.map(results.submissions, function (item) {
+                            return {
+                                submissionId: item.submission_id,
+                                submitter: item.handle,
+                                submissionTime: formatDate(item.create_date)
+                            };
+                        });
+                    } else {
+                        results.submissions.forEach(function (item) {
+                            if (item.placement) {
+                                passedReview = passedReview + 1;
+                            }
+                        });
+                        drTable = DR_POINT[Math.min(passedReview - 1, 4)];
+                        submissions = _.map(results.submissions, function (item) {
+                            submission = {
+                                handle: item.handle,
+                                placement: item.placement || "",
+                                screeningScore: item.screening_score,
+                                initialScore: item.initial_score,
+                                finalScore: item.final_score,
+                                points: 0,
+                                submissionStatus: item.submission_status,
+                                submissionDate: formatDate(item.submission_date)
+                            };
+                            if (submission.placement && drTable.length >= submission.placement) {
+                                submission.points = drTable[submission.placement - 1] * results.details[0].digital_run_points;
+                            }
+                            return submission;
+                        });
+                    }
+                    return submissions;
+                },
+                mapRegistrants = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (item) {
+                        return {
+                            handle: item.handle,
+                            reliability: _.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                            registrationDate: formatDate(item.inquiry_date)
+                        };
+                    });
+                },
+                mapPrize = function (results) {
+                    var prizes = [];
+                    for (i = 1; i < 10; i = i + 1) {
+                        prize = results["prize" + i];
+                        if (prize && prize !== -1) {
+                            prizes.push(prize);
+                        }
+                    }
+                    return prizes;
+                },
+                mapWinners = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (s) {
+                        return {
+                            submissionId: s.submission_id,
+                            submitter: s.submitter,
+                            submissionTime: s.submission_time,
+                            points: s.points,
+                            rank: s.rank
+                        };
+                    });
+                },
+                mapCheckPoints = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (s) {
+                        return {
+                            submissionId: s.submission_id,
+                            submitter: s.handle,
+                            submissionTime: s.create_date
+                        };
+                    });
                 };
-                if (submission.placement && drTable.length >= submission.placement) {
-                    submission.points = drTable[submission.placement - 1] * contest.digitalRunPoints;
-                }
-                contest.submissions.push(submission);
-            });
+            contest = {
+                challengeType : data.challenge_type,
+                challengeName : data.challenge_name,
+                challengeId : data.challenge_id,
+                projectId : data.project_id,
+                forumId : data.forum_id,
+                introduction: data.introduction,
+                detailedRequirements : isStudio ? data.studio_detailed_requirements : data.software_detailed_requirements,
+                finalSubmissionGuidelines : data.final_submission_guidelines,
+                screeningScorecardId : data.screening_scorecard_id,
+                reviewScorecardId : data.review_scorecard_id,
+                cmcTaskId : convertNull(data.cmc_task_id),
+                numberOfCheckpointsPrizes : data.number_of_checkpoints_prizes,
+                topCheckPointPrize : convertNull(data.top_checkpoint_prize),
+                postingDate : formatDate(data.posting_date),
+                registrationEndDate : formatDate(data.registration_end_date),
+                checkpointSubmissionEndDate : formatDate(data.checkpoint_submission_end_date),
+                submissionEndDate : formatDate(data.submission_end_date),
+                appealsEndDate : formatDate(data.appeals_end_date),
+                finalFixEndDate : formatDate(data.final_fix_end_date),
+                currentPhaseEndDate : formatDate(data.current_phase_end_date),
+                currentStatus : data.current_status,
+                currentPhaseName : convertNull(data.current_phase_name),
+                currentPhaseRemainingTime : data.current_phase_remaining_time,
+                digitalRunPoints: data.digital_run_points,
+                reliabilityBonus: helper.getReliabilityBonus(data.prize1),
+                challengeCommunity: contestType.community,
+                directUrl : helper.getDirectProjectLink(data.challenge_id),
+
+                technology: data.technology.split(', '),
+                prize: mapPrize(data),
+                registrants: mapRegistrants(results.registrants),
+                checkpoints: mapCheckPoints(results.checkpoints),
+                submissions: mapSubmissions(results),
+                winners: mapWinners(results.winners)
+            };
+
+            if (isStudio) {
+                delete contest.registrants;
+                delete contest.finalSubmissionGuidelines;
+                delete contest.reliabilityBonus;
+                delete contest.technology;
+            } else {
+                contest.numberOfSubmissions = results.submissions.length;
+                contest.numberOfRegistrants = results.registrants.length;
+                delete contest.checkpoints;
+                delete contest.winners;
+                delete contest.introduction;
+            }
             cb();
         }
     ], function (err) {
@@ -578,9 +572,9 @@ var getContest = function (api, connection, dbConnectionMap, next) {
 /**
  * The API for getting contest
  */
-exports.getContest = {
-    name: "getContest",
-    description: "getContest",
+exports.getSoftwareContest = {
+    name: "getSoftwareContest",
+    description: "getSoftwareContest",
     inputs: {
         required: ["contestId"],
         optional: []
@@ -593,12 +587,34 @@ exports.getContest = {
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute getContest#run", 'debug');
-            getContest(api, connection, this.dbConnectionMap, next);
+            getContest(api, connection, this.dbConnectionMap, false, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for getting studio contest
+ */
+exports.getStudioContest = {
+    name: "getStudioContest",
+    description: "getStudioContest",
+    inputs: {
+        required: ["contestId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (this.dbConnectionMap) {
+            api.log("Execute getStudioContest#run", 'debug');
+            getContest(api, connection, this.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };
@@ -620,13 +636,60 @@ exports.searchSoftwareContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, next, true);
+            api.log("Execute searchSoftwareContests#run", 'debug');
+            searchContests(api, connection, this.dbConnectionMap, 'develop', next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for searching contests
+ */
+exports.searchStudioContests = {
+    name: "searchStudioContests",
+    description: "searchStudioContests",
+    inputs: {
+        required: [],
+        optional: ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (this.dbConnectionMap) {
+            api.log("Execute searchStudioContests#run", 'debug');
+            searchContests(api, connection, this.dbConnectionMap, 'design', next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Generic API for searching contests
+ */
+exports.searchSoftwareAndStudioContests = {
+    name: "searchSoftwareAndStudioContests",
+    description: "searchSoftwareAndStudioContests",
+    inputs: {
+        required: [],
+        optional: ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (this.dbConnectionMap) {
+            api.log("Execute searchSoftwareAndStudioContests#run", 'debug');
+            searchContests(api, connection, this.dbConnectionMap, 'both', next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };

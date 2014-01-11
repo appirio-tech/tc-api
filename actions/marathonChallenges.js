@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Sky_, TCSASSEMBLER
+ * @version 1.2
+ * @author Sky_, TCSASSEMBLER, freegod
  * changes in 1.1:
  * - implement marathon API
+ * changes in 1.2:
+ * - Use empty result set instead of 404 error in get marathon challenges API.
  */
 "use strict";
 var async = require('async');
@@ -30,22 +32,6 @@ var ALLOWABLE_SORT_COLUMN = [
     "roundId", "fullName", "shortName", "startDate", "endDate",
     "winnerHandle", "winnerScore"
 ];
-
-/**
- * Represents columns for marathon data in search API
- */
-var SEARCH_API_COLUMNS = ALLOWABLE_SORT_COLUMN;
-
-/**
- * Represents columns returned by get_marathon_match_detail_basic query
- */
-var DETAILS_BASIC_COLUMNS = ["roundId", "fullName", "shortName", "numberOfRegistrants", "numberOfSubmissions",
-    "numberOfCompetitors", "startDate", "endDate", "systemTestDate", "winnerHandle", "winnerScore"];
-
-/**
- * Represents columns returned by get_marathon_match_detail_registrants_rating_summary query
- */
-var DETAILS_SUMMARY_COLUMNS = ["color", "numberOfMembers"];
 
 /**
  * Max value for integer
@@ -86,6 +72,7 @@ var FILTER_COLUMS = [
 /**
  * Set the date to request by given input.
  *
+ * @param {Object} helper - the helper.
  * @param {Object} sqlParams - the data access request.
  * @param {Object} dateInterval - the date interval from filter.
  * @param {String} inputCodePrefix - the input code prefix.
@@ -125,7 +112,6 @@ exports.searchMarathonChallenges = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw", "informixoltp"],
@@ -210,10 +196,10 @@ exports.searchMarathonChallenges = {
                     pageSize = MAX_INT;
                 }
                 sqlParams = {
-                    fri: (pageIndex - 1) * pageSize,
-                    ps: pageSize,
-                    sc: sortColumn,
-                    sdir: sortOrder,
+                    firstRowIndex: (pageIndex - 1) * pageSize,
+                    pageSize: pageSize,
+                    sortColumn: helper.getSortColumnDBName(sortColumn),
+                    sortOrder: sortOrder,
                     round_id: filter.roundId || 0,
                     full_name: filter.fullName || "",
                     short_name: filter.shortName || "",
@@ -255,14 +241,28 @@ exports.searchMarathonChallenges = {
                     }
                 }, cb);
             }, function (results, cb) {
-                if (results.data.length === 0) {
-                    cb(new NotFoundError("No results found"));
+                var total = results.count[0].total_count;
+                if (total === 0 || results.data.length === 0) {
+                    result = {
+                        data : [],
+                        total: total,
+                        pageIndex: pageIndex,
+                        pageSize: Number(params.pageIndex) === -1 ? total : pageSize
+                    };
+                    cb();
                     return;
                 }
-                var total = results.count[0].totalcount;
                 result = {
                     data: _.map(results.data, function (item) {
-                        var contest = helper.mapProperties(item, SEARCH_API_COLUMNS);
+                        var contest = {
+                            roundId: item.round_id,
+                            fullName: item.full_name,
+                            shortName: item.short_name,
+                            startDate: item.start_date,
+                            endDate: item.end_date,
+                            winnerHandle: item.winner_handle,
+                            winnerScore: item.winner_score
+                        };
                         if (listType === ListType.ACTIVE) {
                             delete contest.winnerHandle;
                             delete contest.winnerScore;
@@ -293,8 +293,8 @@ exports.searchMarathonChallenges = {
  * @param {Array<Object>} registrants - the registrants. Result of detail_progress_XXX_registrants query.
  * @param {Array<Object>} competitors - the competitors. Result of detail_progress_competitors query.
  * @param {Number|String} interval - the interval between each progress resource in hours or "m" if interval is month.
- * @param {String} interval - the startTime.
- * @param {String} interval - the endTime.
+ * @param {String} startTime - the startTime.
+ * @param {String} endTime - the endTime.
  * @return {Array<Object>} the computed array
  */
 function computeProgressResources(submissions, registrants, competitors, interval, startTime, endTime) {
@@ -334,12 +334,11 @@ function computeProgressResources(submissions, registrants, competitors, interva
     registrants.forEach(function (reg) {
         while (i < items.length) {
             item = items[i];
-            if (new Date(reg.date).getTime() <= new Date(item.date).getTime()) {
-                item.currentNoOfRegistrants = item.currentNoOfRegistrants +
-                    reg.currentnoofregistrants;
-                break;
-            } else {
+            if (new Date(reg.date).getTime() > new Date(item.date).getTime()) {
                 i = i + 1;
+            } else {
+                item.currentNoOfRegistrants = item.currentNoOfRegistrants + reg.current_no_of_registrants;
+                break;
             }
         }
     });
@@ -350,13 +349,13 @@ function computeProgressResources(submissions, registrants, competitors, interva
     competitors.forEach(function (comp) {
         while (i < items.length) {
             item = items[i];
-            if (new Date(comp.submit_time).getTime() <= new Date(item.date).getTime()) {
+            if (new Date(comp.submit_time).getTime() > new Date(item.date).getTime()) {
+                users = {};
+                i = i + 1;
+            } else {
                 users[comp.coder_id] = true;
                 item.currentNoOfCompetitors = Object.keys(users).length;
                 break;
-            } else {
-                users = {};
-                i = i + 1;
             }
         }
     });
@@ -368,23 +367,22 @@ function computeProgressResources(submissions, registrants, competitors, interva
     submissions.forEach(function (sub) {
         while (i < items.length) {
             item = items[i];
-            if (new Date(sub.date).getTime() <= new Date(item.date).getTime()) {
-                item.currentNoOfSubmissions = item.currentNoOfSubmissions + sub.currentnoofsubmissions;
-                if (score < sub.currenttopprovisionalscore) {
-                    score = sub.currenttopprovisionalscore;
-                    handle = sub.topuserhandle;
+            if (new Date(sub.date).getTime() > new Date(item.date).getTime()) {
+                score = -1;
+                handle = "";
+                i = i + 1;
+            } else {
+                item.currentNoOfSubmissions = item.currentNoOfSubmissions + sub.current_no_of_submissions;
+                if (score < sub.current_top_provisional_score) {
+                    score = sub.current_top_provisional_score;
+                    handle = sub.top_user_handle;
                     item.currentTopProvisionalScore = score;
                     item.topUserHandle = handle;
                 }
                 break;
-            } else {
-                score = -1;
-                handle = "";
-                i = i + 1;
             }
         }
     });
-
 
     return _.filter(items, function (ele) {
         return ele.currentNoOfSubmissions +
@@ -408,7 +406,6 @@ exports.getMarathonChallenge = {
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["informixoltp"],
-    cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute getMarathonChallenge#run", 'debug');
         var dbConnectionMap = this.dbConnectionMap,
@@ -416,7 +413,7 @@ exports.getMarathonChallenge = {
             helper = api.helper,
             groupType = (connection.params.groupType || "day").toLowerCase(),
             sqlParams = {
-                rd: id
+                roundId: id
             },
             result = {};
         if (!this.dbConnectionMap) {
@@ -467,7 +464,20 @@ exports.getMarathonChallenge = {
                     break;
                 default:
                 }
-                result = helper.mapProperties(details, DETAILS_BASIC_COLUMNS);
+                result = {
+                    roundId: details.round_id,
+                    fullName: details.full_name,
+                    shortName: details.short_name,
+                    description: helper.convertToString(details.description),
+                    numberOfRegistrants: details.number_of_registrants,
+                    numberOfCompetitors: details.number_of_competitors,
+                    numberOfSubmissions: details.number_of_submissions,
+                    startDate: details.start_date,
+                    endDate: details.end_date,
+                    winnerScore: details.winner_score,
+                    winnerHandle: details.winner_handle,
+                    systemTestDate: details.system_test_date
+                };
 
                 //no winner
                 if (_.isNaN(result.winnerScore) && result.winnerHandle === "null") {
@@ -477,10 +487,13 @@ exports.getMarathonChallenge = {
                 result.currentProgress = {
                     groupType: groupType.toUpperCase(),
                     progressResources: computeProgressResources(results.hour,
-                        results.hourRegistrants, results.competitors, interval, details.startdate, details.enddate)
+                        results.hourRegistrants, results.competitors, interval, details.start_date, details.end_date)
                 };
                 result.registrantsRatingSummary = _.map(results.summary, function (p) {
-                    var ret = helper.mapProperties(p, DETAILS_SUMMARY_COLUMNS);
+                    var ret = {
+                        color: p.color,
+                        numberOfMembers: p.number_of_members
+                    };
                     ret.color = ret.color.trim();
                     return ret;
                 });

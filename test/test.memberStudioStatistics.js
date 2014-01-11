@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
@@ -73,11 +73,11 @@ describe('Get Member Studio Statistics API', function () {
     });
 
     /**
-     * Test /v2/design/statistics/heffan
+     * Test /v2/users/heffan/statistics/design
      */
     it("should return correct statistics for heffan", function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/statistics/heffan')
+            .get('/v2/users/heffan/statistics/design')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -91,7 +91,7 @@ describe('Get Member Studio Statistics API', function () {
 
 
     /**
-     * Test /v2/design/statistics/heffan
+     * Test /v2/users/heffan/statistics/design
      * No statistics for tracks, but there should be still copilot stats.
      */
     it("should return correct statistics for heffan (no tracks)", function (done) {
@@ -100,7 +100,7 @@ describe('Get Member Studio Statistics API', function () {
                 testHelper.runSqlFile(SQL_DIR + "tcs_dw__clean_tracks", "tcs_dw", cb);
             }, function (cb) {
                 request(API_ENDPOINT)
-                    .get('/v2/design/statistics/heffan')
+                    .get('/v2/users/heffan/statistics/design')
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200)
@@ -115,11 +115,11 @@ describe('Get Member Studio Statistics API', function () {
     });
 
     /**
-     * Test /v2/design/statistics/notfounduser
+     * Test /v2/users/notfounduser/statistics/design
      */
     it("should return 404 if user is not found", function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/statistics/notfounduser')
+            .get('/v2/users/notfounduser/statistics/design')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)

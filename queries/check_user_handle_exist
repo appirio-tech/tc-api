@@ -1,3 +1,3 @@
-SELECT count(*) as handleexist
+SELECT count(*) as handle_exist
 FROM user 
-WHERE handle='@handle@'
+WHERE handle_lower=LOWER('@handle@')

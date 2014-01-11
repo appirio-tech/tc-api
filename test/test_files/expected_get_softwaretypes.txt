@@ -1,0 +1,164 @@
+[
+  {
+    "challengeCategoryId": 1,
+    "challengeTypeId": 1,
+    "name": "Design",
+    "description": "Design"
+  },
+  {
+    "challengeCategoryId": 2,
+    "challengeTypeId": 1,
+    "name": "Development",
+    "description": "Development"
+  },
+  {
+    "challengeCategoryId": 3,
+    "challengeTypeId": 1,
+    "name": "Security",
+    "description": "Security"
+  },
+  {
+    "challengeCategoryId": 4,
+    "challengeTypeId": 1,
+    "name": "Process",
+    "description": "Process"
+  },
+  {
+    "challengeCategoryId": 5,
+    "challengeTypeId": 1,
+    "name": "Testing Competition",
+    "description": "Testing Competition"
+  },
+  {
+    "challengeCategoryId": 6,
+    "challengeTypeId": 2,
+    "name": "Specification",
+    "description": "Specification"
+  },
+  {
+    "challengeCategoryId": 7,
+    "challengeTypeId": 2,
+    "name": "Architecture",
+    "description": "Architecture"
+  },
+  {
+    "challengeCategoryId": 8,
+    "challengeTypeId": 2,
+    "name": "Component Production",
+    "description": "Component Production"
+  },
+  {
+    "challengeCategoryId": 9,
+    "challengeTypeId": 2,
+    "name": "Bug Hunt",
+    "description": "Bug Hunt"
+  },
+  {
+    "challengeCategoryId": 10,
+    "challengeTypeId": 2,
+    "name": "Deployment",
+    "description": "Deployment"
+  },
+  {
+    "challengeCategoryId": 11,
+    "challengeTypeId": 2,
+    "name": "Security",
+    "description": "Security"
+  },
+  {
+    "challengeCategoryId": 12,
+    "challengeTypeId": 2,
+    "name": "Process",
+    "description": "Process"
+  },
+  {
+    "challengeCategoryId": 13,
+    "challengeTypeId": 2,
+    "name": "Test Suites",
+    "description": "Test Suites"
+  },
+  {
+    "challengeCategoryId": 14,
+    "challengeTypeId": 2,
+    "name": "Assembly Competition",
+    "description": "Assembly Competition"
+  },
+  {
+    "challengeCategoryId": 15,
+    "challengeTypeId": 2,
+    "name": "Legacy",
+    "description": "Legacy"
+  },
+  {
+    "challengeCategoryId": 19,
+    "challengeTypeId": 2,
+    "name": "UI Prototypes",
+    "description": "UI Prototypes"
+  },
+  {
+    "challengeCategoryId": 23,
+    "challengeTypeId": 2,
+    "name": "Conceptualization",
+    "description": "Conceptualization"
+  },
+  {
+    "challengeCategoryId": 24,
+    "challengeTypeId": 2,
+    "name": "RIA Build",
+    "description": "RIA Build"
+  },
+  {
+    "challengeCategoryId": 25,
+    "challengeTypeId": 2,
+    "name": "RIA Component",
+    "description": "RIA Component"
+  },
+  {
+    "challengeCategoryId": 26,
+    "challengeTypeId": 2,
+    "name": "Test Scenarios",
+    "description": "Test Scenarios"
+  },
+  {
+    "challengeCategoryId": 27,
+    "challengeTypeId": 2,
+    "name": "Spec Review",
+    "description": "Spec Review"
+  },
+  {
+    "challengeCategoryId": 29,
+    "challengeTypeId": 2,
+    "name": "Copilot Posting",
+    "description": "Copilot Posting"
+  },
+  {
+    "challengeCategoryId": 35,
+    "challengeTypeId": 2,
+    "name": "Content Creation",
+    "description": "Content Creation"
+  },
+  {
+    "challengeCategoryId": 36,
+    "challengeTypeId": 2,
+    "name": "Reporting",
+    "description": "Reporting"
+  },
+  {
+    "challengeCategoryId": 37,
+    "challengeTypeId": 2,
+    "name": "Marathon Match",
+    "description": "Marathon Match"
+  },
+  {
+    "challengeCategoryId": 38,
+    "challengeTypeId": 2,
+    "name": "First2Finish",
+    "description": "First2Finish"
+  },
+  {
+    "challengeCategoryId": 39,
+    "challengeTypeId": 2,
+    "name": "Code",
+    "description": "Code"
+  }
+]

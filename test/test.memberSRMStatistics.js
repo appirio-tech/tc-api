@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
@@ -74,7 +74,7 @@ describe('Get Member SRM Statistics API', function () {
      */
     function assertResponse(handle, file, done) {
         request(API_ENDPOINT)
-            .get('/v2/data/srm/statistics/' + handle)
+            .get('/v2/users/' + handle + '/statistics/data/srm')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -92,21 +92,21 @@ describe('Get Member SRM Statistics API', function () {
     }
 
     /**
-     * Test /v2/data/srm/statistics/heffan
+     * Test /v2/users/heffan/statistics/data/srm
      */
     it("should return correct statistics for heffan", function (done) {
         assertResponse("heffan", "expected_srm_member_stats_1.json", done);
     });
 
     /**
-     * Test /v2/data/srm/statistics/HEFFAN
+     * Test /v2/users/HEFFAN/statistics/data/srm
      */
     it("should return correct statistics for HEFFAN", function (done) {
         assertResponse("HEFFAN", "expected_srm_member_stats_1.json", done);
     });
 
     /**
-     * Test /v2/data/srm/statistics/heffan
+     * Test /v2/users/heffan/statistics/data/srm
      * No coder_level entry for user. Everything should be 0.
      */
     it("should return correct statistics for heffan (no coder_level)", function (done) {
@@ -121,7 +121,7 @@ describe('Get Member SRM Statistics API', function () {
 
 
     /**
-     * Test /v2/data/srm/statistics/heffan
+     * Test /v2/users/heffan/statistics/data/srm
      * Percentile should be N/A; rank, countryRank and schoolRank should be 'not ranked'
      */
     it("should return correct statistics for heffan (not ranked)", function (done) {
@@ -135,11 +135,11 @@ describe('Get Member SRM Statistics API', function () {
     });
 
     /**
-     * Test /v2/data/srm/statistics/notfounduser
+     * Test /v2/users/notfounduser/statistics/data/srm
      */
     it("should return 404 if user is not found", function (done) {
         request(API_ENDPOINT)
-            .get('/v2/data/srm/statistics/notfounduser')
+            .get('/v2/users/notfounduser/statistics/data/srm')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)

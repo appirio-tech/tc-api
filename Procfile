@@ -1,1 +1,1 @@
-web: node ./node_modules/.bin/actionHero start
+web: ./runServer.sh

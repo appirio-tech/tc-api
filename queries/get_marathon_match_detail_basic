@@ -1,15 +1,16 @@
 SELECT 
-  rd.round_id AS roundId
-, p.name AS fullName
-, rd.name AS shortName
-, nRegistrants.count AS numberOfRegistrants
-, nCompetitors.count AS numberOfCompetitors
-, nSubmissions.count AS numberOfSubmissions
-, rs.start_time AS startDate
-, rs.end_time AS endDate
-, winnerTable.winner_score AS winnerScore
-, winnerTable.winner_handle AS winnerHandle
-, strs.start_time AS systemTestDate
+  rd.round_id
+, p.name AS full_name
+, rd.name AS short_name
+, p.problem_text as description
+, nRegistrants.count AS number_of_registrants
+, nCompetitors.count AS number_of_competitors
+, nSubmissions.count AS number_of_submissions
+, rs.start_time AS start_date
+, rs.end_time AS end_date
+, winnerTable.winner_score AS winner_score
+, winnerTable.winner_handle AS winner_handle
+, strs.start_time AS system_test_date
 FROM 
   round rd 
 LEFT JOIN (
@@ -59,7 +60,7 @@ INNER JOIN round_segment rs ON rs.round_id = rd.round_id AND rs.segment_id = 1
 INNER JOIN round_segment strs ON strs.round_id = rd.round_id AND strs.segment_id = 5
 , problem p
 , component cm
-WHERE rd.round_id = @rd@
+WHERE rd.round_id = @roundId@
 AND rc.component_Id = cm.component_id
 AND p.problem_id = cm.problem_id
 AND rd.round_type_id IN (10,13,15,19,22,24,25,27)

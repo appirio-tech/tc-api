@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
@@ -73,11 +73,11 @@ describe('Get Member Software Statistics API', function () {
     });
 
     /**
-     * Test /v2/develop/statistics/heffan
+     * Test /v2/users/heffan/statistics/develop
      */
     it("should return correct statistics for heffan", function (done) {
         request(API_ENDPOINT)
-            .get('/v2/develop/statistics/heffan')
+            .get('/v2/users/heffan/statistics/develop')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -91,7 +91,7 @@ describe('Get Member Software Statistics API', function () {
 
 
     /**
-     * Test /v2/develop/statistics/heffan
+     * Test /v2/users/heffan/statistics/develop
      * No reviewer rating, but there should be still copilot stats.
      */
     it("should return correct statistics for heffan (no reviewer rating)", function (done) {
@@ -100,7 +100,7 @@ describe('Get Member Software Statistics API', function () {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean_reviewer_rating", "tcs_catalog", cb);
             }, function (cb) {
                 request(API_ENDPOINT)
-                    .get('/v2/develop/statistics/heffan')
+                    .get('/v2/users/heffan/statistics/develop')
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200)
@@ -115,7 +115,7 @@ describe('Get Member Software Statistics API', function () {
     });
 
     /**
-     * Test /v2/develop/statistics/heffan
+     * Test /v2/users/heffan/statistics/develop
      * No statistics for tracks, but there should be still copilot and reviewer stats.
      */
     it("should return correct statistics for heffan (no tracks)", function (done) {
@@ -124,7 +124,7 @@ describe('Get Member Software Statistics API', function () {
                 testHelper.runSqlFile(SQL_DIR + "tcs_dw__clean_tracks", "tcs_dw", cb);
             }, function (cb) {
                 request(API_ENDPOINT)
-                    .get('/v2/develop/statistics/heffan')
+                    .get('/v2/users/heffan/statistics/develop')
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200)
@@ -139,11 +139,11 @@ describe('Get Member Software Statistics API', function () {
     });
 
     /**
-     * Test /v2/develop/statistics/notfounduser
+     * Test /v2/users/notfounduser/statistics/develop
      */
     it("should return 404 if user is not found", function (done) {
         request(API_ENDPOINT)
-            .get('/v2/develop/statistics/notfounduser')
+            .get('/v2/users/notfounduser/statistics/develop')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)

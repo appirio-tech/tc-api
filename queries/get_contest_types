@@ -1,4 +1,8 @@
-select project_category_id AS challengeCategoryId, project_type_id AS challengeTypeId, name, description 
-from project_category_lu
-WHERE project_type_id IN (1, 2)
-order by project_category_id asc
+SELECT
+  project_category_id AS challenge_category_id
+, project_type_id AS challenge_type_id
+, name
+, description
+FROM project_category_lu
+WHERE project_type_id IN (@project_type_id@)
+ORDER BY project_category_id ASC

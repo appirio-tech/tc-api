@@ -1,7 +1,5 @@
 
 
-delete from 'informix'.country where country_name = 'Angola';
-
 delete from 'informix'.invalid_handles where invalid_handle_id = 1000000;
 
 delete from 'informix'.security_user where user_id = 'testHandleFoo';

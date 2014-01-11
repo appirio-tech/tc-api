@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Sky_, TCSASSEMBLER
+ * @version 1.2
+ * @author Sky_, TCSASSEMBLER, freegod
  * changes in 1.1:
  * - implement srm API
+ * changes in 1.2:
+ * - Use empty result set instead of 404 error in get srm challenges API.
  */
 "use strict";
 var async = require('async');
@@ -33,11 +35,6 @@ var MAX_INT = 2147483647;
 var DEFAULT_PAGE_SIZE = 50;
 
 /**
- * List of all api fields
- */
-var API_COLUMNS = ALLOWABLE_SORT_COLUMN;
-
-/**
  * Default number of leaders to show in SRM details
  */
 var LEADER_COUNT = 5;
@@ -54,7 +51,6 @@ exports.searchSRMChallenges = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw"],
@@ -100,10 +96,10 @@ exports.searchSRMChallenges = {
                     pageSize = MAX_INT;
                 }
                 sqlParams = {
-                    fri: (pageIndex - 1) * pageSize,
-                    ps: pageSize,
-                    sc: sortColumn,
-                    sdir: sortOrder
+                    firstRowIndex: (pageIndex - 1) * pageSize,
+                    pageSize: pageSize,
+                    sortColumn: helper.getSortColumnDBName(sortColumn),
+                    sortOrder: sortOrder
                 };
 
                 async.parallel({
@@ -122,10 +118,16 @@ exports.searchSRMChallenges = {
                 }, cb);
             }, function (results, cb) {
                 if (results.data.length === 0) {
-                    cb(new NotFoundError("No results found"));
+                    result = {
+                        total: 0,
+                        pageIndex: pageIndex,
+                        pageSize: Number(params.pageIndex) === -1 ? 0 : pageSize,
+                        data: []
+                    };
+                    cb();
                     return;
                 }
-                var total = results.count[0].totalcount;
+                var total = results.count[0].total_count;
                 result = {
                     total: total,
                     pageIndex: pageIndex,
@@ -133,11 +135,22 @@ exports.searchSRMChallenges = {
                     data: []
                 };
                 results.data.forEach(function (item) {
-                    var contest = {};
-                    //properties in db scripts have same name, but in lower case
-                    API_COLUMNS.forEach(function (name) {
-                        contest[name] = item[name.toLowerCase()];
-                    });
+                    var contest = {
+                        roundId: item.round_id,
+                        name: item.name,
+                        startDate: item.start_date,
+                        totalCompetitors: item.total_competitors,
+                        divICompetitors: item.div_i_competitors,
+                        divIICompetitors: item.div_ii_competitors,
+                        divITotalSolutionsSubmitted: item.div_i_total_solutions_submitted,
+                        divIAverageSolutionsSubmitted: item.div_i_average_solutions_submitted,
+                        divIITotalSolutionsSubmitted: item.div_ii_total_solutions_submitted,
+                        divIIAverageSolutionsSubmitted: item.div_ii_average_solutions_submitted,
+                        divITotalSolutionsChallenged: item.div_i_total_solutions_challenged,
+                        divIAverageSolutionsChallenged: item.div_i_average_solutions_challenged,
+                        divIITotalSolutionsChallenged: item.div_ii_total_solutions_challenged,
+                        divIIAverageSolutionsChallenged: item.div_ii_average_solutions_challenged
+                    };
 
                     result.data.push(contest);
                 });
@@ -167,7 +180,6 @@ exports.getSRMChallenge = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
-    cacheEnabled: false,
     version: 'v2',
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw"],
@@ -178,15 +190,12 @@ exports.getSRMChallenge = {
             er = Number(connection.params.er || LEADER_COUNT),
             helper = api.helper,
             sqlParams = {
-                rd: id,
+                roundId: id,
                 er: er
             },
             result;
         if (!this.dbConnectionMap) {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = { message: "No connection object." };
-            next(connection, true);
+            helper.handleNoConnection(api, connection, next);
             return;
         }
         async.waterfall([
@@ -229,10 +238,10 @@ exports.getSRMChallenge = {
                     mapProblem = function (a) {
                         return {
                             "level": a.level,
-                            "problemName": a.problemname,
+                            "problemName": a.problem_name,
                             "submissions": a.submissions,
-                            "correct%": a.correctpercent * 100,
-                            "averagePoints": a.averagepoints
+                            "correct%": a.correct_percent * 100,
+                            "averagePoints": a.average_points
                         };
                     };
                 result = {

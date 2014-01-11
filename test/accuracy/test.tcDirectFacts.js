@@ -72,17 +72,17 @@ describe('Get TC Direct Facts', function () {
 
             // end request
             r.end(function (err, res) {
-                console.log(res.body);
-                active_contests_count = res.body[0].active_contests_count;
-                active_members_count = res.body[0].active_members_count;
-                active_projects_count = res.body[0].active_projects_count;
-                completed_projects_count = res.body[0].completed_projects_count;
-                prize_purse = res.body[0].prize_purse;
-                assert.equal(active_contests_count, 3, "wrong number of active_contests_count");
-                assert.equal(active_members_count, 1, "wrong number of active_members_count");
-                assert.equal(active_projects_count, 1, "wrong number of active_projects_count");
-                assert.equal(completed_projects_count, 3, "wrong number of completed_projects_count");
-                assert.equal(prize_purse, 4500, "wrong number of prize_purse");
+                var data = res.body;
+                active_contests_count = data.activeContestsCount;
+                active_members_count = data.activeMembersCount;
+                active_projects_count = data.activeProjectsCount;
+                completed_projects_count = data.completedProjectCount;
+                prize_purse = data.prizePurse;
+                assert.equal(active_contests_count, 3, "wrong number of activeContestsCount");
+                assert.equal(active_members_count, 1, "wrong number of activeMembersCount");
+                assert.equal(active_projects_count, 1, "wrong number of activeProjectsCount");
+                assert.equal(completed_projects_count, 3, "wrong number of completedProjectsCount");
+                assert.equal(prize_purse, 4500, "wrong number of prizePurse");
                 done();
             });
         });

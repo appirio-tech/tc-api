@@ -1,9 +1,9 @@
 SELECT 
-SKIP @fri@
-FIRST @ps@
+SKIP @firstRowIndex@
+FIRST @pageSize@
   NVL(s.short_name, s.name) AS name
 , TRUNC(SUM(r.rating*(POW(.87, rank_no_tie-1)))*((1-.87)/(1-POW(.87, COUNT(*)))),2) AS rating
-, COUNT(*) AS memberCount
+, COUNT(*) AS member_count
 , country.country_name AS country
 FROM 
   school s

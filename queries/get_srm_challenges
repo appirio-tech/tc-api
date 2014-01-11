@@ -1,22 +1,22 @@
-select SKIP @fri@ FIRST @ps@
-       r.round_id AS roundId
+select SKIP @firstRowIndex@ FIRST @pageSize@
+       r.round_id
       ,r.short_name AS name
-      ,cal.date AS startDate
-      ,NVL(rd1.num_coders, 0) + NVL(rd2.num_coders, 0) AS totalCompetitors
-      ,rd1.num_coders AS divICompetitors
-      ,rd2.num_coders AS divIICompetitors
-      ,rd1.problems_submitted AS divITotalSolutionsSubmitted
-      ,rd2.problems_submitted AS divIITotalSolutionsSubmitted
-      ,CASE WHEN rd1.num_coders = 0 THEN 0 ELSE rd1.problems_submitted / rd1.num_coders END::DECIMAL(10,2) AS divIAverageSolutionsSubmitted
-      ,CASE WHEN rd2.num_coders = 0 THEN 0 ELSE rd2.problems_submitted / rd2.num_coders END::DECIMAL(10,2) AS divIIAverageSolutionsSubmitted
-      ,rd1.challenges_made_successful AS divITotalSolutionsChallenged
-      ,rd2.challenges_made_successful AS divIITotalSolutionsChallenged
-      ,CASE WHEN rd1.num_coders = 0 THEN 0 ELSE rd1.challenges_made_successful / rd1.num_coders END::DECIMAL(10,2) AS divIAverageSolutionsChallenged
-      ,CASE WHEN rd2.num_coders = 0 THEN 0 ELSE rd2.challenges_made_successful / rd2.num_coders END::DECIMAL(10,2) AS divIIAverageSolutionsChallenged
+      ,cal.date AS start_date
+      ,NVL(rd1.num_coders, 0) + NVL(rd2.num_coders, 0) AS total_competitors
+      ,rd1.num_coders AS div_i_competitors
+      ,rd2.num_coders AS div_ii_competitors
+      ,rd1.problems_submitted AS div_i_total_solutions_submitted
+      ,rd2.problems_submitted AS div_ii_total_solutions_submitted
+      ,CASE WHEN rd1.num_coders = 0 THEN 0 ELSE rd1.problems_submitted / rd1.num_coders END::DECIMAL(10,2) AS div_i_average_solutions_submitted
+      ,CASE WHEN rd2.num_coders = 0 THEN 0 ELSE rd2.problems_submitted / rd2.num_coders END::DECIMAL(10,2) AS div_ii_average_solutions_submitted
+      ,rd1.challenges_made_successful AS div_i_total_solutions_challenged
+      ,rd2.challenges_made_successful AS div_ii_total_solutions_challenged
+      ,CASE WHEN rd1.num_coders = 0 THEN 0 ELSE rd1.challenges_made_successful / rd1.num_coders END::DECIMAL(10,2) AS div_i_average_solutions_challenged
+      ,CASE WHEN rd2.num_coders = 0 THEN 0 ELSE rd2.challenges_made_successful / rd2.num_coders END::DECIMAL(10,2) AS div_ii_average_solutions_challenged
   FROM  contest c
         JOIN round AS r ON r.contest_id = c.contest_id AND r.failed = 0
         LEFT JOIN round_division AS rd1 ON rd1.division_id = 1 AND rd1.round_id = r.round_id
         LEFT JOIN round_division AS rd2 ON rd2.division_id = 2 AND rd2.round_id = r.round_id
         JOIN calendar AS cal ON cal.calendar_id = r.calendar_id
 WHERE  r.round_type_id in (1, 2, 10)
-ORDER BY @sc@ @sdir@, roundId desc
+ORDER BY @sortColumn@ @sortOrder@, round_id desc

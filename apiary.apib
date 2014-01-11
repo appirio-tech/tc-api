@@ -20,7 +20,7 @@ Platform APIs
             "prizePurse": "$100000"
         }
 
-# Group Registration
+# Group User Profile
 Register a new user.
 
 ## Users [/users]
@@ -91,6 +91,268 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Basic User Profile [/users/{handle}]
+### Basic User Profile [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+             "handle": "hohosky",
+             "country": "China",
+             "memberSince": "09.28.2005 15:47 EDT",
+             "overallEarning": 0,
+             "quote": "Focus is a matter of deciding what things you're not going to do.",
+             "ratingsSummary": [
+                  {
+                   "name": "Development",
+                   "rating": 1906,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Design",
+                   "rating": 1516,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Specification",
+                   "rating": 1747,
+                   "colorStyle": "color: #DDCC00"
+                  }
+             ],
+             "photoLink": "/i/m/hohosky_big.jpg",
+             "isCopilot": {
+                  "value": true,
+                  "software": false,
+                  "studio": false
+             },
+             "isPM": false,
+            "Achievements":
+            [
+                {
+                  "date": "03.17.2013 00:00 EDT",
+                  "description": "First Forum Post",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "02.19.2013 00:00 EST",
+                  "description": "One Hundred Forum Posts",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "10.03.2012 00:00 EDT",
+                  "description": "First Passing Submission",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -17
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Successful Challenge",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -255
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Rated Algorithm Competitions",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -204
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Successful Challenges",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -255
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "SRM Winner Div 2",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -34,
+                   "topOffset": -85
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div1 Problem in SRM",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -68,
+                   "topOffset": -102
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Rated Algorithm Competition",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -204
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div2 Problem in SRM",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -119
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First SRM Room Win (Any Division)",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -221
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Ten Solved Algorithm Problems",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -238
+                  }
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Solved Algorithm Problem",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -238
+                  }
+                 },
+                 {
+                  "date": "09.17.2012 00:00 EDT",
+                  "description": "Five Hundred Forum Posts",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -34,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Win",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -68
+                  }
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Placement",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": 0,
+                   "topOffset": -51
+                  }
+                 },
+                 {
+                  "date": "08.20.2012 00:00 EDT",
+                  "description": "TopCoder Reviewer",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png"
+                  }
+                 },
+                 {
+                  "date": "04.10.2012 00:00 EDT",
+                  "description": "2012 TopCoder Open Mod Dash Champion",
+                  "badgeLink": {}
+                 },
+                 {
+                  "date": "04.07.2012 00:00 EDT",
+                  "description": "One Thousand Forum Posts",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -51,
+                   "topOffset": 0
+                  }
+                 },
+                 {
+                  "date": "09.28.2011 00:00 EDT",
+                  "description": "2011 TopCoder Open Mod Dash Finalists",
+                  "badgeLink": {}
+                 },
+                 {
+                  "date": "10.14.2010 00:00 EDT",
+                  "description": "2010 TopCoder Open Mod Dash Finalist",
+                  "badgeLink": {}
+                 },
+                 {
+                  "date": "10.21.2005 00:00 EDT",
+                  "description": "Twenty Five Placements",
+                  "badgeLink": {
+                   "url": "http://topcoder.com/images/badge.grid.small.png",
+                   "leftOffset": -17,
+                   "topOffset": -51
+                  }
+                 }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 
 
 #Group Software Contests
@@ -440,7 +702,7 @@ Register a new user.
         }
 
         
-## Software Member Statistics [/develop/statistics/{handle}]
+## Software Member Statistics [/users/{handle}/statistics/develop]
 ### Software Member Statistics [GET]
 
 + Parameters
@@ -450,11 +712,6 @@ Register a new user.
 
         {
             "handle": "iRabbit",
-            "Achievements":
-            [
-                "Five Rated Algorithm Competition",
-                "Twenty-Five Rated Algorithm Competition"
-            ]
             "Tracks":
             {
                 "Development":
@@ -679,16 +936,16 @@ Register a new user.
         }
 
         
-## Search Contests [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Search Contests [GET]
+## Search Software Contests [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Search Software Contests [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ALL', 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'ALL' will be should used.
-    + filter (optional, string, `type`) ... Key of the filter key-value pair
+    + listType (optional, string, `Open`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     
 
@@ -700,51 +957,88 @@ Register a new user.
             "pageSize": 3,
             "data": [
                 {
-                    "type": "Web Design",
-                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "numberOfSubmissions": 16,
-                    "numberOfRatedRegistrants": 27,
-                    "numberOfUnratedRegistrants": 27,
-                    "contestId": 30036096,
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
                     "projectId": 6789,
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
                     "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
                     "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
                     "prize": [1250, 500],
                     "reliabilityBonus": 0,
                     "digitalRunPoints": 500,
-                    "cmc": "ab"
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 },
                 {
-                    "type": "UI Prototype Competition",
-                    "catalog": "UI Development",
-                    "contestName": "Corningstone App UI Prototype 2",
-                    "numberOfSubmissions": 0,
-                    "numberOfRatedRegistrants": 27,
-                    "numberOfUnratedRegistrants": 27,
-                    "contestId": 30036099,
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
                     "projectId": 6484,
-                    "registrationEndDate": "10.26.2013 16:01 EDT",
-                    "submissionEndDate": "10.31.2013 16:06 EDT",
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
                     "prize": [1250, 500],
                     "reliabilityBonus": 660,
                     "digitalRunPoints": 990,
-                    "cmc": "ab"
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 },
                 {
-                    "type": "Content Creation",
-                    "catalog": "UI Development",
-                    "contestName": "Crowdsourced Application Security Standards and Review",
-                    "numberOfSubmissions": 4,
-                    "numberOfRatedRegistrants": 27,
-                    "numberOfUnratedRegistrants": 27,
-                    "contestId": 30036091,
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
                     "projectId": 6778,
-                    "registrationEndDate": "10.28.2013 10:28 EDT",
-                    "submissionEndDate": "10.31.2013 10:34 EDT",
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
                     "prize": [1250, 500],
                     "reliabilityBonus": 360,
                     "digitalRunPoints": 0,
-                    "cmc": "ab"
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 }
             ]
         }
@@ -789,8 +1083,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Contest Detail [/develop/challenges/{id}]
-### Get Contest Information [GET]
+## Get Software Contest Detail [/develop/challenges/{id}]
+### Get Software Contest Information [GET]
 
 + Parameters
     + id (required, number, `30000000`) ... The contest id.
@@ -798,59 +1092,188 @@ Register a new user.
 + Response 200 (application/json)
         
         {
-            "type": "Web Design",
-            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-            "description": "Welcome to Cornell Responsive Storyboard Economics Site Redesign contest. The goal of this contest is to redesign look and feel for one of our college site departments (economics) using base design and customer feedback provided in this contest. There are two pages that needs to be redesigned a",
-            "numberOfSubmissions": 16,
-            "numberOfRegistrants": 27,
-            "numberOfPassedScreeningSubmissions": 27,
-            "contestId": 30036096,
-            "projectId": 6789,
-            "registrationEndDate": "10.31.2013 10:10 EDT",
-            "submissionEndDate": "10.31.2013 10:09 EDT",
-            "prize":[1000, 250],
-            "checkpoints":
-                {
-                    "prize": 100,
-                    "number": 5
-                },
-            "reliabilityBonus": 0,
-            "digitalRunPoints": 500,
-            "cmc": "ab",
-            "registrants" :
-                [
-                    {
-                        "handle": "iRabbit",
-                        "reliability": "100%",
-                        "registrationDate": "10.31.2013 10:10 EDT"
-                    },
-                    {
-                        "handle": "hohosky",
-                        "reliability": "100%",
-                        "registrationDate": "10.31.2013 10:10 EDT"
-                    }
-                ]
-            "submissions" :
-                [
-                    {
-                        "handle": "iRabbit",
-                        "placement": 1,
-                        "screeningScore": 97,
-                        "initialScore": 97,
-                        "final": 97,
-                        "points": 100,
-                        "submissionDate": "10.31.2013 10:10 EDT"
-                    },
-                    {
-                        "handle": "hohosky",
-                        "placement": 2,
-                        "screeningScore": 97,
-                        "initialScore": 96,
-                        "final": 96,
-                        "points": 50,
-                        "submissionDate": "10.31.2013 10:10 EDT"
-                    }
-                ]
+          "challengeType": "Assembly Competition",
+          "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
+          "challengeId": 30036437,
+          "projectId": 6757,
+          "forumId": "19553",
+          "detailedRequirements": "<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Project Overview</span></h2>\n\n<p>TopCoder and the TopCoder community have worked hard to get the platform to its currently level of maturity, but we&#39;re far from done. It&#39;s time to take the platform to the next level. TopCoder is going to start taking some steps to open up the platform API to the outside and community developers so they could incorporate it in their websites, applications or build their own applications (web, mobile or desktop).</p>\n\n<p>The ultimate goal is to open up and build an &quot;API&quot; that is targeting all different type of audiences - Software and Studio Competitors, SRM/MM competitors, Copilots, Admins and TopCoder partners - each audience will have different interests and usages of the API, so it will be a huge project and we need to make sure that we are in the right direction from the beginning.</p>\n\n<p>Currently, we have run several contests to build the APIs and write tests for testing the APIs.&nbsp; All the tests can be found at https://github.com/cloudspokes/tc-api/tree/master/test</p>\n\n<p>Through these contests, we have found several problems for the tests part as following</p>\n\n<ol>\n\t<li>The tests are not properly named, we&#39;d like to follow the way like &#39;test.[api name].js&#39;, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> should be renamed to <u>test.register_member.js</u>.</span></li>\n\t<li>Some of the tests have to presetup the database manually, Some of the tests automically setup and clear the related database tables wisely.</li>\n\t<li>The tests can be passed if run separately, but failed when running togather.</li>\n</ol>\n\n<p>For this contest, we&#39;d like to improve and standarize the way to write tests, so it will be good for further addon and CI integration.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Competition Task Overview</span></h2>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /> <strong>Please raise questions as quick as you can, I am familiar with related database and code base, I can provide as much support as I can.</strong></span></span></p>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /></span><strong>The updated code must still deploy and work on heroku - any submission which can&#39;t be deployed on heroku successfully will be failed in screening phase - primary reviewer must check this.</strong></span></p>\n\n<p>The implementation will base on the node.js version of TC platform API - <span class=\"nobr\"><a href=\"https://github.com/cloudspokes/tc-api\" rel=\"nofollow\">https://github.com/cloudspokes/tc-api</a>.</span> <strong>Please follow the existing actionhero pattern for your development.</strong></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Clean State for Running Tests</span></h3>\n\n<p>Currently, some tests requires presetup the database, some tests automically setup and clear the related database tables.</p>\n\n<p>We&#39;d like to follow the approach to setup and clear the related database tables before and after running the tests.</p>\n\n<p>Currently, <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> used similar approach to setup the data before running tests. We&#39;d like to extra similar logic as utility methods, which can be used to execute a batch of sqls (for example, inside one file) or single sql against one database (Currently we can not do with multiple databases, due to the limitation of nodejs informix module).</span></p>\n\n<p>With this utility methods we can easily do setup and teardown databases.</p>\n\n<p><u>before, after, before each, after each hooks</u></p>\n\n<p>Utilize <code>before()</code>, <code>after()</code>, <code>beforeEach()</code>, <code>afterEach()</code>&nbsp; to setup the tests more wise. For detail information, please check http://visionmedia.github.io/mocha/</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Test Directory Restructure and Normalization</span></h3>\n\n<p>We&#39;d like to normalize the directory structure inside <a href=\"https://github.com/cloudspokes/tc-api/blob/master/test\">test</a> directory. Currently, it already gives good starting point, but we&#39;d like revise it as we are making the above changes. Here is the general rules to following</p>\n\n<ol>\n\t<li>All tests should be named like test.[api name].js, so normally, for each api, there should be separated test js files.</li>\n\t<li>All tests from contest winner, should be put directly under test directory.</li>\n\t<li>All reviewers tests should be put under corresponding directory under test directory, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory.</li>\n\t<li>All sql files used for tests presetup and teardown should be put under <u>sqls</u> directory, sqls files for accuray, failture, security tests, will be in different directory, directly under the <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory, like accuracy/sqls, failure/sqls etc.</li>\n\t<li>All other test related files will be still put under <u>test_files</u> directory.</li>\n</ol>\n\n<p><span style=\"color:#FF0000;\">If you have better idea and improvement to make the test directory well orginized, please suggest. This can be considered as improvement, reviewers and PMs will consider that.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Scope </span></h3>\n\n<p>All tests under test directory are in scope. If it tests didn&#39;t pass orignally, you should be responsible to fix that.</p>\n\n<p>The ultimate goal is we can run all tests or single test successfully. like</p>\n\n<p>Run a single test:&nbsp; <u>./node_modules/.bin/mocha ./test/test.tops.js</u></p>\n\n<p>Run all tests: <u>./node_modules/.bin/mocha ./test</u></p>\n\n<p>Following steps&nbsp; to run the tests.</p>\n\n<ol>\n\t<li>setup environment varibales: . deploy/development.sh</li>\n\t<li>start the local server: npm start</li>\n\t<li>run the tests: as above commands.</li>\n</ol>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Tests Creation Guide</span></h3>\n\n<p>Beside the above requirements for current tests normalization and improvement, we&#39;d like you to write a general guide which can be followed to further test creation. It just need to be easy to follow.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Testing</span></h3>\n\n<p><span style=\"font-size:12px;\">The API Framework supports tests. </span>Use <a href=\"https://github.com/visionmedia/supertest\">supertest</a> with <a href=\"http://visionmedia.github.io/mocha/\">mocha</a>. Don&#39;t install mocha globally.</p>\n\n<p><span style=\"color:#FF0000;\">you must use mocha BDD style (which is the default), within that, you can optionally use chai.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Code Format</span></h3>\n\n<p>All code must pass <a href=\"http://www.jslint.com/\">jslint</a>. You may use &quot;nomen: true&quot;.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Winner Only</span></h3>\n\n<p>Winner will create pull request against the main github repo in final fix phase and merge the code.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color:#FF0000;\">Virutal Machines (VMs)</span></h3>\n\n<p>VM specific information is found here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/docs/VM+Image+2.5\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/docs/VM+Image+2.5</a></span></p>\n\n<p>Upon registration as a submitter or reviewer you will need to request a VM based on the TopCoder systems image. The VM will be active through aggregation review, after which it will be terminated except for the winner&#39;s and the reviewers&#39;. To request your image, please post in contest forum.</p>\n\n<p>Before requesting your VM, you need to ensure that you have an SSH key created and in your member profile. Instructions to do so are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key</a></span>, and instructions to connect afterwards are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key</a></span>.</p>\n\n<p>Please realize that VMs are currently issued manually. We make every attempt to issue the VM as soon as it is requested, however, there may be delays of up to 12 hours depending on time of day when you request. We encourage everyone to request a VM as soon as possible to minimize any such delays.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Technology Overview</span></h2>\n\n<ul style=\"font-family: Arial, Helvetica, Verdana, sans-serif; font-size: 12px; line-height: 16px;\">\n\t<li>JavaScript</li>\n\t<li><span class=\"nobr\"><a href=\"http://nodejs.org/\" rel=\"nofollow\">Node.js 0.10.x</a></span></li>\n\t<li><a href=\"https://github.com/evantahler/actionHero\">actionhero.js framework</a></li>\n\t<li><a href=\"https://github.com/visionmedia/supertest\">supertest</a></li>\n\t<li><a href=\"http://visionmedia.github.io/mocha/\">mocha</a></li>\n</ul>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Documentation Provided</span></h2>\n\n<p>Please check the deployment guide in codebase for reference.</p>\n",
+          "finalSubmissionGuidelines": "<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Submission Deliverables</span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">A complete list of deliverables can be viewed in the TopCoder Assembly competition Tutorial at: </span><a href=\"http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials\">http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials</a></p>\n\n<p><span style=\"font-size:12px;\">Below is an overview of the deliverables:</span></p>\n\n<ul>\n\t<li>Source Code.</li>\n\t<li>Deployment guide to configure and verify the application.</li>\n\t<li>General Test Creation Guide</li>\n</ul>\n\n<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Final Submission </span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">For each member, the final submission should be uploaded to the Online Review Tool.</span></p>\n",
+          "screeningScorecardId": "30000412",
+          "reviewScorecardId": "30001470",
+          "cmcTaskId": "",
+          "numberOfCheckpointsPrizes": 0,
+          "topCheckPointPrize": "",
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "registrationEndDate": "2013-12-04T09:00:21.000Z",
+          "checkpointSubmissionEndDate": "-000001-11-30T00:00:00.000Z",
+          "submissionEndDate": "2013-12-06T21:20:56.000Z",
+          "appealsEndDate": "2013-12-09T07:05:33.000Z",
+          "finalFixEndDate": "2013-12-10T08:33:19.000Z",
+          "currentPhaseEndDate": "-000001-11-30T00:00:00.000Z",
+          "currentStatus": "Completed",
+          "currentPhaseName": "",
+          "currentPhaseRemainingTime": 0,
+          "digitalRunPoints": 360,
+          "reliabilityBonus": 160,
+          "challengeCommunity": "develop",
+          "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30036437",
+          "technology": [
+            "Java",
+            "MySQL"
+          ],
+          "prize": [
+            800,
+            400
+          ],
+          "registrants": [
+            {
+              "handle": "Luca",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:09:08.000Z"
+            },
+            {
+              "handle": "freegod",
+              "reliability": "40%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:27:46.000Z"
+            },
+            {
+              "handle": "Ghost_141",
+              "reliability": "53%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:31:53.000Z"
+            },
+            {
+              "handle": "Gando19850304",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T09:56:15.000Z"
+            },
+            {
+              "handle": "saarixx",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T10:19:36.000Z"
+            },
+            {
+              "handle": "moulyg",
+              "reliability": "30%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T10:21:05.000Z"
+            },
+            {
+              "handle": "DanLazar",
+              "reliability": "13%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T12:09:28.000Z"
+            },
+            {
+              "handle": "Schpotsky",
+              "reliability": "100%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T12:27:50.000Z"
+            },
+            {
+              "handle": "Fantoccini",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T19:21:55.000Z"
+            },
+            {
+              "handle": "Standlove",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T19:50:41.000Z"
+            },
+            {
+              "handle": "brain_cn",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T21:41:37.000Z"
+            },
+            {
+              "handle": "phead",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-02T21:44:32.000Z"
+            },
+            {
+              "handle": "alfiya_Zi",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T00:49:54.000Z"
+            },
+            {
+              "handle": "sunbinbrother",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T02:13:48.000Z"
+            },
+            {
+              "handle": "muzehyun",
+              "reliability": "0%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T03:15:31.000Z"
+            },
+            {
+              "handle": "KeSyren",
+              "reliability": "13%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T05:39:21.000Z"
+            },
+            {
+              "handle": "Sky_",
+              "reliability": "100%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T06:18:30.000Z"
+            },
+            {
+              "handle": "woodjhon",
+              "reliability": "6%",
+              "rating": 1234,
+              "registrationDate": "2013-12-03T07:19:29.000Z"
+            }
+          ],
+          "generalCheckpointFeedback": "This is general feedback from all competitors.",
+          "checkpoints": [
+            {
+              "submissionId": 162433,
+              "submitter": "t3uku",
+              "submissionTime": "2013-11-24T11:36:23.000Z",
+              "feedback": "This is the checkpoint feedback."
+            },
+            {
+              "submissionId": 162470,
+              "submitter": "CoralBlue",
+              "submissionTime": "2013-11-25T06:24:16.000Z",
+              "feedback": "This is the checkpoint feedback."
+            },
+          "submissions": [
+            {
+              "handle": "Sky_",
+              "placement": 1,
+              "screeningScore": 100,
+              "initialScore": 98.98,
+              "finalScore": 99.95,
+              "points": 360,
+              "submissionStatus": "Active",
+              "submissionDate": "2013-12-06T08:12:59.000Z"
+            },
+            {
+              "handle": "Sky_",
+              "placement": "",
+              "screeningScore": null,
+              "initialScore": null,
+              "finalScore": null,
+              "points": 0,
+              "submissionStatus": "Deleted",
+              "submissionDate": "2013-12-05T12:22:07.000Z"
+            }
+          ],
+          "numberOfRegistrants": 18,
+          "numberOfSubmissions": 2
         }
 
 + Response 400 (application/json)
@@ -962,14 +1385,16 @@ Register a new user.
 
 # Group Studio Contests
 
-## View Studio Contests [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### View Studio Contests [GET]
+## Search Studio Contests [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Search Studio Contests [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + listType (optional, string, `Open`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     
 + Response 200 (application/json)
@@ -981,30 +1406,60 @@ Register a new user.
             "data": 
             [
                 {
-                    "type": "Web Design",
-                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "startDate": "10.31.2013 10:10 EDT",
-                    "round1EndDate": "10.31.2013 10:10 EDT",
-                    "endDate": "10.31.2013 10:10 EDT",
-                    "timeLeft": "2 days",
-                    "prize": 1750,
-                    "points": 600,
-                    "registrants": 15,
-                    "submissions": 0,
-                    "cmc": "ab"
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 },
                 {
-                    "type": "Web Design",
-                    "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "startDate": "10.31.2013 10:10 EDT",
-                    "round1EndDate": "10.31.2013 10:10 EDT",
-                    "endDate": "10.31.2013 10:10 EDT",
-                    "timeLeft": "2 days",
-                    "prize": 1750,
-                    "points": 650,
-                    "registrants": 15,
-                    "submissions": 0,
-                    "cmc": "ab"
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
                 }
             ]
         }
@@ -1058,62 +1513,123 @@ Register a new user.
 + Response 200 (application/json)
 
         {
-            "type": "Web Design",
-            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-            "description": "Welcome to ¡°Cornell ¨C Responsive Storyboard Economics Site Redesign contest¡±. The goal of this contest  is to redesign look and feel for one of our college site departments (economics) using base design and customer feedback provided in this contest. There are two pages that needs to be redesigned a",
-            "prize":[1000, 250],
-            "milestone":
-            [
-                "prize": 100,
-                "number": 5
-            ]
-            "points": 500,
-            "nextDeadlineTime": "10.31.2013 10:10 EDT",
-            "nextDeadlineName": "Checkpoint Submission Deadline",
-            "cmc": "ab",
-            "checkpoints":
-            [
-                {
-                    "submissionId": 12345,
-                    "submitter": "iamtong",
-                    "submissionTime": "10.31.2013 10:10 EDT"
-                },
-                {
-                    "submissionId": 12345,
-                    "submitter": "iamtong",
-                    "submissionTime": "10.31.2013 10:10 EDT"
-                }
-            ]
-            "submissions":
-            [
-                {
-                    "submissionId": 12345,
-                    "submitter": "iamtong",
-                    "submissionTime": "10.31.2013 10:10 EDT"
-                },
-                {
-                    "submissionId": 12345,
-                    "submitter": "iamtong",
-                    "submissionTime": "10.31.2013 10:10 EDT"
-                }
-            ]    
-            "winners":
-            [
-                {
-                    "submissionId": 12345,
-                    "submitter": "iamtong",
-                    "submissionTime": "10.31.2013 10:10 EDT",
-                    "points": 50,
-                    "rank": 1
-                },
-                {
-                    "submissionId": 12345,
-                    "submitter": "iamtong",
-                    "submissionTime": "10.31.2013 10:10 EDT",
-                    "points": 50,
-                    "rank": 2
-                }
-            ]     
+          "challengeType": "Web Design",
+          "challengeName": "CS-TC Help Center Storyboard Design Contest",
+          "challengeId": 30036283,
+          "projectId": 6847,
+          "forumId": "4076",
+          "introduction": "This is the overview. It can contain HTML.",
+          "roundOneDetails": "Description for round 1.",
+          "roundTwoDetails": "Description for round 2.",
+          "detailedRequirements": "<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\">The main aim of this contest is to come up designs for the New CS-TC Help-Center, this<span style=\"color: rgb(33, 33, 33); line-height: 18px;\">&nbsp;large help-center which will cover help information for all sections which includes Design, Software, Data/Algorithms, Copilots/Reviewers, and </span></span></span><span style=\"font-size: 13px;\">TopCoder Universi</span><span style=\"font-size: 13px;\">ty</span><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color: rgb(33, 33, 33); line-height: 18px;\">.&nbsp;</span><span style=\"color: rgb(33, 33, 33); line-height: 18px;\">The Help Center will have its own wordpress theme and wordpress &quot;site&quot;.</span><br />\n<br />\n<span style=\"color: rgb(33, 33, 33); line-height: 18px;\">We recently ran a few design contests to create new site design for the TopCoder-Cloudspokes Community, in this contest - you will reuse many of the design elements to help us build a consistent design.</span><br />\n<br />\n<span style=\"color:#FF0000;\"><span style=\"line-height: 18px;\"><strong>IMPORTANT!! Design Considerations:</strong></span></span><br />\n<span style=\"color: rgb(33, 33, 33); line-height: 18px;\">- Please</span><span style=\"color: rgb(33, 33, 33); line-height: 18px;\">&nbsp;use&nbsp;the global header and navigation at the top and a global footer at the bottom from the attached storyboards<br />\n- Follow the color scheme as shown in the attached designs.<br />\n- Create icons whereever necessary, follow the design aesthetics from the attached designs.<br />\n- Continue the FLAT&nbsp;design trend shown in the New Designs<br />\n- You may reuse any designs from the attached Storyboards.</span><br />\n<span style=\"color:#FF0000;\"><span style=\"line-height: 18px;\">- We are looking for your help in&nbsp;designing the desktop view (1024 x 768) and mobile view (320 x 480)</span></span></span></span></p>\n\n<p><span style=\"color:#0066cc;\"><strong>General Requirements:&nbsp;</strong></span><br />\nBelow are some of the areas, where we would like to&nbsp;see your&nbsp;creativity by coming&nbsp;up with an out of the box solutions&hellip;</p>\n\n<p><strong>Navigation:&nbsp;</strong><br />\n- It will show &quot;Sections &gt; Topics &gt; Sub-Topics&quot;, please see the attached excel file to get an idea on what a section, topic could be.<br />\n<span style=\"font-size: 13px;\">- We would like the navigation for this help-center to be in a sidebar like shown in the wireframe</span><br />\n- We need consistent icons for each of the section, they are&nbsp;&quot;Design, Development, Data/Algorithms, Copilots/Reviewers and TopCoder University&quot;<br />\n<span style=\"color:#FF0000;\">- Please reuse the icons for Design, Development and Data/Algorithms from the attached designs</span><br />\n- Design the icons for Copilots/Reviewers and TopCoder University.<br />\n- Based on the wireframe, we are planning to show a smaller version of these section icons in the left side&nbsp;collpased view i.e. when a section is selected and a medium size above the Topics/Sub-topics list with the name of the section.<br />\n- Create the hover and selected styles for all these navigation links (Section, Topics, Sub-topics).<br />\n- Probably we will need a scroll bar to be&nbsp;shown in the Topics/Sub-topics navigation like shown in the wireframe - as this list could be long.<br />\n- You also need to think on how these should be planned for a mobile view?</p>\n\n<p><strong>Breadcrumbs:</strong><br />\n- Please show breadcrumbs in your designs, follow the wireframes for this.<br />\n- Please create the hover and selected style for this</p>\n\n<p><strong>Search:</strong><br />\n- We will need a prominent location for the search bar like shown in the wireframe.<br />\n- Search bar will shown in all pages within the help-center.<br />\n- Design this search bar, create search icon&nbsp;if needed.<br />\n<span style=\"font-family: Arial, Helvetica, Verdana, sans-serif; line-height: 16px;\">- Please place the following words inside the search bar: &quot;Search Help Center&quot;.</span><br />\n- Also, show your designs for the auto-suggest drop-down. (i.e. as a user types the text, they need to see matching topics in a drop-down).<br />\n<br />\n<span style=\"line-height: 1.6em;\"><strong>Support:&nbsp;</strong></span><br />\n<span style=\"line-height: 1.6em;\">- We need an Email Support link shown on all pages, like shown in the wireframe<br />\n-&nbsp;</span><span style=\"font-family: Arial, Helvetica, Verdana, sans-serif; line-height: 16px;\">Please use the following words for the support email area: &quot;Email Support Team&quot;.</span><br />\n<span style=\"line-height: 1.6em;\">- Please come up with better designs for this.</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><span style=\"line-height: 18px;\"><strong>Page Requirements</strong></span></span><br />\n<span style=\"color:#000000;\"><span style=\"line-height: 18px;\">Below&nbsp;are the required pages from the wireframe...</span></span></span></span><br />\n<br />\n<strong>Help Center Home:</strong><br />\nThis is main page in the help-center, it will be a gateway for the user to proceed to other sections of the help-center<br />\n- This page will play a very important role in the help-center.&nbsp;<br />\n- Please reduce the height of the slideshow a bit.<br />\n<span style=\"color:#000000;\">- We will have the colored bars with the icon and name of the section at the bottom of the slideshow - clicking on these will show the corresponding slide.&nbsp;<br />\n- Colored bars shown at the bottom of the slideshow&nbsp;need to have a Hover and Active styles<br />\n- FAQs will be a static area&nbsp;shown on the right side.</span><br />\n- Click on the &quot;More&quot; in &#39;Member Tips&quot; shown at the bottom, please design the member tips view.<br />\n- Please follow the wireframe for contents to be shown in this page.<br />\n<br />\n<strong>Section:</strong><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 18px;\">This New Help Center would contain mainly five sections to start with; they are Design, Development, Data/Algorithms, Copilots/Reviewers, and </span><span style=\"font-size: 13px;\">TopCoder Universi</span><span style=\"font-size: 13px;\">ty</span><span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 18px;\">.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 19.1875px;\">- You can reach the section landing page simply by clicking on the any of the section shown in the left.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; font-size: 13px; line-height: 19.1875px;\">- These sections would have their own landing page, follow the contents from the wireframe.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 19.1875px;\">- This page has a banner at the top, you may use a placeholder for it.<br />\n- This page shows contents in Grid and List view, please reuse the grid/list buttons from the attached designs.<br />\n- Please show your designs for grid and list views<br />\n<br />\n<strong>Topics:</strong><br />\n- Click on a &quot;Topic Name&quot; (example: In studio section, topics names are Competition Types, Tournaments etc..)&nbsp;from the left-side navigation to reach this page.<br />\n- This page shows Topic Summary at the top, since this will be consistent in all topic landing pages, please create a style to show the summary.<br />\n- Below the topic summary, we will list all the Sub-topics within that topic.<br />\n- Please remove the &quot;thumb image, username and date&quot; - its not required, just the sub-topic title and a few lines from it should be fine.<br />\n<br />\n<strong>Sub-Topics:</strong><br />\n- In the wireframe, from the topic landing page, click on any of the listed sub-topics to view the sub-topic page.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 18px;\">- These are the exact pages where a user would see the help information in the form of Articles, Videos, and Tutorials/Walkthroughs etc&hellip;<br />\n- Follow the wireframe for the contents<br />\n- These would contain &#39;Title&#39; and followed by &quot;Table of Contents&quot; at the top, these table of contents will mostly be used for the help contents in Software section - please come up with a design that highlishts these table of contents.<br />\n- At the bottom, we will have two columns 1)&nbsp;&quot;Related&quot; which will have a few links and 2) Resources - which will show few documents and a video thumbnail. How should these be shown?<br />\n<br />\n<strong>Search Results:</strong></span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 19.1875px;\">As mentioned earlier, a search bar is expected to be in all pages:<br />\n- Click on the magnifier icon in the search bar to see the results<br />\n- The top buttons shown in the search results are filters, how should these be shown in your designs?<br />\n- Follow the contents from the wireframe.</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><strong>Branding Guidelines</strong></span><br />\n- Please use the logo from the attached storyboard designs<br />\n- Please follow the colors from the attached designs.<br />\n- Please continue to use the Flat design concept&nbsp;</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong><span style=\"color:#0066cc;\">Target User</span></strong><br />\n<span style=\"color: rgb(33, 33, 33); line-height: 19.1875px;\">-Members, Copilots, Reviewers, Customers and CS-TC Admins</span></span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><strong>Judging Criteria</strong></span><br />\n- How well you create your designs based on the wireframes.<br />\n- Cleanliness of your graphics and design.<br />\n- Design looks and User Experience.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><strong>Submission &amp; Source Files</strong></span><br />\n<strong>Preview Image</strong><br />\nPlease create your preview image as one (1) 1024x1024px JPG or PNG file in RGB color mode at 72dpi and place a screenshot of your submission within it.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong>Submission File</strong><br />\nSubmit JPG/PNG for your submission files.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong>Source Files</strong><br />\nAll original source files of the submitted design. Files should be created in Adobe Photoshop and saved as layered PSD file.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong>Final Fixes</strong><br />\nAs part of the final fixes phase you may be asked to modify your graphics (sizes or colors) or modify overall colors. We may ask you to update your design or graphics based on other winning placements.</span></span></p>\n",
+          "screeningScorecardId": "30001363",
+          "reviewScorecardId": "30001031",
+          "cmcTaskId": "",
+          "numberOfCheckpointsPrizes": 5,
+          "topCheckPointPrize": "100",
+          "postingDate": "2013-11-20T22:36:15.000Z",
+          "registrationEndDate": "2013-11-27T06:54:05.000Z",
+          "checkpointSubmissionEndDate": "2013-11-25T06:30:16.000Z",
+          "submissionEndDate": "2013-11-27T06:54:09.000Z",
+          "appealsEndDate": "2013-11-27T23:44:18.000Z",
+          "finalFixEndDate": "2013-11-27T23:44:18.000Z",
+          "submissionLimit": "3",
+          "sourceFileTypes": [
+            {
+                "extension": "psd",
+                "description": "Adobe Photoshop"
+            },
+            {
+                "extension": "ai",
+                "description": "Adobe Illustrator"
+            }
+          ],
+          "submissionsViewable": "true",
+          "downloads": [
+            {
+                "docId": 12345678,
+                "name": "design_guide.pdf",
+                "description": "Standard Design Guide"
+            },
+            {
+                "docId": 87654321,
+                "name": "sample.doc",
+                "description": "Sample of what we want."
+            }
+          ],
+          "currentPhaseEndDate": "-000001-11-30T00:00:00.000Z",
+          "currentStatus": "Completed",
+          "currentPhaseName": "",
+          "currentPhaseRemainingTime": 0,
+          "digitalRunPoints": 625,
+          "challengeCommunity": "design",
+          "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30036283",
+          "prize": [
+            1500,
+            500
+          ],
+          "generalCheckpointFeedback": "This is general feedback from all competitors.",
+          "checkpoints": [
+            {
+              "submissionId": 162433,
+              "submitter": "t3uku",
+              "submissionTime": "2013-11-24T11:36:23.000Z",
+              "feedback": "This is the checkpoint feedback.",
+              "totalImages": 18
+            },
+            {
+              "submissionId": 162470,
+              "submitter": "CoralBlue",
+              "submissionTime": "2013-11-25T06:24:16.000Z",
+              "feedback": "This is the checkpoint feedback.",
+              "totalImages": 18
+            },
+            {
+              "submissionId": 162464,
+              "submitter": "thinkcreeper",
+              "submissionTime": "2013-11-25T02:36:01.000Z",
+              "feedback": "This is the checkpoint feedback.",
+              "totalImages": 18
+            }
+          ],
+          "submissions": [
+            {
+              "submissionId": 162533,
+              "submitter": "t3uku",
+              "submissionTime": "2013-11-26T22:14:01.000Z",
+              "totalImages": 18
+            },
+            {
+              "submissionId": 162559,
+              "submitter": "CoralBlue",
+              "submissionTime": "2013-11-27T06:46:15.000Z",
+              "totalImages": 18
+            },
+            {
+              "submissionId": 162555,
+              "submitter": "thinkcreeper",
+              "submissionTime": "2013-11-27T05:11:19.000Z",
+              "totalImages": 18
+            }
+          ],
+          "winners": [
+            {
+              "submissionId": 162555,
+              "submitter": "thinkcreeper",
+              "submissionTime": "2013-11-27T05:11:19.000Z",
+              "totalImages": 18,
+              "placement": 1,
+              "prize": "1500"
+            },
+            {
+              "submissionId": 162111,
+              "submitter": "iamtong",
+              "submissionTime": "2013-11-26T05:11:19.000Z",
+              "totalImages": 14,
+              "placement": 2,
+              "prize": "600"
+            }
+          ]
         }
 
 + Response 400 (application/json)
@@ -1148,8 +1664,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Review Oppertunities [/design/reviewOpportunities]
-### Get Review Oppertunities [GET]
+## Review Opportunities [/design/reviewOpportunities]
+### Get Review Opportunities [GET]
 
 + Response 200 (application/json)
 
@@ -1206,8 +1722,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Review Oppertunity Detail [/design/reviewOpportunities/{id}]
-### Get Review Oppertunity Information [GET]
+## Get Review Opportunity Detail [/design/reviewOpportunities/{id}]
+### Get Review Opportunity Information [GET]
 
 + Parameters
 
@@ -1373,7 +1889,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Studio Member Statistics [/design/statistics/{handle}]
+## Studio Member Statistics [/users/{handle}/statistics/design]
 ### Studio Member Statistics [GET]
 
 + Parameters
@@ -1383,11 +1899,6 @@ Register a new user.
 
         {
             "handle": "iRabbit",
-            "Achievements":
-            [
-                "Five Rated Algorithm Competition",
-                "Twenty-Five Rated Algorithm Competition",
-            ],
             "Tracks":
             {
                 "Web Design":
@@ -1900,6 +2411,7 @@ Register a new user.
             "roundId": 15678,
             "fullName": "SensorFusion2",
             "shortName": "SensorFusion2",
+            "description": "This is the full description.",
             "numberOfRegistrants": 295,
             "numberOfSubmissions": 215,
             "numberOfCompetitors": 32,
@@ -2121,7 +2633,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Algorithm Member Marathon Statistics [/data/marathon/statistics/{handle}]
+## Algorithm Member Marathon Statistics [/users/{handle}/statistics/data/marathon]
 ### Algorithm Member Marathon Statistics [GET]
 
 + Parameters
@@ -2150,11 +2662,6 @@ Register a new user.
             "avgRank": 107.08,
             "avgNumSubmissions": 4,62,
             "competitions": 13,
-            "achievements":
-            [
-                "Five Rated Algorithm Competition",
-                "Twenty-Five Rated Algorithm Competition",
-            ],
             "history":
             [
                 {
@@ -2220,7 +2727,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Algorithm Member SRM Statistics [/data/srm/statistics/{handle}]
+## Algorithm Member SRM Statistics [/users/{handle}/statistics/data/srm]
 ### Algorithm Member SRM Statistics [GET]
 
 + Parameters
@@ -2242,11 +2749,6 @@ Register a new user.
             "competitions": 29,
             "mostRecentEventName": "SRM 441",
             "mostRecentEventDate": "05.27.09",
-            "Achievements":
-            [
-                "Five Rated Algorithm Competition",
-                "Twenty-Five Rated Algorithm Competition",
-            ]
             "Divisions":
             {
                 "Division I":
@@ -2606,3 +3108,78 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Countries Collection [/data/countries]
+### List of countries [GET]
+
++ Parameters
+    + None
+
++ Response 200 (application/json)
+
+        [
+            {
+              "countryCode": "004",
+              "countryName": "Afghanistan",
+              "modifyDate": "2003-01-06T16:06:26.000Z",
+              "participating": 1,
+              "default_taxform_id": 2,
+              "longitude": 65.917969,
+              "latitude": 34.089061,
+              "region": "null"
+            },
+            {
+              "countryCode": "005",
+              "countryName": "Angola",
+              "modifyDate": "2003-01-06T16:06:26.000Z",
+              "participating": 1,
+              "default_taxform_id": 2,
+              "longitude": 65.917969,
+              "latitude": 34.089061,
+              "region": "null"
+            },
+            {
+              "countryCode": "006",
+              "countryName": "United States",
+              "modifyDate": "2003-01-06T16:06:26.000Z",
+              "participating": 1,
+              "default_taxform_id": 2,
+              "longitude": 65.917969,
+              "latitude": 34.089061,
+              "region": "null"
+            }
+        ]
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+

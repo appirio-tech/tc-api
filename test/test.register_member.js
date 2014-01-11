@@ -18,7 +18,6 @@
 var fs = require('fs');
 var supertest = require('supertest');
 var assert = require('chai').assert;
-var bindings = require("nodejs-db-informix");
 var async = require("async");
 var bcrypt = require('bcrypt');
 var testHelper = require('./helpers/testHelper');
@@ -72,7 +71,7 @@ describe('Test Register Member API', function () {
             expected = JSON.parse(text);
 
         supertest(API_ENDPOINT)
-            .post('/v2/develop/users').set('Accept', 'application/json')
+            .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: ' ', lastName: ' ', handle: ' ', email: ' ', password: '123456', country: ' ' })
             .expect('Content-Type', /json/)
             .expect(400)
@@ -91,7 +90,7 @@ describe('Test Register Member API', function () {
             expected = JSON.parse(text);
 
         supertest(API_ENDPOINT)
-            .post('/v2/develop/users').set('Accept', 'application/json')
+            .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: 'foooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo', lastName: 'DELETE * FROM USER', handle: '_(#@*$', email: 'foofoo4foobar.com', password: '123456', country: 'xxx', socialProviderId: 1, socialUserName: "foo  DROP TABLE bar", socialEmail: "foobarfoobar.com", socialEmailVerified: 'xxx' })
             .expect('Content-Type', /json/)
             .expect(400)
@@ -109,7 +108,7 @@ describe('Test Register Member API', function () {
             expected = JSON.parse(text);
 
         supertest(API_ENDPOINT)
-            .post('/v2/develop/users').set('Accept', 'application/json')
+            .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: 'foo', lastName: 'bar', handle: '1invalidHandle1', email: 'testHandleFoobar@foobar.com', password: '123456', country: 'Angola', socialProviderId: 999, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't' })
             .expect('Content-Type', /json/)
             .expect(400)
@@ -174,7 +173,7 @@ describe('Test Register Member API', function () {
             expected = JSON.parse(text);
 
         supertest(API_ENDPOINT)
-            .post('/v2/develop/users').set('Accept', 'application/json')
+            .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Angola', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't' })
             .expect('Content-Type', /json/)
             .expect(200)
@@ -194,7 +193,7 @@ describe('Test Register Member API', function () {
             expected = JSON.parse(text);
 
         supertest(API_ENDPOINT)
-            .post('/v2/develop/users').set('Accept', 'application/json')
+            .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Angola', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't' })
             .expect('Content-Type', /json/)
             .expect(400)
@@ -209,7 +208,7 @@ describe('Test Register Member API', function () {
     /// Check if the data are in expected struture and data
     it('should send email', function (done) {
         supertest(API_ENDPOINT)
-            .post('/v2/develop/users').set('Accept', 'application/json')
+            .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: 'foo', lastName: 'bar', handle: 'testForEmail', email: 'testForEmail@foobar.com', password: '123456', country: 'Angola' })
             .expect('Content-Type', /json/)
             .expect(200)

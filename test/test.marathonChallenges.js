@@ -43,7 +43,7 @@ describe('Get Marathon Challenges API', function () {
 
 
     /**
-     * This function is run after each test case.
+     * This function is run after each all test cases.
      * Clean up all data.
      * @param {Function<err>} done the callback
      */
@@ -52,6 +52,8 @@ describe('Get Marathon Challenges API', function () {
     });
 
 
+    
+    
     describe("Search Contests", function () {
         /**
          * This function is run before all tests.
@@ -725,12 +727,12 @@ describe('Get Marathon Challenges API', function () {
         /**
          * /v2/data/marathon/challenges?pageIndex=100&pageSize=100
          */
-        it("should return error 404 when no results returned", function (done) {
+        it("should return empty result when no results returned", function (done) {
             request(API_ENDPOINT)
                 .get('/v2/data/marathon/challenges?pageIndex=100&pageSize=100')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
-                .expect(404)
+                .expect(200)
                 .end(done);
         });
 

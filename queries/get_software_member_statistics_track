@@ -3,26 +3,18 @@ SELECT DISTINCT(c.coder_id)
      , sub_info.category_name AS category_name
      , sub_info.phase_id - 111 AS category_id
      , NVL(ur.rating, 0.0) AS rating
-     , NVL(rank.percentile, 0) AS percentile
-     , NVL(rank.rank, 0) AS rank
-     , NVL(cur.rank, 0) AS country_rank
-     , NVL(sur.rank, 0) AS school_rank
+     , NVL(activeRank.percentile, 0) AS active_percentile
+     , NVL(activeRank.rank, 0) AS active_rank
+     , NVL(activeCR.rank, 0) AS active_country_rank
+     , NVL(activeSUR.rank, 0) AS active_school_rank
+     , NVL(overallRank.percentile, 0) AS overall_percentile
+     , NVL(overallRank.rank, 0) AS overall_rank
+     , NVL(overallCR.rank, 0) AS overall_country_rank
+     , NVL(overallSUR.rank, 0) AS overall_school_rank
      , NVL(ur.vol, 0) AS vol
      , sub_info.count AS num_ratings -- used for both inquiries and competitions info field
-     , (SELECT NVL(max(new_rating), 0)
-          FROM tcs_dw:project_result mx
-             , tcs_dw:project mx1
-         WHERE mx1.project_id = mx.project_id
-           AND mx1.phase_id = ur.phase_id
-           AND user_id = ur.user_id
-           AND new_rating > 0) AS max_rating
-     , (SELECT NVL(min(new_rating), 0)
-          FROM tcs_dw:project_result mx
-             , tcs_dw:project mx1
-         WHERE mx1.project_id = mx.project_id
-           AND mx1.phase_id = ur.phase_id
-           AND user_id = ur.user_id
-           AND new_rating > 0) AS min_rating
+     , NVL(rating_info.max_rating, 0) AS max_rating
+     , NVL(rating_info.min_rating, 0) AS min_rating
      , sub_info.submissions
      , sub_info.submission_rate
      , sub_info.passed_screening
@@ -38,9 +30,12 @@ SELECT DISTINCT(c.coder_id)
      , sub_info.wins
      , sub_info.win_percent
   FROM tcs_dw:user_rating ur
-      LEFT OUTER JOIN tcs_dw:user_rank rank ON rank.phase_id = ur.phase_id AND rank.user_id = ur.user_id AND rank.user_rank_type_id = 2
-      LEFT OUTER JOIN  tcs_dw:country_user_rank cur ON cur.phase_id = ur.phase_id AND cur.user_id = ur.user_id AND cur.user_rank_type_id = 2
-      LEFT OUTER JOIN  tcs_dw:school_user_rank sur ON sur.phase_id = ur.phase_id AND sur.user_id = ur.user_id AND sur.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:user_rank activeRank ON activeRank.phase_id = ur.phase_id AND activeRank.user_id = ur.user_id AND activeRank.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:country_user_rank activeCR ON activeCR.phase_id = ur.phase_id AND activeCR.user_id = ur.user_id AND activeCR.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:school_user_rank activeSUR ON activeSUR.phase_id = ur.phase_id AND activeSUR.user_id = ur.user_id AND activeSUR.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:user_rank overallRank ON overallRank.phase_id = ur.phase_id AND overallRank.user_id = ur.user_id AND overallRank.user_rank_type_id = 1
+      LEFT OUTER JOIN tcs_dw:country_user_rank overallCR ON overallCR.phase_id = ur.phase_id AND overallCR.user_id = ur.user_id AND overallCR.user_rank_type_id = 1
+      LEFT OUTER JOIN tcs_dw:school_user_rank overallSUR ON overallSUR.phase_id = ur.phase_id AND overallSUR.user_id = ur.user_id AND overallSUR.user_rank_type_id = 1
       JOIN (
         SELECT 
                p.phase_id AS phase_id
@@ -65,11 +60,25 @@ SELECT DISTINCT(c.coder_id)
         WHERE pr.user_id = cc.coder_id
         AND p.project_id = pr.project_id
         AND p.status_id in (4,5,7,8)
-        AND LOWER(cc.handle) = LOWER('@ha@')
+        AND LOWER(cc.handle) = LOWER('@handle@')
+        AND p.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
         GROUP BY p.phase_id, p.phase_desc
       ) sub_info ON sub_info.phase_id = ur.phase_id
+      LEFT JOIN (
+        SELECT
+          p.phase_id AS phase_id
+        , max(new_rating) AS max_rating
+        , min(new_rating) AS min_rating
+        FROM tcs_dw:project_result pr, tcs_dw:project p, coder cc
+        WHERE pr.user_id = cc.coder_id
+        AND p.project_id = pr.project_id
+        AND p.status_id in (4,5,7,8)
+        AND LOWER(cc.handle) = LOWER('@handle@')
+        AND p.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
+        AND new_rating > 0
+        GROUP BY p.phase_id
+      ) rating_info ON rating_info.phase_id = ur.phase_id
      , coder AS c
  WHERE ur.user_id = c.coder_id
    AND ur.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
-   AND LOWER(c.handle)= LOWER('@ha@')
-
+   AND LOWER(c.handle)= LOWER('@handle@')

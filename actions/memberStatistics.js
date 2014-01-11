@@ -6,9 +6,11 @@
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
- * - implement studio and sofware statistics
+ * - implement studio and software statistics
  * changes in 1.3:
  * - implement srm (Algorithm) statistics
+ * changes in 1.4:
+ * - Update the checkUserExists function since the query has been standardized.
  */
 "use strict";
 var async = require('async');
@@ -30,7 +32,7 @@ function checkUserExists(handle, api, dbConnectionMap, callback) {
             callback(err);
             return;
         }
-        if (result && result[0] && result[0].handleexist !== 0) {
+        if (result && result[0] && result[0].handle_exist !== 0) {
             callback();
         } else {
             callback(new NotFoundError("User does not exist."));
@@ -60,38 +62,27 @@ exports.getMarathonStatistics = {
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                ha: handle
+                handle: handle
             },
             result;
         if (!this.dbConnectionMap) {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = { message: "No connection object." };
-            next(connection, true);
+            helper.handleNoConnection(api, connection, next);
             return;
         }
         async.waterfall([
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
-                var execQuery = function (name) {
-                    return function (cbx) {
-                        api.dataAccess.executeQuery("get_member_marathon_" + name,
-                            sqlParams,
-                            dbConnectionMap,
-                            cbx);
-                    };
-                };
-                async.parallel({
-                    achievements: execQuery("statistics_achievement"),
-                    basic: execQuery("statistics")
-                }, cb);
+                api.dataAccess.executeQuery("get_member_marathon_statistics",
+                    sqlParams,
+                    dbConnectionMap,
+                    cb);
             }, function (results, cb) {
-                if (results.basic.length === 0) {
+                if (results.length === 0) {
                     cb(new NotFoundError('statistics not found'));
                     return;
                 }
-                var details = results.basic[0];
+                var details = results[0];
                 result = {
                     "handle": details.handle,
                     "rating": details.rating,
@@ -111,10 +102,7 @@ exports.getMarathonStatistics = {
                     "topFiveFinishes": details.top_five_finishes,
                     "topTenFinishes": details.top_ten_finishes,
                     "avgRank": details.avg_rank,
-                    "avgNumSubmissions": details.avg_num_submissions,
-                    "achievements": _.map(results.achievements, function (a) {
-                        return a.achievement_name;
-                    })
+                    "avgNumSubmissions": details.avg_num_submissions
                 };
                 cb();
             }
@@ -152,18 +140,14 @@ exports.getSoftwareStatistics = {
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                ha: handle
+                handle: handle
             },
             result = {
                 handle: handle,
-                Achievements: [],
                 Tracks: {}
             };
         if (!this.dbConnectionMap) {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = { message: "No connection object." };
-            next(connection, true);
+            helper.handleNoConnection(api, connection, next);
             return;
         }
         async.waterfall([
@@ -177,9 +161,6 @@ exports.getSoftwareStatistics = {
                         cbx);
                 };
                 async.parallel({
-                    achievements: function (cbx) {
-                        execQuery("get_software_member_statistics_achievements", cbx);
-                    },
                     tracks: function (cbx) {
                         execQuery("get_software_member_statistics_track", cbx);
                     },
@@ -188,19 +169,20 @@ exports.getSoftwareStatistics = {
                     }
                 }, cb);
             }, function (results, cb) {
-                results.achievements.forEach(function (item) {
-                    result.Achievements.push(item.description);
-                });
                 var round2 = function (n) {
                     return Math.round(n * 100) / 100;
                 };
                 results.tracks.forEach(function (track) {
                     result.Tracks[track.category_name] = {
                         rating: track.rating,
-                        percentile: track.percentile.toFixed(2) + "%",
-                        rank: track.rank,
-                        countryRank: track.country_rank,
-                        schoolRank: track.school_rank,
+                        activePercentile: track.active_percentile.toFixed(2) + "%",
+                        activeRank: track.active_rank,
+                        activeCountryRank: track.active_country_rank,
+                        activeSchoolRank: track.active_school_rank,
+                        overallPercentile: track.overall_percentile.toFixed(2) + "%",
+                        overallRank: track.overall_rank,
+                        overallCountryRank: track.overall_country_rank,
+                        overallSchoolRank: track.overall_school_rank,
                         volatility: track.vol,
                         competitions: track.num_ratings,
                         maximumRating: track.max_rating,
@@ -277,18 +259,14 @@ exports.getStudioStatistics = {
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                ha: handle
+                handle: handle
             },
             result = {
                 handle: handle,
-                Achievements: [],
                 Tracks: {}
             };
         if (!this.dbConnectionMap) {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = { message: "No connection object." };
-            next(connection, true);
+            helper.handleNoConnection(api, connection, next);
             return;
         }
 
@@ -303,9 +281,6 @@ exports.getStudioStatistics = {
                         cbx);
                 };
                 async.parallel({
-                    achievements: function (cbx) {
-                        execQuery("get_studio_member_statistics_achievements", cbx);
-                    },
                     tracks: function (cbx) {
                         execQuery("get_studio_member_statistics_track", cbx);
                     },
@@ -314,9 +289,6 @@ exports.getStudioStatistics = {
                     }
                 }, cb);
             }, function (results, cb) {
-                results.achievements.forEach(function (item) {
-                    result.Achievements.push(item.user_achievement_name);
-                });
                 results.tracks.forEach(function (track) {
                     result.Tracks[track.category_name] = {
                         numberOfSubmissions: track.submissions,
@@ -371,7 +343,7 @@ exports.getAlgorithmStatistics = {
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                ha: handle
+                handle: handle
             },
             result;
         if (!this.dbConnectionMap) {
@@ -391,7 +363,6 @@ exports.getAlgorithmStatistics = {
                     };
                 };
                 async.parallel({
-                    achievements: execQuery("achievements"),
                     basic: execQuery("basic"),
                     challenges: execQuery("challenges"),
                     div1: execQuery("division_1"),
@@ -412,28 +383,28 @@ exports.getAlgorithmStatistics = {
                     mapLevel = function (ele) {
                         return {
                             "submitted": ele.submitted,
-                            "failedChallenge": ele.failedchallenge,
-                            "failedSys.Test": ele.failedsystest,
-                            "success%": getSuccess(ele.failedchallenge + ele.failedsystest, ele.submitted)
+                            "failedChallenge": ele.failed_challenge,
+                            "failedSys.Test": ele.failed_sys_test,
+                            "success%": getSuccess(ele.failed_challenge + ele.failed_sys_test, ele.submitted)
                         };
                     },
                     mapChallenge = function (ele) {
                         return {
-                            "failedChallenge": ele.failedchallenge,
+                            "failedChallenge": ele.failed_challenge,
                             "challenges": ele.challenges,
-                            "success%": getSuccess(ele.failedchallenge, ele.challenges)
+                            "success%": getSuccess(ele.failed_challenge, ele.challenges)
                         };
                     },
                     createTotal = function (total, level) {
                         total.submitted = total.submitted + level.submitted;
-                        total.failedChallenge = total.failedChallenge + level.failedchallenge;
-                        total["failedSys.Test"] = total["failedSys.Test"] + level.failedsystest;
+                        total.failedChallenge = total.failedChallenge + level.failed_challenge;
+                        total["failedSys.Test"] = total["failedSys.Test"] + level.failed_sys_test;
                         total["success%"] = getSuccess(total.failedChallenge +
                             total["failedSys.Test"], total.submitted);
                         return total;
                     },
                     createTotalChallenge = function (total, level) {
-                        total.failedChallenge = total.failedChallenge + level.failedchallenge;
+                        total.failedChallenge = total.failedChallenge + level.failed_challenge;
                         total.challenges = total.challenges + level.challenges;
                         total["success%"] = getSuccess(total.failedChallenge, total.challenges);
                         return total;
@@ -443,18 +414,15 @@ exports.getAlgorithmStatistics = {
                     rating: details.rating,
                     percentile: details.percentile + (details.percentile === "N/A" ? "" : "%"),
                     rank: details.rank || "not ranked",
-                    countryRank: details.countryrank || "not ranked",
-                    schoolRank: details.schoolrank || "not ranked",
+                    countryRank: details.country_rank || "not ranked",
+                    schoolRank: details.school_rank || "not ranked",
                     volatility: details.volatility,
-                    maximumRating: details.maximumrating,
-                    minimumRating: details.minimumrating,
-                    defaultLanguage: details.defaultlanguage,
+                    maximumRating: details.maximum_rating,
+                    minimumRating: details.minimum_rating,
+                    defaultLanguage: details.default_language,
                     competitions: details.competitions,
-                    mostRecentEventName: details.mostrecenteventname,
-                    mostRecentEventDate: details.mostrecenteventdate.toString("MM.dd.yy"),
-                    Achievements: _.map(results.achievements, function (ele) {
-                        return ele.description;
-                    }),
+                    mostRecentEventName: details.most_recent_event_name,
+                    mostRecentEventDate: details.most_recent_event_date.toString("MM.dd.yy"),
                     Divisions: {
                         "Division I": {},
                         "Division II": {}
@@ -464,10 +432,10 @@ exports.getAlgorithmStatistics = {
                     }
                 };
                 results.div1.forEach(function (ele) {
-                    result.Divisions["Division I"][ele.levelname] = mapLevel(ele);
+                    result.Divisions["Division I"][ele.level_name] = mapLevel(ele);
                 });
                 results.div2.forEach(function (ele) {
-                    result.Divisions["Division II"][ele.levelname] = mapLevel(ele);
+                    result.Divisions["Division II"][ele.level_name] = mapLevel(ele);
                 });
                 result.Divisions["Division I"]["Level Total"] = _.reduce(results.div1, createTotal, {
                     "submitted": 0,
@@ -482,7 +450,7 @@ exports.getAlgorithmStatistics = {
                     "success%": "0.00%"
                 });
                 results.challenges.forEach(function (ele) {
-                    result.Challenges.Levels[ele.levelname] = mapChallenge(ele);
+                    result.Challenges.Levels[ele.level_name] = mapChallenge(ele);
                 });
                 result.Challenges.Levels.Total = _.reduce(results.challenges, createTotalChallenge, {
                     "failedChallenge": 0,

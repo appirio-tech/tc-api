@@ -23,7 +23,15 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
-            connection.response = result;
+            var data = result[0];
+            connection.response = {
+                activeContestsCount: data.active_contests_count,
+                activeMembersCount: data.active_members_count,
+                memberCount: data.member_count,
+                activeProjectsCount: data.active_projects_count,
+                completedProjectCount: data.completed_projects_count,
+                prizePurse: data.prize_purse
+            };
             next(connection, true);
         }
 
@@ -33,7 +41,7 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
 /**
  * The API for getting TC Direct Facts
  */
-exports.action= {
+exports.action = {
     name : "tcDirectFacts",
     description : "tcDirectFacts",
     inputs : {
@@ -47,13 +55,10 @@ exports.action= {
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute contestTypes#run", 'debug');
+            api.log("Execute tcDirectFacts#run", 'debug');
             getTcDirectFacts(api, connection, this.dbConnectionMap, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };
