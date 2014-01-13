@@ -202,8 +202,6 @@ exports.dataAccess = function (api, next) {
                 "timeout" : parseInt(process.env.TIMEOUT, 10) || DEFAULT_TIMEOUT
             };
 
-            console.log('Settings for ' + dbServerPrefix + ': ' + JSON.stringify(settings));
-
             return new Jdbc(settings, api.log);
         },
 
