@@ -27,7 +27,8 @@
         "bignum": "*",
         "java": "~0.2.9",           
         "informix-wrapper": "~0.1.0",
-        "asn1": "*"
+        "asn1": "*",
+        "jsonwebtoken": "*"
     },
     "devDependencies": {
         "supertest": "~0.8.0",

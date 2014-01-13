@@ -1,0 +1,6 @@
+SELECT COUNT(*) AS count
+FROM user_role_xref x, user u, security_roles sr
+WHERE x.login_id = u.user_id AND
+x.role_id = sr.role_id AND
+sr.description = 'group_Admin' AND
+u.user_id = @user_id@

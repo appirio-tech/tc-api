@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  */
 
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141
- * @version 1.4
+ * @version 1.5
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -15,7 +15,10 @@
  * changes in 1.4:
  * - add software and studio contest type object.
  * - add function to get direct project link for a contest.
-*/
+ * changes in 1.5:
+ * - add socialProviders and getProviderId
+ * - fix creating optional function for validation (to pass js lint)
+ */
 "use strict";
 
 var async = require('async');
@@ -157,7 +160,6 @@ helper.checkArray = function (obj, objName, allowEmpty) {
     }
     return null;
 };
-
 
 
 /**
@@ -438,7 +440,6 @@ helper.apiCodes = {
 };
 
 
-
 /**
  * Handle error, set http code and error details to response
  * @param {Object} api - The api object that is used to access the global infrastructure
@@ -529,12 +530,58 @@ helper.getSortColumnDBName = function (apiName) {
     return apiName;
 };
 
+
 /**
-* Expose the "helper" utility.
-*
-* @param {Object} api The api object that is used to access the infrastructure
-* @param {Function<err>} next The callback function to be called when everything is done
-*/
+ * Social providers map to database id
+ */
+helper.socialProviders = {
+    "facebook": 1,
+    "google": 2,
+    "twitter": 3,
+    "github": 4,
+    "salesforce": 5,
+    "ad": 50
+};
+
+/**
+ * Retrieve provider information from the provider name.
+ *
+ * @param {String} provider the provider provided by Auth0.
+ * @param {Function<err, providerId>} callback the callback function
+ */
+helper.getProviderId = function (provider, callback) {
+    var providerId;
+    if (provider.startsWith("facebook")) {
+        providerId = helper.socialProviders.facebook;
+    }
+    if (provider.startsWith("google")) {
+        providerId = helper.socialProviders.google;
+    }
+    if (provider.startsWith("twitter")) {
+        providerId = helper.socialProviders.twitter;
+    }
+    if (provider.startsWith("github")) {
+        providerId = helper.socialProviders.github;
+    }
+    if (provider.startsWith("salesforce")) {
+        providerId = helper.socialProviders.salesforce;
+    }
+    if (provider.startsWith("ad")) {
+        providerId = helper.socialProviders.ad;
+    }
+    if (providerId) {
+        callback(null, providerId);
+    } else {
+        callback(new Error('Social provider: ' + provider + ' is not defined in config'));
+    }
+};
+
+/**
+ * Expose the "helper" utility.
+ *
+ * @param {Object} api The api object that is used to access the infrastructure
+ * @param {Function<err>} next The callback function to be called when everything is done
+ */
 exports.helper = function (api, next) {
     api.helper = helper;
     helper.api = api;
@@ -564,21 +611,26 @@ exports.helper = function (api, next) {
     });
 
     /**
+     * Create optional version for given function
+     * @param {String} funName the function name
+     */
+    function createOptionalFunction(funName) {
+        if (/^check/.test(funName) && _.isFunction(helper[funName])) {
+            helper[funName + "Optional"] = function (val) {
+                if (!_.isDefined(val)) {
+                    return null;
+                }
+                return helper[funName].apply(this, arguments);
+            };
+        }
+    }
+    var prop;
+    /**
      * Create optional validation
      */
-    var prop;
     for (prop in helper) {
         if (helper.hasOwnProperty(prop)) {
-            (function (p) {
-                if (/^check/.test(p) && _.isFunction(helper[p])) {
-                    helper[prop + "Optional"] = function () {
-                        if (!_.isDefined(arguments[0])) {
-                            return null;
-                        }
-                        return helper[p].apply(this, arguments);
-                    };
-                }
-            })(prop);
+            createOptionalFunction(prop);
         }
     }
 

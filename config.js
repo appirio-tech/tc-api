@@ -1,10 +1,12 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author vangavroche, TCSASSEMBLER
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
+ * changes in 1.2:
+ * - add oauthClientId and oauthClientSecret parameter
  */
 "use strict";
 
@@ -41,9 +43,12 @@ configData.general = {
         "pid" : __dirname + "/pids",
         "log" : __dirname + "/log",
         "server" : __dirname + "/servers",
-        "initializer" : __dirname + "/initializers",
+        "initializer" : __dirname + "/initializers"
     },
-    defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30 //30 min default
+    defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
+    oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
+    //auth0 secret is encoded in base64!
+    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64')
 };
 
 /////////////
@@ -92,7 +97,7 @@ configData.redis = {
     port : process.env.REDIS_PORT || 6379,
     password : null,
     options : null,
-    DB : 0,
+    DB : 0
 };
 
 //////////
@@ -102,7 +107,7 @@ configData.redis = {
 configData.faye = {
     mount : "/faye",
     timeout : 45,
-    ping : null,
+    ping : null
 };
 
 /////////////
@@ -142,7 +147,7 @@ configData.servers = {
     //   bindIP: "0.0.0.0",                    // which IP to listen on (use 0.0.0.0 for all)
     // },
     "websocket" : {
-    },
+    }
 };
 
 /**
@@ -154,7 +159,7 @@ configData.databaseMapping = {
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW"
-}
+};
 
 //////////////////////////////////
 
