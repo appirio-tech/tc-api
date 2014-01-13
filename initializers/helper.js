@@ -23,6 +23,7 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var helper = {};
+var crypto = require( "crypto" );
 
 /**
  * software type.
@@ -528,6 +529,44 @@ helper.getSortColumnDBName = function (apiName) {
     }
     return apiName;
 };
+
+/**
+ * Encrypt the password using the specified key. After being
+ * encrypted with a Blowfish key, the encrypted byte array is
+ * then encoded with a base 64 encoding, resulting in the String
+ * that is returned.
+ *
+ * @param password The password to encrypt.
+ *
+ * @param key The base 64 encoded Blowfish key.
+ *
+ * @return the encrypted and encoded password
+ */
+helper.encodePassword = function( password, key ) {
+    var cipher = crypto.createCipheriv( "bf-ecb", Buffer( key, "base64" ), '' );
+    var result = cipher.update( password, "utf8", "base64" );
+    result += cipher.final( "base64" );
+    return result;
+};
+
+/**
+ * Decrypt the password using the specified key. Takes a password
+ * that has been ecrypted and encoded, uses base 64 decoding and
+ * Blowfish decryption to return the original string.
+ *
+ * @param password base64 encoded string.
+ *
+ * @param key The base 64 encoded Blowfish key.
+ *
+ * @return the decypted password
+ */
+helper.decodePassword = function( password, key ) {
+    var decipher = crypto.createDecipheriv( "bf-ecb", Buffer( key, "base64" ), '' );
+    var result = decipher.update( password, "base64", "utf8" );
+    result += decipher.final( "utf8" );
+    return result;
+};
+
 
 /**
 * Expose the "helper" utility.

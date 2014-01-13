@@ -72,7 +72,8 @@ then
                         TC_EMAIL_PASSWORD=tc_public_email \
                         TC_EMAIL_FROM=tc.ldap.test@gmail.com \
                         TC_EMAIL_TEMPLATE_DIR=mail_templates \
-                        TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
+                        TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com" \
+                        PASSWROD_HASH_KEY="GIvI5y0nX4Sanmr36yiF6w=="
 
     heroku config:set BUILDPACK_URL=https://github.com/cloudspokes/tc-api-heroku-buildpack.git
 fi

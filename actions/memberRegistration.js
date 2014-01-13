@@ -17,7 +17,6 @@
  */
 var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
-var bcrypt = require('bcrypt');
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
 
@@ -228,27 +227,13 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 
                     task.run();
 
-                    async.waterfall([
-                        function (callback) {
-                            // hash the password
-                            bcrypt.genSalt(10, function (err, salt) {
-                                callback(err, salt);
-                            });
-                        },
-                        function (salt, callback) {
-                            bcrypt.hash(user.password, salt, function (err, hash) {
-                                callback(err, hash);
-                            });
-                        },
-                        function (hash, callback) {
-                            // insert with the hash password
-                            api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hash, createUserId : null}, dbConnectionMap, function (err, result) {
-                                callback(err, result);
-                            });
-                        }
-                    ], function (err, result) {
+                    // insert with the hashed password
+                    api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : api.helper.encodePassword(user.password, process.env.PASSWORD_HASH_KEY || 'default'), createUserId : null}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
+
+                    api.log("Hashed Password : " + api.helper.encodePassword(user.password, process.env.PASSWORD_HASH_KEY || 'default'));
+
                 },
                 function (callback) {
                     async.waterfall([
