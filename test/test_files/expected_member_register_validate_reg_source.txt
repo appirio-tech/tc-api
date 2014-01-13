@@ -1,0 +1,5 @@
+[
+  {
+    "reg_source": "source1"
+  }
+]

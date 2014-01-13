@@ -1,11 +1,11 @@
 [
   {
-    "user_id": 22758854,
+    "reg_source": "source1",
     "first_name": "foo",
-    "last_name": "bar",
     "handle": "testHandleFoo",
     "status": "A",
-    "activation_code": "MEQFC7CYJG",
-    "reg_source": "api"
+    "last_name": "bar",
+    "user_id": 22758854,
+    "activation_code": "MEQFC7CYJG"
   }
 ]
