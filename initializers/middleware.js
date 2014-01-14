@@ -160,7 +160,9 @@ exports.middleware = function (api, next) {
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Ignoring duplicate request from same user!', 'notice');
-                connection.response = {message : 'This request was ignored because you have an identical request still processing.'};
+                connection.response = api.helper.apiCodes.badRequest;
+                connection.response.details = 'This request was ignored because you have an identical request still processing.';
+                connection.rawConnection.responseHttpCode = api.helper.apiCodes.badRequest.value;
                 next(connection, false);
             } else {
                 api.cache.save(key, key, 30000, function (err) {
