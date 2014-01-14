@@ -22,7 +22,7 @@ var async = require("async");
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = "sqls/register_member/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
+var PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY;
 
 describe('Test Register Member API', function () {
     this.timeout(120000); // The api with testing remote db could be quit slow
@@ -157,6 +157,7 @@ describe('Test Register Member API', function () {
                     assert.equal(securityUserExpected[0].user_id, results[1][0].user_id, "Invalid returned message");
 
                     assert.equal("123456", testHelper.decodePassword(results[1][0].password, PASSWORD_HASH_KEY), "Password is not correct");
+                    done(err);
                 } else {
                     done(err);
                 }

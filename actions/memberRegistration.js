@@ -88,6 +88,12 @@ var ANONYMOUS_GROUP_ID = 2000118;
  */
 var USERS_GROUP_ID = 2;
 
+
+/**
+ * HASH KEY For Password
+ */
+var PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
+
 /**
  * The activation email subject.
  */
@@ -227,12 +233,14 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 
                     task.run();
 
+                    var hashedPassword = api.helper.encodePassword(user.password, PASSWORD_HASH_KEY);
+                    api.log("Hashed Password : " + hashedPassword);
+
+
                     // insert with the hashed password
-                    api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : api.helper.encodePassword(user.password, process.env.PASSWORD_HASH_KEY || 'default'), createUserId : null}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hashedPassword, createUserId : null}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
-
-                    api.log("Hashed Password : " + api.helper.encodePassword(user.password, process.env.PASSWORD_HASH_KEY || 'default'));
 
                 },
                 function (callback) {

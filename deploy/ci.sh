@@ -45,7 +45,7 @@ export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 
 #export DISABLE_CONSOLE_LOG=true
 
-export PASSWROD_HASH_KEY=GIvI5y0nX4Sanmr36yiF6w==
+export PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 
 ## JDBC connection pool environment variables - set for all databases
 export MINPOOL=1
