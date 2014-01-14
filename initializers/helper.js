@@ -1,3 +1,4 @@
+/*jslint nomen: true */
 /**
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  */
@@ -23,7 +24,7 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var helper = {};
-var crypto = require( "crypto" );
+var crypto = require("crypto");
 
 /**
  * software type.
@@ -542,10 +543,11 @@ helper.getSortColumnDBName = function (apiName) {
  *
  * @return the encrypted and encoded password
  */
-helper.encodePassword = function( password, key ) {
-    var cipher = crypto.createCipheriv( "bf-ecb", Buffer( key, "base64" ), '' );
-    var result = cipher.update( password, "utf8", "base64" );
-    result += cipher.final( "base64" );
+helper.encodePassword = function (password, key) {
+    var bKey = new Buffer(key, "base64"),
+        cipher = crypto.createCipheriv("bf-ecb", bKey, ''),
+        result = cipher.update(password, "utf8", "base64");
+    result += cipher.final("base64");
     return result;
 };
 
@@ -560,12 +562,59 @@ helper.encodePassword = function( password, key ) {
  *
  * @return the decypted password
  */
-helper.decodePassword = function( password, key ) {
-    var decipher = crypto.createDecipheriv( "bf-ecb", Buffer( key, "base64" ), '' );
-    var result = decipher.update( password, "base64", "utf8" );
-    result += decipher.final( "utf8" );
+helper.decodePassword = function (password, key) {
+    var bKey = new Buffer(key, "base64"),
+        decipher = crypto.createDecipheriv("bf-ecb", bKey, ''),
+        result = decipher.update(password, "base64", "utf8");
+    result += decipher.final("utf8");
     return result;
 };
+
+/**
+ * Create unique cache key for given connection.
+ * Key depends on action name and query parameters (connection.params).
+ *
+ * @param {Object} connection The connection object for the current request
+ * @param {Boolean} userUnique If true the key incorporates the connection.id identifier, making it unique to a given caller.
+ * @return {String} the key
+ */
+helper.createCacheKey = function (connection, userUnique) {
+    var sorted = [], prop, val, json;
+    for (prop in connection.params) {
+        if (connection.params.hasOwnProperty(prop)) {
+            val = connection.params[prop];
+            if (_.isString(val)) {
+                val = val.toLowerCase();
+            }
+            sorted.push([prop, val]);
+        }
+    }
+    if (userUnique) {
+        sorted.push(['callerId', connection.id]);
+    }
+    sorted.sort(function (a, b) {
+        return a[1] - b[1];
+    });
+    json = JSON.stringify(sorted);
+    return crypto.createHash('md5').update(json).digest('hex');
+};
+
+/**
+ * Get cached value for given key. If object doesn't exist or is expired then null is returned.
+ *
+ * @param {Object} key The key object for the current request
+ * @param {Function<err, value>} callback The callback function
+ * @since 1.1
+ */
+/*jslint unparam: true */
+helper.getCachedValue = function (key, callback) {
+    helper.api.cache.load(key, function (err, value) {
+        //ignore err
+        //err can be only "Object not found" or "Object expired"
+        callback(null, value);
+    });
+};
+/*jslint */
 
 
 /**
