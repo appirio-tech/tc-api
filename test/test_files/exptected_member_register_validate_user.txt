@@ -5,7 +5,7 @@
     "handle": "testHandleFoo",
     "status": "A",
     "last_name": "bar",
-    "user_id": 22758854,
-    "activation_code": "MEQFC7CYJG"
+    "user_id": 22758845,
+    "activation_code": "MEQEXNROPO"
   }
 ]
