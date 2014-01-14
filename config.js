@@ -126,7 +126,7 @@ configData.servers = {
         fingerprintOptions : {                  // Settings for determining the id of an http(s) requset (browser-fingerprint)
             cookieKey : "sessionID",
             toSetCookie : true,
-            onlyStaticElements : false
+            onlyStaticElements : true
         },
         formOptions : {                         // Options to be applied to incomming file uplaods. More options and details at https://github.com/felixge/node-formidable
             uploadDir : "/tmp",
