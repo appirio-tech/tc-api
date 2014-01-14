@@ -7,6 +7,9 @@
 # Author: vangavroche
 #
 
+# tests rely on caching being off. But set this to a real value (or remove) while coding.
+export CACHE_EXPIRY=-1
+
 export TC_DB_NAME=informixoltp_tcp
 export TC_DB_HOST=54.197.52.53
 export TC_DB_PORT=2021

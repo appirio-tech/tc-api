@@ -6,6 +6,7 @@
 # Version: 1.0
 # Author: vangavroche, delemach
 #
+export CACHE_EXPIRY=-1
 
 export TC_DB_NAME=informixoltp_tcp
 export TC_DB_HOST=54.204.109.244

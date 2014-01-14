@@ -155,13 +155,12 @@ exports.middleware = function (api, next) {
      */
     function preThrottleProcessor(connection, actionTemplate, next) {
         var key = api.helper.createCacheKey(connection, true);
-        //api.log('connection.id: ' + connection.id, 'debug');
-        //api.log('key: ' + key, 'debug');
+        api.log('Throttle check. Action: "' + actionTemplate.name + '" connection.id: "' + connection.id + '" key: "' + key + '"', 'debug');
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Ignoring duplicate request from same user!', 'notice');
-                connection.response = api.helper.apiCodes.badRequest;
-                connection.response.details = 'This request was ignored because you have an identical request still processing.';
+                connection.response.error = api.helper.apiCodes.badRequest;
+                connection.response.error.details = 'This request was ignored because you have an identical request still processing.';
                 connection.rawConnection.responseHttpCode = api.helper.apiCodes.badRequest.value;
                 next(connection, false);
             } else {
@@ -208,8 +207,8 @@ exports.middleware = function (api, next) {
      * @since 1.1
      */
     function preCacheProcessor(connection, actionTemplate, next) {
-        //by default enabled
-        if (actionTemplate.cacheEnabled === false) {
+        //by default enabled, but turn it off if the global cache timeout is set to less to zero and local action doesn't have a timeout set (this logic is mostly for test purposes)
+        if (actionTemplate.cacheEnabled === false || (api.configData.general.defaultCacheLifetime < 0 && !actionTemplate.cacheLifetime)) {
             next(connection, true);
             return;
         }

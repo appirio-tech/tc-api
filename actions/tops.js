@@ -169,7 +169,6 @@ exports.getTops = {
         required: ["contestType"],
         optional : ["pageIndex", "pageSize"]
     },
-    cacheEnabled: false,
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',
@@ -199,7 +198,6 @@ exports.getMarathonTops = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
@@ -323,7 +321,6 @@ exports.getSRMTops = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read', // this action is read-only
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {

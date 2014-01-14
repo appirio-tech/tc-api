@@ -53,7 +53,6 @@ exports.getMarathonStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
@@ -131,7 +130,6 @@ exports.getSoftwareStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
@@ -250,7 +248,6 @@ exports.getStudioStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw", "tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
@@ -334,7 +331,6 @@ exports.getAlgorithmStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
