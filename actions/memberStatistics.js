@@ -422,7 +422,7 @@ exports.getAlgorithmStatistics = {
                     defaultLanguage: details.default_language,
                     competitions: details.competitions,
                     mostRecentEventName: details.most_recent_event_name,
-                    mostRecentEventDate: details.most_recent_event_date.toString("MM.dd.yy"),
+                    mostRecentEventDate: details.most_recent_event_date ? details.most_recent_event_date.toString("MM.dd.yy") : '',
                     Divisions: {
                         "Division I": {},
                         "Division II": {}
