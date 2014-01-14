@@ -22,12 +22,12 @@
         "ldapjs" : "*",
         "nodemailer" : "*",
         "email-templates" : "*",
-        "bcrypt" : ">=0.5.*",
         "bigdecimal": "*",
         "bignum": "*",
         "java": "~0.2.9",           
         "informix-wrapper": "~0.1.0",
-        "asn1": "*"
+        "asn1": "*",
+        "crypto": ">= 0.0.3"
     },
     "devDependencies": {
         "supertest": "~0.8.0",
