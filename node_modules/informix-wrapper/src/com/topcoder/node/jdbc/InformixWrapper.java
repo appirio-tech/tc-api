@@ -81,6 +81,22 @@ public class InformixWrapper {
             }
 
             rows = getRows(resultSet);
+		} catch (SQLException se) {
+			if (resultSet != null) {
+                resultSet.close();
+            }
+            if (st != null) {
+                st.close();
+            }
+			if (connection != null)
+			{
+				if (!connection.getAutoCommit()) {
+					connection.rollback();
+				}
+				connection.close();
+			}
+			throw se;
+		}
         } finally {
             if (resultSet != null) {
                 resultSet.close();
@@ -119,7 +135,22 @@ public class InformixWrapper {
             }
 
             rows = getRows(resultSet);
-        } finally {
+        } catch (SQLException se) {
+			if (resultSet != null) {
+                resultSet.close();
+            }
+            if (st != null) {
+                st.close();
+            }
+			if (connection != null)
+			{
+				if (!connection.getAutoCommit()) {
+					connection.rollback();
+				}
+				connection.close();
+			}
+			throw se;
+		} finally {
             if (resultSet != null) {
                 resultSet.close();
             }
@@ -148,7 +179,19 @@ public class InformixWrapper {
         try {
             st = this.connection.createStatement();
             count = st.executeUpdate(sql);
-        } finally {
+        } catch (SQLException se) {
+            if (st != null) {
+                st.close();
+            }
+			if (connection != null)
+			{
+				if (!connection.getAutoCommit()) {
+					connection.rollback();
+				}
+				connection.close();
+			}
+			throw se;
+		}finally {
             if (st != null) {
                 st.close();
             }
@@ -176,7 +219,20 @@ public class InformixWrapper {
         try {
             st = this.getPreparedStatement(sql, jsonParams);
             count = st.executeUpdate();
-        } finally {
+        } catch (SQLException se) {
+			
+            if (st != null) {
+                st.close();
+            }
+			if (connection != null)
+			{
+				if (!connection.getAutoCommit()) {
+					connection.rollback();
+				}
+				connection.close();
+			}
+			throw se;
+		}finally {
             if (st != null) {
                 st.close();
             }
