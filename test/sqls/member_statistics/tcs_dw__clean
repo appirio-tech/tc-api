@@ -1,0 +1,4 @@
+DELETE FROM coder;
+DELETE FROM user_rating;
+DELETE FROM project_result;
+DELETE FROM project;

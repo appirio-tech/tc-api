@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, TCSASSEMBLER
+ * @version 1.5
+ * @author Sky_, muzehyun
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -11,6 +11,8 @@
  * - implement srm (Algorithm) statistics
  * changes in 1.4:
  * - Update the checkUserExists function since the query has been standardized.
+ * changes in 1.5:
+ * - impelment software rating history and distribution
  */
 "use strict";
 var async = require('async');
@@ -463,5 +465,105 @@ exports.getAlgorithmStatistics = {
             }
             next(connection, true);
         });
+    }
+};
+
+/**
+ * This is the function that actually get software rating history and distribution
+ * 
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        result = {
+            history: [],
+            distribution: []
+        },
+        challengeType = connection.params.challengeType.toLowerCase(),
+        handle = connection.params.handle,
+        error,
+        contestTypes = helper.contestTypes,
+        phaseId,
+        range;
+    async.waterfall([
+        function (cb) {
+            error = error ||
+                helper.checkContains(Object.keys(contestTypes), challengeType, "challengeType");
+            if (error) {
+                cb(error);
+                return;
+            }
+            phaseId = contestTypes[challengeType].phaseId;
+            sqlParams.ha = handle;
+            sqlParams.ph = phaseId;
+            api.dataAccess.executeQuery("get_software_rating_handle", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows[0].handleexist === 0) {
+                cb(new NotFoundError("Handle is not exist"));
+                return;
+            }
+            api.dataAccess.executeQuery("get_software_rating_history", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            rows.forEach(function (row) {
+                result.history.push({
+                    challengeId: row.project_id,
+                    challengeName: row.component_name,
+                    date: row.rating_date,
+                    rating: row.new_rating
+                });
+            });
+            api.dataAccess.executeQuery("get_software_rating_distribution", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            var dist_data, dist_keys;
+            dist_data = rows[0];
+            dist_keys = _.keys(dist_data);
+            dist_keys.sort();
+            dist_keys.forEach(function (key) {
+                result.distribution.push({
+                    "range": key.replace('range_', '').replace('_', '-'),
+                    "number": dist_data[key]
+                });
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+* The API for getting software rating history and distribution
+*/
+exports.getSoftwareRatingHistoryAndDistribution = {
+    name: "getSoftwareRatingHistoryAndDistribution",
+    description: "getSoftwareRatingHistoryAndDistribution",
+    inputs: {
+        required: ['handle', 'challengeType'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ['tcs_dw'],
+    run: function (api, connection, next) {
+        if (this.dbConnectionMap) {
+            api.log("Execute getSoftwareRatingHistoryAndDistribution#run", 'debug');
+            getSoftwareRatingHistoryAndDistribution(api, connection, this.dbConnectionMap, next);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };

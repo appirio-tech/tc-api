@@ -1,0 +1,3 @@
+SELECT count(*) as handleexist
+FROM coder 
+WHERE handle='@ha@'

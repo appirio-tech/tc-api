@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, TCSASSEMBLER, Ghost_141
- * @version 1.4
+ * @author Sky_, Ghost_141, muzehyun
+ * @version 1.5
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -16,7 +16,9 @@
  * changes in 1.4:
  * - add software and studio contest type object.
  * - add function to get direct project link for a contest.
-*/
+ * changes in 1.5:
+ * - add contestTypes
+ */
 "use strict";
 
 var async = require('async');
@@ -616,6 +618,56 @@ helper.getCachedValue = function (key, callback) {
 };
 /*jslint */
 
+/**
+ * The contests types
+ */
+helper.contestTypes = {
+    design: {
+        name: "Design",
+        phaseId: 112
+    },
+    development: {
+        name: "Development",
+        phaseId: 113,
+        active: true
+    },
+    conceptualization: {
+        name: "Conceptualization",
+        phaseId: 134
+    },
+    specification: {
+        name: "Specification",
+        phaseId: 117
+    },
+    architecture: {
+        name: "Architecture",
+        phaseId: 118
+    },
+    assembly: {
+        name: "Assembly",
+        phaseId: 125
+    },
+    test_suites: {
+        name: "Test Suites",
+        phaseId: 124
+    },
+    test_scenarios: {
+        name: "Test Scenarios",
+        phaseId: 137
+    },
+    ui_prototype: {
+        name: "UI Prototype",
+        phaseId: 130
+    },
+    ria_build: {
+        name: "RIA Build",
+        phaseId: 135
+    },
+    content_creation: {
+        name: "Content Creation",
+        phaseId: 146
+    }
+};
 
 /**
 * Expose the "helper" utility.

@@ -1,0 +1,15 @@
+SELECT p.project_id
+     , p.component_name
+     , TO_CHAR(p.rating_date, "%Y.%m.%d") rating_date
+     , pr.new_rating
+  FROM coder c
+     , project_result pr
+     , project p
+ WHERE c.handle_lower = LOWER("@ha@")
+   AND pr.user_id = c.coder_id
+   AND p.project_id = pr.project_id
+   AND p.phase_id = @ph@
+   AND p.status_id in (4,5,7,8)
+   AND pr.new_rating > 0
+   AND pr.rating_ind = 1
+ ORDER BY pr.rating_order
