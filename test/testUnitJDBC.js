@@ -115,7 +115,7 @@ describe("Informix JDBC Library", function () {
     });
 
     describe("Multiple Async Queries", function () {
-        beforeEach(function () {
+        beforeEach(function (done) {
             settings = {
                 "user" : "informix",
                 "host" : host,
@@ -123,14 +123,15 @@ describe("Informix JDBC Library", function () {
                 "password" : "1nf0rm1x",
                 "database": "",
                 "server" : "informixoltp_tcp",
-                "minpool" : 0,
-                "maxpool" : 20,
-                "maxsize" : 0,
+                "minpool" : 1,
+                "maxpool" : 8,
+                "maxsize" : 15,
                 "idleTimeout" : 60,
                 "timeout" : 30000
             };
 
             executeQuery('corporate_oltp', "delete command_group_lu where command_group_id > 9999", function (err, count) {
+                done();
             });
         });
 
@@ -184,7 +185,7 @@ describe("Informix JDBC Library", function () {
     });
 
     describe("Prepared Queries", function () {
-        beforeEach(function () {
+        beforeEach(function (done) {
             settings = {
                 "user" : "informix",
                 "host" : host,
@@ -192,14 +193,15 @@ describe("Informix JDBC Library", function () {
                 "password" : "1nf0rm1x",
                 "database": "",
                 "server" : "informixoltp_tcp",
-                "minpool" : 0,
-                "maxpool" : 20,
-                "maxsize" : 0,
+                "minpool" : 1,
+                "maxpool" : 8,
+                "maxsize" : 15,
                 "idleTimeout" : 60,
                 "timeout" : 30000
             };
 
             executeQuery('corporate_oltp', "delete command_group_lu where command_group_id > 9999", function (err, count) {
+                done();
             });
         });
 
