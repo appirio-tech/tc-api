@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.3
  * @author Sky_, mekanizumu, TCSASSEMBLER
@@ -11,6 +11,8 @@
  * - implement marathon tops
  * changes in 1.3:
  * - implement SRM Tops
+ * changes in 1.4:
+ * Move contestTypes to helper class and rename it to softwareChallengeTypes.
  */
 "use strict";
 var async = require('async');
@@ -23,58 +25,6 @@ var NotFoundError = require('../errors/NotFoundError');
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-
-/**
- * The contests types
- */
-var contestTypes = {
-    design: {
-        name: "Design",
-        phaseId: 112
-    },
-    development: {
-        name: "Development",
-        phaseId: 113,
-        active: true
-    },
-    conceptualization: {
-        name: "Conceptualization",
-        phaseId: 134
-    },
-    specification: {
-        name: "Specification",
-        phaseId: 117
-    },
-    architecture: {
-        name: "Architecture",
-        phaseId: 118
-    },
-    assembly: {
-        name: "Assembly",
-        phaseId: 125
-    },
-    test_suites: {
-        name: "Test Suites",
-        phaseId: 124
-    },
-    test_scenarios: {
-        name: "Test Scenarios",
-        phaseId: 137
-    },
-    ui_prototype: {
-        name: "UI Prototype",
-        phaseId: 130
-    },
-    ria_build: {
-        name: "RIA Build",
-        phaseId: 135
-    },
-    content_creation: {
-        name: "Content Creation",
-        phaseId: 146
-    }
-};
-
 
 /**
  * This is the function that actually get the tops.
@@ -106,19 +56,19 @@ var getTops = function (api, connection, dbConnectionMap, next) {
                 helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
                 helper.checkPageIndex(pageIndex, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
-                helper.checkContains(Object.keys(contestTypes), contestType, "contestType");
+                helper.checkContains(Object.keys(helper.softwareChallengeTypes), contestType, "contestType");
             if (error) {
                 cb(error);
                 return;
             }
-            active = contestTypes[contestType].active;
+            active = helper.softwareChallengeTypes[contestType].active;
             if (pageIndex === -1) {
                 pageIndex = 1;
                 pageSize = MAX_INT;
             }
             sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
             sqlParams.pageSize = pageSize;
-            sqlParams.phaseId = contestTypes[contestType].phaseId;
+            sqlParams.phaseId = helper.softwareChallengeTypes[contestType].phaseId;
             api.dataAccess.executeQuery(active ? "get_tops_active_count" : "get_tops_count", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
@@ -141,7 +91,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
                 result.data.push({
                     rank: rank,
                     handle: row.handle,
-                    userId: row.coderid,
+                    userId: row.coder_id,
                     color: helper.getCoderColor(row.rating),
                     rating: row.rating
                 });

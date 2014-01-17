@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
  * @author Sky_
@@ -30,7 +30,7 @@ describe('Get Member Marathon Statistics API', function () {
      * @param {Function<err>} done the callback
      */
     function clearDb(done) {
-        testHelper.runSqlFile(SQL_DIR + "topcoder_dw__clear", "topcoder_dw", done);
+        testHelper.runSqlFile(SQL_DIR + "topcoder_dw__clean", "topcoder_dw", done);
     }
 
     /**
@@ -64,7 +64,7 @@ describe('Get Member Marathon Statistics API', function () {
      */
     function assertResponse(handle, file, done) {
         request(API_ENDPOINT)
-            .get('/v2/users/' +handle + '/statistics/data/marathon')
+            .get('/v2/users/' + handle + '/statistics/data/marathon')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -119,6 +119,18 @@ describe('Get Member Marathon Statistics API', function () {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)
+            .end(done);
+    });
+
+    /**
+     * Test /v2/users/test5/statistics/data/marathon
+     */
+    it('should return an 400 error if user is not activated', function (done) {
+        request(API_ENDPOINT)
+            .get('/v2/users/test5/statistics/data/marathon')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(400)
             .end(done);
     });
 });

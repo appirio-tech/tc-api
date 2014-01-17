@@ -1,0 +1,5 @@
+{
+    "name"    : "get_srm_or_marathon_statistics_distribution",
+    "db"      : "topcoder_dw",
+    "sqlfile" : "get_srm_or_marathon_statistics_distribution"
+}

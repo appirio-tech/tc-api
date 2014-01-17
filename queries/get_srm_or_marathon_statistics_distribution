@@ -1,0 +1,7 @@
+SELECT
+  (rating / 100)::INT * 100 AS rating
+, COUNT(rating) AS number
+FROM algo_rating
+WHERE algo_rating_type_id = @algoRatingType@ AND num_ratings > 0
+GROUP BY 1
+ORDER BY 1 ASC
