@@ -1,0 +1,6 @@
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(132456, 100, 1);
+
+INSERT INTO user_preference(user_id, preference_id, value, preference_value_id, create_date, modify_date) VALUES(132456, 100, 'hide', 6, current, current);
+
+INSERT INTO image(image_id, file_name, image_type_id, path_id, modify_date) VALUES(1000, 'test_image.png', 1, 1, current);
+INSERT INTO coder_image_xref(coder_id, image_id, display_flag, modify_date) VALUES(132456, 1000, 1, current);

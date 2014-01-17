@@ -115,7 +115,9 @@ exports.routes = {
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
-        { path: "/:apiVersion/data/countries", action: "countries" }
+        { path: "/:apiVersion/data/countries", action: "countries" },
+
+        { path: "/:apiVersion/users/:handle", action: "getBasicUserProfile" }
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },

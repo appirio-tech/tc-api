@@ -1,0 +1,6 @@
+SELECT
+  r.rating
+, r.phase_id
+FROM coder c
+INNER JOIN tcs_dw:user_rating AS r ON r.user_id = c.coder_id
+WHERE LOWER(c.handle) = LOWER('@handle@')

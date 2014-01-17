@@ -1,0 +1,4 @@
+DELETE FROM coder_image_xref WHERE coder_id = 132456;
+DELETE FROM image WHERE image_id = 1000;
+DELETE FROM user_preference WHERE user_id = 132456;
+DELETE FROM algo_rating WHERE coder_id = 132456;
