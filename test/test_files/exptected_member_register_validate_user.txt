@@ -1,11 +1,7 @@
-[
-  {
+{
     "reg_source": "source1",
     "first_name": "foo",
     "handle": "testHandleFoo",
     "status": "A",
-    "last_name": "bar",
-    "user_id": 22758845,
-    "activation_code": "MEQEXNROPO"
-  }
-]
+    "last_name": "bar"
+}

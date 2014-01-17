@@ -1,0 +1,5 @@
+{
+  "name"    : "informixoltp__get_current_user_seq",
+  "db"      : "informixoltp",
+  "sqlfile" : "informixoltp__get_current_user_seq"
+}

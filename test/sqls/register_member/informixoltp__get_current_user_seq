@@ -1,0 +1,2 @@
+
+SEQUENCE_USER_SEQ.NEXTVAL  from table(set{1})
