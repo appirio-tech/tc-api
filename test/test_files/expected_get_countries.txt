@@ -54,6 +54,15 @@
     "latitude": 42.5
   },
   {
+    "countryCode": "024",
+    "countryName": "Angola",
+    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "participating": 1,
+    "default_taxform_id": 2,
+    "longitude": 13.333333,
+    "latitude": -8.833333
+  },
+  {
     "countryCode": "028",
     "countryName": "Antigua and Barbuda",
     "modifyDate": "2003-01-06T16:06:26.000Z",

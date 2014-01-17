@@ -1,10 +1,12 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author vangavroche, TCSASSEMBLER
+ * @version 1.2
+ * @author vangavroche, TCSASSEMBLER, Ghost_141
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
+ * changes in 1.2:
+ * - add badgeProperties.
  */
 "use strict";
 
@@ -126,7 +128,7 @@ configData.servers = {
         fingerprintOptions : {                  // Settings for determining the id of an http(s) requset (browser-fingerprint)
             cookieKey : "sessionID",
             toSetCookie : true,
-            onlyStaticElements : false
+            onlyStaticElements : true
         },
         formOptions : {                         // Options to be applied to incomming file uplaods. More options and details at https://github.com/felixge/node-formidable
             uploadDir : "/tmp",
@@ -154,8 +156,306 @@ configData.databaseMapping = {
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW"
-}
+};
 
+/**
+ * The badge config data.
+ */
+configData.badge = {};
+
+/**
+ * The badge image link.
+ */
+configData.badge.link = 'http://topcoder.com/images/badge.grid.small.png';
+/**
+ * A mapping indicating the badge properties.
+ */
+configData.badge.properties = {
+    1: {
+        "left": 0,
+        "top": 0
+    },
+    2: {
+        "left": -17,
+        "top": 0
+    },
+    3: {
+        "left": -34,
+        "top": 0
+    },
+    4: {
+        "left": -51,
+        "top": 0
+    },
+    5: {
+        "left": -68,
+        "top": 0
+    },
+    6: {
+        "left": 0,
+        "top": -17
+    },
+    7: {
+        "left": -17,
+        "top": -17
+    },
+    8: {
+        "left": -34,
+        "top": -17
+    },
+    9: {
+        "left": -51,
+        "top": -17
+    },
+    10: {
+        "left": -68,
+        "top": -17
+    },
+    11: {
+        "left": 0,
+        "top": -34
+    },
+    12: {
+        "left": -17,
+        "top": -34
+    },
+    13: {
+        "left": -34,
+        "top": -34
+    },
+    14: {
+        "left": -51,
+        "top": -34
+    },
+    15: {
+        "left": -68,
+        "top": -34
+    },
+    16: {
+        "left": 0,
+        "top": -51
+    },
+    17: {
+        "left": -17,
+        "top": -51
+    },
+    18: {
+        "left": -34,
+        "top": -51
+    },
+    19: {
+        "left": -51,
+        "top": -51
+    },
+    20: {
+        "left": -68,
+        "top": -51
+    },
+    21: {
+        "left": 0,
+        "top": -68
+    },
+    22: {
+        "left": -17,
+        "top": -68
+    },
+    23: {
+        "left": -34,
+        "top": -68
+    },
+    24: {
+        "left": -51,
+        "top": -68
+    },
+    25: {
+        "left": -68,
+        "top": -68
+    },
+    51: {
+        "left": 0,
+        "top": -136
+    },
+    52: {
+        "left": 0,
+        "top": -102
+    },
+    53: {
+        "left": 0,
+        "top": -119
+    },
+    54: {
+        "left": 0,
+        "top": -85
+    },
+    75: {
+        "left": 0,
+        "top": -170
+    },
+    76: {
+        "left": 0,
+        "top": -187
+    },
+    77: {
+        "left": 0,
+        "top": -153
+    },
+    89: {
+        "left": 0,
+        "top": -204
+    },
+    90: {
+        "left": -17,
+        "top": -204
+    },
+    91: {
+        "left": -34,
+        "top": -204
+    },
+    92: {
+        "left": -51,
+        "top": -204
+    },
+    93: {
+        "left": -68,
+        "top": -204
+    },
+    94: {
+        "left": 0,
+        "top": -221
+    },
+    95: {
+        "left": -17,
+        "top": -221
+    },
+    96: {
+        "left": -34,
+        "top": -221
+    },
+    97: {
+        "left": -51,
+        "top": -221
+    },
+    98: {
+        "left": -68,
+        "top": -221
+    },
+    99: {
+        "left": 0,
+        "top": -238
+    },
+    100: {
+        "left": -17,
+        "top": -238
+    },
+    101: {
+        "left": -34,
+        "top": -238
+    },
+    102: {
+        "left": -51,
+        "top": -238
+    },
+    103: {
+        "left": -68,
+        "top": -238
+    },
+    104: {
+        "left": 0,
+        "top": -255
+    },
+    105: {
+        "left": -17,
+        "top": -255
+    },
+    106: {
+        "left": -34,
+        "top": -255
+    },
+    107: {
+        "left": -51,
+        "top": -255
+    },
+    108: {
+        "left": -68,
+        "top": -255
+    },
+    109: {
+        "left": 0,
+        "top": -272
+    },
+    110: {
+        "left": -17,
+        "top": -272
+    },
+    111: {
+        "left": -34,
+        "top": -272
+    },
+    112: {
+        "left": -51,
+        "top": -272
+    },
+    113: {
+        "left": -68,
+        "top": -272
+    },
+    114: {
+        "left": 0,
+        "top": -289
+    },
+    115: {
+        "left": -17,
+        "top": -289
+    },
+    116: {
+        "left": -34,
+        "top": -289
+    },
+    117: {
+        "left": -51,
+        "top": -289
+    },
+    118: {
+        "left": -68,
+        "top": -289
+    },
+    119: {
+        "left": -17,
+        "top": -85
+    },
+    120: {
+        "left": -34,
+        "top": -85
+    },
+    121: {
+        "left": -51,
+        "top": -85
+    },
+    122: {
+        "left": -68,
+        "top": -85
+    },
+    123: {
+        "left": -17,
+        "top": -102
+    },
+    124: {
+        "left": -34,
+        "top": -102
+    },
+    125: {
+        "left": -51,
+        "top": -102
+    },
+    126: {
+        "left": -68,
+        "top": -102
+    },
+    127: {
+        "left": -17,
+        "top": -119
+    }
+};
 //////////////////////////////////
 
 exports.configData = configData;

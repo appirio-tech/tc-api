@@ -19,14 +19,16 @@
         "underscore" : "1.5.2",
         "datejs" : "0.0.2",
         "string" : "1.6.1",
-        "ldapjs" : "0.6.3",
+        "ldapjs" : "git://github.com/mcavage/node-ldapjs.git#2f1b0790f6d5dd201468a3d5cb9674c3e2623f24",
         "nodemailer" : "0.5.7",
         "email-templates" : "0.1.1",
         "bcrypt" : "0.7.7",
         "bigdecimal": "0.6.1",
         "bignum": "0.6.2",
         "java": "0.2.9",
-        "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#99df932d62d5e737a7b08e487e3e8b29775b78bd"
+        "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#fe678b6caebfaa67736c12d102c731b7c36fa298",
+        "asn1": "*",
+        "crypto": ">= 0.0.3"
     },
     "devDependencies": {
         "supertest": "0.8.1",

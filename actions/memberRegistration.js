@@ -17,7 +17,6 @@
  */
 var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
-var bcrypt = require('bcrypt');
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
 
@@ -88,6 +87,12 @@ var ANONYMOUS_GROUP_ID = 2000118;
  * Users group id.
  */
 var USERS_GROUP_ID = 2;
+
+
+/**
+ * HASH KEY For Password
+ */
+var PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
 /**
  * The activation email subject.
@@ -188,9 +193,10 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             async.series([
                 function (callback) {
                     var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
+                    var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
-                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : 'api'}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : regSource}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -227,27 +233,15 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 
                     task.run();
 
-                    async.waterfall([
-                        function (callback) {
-                            // hash the password
-                            bcrypt.genSalt(10, function (err, salt) {
-                                callback(err, salt);
-                            });
-                        },
-                        function (salt, callback) {
-                            bcrypt.hash(user.password, salt, function (err, hash) {
-                                callback(err, hash);
-                            });
-                        },
-                        function (hash, callback) {
-                            // insert with the hash password
-                            api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hash, createUserId : null}, dbConnectionMap, function (err, result) {
-                                callback(err, result);
-                            });
-                        }
-                    ], function (err, result) {
+                    var hashedPassword = api.helper.encodePassword(user.password, PASSWORD_HASH_KEY);
+                    api.log("Hashed Password : " + hashedPassword);
+
+
+                    // insert with the hashed password
+                    api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hashedPassword, createUserId : null}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
+
                 },
                 function (callback) {
                     async.waterfall([
@@ -859,7 +853,7 @@ exports.action = {
     description: "Register a new member",
     inputs: {
         required: ["firstName", "lastName", "handle", "country", "email", "password"],
-        optional: ["socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified"]
+        optional: ["socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource"]
     },
     blockedConnectionTypes : [],
     outputExample : {},
