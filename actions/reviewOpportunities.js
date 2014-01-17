@@ -1,10 +1,15 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, Ghost_141
+ * changes in 1.1
+ * - Implement the studio review opportunities.
  */
 "use strict";
+var async = require('async');
+var _ = require('underscore');
+var NotFoundError = require('../errors/NotFoundError');
 
 /**
  * Sample result from specification for Review Opportunities
@@ -15,16 +20,6 @@ var sampleReviewOpportunities;
  * Sample result from specification for Review Opportunity Detail
  */
 var sampleReviewOpportunity;
-
-/**
- * Sample result from specification for Review Opportunities for studio
- */
-var sampleStudioReviewOpportunities;
-
-/**
- * Sample result from specification for Review Opportunity Detail for studio
- */
-var sampleStudioReviewOpportunity;
 
 /**
  * Sample result from specification for Review Opportunities for algorithms
@@ -38,8 +33,205 @@ var sampleAlgorithmsReviewOpportunity;
 
 
 /**
-* The API for searching review opportunities
-*/
+ * The max value for Integer.
+ */
+var MAX_INT = 2147483647;
+
+var ALLOWABLE_SORT_ORDER = ['asc', 'desc'];
+
+var STUDIO_ALLOWABLE_SORT_COLUMN = ['challengeName', 'round2ScheduledStartDate', 'round1ScheduledStartDate',
+    'type', 'reviewer', 'reviewerPayment'];
+
+/**
+ * Format the date value to a specific parttern.
+ * @param dateValue {String} the date value.
+ */
+var formatDate = function (dateValue) {
+    if (!dateValue) {
+        return '';
+    }
+    return dateValue;
+};
+
+/**
+ * This is the function that retrieve studio review opportunities.
+ *
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ */
+var getStudioReviewOpportunities = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper, pageIndex, pageSize, sortColumn, sortOrder, result = {}, sqlParams = {}, error;
+    pageIndex = Number(connection.params.pageIndex || 1);
+    pageSize = Number(connection.params.pageSize || 10);
+    sortColumn = connection.params.sortColumn || 'round1ScheduledStartDate';
+    sortOrder = connection.params.sortOrder || 'ASC';
+
+    async.waterfall([
+        function (cb) {
+            if (_.isDefined(connection.params.pageIndex)) {
+                error = helper.checkDefined(connection.params.pageSize, 'pageSize');
+            }
+            if (_.isDefined(connection.params.pageSize)) {
+                error = helper.checkDefined(connection.params.pageIndex, 'pageIndex');
+            }
+            if (_.isDefined(connection.params.sortColumn)) {
+                error = error || helper.checkDefined(connection.params.sortOrder, 'sortOrder');
+            }
+            if (_.isDefined(connection.params.sortOrder)) {
+                error = error || helper.checkDefined(connection.params.sortColumn, 'sortColumn');
+            }
+
+            error = error ||
+                helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
+                helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+                helper.checkPageIndex(pageIndex, 'pageIndex') ||
+                helper.checkPositiveInteger(pageSize, 'pageSize') ||
+                helper.checkContains(helper.getLowerCaseList(STUDIO_ALLOWABLE_SORT_COLUMN), sortColumn.toLowerCase(), 'sortColumn') ||
+                helper.checkContains(helper.getLowerCaseList(ALLOWABLE_SORT_ORDER), sortOrder.toLowerCase(), 'sortOrder');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            if (pageIndex === -1) {
+                pageIndex = 1;
+                pageSize = MAX_INT;
+            }
+
+            sqlParams.sortColumn = helper.getLowerCaseList(STUDIO_ALLOWABLE_SORT_COLUMN).indexOf(sortColumn.toLowerCase()) + 1;
+            sqlParams.sortOrder = sortOrder;
+            api.dataAccess.executeQuery('get_studio_review_opportunities_count', sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new Error('No rows returned from get_studio_review_opportunities_count.'));
+                return;
+            }
+            if (rows[0].count === 0 && rows[1].count === 0) {
+                cb(new NotFoundError('No Studio Review Opportunities found.'));
+                return;
+            }
+            var total = rows[0].count + rows[1].count;
+
+            if (pageIndex > total) {
+                cb(new NotFoundError('No Studio Review Opportunities found.'));
+                return;
+            }
+
+            result.total = total;
+            result.pageIndex = pageIndex;
+            result.pageSize = pageSize;
+            api.dataAccess.executeQuery('get_studio_review_opportunities', sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('No Studio Review Opportunities found.'));
+                return;
+            }
+            result.data = [];
+            // paging the results.
+            rows.slice(pageIndex - 1, pageIndex + pageSize - 1).forEach(function (row) {
+                var reviewType = row.type.trim(), reviewOpp;
+                reviewOpp = {
+                    challengeName: row.challenge_name,
+                    round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
+                    round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),
+                    reviewerPayment: row.reviewer_payment,
+                    reviewer: row.reviewer,
+                    type: reviewType
+                };
+                if (reviewType === 'Spec Review') {
+                    delete reviewOpp.round2ScheduledStartDate;
+                }
+                result.data.push(reviewOpp);
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * This method will calculate the duration between two times. It will only return how many hours between the given time.
+ * @param startTime {String} the start time
+ * @param endTime {String} the end time
+ */
+var getDuration = function (startTime, endTime) {
+    var s = new Date(startTime), e = new Date(endTime);
+    return (e - s) / 1000 / 60 / 60;
+};
+
+/**
+ * This is the function that retrieve a specific studio review opportunity.
+ *
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ */
+var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper, result = {}, sqlParams = {}, challengeId = Number(connection.params.id), error, positions;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams.challengeId = challengeId;
+            api.dataAccess.executeQuery('get_studio_review_opportunity_phases', sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('The studio challenge is not found.'));
+                return;
+            }
+            result.name = rows[0].challenge_name;
+            result.Phases = [];
+            rows.forEach(function (row) {
+                result.Phases.push({
+                    name: row.phase_name,
+                    start: formatDate(row.start_time),
+                    end: formatDate(row.end_time),
+                    duration: getDuration(row.start_time, row.end_time) + ' hours'
+                });
+            });
+            api.dataAccess.executeQuery('get_studio_review_opportunity_positions', sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length !== 0) {
+                positions = 0;
+            } else {
+                positions = 1;
+            }
+            result.Positions = [];
+            result.Positions.push({
+                role: 'Screener',
+                positions: positions,
+                payment: rows[0].payment
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * The API for searching review opportunities
+ */
 exports.searchReviewOpportunities = {
     name: "searchReviewOpportunities",
     description: "searchReviewOpportunities",
@@ -58,8 +250,8 @@ exports.searchReviewOpportunities = {
 };
 
 /**
-* The API for getting review opportunity information
-*/
+ * The API for getting review opportunity information
+ */
 exports.getReviewOpportunity = {
     name: "getReviewOpportunity",
     description: "getReviewOpportunity",
@@ -78,48 +270,58 @@ exports.getReviewOpportunity = {
 };
 
 /**
-* The API for getting review opportunities for studio
-*/
+ * The API for getting review opportunities for studio
+ */
 exports.getStudioReviewOpportunities = {
     name: "getStudioReviewOpportunities",
     description: "getStudioReviewOpportunities",
     inputs: {
         required: [],
-        optional: []
+        optional: ['pageIndex', 'pageSize', 'sortColumn', 'sortOrder']
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ['tcs_catalog'],
     run: function (api, connection, next) {
-        api.log("Execute getStudioReviewOpportunities#run", 'debug');
-        connection.response = sampleStudioReviewOpportunities;
-        next(connection, true);
+        if (this.dbConnectionMap) {
+            api.log('Execute getStudioReviewOpportunities#run', 'debug');
+            getStudioReviewOpportunities(api, connection, this.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
 
 /**
-* The API for getting review opportunity information for studio
-*/
+ * The API for getting review opportunity information for studio
+ */
 exports.getStudioReviewOpportunity = {
-    name: "getStudioReviewOpportunity",
-    description: "getStudioReviewOpportunity",
+    name: 'getStudioReviewOpportunity',
+    description: 'getStudioReviewOpportunity',
     inputs: {
-        required: [],
+        required: ['id'],
         optional: []
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ['tcs_catalog'],
     run: function (api, connection, next) {
-        api.log("Execute getStudioReviewOpportunity#run", 'debug');
-        connection.response = sampleStudioReviewOpportunity;
-        next(connection, true);
+        if (this.dbConnectionMap) {
+            api.log('Execute getStudioReviewOpportunity#run', 'debug');
+            getStudioReviewOpportunity(api, connection, this.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
 
 /**
-* The API for getting review opportunities for algorithms
-*/
+ * The API for getting review opportunities for algorithms
+ */
 exports.getAlgorithmsReviewOpportunities = {
     name: "getAlgorithmsReviewOpportunities",
     description: "getAlgorithmsReviewOpportunities",
@@ -138,8 +340,8 @@ exports.getAlgorithmsReviewOpportunities = {
 };
 
 /**
-* The API for getting review opportunity information for algorithms
-*/
+ * The API for getting review opportunity information for algorithms
+ */
 exports.getAlgorithmsReviewOpportunity = {
     name: "getAlgorithmsReviewOpportunity",
     description: "getAlgorithmsReviewOpportunity",
@@ -325,54 +527,6 @@ sampleReviewOpportunity = {
             "role": "Secondary Reviewer",
             "status": "Pending",
             "applicationDate": "10.25.2013 23:02 EDT"
-        }
-    ]
-};
-
-
-sampleStudioReviewOpportunities = {
-    "data": [
-        {
-            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-            "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
-            "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
-            "reviewerPayment": 442,
-            "reviewer": "leben",
-            "type": "screening"
-        },
-        {
-            "contestName": "Cornell - Responsive Storyboard",
-            "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
-            "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
-            "reviewerPayment": 442,
-            "reviewer": "leben",
-            "type": "screening"
-        }
-    ]
-};
-
-
-sampleStudioReviewOpportunity = {
-    "name": "PDS - Import and Persistence Update - Assembly Contest",
-    "Phases": [
-        {
-            "name": "Submission",
-            "start": "10.25.2013 23:02 EDT",
-            "end": "10.29.2013 23:02 EDT",
-            "duration": "143 hours"
-        },
-        {
-            "name": "Screening",
-            "start": "10.29.2013 23:02 EDT",
-            "end": "10.30.2013 23:02 EDT",
-            "duration": "24 hours"
-        }
-    ],
-    "Positions": [
-        {
-            "role": "Screener",
-            "positions": 1,
-            "payment": 500
         }
     ]
 };
