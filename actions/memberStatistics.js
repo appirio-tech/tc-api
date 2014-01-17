@@ -267,7 +267,7 @@ exports.getMarathonStatistics = {
                         executeQuery('get_member_marathon_statistics_history', cbx);
                     },
                     distribution: function (cbx) {
-                        executeQuery('get_algorithm_statistics_distribution', cbx);
+                        executeQuery('get_srm_or_marathon_statistics_distribution', cbx);
                     }
                 }, cb);
             }, function (results, cb) {
