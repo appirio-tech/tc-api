@@ -83,9 +83,9 @@ exports.routes = {
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioContests" },
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
-        { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
+        { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
