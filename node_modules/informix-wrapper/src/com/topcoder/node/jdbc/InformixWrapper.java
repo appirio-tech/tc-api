@@ -96,7 +96,6 @@ public class InformixWrapper {
 				connection.close();
 			}
 			throw se;
-		}
         } finally {
             if (resultSet != null) {
                 resultSet.close();
