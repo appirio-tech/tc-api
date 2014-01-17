@@ -1,10 +1,8 @@
 [
   {
-    "login_id": 22758845,
     "group_id": 2
   },
   {
-    "login_id": 22758845,
     "group_id": 2000118
   }
 ]

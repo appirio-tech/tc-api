@@ -1,0 +1,5 @@
+{
+  "name"    : "get_next_sequence",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_next_sequence"
+}
