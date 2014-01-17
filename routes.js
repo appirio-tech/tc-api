@@ -93,6 +93,7 @@ exports.routes = {
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
+        { path: "/:apiVersion/users/:handle", action: "getBasicUserProfile" },
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },

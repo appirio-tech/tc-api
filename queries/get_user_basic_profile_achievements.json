@@ -1,0 +1,5 @@
+{
+    "name"    : "get_user_basic_profile_achievements",
+    "db"      : "topcoder_dw",
+    "sqlfile" : "get_user_basic_profile_achievements"
+}
