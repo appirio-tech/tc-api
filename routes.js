@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author vangavroche, Sky_, TCSASSEMBLER
+ * @version 1.5
+ * @author vangavroche, Sky_, muzehyun
  * Changes in 1.1:
  * - add routes for search contests
  * Changes in 1.2:
@@ -12,6 +12,8 @@
  * - add routes for cache test
  * Changes in 1.4:
  * - reorder route for studio contest details
+ * Changes in 1.5:
+ * - add routes for software rating history and distribution
  */
 
 /* ---------------------
@@ -83,6 +85,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareContest" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
+        { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },

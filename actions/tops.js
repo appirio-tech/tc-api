@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, mekanizumu, TCSASSEMBLER
+ * @version 1.4
+ * @author Sky_, mekanizumu, muzehyun
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -11,6 +11,8 @@
  * - implement marathon tops
  * changes in 1.3:
  * - implement SRM Tops
+ * changes in 1.4:
+ * - move contestTypes to helper
  */
 "use strict";
 var async = require('async');
@@ -23,58 +25,6 @@ var NotFoundError = require('../errors/NotFoundError');
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-
-/**
- * The contests types
- */
-var contestTypes = {
-    design: {
-        name: "Design",
-        phaseId: 112
-    },
-    development: {
-        name: "Development",
-        phaseId: 113,
-        active: true
-    },
-    conceptualization: {
-        name: "Conceptualization",
-        phaseId: 134
-    },
-    specification: {
-        name: "Specification",
-        phaseId: 117
-    },
-    architecture: {
-        name: "Architecture",
-        phaseId: 118
-    },
-    assembly: {
-        name: "Assembly",
-        phaseId: 125
-    },
-    test_suites: {
-        name: "Test Suites",
-        phaseId: 124
-    },
-    test_scenarios: {
-        name: "Test Scenarios",
-        phaseId: 137
-    },
-    ui_prototype: {
-        name: "UI Prototype",
-        phaseId: 130
-    },
-    ria_build: {
-        name: "RIA Build",
-        phaseId: 135
-    },
-    content_creation: {
-        name: "Content Creation",
-        phaseId: 146
-    }
-};
-
 
 /**
  * This is the function that actually get the tops.
@@ -92,7 +42,8 @@ var getTops = function (api, connection, dbConnectionMap, next) {
         error,
         contestType = connection.params.contestType.toLowerCase(),
         result = {},
-        active = false;
+        active = false,
+        contestTypes = helper.contestTypes;
     pageIndex = Number(connection.params.pageIndex || 1);
     pageSize = Number(connection.params.pageSize || 50);
 

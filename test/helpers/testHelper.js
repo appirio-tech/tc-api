@@ -1,8 +1,10 @@
-﻿/*
+/*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, muzehyun
+ * changes in 1.1:
+ * - add getTrimmedData method
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -309,6 +311,18 @@ helper.decodePassword = function( password, key ) {
     var result = decipher.update( password, "base64", "utf8" );
     result += decipher.final( "utf8" );
     return result;
+};
+
+/**
+ * Convert text to JSON object and removes serverInformation and requestorInformation
+ * @param {String} text - returned text data
+ * @return {Object} trimmed object
+ */
+helper.getTrimmedData = function (text) {
+    var ret = JSON.parse(text);
+    delete ret.serverInformation;
+    delete ret.requestorInformation;
+    return ret;
 };
 
 module.exports = helper;
