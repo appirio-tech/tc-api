@@ -3,4 +3,3 @@
 log
 pids
 deploy/prod.sh
-node_modules
