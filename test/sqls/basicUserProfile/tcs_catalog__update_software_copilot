@@ -1,0 +1,1 @@
+UPDATE copilot_profile SET is_software_copilot = 't' WHERE user_id = 132456;

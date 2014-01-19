@@ -1,0 +1,2 @@
+DELETE FROM user_rating WHERE user_id = 132456;
+DELETE FROM user_achievement_xref WHERE user_id = 132456;

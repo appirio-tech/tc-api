@@ -1,0 +1,1 @@
+UPDATE algo_rating SET rating = -1 WHERE coder_id = 132456;

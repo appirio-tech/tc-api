@@ -1,0 +1,9 @@
+INSERT INTO coder(coder_id, handle, status) VALUES(132456, 'heffan', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(132457, 'super', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(1000, 'test', 'U');
+
+INSERT INTO user_achievement(coder_id, achievement_date, achievement_type_id, description, achievement_type_desc)
+VALUES(132456, current - 60 units MINUTE, 5, 'Algorithm Coder of the Month', 'Algorithm Coder of the Month');
+
+INSERT INTO payment(payment_id, payment_type_id, payment_type_desc, show_in_profile_ind, charity_ind, show_details_ind) VALUES(1000, 28, 'Assembly Competition Review', 1, 0, 1);
+INSERT INTO user_payment(payment_id, user_id, gross_amount) VALUES(1000, 132456, 1000);

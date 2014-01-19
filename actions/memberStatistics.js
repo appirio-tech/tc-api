@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.5
- * @author Sky_, muzehyun
+ * @author Sky_, TCSASSEMBLER, Ghost_141
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -12,13 +12,14 @@
  * changes in 1.4:
  * - Update the checkUserExists function since the query has been standardized.
  * changes in 1.5:
- * - impelment software rating history and distribution
+ * - implement get user basic profile.
  */
 "use strict";
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
+var BadRequestError = require('../errors/BadRequestError');
 
 /**
  * Check whether given user is registered.
@@ -39,6 +40,134 @@ function checkUserExists(handle, api, dbConnectionMap, callback) {
         } else {
             callback(new NotFoundError("User does not exist."));
         }
+    });
+}
+
+/**
+ * check whether given user is activated.
+ * @param {String} handle - the handle to check.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err>} callback - the callback function
+ */
+function checkUserActivated(handle, api, dbConnectionMap, callback) {
+    api.dataAccess.executeQuery('check_coder_activated', { handle: handle }, dbConnectionMap, function (err, result) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        if (result && result[0] && result[0].status === 'A') {
+            callback();
+        } else {
+            callback(new BadRequestError('User is not activated.'));
+        }
+    });
+}
+
+/**
+ * Get the user basic profile information.
+ * @param {Object} api - the api object.
+ * @param {Object} dbConnectionMap - the database connection map.
+ * @param {Object} connection - the connection.
+ * @param {Function} next - the callback function.
+ */
+function getBasicUserProfile(api, dbConnectionMap, connection, next) {
+    var handle = connection.params.handle,
+        helper = api.helper,
+        sqlParams = {
+            handle: handle
+        },
+        result,
+        badgeProperties = api.configData.badge.properties,
+        badgeLink = api.configData.badge.link;
+
+    async.waterfall([
+        function (cb) {
+            checkUserExists(handle, api, dbConnectionMap, cb);
+        }, function (cb) {
+            checkUserActivated(handle, api, dbConnectionMap, cb);
+        }, function (cb) {
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
+                };
+            };
+
+            async.parallel({
+                basic: execQuery('basic'),
+                earning: execQuery('overall_earning'),
+                ratingSummary: execQuery('rating_summary'),
+                achievements: execQuery('achievements')
+            }, cb);
+        }, function (results, cb) {
+            var basic = results.basic[0], earning = results.earning[0], ratingSummary = results.ratingSummary,
+                achievements = results.achievements,
+                mapRatingSummary = function (ratings) {
+                    var ret = [];
+                    ratings.forEach(function (item) {
+                        ret.push({
+                            name: helper.getPhaseName(item.phase_id),
+                            rating: item.rating,
+                            colorStyle: helper.getColorStyle(item.rating)
+                        });
+                    });
+                    return ret;
+                },
+                mapAchievements = function (achievements) {
+                    var ret = [], achieveItem;
+                    achievements.forEach(function (item) {
+                        achieveItem = {
+                            date: item.achievement_date,
+                            description: item.description
+                        };
+                        if (item.id > 0) {
+                            _.extend(achieveItem, {
+                                badgeLink: {
+                                    url: badgeLink,
+                                    leftOffset: badgeProperties[item.id].left,
+                                    topOffset: badgeProperties[item.id].top
+                                }
+                            });
+                        }
+                        ret.push(achieveItem);
+                    });
+                    return ret;
+                };
+            result = {
+                handle: basic.handle,
+                country: basic.country,
+                memberSince: basic.member_since,
+                overallEarning: earning.overall_earning,
+                quote: basic.quote,
+                photoLink: basic.photo_link || '',
+                isCopilot: {
+                    value: basic.is_copilot,
+                    software: basic.is_software_copilot,
+                    studio: basic.is_studio_copilot
+                },
+                isPM: basic.is_pm,
+
+                ratingSummary: mapRatingSummary(ratingSummary),
+                Achievements: mapAchievements(achievements)
+            };
+
+            if (!_.isDefined(basic.show_earnings) || basic.show_earnings === 'hide') {
+                delete result.overallEarning;
+            }
+
+            if (result.isPM) {
+                delete result.ratingSummary;
+            }
+
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
     });
 }
 
@@ -468,102 +597,25 @@ exports.getAlgorithmStatistics = {
     }
 };
 
-/**
- * This is the function that actually get software rating history and distribution
- * 
- * @param {Object} api - The api object that is used to access the global infrastructure
- * @param {Object} connection - The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Function<connection, render>} next - The callback to be called after this function is done
- */
-var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConnectionMap, next) {
-    var helper = api.helper,
-        sqlParams = {},
-        result = {
-            history: [],
-            distribution: []
-        },
-        challengeType = connection.params.challengeType.toLowerCase(),
-        handle = connection.params.handle,
-        error,
-        contestTypes = helper.contestTypes,
-        phaseId,
-        range;
-    async.waterfall([
-        function (cb) {
-            error = error ||
-                helper.checkContains(Object.keys(contestTypes), challengeType, "challengeType");
-            if (error) {
-                cb(error);
-                return;
-            }
-            phaseId = contestTypes[challengeType].phaseId;
-            sqlParams.ha = handle;
-            sqlParams.ph = phaseId;
-            api.dataAccess.executeQuery("get_software_rating_handle", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            if (rows[0].handleexist === 0) {
-                cb(new NotFoundError("Handle is not exist"));
-                return;
-            }
-            api.dataAccess.executeQuery("get_software_rating_history", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            rows.forEach(function (row) {
-                result.history.push({
-                    challengeId: row.project_id,
-                    challengeName: row.component_name,
-                    date: row.rating_date,
-                    rating: row.new_rating
-                });
-            });
-            api.dataAccess.executeQuery("get_software_rating_distribution", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            var dist_data, dist_keys;
-            dist_data = rows[0];
-            dist_keys = _.keys(dist_data);
-            dist_keys.sort();
-            dist_keys.forEach(function (key) {
-                result.distribution.push({
-                    "range": key.replace('range_', '').replace('_', '-'),
-                    "number": dist_data[key]
-                });
-            });
-            cb();
-        }
-    ], function (err) {
-        if (err) {
-            helper.handleError(api, connection, err);
-        } else {
-            connection.response = result;
-        }
-        next(connection, true);
-    });
-};
-
-/**
-* The API for getting software rating history and distribution
-*/
-exports.getSoftwareRatingHistoryAndDistribution = {
-    name: "getSoftwareRatingHistoryAndDistribution",
-    description: "getSoftwareRatingHistoryAndDistribution",
+exports.getBasicUserProfile = {
+    name: 'getBasicUserProfile',
+    description: 'getBasicUserProfile',
     inputs: {
-        required: ['handle', 'challengeType'],
+        required: ['handle'],
         optional: []
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read', // this action is read-only
-    databases: ['tcs_dw'],
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ['informixoltp', 'topcoder_dw'],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
-            api.log("Execute getSoftwareRatingHistoryAndDistribution#run", 'debug');
-            getSoftwareRatingHistoryAndDistribution(api, connection, this.dbConnectionMap, next);
+        if (!this.dbConnectionMap) {
+            api.helper.handleNoConnection(api, connection, next);
         } else {
-            api.log("dbConnectionMap is null", "debug");
-            connection.rawConnection.responseHttpCode = 500;
-            connection.response = {message: "No connection object."};
-            next(connection, true);
+            api.log('Execute getBasicUserProfile#run', 'debug');
+            getBasicUserProfile(api, this.dbConnectionMap, connection, next);
         }
     }
 };
