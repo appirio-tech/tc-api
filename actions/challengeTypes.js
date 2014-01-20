@@ -62,9 +62,9 @@ exports.softwareTypes = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute softwareTypes#run", 'debug');
-            getChallengeTypes(api, connection, this.dbConnectionMap, false, next);
+            getChallengeTypes(api, connection, connection.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -84,9 +84,9 @@ exports.studioTypes = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute studioTypes#run", 'debug');
-            getChallengeTypes(api, connection, this.dbConnectionMap, true, next);
+            getChallengeTypes(api, connection, connection.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -109,9 +109,9 @@ exports.softwareTypesSecured = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute softwareTypesSecured#run", 'debug');
-            getChallengeTypes(api, connection, this.dbConnectionMap, false, next);
+            getChallengeTypes(api, connection, connection.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

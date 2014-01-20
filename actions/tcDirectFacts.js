@@ -54,9 +54,9 @@ exports.action = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute tcDirectFacts#run", 'debug');
-            getTcDirectFacts(api, connection, this.dbConnectionMap, next);
+            getTcDirectFacts(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

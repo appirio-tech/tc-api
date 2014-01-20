@@ -863,8 +863,8 @@ exports.action = {
     databases : ["common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         var dbConnectionMap, messages, checkResult;
-        if (this.dbConnectionMap !== null) {
-            dbConnectionMap = this.dbConnectionMap;
+        if (connection.dbConnectionMap !== null) {
+            dbConnectionMap = connection.dbConnectionMap;
             messages = [];
 
             // validate simple input parameters
