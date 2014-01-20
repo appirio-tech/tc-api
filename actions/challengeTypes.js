@@ -11,18 +11,18 @@
 "use strict";
 
 /**
- * This is the function that actually get the contest types.
+ * This is the function that actually get the challenge types.
  *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Boolean} isStudio - The flag that represents if to search studio contest types.
+ * @param {Boolean} isStudio - The flag that represents if to search studio challenge types.
  * @param {Function} next The callback to be called after this function is done
  */
-var getContestTypes = function (api, connection, dbConnectionMap, isStudio, next) {
+var getChallengeTypes = function (api, connection, dbConnectionMap, isStudio, next) {
     var sqlParameters, type = isStudio ? api.helper.studio : api.helper.software;
     sqlParameters = { project_type_id: type.category };
-    api.dataAccess.executeQuery("get_contest_types", sqlParameters, dbConnectionMap, function (err, result) {
+    api.dataAccess.executeQuery("get_challenge_types", sqlParameters, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
             api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
@@ -47,7 +47,7 @@ var getContestTypes = function (api, connection, dbConnectionMap, isStudio, next
 };
 
 /**
- * The API for getting contest types
+ * The API for getting challenge types
  */
 exports.softwareTypes = {
     name : "softwareTypes",
@@ -64,7 +64,7 @@ exports.softwareTypes = {
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute softwareTypes#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, false, next);
+            getChallengeTypes(api, connection, this.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -86,7 +86,7 @@ exports.studioTypes = {
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute studioTypes#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, true, next);
+            getChallengeTypes(api, connection, this.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -94,7 +94,7 @@ exports.studioTypes = {
 };
 
 /**
- * The API for getting contest types, while this is guarded by OAuth
+ * The API for getting challenge types, while this is guarded by OAuth
  */
 exports.softwareTypesSecured = {
     name : 'softwareTypesSecured',
@@ -111,7 +111,7 @@ exports.softwareTypesSecured = {
     run : function (api, connection, next) {
         if (this.dbConnectionMap) {
             api.log("Execute softwareTypesSecured#run", 'debug');
-            getContestTypes(api, connection, this.dbConnectionMap, false, next);
+            getChallengeTypes(api, connection, this.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

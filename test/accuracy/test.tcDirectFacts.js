@@ -56,7 +56,7 @@ describe('Get TC Direct Facts', function () {
     });
 
     describe('GET /v2/platform/statistics', function () {
-        var r, active_contests_count, active_members_count, active_projects_count, completed_projects_count,
+        var r, active_challenges_count, active_members_count, active_projects_count, completed_projects_count,
             prize_purse;
         /// Check if the data are in expected structure and data
         it('should response with expected structure and data', function (done) {
@@ -73,12 +73,12 @@ describe('Get TC Direct Facts', function () {
             // end request
             r.end(function (err, res) {
                 var data = res.body;
-                active_contests_count = data.activeContestsCount;
+                active_challenges_count = data.activeContestsCount;
                 active_members_count = data.activeMembersCount;
                 active_projects_count = data.activeProjectsCount;
                 completed_projects_count = data.completedProjectCount;
                 prize_purse = data.prizePurse;
-                assert.equal(active_contests_count, 3, "wrong number of activeContestsCount");
+                assert.equal(active_challenges_count, 3, "wrong number of activeContestsCount");
                 assert.equal(active_members_count, 1, "wrong number of activeMembersCount");
                 assert.equal(active_projects_count, 1, "wrong number of activeProjectsCount");
                 assert.equal(completed_projects_count, 3, "wrong number of completedProjectsCount");

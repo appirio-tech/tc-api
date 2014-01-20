@@ -41,6 +41,6 @@ select
   and s.upload_type_id = 1
   and pi.project_id = p.project_id
   and pi.phase_type_id = 2
-  and p.project_id = @contestId@
+  and p.project_id = @challengeId@
   and pcat.category_id = c.root_category_id
 

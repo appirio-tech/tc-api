@@ -15,7 +15,7 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
- * Represents a predefined list of valid sort column for active contest.
+ * Represents a predefined list of valid sort column for active challenge.
  */
 var ALLOWABLE_SORT_COLUMN = [
     "roundId", "name", "startDate", "totalCompetitors", "divICompetitors", "divIICompetitors",
@@ -135,7 +135,7 @@ exports.searchSRMChallenges = {
                     data: []
                 };
                 results.data.forEach(function (item) {
-                    var contest = {
+                    var challenge = {
                         roundId: item.round_id,
                         name: item.name,
                         startDate: item.start_date,
@@ -152,7 +152,7 @@ exports.searchSRMChallenges = {
                         divIIAverageSolutionsChallenged: item.div_ii_average_solutions_challenged
                     };
 
-                    result.data.push(contest);
+                    result.data.push(challenge);
                 });
                 cb();
             }

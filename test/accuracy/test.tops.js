@@ -101,7 +101,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -141,7 +141,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -179,7 +179,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -219,7 +219,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -259,7 +259,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -299,7 +299,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -339,7 +339,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -379,7 +379,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -419,7 +419,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -459,7 +459,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -499,7 +499,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -539,7 +539,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });
@@ -579,7 +579,7 @@ describe('Get Tops API', function () {
                 for (i = 0; i < data.length; i = i + 1) {
                     // verify each item that the fields are all included
                     assert.ok(data[i].handle, "invalid type");
-                    assert.ok(data[i].color, "invalid contestName");
+                    assert.ok(data[i].color, "invalid challengeName");
                 }
                 done();
             });

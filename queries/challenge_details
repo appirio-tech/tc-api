@@ -72,7 +72,7 @@ SELECT
      , outer project_info pi4 --forum id
      , outer project_info pi1
  WHERE 1=1
-   AND p.project_id = @contestId@
+   AND p.project_id = @challengeId@
    AND p.project_status_id = pstatus.project_status_id
    AND p.project_id = pn.project_id
    AND pn.project_info_type_id = 6

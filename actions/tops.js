@@ -25,9 +25,9 @@ var NotFoundError = require('../errors/NotFoundError');
 var MAX_INT = 2147483647;
 
 /**
- * The contests types
+ * The challenges types
  */
-var contestTypes = {
+var challengeTypes = {
     design: {
         name: "Design",
         phaseId: 112
@@ -90,7 +90,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
         pageIndex,
         pageSize,
         error,
-        contestType = connection.params.contestType.toLowerCase(),
+        challengeType = connection.params.contestType.toLowerCase(),
         result = {},
         active = false;
     pageIndex = Number(connection.params.pageIndex || 1);
@@ -106,19 +106,19 @@ var getTops = function (api, connection, dbConnectionMap, next) {
                 helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
                 helper.checkPageIndex(pageIndex, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
-                helper.checkContains(Object.keys(contestTypes), contestType, "contestType");
+                helper.checkContains(Object.keys(challengeTypes), challengeType, "challengeType");
             if (error) {
                 cb(error);
                 return;
             }
-            active = contestTypes[contestType].active;
+            active = challengeTypes[challengeType].active;
             if (pageIndex === -1) {
                 pageIndex = 1;
                 pageSize = MAX_INT;
             }
             sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
             sqlParams.pageSize = pageSize;
-            sqlParams.phaseId = contestTypes[contestType].phaseId;
+            sqlParams.phaseId = challengeTypes[challengeType].phaseId;
             api.dataAccess.executeQuery(active ? "get_tops_active_count" : "get_tops_count", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {

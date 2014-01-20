@@ -54,7 +54,7 @@ describe('Get Marathon Challenges API', function () {
 
     
     
-    describe("Search Contests", function () {
+    describe("Search Challenges", function () {
         /**
          * This function is run before all tests.
          * Generate tests data.
@@ -73,7 +73,7 @@ describe('Get Marathon Challenges API', function () {
         });
 
         /**
-         * Create request to search contests API and assert 400 http code
+         * Create request to search challenges API and assert 400 http code
          * @param {String} queryString - the query string
          * @param {Function} done - the callback function
          */
@@ -795,7 +795,7 @@ describe('Get Marathon Challenges API', function () {
     });
 
 
-    describe("Get Contests Details", function () {
+    describe("Get Challenges Details", function () {
 
         /**
          * This function is run before all tests.
@@ -816,13 +816,13 @@ describe('Get Marathon Challenges API', function () {
         });
 
         /**
-         * Create request to search contests API and assert 400 http code
-         * @param {String} contestId - the contest id
+         * Create request to search challenges API and assert 400 http code
+         * @param {String} challengeId - the challenge id
          * @param {Function} done - the callback function
          */
-        function assert400(contestId, done) {
+        function assert400(challengeId, done) {
             request(API_ENDPOINT)
-                .get('/v2/data/marathon/challenges/' + contestId)
+                .get('/v2/data/marathon/challenges/' + challengeId)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(400)
@@ -832,7 +832,7 @@ describe('Get Marathon Challenges API', function () {
         /**
          * /v2/data/marathon/challenges/2001
          */
-        it("should return contest details", function (done) {
+        it("should return challenge details", function (done) {
             request(API_ENDPOINT)
                 .get('/v2/data/marathon/challenges/2001')
                 .set('Accept', 'application/json')
@@ -849,7 +849,7 @@ describe('Get Marathon Challenges API', function () {
         /**
          * /v2/data/marathon/challenges/2001
          */
-        it("should return contest details without winner information", function (done) {
+        it("should return challenge details without winner information", function (done) {
             async.waterfall([
                 function (cb) {
                     testHelper.runSqlFile(SQL_DIR + "informixoltp__clean_winner", "informixoltp", cb);
