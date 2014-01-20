@@ -4,7 +4,7 @@
  * @version 1.2
  * @author vangavroche, KeSyren, TCSASSEMBLER
  * changes in 1.1:
- * - update unit tests as contest types are now separated.
+ * - update unit tests as challenge types are now separated.
  * changes in 1.2:
  * - use test_files under accuracy directory
  */
@@ -21,7 +21,7 @@ var assert = require('chai').assert;
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
-describe('Get Contest Types API', function () {
+describe('Get Challenge Types API', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow
 
     var sortBy = function (prop) {
@@ -48,7 +48,7 @@ describe('Get Contest Types API', function () {
                     if (err) {
                         done(err);
                     }
-                    assert.deepEqual(res.body, expected, 'Invalid contest types');
+                    assert.deepEqual(res.body, expected, 'Invalid challenge types');
                     done();
                 });
         };

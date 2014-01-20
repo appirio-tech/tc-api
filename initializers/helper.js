@@ -14,8 +14,8 @@
  * changes in 1.3:
  * - add convertToString
  * changes in 1.4:
- * - add software and studio contest type object.
- * - add function to get direct project link for a contest.
+ * - add software and studio challenge type object.
+ * - add function to get direct project link for a challenge.
  * changes in 1.5:
  * - add softwareChallengeTypes and studioTypes.
  * - add function to get phase name based on phase id.
@@ -91,7 +91,7 @@ var apiName2dbNameMap = {
 };
 
 /**
- * The contests types
+ * The challenges types
  */
 helper.softwareChallengeTypes = {
     design: {
@@ -170,7 +170,7 @@ helper.softwareChallengeTypes = {
 };
 
 /**
- * The studio contest types.
+ * The studio challenge types.
  */
 helper.studioChallengeTypes = {
     banners_icons: {
@@ -640,8 +640,8 @@ helper.convertToString = function (str) {
 };
 
 /**
- * Get the project link in direct for this contest.
- * @param {Number} challengeId - the challenge id(project id) of this contest.
+ * Get the project link in direct for this challenge.
+ * @param {Number} challengeId - the challenge id(project id) of this challenge.
  */
 helper.getDirectProjectLink = function (challengeId) {
     return 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + challengeId;

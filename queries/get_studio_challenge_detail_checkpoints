@@ -4,7 +4,7 @@ select
        s.create_date
 from upload u,
      submission s
-where u.project_id = @contestId@
+where u.project_id = @challengeId@
   and s.upload_id = u.upload_id
   and s.submission_status_id in (1,4)
   and s.submission_type_id = 3

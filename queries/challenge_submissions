@@ -10,6 +10,6 @@ FROM submission sub
   INNER JOIN user u ON sub.create_user = u.user_id
   INNER JOIN submission_status_lu substat ON sub.submission_status_id = substat.submission_status_id
 WHERE 1=1 
- AND sub.submission_type_id IN (1, 3) -- only contest or checkpoint submissions
- AND project_id = @contestId@
+ AND sub.submission_type_id IN (1, 3) -- only challenge or checkpoint submissions
+ AND project_id = @challengeId@
 ORDER BY CASE WHEN sub.placement IS NULL THEN 1 Else 0 End, sub.placement

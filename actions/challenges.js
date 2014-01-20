@@ -6,11 +6,11 @@
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
- * 1. add stub for Get Studio Contest Detail
+ * 1. add stub for Get Studio Challenge Detail
  * changes in 1.2:
- * 1. Add an optional parameter to search contest api - cmc
- * 2. Display cmc value search contest and contest detail API response.
- * 3. Remove contest description from search contest API response.
+ * 1. Add an optional parameter to search challenge api - cmc
+ * 2. Display cmc value search challenge and challenge detail API response.
+ * 3. Remove challenge description from search challenge API response.
  * changes in 1.3:
  * 1. move studio API to separated file
  * changes in 1.4:
@@ -18,7 +18,7 @@
  * changes in 1.5:
  * 1. Update the logic when get results from database since the query has been updated.
  * changes in 1.6:
- * merge the backend logic of search software contests and studio contests together.
+ * merge the backend logic of search software challenges and studio challenges together.
  */
 "use strict";
 
@@ -40,14 +40,14 @@ var SORT_COLUMN = "sortColumn";
 var DEFAULT_SORT_COLUMN = "challengeName";
 
 /**
- * Represents a predefined list of valid query parameter for all contest types.
+ * Represents a predefined list of valid query parameter for all challenge types.
  */
 var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId"];
 
 /**
- * Represents a predefined list of valid sort column for active contest.
+ * Represents a predefined list of valid sort column for active challenge.
  */
 var ALLOWABLE_SORT_COLUMN = [
     "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
@@ -96,7 +96,7 @@ LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
  * This method will used to check the query parameter and sort column of the request.
  *
  * @param {Object} helper - the helper.
- * @param {String} type - the contest type.
+ * @param {String} type - the challenge type.
  * @param {Object} queryString - the query string object
  * @param {String} sortColumn - the sort column from the request.
  */
@@ -108,13 +108,13 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
     currentQuery.forEach(function (n) {
         if (allowedQuery.indexOf(n) === -1) {
             error = error ||
-                new IllegalArgumentError("The query parameter contains invalid parameter for contest type '" +
+                new IllegalArgumentError("The query parameter contains invalid parameter for challenge type '" +
                     type + "'.");
         }
     });
     if (allowedSort.indexOf(sortColumn.toLowerCase()) === -1) {
         error = error || new IllegalArgumentError("The sort column '" + sortColumn +
-            "' is invalid for contest type '" + type + "'.");
+            "' is invalid for challenge type '" + type + "'.");
     }
     return error;
 }
@@ -129,7 +129,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {Integer} pageSize - the page size.
  * @param {String} sortColumn - the sort column.
  * @param {String} sortOrder - the sort order.
- * @param {String} type - the type of contest.
+ * @param {String} type - the type of challenge.
  * @param {Object} dbConnectionMap - the database connection map.
  * @param {Function<err>} callback - the callback function.
  */
@@ -224,12 +224,12 @@ function formatDate(date) {
  *
  * @param {Array} src - the query result.
  * @param {Object} helper - the helper object.
- * @return {Array} a list of transferred contests
+ * @return {Array} a list of transferred challenges
  */
 function transferResult(src, helper) {
     var ret = [];
     src.forEach(function (row) {
-        var contest = {
+        var challenge = {
             challengeType : row.challenge_type,
             challengeName : row.challenge_name,
             challengeId : row.challenge_id,
@@ -262,25 +262,25 @@ function transferResult(src, helper) {
         for (i = 1; i < 10; i = i + 1) {
             prize = row["prize" + i];
             if (prize && prize !== -1) {
-                contest.prize.push(prize);
+                challenge.prize.push(prize);
             }
         }
-        ret.push(contest);
+        ret.push(challenge);
     });
     return ret;
 }
 
 
 /**
- * This is the function that actually search contests
+ * This is the function that actually search challenges
  *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {String} community - The community string that represent which contest to search.
+ * @param {String} community - The community string that represent which challenge to search.
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var searchContests = function (api, connection, dbConnectionMap, community, next) {
+var searchChallenges = function (api, connection, dbConnectionMap, community, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
@@ -295,7 +295,7 @@ var searchContests = function (api, connection, dbConnectionMap, community, next
         prop,
         result = {},
         total,
-        contestType;
+        challengeType;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
@@ -304,13 +304,13 @@ var searchContests = function (api, connection, dbConnectionMap, community, next
 
     switch (community) {
     case helper.studio.community:
-        contestType = helper.studio;
+        challengeType = helper.studio;
         break;
     case helper.software.community:
-        contestType = helper.software;
+        challengeType = helper.software;
         break;
     case helper.both.community:
-        contestType = helper.both;
+        challengeType = helper.both;
         break;
     }
 
@@ -342,14 +342,14 @@ var searchContests = function (api, connection, dbConnectionMap, community, next
             sqlParams.sortColumn = helper.getSortColumnDBName(sortColumn.toLowerCase());
             sqlParams.sortOrder = sortOrder.toLowerCase();
             // Set the project type id
-            sqlParams.project_type_id = contestType.category;
+            sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
             sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
             sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
-            api.dataAccess.executeQuery('search_software_studio_contests_count', sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery('search_software_studio_challenges_count', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             total = rows[0].total;
-            api.dataAccess.executeQuery('search_software_studio_contests', sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery('search_software_studio_challenges', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 result.data = [];
@@ -376,16 +376,16 @@ var searchContests = function (api, connection, dbConnectionMap, community, next
 };
 
 /**
- * This is the function that gets contest details
+ * This is the function that gets challenge details
  * 
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Boolean} isStudio - the flag that represent if to search studio contests.
+ * @param {Boolean} isStudio - the flag that represent if to search studio challenges.
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
-    var contest, error, helper = api.helper, sqlParams, contestType = isStudio ? helper.studio : helper.software;
+var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
+    var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
@@ -395,8 +395,8 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
                 return;
             }
             sqlParams = {
-                contestId: connection.params.contestId,
-                project_type_id: contestType.category
+                challengeId: connection.params.contestId,
+                project_type_id: challengeType.category
             };
 
             var execQuery = function (name) {
@@ -406,21 +406,21 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
             };
             if (isStudio) {
                 async.parallel({
-                    details: execQuery('contest_details'),
-                    checkpoints: execQuery("get_studio_contest_detail_checkpoints"),
-                    submissions: execQuery("get_studio_contest_detail_submissions"),
-                    winners: execQuery("get_studio_contest_detail_winners")
+                    details: execQuery('challenge_details'),
+                    checkpoints: execQuery("get_studio_challenge_detail_checkpoints"),
+                    submissions: execQuery("get_studio_challenge_detail_submissions"),
+                    winners: execQuery("get_studio_challenge_detail_winners")
                 }, cb);
             } else {
                 async.parallel({
-                    details: execQuery('contest_details'),
-                    registrants: execQuery('contest_registrants'),
-                    submissions: execQuery('contest_submissions')
+                    details: execQuery('challenge_details'),
+                    registrants: execQuery('challenge_registrants'),
+                    submissions: execQuery('challenge_submissions')
                 }, cb);
             }
         }, function (results, cb) {
             if (results.details.length === 0) {
-                cb(new NotFoundError('Contest not found.'));
+                cb(new NotFoundError('Challenge not found.'));
                 return;
             }
             var data = results.details[0], i = 0, prize = 0,
@@ -508,7 +508,7 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
                         };
                     });
                 };
-            contest = {
+            challenge = {
                 challengeType : data.challenge_type,
                 challengeName : data.challenge_name,
                 challengeId : data.challenge_id,
@@ -534,7 +534,7 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
                 currentPhaseRemainingTime : data.current_phase_remaining_time,
                 digitalRunPoints: data.digital_run_points,
                 reliabilityBonus: helper.getReliabilityBonus(data.prize1),
-                challengeCommunity: contestType.community,
+                challengeCommunity: challengeType.community,
                 directUrl : helper.getDirectProjectLink(data.challenge_id),
 
                 technology: data.technology.split(', '),
@@ -546,16 +546,16 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
             };
 
             if (isStudio) {
-                delete contest.registrants;
-                delete contest.finalSubmissionGuidelines;
-                delete contest.reliabilityBonus;
-                delete contest.technology;
+                delete challenge.registrants;
+                delete challenge.finalSubmissionGuidelines;
+                delete challenge.reliabilityBonus;
+                delete challenge.technology;
             } else {
-                contest.numberOfSubmissions = results.submissions.length;
-                contest.numberOfRegistrants = results.registrants.length;
-                delete contest.checkpoints;
-                delete contest.winners;
-                delete contest.introduction;
+                challenge.numberOfSubmissions = results.submissions.length;
+                challenge.numberOfRegistrants = results.registrants.length;
+                delete challenge.checkpoints;
+                delete challenge.winners;
+                delete challenge.introduction;
             }
             cb();
         }
@@ -563,18 +563,18 @@ var getContest = function (api, connection, dbConnectionMap, isStudio, next) {
         if (err) {
             helper.handleError(api, connection, err);
         } else {
-            connection.response = contest;
+            connection.response = challenge;
         }
         next(connection, true);
     });
 };
 
 /**
- * The API for getting contest
+ * The API for getting challenge
  */
-exports.getSoftwareContest = {
-    name: "getSoftwareContest",
-    description: "getSoftwareContest",
+exports.getSoftwareChallenge = {
+    name: "getSoftwareChallenge",
+    description: "getSoftwareChallenge",
     inputs: {
         required: ["contestId"],
         optional: []
@@ -586,8 +586,8 @@ exports.getSoftwareContest = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute getContest#run", 'debug');
-            getContest(api, connection, this.dbConnectionMap, false, next);
+            api.log("Execute getChallenge#run", 'debug');
+            getChallenge(api, connection, this.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -595,11 +595,11 @@ exports.getSoftwareContest = {
 };
 
 /**
- * The API for getting studio contest
+ * The API for getting studio challenge
  */
-exports.getStudioContest = {
-    name: "getStudioContest",
-    description: "getStudioContest",
+exports.getStudioChallenge = {
+    name: "getStudioChallenge",
+    description: "getStudioChallenge",
     inputs: {
         required: ["contestId"],
         optional: []
@@ -611,8 +611,8 @@ exports.getStudioContest = {
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute getStudioContest#run", 'debug');
-            getContest(api, connection, this.dbConnectionMap, true, next);
+            api.log("Execute getStudioChallenge#run", 'debug');
+            getChallenge(api, connection, this.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -620,11 +620,11 @@ exports.getStudioContest = {
 };
 
 /**
- * The API for searching contests
+ * The API for searching challenges
  */
-exports.searchSoftwareContests = {
-    name: "searchSoftwareContests",
-    description: "searchSoftwareContests",
+exports.searchSoftwareChallenges = {
+    name: "searchSoftwareChallenges",
+    description: "searchSoftwareChallenges",
     inputs: {
         required: [],
         optional: ALLOWABLE_QUERY_PARAMETER
@@ -636,8 +636,8 @@ exports.searchSoftwareContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchSoftwareContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, 'develop', next);
+            api.log("Execute searchSoftwareChallenges#run", 'debug');
+            searchChallenges(api, connection, this.dbConnectionMap, 'develop', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -645,11 +645,11 @@ exports.searchSoftwareContests = {
 };
 
 /**
- * The API for searching contests
+ * The API for searching challenges
  */
-exports.searchStudioContests = {
-    name: "searchStudioContests",
-    description: "searchStudioContests",
+exports.searchStudioChallenges = {
+    name: "searchStudioChallenges",
+    description: "searchStudioChallenges",
     inputs: {
         required: [],
         optional: ALLOWABLE_QUERY_PARAMETER
@@ -661,8 +661,8 @@ exports.searchStudioContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchStudioContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, 'design', next);
+            api.log("Execute searchStudioChallenges#run", 'debug');
+            searchChallenges(api, connection, this.dbConnectionMap, 'design', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -670,11 +670,11 @@ exports.searchStudioContests = {
 };
 
 /**
- * Generic API for searching contests
+ * Generic API for searching challenges
  */
-exports.searchSoftwareAndStudioContests = {
-    name: "searchSoftwareAndStudioContests",
-    description: "searchSoftwareAndStudioContests",
+exports.searchSoftwareAndStudioChallenges = {
+    name: "searchSoftwareAndStudioChallenges",
+    description: "searchSoftwareAndStudioChallenges",
     inputs: {
         required: [],
         optional: ALLOWABLE_QUERY_PARAMETER
@@ -686,8 +686,8 @@ exports.searchSoftwareAndStudioContests = {
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (this.dbConnectionMap) {
-            api.log("Execute searchSoftwareAndStudioContests#run", 'debug');
-            searchContests(api, connection, this.dbConnectionMap, 'both', next);
+            api.log("Execute searchSoftwareAndStudioChallenges#run", 'debug');
+            searchChallenges(api, connection, this.dbConnectionMap, 'both', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

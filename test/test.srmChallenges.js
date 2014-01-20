@@ -43,7 +43,7 @@ describe('Get SRM Challenges API', function () {
     });
 
 
-    describe("Search Contests", function () {
+    describe("Search Challenges", function () {
 
         /**
          * This function is run before all tests.
@@ -61,7 +61,7 @@ describe('Get SRM Challenges API', function () {
         });
 
         /**
-         * Create request to search contests API and assert 400 http code
+         * Create request to search challenges API and assert 400 http code
          * @param {String} queryString - the query string
          * @param {Function} done - the callback function
          */
@@ -77,14 +77,14 @@ describe('Get SRM Challenges API', function () {
         /**
          * Helper method for validating result for current test data
          * @param {String} queryString - the query string
-         * @param {Array} contests - the array of expected contests. e.g [1, 2]
+         * @param {Array} challenges - the array of expected challenges. e.g [1, 2]
          * @param {String} type - the list type
          * @param {Number} total - the expected total count
          * @param {Number} pageIndex - the expected pageIndex
          * @param {Number} pageSize - the expected pageSize
          * @param {Function} done - the callback function
          */
-        function validateResult(queryString, contests, total, pageIndex, pageSize, done) {
+        function validateResult(queryString, challenges, total, pageIndex, pageSize, done) {
             request(API_ENDPOINT)
                 .get('/v2/data/srm/challenges?' + queryString.replace(/^\?/, ""))
                 .set('Accept', 'application/json')
@@ -97,14 +97,14 @@ describe('Get SRM Challenges API', function () {
                     }
                     var results = res.body.data, i, item,
                         expectedData = require("./test_files/srmChallengesData.json"), expected;
-                    assert.lengthOf(results, contests.length, "invalid data.length");
+                    assert.lengthOf(results, challenges.length, "invalid data.length");
                     assert.equal(res.body.total, total, "invalid total");
                     assert.equal(res.body.pageIndex, pageIndex, "invalid pageIndex");
                     assert.equal(res.body.pageSize, pageSize, "invalid pageSize");
                     for (i = 0; i < results.length; i = i + 1) {
                         item = results[i];
-                        expected = expectedData[contests[i]];
-                        assert.deepEqual(item, expected, "Invalid contest number:  " + i);
+                        expected = expectedData[challenges[i]];
+                        assert.deepEqual(item, expected, "Invalid challenge number:  " + i);
                     }
                     done();
                 });
@@ -513,7 +513,7 @@ describe('Get SRM Challenges API', function () {
     });
 
 
-    describe("Get Contests Details", function () {
+    describe("Get Challenges Details", function () {
 
         /**
          * This function is run before all tests.
@@ -531,13 +531,13 @@ describe('Get SRM Challenges API', function () {
         });
 
         /**
-         * Create request to search contests API and assert 400 http code
-         * @param {String} contestId - the contest id
+         * Create request to search challenges API and assert 400 http code
+         * @param {String} challengeId - the challenge id
          * @param {Function} done - the callback function
          */
-        function assert400(contestId, done) {
+        function assert400(challengeId, done) {
             request(API_ENDPOINT)
-                .get('/v2/data/srm/challenges/' + contestId)
+                .get('/v2/data/srm/challenges/' + challengeId)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(400)
@@ -547,7 +547,7 @@ describe('Get SRM Challenges API', function () {
         /**
          * /v2/data/srm/challenges/10041
          */
-        it("should return contest details", function (done) {
+        it("should return challenge details", function (done) {
             request(API_ENDPOINT)
                 .get('/v2/data/srm/challenges/20000')
                 .set('Accept', 'application/json')
