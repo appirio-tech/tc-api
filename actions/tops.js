@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.5
- * @author Sky_, mekanizumu, TCSASSEMBLER, Ghost_141
+ * @author Sky_, mekanizumu, muzehyun, Ghost_141
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:

@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.6
- * @author Sky_, TCSASSEMBLER, Ghost_141
+ * @author Sky_, muzehyun, Ghost_141
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -15,6 +15,8 @@
  * - implement get user basic profile.
  * changes in 1.6:
  * Update srm (Algorithm) statistics and marathon statistics api to add 'history' and 'distribution' field.
+ * changes in 1.7:
+ * - implement software rating history and distribution
  */
 "use strict";
 var async = require('async');

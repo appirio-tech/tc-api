@@ -23,10 +23,9 @@ var getCountries = function (api, connection, dbConnectionMap, next) {
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
-            var ret = new Array();
-            var len = result.length;
-            for(var i=0; i<result.length; i = i + 1) {
-                var t = {};
+            var ret = [], i, t;
+            for (i = 0; i < result.length; i = i + 1) {
+                t = {};
                 t.countryCode = result[i].country_code;
                 t.countryName = result[i].country_name;
                 t.modifyDate = result[i].modify_date;
