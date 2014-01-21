@@ -18,15 +18,14 @@ var getCountries = function (api, connection, dbConnectionMap, next) {
     api.dataAccess.executeQuery("get_countries", {}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             connection.error = err;
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
-            var ret = new Array();
-            var len = result.length;
-            for(var i=0; i<result.length; i = i + 1) {
-                var t = {};
+            var ret = [], i, t;
+            for (i = 0; i < result.length; i = i + 1) {
+                t = {};
                 t.countryCode = result[i].country_code;
                 t.countryName = result[i].country_name;
                 t.modifyDate = result[i].modify_date;
@@ -60,9 +59,9 @@ exports.countries = {
     transaction : 'read', // this action is read-only
     databases : ['common_oltp'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute countries#run", 'debug');
-            getCountries(api, connection, this.dbConnectionMap, next);
+            getCountries(api, connection, connection.dbConnectionMap, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -88,9 +87,9 @@ exports.countriesSecured = {
     transaction : 'read', // this action is read-only
     databases : ['common_oltp'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute countriesSecured#run", 'debug');
-            getCountries(api, connection, this.dbConnectionMap, next);
+            getCountries(api, connection, connection.dbConnectionMap, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;

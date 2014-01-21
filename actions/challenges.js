@@ -585,9 +585,9 @@ exports.getSoftwareChallenge = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
-            getChallenge(api, connection, this.dbConnectionMap, false, next);
+            getChallenge(api, connection, connection.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -610,9 +610,9 @@ exports.getStudioChallenge = {
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getStudioChallenge#run", 'debug');
-            getChallenge(api, connection, this.dbConnectionMap, true, next);
+            getChallenge(api, connection, connection.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -635,9 +635,9 @@ exports.searchSoftwareChallenges = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute searchSoftwareChallenges#run", 'debug');
-            searchChallenges(api, connection, this.dbConnectionMap, 'develop', next);
+            searchChallenges(api, connection, connection.dbConnectionMap, 'develop', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -660,9 +660,9 @@ exports.searchStudioChallenges = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute searchStudioChallenges#run", 'debug');
-            searchChallenges(api, connection, this.dbConnectionMap, 'design', next);
+            searchChallenges(api, connection, connection.dbConnectionMap, 'design', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -685,9 +685,9 @@ exports.searchSoftwareAndStudioChallenges = {
     transaction : 'read', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute searchSoftwareAndStudioChallenges#run", 'debug');
-            searchChallenges(api, connection, this.dbConnectionMap, 'both', next);
+            searchChallenges(api, connection, connection.dbConnectionMap, 'both', next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
