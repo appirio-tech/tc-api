@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
- * @author Sky_, muzehyun, Ghost_141
+ * @version 1.7
+ * @author Sky_, Ghost_141, muzehyun
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -14,7 +14,7 @@
  * changes in 1.5:
  * - implement get user basic profile.
  * changes in 1.6:
- * Update srm (Algorithm) statistics and marathon statistics api to add 'history' and 'distribution' field.
+ * - Update srm (Algorithm) statistics and marathon statistics api to add 'history' and 'distribution' field.
  * changes in 1.7:
  * - implement software rating history and distribution
  */
@@ -239,7 +239,7 @@ exports.getMarathonStatistics = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -247,7 +247,7 @@ exports.getMarathonStatistics = {
                 algoRatingType: 3
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -333,7 +333,7 @@ exports.getSoftwareStatistics = {
     databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getSoftwareStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -343,7 +343,7 @@ exports.getSoftwareStatistics = {
                 handle: handle,
                 Tracks: {}
             };
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -453,7 +453,7 @@ exports.getStudioStatistics = {
     databases: ["topcoder_dw", "tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         api.log("Execute getStudioStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -463,7 +463,7 @@ exports.getStudioStatistics = {
                 handle: handle,
                 Tracks: {}
             };
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -538,7 +538,7 @@ exports.getAlgorithmStatistics = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -546,7 +546,7 @@ exports.getAlgorithmStatistics = {
                 algoRatingType: 1
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -690,11 +690,109 @@ exports.getBasicUserProfile = {
     transaction: 'read',
     databases: ['informixoltp', 'topcoder_dw'],
     run: function (api, connection, next) {
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             api.helper.handleNoConnection(api, connection, next);
         } else {
             api.log('Execute getBasicUserProfile#run', 'debug');
-            getBasicUserProfile(api, this.dbConnectionMap, connection, next);
+            getBasicUserProfile(api, connection.dbConnectionMap, connection, next);
+        }
+    }
+};
+
+/**
+ * This is the function that actually get software rating history and distribution
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        result = {
+            history: [],
+            distribution: []
+        },
+        challengeType = connection.params.challengeType.toLowerCase(),
+        handle = connection.params.handle,
+        error,
+        phaseId;
+    async.waterfall([
+        function (cb) {
+            error = error ||
+                helper.checkContains(Object.keys(helper.softwareChallengeTypes), challengeType, "challengeType");
+            if (error) {
+                cb(error);
+                return;
+            }
+            phaseId = helper.softwareChallengeTypes[challengeType].phaseId;
+            sqlParams.handle = handle;
+            sqlParams.phaseId = phaseId;
+            api.dataAccess.executeQuery("get_software_rating_handle", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows[0].handle_exist === 0) {
+                cb(new NotFoundError("Handle is not exist"));
+                return;
+            }
+            api.dataAccess.executeQuery("get_software_rating_history", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            rows.forEach(function (row) {
+                result.history.push({
+                    challengeId: row.project_id,
+                    challengeName: row.component_name,
+                    date: row.rating_date,
+                    rating: row.new_rating
+                });
+            });
+            api.dataAccess.executeQuery("get_software_rating_distribution", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            var dist_data, dist_keys;
+            dist_data = rows[0];
+            dist_keys = _.keys(dist_data);
+            dist_keys.sort();
+            dist_keys.forEach(function (key) {
+                result.distribution.push({
+                    "range": key.replace('range_', '').replace('_', '-'),
+                    "number": dist_data[key]
+                });
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+* The API for getting software rating history and distribution
+*/
+exports.getSoftwareRatingHistoryAndDistribution = {
+    name: "getSoftwareRatingHistoryAndDistribution",
+    description: "getSoftwareRatingHistoryAndDistribution",
+    inputs: {
+        required: ['handle', 'challengeType'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ['tcs_dw'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getSoftwareRatingHistoryAndDistribution#run", 'debug');
+            getSoftwareRatingHistoryAndDistribution(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
         }
     }
 };

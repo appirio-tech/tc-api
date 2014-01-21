@@ -285,9 +285,9 @@ exports.getStudioReviewOpportunities = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log('Execute getStudioReviewOpportunities#run', 'debug');
-            getStudioReviewOpportunities(api, connection, this.dbConnectionMap, next);
+            getStudioReviewOpportunities(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -310,9 +310,9 @@ exports.getStudioReviewOpportunity = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log('Execute getStudioReviewOpportunity#run', 'debug');
-            getStudioReviewOpportunity(api, connection, this.dbConnectionMap, next);
+            getStudioReviewOpportunity(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -373,7 +373,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "10.31.2013 21:13 EDT",
             "numberOfReviewPositionsAvailable": 1,
             "type": "Copilot Posting",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "DOE Open-WARP Software Copilot Opportunity"
         },
         {
@@ -385,8 +385,8 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.09.2013 01:52 EST",
             "numberOfReviewPositionsAvailable": 1,
             "type": "Assembly Competition",
-            "reviewType": "Contest Review",
-            "contestName": "Module Assembly - Topcoder NodeJS Contest Retrieval API"
+            "reviewType": "Challenge Review",
+            "contestName": "Module Assembly - Topcoder NodeJS Challenge Retrieval API"
         },
         {
             "primaryReviewerPayment": 205,
@@ -397,7 +397,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.10.2013 10:30 EST",
             "numberOfReviewPositionsAvailable": 2,
             "type": "UI Prototype Competition",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "NEW TC-CS Community TopCoder API Hooking Up part 2- Wordpress Plugin Development"
         },
         {
@@ -409,7 +409,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.09.2013 18:05 EST",
             "numberOfReviewPositionsAvailable": 1,
             "type": "Assembly Competition",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Module Assembly - TopCoder NodeJS Software Tops REST API"
         },
         {
@@ -421,7 +421,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.07.2013 20:38 EST",
             "numberOfReviewPositionsAvailable": 1,
             "type": "Bug Hunt",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Hercules Player Personal Content DVR Bug Hunt"
         },
         {
@@ -433,7 +433,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.12.2013 11:25 EST",
             "numberOfReviewPositionsAvailable": 2,
             "type": "Assembly Competition",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Hercules Tech App SAHIC Prototype Conversion Module Assembly"
         },
         {
@@ -445,7 +445,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.09.2013 03:05 EST",
             "numberOfReviewPositionsAvailable": 1,
             "type": "Bug Hunt",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Styx Physical Access Control iPad Application iOS7 Bug Hunt 2"
         },
         {
@@ -457,7 +457,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.09.2013 03:05 EST",
             "numberOfReviewPositionsAvailable": 1,
             "type": "Bug Hunt",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Styx Physical Access Control iPhone Application iOS7 Bug Hunt 2"
         },
         {
@@ -469,7 +469,7 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.11.2013 21:20 EST",
             "numberOfReviewPositionsAvailable": 3,
             "type": "Assembly Competition",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Module Assembly - ActionHero Tasks for Adding LDAP Entry and Sending Verification Emails"
         },
         {
@@ -481,14 +481,14 @@ sampleReviewOpportunities = {
             "reviewEnd": "11.11.2013 21:34 EST",
             "numberOfReviewPositionsAvailable": 3,
             "type": "Assembly Competition",
-            "reviewType": "Contest Review",
+            "reviewType": "Challenge Review",
             "contestName": "Module Assembly - TopCoder NodeJS Member Registration REST API"
         }
     ]
 };
 
 sampleReviewOpportunity = {
-    "name": "PDS - Import and Persistence Update - Assembly Contest",
+    "name": "PDS - Import and Persistence Update - Assembly Challenge",
     "Phases": [
         {
             "name": "Submission",
@@ -545,8 +545,8 @@ sampleAlgorithmsReviewOpportunities = {
             "reviewEnd": "10.16.2013 13:06 EDT",
             "numberOfReviewPositionsAvailable": 3,
             "type": "Screening",
-            "reviewType": "Contest Review",
-            "contestName": "Algorithms contest 1"
+            "reviewType": "Challenge Review",
+            "contestName": "Algorithms challenge 1"
         },
         {
             "id": 10160,
@@ -557,8 +557,8 @@ sampleAlgorithmsReviewOpportunities = {
             "reviewEnd": "10.16.2013 13:06 EDT",
             "numberOfReviewPositionsAvailable": 2,
             "type": "Screening",
-            "reviewType": "Contest Review",
-            "contestName": "Algorithms contest 2"
+            "reviewType": "Challenge Review",
+            "contestName": "Algorithms challenge 2"
         }]
 };
 

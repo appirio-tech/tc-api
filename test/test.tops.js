@@ -122,8 +122,8 @@ describe('Get Tops API', function () {
     it('test test_scenarios category', function (done) {
         check("test_scenarios", done);
     });
-    it('test ui_prototype category', function (done) {
-        check("ui_prototype", done);
+    it('test ui_prototypes category', function (done) {
+        check("ui_prototypes", done);
     });
     it('test ria_build category', function (done) {
         check("ria_build", done);

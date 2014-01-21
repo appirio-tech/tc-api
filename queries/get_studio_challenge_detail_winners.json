@@ -1,0 +1,5 @@
+{
+  "name"    : "get_studio_challenge_detail_winners",
+  "db"      : "tcs_dw",
+  "sqlfile" : "get_studio_challenge_detail_winners"
+}

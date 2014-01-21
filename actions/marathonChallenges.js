@@ -118,8 +118,8 @@ exports.searchMarathonChallenges = {
     run: function (api, connection, next) {
         var helper = api.helper, params = connection.params, sqlParams,
             pageIndex, pageSize, sortColumn, sortOrder, listType, error, result,
-            dbConnectionMap = this.dbConnectionMap, filter = {};
-        if (!this.dbConnectionMap) {
+            dbConnectionMap = connection.dbConnectionMap, filter = {};
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -254,7 +254,7 @@ exports.searchMarathonChallenges = {
                 }
                 result = {
                     data: _.map(results.data, function (item) {
-                        var contest = {
+                        var challenge = {
                             roundId: item.round_id,
                             fullName: item.full_name,
                             shortName: item.short_name,
@@ -264,10 +264,10 @@ exports.searchMarathonChallenges = {
                             winnerScore: item.winner_score
                         };
                         if (listType === ListType.ACTIVE) {
-                            delete contest.winnerHandle;
-                            delete contest.winnerScore;
+                            delete challenge.winnerHandle;
+                            delete challenge.winnerScore;
                         }
-                        return contest;
+                        return challenge;
                     }),
                     total: total,
                     pageIndex: pageIndex,
@@ -287,7 +287,7 @@ exports.searchMarathonChallenges = {
 };
 
 /**
- * Compute progressResources field for contest details
+ * Compute progressResources field for challenge details
  * 
  * @param {Array<Object>} submissions - the submissions. Result of detail_progress_XXX query.
  * @param {Array<Object>} registrants - the registrants. Result of detail_progress_XXX_registrants query.
@@ -408,7 +408,7 @@ exports.getMarathonChallenge = {
     databases: ["informixoltp"],
     run: function (api, connection, next) {
         api.log("Execute getMarathonChallenge#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             id = Number(connection.params.id),
             helper = api.helper,
             groupType = (connection.params.groupType || "day").toLowerCase(),
@@ -416,7 +416,7 @@ exports.getMarathonChallenge = {
                 roundId: id
             },
             result = {};
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }

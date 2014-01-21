@@ -18,7 +18,7 @@ var getCountries = function (api, connection, dbConnectionMap, next) {
     api.dataAccess.executeQuery("get_countries", {}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occured: " + err + " " + (err.stack || ''), "error");
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             connection.error = err;
             next(connection, true);
         } else {
@@ -59,9 +59,9 @@ exports.countries = {
     transaction : 'read', // this action is read-only
     databases : ['common_oltp'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute countries#run", 'debug');
-            getCountries(api, connection, this.dbConnectionMap, next);
+            getCountries(api, connection, connection.dbConnectionMap, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;
@@ -87,9 +87,9 @@ exports.countriesSecured = {
     transaction : 'read', // this action is read-only
     databases : ['common_oltp'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute countriesSecured#run", 'debug');
-            getCountries(api, connection, this.dbConnectionMap, next);
+            getCountries(api, connection, connection.dbConnectionMap, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;

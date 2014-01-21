@@ -1,8 +1,10 @@
 ﻿/*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, muzehyun
+ * changes in 1.1:
+ * - add getTrimmedData method
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -13,7 +15,7 @@ var fs = require('fs');
 var util = require('util');
 var _ = require('underscore');
 var assert = require('chai').assert;
-var crypto = require( "crypto" );
+var crypto = require("crypto");
 
 /**
  * The test helper
@@ -131,7 +133,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
             connection.disconnect();
             callback(err, result);
         } else {
-            connection.query("select " + query, function(err, result) {
+            connection.query("select " + query, function (err, result) {
                 if (err) {
                     connection.disconnect();
                 }
@@ -286,10 +288,10 @@ helper.assertResponse = function (err, res, filename, done) {
  *
  * @return the encrypted and encoded password
  */
-helper.encodePassword = function( password, key ) {
-    var cipher = crypto.createCipheriv( "bf-ecb", Buffer( key, "base64" ), '' );
-    var result = cipher.update( password, "utf8", "base64" );
-    result += cipher.final( "base64" );
+helper.encodePassword = function (password, key) {
+    var cipher = crypto.createCipheriv("bf-ecb", new Buffer(key, "base64"), ''), result;
+    result = cipher.update(password, "utf8", "base64");
+    result += cipher.final("base64");
     return result;
 };
 
@@ -304,11 +306,23 @@ helper.encodePassword = function( password, key ) {
  *
  * @return the decypted password
  */
-helper.decodePassword = function( password, key ) {
-    var decipher = crypto.createDecipheriv( "bf-ecb", Buffer( key, "base64" ), '' );
-    var result = decipher.update( password, "base64", "utf8" );
-    result += decipher.final( "utf8" );
+helper.decodePassword = function (password, key) {
+    var decipher = crypto.createDecipheriv("bf-ecb", new Buffer(key, "base64"), ''), result;
+    result = decipher.update(password, "base64", "utf8");
+    result += decipher.final("utf8");
     return result;
+};
+
+/**
+ * Convert text to JSON object and removes serverInformation and requestorInformation
+ * @param {String} text - returned text data
+ * @return {Object} trimmed object
+ */
+helper.getTrimmedData = function (text) {
+    var ret = JSON.parse(text);
+    delete ret.serverInformation;
+    delete ret.requestorInformation;
+    return ret;
 };
 
 module.exports = helper;

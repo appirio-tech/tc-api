@@ -42,7 +42,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
         pageIndex,
         pageSize,
         error,
-        contestType = connection.params.contestType.toLowerCase(),
+        challengeType = connection.params.contestType.toLowerCase(),
         result = {},
         active = false;
     pageIndex = Number(connection.params.pageIndex || 1);
@@ -58,19 +58,19 @@ var getTops = function (api, connection, dbConnectionMap, next) {
                 helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
                 helper.checkPageIndex(pageIndex, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
-                helper.checkContains(Object.keys(helper.softwareChallengeTypes), contestType, "contestType");
+                helper.checkContains(Object.keys(helper.softwareChallengeTypes), challengeType, "challengeType");
             if (error) {
                 cb(error);
                 return;
             }
-            active = helper.softwareChallengeTypes[contestType].active;
+            active = helper.softwareChallengeTypes[challengeType].active;
             if (pageIndex === -1) {
                 pageIndex = 1;
                 pageSize = MAX_INT;
             }
             sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
             sqlParams.pageSize = pageSize;
-            sqlParams.phaseId = helper.softwareChallengeTypes[contestType].phaseId;
+            sqlParams.phaseId = helper.softwareChallengeTypes[challengeType].phaseId;
             api.dataAccess.executeQuery(active ? "get_tops_active_count" : "get_tops_count", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
@@ -209,9 +209,9 @@ exports.getTops = {
     transaction : 'read', // this action is read-only
     databases : ["topcoder_dw", "tcs_dw"],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getTops#run", 'debug');
-            getTops(api, connection, this.dbConnectionMap, next);
+            getTops(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -235,9 +235,9 @@ exports.getStudioTops = {
     cacheEnabled: false,
     version : 'v2',
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log('Execute getStudioTops#run', 'debug');
-            getStudioTops(api, connection, this.dbConnectionMap, next);
+            getStudioTops(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -262,7 +262,7 @@ exports.getMarathonTops = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getMarathonTops#run", 'debug');
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             api.helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -272,7 +272,7 @@ exports.getMarathonTops = {
             pageSize,
             error,
             rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
-            dbConnectionMap = this.dbConnectionMap,
+            dbConnectionMap = connection.dbConnectionMap,
             result = {};
         pageIndex = Number(connection.params.pageIndex || 1);
         pageSize = Number(connection.params.pageSize || 10);
@@ -391,9 +391,9 @@ exports.getSRMTops = {
             pageSize,
             error,
             rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
-            dbConnectionMap = this.dbConnectionMap,
+            dbConnectionMap = connection.dbConnectionMap,
             result = {};
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }

@@ -1,0 +1,5 @@
+{
+  "name"    : "challenge_details",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "challenge_details"
+}
