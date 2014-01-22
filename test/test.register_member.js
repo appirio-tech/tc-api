@@ -77,7 +77,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -96,7 +96,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -114,7 +114,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -248,13 +248,13 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(JSON.parse(result.res.text).message, expected, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should send email', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')

@@ -18,8 +18,7 @@ var getCountries = function (api, connection, dbConnectionMap, next) {
     api.dataAccess.executeQuery("get_countries", {}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            connection.error = err;
+            api.helper.handleError(err);
             next(connection, true);
         } else {
             api.log("Forward result", "debug");

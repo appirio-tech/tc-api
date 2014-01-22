@@ -25,8 +25,7 @@ var getChallengeTypes = function (api, connection, dbConnectionMap, isStudio, ne
     api.dataAccess.executeQuery("get_challenge_types", sqlParameters, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            connection.error = err;
+            api.helper.handleError(api, connection, err);
             next(connection, true);
         } else {
             api.log("Forward result", "debug");

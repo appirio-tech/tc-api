@@ -18,8 +18,7 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
     api.dataAccess.executeQuery("tc_direct_facts", {}, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            connection.error = err;
+            api.helper.handleError(api, connection, err);
             next(connection, true);
         } else {
             api.log("Forward result", "debug");

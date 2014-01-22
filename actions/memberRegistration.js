@@ -19,6 +19,7 @@ var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
+var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 /**
  * The max surname length
@@ -60,10 +61,7 @@ var HANDLE_PUNCTUATION = "-_.{}[]";
  */
 var HANDLE_ALPHABET = stringUtils.ALPHABET_ALPHA_EN + stringUtils.ALPHABET_DIGITS_EN + HANDLE_PUNCTUATION;
 
-/**
- * Constant for http response codes
- */
-var apiCodes = {badRequest : 400, serverError : 500};
+
 
 /**
  * The regular expression for email
@@ -930,10 +928,7 @@ exports.action = {
                     var i, filteredMessage;
 
                     if (err) {
-                        api.log("Error occured: " + err + " " + (err.stack || ''), "error");
-                        connection.rawConnection.responseHttpCode = apiCodes.serverError;
-                        connection.error = err;
-                        connection.response = {message : err};
+                        api.helper.handleError(api, connection, err);
                         next(connection, true);
                         return;
                     }
@@ -955,17 +950,13 @@ exports.action = {
 
                     // any input is invalid
                     if (filteredMessage.length > 0) {
-                        connection.rawConnection.responseHttpCode = apiCodes.badRequest;
-                        connection.response = {message : filteredMessage};
+                        api.helper.handleError(api, connection, new IllegalArgumentError(filteredMessage));
                         next(connection, true);
                     } else {
                         // register the user into database
                         registerUser(connection.params, api, dbConnectionMap, function (err, result) {
                             if (err) {
-                                api.log("Error occurred in server: " + err + " " + (err.stack || ''), "error");
-                                connection.rawConnection.responseHttpCode = apiCodes.serverError;
-                                connection.error = err;
-                                connection.response = {message : err};
+                                api.helper.handleError(api, connection, err);
                             } else {
                                 api.log("Member registration succeeded.", "debug");
                                 connection.response = {userId : result};
