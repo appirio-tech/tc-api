@@ -1,0 +1,29 @@
+DELETE FROM review_item_comment WHERE resource_id = 10045;
+DELETE FROM review_item WHERE review_item_id = 1;
+DELETE FROM review WHERE review_id = 1;
+
+DELETE FROM submission WHERE submission_id > 10000;
+DELETE FROM upload WHERE upload_id > 10000;
+
+DELETE FROM prize WHERE prize_id > 10000;
+
+DELETE FROM resource_info WHERE resource_id > 10000;
+DELETE FROM resource WHERE resource_id > 10000;
+
+DELETE FROM project_phase WHERE project_id > 10000;
+
+DELETE FROM project_info WHERE project_id > 10000;
+DELETE FROM project_platform WHERE project_id > 10000;
+DELETE FROM project WHERE project_id > 10000;
+
+DELETE FROM project_studio_specification WHERE project_studio_spec_id = 1;
+
+DELETE FROM user_permission_grant WHERE resource_id = 30010001;
+
+DELETE FROM common_oltp:contest_eligibility WHERE contest_id = 100021;
+
+DELETE FROM tc_direct_project WHERE project_id IN (100001,100002, 30010001);
+
+UPDATE project_category_lu SET project_catalog_id = null;
+
+DELETE FROM project_catalog_lu;

@@ -1,0 +1,5 @@
+{
+    "name"    : "search_software_studio_challenges_count",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "search_software_studio_challenges_count"
+}

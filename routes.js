@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author vangavroche, Sky_, TCSASSEMBLER
+ * @version 1.5
+ * @author vangavroche, Sky_, muzehyun
  * Changes in 1.1:
- * - add routes for search contests
+ * - add routes for search challenges
  * Changes in 1.2:
  * - add route for top
  * Changes in 1.3:
@@ -12,6 +12,9 @@
  * - add routes for cache test
  * Changes in 1.4:
  * - reorder route for studio contest details
+ * Changes in 1.5:
+ * - add routes for software rating history and distribution
+ * - reorder route for studio challenge details
  */
 
 /* ---------------------
@@ -78,22 +81,27 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
-        { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioContests" },
+        { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
-        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareContest" },
+        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
-        { path: "/:apiVersion/develop/challenges", action: "searchSoftwareContests" },
+        { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
+        { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
-        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioContest" },
-        { path: "/:apiVersion/design/challenges", action: "searchStudioContests" },
+        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
+        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
+        { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
+
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
         { path: "/:apiVersion/users/:handle", action: "getBasicUserProfile" },
+
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
@@ -109,12 +117,11 @@ exports.routes = {
 
         //Stubs APIs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
-        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
-        { path: "/:apiVersion/software/reviewers/:contestType", action: "getContestReviewers" },
+        { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
-        { path: "/:apiVersion/data/challengetypes", action: "algorithmsContestTypes" }
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },

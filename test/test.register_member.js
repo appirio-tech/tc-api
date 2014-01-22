@@ -79,7 +79,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -98,7 +98,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -116,7 +116,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -223,7 +223,7 @@ describe('Test Register Member API', function () {
                 }
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_default_reg_source.json", true, function (err, result) {
                     if (!err) {
-                        assert.deepEqual(expected, result, "Invalid returned message");
+                        assert.deepEqual(result, expected, "Invalid returned message");
                         done(err);
                     } else {
                         done(err);
@@ -249,7 +249,7 @@ describe('Test Register Member API', function () {
                 }
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_reg_source.json", true, function (err, result) {
                     if (!err) {
-                        assert.deepEqual(expected, result, "Invalid returned message");
+                        assert.deepEqual(result, expected, "Invalid returned message");
                         done(err);
                     } else {
                         done(err);
@@ -270,13 +270,13 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should send email', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')

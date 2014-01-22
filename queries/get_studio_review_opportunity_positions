@@ -1,0 +1,10 @@
+SELECT
+  min(ri.value::int) AS reviewer
+, CASE WHEN p.project_category_id = 20 THEN 150 ELSE 100 END AS payment
+FROM
+  resource r
+, resource_info ri
+, project p
+WHERE r.project_id = p.project_id AND r.resource_role_id IN (2, 19)
+AND ri.resource_id = r.resource_id and ri.resource_info_type_id = 1 and p.project_id = @challengeId@
+GROUP BY 2

@@ -1,0 +1,102 @@
+﻿{
+    "challengeType": "Banners/Icons",
+    "challengeName": "Studio Contest 5",
+    "challengeId": 10041,
+    "projectId": 30010001,
+    "forumId": "10000001",
+    "introduction": "Introduction of Studio Contest 5",
+    "cmcTaskId": "",
+    "numberOfCheckpointsPrizes": 1,
+    "topCheckPointPrize": 250,
+    "postingDate": "2013-11-01T00:00:00.000Z",
+    "registrationEndDate": "2013-11-02T00:00:00.000Z",
+    "checkpointSubmissionEndDate": "2013-11-03T00:00:00.000Z",
+    "submissionEndDate": "2013-11-03T00:00:00.000Z",
+    "appealsEndDate": "2013-11-05T00:00:00.000Z",
+    "finalFixEndDate": "2013-11-05T00:00:00.000Z",
+    "currentStatus": "Completed",
+    "currentPhaseName": "",
+    "currentPhaseRemainingTime": 0,
+    "digitalRunPoints": 450,
+    "challengeCommunity": "design",
+    "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=10041",
+    "prize": [
+        1000,
+        500,
+        200
+    ],
+    "checkpoints": [
+        {
+            "submissionId": 10042,
+            "submitter": "user"
+        }
+    ],
+    "submissions": [
+        {
+            "submissionId": 10041,
+            "submitter": "super"
+        }
+    ],
+    "winners": [
+        {
+            "submissionId": 10041,
+            "submitter": "super",
+            "points": 450,
+            "rank": 1
+        }
+    ],
+    "platforms": [
+        "Facebook",
+        "iOS"
+    ],
+    "phases": [
+     {
+       "type": "Registration",
+       "status": "Closed",
+       "scheduledStartTime": "2013-11-01T00:00:00.000Z",
+       "actualStartTime": "2013-11-01T00:00:00.000Z",
+       "scheduledEndTime": "2013-11-02T00:00:00.000Z",
+       "actualendTime": "2013-11-02T00:00:00.000Z"
+     },
+     {
+       "type": "Submission",
+       "status": "Closed",
+       "scheduledStartTime": "2013-11-01T00:00:00.000Z",
+       "actualStartTime": "2013-11-01T00:00:00.000Z",
+       "scheduledEndTime": "2013-11-03T00:00:00.000Z",
+       "actualendTime": "2013-11-03T00:00:00.000Z"
+     },
+     {
+       "type": "Checkpoint Submission",
+       "status": "Closed",
+       "scheduledStartTime": "2013-11-01T00:00:00.000Z",
+       "actualStartTime": "2013-11-01T00:00:00.000Z",
+       "scheduledEndTime": "2013-11-03T00:00:00.000Z",
+       "actualendTime": "2013-11-03T00:00:00.000Z"
+     },
+     {
+       "type": "Screening",
+       "status": "Closed",
+       "scheduledStartTime": "2013-11-03T00:00:00.000Z",
+       "actualStartTime": "2013-11-03T00:00:00.000Z",
+       "scheduledEndTime": "2013-11-04T00:00:00.000Z",
+       "actualendTime": "2013-11-04T00:00:00.000Z"
+     },
+     {
+       "type": "Review",
+       "status": "Closed",
+       "scheduledStartTime": "2013-11-04T00:00:00.000Z",
+       "actualStartTime": "2013-11-04T00:00:00.000Z",
+       "scheduledEndTime": "2013-11-05T00:00:00.000Z",
+       "actualendTime": "2013-11-05T00:00:00.000Z"
+     },
+     {
+       "type": "Checkpoint Review",
+       "status": "Closed",
+       "scheduledStartTime": "2013-11-04T00:00:00.000Z",
+       "actualStartTime": "2013-11-04T00:00:00.000Z",
+       "scheduledEndTime": "2013-11-05T00:00:00.000Z",
+       "actualendTime": "2013-11-05T00:00:00.000Z"
+     }
+   ]
+}

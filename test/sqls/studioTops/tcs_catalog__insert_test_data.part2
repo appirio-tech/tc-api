@@ -1,0 +1,296 @@
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3042, 7, 32, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3042, 1, 3042, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3042, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3042, 3042, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3042, 3042, 3042, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3042, 3042, 1, 1, 1, 3042, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3043, 7, 32, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3043, 1, 3043, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3043, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3043, 3043, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3043, 3043, 3043, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3043, 3043, 1, 1, 1, 3043, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3044, 7, 32, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3044, 1, 3044, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3044, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3044, 3044, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3044, 3044, 3044, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3044, 3044, 1, 1, 1, 3044, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3045, 7, 32, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3045, 1, 3045, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3045, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3045, 3045, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3045, 3045, 3045, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3045, 3045, 1, 1, 1, 3045, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132456, 1000, 145, 320, 423, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3046, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3046, 1, 3046, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3046, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3046, 3046, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3046, 3046, 3046, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3046, 3046, 1, 1, 1, 3046, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3047, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3047, 1, 3047, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3047, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3047, 3047, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3047, 3047, 3047, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3047, 3047, 1, 1, 1, 3047, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3048, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3048, 1, 3048, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3048, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3048, 3048, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3048, 3048, 3048, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3048, 3048, 1, 1, 1, 3048, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3049, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3049, 1, 3049, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3049, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3049, 3049, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3049, 3049, 3049, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3049, 3049, 1, 1, 1, 3049, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3050, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3050, 1, 3050, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3050, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3050, 3050, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3050, 3050, 3050, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3050, 3050, 1, 1, 1, 3050, 132456, CURRENT, 132456, CURRENT);
+
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 127, 155, 3234, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3051, 7, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3051, 1, 3051, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3051, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3051, 3051, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3051, 3051, 3051, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3051, 3051, 1, 1, 1, 3051, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3052, 7, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3052, 1, 3052, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3052, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3052, 3052, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3052, 3052, 3052, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3052, 3052, 1, 1, 1, 3052, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3053, 7, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3053, 1, 3053, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3053, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3053, 3053, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3053, 3053, 3053, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3053, 3053, 1, 1, 1, 3053, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3054, 7, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3054, 1, 3054, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3054, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3054, 3054, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3054, 3054, 3054, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3054, 3054, 1, 1, 1, 3054, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 128, 250, 1996, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3055, 7, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3055, 1, 3055, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3055, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3055, 3055, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3055, 3055, 3055, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3055, 3055, 1, 1, 1, 3055, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3056, 7, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3056, 1, 3056, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3056, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3056, 3056, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3056, 3056, 3056, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3056, 3056, 1, 1, 1, 3056, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3057, 7, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3057, 1, 3057, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3057, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3057, 3057, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3057, 3057, 3057, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3057, 3057, 1, 1, 1, 3057, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3058, 7, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3058, 1, 3058, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3058, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3058, 3058, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3058, 3058, 3058, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3058, 3058, 1, 1, 1, 3058, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 129, 345, 684, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3059, 7, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3059, 1, 3059, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3059, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3059, 3059, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3059, 3059, 3059, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3059, 3059, 1, 1, 1, 3059, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3060, 7, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3060, 1, 3060, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3060, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3060, 3060, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3060, 3060, 3060, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3060, 3060, 1, 1, 1, 3060, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3061, 7, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3061, 1, 3061, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3061, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3061, 3061, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3061, 3061, 3061, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3061, 3061, 1, 1, 1, 3061, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3062, 7, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3062, 1, 3062, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3062, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3062, 3062, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3062, 3062, 3062, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3062, 3062, 1, 1, 1, 3062, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 131, 230, 3020, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3063, 7, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3063, 1, 3063, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3063, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3063, 3063, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3063, 3063, 3063, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3063, 3063, 1, 1, 1, 3063, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3064, 7, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3064, 1, 3064, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3064, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3064, 3064, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3064, 3064, 3064, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3064, 3064, 1, 1, 1, 3064, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3065, 7, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3065, 1, 3065, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3065, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3065, 3065, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3065, 3065, 3065, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3065, 3065, 1, 1, 1, 3065, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3066, 7, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3066, 1, 3066, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3066, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3066, 3066, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3066, 3066, 3066, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3066, 3066, 1, 1, 1, 3066, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 132, 63, 1379, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3067, 7, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3067, 1, 3067, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3067, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3067, 3067, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3067, 3067, 3067, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3067, 3067, 1, 1, 1, 3067, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3068, 7, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3068, 1, 3068, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3068, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3068, 3068, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3068, 3068, 3068, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3068, 3068, 1, 1, 1, 3068, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3069, 7, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3069, 1, 3069, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3069, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3069, 3069, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3069, 3069, 3069, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3069, 3069, 1, 1, 1, 3069, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3070, 7, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3070, 1, 3070, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3070, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3070, 3070, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3070, 3070, 3070, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3070, 3070, 1, 1, 1, 3070, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 133, 133, 131, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3071, 7, 22, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3071, 1, 3071, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3071, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3071, 3071, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3071, 3071, 3071, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3071, 3071, 1, 1, 1, 3071, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3072, 7, 22, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3072, 1, 3072, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3072, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3072, 3072, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3072, 3072, 3072, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3072, 3072, 1, 1, 1, 3072, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3073, 7, 22, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3073, 1, 3073, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3073, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3073, 3073, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3073, 3073, 3073, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3073, 3073, 1, 1, 1, 3073, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3074, 7, 22, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3074, 1, 3074, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3074, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3074, 3074, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3074, 3074, 3074, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3074, 3074, 1, 1, 1, 3074, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 141, 49, 3023, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3075, 7, 30, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3075, 1, 3075, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3075, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3075, 3075, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3075, 3075, 3075, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3075, 3075, 1, 1, 1, 3075, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3076, 7, 30, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3076, 1, 3076, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3076, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3076, 3076, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3076, 3076, 3076, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3076, 3076, 1, 1, 1, 3076, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3077, 7, 30, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3077, 1, 3077, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3077, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3077, 3077, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3077, 3077, 3077, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3077, 3077, 1, 1, 1, 3077, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3078, 7, 30, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3078, 1, 3078, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3078, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3078, 3078, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3078, 3078, 3078, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3078, 3078, 1, 1, 1, 3078, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating(user_id, rating, phase_id, vol, rating_no_vol, num_ratings, mod_date_time, create_date_time) VALUES(132457, 1100, 142, 394, 2375, 5, CURRENT, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3079, 7, 31, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3079, 1, 3079, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3079, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3079, 3079, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3079, 3079, 3079, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3079, 3079, 1, 1, 1, 3079, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3080, 7, 31, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3080, 1, 3080, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3080, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3080, 3080, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3080, 3080, 3080, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3080, 3080, 1, 1, 1, 3080, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3081, 7, 31, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3081, 1, 3081, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3081, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3081, 3081, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3081, 3081, 3081, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3081, 3081, 1, 1, 1, 3081, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES(3082, 7, 31, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3082, 1, 3082, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(3082, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(3082, 3082, 1, 2, 15, 10, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(3082, 3082, 3082, 1, 1, 'test', 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(3082, 3082, 1, 1, 1, 3082, 132456, CURRENT, 132456, CURRENT);

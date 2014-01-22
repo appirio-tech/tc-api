@@ -1,0 +1,17 @@
+{
+    "pageIndex": {
+        "positive": "pageIndex should be equal to -1 or greater than 0",
+        "number": "pageIndex should be number.",
+        "too_big": "pageIndex should be less or equal to 2147483647.",
+        "missing": "pageIndex should not be null or undefined"
+    },
+    "pageSize": {
+        "positive": "pageSize should be positive.",
+        "number": "pageSize should be number.",
+        "too_big": "pageSize should be less or equal to 2147483647.",
+        "missing": "pageSize should not be null or undefined"
+    },
+    "challengeType": {
+        "wrong_type": "challengeType should be an element of banners_icons,web_design,wireframes,logo_design,print_presentation,idea_generation,widget_or_mobile_screen_design,front_end_flash,application_front_end_design,other,design,development,specification,architecture,bug_hunt,test_suites,assembly,ui_prototypes,conceptualization,ria_build,ria_component,test_scenarios,copilot_posting,content_creation,reporting,marathon_match,first2finish,code."
+    }
+}

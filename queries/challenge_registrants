@@ -1,0 +1,46 @@
+select 
+      u.handle as handle
+     , ci.create_time as inquiry_date
+     , ri4.value::int as rating
+     , ri5.value::int as reliability
+  from resource rur
+     , resource_info ri1
+     , comp_versions cv
+     , project p
+     , project_phase pi
+     , comp_catalog c
+     , OUTER (submission sub, upload s)
+     , component_inquiry ci
+     , categories pcat
+     , user u
+     , project_info pi_vi
+     , outer resource_info ri4
+     , outer resource_info ri5
+ where 
+   ci.user_id = u.user_id
+  and ci.project_id = p.project_id
+  and p.project_id = rur.project_id
+  and rur.resource_id = ri1.resource_id
+  and rur.resource_role_id = 1
+  and ri1.resource_info_type_id = 1
+  and ri4.resource_id = rur.resource_id
+  and ri4.resource_info_type_id = 4
+  and ri5.resource_id = rur.resource_id
+  and ri5.resource_info_type_id = 5
+  and ci.user_id = ri1.value
+  and p.project_id = pi_vi.project_id
+  and pi_vi.project_info_type_id = 1
+  and pi_vi.value = cv.comp_vers_id  
+  and c.component_id = cv.component_id
+  and sub.upload_id = s.upload_id
+  and sub.submission_type_id = 1
+  and sub.submission_status_id in (1,2,3,4)
+  and s.project_id = p.project_id
+  and s.resource_id = rur.resource_id
+  and s.upload_status_id = 1
+  and s.upload_type_id = 1
+  and pi.project_id = p.project_id
+  and pi.phase_type_id = 2
+  and p.project_id = @challengeId@
+  and pcat.category_id = c.root_category_id
+

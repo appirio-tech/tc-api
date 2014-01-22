@@ -219,7 +219,7 @@ exports.middleware = function (api, next) {
                 api.log('Returning cached response', 'debug');
                 connection.response = value;
                 //manually call the postThrottleProcessor here since we're returning the cache value and halting further processing
-                postThrottleProcessor(connection, actionTemplate, false, next)
+                postThrottleProcessor(connection, actionTemplate, false, next);
                 //next(connection, false);
             } else {
                 next(connection, true);

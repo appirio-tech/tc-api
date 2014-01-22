@@ -15,7 +15,7 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
- * Represents a predefined list of valid sort column for active contest.
+ * Represents a predefined list of valid sort column for active challenge.
  */
 var ALLOWABLE_SORT_COLUMN = [
     "roundId", "name", "startDate", "totalCompetitors", "divICompetitors", "divIICompetitors",
@@ -58,7 +58,7 @@ exports.searchSRMChallenges = {
         api.log("Execute searchSRMChallenges#run", 'debug');
         var helper = api.helper, params = connection.params, sqlParams,
             pageIndex, pageSize, sortColumn, sortOrder, error, result,
-            dbConnectionMap = this.dbConnectionMap;
+            dbConnectionMap = connection.dbConnectionMap;
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
@@ -135,7 +135,7 @@ exports.searchSRMChallenges = {
                     data: []
                 };
                 results.data.forEach(function (item) {
-                    var contest = {
+                    var challenge = {
                         roundId: item.round_id,
                         name: item.name,
                         startDate: item.start_date,
@@ -152,7 +152,7 @@ exports.searchSRMChallenges = {
                         divIIAverageSolutionsChallenged: item.div_ii_average_solutions_challenged
                     };
 
-                    result.data.push(contest);
+                    result.data.push(challenge);
                 });
                 cb();
             }
@@ -185,7 +185,7 @@ exports.getSRMChallenge = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getSRMChallenge#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             id = Number(connection.params.id),
             er = Number(connection.params.er || LEADER_COUNT),
             helper = api.helper,
@@ -194,7 +194,7 @@ exports.getSRMChallenge = {
                 er: er
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
