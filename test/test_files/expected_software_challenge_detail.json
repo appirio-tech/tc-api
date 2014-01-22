@@ -37,5 +37,56 @@
         }
     ],
     "numberOfSubmissions": 1,
-    "numberOfRegistrants": 1
+    "numberOfRegistrants": 1,
+    "platforms": [
+        "AWS",
+        "Cloud Foundry"
+    ],
+    "phases": [
+     {
+       "type": "Registration",
+       "status": "Closed",
+       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+       "actualStartTime": "2013-12-20T01:40:00.000Z",
+       "scheduledEndTime": "2013-12-22T00:00:00.000Z",
+       "actualendTime": "2013-12-22T00:00:00.000Z"
+     },
+     {
+       "type": "Submission",
+       "status": "Open",
+       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+       "actualStartTime": "2013-12-20T00:00:00.000Z",
+       "scheduledEndTime": "2013-12-26T00:00:00.000Z"
+     },
+     {
+       "type": "Screening",
+       "status": "Scheduled",
+       "scheduledStartTime": "2013-12-26T00:00:00.000Z",
+       "scheduledEndTime": "2013-12-26T12:00:00.000Z"
+     },
+     {
+       "type": "Review",
+       "status": "Scheduled",
+       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+     },
+     {
+       "type": "Appeals Response",
+       "status": "Scheduled",
+       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+     },
+     {
+       "type": "Final Fix",
+       "status": "Scheduled",
+       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+     },
+     {
+       "type": "Checkpoint Submission",
+       "status": "Scheduled",
+       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+     }
+   ]
 }

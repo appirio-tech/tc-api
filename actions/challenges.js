@@ -409,13 +409,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     details: execQuery('challenge_details'),
                     checkpoints: execQuery("get_studio_challenge_detail_checkpoints"),
                     submissions: execQuery("get_studio_challenge_detail_submissions"),
-                    winners: execQuery("get_studio_challenge_detail_winners")
+                    winners: execQuery("get_studio_challenge_detail_winners"),
+                    platforms: execQuery('challenge_platforms'),
+                    phases: execQuery('challenge_phases')
                 }, cb);
             } else {
                 async.parallel({
                     details: execQuery('challenge_details'),
                     registrants: execQuery('challenge_registrants'),
-                    submissions: execQuery('challenge_submissions')
+                    submissions: execQuery('challenge_submissions'),
+                    platforms: execQuery('challenge_platforms'),
+                    phases: execQuery('challenge_phases')
                 }, cb);
             }
         }, function (results, cb) {
@@ -459,6 +463,31 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         });
                     }
                     return submissions;
+                },
+                mapPlatforms = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    var platforms = [];
+                        results.forEach(function (item) {
+                            platforms.push(item.name);
+                        });
+                    return platforms;
+                },
+                mapPhases = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (item) {
+                        return {
+                            type: item.type,
+                            status: item.status,
+                            scheduledStartTime: item.scheduled_start_time,
+                            actualStartTime: item.actual_start_time,
+                            scheduledEndTime: item.scheduled_end_time,
+                            actualendTime: item.actual_end_time,
+                        };
+                    });
                 },
                 mapRegistrants = function (results) {
                     if (!_.isDefined(results)) {
@@ -550,6 +579,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.finalSubmissionGuidelines;
                 delete challenge.reliabilityBonus;
                 delete challenge.technology;
+                delete challenge.platforms;
             } else {
                 challenge.numberOfSubmissions = results.submissions.length;
                 challenge.numberOfRegistrants = results.registrants.length;
@@ -557,6 +587,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.winners;
                 delete challenge.introduction;
             }
+            challenge.platforms = mapPlatforms(results.platforms);
+            challenge.phases = mapPhases(results.phases);
             cb();
         }
     ], function (err) {

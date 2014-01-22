@@ -13,6 +13,7 @@ DELETE FROM resource WHERE resource_id > 10000;
 DELETE FROM project_phase WHERE project_id > 10000;
 
 DELETE FROM project_info WHERE project_id > 10000;
+DELETE FROM project_platform WHERE project_id > 10000;
 DELETE FROM project WHERE project_id > 10000;
 
 DELETE FROM project_studio_specification WHERE project_studio_spec_id = 1;
