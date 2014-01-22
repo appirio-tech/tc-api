@@ -178,9 +178,9 @@ exports.getTops = {
     transaction : 'read', // this action is read-only
     databases : ["topcoder_dw", "tcs_dw"],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getTops#run", 'debug');
-            getTops(api, connection, this.dbConnectionMap, next);
+            getTops(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -205,7 +205,7 @@ exports.getMarathonTops = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getMarathonTops#run", 'debug');
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             api.helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -215,7 +215,7 @@ exports.getMarathonTops = {
             pageSize,
             error,
             rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
-            dbConnectionMap = this.dbConnectionMap,
+            dbConnectionMap = connection.dbConnectionMap,
             result = {};
         pageIndex = Number(connection.params.pageIndex || 1);
         pageSize = Number(connection.params.pageSize || 10);
@@ -334,9 +334,9 @@ exports.getSRMTops = {
             pageSize,
             error,
             rankType = (connection.params.rankType) ? connection.params.rankType.toLowerCase() : 'competitors',
-            dbConnectionMap = this.dbConnectionMap,
+            dbConnectionMap = connection.dbConnectionMap,
             result = {};
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }

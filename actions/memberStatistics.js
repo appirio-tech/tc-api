@@ -190,14 +190,14 @@ exports.getMarathonStatistics = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
                 handle: handle
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -267,7 +267,7 @@ exports.getSoftwareStatistics = {
     databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getSoftwareStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -277,7 +277,7 @@ exports.getSoftwareStatistics = {
                 handle: handle,
                 Tracks: {}
             };
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -385,7 +385,7 @@ exports.getStudioStatistics = {
     databases: ["topcoder_dw", "tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         api.log("Execute getStudioStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -395,7 +395,7 @@ exports.getStudioStatistics = {
                 handle: handle,
                 Tracks: {}
             };
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -468,14 +468,14 @@ exports.getAlgorithmStatistics = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
                 handle: handle
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -613,11 +613,11 @@ exports.getBasicUserProfile = {
     transaction: 'read',
     databases: ['informixoltp', 'topcoder_dw'],
     run: function (api, connection, next) {
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             api.helper.handleNoConnection(api, connection, next);
         } else {
             api.log('Execute getBasicUserProfile#run', 'debug');
-            getBasicUserProfile(api, this.dbConnectionMap, connection, next);
+            getBasicUserProfile(api, connection.dbConnectionMap, connection, next);
         }
     }
 };
@@ -710,9 +710,9 @@ exports.getSoftwareRatingHistoryAndDistribution = {
     transaction: 'read', // this action is read-only
     databases: ['tcs_dw'],
     run: function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute getSoftwareRatingHistoryAndDistribution#run", 'debug');
-            getSoftwareRatingHistoryAndDistribution(api, connection, this.dbConnectionMap, next);
+            getSoftwareRatingHistoryAndDistribution(api, connection, connection.dbConnectionMap, next);
         } else {
             api.log("dbConnectionMap is null", "debug");
             connection.rawConnection.responseHttpCode = 500;

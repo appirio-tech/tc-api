@@ -77,7 +77,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -96,7 +96,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -114,7 +114,7 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
@@ -179,11 +179,11 @@ describe('Test Register Member API', function () {
                     done(err);
                     return;
                 }
-                assert.equal(expected, JSON.parse(result.res.text).userId, "Invalid returned message");
+                assert.equal(result.body.userId, expected, "Invalid returned message");
                 validateDatabase(done);
             });
     });
-    
+
     /// Check if the user is registered successfully with the correct default reg source
     it('should register successfully with the correct default reg source', function (done) {
         var text = fs.readFileSync("test/test_files/expected_member_register_validate_default_reg_source.txt", 'utf8'),
@@ -200,16 +200,16 @@ describe('Test Register Member API', function () {
                     return;
                 }
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_default_reg_source.json", true, function (err, result) {
-                   if (!err) {
-                        assert.deepEqual(expected, result, "Invalid returned message");
+                    if (!err) {
+                        assert.deepEqual(result, expected, "Invalid returned message");
                         done(err);
-                   } else {
-                      done(err);
-                   }
+                    } else {
+                        done(err);
+                    }
                 });
-             });
+            });
     });
-    
+
     /// Check if the user is registered successfully with reg source "source1"
     it('should register successfully with reg source "source1"', function (done) {
         var text = fs.readFileSync("test/test_files/expected_member_register_validate_reg_source.txt", 'utf8'),
@@ -226,14 +226,14 @@ describe('Test Register Member API', function () {
                     return;
                 }
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_reg_source.json", true, function (err, result) {
-                   if (!err) {
-                        assert.deepEqual(expected, result, "Invalid returned message");
+                    if (!err) {
+                        assert.deepEqual(result, expected, "Invalid returned message");
                         done(err);
-                   } else {
-                      done(err);
-                   }
+                    } else {
+                        done(err);
+                    }
                 });
-             });
+            });
     });
 
     /// Check if the data are in expected struture and data
@@ -248,13 +248,13 @@ describe('Test Register Member API', function () {
             .expect(400)
             .end(function (err, result) {
                 if (!err) {
-                    assert.deepEqual(expected, JSON.parse(result.res.text).message, "Invalid error message");
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
                 }
                 done(err);
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should send email', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')

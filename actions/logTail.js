@@ -30,7 +30,7 @@ exports.getLogTail = {
             cmd = 'tail ' + logfile + ' -n ' + lines;
         exec(cmd, function (err, stdout, stderr) {
             if (err) {
-                connection.error = stderr;
+                api.helper.handleError(api, connection, stderr);
             } else {
                 //console.log(stdout);
                 connection.response = { log: stdout };

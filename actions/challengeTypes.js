@@ -25,8 +25,7 @@ var getChallengeTypes = function (api, connection, dbConnectionMap, isStudio, ne
     api.dataAccess.executeQuery("get_challenge_types", sqlParameters, dbConnectionMap, function (err, result) {
         api.log("Execute result returned", "debug");
         if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            connection.error = err;
+            api.helper.handleError(api, connection, err);
             next(connection, true);
         } else {
             api.log("Forward result", "debug");
@@ -62,9 +61,9 @@ exports.softwareTypes = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute softwareTypes#run", 'debug');
-            getChallengeTypes(api, connection, this.dbConnectionMap, false, next);
+            getChallengeTypes(api, connection, connection.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -84,9 +83,9 @@ exports.studioTypes = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute studioTypes#run", 'debug');
-            getChallengeTypes(api, connection, this.dbConnectionMap, true, next);
+            getChallengeTypes(api, connection, connection.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -109,9 +108,9 @@ exports.softwareTypesSecured = {
     transaction : 'read', // this action is read-only
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
-        if (this.dbConnectionMap) {
+        if (connection.dbConnectionMap) {
             api.log("Execute softwareTypesSecured#run", 'debug');
-            getChallengeTypes(api, connection, this.dbConnectionMap, false, next);
+            getChallengeTypes(api, connection, connection.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

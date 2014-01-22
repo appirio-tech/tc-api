@@ -58,7 +58,7 @@ exports.searchSRMChallenges = {
         api.log("Execute searchSRMChallenges#run", 'debug');
         var helper = api.helper, params = connection.params, sqlParams,
             pageIndex, pageSize, sortColumn, sortOrder, error, result,
-            dbConnectionMap = this.dbConnectionMap;
+            dbConnectionMap = connection.dbConnectionMap;
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
@@ -185,7 +185,7 @@ exports.getSRMChallenge = {
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getSRMChallenge#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             id = Number(connection.params.id),
             er = Number(connection.params.er || LEADER_COUNT),
             helper = api.helper,
@@ -194,7 +194,7 @@ exports.getSRMChallenge = {
                 er: er
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }

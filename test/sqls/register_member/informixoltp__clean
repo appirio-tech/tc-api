@@ -1,2 +1,6 @@
 
-delete from coder where coder_id = 22758854 or coder_id = 22758864
+delete from coder where coder_id = 22758845;
+delete from coder where coder_id = 22758846;
+delete from coder where coder_id = 22758847;
+delete from coder where coder_id = 22758848;
+delete from coder where coder_id = 22758849;
