@@ -26,8 +26,8 @@ INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 1622, 148);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 2151, 149);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 3416, 150);
 
-INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 1, CURRENT - 10 units MINUTE);
-INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 2, CURRENT - 20 units MINUTE);
-INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 6, CURRENT - 30 units MINUTE);
-INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 11, CURRENT - 40 units MINUTE);
-INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 16, CURRENT - 50 units MINUTE);
+INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 1, CURRENT - 1 units DAY);
+INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 2, CURRENT - 2 units DAY);
+INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 6, CURRENT - 3 units DAY);
+INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 11, CURRENT - 4 units DAY);
+INSERT INTO user_achievement_xref(user_id, user_achievement_rule_id, create_date) VALUES(132456, 16, CURRENT - 5 units DAY);
