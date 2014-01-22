@@ -89,15 +89,19 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
+        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
         { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
+
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
         { path: "/:apiVersion/users/:handle", action: "getBasicUserProfile" },
+
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
@@ -113,7 +117,6 @@ exports.routes = {
 
         //Stubs APIs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
-        { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },

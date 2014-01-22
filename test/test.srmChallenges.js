@@ -78,7 +78,6 @@ describe('Get SRM Challenges API', function () {
          * Helper method for validating result for current test data
          * @param {String} queryString - the query string
          * @param {Array} challenges - the array of expected challenges. e.g [1, 2]
-         * @param {String} type - the list type
          * @param {Number} total - the expected total count
          * @param {Number} pageIndex - the expected pageIndex
          * @param {Number} pageSize - the expected pageSize

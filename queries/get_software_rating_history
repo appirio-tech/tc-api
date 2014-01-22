@@ -5,10 +5,10 @@ SELECT p.project_id
   FROM coder c
      , project_result pr
      , project p
- WHERE c.handle_lower = LOWER("@ha@")
+ WHERE c.handle_lower = LOWER("@handle@")
    AND pr.user_id = c.coder_id
    AND p.project_id = pr.project_id
-   AND p.phase_id = @ph@
+   AND p.phase_id = @phaseId@
    AND p.status_id in (4,5,7,8)
    AND pr.new_rating > 0
    AND pr.rating_ind = 1

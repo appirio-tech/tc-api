@@ -161,14 +161,6 @@
             "description": "Algorithm Coder of the Month"
         },
         {
-            "description": "First Milestone Prize",
-            "badgeLink": {
-                "url": "http://topcoder.com/images/badge.grid.small.png",
-                "leftOffset": 0,
-                "topOffset": -34
-            }
-        },
-        {
             "description": "One Hundred Forum Posts",
             "badgeLink": {
                 "url": "http://topcoder.com/images/badge.grid.small.png",
@@ -182,6 +174,14 @@
                 "url": "http://topcoder.com/images/badge.grid.small.png",
                 "leftOffset": 0,
                 "topOffset": -17
+            }
+        },
+        {
+            "description": "First Milestone Prize",
+            "badgeLink": {
+                "url": "http://topcoder.com/images/badge.grid.small.png",
+                "leftOffset": 0,
+                "topOffset": -34
             }
         },
         {

@@ -43,4 +43,4 @@ SELECT sum(case when rating between 0000 and 0099 then 1 else 0 end) as range_00
  WHERE c.coder_id = r.user_id
  AND status = 'A'
  and r.num_ratings > 0
- and r.phase_id = @ph@
+ and r.phase_id = @phaseId@

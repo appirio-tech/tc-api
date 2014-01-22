@@ -787,57 +787,6 @@ helper.getColorStyle = function (rating) {
 };
 
 /**
- * The contests types
- */
-helper.contestTypes = {
-    design: {
-        name: "Design",
-        phaseId: 112
-    },
-    development: {
-        name: "Development",
-        phaseId: 113,
-        active: true
-    },
-    conceptualization: {
-        name: "Conceptualization",
-        phaseId: 134
-    },
-    specification: {
-        name: "Specification",
-        phaseId: 117
-    },
-    architecture: {
-        name: "Architecture",
-        phaseId: 118
-    },
-    assembly: {
-        name: "Assembly",
-        phaseId: 125
-    },
-    test_suites: {
-        name: "Test Suites",
-        phaseId: 124
-    },
-    test_scenarios: {
-        name: "Test Scenarios",
-        phaseId: 137
-    },
-    ui_prototype: {
-        name: "UI Prototype",
-        phaseId: 130
-    },
-    ria_build: {
-        name: "RIA Build",
-        phaseId: 135
-    },
-    content_creation: {
-        name: "Content Creation",
-        phaseId: 146
-    }
-};
-
-/**
 * Expose the "helper" utility.
 *
 * @param {Object} api The api object that is used to access the infrastructure

@@ -36,7 +36,7 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
             }
         } else {
             callback(error);
-            // actionTemplate.dbConnectionMap[databaseName].disconnect();
+            // connection.dbConnectionMap[databaseName].disconnect();
             // connection.error = error;
             // next(connection, false);
         }
@@ -97,7 +97,7 @@ exports.transaction = function (api, next) {
                     } else {
                         api.log("Database " + databaseName + " connected", 'info');
 
-                        // if the aciton is transactional, start a transaction
+                        // if the action is transactional, start a transaction
                         if (actionTemplate.transaction === "write" && dbConnectionMap[databaseName].isConnected()) {
                             // Begin transaction
                             dbConnectionMap[databaseName].beginTransaction(callback);
@@ -151,7 +151,7 @@ exports.transaction = function (api, next) {
                 if (actionTemplate.transaction === "write") {
                     connection.dbConnectionMap[databaseName].endTransaction(connection.error, callback);
                 } else {
-                    // actionTemplate.dbConnectionMap[databaseName].disconnect();
+                    // connection.dbConnectionMap[databaseName].disconnect();
                     // next(connection);
                     callback();
                 }

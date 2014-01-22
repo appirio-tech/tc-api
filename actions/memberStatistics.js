@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.7
  * @author Sky_, Ghost_141, muzehyun
  * changes in 1.1:
  * - implement marathon statistics
@@ -14,14 +14,16 @@
  * changes in 1.5:
  * - implement get user basic profile.
  * changes in 1.6:
- * - impelment software rating history and distribution
+ * - Update srm (Algorithm) statistics and marathon statistics api to add 'history' and 'distribution' field.
+ * changes in 1.7:
+ * - implement software rating history and distribution
  */
 "use strict";
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
-var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
+var NotFoundError = require('../errors/NotFoundError');
 
 /**
  * Check whether given user is registered.
@@ -174,6 +176,53 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
 }
 
 /**
+ * map the history info from database to json object.
+ * @param {Object} rows the database results.
+ * @returns {Array} the array that contains the history info.
+ */
+function mapHistory(rows) {
+    var ret = [];
+    rows.forEach(function (item) {
+        ret.push({
+            challengeId: item.challenge_id,
+            challengeName: item.challenge_name,
+            date: item.date,
+            rating: item.rating,
+            placement: item.placement,
+            percentile: item.percentile === 'N/A' ? 'N/A' : Number(item.percentile).toFixed(2) + '%'
+        });
+    });
+    return ret;
+}
+
+/**
+ * map the distribution info from database to json object.
+ * @param {Object} rows the database results.
+ */
+function mapDistribution(rows) {
+    var ret = [], maxRating, step, i, start, num, pairs;
+    maxRating = _.max(rows, function (item) {
+        return item.rating;
+    }).rating;
+    pairs = _.object(_.map(rows, function (item) {
+        return item.rating;
+    }), _.map(rows, function (item) {
+        return item.number;
+    }));
+
+    step = parseInt(maxRating / 100, 10) + 1;
+    for (i = 0; i < step; i = i + 1) {
+        start = i * 100;
+        num = pairs[start];
+        ret.push({
+            range: start + '-' + (start + 99),
+            number: _.isDefined(num) ? num : 0
+        });
+    }
+    return ret;
+}
+
+/**
 * The API for getting marathon statistics
 */
 exports.getMarathonStatistics = {
@@ -194,7 +243,8 @@ exports.getMarathonStatistics = {
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                handle: handle
+                handle: handle,
+                algoRatingType: 3
             },
             result;
         if (!connection.dbConnectionMap) {
@@ -205,20 +255,33 @@ exports.getMarathonStatistics = {
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
-                api.dataAccess.executeQuery("get_member_marathon_statistics",
-                    sqlParams,
-                    dbConnectionMap,
-                    cb);
+                checkUserActivated(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var executeQuery = function (sqlName, cbx) {
+                    api.dataAccess.executeQuery(sqlName, sqlParams, dbConnectionMap, cbx);
+                };
+
+                async.parallel({
+                    details: function (cbx) {
+                        executeQuery('get_member_marathon_statistics', cbx);
+                    },
+                    history: function (cbx) {
+                        executeQuery('get_member_marathon_statistics_history', cbx);
+                    },
+                    distribution: function (cbx) {
+                        executeQuery('get_srm_or_marathon_statistics_distribution', cbx);
+                    }
+                }, cb);
             }, function (results, cb) {
-                if (results.length === 0) {
+                var details = results.details[0], history = results.history, distribution = results.distribution;
+                if (results.details.length === 0) {
                     cb(new NotFoundError('statistics not found'));
                     return;
                 }
-                var details = results[0];
                 result = {
                     "handle": details.handle,
                     "rating": details.rating,
-                    "percentile": details.percentile === "N/A" ? "N/A" : Number(details.percentile).toFixed(2) + "%",
+                    "percentile": details.percentile === 'N/A' ? 'N/A' : Number(details.percentile).toFixed(2) + '%',
                     "rank": details.rank || 'not ranked',
                     "countryRank": details.country_rank || 'not ranked',
                     "schoolRank": details.school_rank || 'not ranked',
@@ -228,13 +291,16 @@ exports.getMarathonStatistics = {
                     "defaultLanguage": details.default_language,
                     "competitions": details.competitions,
                     "mostRecentEventName": details.most_recent_event_name,
-                    "mostRecentEventDate": details.most_recent_event_date.toString("MM.dd.yy"),
+                    "mostRecentEventDate": _.isDefined(details.most_recent_event_date) ? details.most_recent_event_date.toString('MM.dd.yy') : '',
                     "bestRank": details.best_rank,
                     "wins": details.wins,
                     "topFiveFinishes": details.top_five_finishes,
                     "topTenFinishes": details.top_ten_finishes,
                     "avgRank": details.avg_rank,
-                    "avgNumSubmissions": details.avg_num_submissions
+                    "avgNumSubmissions": details.avg_num_submissions,
+
+                    "History": mapHistory(history),
+                    "Distribution": mapDistribution(distribution)
                 };
                 cb();
             }
@@ -284,6 +350,8 @@ exports.getSoftwareStatistics = {
         async.waterfall([
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                checkUserActivated(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                     api.dataAccess.executeQuery(name,
@@ -404,6 +472,8 @@ exports.getStudioStatistics = {
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
+                checkUserActivated(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
                 var execQuery = function (name, cbx) {
                     api.dataAccess.executeQuery(name,
                         sqlParams,
@@ -472,7 +542,8 @@ exports.getAlgorithmStatistics = {
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                handle: handle
+                handle: handle,
+                algoRatingType: 1
             },
             result;
         if (!connection.dbConnectionMap) {
@@ -483,9 +554,11 @@ exports.getAlgorithmStatistics = {
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
+                checkUserActivated(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
                 var execQuery = function (name) {
                     return function (cbx) {
-                        api.dataAccess.executeQuery("get_srm_statistics_" + name,
+                        api.dataAccess.executeQuery('get_srm_statistics_' + name,
                             sqlParams,
                             dbConnectionMap,
                             cbx);
@@ -495,7 +568,9 @@ exports.getAlgorithmStatistics = {
                     basic: execQuery("basic"),
                     challenges: execQuery("challenges"),
                     div1: execQuery("division_1"),
-                    div2: execQuery("division_2")
+                    div2: execQuery("division_2"),
+                    history: execQuery('history'),
+                    distribution: function (cbx) { api.dataAccess.executeQuery('get_srm_or_marathon_statistics_distribution', sqlParams, dbConnectionMap, cbx); }
                 }, cb);
             }, function (results, cb) {
                 if (results.basic.length === 0) {
@@ -558,7 +633,9 @@ exports.getAlgorithmStatistics = {
                     },
                     Challenges: {
                         Levels: {}
-                    }
+                    },
+                    History: mapHistory(results.history),
+                    Distribution: mapDistribution(results.distribution)
                 };
                 results.div1.forEach(function (ele) {
                     result.Divisions["Division I"][ele.level_name] = mapLevel(ele);
@@ -624,7 +701,7 @@ exports.getBasicUserProfile = {
 
 /**
  * This is the function that actually get software rating history and distribution
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
@@ -640,23 +717,21 @@ var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConne
         challengeType = connection.params.challengeType.toLowerCase(),
         handle = connection.params.handle,
         error,
-        contestTypes = helper.contestTypes,
-        phaseId,
-        range;
+        phaseId;
     async.waterfall([
         function (cb) {
             error = error ||
-                helper.checkContains(Object.keys(contestTypes), challengeType, "challengeType");
+                helper.checkContains(Object.keys(helper.softwareChallengeTypes), challengeType, "challengeType");
             if (error) {
                 cb(error);
                 return;
             }
-            phaseId = contestTypes[challengeType].phaseId;
-            sqlParams.ha = handle;
-            sqlParams.ph = phaseId;
+            phaseId = helper.softwareChallengeTypes[challengeType].phaseId;
+            sqlParams.handle = handle;
+            sqlParams.phaseId = phaseId;
             api.dataAccess.executeQuery("get_software_rating_handle", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
-            if (rows[0].handleexist === 0) {
+            if (rows[0].handle_exist === 0) {
                 cb(new NotFoundError("Handle is not exist"));
                 return;
             }

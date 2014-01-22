@@ -40,8 +40,6 @@ describe('Get Marathon Challenges API', function () {
         ], done);
     }
 
-
-
     /**
      * This function is run after each all test cases.
      * Clean up all data.
@@ -52,8 +50,6 @@ describe('Get Marathon Challenges API', function () {
     });
 
 
-    
-    
     describe("Search Challenges", function () {
         /**
          * This function is run before all tests.

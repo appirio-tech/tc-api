@@ -57,15 +57,15 @@ describe('Test Software Rating History And Distribution API (Success)', function
     });
 
     /**
-     * This function is run all contest types.
+     * This function is run all challenge types.
      * Compares result with expected.
      * @param {Function<err>} done the callback
      */
-    function testContestType(contestType, done) {
-        var text = fs.readFileSync('test/test_files/member_statistics/expected_history_' + contestType + '.txt', 'utf8'),
+    function testChallengeType(challengeType, done) {
+        var text = fs.readFileSync('test/test_files/member_statistics/expected_history_' + challengeType + '.txt', 'utf8'),
             expected = testHelper.getTrimmedData(text);
         request(API_ENDPOINT)
-            .get('/v2/develop/statistics/CevyC/' + contestType)
+            .get('/v2/develop/statistics/CevyC/' + challengeType)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -80,48 +80,48 @@ describe('Test Software Rating History And Distribution API (Success)', function
             });
     }
 
-    it('test design contest types', function (done) {
-        testContestType('design', done);
+    it('test design challenge types', function (done) {
+        testChallengeType('design', done);
     });
 
-    it('test development contest types', function (done) {
-        testContestType('development', done);
+    it('test development challenge types', function (done) {
+        testChallengeType('development', done);
     });
 
-    it('test conceptualization contest types', function (done) {
-        testContestType('conceptualization', done);
+    it('test conceptualization challenge types', function (done) {
+        testChallengeType('conceptualization', done);
     });
 
-    it('test specification contest types', function (done) {
-        testContestType('specification', done);
+    it('test specification challenge types', function (done) {
+        testChallengeType('specification', done);
     });
 
-    it('test architecture contest types', function (done) {
-        testContestType('architecture', done);
+    it('test architecture challenge types', function (done) {
+        testChallengeType('architecture', done);
     });
 
-    it('test assembly contest types', function (done) {
-        testContestType('assembly', done);
+    it('test assembly challenge types', function (done) {
+        testChallengeType('assembly', done);
     });
 
-    it('test test_suites contest types', function (done) {
-        testContestType('test_suites', done);
+    it('test test_suites challenge types', function (done) {
+        testChallengeType('test_suites', done);
     });
 
-    it('test test_scenarios contest types', function (done) {
-        testContestType('test_scenarios', done);
+    it('test test_scenarios challenge types', function (done) {
+        testChallengeType('test_scenarios', done);
     });
 
-    it('test ui_prototype contest types', function (done) {
-        testContestType('ui_prototype', done);
+    it('test ui_prototypes challenge types', function (done) {
+        testChallengeType('ui_prototypes', done);
     });
 
-    it('test ria_build contest types', function (done) {
-        testContestType('ria_build', done);
+    it('test ria_build challenge types', function (done) {
+        testChallengeType('ria_build', done);
     });
 
-    it('test content_creation contest types', function (done) {
-        testContestType('content_creation', done);
+    it('test content_creation challenge types', function (done) {
+        testChallengeType('content_creation', done);
     });
 
     it('test empty history', function (done) {
@@ -147,7 +147,7 @@ describe('Test Software Rating History And Distribution API (Success)', function
 describe('Test Software Rating History And Distribution API (Fail)', function () {
     this.timeout(60000); // The api with testing remote db could be quit slow
 
-    it('invalid contestType', function (done) {
+    it('invalid challengeType', function (done) {
         request(API_ENDPOINT)
             .get('/v2/develop/statistics/CevyC/invalid')
             .set('Accept', 'application/json')

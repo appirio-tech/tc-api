@@ -466,13 +466,13 @@ describe('Get Tops API', function () {
         });
     });
 
-    describe('GET /develop/statistics/tops/ui_prototype', function () {
+    describe('GET /develop/statistics/tops/ui_prototypes', function () {
 
         /// Check if the data are in expected struture and data
         it('should response with expected structure and data', function (done) {
 
             r = request(API_ENDPOINT);
-            r = r.get(ACTION + 'ui_prototype?pageSize=10&pageIndex=1')
+            r = r.get(ACTION + 'ui_prototypes?pageSize=10&pageIndex=1')
                 .set('Accept', 'application/json');
 
             // should respond with JSON

@@ -106,18 +106,18 @@ var activationEmailSenderName = "Topcoder API";
  * this is the random int generator class
  */
 function codeRandom(coderId) {
-    var cr = {};
-    var multiplier = 0x5DEECE66D;
-    var addend = 0xB;
-    var mask = 281474976710655;
+    var cr = {},
+        multiplier = 0x5DEECE66D,
+        addend = 0xB,
+        mask = 281474976710655;
     cr.seed = bignum(coderId).xor(multiplier).and(mask);
-    cr.nextInt = function() {
+    cr.nextInt = function () {
         var oldseed = cr.seed,
             nextseed;
-            do {
-                nextseed = oldseed.mul(multiplier).add(addend).and(mask);
-            } while (oldseed.toNumber() === nextseed.toNumber());
-            cr.seed = nextseed;
+        do {
+            nextseed = oldseed.mul(multiplier).add(addend).and(mask);
+        } while (oldseed.toNumber() === nextseed.toNumber());
+        cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
     }
 
@@ -131,7 +131,7 @@ function codeRandom(coderId) {
  */
 function getCode(coderId) {
     var r = codeRandom(coderId);
-    var nextBytes = function(bytes) {
+    var nextBytes = function (bytes) {
         for (var i = 0, len = bytes.length; i < len;)
             for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
                 var val = rnd & 0xff;
