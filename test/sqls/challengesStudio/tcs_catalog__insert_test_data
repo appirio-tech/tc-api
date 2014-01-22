@@ -381,6 +381,9 @@ VALUES(10041,53,'true','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,32,'2','132456',CURRENT,'132456',CURRENT);
 
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (10041, 12, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (10041, 14, 132456, CURRENT, 132456, CURRENT);
+
 --registration phase
 INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,
 fixed_start_time,scheduled_start_time,scheduled_end_time,actual_start_time,actual_end_time,duration,
