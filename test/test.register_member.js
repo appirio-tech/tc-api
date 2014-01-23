@@ -149,7 +149,7 @@ describe('Test Register Member API', function () {
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__select_user_group.json", true, callback);
             },
             userId: function (callback) {
-                testHelper.runSqlFromJSON(SQL_DIR + "informixoltp__get_current_user_seq.json", true, callback);
+                testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__get_current_user_seq.json", true, callback);
             }
         }, function (err, results) {
             if (!err) {
