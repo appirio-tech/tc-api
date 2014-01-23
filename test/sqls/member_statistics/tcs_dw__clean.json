@@ -1,0 +1,5 @@
+{
+  "name"    : "tcs_dw__clean",
+  "db"      : "tcs_dw",
+  "sqlfile" : "tcs_dw__clean"
+}

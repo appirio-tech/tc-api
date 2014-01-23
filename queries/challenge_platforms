@@ -1,0 +1,5 @@
+SELECT ppl.name
+FROM project_platform_lu ppl
+  INNER JOIN project_platform pp ON ppl.project_platform_id = pp.project_platform_id 
+WHERE 1=1 
+ AND pp.project_id = @challengeId@

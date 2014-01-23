@@ -1,16 +1,15 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: TCSASSEMBLER
+ * @version 1.1
+ * @author TCSASSEMBLER, Sky_
+ * changes in 1.1:
+ * - generated id by using sql SEQUENCE
  */
 
 "use strict";
+var async = require('async');
 
-/**
- * The block size of the id_sequences sequences. It must match the existing value in the tc database.
- */
-var idBlockSize = 10;
 
 /**
  * Expose the "idGenerator" utility.
@@ -29,30 +28,14 @@ exports.idGenerator = function (api, next) {
          * @param {Function} next - The callback function
          */
         getNextID : function (idName, dbConnectionMap, next) {
-            api.dataAccess.executeQuery("get_highest_id", {name : idName}, dbConnectionMap, function (err, result) {
-                api.log("Execute result returned", "debug");
+            api.log("Generate next id for sequence:" + idName, "debug");
+            api.dataAccess.executeQuery("get_next_sequence", {seq_name : idName}, dbConnectionMap, function (err, result) {
                 if (err) {
-                    api.log("Error occured: " + err + " " + (err.stack || ''), "error");
-                } else {
-                    api.log("Forward result", "debug");
+                    api.log(err.message + "\n" + err.stack, "error");
+                    next(err);
+                    return;
                 }
-
-                var highest = result[0].highest;
-                api.log("Current highest id for " + idName + " : " + highest, "debug");
-
-                highest += idBlockSize;
-
-                api.dataAccess.executeQuery("update_highest_id", {nextBlockStart : highest, name : idName}, dbConnectionMap, function (err, result) {
-                    api.log("Execute result returned", "debug");
-                    if (err) {
-                        api.log("Error occured: " + err + " " + (err.stack || ''), "error");
-                    } else {
-                        api.log("Forward result", "debug");
-                    }
-
-                    api.log("Updated result: " + result, "debug");
-                    next(err, highest);
-                });
+                next(null, result[0].next_id);
             });
         }
     };

@@ -1,3 +1,4 @@
+/*jslint nomen: true */
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
@@ -197,47 +198,56 @@ exports.middleware = function (api, next) {
     /*jslint */
 
     /**
-     * Create unique cache key for given connection.
-     * Key depends on action name and query parameters (connection.params).
+     * The pre-processor that checks if user is slamming.
      *
      * @param {Object} connection The connection object for the current request
-     * @return {String} the key
+     * @param {Object} actionTemplate The metadata of the current action object
+     * @param {Function<connection, toRender>} next The callback function
+     * @since 1.1
      */
-    function createCacheKey(connection) {
-        var sorted = [], prop, val, json;
-        for (prop in connection.params) {
-            if (connection.params.hasOwnProperty(prop)) {
-                val = connection.params[prop];
-                if (_.isString(val)) {
-                    val = val.toLowerCase();
-                }
-                sorted.push([prop, val]);
+    function preThrottleProcessor(connection, actionTemplate, next) {
+        var key = api.helper.createCacheKey(connection, true);
+        api.log('Throttle check. Action: "' + actionTemplate.name + '" connection.id: "' + connection.id + '" key: "' + key + '"', 'debug');
+        api.helper.getCachedValue(key, function (err, value) {
+            if (value) {
+                api.log('Ignoring duplicate request from same user!', 'notice');
+                connection.response.error = api.helper.apiCodes.badRequest;
+                connection.response.error.details = 'This request was ignored because you have an identical request still processing.';
+                connection.rawConnection.responseHttpCode = api.helper.apiCodes.badRequest.value;
+                next(connection, false);
+            } else {
+                api.cache.save(key, key, 30000, function (err) {
+                    if (err) {
+                        api.helper.handleError(api, connection, err);
+                    }
+                    next(connection, true);
+                });
             }
-        }
-        sorted.sort(function (a, b) {
-            return a[1] - b[1];
         });
-        json = JSON.stringify(sorted);
-        return crypto.createHash('md5').update(json).digest('hex');
     }
 
     /**
-     * Get cached value for given connection. If object doesn't exist or is expired then null is returned.
+     * The post-processor to clear user for further requests.
      *
      * @param {Object} connection The connection object for the current request
-     * @param {Function<err, value>} callback The callback function
+     * @param {Object} actionTemplate The metadata of the current action object
+     * @param {Boolean} toRender The flag whether response should be rendered
+     * @param {Function<connection, toRender>} next The callback function
      * @since 1.1
      */
-    /*jslint unparam: true */
-    function getCachedValue(connection, callback) {
-        var key = createCacheKey(connection);
-        api.cache.load(key, function (err, value) {
-            //ignore err
-            //err can be only "Object not found" or "Object expired"
-            callback(null, value);
+    function postThrottleProcessor(connection, actionTemplate, toRender, next) {
+
+        var key = api.helper.createCacheKey(connection, true);
+        //api.log('connection.id: ' + connection.id, 'debug');
+        //api.log('key: ' + key, 'debug');
+        api.cache.destroy(key, function (err) {
+            if (err) {
+                api.log('Throttle cache object was not found. This is unexpected. ' + err, 'warn');
+            }
+            next(connection, toRender);
         });
     }
-    /*jslint */
+
 
     /**
      * The pre-processor that check the cache.
@@ -249,17 +259,20 @@ exports.middleware = function (api, next) {
      * @since 1.1
      */
     function preCacheProcessor(connection, actionTemplate, next) {
-        //by default enabled
-        if (actionTemplate.cacheEnabled === false) {
+        //by default enabled, but turn it off if the global cache timeout is set to less to zero and local action doesn't have a timeout set (this logic is mostly for test purposes)
+        if (actionTemplate.cacheEnabled === false || (api.configData.general.defaultCacheLifetime < 0 && !actionTemplate.cacheLifetime)) {
             next(connection, true);
             return;
         }
 
-        getCachedValue(connection, function (err, value) {
+        var key = api.helper.createCacheKey(connection);
+        api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Returning cached response', 'debug');
                 connection.response = value;
-                next(connection, false);
+                //manually call the postThrottleProcessor here since we're returning the cache value and halting further processing
+                postThrottleProcessor(connection, actionTemplate, false, next);
+                //next(connection, false);
             } else {
                 next(connection, true);
             }
@@ -285,7 +298,8 @@ exports.middleware = function (api, next) {
 
         async.waterfall([
             function (cb) {
-                getCachedValue(connection, cb);
+                var key = api.helper.createCacheKey(connection);
+                api.helper.getCachedValue(key, cb);
             }, function (value, cb) {
                 if (value || connection.response.error) {
                     cb();
@@ -293,7 +307,7 @@ exports.middleware = function (api, next) {
                 }
                 var response = _.clone(connection.response),
                     lifetime = actionTemplate.cacheLifetime || api.configData.general.defaultCacheLifetime,
-                    key = createCacheKey(connection);
+                    key = api.helper.createCacheKey(connection);
                 delete response.serverInformation;
                 delete response.requestorInformation;
                 api.cache.save(key, response, lifetime, cb);
@@ -307,7 +321,9 @@ exports.middleware = function (api, next) {
     }
 
     api.actions.preProcessors.push(oauthPreProcessor);
+    api.actions.preProcessors.push(preThrottleProcessor);
     api.actions.preProcessors.push(preCacheProcessor);
     api.actions.postProcessors.push(postCacheProcessor);
+    api.actions.postProcessors.push(postThrottleProcessor);
     next();
 };

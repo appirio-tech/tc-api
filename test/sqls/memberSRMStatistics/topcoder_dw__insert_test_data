@@ -1,7 +1,12 @@
 INSERT INTO coder(coder_id, handle, status, language_id) VALUES(132456, 'heffan', 'A', 1);
+
+INSERT INTO algo_rating_type_lu(algo_rating_type_id, algo_rating_type_desc) VALUES(1, 'TopCoder Rating');
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(2, 'Tournament Round', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(10, 'Long Round', 1);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(20, 'Intro Event Round', 1);
+
 INSERT INTO coder_rank_type_lu(coder_rank_type_id, coder_rank_type_desc) VALUES(2, 'test coder rank type 2');
 INSERT INTO language_lu(language_id, language_name, status) VALUES(1, 'Java', 'Y');
-INSERT INTO algo_rating_type_lu(algo_rating_type_id, algo_rating_type_desc) VALUES(1, 'TopCoder Rating');
 INSERT INTO contest(contest_id, name, start_date, end_date) VALUES(2001, 'test contest 2001', CURRENT - 5 UNITS DAY, CURRENT + 20 UNITS DAY);
 INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(1, 'Singe Round Match', 1);
 INSERT INTO round(round_id, contest_id, name, round_type_id, failed, calendar_id, short_name) VALUES(2001, 2001, 'test round 2001', 1, 0, 4017, 'test round 2001');
@@ -21,3 +26,34 @@ INSERT INTO coder_level(coder_id, division_id, level_id, problems_submitted, pro
 INSERT INTO coder_level(coder_id, division_id, level_id, problems_submitted, problems_failed_by_challenge, problems_failed_by_system_test, problems_correct, algo_rating_type_id, challenge_attempts_made, challenges_made_failed, challenges_made_successful) VALUES(132456, 1, 2, 107, 1, 14, 106, 1, 483, 58, 425);
 INSERT INTO coder_level(coder_id, division_id, level_id, problems_submitted, problems_failed_by_challenge, problems_failed_by_system_test, problems_correct, algo_rating_type_id, challenge_attempts_made, challenges_made_failed, challenges_made_successful) VALUES(132456, 2, 1, 297, 8, 7, 289, 1, 380, 168, 212);
 INSERT INTO coder_level(coder_id, division_id, level_id, problems_submitted, problems_failed_by_challenge, problems_failed_by_system_test, problems_correct, algo_rating_type_id, challenge_attempts_made, challenges_made_failed, challenges_made_successful) VALUES(132456, 2, 2, 491, 9, 7, 482, 1, 268, 244, 24);
+
+INSERT INTO room(room_id, round_id, name) VALUES(2001, 2001, 'test room 2001');
+INSERT INTO room_result(round_id, room_id, coder_id, rated_flag, old_rating, new_rating) VALUES(2001, 2001, 132456, 1, 2000, 1800);
+
+INSERT INTO round(round_id, contest_id, name, round_type_id, failed, calendar_id, short_name) VALUES(2002, 2001, 'test round 2002', 1, 0, 4017, 'test round 2002');
+INSERT INTO round(round_id, contest_id, name, round_type_id, failed, calendar_id, short_name) VALUES(2003, 2001, 'test round 2003', 1, 0, 4017, 'test round 2003');
+INSERT INTO round(round_id, contest_id, name, round_type_id, failed, calendar_id, short_name) VALUES(2004, 2001, 'test round 2004', 1, 0, 4017, 'test round 2004');
+INSERT INTO round(round_id, contest_id, name, round_type_id, failed, calendar_id, short_name) VALUES(2005, 2001, 'test round 2005', 1, 0, 4017, 'test round 2005');
+INSERT INTO round(round_id, contest_id, name, round_type_id, failed, calendar_id, short_name) VALUES(2006, 2001, 'test round 2006', 1, 0, 4017, 'test round 2006');
+
+INSERT INTO room(room_id, round_id, name) VALUES(2002, 2002, 'test room 2002');
+INSERT INTO room(room_id, round_id, name) VALUES(2003, 2003, 'test room 2003');
+INSERT INTO room(room_id, round_id, name) VALUES(2004, 2004, 'test room 2004');
+INSERT INTO room(room_id, round_id, name) VALUES(2005, 2005, 'test room 2005');
+INSERT INTO room(room_id, round_id, name) VALUES(2006, 2006, 'test room 2006');
+
+INSERT INTO room_result(round_id, room_id, coder_id, rated_flag, old_rating, new_rating) VALUES(2002, 2002, 132456, 1, 1976, 1800);
+INSERT INTO room_result(round_id, room_id, coder_id, rated_flag, old_rating, new_rating) VALUES(2003, 2003, 132456, 1, 2456, 987);
+INSERT INTO room_result(round_id, room_id, coder_id, rated_flag, old_rating, new_rating) VALUES(2004, 2004, 132456, 1, 875, 1234);
+INSERT INTO room_result(round_id, room_id, coder_id, rated_flag, old_rating, new_rating) VALUES(2005, 2005, 132456, 1, 981, 1987);
+INSERT INTO room_result(round_id, room_id, coder_id, rated_flag, old_rating, new_rating) VALUES(2006, 2006, 132456, 1, 548, 1985);
+
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, rank, percentile, algo_rating_type_id) VALUES(132456, 2001, 2, 1, 90.45, 1);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, rank, percentile, algo_rating_type_id) VALUES(132456, 2002, 2, 6, 89.24, 1);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, rank, percentile, algo_rating_type_id) VALUES(132456, 2003, 2, 2, 56.23, 1);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, rank, percentile, algo_rating_type_id) VALUES(132456, 2004, 2, 3, 18.443, 1);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, rank, percentile, algo_rating_type_id) VALUES(132456, 2005, 2, 25, 87.21, 1);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, rank, percentile, algo_rating_type_id) VALUES(132456, 2006, 2, 68, 98.76, 1);
+
+INSERT INTO coder(coder_id, handle, status) VALUES(100, 'test', 'U');
+INSERT INTO coder(coder_id, handle, status) VALUES(101, 'activate', 'A');

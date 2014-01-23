@@ -1,8 +1,10 @@
 ﻿/*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, muzehyun
+ * changes in 1.1:
+ * - add getTrimmedData method
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -13,6 +15,7 @@ var fs = require('fs');
 var util = require('util');
 var _ = require('underscore');
 var assert = require('chai').assert;
+var crypto = require("crypto");
 
 /**
  * The test helper
@@ -68,8 +71,6 @@ function createConnection(databaseName) {
         "idleTimeout" : parseInt(process.env.IDLETIMEOUT, 10) || DEFAULT_IDLETIMEOUT,
         "timeout" : parseInt(process.env.TIMEOUT, 10) || DEFAULT_TIMEOUT
     };
-
-    console.log('Settings for ' + dbServerPrefix + ': ' + JSON.stringify(settings));
 
     return new Jdbc(settings, null).initialize();
 }
@@ -132,7 +133,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
             connection.disconnect();
             callback(err, result);
         } else {
-            connection.query("select " + query, function(err, result) {
+            connection.query("select " + query, function (err, result) {
                 if (err) {
                     connection.disconnect();
                 }
@@ -273,6 +274,55 @@ helper.assertResponse = function (err, res, filename, done) {
     delete body.requestorInformation;
     assert.deepEqual(body, expected, "invalid response");
     done();
+};
+
+/**
+ * Encrypt the password using the specified key. After being
+ * encrypted with a Blowfish key, the encrypted byte array is
+ * then encoded with a base 64 encoding, resulting in the String
+ * that is returned.
+ *
+ * @param password The password to encrypt.
+ *
+ * @param key The base 64 encoded Blowfish key.
+ *
+ * @return the encrypted and encoded password
+ */
+helper.encodePassword = function (password, key) {
+    var cipher = crypto.createCipheriv("bf-ecb", new Buffer(key, "base64"), ''), result;
+    result = cipher.update(password, "utf8", "base64");
+    result += cipher.final("base64");
+    return result;
+};
+
+/**
+ * Decrypt the password using the specified key. Takes a password
+ * that has been ecrypted and encoded, uses base 64 decoding and
+ * Blowfish decryption to return the original string.
+ *
+ * @param password base64 encoded string.
+ *
+ * @param key The base 64 encoded Blowfish key.
+ *
+ * @return the decypted password
+ */
+helper.decodePassword = function (password, key) {
+    var decipher = crypto.createDecipheriv("bf-ecb", new Buffer(key, "base64"), ''), result;
+    result = decipher.update(password, "base64", "utf8");
+    result += decipher.final("utf8");
+    return result;
+};
+
+/**
+ * Convert text to JSON object and removes serverInformation and requestorInformation
+ * @param {String} text - returned text data
+ * @return {Object} trimmed object
+ */
+helper.getTrimmedData = function (text) {
+    var ret = JSON.parse(text);
+    delete ret.serverInformation;
+    delete ret.requestorInformation;
+    return ret;
 };
 
 module.exports = helper;

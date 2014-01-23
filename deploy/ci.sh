@@ -6,6 +6,7 @@
 # Version: 1.0
 # Author: vangavroche, delemach
 #
+export CACHE_EXPIRY=-1
 
 export TC_DB_NAME=informixoltp_tcp
 export TC_DB_HOST=54.204.109.244
@@ -44,6 +45,8 @@ export TC_EMAIL_TEMPLATE_DIR=mail_templates
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 
 #export DISABLE_CONSOLE_LOG=true
+
+export PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 
 ## JDBC connection pool environment variables - set for all databases
 export MINPOOL=1
