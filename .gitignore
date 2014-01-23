@@ -3,6 +3,4 @@
 log
 pids
 deploy/prod.sh
-thirdparty/ibm/informix/etc/sqlhosts.$
-thirdparty/ibm/informix/etc/sqlhosts.datawarehouse_tcp
-thirdparty/ibm/informix/etc/sqlhosts.informixoltp_tcp
+node_modules

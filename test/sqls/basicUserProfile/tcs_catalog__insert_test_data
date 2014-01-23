@@ -1,0 +1,2 @@
+INSERT INTO copilot_profile(copilot_profile_id, user_id, copilot_profile_status_id, suspension_count, reliability, create_user, create_date, update_user, update_date)
+VALUES(132456, 132456, 1, 1, 50, 132456, CURRENT, 132456, CURRENT);

@@ -1,0 +1,7 @@
+{
+	"challengeId": {
+		"number": "challengeId should be number.",
+		"positive": "challengeId should be positive.",
+		"too_big": "challengeId should be less or equal to 2147483647."
+	}
+}

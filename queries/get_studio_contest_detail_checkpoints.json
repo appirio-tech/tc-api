@@ -1,5 +1,0 @@
-{
-  "name"    : "get_studio_contest_detail_checkpoints",
-  "db"      : "tcs_catalog",
-  "sqlfile" : "get_studio_contest_detail_checkpoints"
-}

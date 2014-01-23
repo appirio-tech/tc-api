@@ -1,0 +1,58 @@
+{
+    "handle": "heffan",
+    "country": "United States",
+    "memberSince": "2001-05-09T01:04:42.000Z",
+    "quote": "Acknowledge and move on.",
+    "photoLink": "/i/m/test_image.png",
+    "isCopilot": {
+        "value": true,
+        "software": false,
+        "studio": false
+    },
+    "isPM": true,
+    "Achievements": [
+        {
+            "description": "First Forum Post",
+            "badgeLink": {
+                "url": "http://topcoder.com/images/badge.grid.small.png",
+                "leftOffset": 0,
+                "topOffset": 0
+            }
+        },
+        {
+            "description": "Algorithm Coder of the Month"
+        },
+        {
+            "description": "One Hundred Forum Posts",
+            "badgeLink": {
+                "url": "http://topcoder.com/images/badge.grid.small.png",
+                "leftOffset": -17,
+                "topOffset": 0
+            }
+        },
+        {
+            "description": "First Passing Submission",
+            "badgeLink": {
+                "url": "http://topcoder.com/images/badge.grid.small.png",
+                "leftOffset": 0,
+                "topOffset": -17
+            }
+        },
+        {
+            "description": "First Milestone Prize",
+            "badgeLink": {
+                "url": "http://topcoder.com/images/badge.grid.small.png",
+                "leftOffset": 0,
+                "topOffset": -34
+            }
+        },
+        {
+            "description": "First Placement",
+            "badgeLink": {
+                "url": "http://topcoder.com/images/badge.grid.small.png",
+                "leftOffset": 0,
+                "topOffset": -51
+            }
+        }
+    ]
+}

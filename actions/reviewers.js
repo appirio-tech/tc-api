@@ -7,16 +7,16 @@
 "use strict";
 
 /**
- * Sample result from specification for Contest Reviewers Collection
+ * Sample result from specification for Challenge Reviewers Collection
  */
 var sampleReviewers;
 
 /**
-* The API for getting contest reviewers collection
+* The API for getting challenge reviewers collection
 */
 exports.action = {
-    name: "getContestReviewers",
-    description: "getContestReviewers",
+    name: "getChallengeReviewers",
+    description: "getChallengeReviewers",
     inputs: {
         required: [],
         optional: []
@@ -25,7 +25,7 @@ exports.action = {
     outputExample: {},
     version: 'v2',
     run: function (api, connection, next) {
-        api.log("Execute getContestReviewers#run", 'debug');
+        api.log("Execute getChallengeReviewers#run", 'debug');
         connection.response = sampleReviewers;
         next(connection, true);
     }

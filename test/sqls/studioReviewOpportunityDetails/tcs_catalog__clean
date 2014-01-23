@@ -1,0 +1,5 @@
+DELETE FROM resource_info WHERE resource_id >= 4001;
+DELETE FROM resource WHERE resource_id >= 4001;
+DELETE FROM project_phase WHERE project_phase_id >= 4001;
+DELETE FROM project_info WHERE project_id >= 4001;
+DELETE FROM project WHERE project_id >= 4001;

@@ -1,0 +1,36 @@
+SELECT
+  (SELECT pi.value FROM project_info pi WHERE pi.project_id = p.project_id AND pi.project_info_type_id = 6) AS challenge_name
+, pps.scheduled_start_time AS round_2_scheduled_start_date
+, ppm.scheduled_start_time AS round_1_scheduled_start_date
+, 'Screening' AS type
+, (SELECT LOWER(handle) FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri
+      WHERE r.project_id = p.project_id AND r.resource_role_id IN (2, 19)
+      AND ri.resource_id = r.resource_id and ri.resource_info_type_id = 1),0))) AS reviewer
+, CASE WHEN p.project_category_id = 20 THEN 150 ELSE 100 END AS reviewer_payment
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+INNER JOIN project_phase pps ON p.project_id = pps.project_id AND pps.phase_type_id = 3
+INNER JOIN project_phase ppsub ON p.project_id = ppsub.project_id AND ppsub.phase_type_id = 2
+LEFT  JOIN project_phase ppm ON p.project_id = ppm.project_id AND ppm.phase_type_id = 16
+WHERE p.project_status_id = 1
+AND   pcl.project_type_id = 3
+AND   (ppm.phase_status_id <> 3 OR pps.phase_status_id <> 3)
+AND   ppsub.phase_status_id in (2, 3)
+UNION ALL
+SELECT
+  (SELECT pi.value FROM project_info pi WHERE pi.project_id = p.project_id AND pi.project_info_type_id = 6) AS challenge_name
+, NULL::DATETIME YEAR TO FRACTION AS round_2_scheduled_start_date
+, pps.scheduled_start_time AS round_1_scheduled_start_date
+, 'Spec Review' AS type
+, (SELECT LOWER(handle) FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri WHERE r.project_id = p.project_id AND r.resource_role_id = 18
+      AND ri.resource_id = r.resource_id and ri.resource_info_type_id = 1),0))) AS reviewer
+, 75 AS reviewer_payment
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+INNER JOIN project_phase pps ON p.project_id = pps.project_id AND pps.phase_type_id = 14
+INNER JOIN project_phase ppsub ON p.project_id = ppsub.project_id AND ppsub.phase_type_id = 2
+WHERE p.project_status_id = 1
+AND   pcl.project_type_id = 3
+AND   pps.phase_status_id = 2
+AND   ppsub.phase_status_id = 1
+ORDER BY @sortColumn@ @sortOrder@

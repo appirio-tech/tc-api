@@ -2,7 +2,7 @@ FORMAT: 1A
 HOST: http://api.topcoder.com/v2
 
 # TopCoder API
-Programmatically access TopCoder contests and members.
+Programmatically access TopCoder challenges and members.
 
 # Group Platform
 Platform APIs
@@ -356,7 +356,7 @@ Register a new user.
 
 
 
-#Group Software Contests
+#Group Software Challenges
         
 ## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Get Review Oppertunities [GET]
@@ -546,7 +546,7 @@ Register a new user.
 
 + Parameters
 
-    + id (required, number, `30000000`) ... The contest id.
+    + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -631,11 +631,11 @@ Register a new user.
         }
 
         
-## Contest Reviewers Collection [/develop/reviewers/{contestType}]
-### List reviewers of current contest type [GET]
+## Challenge Reviewers Collection [/develop/reviewers/{contestType}]
+### List reviewers of current challenge type [GET]
 
 + Parameters
-    + contestType (required, string, `Assembly`) ... The type of the contest. It can be 'Assembly', 'ComponentDevelopment', 'TestSuites', 'Reporting', 'ComponentDesign', 'Conceptualization', 'Specification', 'Architecture', 'UIPrototype', 'RIABuild', 'ContentCreation', 'TestScenarios', 'BugHunt'.
+    + contestType (required, string, `Assembly`) ... The type of the challenge. It can be 'Assembly', 'ComponentDevelopment', 'TestSuites', 'Reporting', 'ComponentDesign', 'Conceptualization', 'Specification', 'Architecture', 'UIPrototype', 'RIABuild', 'ContentCreation', 'TestScenarios', 'BugHunt'.
 
 + Response 200 (application/json)
 
@@ -885,8 +885,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Contest Types Collection [/develop/challengetypes]
-### List all contest types [GET]
+## Challenge Types Collection [/develop/challengetypes]
+### List all challenge types [GET]
 + Response 200 (application/json)
 
         [
@@ -937,11 +937,11 @@ Register a new user.
         }
 
         
-## Search Software Contests [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Search Software Contests [GET]
+## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Search Software Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Open`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
     + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -1084,11 +1084,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Software Contest Detail [/develop/challenges/{id}]
-### Get Software Contest Information [GET]
+## Get Software Challenge Detail [/develop/challenges/{id}]
+### Get Software Challenge Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The contest id.
+    + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
         
@@ -1238,19 +1238,6 @@ Register a new user.
             }
           ],
           "generalCheckpointFeedback": "This is general feedback from all competitors.",
-          "checkpoints": [
-            {
-              "submissionId": 162433,
-              "submitter": "t3uku",
-              "submissionTime": "2013-11-24T11:36:23.000Z",
-              "feedback": "This is the checkpoint feedback."
-            },
-            {
-              "submissionId": 162470,
-              "submitter": "CoralBlue",
-              "submissionTime": "2013-11-25T06:24:16.000Z",
-              "feedback": "This is the checkpoint feedback."
-            },
           "submissions": [
             {
               "handle": "Sky_",
@@ -1273,9 +1260,45 @@ Register a new user.
               "submissionDate": "2013-12-05T12:22:07.000Z"
             }
           ],
+          "Documents": [
+            {
+               "documentName": "document 1",
+               "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400000"
+            },
+            {
+                "documentName": "document 2",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400001"
+            },
+            {
+                "documentName": "document 3",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400002"
+            }
+          ],
           "numberOfRegistrants": 18,
-          "numberOfSubmissions": 2
-        }
+          "numberOfSubmissions": 2,
+          "platforms": [
+              "AWS",
+              "Cloud Foundry"
+          ],
+          "phases": [
+            {
+                "type": "Registration",
+                "status": "Open",
+                "scheduledStartTime": "2013-12-05T12:22:07.000Z",
+                "actualStartTime": "2013-12-05T12:22:07.000Z",
+                "scheduledEndTime": "2013-12-05T12:22:07.000Z",
+                "actualEndTime": null
+            },
+            {
+                "type": "Submission",
+                "status": "Scheduled",
+                "scheduledStartTime": "2013-12-05T12:22:07.000Z",
+                "actualStartTime": null,
+                "scheduledEndTime": "2013-12-05T12:22:07.000Z",
+                "actualEndTime": null
+            }
+        ]
+    }
 
 + Response 400 (application/json)
 
@@ -1309,6 +1332,76 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }      
          
+## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{id}]
+### Get Software Challenge Checkpoint Information [GET]
+
++ Parameters
+    + id (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+          "checkpointResults": [
+            {
+                "id": 10134,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10135,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10136,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10137,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10138,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            }
+          ],
+          "general feedback": "good submissions"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## Top Ranked Members [/develop/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked Members [GET]
@@ -1384,13 +1477,13 @@ Register a new user.
         }
         
 
-# Group Studio Contests
+# Group Studio Challenges
 
-## Search Studio Contests [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Search Studio Contests [GET]
+## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Search Studio Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Open`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
     + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -1505,11 +1598,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Studio Contest Detail [/design/challenges/{id}]
-### Get Studio Contest Information [GET]
+## Get Studio Challenge Detail [/design/challenges/{id}]
+### Get Studio Challenge Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The contest id.
+    + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -1630,7 +1723,110 @@ Register a new user.
               "placement": 2,
               "prize": "600"
             }
+          ],
+          "Documents": [
+            {
+                "documentName": "document 1",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400000"
+            },
+            {
+                "documentName": "document 2",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400001"
+            },
+            {
+                "documentName": "document 3",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400002"
+            }
+          ],
+          "phases": [
+            {
+                "type": "Registration",
+                "status": "Open",
+                "scheduledStartTime": "2013-12-05T12:22:07.000Z",
+                "actualStartTime": "2013-12-05T12:22:07.000Z",
+                "scheduledEndTime": "2013-12-05T12:22:07.000Z",
+                "actualEndTime": null
+            },
+            {
+                "type": "Submission",
+                "status": "Scheduled",
+                "scheduledStartTime": "2013-12-05T12:22:07.000Z",
+                "actualStartTime": null,
+                "scheduledEndTime": "2013-12-05T12:22:07.000Z",
+                "actualEndTime": null
+            }
           ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{id}]
+### Get Studio Challenge Checkpoint Information [GET]
+
++ Parameters
+    + id (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+          "checkpointResults": [
+            {
+                "id": 10134,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10135,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10136,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10137,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            },
+            {
+                "id": 10138,
+                "handle": "iamtong",
+                "feedback": "nice design"
+            }
+          ],
+          "general feedback": "good submissions"
         }
 
 + Response 400 (application/json)
@@ -1728,7 +1924,7 @@ Register a new user.
 
 + Parameters
 
-    + id (required, number, `30000000`) ... The contest id.
+    + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -1791,8 +1987,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Studio Contest Types Collection [/design/challengetypes]
-### List all contest types [GET]
+## Studio Challenge Types Collection [/design/challengetypes]
+### List all challenge types [GET]
 + Response 200 (application/json)
 
         [
@@ -1957,7 +2153,7 @@ Register a new user.
 ### Top Ranked Members [GET]
 
 + Parameters
-    + challengeType (required, string, `Logo`) ... The type of the contest
+    + challengeType (required, string, `Logo`) ... The type of the challenge
 
 + Response 200 (application/json)
 
@@ -2023,10 +2219,10 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-# Group Algorithms Contests
+# Group Algorithms Challenges
 
-## Contest Types Collection [/data/challengetypes]
-### List all contest types [GET]
+## Challenge Types Collection [/data/challengetypes]
+### List all challenge types [GET]
 + Response 200 (application/json)
 
         [
@@ -2230,7 +2426,7 @@ Register a new user.
 ### View Algorithm SRM Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
     + filter (optional, string, `type`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair    
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -2324,7 +2520,7 @@ Register a new user.
 ### View Algorithm Marathon Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of contests to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
     + filter (optional, string, `type`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair    
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -2404,7 +2600,7 @@ Register a new user.
 ### Get Algorithm Marathon Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The contest id.
+    + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -2501,7 +2697,7 @@ Register a new user.
 ### Get Algorithm SRM Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The contest id.
+    + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -2914,7 +3110,7 @@ Register a new user.
 ### Top Ranked Marathon Members [GET]
 
 + Parameters
-    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries." Currently only applicable to SRM contest type.
+    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries." Currently only applicable to SRM challenge type.
 
 + Response 200 (application/json)
 
@@ -3013,7 +3209,7 @@ Register a new user.
 ### Top Ranked SRM Members [GET]
 
 + Parameters
-    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries." Currently only applicable to SRM contest type.
+    + rankType (required, string, `Competitors`) ... Ranking Type, support "Competitors", "Schools" and "Countries." Currently only applicable to SRM challenge type.
     + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
 
@@ -3183,4 +3379,3 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-

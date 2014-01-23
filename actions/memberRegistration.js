@@ -19,6 +19,7 @@ var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
+var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 /**
  * The max surname length
@@ -60,10 +61,7 @@ var HANDLE_PUNCTUATION = "-_.{}[]";
  */
 var HANDLE_ALPHABET = stringUtils.ALPHABET_ALPHA_EN + stringUtils.ALPHABET_DIGITS_EN + HANDLE_PUNCTUATION;
 
-/**
- * Constant for http response codes
- */
-var apiCodes = {badRequest : 400, serverError : 500};
+
 
 /**
  * The regular expression for email
@@ -108,18 +106,18 @@ var activationEmailSenderName = "Topcoder API";
  * this is the random int generator class
  */
 function codeRandom(coderId) {
-    var cr = {};
-    var multiplier = 0x5DEECE66D;
-    var addend = 0xB;
-    var mask = 281474976710655;
+    var cr = {},
+        multiplier = 0x5DEECE66D,
+        addend = 0xB,
+        mask = 281474976710655;
     cr.seed = bignum(coderId).xor(multiplier).and(mask);
-    cr.nextInt = function() {
+    cr.nextInt = function () {
         var oldseed = cr.seed,
             nextseed;
-            do {
-                nextseed = oldseed.mul(multiplier).add(addend).and(mask);
-            } while (oldseed.toNumber() === nextseed.toNumber());
-            cr.seed = nextseed;
+        do {
+            nextseed = oldseed.mul(multiplier).add(addend).and(mask);
+        } while (oldseed.toNumber() === nextseed.toNumber());
+        cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
     }
 
@@ -133,7 +131,7 @@ function codeRandom(coderId) {
  */
 function getCode(coderId) {
     var r = codeRandom(coderId);
-    var nextBytes = function(bytes) {
+    var nextBytes = function (bytes) {
         for (var i = 0, len = bytes.length; i < len;)
             for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
                 var val = rnd & 0xff;
@@ -863,8 +861,8 @@ exports.action = {
     databases : ["common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         var dbConnectionMap, messages, checkResult;
-        if (this.dbConnectionMap !== null) {
-            dbConnectionMap = this.dbConnectionMap;
+        if (connection.dbConnectionMap !== null) {
+            dbConnectionMap = connection.dbConnectionMap;
             messages = [];
 
             // validate simple input parameters
@@ -930,10 +928,7 @@ exports.action = {
                     var i, filteredMessage;
 
                     if (err) {
-                        api.log("Error occured: " + err + " " + (err.stack || ''), "error");
-                        connection.rawConnection.responseHttpCode = apiCodes.serverError;
-                        connection.error = err;
-                        connection.response = {message : err};
+                        api.helper.handleError(api, connection, err);
                         next(connection, true);
                         return;
                     }
@@ -955,17 +950,13 @@ exports.action = {
 
                     // any input is invalid
                     if (filteredMessage.length > 0) {
-                        connection.rawConnection.responseHttpCode = apiCodes.badRequest;
-                        connection.response = {message : filteredMessage};
+                        api.helper.handleError(api, connection, new IllegalArgumentError(filteredMessage));
                         next(connection, true);
                     } else {
                         // register the user into database
                         registerUser(connection.params, api, dbConnectionMap, function (err, result) {
                             if (err) {
-                                api.log("Error occurred in server: " + err + " " + (err.stack || ''), "error");
-                                connection.rawConnection.responseHttpCode = apiCodes.serverError;
-                                connection.error = err;
-                                connection.response = {message : err};
+                                api.helper.handleError(api, connection, err);
                             } else {
                                 api.log("Member registration succeeded.", "debug");
                                 connection.response = {userId : result};

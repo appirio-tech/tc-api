@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, TCSASSEMBLER
+ * @version 1.7
+ * @author Sky_, Ghost_141, muzehyun
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -11,11 +11,18 @@
  * - implement srm (Algorithm) statistics
  * changes in 1.4:
  * - Update the checkUserExists function since the query has been standardized.
+ * changes in 1.5:
+ * - implement get user basic profile.
+ * changes in 1.6:
+ * - Update srm (Algorithm) statistics and marathon statistics api to add 'history' and 'distribution' field.
+ * changes in 1.7:
+ * - implement software rating history and distribution
  */
 "use strict";
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var BadRequestError = require('../errors/BadRequestError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
@@ -41,6 +48,181 @@ function checkUserExists(handle, api, dbConnectionMap, callback) {
 }
 
 /**
+ * check whether given user is activated.
+ * @param {String} handle - the handle to check.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err>} callback - the callback function
+ */
+function checkUserActivated(handle, api, dbConnectionMap, callback) {
+    api.dataAccess.executeQuery('check_coder_activated', { handle: handle }, dbConnectionMap, function (err, result) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        if (result && result[0] && result[0].status === 'A') {
+            callback();
+        } else {
+            callback(new BadRequestError('User is not activated.'));
+        }
+    });
+}
+
+/**
+ * Get the user basic profile information.
+ * @param {Object} api - the api object.
+ * @param {Object} dbConnectionMap - the database connection map.
+ * @param {Object} connection - the connection.
+ * @param {Function} next - the callback function.
+ */
+function getBasicUserProfile(api, dbConnectionMap, connection, next) {
+    var handle = connection.params.handle,
+        helper = api.helper,
+        sqlParams = {
+            handle: handle
+        },
+        result,
+        badgeProperties = api.configData.badge.properties,
+        badgeLink = api.configData.badge.link;
+
+    async.waterfall([
+        function (cb) {
+            checkUserExists(handle, api, dbConnectionMap, cb);
+        }, function (cb) {
+            checkUserActivated(handle, api, dbConnectionMap, cb);
+        }, function (cb) {
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
+                };
+            };
+
+            async.parallel({
+                basic: execQuery('basic'),
+                earning: execQuery('overall_earning'),
+                ratingSummary: execQuery('rating_summary'),
+                achievements: execQuery('achievements')
+            }, cb);
+        }, function (results, cb) {
+            var basic = results.basic[0], earning = results.earning[0], ratingSummary = results.ratingSummary,
+                achievements = results.achievements,
+                mapRatingSummary = function (ratings) {
+                    var ret = [];
+                    ratings.forEach(function (item) {
+                        ret.push({
+                            name: helper.getPhaseName(item.phase_id),
+                            rating: item.rating,
+                            colorStyle: helper.getColorStyle(item.rating)
+                        });
+                    });
+                    return ret;
+                },
+                mapAchievements = function (achievements) {
+                    var ret = [], achieveItem;
+                    achievements.forEach(function (item) {
+                        achieveItem = {
+                            date: item.achievement_date,
+                            description: item.description
+                        };
+                        if (item.id > 0) {
+                            _.extend(achieveItem, {
+                                badgeLink: {
+                                    url: badgeLink,
+                                    leftOffset: badgeProperties[item.id].left,
+                                    topOffset: badgeProperties[item.id].top
+                                }
+                            });
+                        }
+                        ret.push(achieveItem);
+                    });
+                    return ret;
+                };
+            result = {
+                handle: basic.handle,
+                country: basic.country,
+                memberSince: basic.member_since,
+                overallEarning: earning.overall_earning,
+                quote: basic.quote,
+                photoLink: basic.photo_link || '',
+                isCopilot: {
+                    value: basic.is_copilot,
+                    software: basic.is_software_copilot,
+                    studio: basic.is_studio_copilot
+                },
+                isPM: basic.is_pm,
+
+                ratingSummary: mapRatingSummary(ratingSummary),
+                Achievements: mapAchievements(achievements)
+            };
+
+            if (!_.isDefined(basic.show_earnings) || basic.show_earnings === 'hide') {
+                delete result.overallEarning;
+            }
+
+            if (result.isPM) {
+                delete result.ratingSummary;
+            }
+
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * map the history info from database to json object.
+ * @param {Object} rows the database results.
+ * @returns {Array} the array that contains the history info.
+ */
+function mapHistory(rows) {
+    var ret = [];
+    rows.forEach(function (item) {
+        ret.push({
+            challengeId: item.challenge_id,
+            challengeName: item.challenge_name,
+            date: item.date,
+            rating: item.rating,
+            placement: item.placement,
+            percentile: item.percentile === 'N/A' ? 'N/A' : Number(item.percentile).toFixed(2) + '%'
+        });
+    });
+    return ret;
+}
+
+/**
+ * map the distribution info from database to json object.
+ * @param {Object} rows the database results.
+ */
+function mapDistribution(rows) {
+    var ret = [], maxRating, step, i, start, num, pairs;
+    maxRating = _.max(rows, function (item) {
+        return item.rating;
+    }).rating;
+    pairs = _.object(_.map(rows, function (item) {
+        return item.rating;
+    }), _.map(rows, function (item) {
+        return item.number;
+    }));
+
+    step = parseInt(maxRating / 100, 10) + 1;
+    for (i = 0; i < step; i = i + 1) {
+        start = i * 100;
+        num = pairs[start];
+        ret.push({
+            range: start + '-' + (start + 99),
+            number: _.isDefined(num) ? num : 0
+        });
+    }
+    return ret;
+}
+
+/**
 * The API for getting marathon statistics
 */
 exports.getMarathonStatistics = {
@@ -53,19 +235,19 @@ exports.getMarathonStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                handle: handle
+                handle: handle,
+                algoRatingType: 3
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -73,20 +255,33 @@ exports.getMarathonStatistics = {
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
-                api.dataAccess.executeQuery("get_member_marathon_statistics",
-                    sqlParams,
-                    dbConnectionMap,
-                    cb);
+                checkUserActivated(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var executeQuery = function (sqlName, cbx) {
+                    api.dataAccess.executeQuery(sqlName, sqlParams, dbConnectionMap, cbx);
+                };
+
+                async.parallel({
+                    details: function (cbx) {
+                        executeQuery('get_member_marathon_statistics', cbx);
+                    },
+                    history: function (cbx) {
+                        executeQuery('get_member_marathon_statistics_history', cbx);
+                    },
+                    distribution: function (cbx) {
+                        executeQuery('get_srm_or_marathon_statistics_distribution', cbx);
+                    }
+                }, cb);
             }, function (results, cb) {
-                if (results.length === 0) {
+                var details = results.details[0], history = results.history, distribution = results.distribution;
+                if (results.details.length === 0) {
                     cb(new NotFoundError('statistics not found'));
                     return;
                 }
-                var details = results[0];
                 result = {
                     "handle": details.handle,
                     "rating": details.rating,
-                    "percentile": details.percentile === "N/A" ? "N/A" : Number(details.percentile).toFixed(2) + "%",
+                    "percentile": details.percentile === 'N/A' ? 'N/A' : Number(details.percentile).toFixed(2) + '%',
                     "rank": details.rank || 'not ranked',
                     "countryRank": details.country_rank || 'not ranked',
                     "schoolRank": details.school_rank || 'not ranked',
@@ -96,13 +291,16 @@ exports.getMarathonStatistics = {
                     "defaultLanguage": details.default_language,
                     "competitions": details.competitions,
                     "mostRecentEventName": details.most_recent_event_name,
-                    "mostRecentEventDate": details.most_recent_event_date.toString("MM.dd.yy"),
+                    "mostRecentEventDate": _.isDefined(details.most_recent_event_date) ? details.most_recent_event_date.toString('MM.dd.yy') : '',
                     "bestRank": details.best_rank,
                     "wins": details.wins,
                     "topFiveFinishes": details.top_five_finishes,
                     "topTenFinishes": details.top_ten_finishes,
                     "avgRank": details.avg_rank,
-                    "avgNumSubmissions": details.avg_num_submissions
+                    "avgNumSubmissions": details.avg_num_submissions,
+
+                    "History": mapHistory(history),
+                    "Distribution": mapDistribution(distribution)
                 };
                 cb();
             }
@@ -131,12 +329,11 @@ exports.getSoftwareStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getSoftwareStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -146,13 +343,15 @@ exports.getSoftwareStatistics = {
                 handle: handle,
                 Tracks: {}
             };
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
         async.waterfall([
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                checkUserActivated(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                     api.dataAccess.executeQuery(name,
@@ -250,12 +449,11 @@ exports.getStudioStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw", "tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         api.log("Execute getStudioStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
@@ -265,7 +463,7 @@ exports.getStudioStatistics = {
                 handle: handle,
                 Tracks: {}
             };
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -273,6 +471,8 @@ exports.getStudioStatistics = {
         async.waterfall([
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                checkUserActivated(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                     api.dataAccess.executeQuery(name,
@@ -334,19 +534,19 @@ exports.getAlgorithmStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
-        var dbConnectionMap = this.dbConnectionMap,
+        var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
             helper = api.helper,
             sqlParams = {
-                handle: handle
+                handle: handle,
+                algoRatingType: 1
             },
             result;
-        if (!this.dbConnectionMap) {
+        if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
@@ -354,9 +554,11 @@ exports.getAlgorithmStatistics = {
             function (cb) {
                 checkUserExists(handle, api, dbConnectionMap, cb);
             }, function (cb) {
+                checkUserActivated(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
                 var execQuery = function (name) {
                     return function (cbx) {
-                        api.dataAccess.executeQuery("get_srm_statistics_" + name,
+                        api.dataAccess.executeQuery('get_srm_statistics_' + name,
                             sqlParams,
                             dbConnectionMap,
                             cbx);
@@ -366,7 +568,9 @@ exports.getAlgorithmStatistics = {
                     basic: execQuery("basic"),
                     challenges: execQuery("challenges"),
                     div1: execQuery("division_1"),
-                    div2: execQuery("division_2")
+                    div2: execQuery("division_2"),
+                    history: execQuery('history'),
+                    distribution: function (cbx) { api.dataAccess.executeQuery('get_srm_or_marathon_statistics_distribution', sqlParams, dbConnectionMap, cbx); }
                 }, cb);
             }, function (results, cb) {
                 if (results.basic.length === 0) {
@@ -422,14 +626,16 @@ exports.getAlgorithmStatistics = {
                     defaultLanguage: details.default_language,
                     competitions: details.competitions,
                     mostRecentEventName: details.most_recent_event_name,
-                    mostRecentEventDate: details.most_recent_event_date.toString("MM.dd.yy"),
+                    mostRecentEventDate: details.most_recent_event_date ? details.most_recent_event_date.toString("MM.dd.yy") : '',
                     Divisions: {
                         "Division I": {},
                         "Division II": {}
                     },
                     Challenges: {
                         Levels: {}
-                    }
+                    },
+                    History: mapHistory(results.history),
+                    Distribution: mapDistribution(results.distribution)
                 };
                 results.div1.forEach(function (ele) {
                     result.Divisions["Division I"][ele.level_name] = mapLevel(ele);
@@ -467,5 +673,126 @@ exports.getAlgorithmStatistics = {
             }
             next(connection, true);
         });
+    }
+};
+
+exports.getBasicUserProfile = {
+    name: 'getBasicUserProfile',
+    description: 'getBasicUserProfile',
+    inputs: {
+        required: ['handle'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ['informixoltp', 'topcoder_dw'],
+    run: function (api, connection, next) {
+        if (!connection.dbConnectionMap) {
+            api.helper.handleNoConnection(api, connection, next);
+        } else {
+            api.log('Execute getBasicUserProfile#run', 'debug');
+            getBasicUserProfile(api, connection.dbConnectionMap, connection, next);
+        }
+    }
+};
+
+/**
+ * This is the function that actually get software rating history and distribution
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        result = {
+            history: [],
+            distribution: []
+        },
+        challengeType = connection.params.challengeType.toLowerCase(),
+        handle = connection.params.handle,
+        error,
+        phaseId;
+    async.waterfall([
+        function (cb) {
+            error = error ||
+                helper.checkContains(Object.keys(helper.softwareChallengeTypes), challengeType, "challengeType");
+            if (error) {
+                cb(error);
+                return;
+            }
+            phaseId = helper.softwareChallengeTypes[challengeType].phaseId;
+            sqlParams.handle = handle;
+            sqlParams.phaseId = phaseId;
+            api.dataAccess.executeQuery("get_software_rating_handle", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows[0].handle_exist === 0) {
+                cb(new NotFoundError("Handle is not exist"));
+                return;
+            }
+            api.dataAccess.executeQuery("get_software_rating_history", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            rows.forEach(function (row) {
+                result.history.push({
+                    challengeId: row.project_id,
+                    challengeName: row.component_name,
+                    date: row.rating_date,
+                    rating: row.new_rating
+                });
+            });
+            api.dataAccess.executeQuery("get_software_rating_distribution", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            var dist_data, dist_keys;
+            dist_data = rows[0];
+            dist_keys = _.keys(dist_data);
+            dist_keys.sort();
+            dist_keys.forEach(function (key) {
+                result.distribution.push({
+                    "range": key.replace('range_', '').replace('_', '-'),
+                    "number": dist_data[key]
+                });
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+* The API for getting software rating history and distribution
+*/
+exports.getSoftwareRatingHistoryAndDistribution = {
+    name: "getSoftwareRatingHistoryAndDistribution",
+    description: "getSoftwareRatingHistoryAndDistribution",
+    inputs: {
+        required: ['handle', 'challengeType'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ['tcs_dw'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getSoftwareRatingHistoryAndDistribution#run", 'debug');
+            getSoftwareRatingHistoryAndDistribution(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.log("dbConnectionMap is null", "debug");
+            connection.rawConnection.responseHttpCode = 500;
+            connection.response = {message: "No connection object."};
+            next(connection, true);
+        }
     }
 };

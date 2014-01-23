@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * Version: 1.0
  * Author: TCSASSEMBLER
@@ -14,7 +14,7 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
     actionTemplate.databases.forEach(function (databaseName) {
         var callback;
         callback = function (err, result) {
-            actionTemplate.dbConnectionMap[databaseName].disconnect();
+            connection.dbConnectionMap[databaseName].disconnect();
             api.log("Connection is closed", "debug");
             if (err) {
                 connection.error = err;
@@ -31,12 +31,12 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
 
         // if the action is transactional, end the transaction
         if (actionTemplate.transaction === "write") {
-            if (actionTemplate.dbConnectionMap[databaseName].isConnected()) {
-                actionTemplate.dbConnectionMap[databaseName].endTransaction(error, callback);
+            if (connection.dbConnectionMap[databaseName].isConnected()) {
+                connection.dbConnectionMap[databaseName].endTransaction(error, callback);
             }
         } else {
             callback(error);
-            // actionTemplate.dbConnectionMap[databaseName].disconnect();
+            // connection.dbConnectionMap[databaseName].disconnect();
             // connection.error = error;
             // next(connection, false);
         }
@@ -71,6 +71,7 @@ exports.transaction = function (api, next) {
 
             actionTemplate.databases.forEach(function (databaseName) {
                 callback = function (err, result) {
+                    connection.dbConnectionMap = dbConnectionMap;
                     if (err) {
                         handleConnectionFailure(api, connection, actionTemplate, err, next);
                         return;
@@ -83,7 +84,7 @@ exports.transaction = function (api, next) {
                     }
                 };
 
-                // connnect to the connection
+                // connect to the connection
                 dbConnectionMap[databaseName].on('error', function (err) {
                     dbConnectionMap[databaseName].disconnect();
                     api.log("Database connection to " + databaseName + " error: " + err + " " + (err.stack || ''), 'error');
@@ -96,7 +97,7 @@ exports.transaction = function (api, next) {
                     } else {
                         api.log("Database " + databaseName + " connected", 'info');
 
-                        // if the aciton is transactional, start a transaction
+                        // if the action is transactional, start a transaction
                         if (actionTemplate.transaction === "write" && dbConnectionMap[databaseName].isConnected()) {
                             // Begin transaction
                             dbConnectionMap[databaseName].beginTransaction(callback);
@@ -109,7 +110,6 @@ exports.transaction = function (api, next) {
                 });
             });
 
-            actionTemplate.dbConnectionMap = dbConnectionMap;
         } else {
             next(connection, true);
         }
@@ -128,11 +128,11 @@ exports.transaction = function (api, next) {
      */
     transactionPostProcessor = function (connection, actionTemplate, toRender, next) {
         var connectionClosedCount = 0;
-        if (actionTemplate.dbConnectionMap !== null && actionTemplate.dbConnectionMap !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
+        if (connection.dbConnectionMap !== null && connection.dbConnectionMap !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
             actionTemplate.databases.forEach(function (databaseName) {
                 var callback;
                 callback = function (err, result) {
-                    actionTemplate.dbConnectionMap[databaseName].disconnect();
+                    connection.dbConnectionMap[databaseName].disconnect();
                     api.log("Connection is closed", "debug");
                     if (err) {
                         connection.error = err;
@@ -149,9 +149,9 @@ exports.transaction = function (api, next) {
 
                 // if the action is transactional, end the transaction
                 if (actionTemplate.transaction === "write") {
-                    actionTemplate.dbConnectionMap[databaseName].endTransaction(connection.error, callback);
+                    connection.dbConnectionMap[databaseName].endTransaction(connection.error, callback);
                 } else {
-                    // actionTemplate.dbConnectionMap[databaseName].disconnect();
+                    // connection.dbConnectionMap[databaseName].disconnect();
                     // next(connection);
                     callback();
                 }

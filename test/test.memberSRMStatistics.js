@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
  * @author Sky_
@@ -143,6 +143,18 @@ describe('Get Member SRM Statistics API', function () {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)
+            .end(done);
+    });
+
+    /**
+     * Test /v2/users/test/statistics/data/srm
+     */
+    it('should return 400 if user is not activated', function (done) {
+        request(API_ENDPOINT)
+            .get('/v2/users/test/statistics/data/srm')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(400)
             .end(done);
     });
 });

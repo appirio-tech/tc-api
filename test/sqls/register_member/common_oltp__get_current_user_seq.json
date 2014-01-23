@@ -1,0 +1,5 @@
+{
+  "name"    : "common_oltp__get_current_user_seq",
+  "db"      : "common_oltp",
+  "sqlfile" : "common_oltp__get_current_user_seq"
+}

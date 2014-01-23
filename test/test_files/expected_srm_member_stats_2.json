@@ -1,76 +1,232 @@
 {
-  "handle": "heffan",
-  "rating": 2525,
-  "percentile": "28.71%",
-  "rank": 1,
-  "countryRank": 1,
-  "schoolRank": 1,
-  "volatility": 11,
-  "maximumRating": 3455,
-  "minimumRating": 2072,
-  "defaultLanguage": "Java",
-  "competitions": 35,
-  "mostRecentEventName": "test round 2001",
-  "mostRecentEventDate": "2011-12-31T00:00:00.000Z",
-  "Divisions": {
-    "Division I": {
-      "test level 1": {
-        "submitted": 0,
-        "failedChallenge": 0,
-        "failedSys.Test": 0,
-        "success%": "0.00%"
-      },
-      "test level 2": {
-        "submitted": 0,
-        "failedChallenge": 0,
-        "failedSys.Test": 0,
-        "success%": "0.00%"
-      },
-      "Level Total": {
-        "submitted": 0,
-        "failedChallenge": 0,
-        "failedSys.Test": 0,
-        "success%": "0.00%"
-      }
+    "handle": "heffan",
+    "rating": 2525,
+    "percentile": "28.71%",
+    "rank": 1,
+    "countryRank": 1,
+    "schoolRank": 1,
+    "volatility": 11,
+    "maximumRating": 3455,
+    "minimumRating": 2072,
+    "defaultLanguage": "Java",
+    "competitions": 35,
+    "mostRecentEventName": "test round 2001",
+    "mostRecentEventDate": "2011-12-31T00:00:00.000Z",
+    "Divisions": {
+        "Division I": {
+            "test level 1": {
+                "submitted": 0,
+                "failedChallenge": 0,
+                "failedSys.Test": 0,
+                "success%": "0.00%"
+            },
+            "test level 2": {
+                "submitted": 0,
+                "failedChallenge": 0,
+                "failedSys.Test": 0,
+                "success%": "0.00%"
+            },
+            "Level Total": {
+                "submitted": 0,
+                "failedChallenge": 0,
+                "failedSys.Test": 0,
+                "success%": "0.00%"
+            }
+        },
+        "Division II": {
+            "test level 1": {
+                "submitted": 0,
+                "failedChallenge": 0,
+                "failedSys.Test": 0,
+                "success%": "0.00%"
+            },
+            "test level 2": {
+                "submitted": 0,
+                "failedChallenge": 0,
+                "failedSys.Test": 0,
+                "success%": "0.00%"
+            },
+            "Level Total": {
+                "submitted": 0,
+                "failedChallenge": 0,
+                "failedSys.Test": 0,
+                "success%": "0.00%"
+            }
+        }
     },
-    "Division II": {
-      "test level 1": {
-        "submitted": 0,
-        "failedChallenge": 0,
-        "failedSys.Test": 0,
-        "success%": "0.00%"
-      },
-      "test level 2": {
-        "submitted": 0,
-        "failedChallenge": 0,
-        "failedSys.Test": 0,
-        "success%": "0.00%"
-      },
-      "Level Total": {
-        "submitted": 0,
-        "failedChallenge": 0,
-        "failedSys.Test": 0,
-        "success%": "0.00%"
-      }
-    }
-  },
-  "Challenges": {
-    "Levels": {
-      "test level 1": {
-        "failedChallenge": 0,
-        "challenges": 0,
-        "success%": "0.00%"
-      },
-      "test level 2": {
-        "failedChallenge": 0,
-        "challenges": 0,
-        "success%": "0.00%"
-      },
-      "Total": {
-        "failedChallenge": 0,
-        "challenges": 0,
-        "success%": "0.00%"
-      }
-    }
-  }
+    "Challenges": {
+        "Levels": {
+            "test level 1": {
+                "failedChallenge": 0,
+                "challenges": 0,
+                "success%": "0.00%"
+            },
+            "test level 2": {
+                "failedChallenge": 0,
+                "challenges": 0,
+                "success%": "0.00%"
+            },
+            "Total": {
+                "failedChallenge": 0,
+                "challenges": 0,
+                "success%": "0.00%"
+            }
+        }
+    },
+    "History": [
+        {
+            "challengeId": 2001,
+            "challengeName": "test round 2001",
+            "date": "2011.12.31",
+            "rating": 1800,
+            "placement": 1,
+            "percentile": "90.45%"
+        },
+        {
+            "challengeId": 2002,
+            "challengeName": "test round 2002",
+            "date": "2011.12.31",
+            "rating": 1800,
+            "placement": 6,
+            "percentile": "89.24%"
+        },
+        {
+            "challengeId": 2003,
+            "challengeName": "test round 2003",
+            "date": "2011.12.31",
+            "rating": 987,
+            "placement": 2,
+            "percentile": "56.23%"
+        },
+        {
+            "challengeId": 2004,
+            "challengeName": "test round 2004",
+            "date": "2011.12.31",
+            "rating": 1234,
+            "placement": 3,
+            "percentile": "18.44%"
+        },
+        {
+            "challengeId": 2005,
+            "challengeName": "test round 2005",
+            "date": "2011.12.31",
+            "rating": 1987,
+            "placement": 25,
+            "percentile": "87.21%"
+        },
+        {
+            "challengeId": 2006,
+            "challengeName": "test round 2006",
+            "date": "2011.12.31",
+            "rating": 1985,
+            "placement": 68,
+            "percentile": "98.76%"
+        }
+    ],
+    "Distribution": [
+        {
+            "range": "0-99",
+            "number": 0
+        },
+        {
+            "range": "100-199",
+            "number": 0
+        },
+        {
+            "range": "200-299",
+            "number": 0
+        },
+        {
+            "range": "300-399",
+            "number": 0
+        },
+        {
+            "range": "400-499",
+            "number": 0
+        },
+        {
+            "range": "500-599",
+            "number": 0
+        },
+        {
+            "range": "600-699",
+            "number": 0
+        },
+        {
+            "range": "700-799",
+            "number": 0
+        },
+        {
+            "range": "800-899",
+            "number": 0
+        },
+        {
+            "range": "900-999",
+            "number": 0
+        },
+        {
+            "range": "1000-1099",
+            "number": 0
+        },
+        {
+            "range": "1100-1199",
+            "number": 0
+        },
+        {
+            "range": "1200-1299",
+            "number": 0
+        },
+        {
+            "range": "1300-1399",
+            "number": 0
+        },
+        {
+            "range": "1400-1499",
+            "number": 0
+        },
+        {
+            "range": "1500-1599",
+            "number": 0
+        },
+        {
+            "range": "1600-1699",
+            "number": 0
+        },
+        {
+            "range": "1700-1799",
+            "number": 0
+        },
+        {
+            "range": "1800-1899",
+            "number": 0
+        },
+        {
+            "range": "1900-1999",
+            "number": 0
+        },
+        {
+            "range": "2000-2099",
+            "number": 0
+        },
+        {
+            "range": "2100-2199",
+            "number": 0
+        },
+        {
+            "range": "2200-2299",
+            "number": 0
+        },
+        {
+            "range": "2300-2399",
+            "number": 0
+        },
+        {
+            "range": "2400-2499",
+            "number": 0
+        },
+        {
+            "range": "2500-2599",
+            "number": 1
+        }
+    ]
 }

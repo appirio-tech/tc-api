@@ -1,12 +1,12 @@
 /*jslint nomen: true */
 /**
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  */
 
 /**
  * This module contains helper functions.
- * @author Sky_, TCSASSEMBLER, Ghost_141
- * @version 1.4
+ * @author Sky_, Ghost_141, muzehyun
+ * @version 1.6
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -14,15 +14,21 @@
  * changes in 1.3:
  * - add convertToString
  * changes in 1.4:
- * - add software and studio contest type object.
- * - add function to get direct project link for a contest.
-*/
+ * - add software and studio challenge type object.
+ * - add function to get direct project link for a challenge.
+ * changes in 1.5:
+ * - add softwareChallengeTypes and studioTypes.
+ * - add function to get phase name based on phase id.
+ * changes in 1.6:
+ * - add contestTypes
+ */
 "use strict";
 
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
+var BadRequestError = require('../errors/BadRequestError');
 var helper = {};
 var crypto = require("crypto");
 
@@ -83,6 +89,135 @@ var apiName2dbNameMap = {
     currentstatus: 'current_status',
     digitalrunpoints: 'digital_run_points'
 };
+
+/**
+ * The challenges types
+ */
+helper.softwareChallengeTypes = {
+    design: {
+        name: "Design",
+        phaseId: 112
+    },
+    development: {
+        name: "Development",
+        phaseId: 113,
+        active: true
+    },
+    specification: {
+        name: "Specification",
+        phaseId: 117
+    },
+    architecture: {
+        name: "Architecture",
+        phaseId: 118
+    },
+    bug_hunt: {
+        name: 'Bug Hunt',
+        phaseId: 120
+    },
+    test_suites: {
+        name: "Test Suites",
+        phaseId: 124
+    },
+    assembly: {
+        name: "Assembly",
+        phaseId: 125
+    },
+    ui_prototypes: {
+        name: "UI Prototypes",
+        phaseId: 130
+    },
+    conceptualization: {
+        name: "Conceptualization",
+        phaseId: 134
+    },
+    ria_build: {
+        name: "RIA Build",
+        phaseId: 135
+    },
+    ria_component: {
+        name: 'RIA Component',
+        phaseId: 136
+    },
+    test_scenarios: {
+        name: "Test Scenarios",
+        phaseId: 137
+    },
+    copilot_posting: {
+        name: 'Copilot Posting',
+        phaseId: 140
+    },
+    content_creation: {
+        name: "Content Creation",
+        phaseId: 146
+    },
+    reporting: {
+        name: 'Reporting',
+        phaseId: 147
+    },
+    marathon_match: {
+        name: 'Marathon Match',
+        phaseId: 148
+    },
+    first2finish: {
+        name: 'First2Finish',
+        phaseId: 149
+    },
+    code: {
+        name: 'Code',
+        phaseId: 150
+    }
+};
+
+/**
+ * The studio challenge types.
+ */
+helper.studioChallengeTypes = {
+    banners_icons: {
+        name: "Banners/Icons",
+        phaseId: 127
+    },
+    web_design: {
+        name: "Web Design",
+        phaseId: 128
+    },
+    wireframes: {
+        name: "Wireframes",
+        phaseId: 129
+    },
+    logo_design: {
+        name: "Logo Design",
+        phaseId: 131
+    },
+    print_presentation: {
+        name: "Print/Presentation",
+        phaseId: 132
+    },
+    idea_generation: {
+        name: "Idea Generation",
+        phaseId: 133
+    },
+    widget_or_mobile_screen_design: {
+        name: "Widget or Mobile Screen Design",
+        phaseId: 141
+    },
+    front_end_flash: {
+        name: "Front-End Flash",
+        phaseId: 142
+    },
+    application_front_end_design: {
+        name: "Application Front-End Design",
+        phaseId: 143
+    },
+    other: {
+        name: "Other",
+        phaseId: 145
+    }
+};
+
+var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
+    return [item.phaseId, item.name];
+}));
 
 /**
  * Checks whether given object is defined.
@@ -450,7 +585,7 @@ helper.apiCodes = {
 helper.handleError = function (api, connection, err) {
     api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
     var errdetail, helper = api.helper, baseError = helper.apiCodes.serverError;
-    if (err instanceof IllegalArgumentError) {
+    if (err instanceof IllegalArgumentError || err instanceof BadRequestError) {
         baseError = helper.apiCodes.badRequest;
     }
     if (err instanceof NotFoundError) {
@@ -505,8 +640,8 @@ helper.convertToString = function (str) {
 };
 
 /**
- * Get the project link in direct for this contest.
- * @param {Number} challengeId - the challenge id(project id) of this contest.
+ * Get the project link in direct for this challenge.
+ * @param {Number} challengeId - the challenge id(project id) of this challenge.
  */
 helper.getDirectProjectLink = function (challengeId) {
     return 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + challengeId;
@@ -614,8 +749,42 @@ helper.getCachedValue = function (key, callback) {
         callback(null, value);
     });
 };
-/*jslint */
 
+/*
+ * Get the phase name based on phase Id
+ * @param {Number} phaseId - the phase id.
+ */
+helper.getPhaseName = function (phaseId) {
+    return phaseId2Name[phaseId];
+};
+
+
+/**
+ * Get the color style information based on given rating.
+ * @param {Number} rating - the rating.
+ */
+helper.getColorStyle = function (rating) {
+    if (rating < 0) {
+        return "color: #FF9900"; // orange
+    }
+    if (rating > 0 && rating < 900) {
+        return "color: #999999";// gray
+    }
+    if (rating > 899 && rating < 1200) {
+        return "color: #00A900";// green
+    }
+    if (rating > 1199 && rating < 1500) {
+        return "color: #6666FF";// blue
+    }
+    if (rating > 1499 && rating < 2200) {
+        return "color: #DDCC00";// yellow
+    }
+    if (rating > 2199) {
+        return "color: #EE0000";// red
+    }
+    // return black otherwise.
+    return "color: #000000";
+};
 
 /**
 * Expose the "helper" utility.

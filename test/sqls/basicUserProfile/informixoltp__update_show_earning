@@ -1,0 +1,1 @@
+UPDATE user_preference SET value = 'show' WHERE user_id = 132456;

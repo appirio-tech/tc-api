@@ -2,6 +2,10 @@ INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUE
 INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(2,'TopCoder High School Rating');
 INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(3,'Marathon Match Rating');
 
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(13, 'Marathon Match', 3);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(15, 'Intel Marathon Match', 3);
+INSERT INTO round_type_lu(round_type_id, round_type_desc, algo_rating_type_id) VALUES(19, 'Marathon Match Tournament Round', 3);
+
 INSERT INTO coder_rank_type_lu(coder_rank_type_id,coder_rank_type_desc) VALUES(1,'Overall Rating');
 INSERT INTO coder_rank_type_lu(coder_rank_type_id,coder_rank_type_desc) VALUES(2,'Active Rating');
 
@@ -22,21 +26,21 @@ INSERT INTO current_school(coder_id,school_id,viewable) VALUES(124766,2,1);
 
 INSERT INTO calendar(calendar_id,date) VALUES(10001,'2013-11-11');
 
-INSERT INTO round(round_id,name,short_name,calendar_id) 
-VALUES(15801,'TCO13 Championship Round','TCO13 Championship Round',10001);
+INSERT INTO round(round_id,name,short_name,calendar_id, round_type_id)
+VALUES(15801,'TCO13 Championship Round','TCO13 Championship Round',10001, 13);
 
-INSERT INTO round(round_id,name) 
-VALUES(100001,'Marathon Match 81');
-INSERT INTO round(round_id,name) 
-VALUES(100002,'Marathon Match 80');
-INSERT INTO round(round_id,name) 
-VALUES(100003,'2013 TCO Marathon Round 2');
-INSERT INTO round(round_id,name) 
-VALUES(100004,'Marathon Match 79');
-INSERT INTO round(round_id,name) 
-VALUES(100005,'2013 TCO Marathon Round 1');
-INSERT INTO round(round_id,name) 
-VALUES(100006,'Marathon Match 78');
+INSERT INTO round(round_id,name, short_name, round_type_id, calendar_id)
+VALUES(100001,'Marathon Match 81','Marathon Match 81', 15, 10001);
+INSERT INTO round(round_id,name, short_name, round_type_id, calendar_id)
+VALUES(100002,'Marathon Match 80','Marathon Match 80', 15, 10001);
+INSERT INTO round(round_id,name, short_name, round_type_id, calendar_id)
+VALUES(100003,'2013 TCO Marathon Round 2', '2013 TCO Marathon Round 2', 19, 10001);
+INSERT INTO round(round_id,name, short_name, round_type_id, calendar_id)
+VALUES(100004,'Marathon Match 79', 'Marathon Match 79', 13, 10001);
+INSERT INTO round(round_id,name, short_name, round_type_id, calendar_id)
+VALUES(100005,'2013 TCO Marathon Round 1', '2013 TCO Marathon Round 1', 15, 10001);
+INSERT INTO round(round_id,name, short_name, round_type_id, calendar_id)
+VALUES(100006,'Marathon Match 78', 'Marathon Match 78', 13, 10001);
 
 
 INSERT INTO tcs_dw:user_achievement_xref(user_id,user_achievement_rule_id,create_date) 
@@ -48,8 +52,8 @@ VALUES(124764,114,CURRENT);
 INSERT INTO tcs_dw:user_achievement_xref(user_id,user_achievement_rule_id,create_date) 
 VALUES(124764,123,CURRENT);
 
-INSERT INTO algo_rating(coder_id,rating,num_competitions,vol,lowest_rating,highest_rating,algo_rating_type_id,last_rated_round_id) 
-VALUES(124764,2868,72,311,1527,2890,3,15801);
+INSERT INTO algo_rating(coder_id,rating,num_competitions,vol,lowest_rating,highest_rating,algo_rating_type_id,last_rated_round_id, num_ratings)
+VALUES(124764,2868,72,311,1527,2890,3,15801, 6);
 
 INSERT INTO coder_rank(coder_id,coder_rank_type_id,rank,percentile,algo_rating_type_id) 
 VALUES(124764,2,1,99.7333,3);
@@ -60,18 +64,18 @@ VALUES(124764,616,1,2,3);
 INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id) 
 VALUES(124764,1,1,2,3);
 
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(15801,124764,'Y',1,10);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100001,124764,'Y',2,21);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100002,124764,'Y',8,2);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100003,124764,'Y',10,15);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100004,124764,'Y',5,22);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100005,124764,'Y',15,9);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(15801,124764,'Y',1,10, 1500, 1348);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100001,124764,'Y',2,21, 2183, 1986);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100002,124764,'Y',8,2, 1300, 1286);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100003,124764,'Y',10,15, 2345, 2376);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100004,124764,'Y',5,22, 800, 578);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100005,124764,'Y',15,9, 1200, 1024);
 
 
 INSERT INTO tcs_dw:user_achievement_xref(user_id,user_achievement_rule_id,create_date) 
@@ -80,8 +84,8 @@ INSERT INTO tcs_dw:user_achievement_xref(user_id,user_achievement_rule_id,create
 VALUES(124766,109,CURRENT);
 
 
-INSERT INTO algo_rating(coder_id,rating,num_competitions,vol,lowest_rating,highest_rating,algo_rating_type_id,last_rated_round_id) 
-VALUES(124766,2797,35,307,1223,2797,3,15801);
+INSERT INTO algo_rating(coder_id,rating,num_competitions,vol,lowest_rating,highest_rating,algo_rating_type_id,last_rated_round_id, num_ratings)
+VALUES(124766,2797,35,307,1223,2797,3,15801, 6);
 
 INSERT INTO coder_rank(coder_id,coder_rank_type_id,rank,percentile,algo_rating_type_id) 
 VALUES(124766,2,4,98.9333,3);
@@ -92,18 +96,47 @@ VALUES(124766,156,1,2,3);
 INSERT INTO school_coder_rank(coder_id,school_id,rank,coder_rank_type_id,algo_rating_type_id) 
 VALUES(124766,2,1,2,3);
 
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(15801,124766,'Y',2,20);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100001,124766,'Y',1,21);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100002,124766,'Y',8,18);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100003,124766,'Y',10,15);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100004,124766,'Y',5,22);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100005,124766,'Y',15,9);
-INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions) 
-VALUES(100006,124766,'Y',20,19);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(15801,124766,'Y',2,20, 1586, 1487);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100001,124766,'Y',1,21, 2342, 2122);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100002,124766,'Y',8,18, 2900, 3500);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100003,124766,'Y',10,15, 500, 300);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100004,124766,'Y',5,22, 2200, 1200);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100005,124766,'Y',15,9, 1800, 1800);
+INSERT INTO long_comp_result(round_id,coder_id,attended,placed,num_submissions,new_rating, old_rating)
+VALUES(100006,124766,'Y',20,19, 1200, 1344);
 
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124764, 15801, 2, 3, 6, 80.08);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124764, 100001, 2, 3, 5, 78.34);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124764, 100002, 2, 3, 4, 12.45);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124764, 100003, 2, 3, 3, 90.65);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124764, 100004, 2, 3, 2, 54.25);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124764, 100005, 2, 3, 1, 90);
+
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 15801, 2, 3, 7, 98.23);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 100001, 2, 3, 6, 78.34);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 100002, 2, 3, 5, 12.45);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 100003, 2, 3, 4, 90.65);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 100004, 2, 3, 3, 54.25);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 100005, 2, 3, 2, 90);
+INSERT INTO coder_rank_history(coder_id, round_id, coder_rank_type_id, algo_rating_type_id, rank, percentile) VALUES(124766, 100006, 2, 3, 1, 93.84);
+
+UPDATE long_comp_result SET rated_ind = 1;
+
+INSERT INTO coder(coder_id, handle, status) VALUES(1, 'test1', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(2, 'test2', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(3, 'test3', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(4, 'test4', 'A');
+INSERT INTO coder(coder_id, handle, status) VALUES(5, 'test5', 'U');
+INSERT INTO coder(coder_id, handle, status) VALUES(6, 'test6', 'A');
+
+INSERT INTO algo_rating(coder_id, rating, num_ratings, algo_rating_type_id) values(1, 1976, 2, 3);
+INSERT INTO algo_rating(coder_id, rating, num_ratings, algo_rating_type_id) values(2, 1853, 2, 3);
+INSERT INTO algo_rating(coder_id, rating, num_ratings, algo_rating_type_id) values(3, 943, 2, 3);
+INSERT INTO algo_rating(coder_id, rating, num_ratings, algo_rating_type_id) values(4, 2800, 2, 3);
+INSERT INTO algo_rating(coder_id, rating, num_ratings, algo_rating_type_id) values(5, 0, 0, 3);
