@@ -456,6 +456,8 @@ configData.badge.properties = {
         "top": -119
     }
 };
+
+configData.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
 //////////////////////////////////
 
 exports.configData = configData;

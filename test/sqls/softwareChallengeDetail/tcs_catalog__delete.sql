@@ -9,6 +9,7 @@ delete from phase_dependency;
 delete from project_phase;
 delete from project_platform;
 delete from prize;
+DELETE FROM comp_documentation WHERE comp_vers_id = 30400002;
 delete from comp_technology where comp_vers_id = 30400002;
 delete from comp_version_dates where comp_version_dates_id > 30000000;
 delete from comp_versions where comp_vers_id > 30000000;

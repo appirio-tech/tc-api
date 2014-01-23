@@ -797,6 +797,50 @@ describe('Test Challenges API', function () {
                     });
             });
 
+            it('should return PAST software details(no reliabilityBonus)', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery('UPDATE project_info SET value = "false" WHERE project_info_type_id = 45 AND project_id = 30400000', 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/develop/challenges/' + '30400000')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                if (err) {
+                                    done(err);
+                                    return;
+                                }
+                                var expected = require('./test_files/expected_software_challenge_detail.json');
+                                delete expected.reliabilityBonus;
+
+                                delete res.body.serverInformation;
+                                delete res.body.requestorInformation;
+                                // The time in test data is not constant.
+                                delete res.body.postingDate;
+                                delete res.body.registrationEndDate;
+                                delete res.body.checkpointSubmissionEndDate;
+                                delete res.body.appealsEndDate;
+                                delete res.body.finalFixEndDate;
+                                delete res.body.submissionEndDate;
+                                delete res.body.currentPhaseEndDate;
+                                delete res.body.currentPhaseRemainingTime;
+                                delete res.body.registrants[0].registrationDate;
+                                delete res.body.submissions[0].submissionDate;
+                                assert.deepEqual(res.body, expected, 'Invalid response');
+                                cb();
+                            });
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
+            });
+
 
             /**
              * develop/challenges/31210000
@@ -904,6 +948,45 @@ describe('Test Challenges API', function () {
                             "test_files/exptected_studio_challenge_details.json",
                             done);
                     });
+            });
+
+            it('should return challenge details(no reliabilityBonus)', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery('UPDATE project_info SET value = "false" WHERE project_info_type_id = 45 AND project_id = 10041', 'tcs_catalog', cb),
+                        function (cb) {
+                            request(API_ENDPOINT)
+                                .get('/v2/design/challenges/10041')
+                                .set('Accept', 'application/json')
+                                .expect('Content-Type', /json/)
+                                .expect(200)
+                                .end(function (err, res) {
+                                    var body = res.body,
+                                        expected = require('./test_files/exptected_studio_challenge_details.json');
+                                    assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                    assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                    assert.lengthOf(body.winners, 1, "invalid winners count");
+                                    //submissionTime is not constant value
+                                    assert.ok(body.submissions[0].submissionTime);
+                                    assert.ok(body.checkpoints[0].submissionTime);
+                                    assert.ok(body.winners[0].submissionTime);
+                                    delete body.submissions[0].submissionTime;
+                                    delete body.checkpoints[0].submissionTime;
+                                    delete body.winners[0].submissionTime;
+                                    delete body.currentPhaseEndDate;
+                                    delete expected.reliabilityBonus;
+                                    assert.deepEqual(res.body, expected, 'Invalid response');
+                                    cb();
+                                });
+                        }
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
             });
 
 
