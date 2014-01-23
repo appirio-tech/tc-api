@@ -125,8 +125,8 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {Object} helper - the helper.
  * @param {Object} query - the query string.
  * @param {Object} filter - the filter.
- * @param {Integer} pageIndex - the page index.
- * @param {Integer} pageSize - the page size.
+ * @param {Number} pageIndex - the page index.
+ * @param {Number} pageSize - the page size.
  * @param {String} sortColumn - the sort column.
  * @param {String} sortOrder - the sort order.
  * @param {String} type - the type of challenge.
@@ -411,7 +411,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     submissions: execQuery("get_studio_challenge_detail_submissions"),
                     winners: execQuery("get_studio_challenge_detail_winners"),
                     platforms: execQuery('challenge_platforms'),
-                    phases: execQuery('challenge_phases')
+                    phases: execQuery('challenge_phases'),
+                    documents: execQuery('challenge_documents')
                 }, cb);
             } else {
                 async.parallel({
@@ -419,7 +420,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     registrants: execQuery('challenge_registrants'),
                     submissions: execQuery('challenge_submissions'),
                     platforms: execQuery('challenge_platforms'),
-                    phases: execQuery('challenge_phases')
+                    phases: execQuery('challenge_phases'),
+                    documents: execQuery('challenge_documents')
                 }, cb);
             }
         }, function (results, cb) {
@@ -469,9 +471,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         return [];
                     }
                     var platforms = [];
-                        results.forEach(function (item) {
-                            platforms.push(item.name);
-                        });
+                    results.forEach(function (item) {
+                        platforms.push(item.name);
+                    });
                     return platforms;
                 },
                 mapPhases = function (results) {
@@ -485,7 +487,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                             scheduledStartTime: item.scheduled_start_time,
                             actualStartTime: item.actual_start_time,
                             scheduledEndTime: item.scheduled_end_time,
-                            actualendTime: item.actual_end_time,
+                            actualendTime: item.actual_end_time
                         };
                     });
                 },
@@ -536,6 +538,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                             submissionTime: s.create_date
                         };
                     });
+                },
+                mapDocuments = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (item) {
+                        return {
+                            documentName: item.document_name,
+                            url: api.configData.documentProvider + '=' + item.document_id
+                        };
+                    });
                 };
             challenge = {
                 challengeType : data.challenge_type,
@@ -571,7 +584,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 registrants: mapRegistrants(results.registrants),
                 checkpoints: mapCheckPoints(results.checkpoints),
                 submissions: mapSubmissions(results),
-                winners: mapWinners(results.winners)
+                winners: mapWinners(results.winners),
+                Documents: mapDocuments(results.documents)
             };
 
             if (isStudio) {
@@ -583,6 +597,10 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             } else {
                 challenge.numberOfSubmissions = results.submissions.length;
                 challenge.numberOfRegistrants = results.registrants.length;
+
+                if (data.is_reliability_bonus_eligible !== 'true') {
+                    delete challenge.reliabilityBonus;
+                }
                 delete challenge.checkpoints;
                 delete challenge.winners;
                 delete challenge.introduction;

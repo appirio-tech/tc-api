@@ -5,6 +5,7 @@ INSERT INTO project_info (project_id, project_info_type_id, value, create_user, 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 70, 'ab', 132456, CURRENT, 132456, CURRENT);
 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 1, 30400002, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(30400000, 45, 'true', 132456, current, 132456, current);
 INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (30400000, 4, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (30400000, 5, 132456, CURRENT, 132456, CURRENT);
 
@@ -57,3 +58,8 @@ values (30400008, 1, 3, 132456, CURRENT, 132456, CURRENT);
 
 insert into project_spec(project_spec_id, project_id, version)
 values (31500000, 30400000, 1);
+
+
+INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30400000, 30400002, 0, 'document 1', 'test/document1.doc');
+INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30400001, 30400002, 24, 'document 2', 'test/document2.doc');
+INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30400002, 30400002, 25, 'document 3', 'test/document3.doc');

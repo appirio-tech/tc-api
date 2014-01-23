@@ -23,6 +23,7 @@ SELECT
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 6)::DECIMAL(10,2) AS prize6
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 7)::DECIMAL(10,2) AS prize7
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 8)::DECIMAL(10,2) AS prize8
+     , (SELECT value FROM project_info pi45 WHERE pi45.project_info_type_id = 45 AND pi45.project_id = p.project_id) AS is_reliability_bonus_eligible
      , (SELECT NVL(NVL(ppd.actual_start_time, psd.actual_start_time), ppd.scheduled_start_time)
           FROM project proj
              , OUTER project_phase psd

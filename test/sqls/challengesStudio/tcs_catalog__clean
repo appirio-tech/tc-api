@@ -1,3 +1,7 @@
+DELETE FROM comp_documentation WHERE comp_vers_id = 10041;
+DELETE FROM comp_versions WHERE comp_vers_id = 10041;
+DELETE FROM comp_catalog WHERE component_id = 10041;
+
 DELETE FROM review_item_comment WHERE resource_id = 10045;
 DELETE FROM review_item WHERE review_item_id = 1;
 DELETE FROM review WHERE review_id = 1;
