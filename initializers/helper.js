@@ -5,21 +5,22 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun
- * @version 1.6
- * changes in 1.1:
+ * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
+ * @version 1.7 * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
  * changes in 1.3:
  * - add convertToString
  * changes in 1.4:
- * - add software and studio challenge type object.
- * - add function to get direct project link for a challenge.
+ * - add function to get direct project link for a contest.
  * changes in 1.5:
  * - add softwareChallengeTypes and studioTypes.
  * - add function to get phase name based on phase id.
  * changes in 1.6:
+ * - add socialProviders and getProviderId
+ * - fix creating optional function for validation (to pass js lint)
+ * changes in 1.7:
  * - add contestTypes
  */
 "use strict";
@@ -294,7 +295,6 @@ helper.checkArray = function (obj, objName, allowEmpty) {
     }
     return null;
 };
-
 
 
 /**
@@ -575,7 +575,6 @@ helper.apiCodes = {
 };
 
 
-
 /**
  * Handle error, set http code and error details to response
  * @param {Object} api - The api object that is used to access the global infrastructure
@@ -666,8 +665,52 @@ helper.getSortColumnDBName = function (apiName) {
     return apiName;
 };
 
+
 /**
- * Encrypt the password using the specified key. After being
+ * Social providers map to database id
+ */
+helper.socialProviders = {
+    "facebook": 1,
+    "google": 2,
+    "twitter": 3,
+    "github": 4,
+    "salesforce": 5,
+    "ad": 50
+};
+
+/**
+ * Retrieve provider information from the provider name.
+ *
+ * @param {String} provider the provider provided by Auth0.
+ * @param {Function<err, providerId>} callback the callback function
+ */
+helper.getProviderId = function (provider, callback) {
+    var providerId;
+    if (provider.startsWith("facebook")) {
+        providerId = helper.socialProviders.facebook;
+    }
+    if (provider.startsWith("google")) {
+        providerId = helper.socialProviders.google;
+    }
+    if (provider.startsWith("twitter")) {
+        providerId = helper.socialProviders.twitter;
+    }
+    if (provider.startsWith("github")) {
+        providerId = helper.socialProviders.github;
+    }
+    if (provider.startsWith("salesforce")) {
+        providerId = helper.socialProviders.salesforce;
+    }
+    if (provider.startsWith("ad")) {
+        providerId = helper.socialProviders.ad;
+    }
+    if (providerId) {
+        callback(null, providerId);
+    } else {
+        callback(new Error('Social provider: ' + provider + ' is not defined in config'));
+    }
+};
+/* Encrypt the password using the specified key. After being
  * encrypted with a Blowfish key, the encrypted byte array is
  * then encoded with a base 64 encoding, resulting in the String
  * that is returned.
@@ -821,21 +864,26 @@ exports.helper = function (api, next) {
     });
 
     /**
+     * Create optional version for given function
+     * @param {String} funName the function name
+     */
+    function createOptionalFunction(funName) {
+        if (/^check/.test(funName) && _.isFunction(helper[funName])) {
+            helper[funName + "Optional"] = function (val) {
+                if (!_.isDefined(val)) {
+                    return null;
+                }
+                return helper[funName].apply(this, arguments);
+            };
+        }
+    }
+    var prop;
+    /**
      * Create optional validation
      */
-    var prop;
     for (prop in helper) {
         if (helper.hasOwnProperty(prop)) {
-            (function (p) {
-                if (/^check/.test(p) && _.isFunction(helper[p])) {
-                    helper[prop + "Optional"] = function () {
-                        if (!_.isDefined(arguments[0])) {
-                            return null;
-                        }
-                        return helper[p].apply(this, arguments);
-                    };
-                }
-            })(prop);
+            createOptionalFunction(prop);
         }
     }
 

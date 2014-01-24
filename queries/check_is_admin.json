@@ -1,0 +1,5 @@
+{
+  "name"    : "check_is_admin",
+  "db"      : "common_oltp",
+  "sqlfile" : "check_is_admin"
+}

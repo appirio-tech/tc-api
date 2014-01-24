@@ -1,9 +1,8 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
- * @author vangavroche, Sky_, muzehyun
- * Changes in 1.1:
+ * @version 1.6
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
  * - add route for top
@@ -15,6 +14,8 @@
  * Changes in 1.5:
  * - add routes for software rating history and distribution
  * - reorder route for studio challenge details
+ * Changes in 1.6:
+ * - add route oauth test
  */
 
 /* ---------------------
@@ -68,7 +69,8 @@ var testMethods = {
         {path: "/test/cache/hits", action: "cacheTestGetHits"},
         {path: "/test/cache/reset", action: "cacheTestResetHits"},
         {path: "/test/cache/disabled", action: "cacheDisabled"},
-        {path: "/test/cache", action: "cacheTest"}
+        {path: "/test/cache", action: "cacheTest"},
+        {path: "/test/oauth", action: "oauthTest"}
     ]
 };
 
@@ -112,7 +114,7 @@ exports.routes = {
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
-        
+
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
 
         //Stubs APIs
@@ -124,6 +126,6 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/users", action: "memberRegister" },
+        { path: "/:apiVersion/users", action: "memberRegister" }
     ]
 };
