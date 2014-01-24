@@ -154,7 +154,6 @@ exports.middleware = function (api, next) {
                     ], cb);
                 });
             }, function (userInfo, cb) {
-                connectionMap.common_oltp.disconnect();
                 connection.caller = userInfo;
                 var lifetime = api.configData.general.defaultAuthMiddlewareCacheLifetime;
 
@@ -166,6 +165,7 @@ exports.middleware = function (api, next) {
                 }
             }
         ], function (err) {
+            connectionMap.common_oltp.disconnect();
             if (!err) {
                 next(connection, true);
                 return;
