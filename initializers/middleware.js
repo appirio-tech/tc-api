@@ -134,7 +134,6 @@ exports.middleware = function (api, next) {
                                 }
                             }, cbx);
                         }, function (results, cbx) {
-                            connectionMap.common_oltp.disconnect();
                             var userInfo = {
                                 userId: userId
                             },
@@ -166,6 +165,7 @@ exports.middleware = function (api, next) {
                 }
             }
         ], function (err) {
+            connectionMap.common_oltp.disconnect();
             if (!err) {
                 next(connection, true);
                 return;

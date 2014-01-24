@@ -346,7 +346,6 @@ describe('Test Oauth', function () {
     /**
      * /test/oauth/ with header
      */
-    /*
     it('should be authorized as member (salesforce) - cache version', function (done) {
         var oauth = generateAuthHeader({ sub: userSubSalesforce }),
             response = {accessLevel: "member", userId: 400000, handle: "normal_user"},
@@ -357,5 +356,4 @@ describe('Test Oauth', function () {
             fun
         ], done);
     });
-    */
 });
