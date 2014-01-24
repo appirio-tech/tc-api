@@ -48,6 +48,7 @@ configData.general = {
         "initializer" : __dirname + "/initializers"
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
+    defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64')

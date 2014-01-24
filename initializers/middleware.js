@@ -9,7 +9,7 @@
  * changes in 1.2:
  * - new oauth authentication middleware
  * - remove authorize, oauthProcessor, getHeader
- * - add oauthPreProcessor
+ * - add authorizationPreProcessor
  */
 "use strict";
 
@@ -40,11 +40,11 @@ exports.middleware = function (api, next) {
      * @since 1.2
      */
     /*jslint unparam: true */
-    function oauthPreProcessor(connection, actionTemplate, next) {
+    function authorizationPreProcessor(connection, actionTemplate, next) {
         var authHeader = connection.rawConnection.req.headers.authorization,
             connectionMap = { "common_oltp": api.dataAccess.createConnection("common_oltp") },
             isTopcoderAD,
-            cachePrefix = "oauthPreProcessor::",
+            cachePrefix = "authorizationPreProcessor::",
             decoded,
             isCachedReturned,
             cacheKey,
@@ -156,7 +156,7 @@ exports.middleware = function (api, next) {
                 });
             }, function (userInfo, cb) {
                 connection.caller = userInfo;
-                var lifetime = api.configData.general.defaultCacheLifetime;
+                var lifetime = api.configData.general.defaultAuthMiddlewareCacheLifetime;
 
                 //don't re-set cache
                 if (isCachedReturned) {
@@ -320,7 +320,7 @@ exports.middleware = function (api, next) {
         });
     }
 
-    api.actions.preProcessors.push(oauthPreProcessor);
+    api.actions.preProcessors.push(authorizationPreProcessor);
     api.actions.preProcessors.push(preThrottleProcessor);
     api.actions.preProcessors.push(preCacheProcessor);
     api.actions.postProcessors.push(postCacheProcessor);
