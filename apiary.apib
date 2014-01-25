@@ -4,24 +4,11 @@ HOST: http://api.topcoder.com/v2
 # TopCoder API
 Programmatically access TopCoder challenges and members.
 
-# Group Platform
-Platform APIs
+# Group Reports
+Report APIs
 
-## Activity Summary [/platform/activitySummary]
-### Get Activity Summary [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "activeContestsCount": 50,
-            "activeMembersCount": 500000,
-            "activeProjectsCount": 30,
-            "completedProjectsCount": 500,
-            "prizePurse": "$100000"
-        }
-        
-## Invoice History [/invoice/history/{startDate}/{endDate}?clientid={clientId}&billingId={billingId}&projectId={projectId}&challengeId={challengeId}&username={username}&password={password}]
-### Invoice History [GET]
+## Challenge Costs [/reports/costs/{startDate}/{endDate}?clientid={clientId}&billingId={billingId}&projectId={projectId}&challengeId={challengeId}&username={username}&password={password}]
+### Challenge Costs [GET]
 
 + Parameters
     + startDate (required, string, `2013-07-01`) ... Start Date
@@ -101,6 +88,22 @@ Platform APIs
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
+        }
+
+# Group Platform
+Platform APIs
+
+## Activity Summary [/platform/activitySummary]
+### Get Activity Summary [GET]
+
++ Response 200 (application/json)
+
+        {
+            "activeContestsCount": 50,
+            "activeMembersCount": 500000,
+            "activeProjectsCount": 30,
+            "completedProjectsCount": 500,
+            "prizePurse": "$100000"
         }
 
 # Group User Profile
