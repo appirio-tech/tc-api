@@ -840,6 +840,38 @@ describe('Test Challenges API', function () {
                     done();
                 });
             });
+            
+            /**
+             * develop/challenges/30500000
+             */
+            it('should return F2F challenge details', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/develop/challenges/' + '30500000')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) {
+                            done(err);
+                        }
+                        var expected = require('./test_files/expected_f2f_challenge_detail.json');
+                        delete res.body.serverInformation;
+                        delete res.body.requestorInformation;
+                        // The time in test data is not constant.
+                        delete res.body.postingDate;
+                        delete res.body.registrationEndDate;
+                        delete res.body.checkpointSubmissionEndDate;
+                        delete res.body.appealsEndDate;
+                        delete res.body.finalFixEndDate;
+                        delete res.body.submissionEndDate;
+                        delete res.body.currentPhaseEndDate;
+                        delete res.body.currentPhaseRemainingTime;
+                        delete res.body.registrants[0].registrationDate;
+                        delete res.body.submissions[0].submissionDate;
+                        assert.deepEqual(res.body, expected, 'Invalid response');
+                        done();
+                    });
+            });
 
 
             /**

@@ -1299,7 +1299,85 @@ Register a new user.
             }
         ]
     }
-
++ Response 200 (application/json)
+        
+        {
+	    "challengeType": "First2Finish",
+	    "challengeName": "this is a F2F challenge",
+	    "challengeId": 30500000,
+	    "projectId": 30400001,
+	    "screeningScorecardId": "3",
+	    "reviewScorecardId": "1",
+	    "cmcTaskId": "ab",
+	    "numberOfCheckpointsPrizes": 0,
+	    "topCheckPointPrize": "",
+	    "currentStatus": "Active",
+	    "currentPhaseName": "Submission",
+	    "digitalRunPoints": 510,
+	    "reliabilityBonus": 200,
+	    "challengeCommunity": "develop",
+	    "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
+	    "technology": ["Java", "MySQL"],
+	    "prize": [
+		1000
+	    ],
+	    "registrants": [
+		{
+		    "handle": "heffan",
+		    "reliability": "100%"
+		}
+	    ],
+	    "submissions": [
+		{
+		    "handle": "heffan",
+		    "placement": 1,
+		    "screeningScore": 100,
+		    "initialScore": 80,
+		    "finalScore": 90,
+		    "points": 510,
+		    "submissionStatus": "Active"
+		}
+	    ],
+	    "Documents": [
+		{
+		    "documentName": "document 1",
+		    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+		},
+		{
+		    "documentName": "document 2",
+		    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+		}
+	    ],
+	    "numberOfSubmissions": 1,
+	    "numberOfRegistrants": 1,
+	    "platforms": [
+		"AWS",
+		"Cloud Foundry"
+	    ],
+	    "phases": [
+	     {
+	       "type": "Registration",
+	       "status": "Closed",
+	       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+	       "actualStartTime": "2013-12-20T01:40:00.000Z",
+	       "scheduledEndTime": "2013-12-22T00:00:00.000Z",
+	       "actualendTime": "2013-12-22T00:00:00.000Z"
+	     },
+	     {
+	       "type": "Submission",
+	       "status": "Open",
+	       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+	       "actualStartTime": "2013-12-20T00:00:00.000Z",
+	       "scheduledEndTime": "2013-12-26T00:00:00.000Z"
+	     },
+	     {
+	       "type": "Iterative Review",
+	       "status": "Scheduled",
+	       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+	       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+	     }
+	   ]
+	}
 + Response 400 (application/json)
 
         {
