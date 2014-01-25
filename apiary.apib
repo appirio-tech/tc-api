@@ -19,6 +19,100 @@ Platform APIs
             "completedProjectsCount": 500,
             "prizePurse": "$100000"
         }
+        
+## Invoice History [/invoice/history/{startDate}/{endDate}?clientid={clientId}&billingId={billingId}&projectId={projectId}&challengeId={challengeId}&username={username}&password={password}]
+### Invoice History [GET]
+
++ Parameters
+    + startDate (required, string, `2013-07-01`) ... Start Date
+    + endDate (required, string, `2013-12-01`) ... End Date
+    + clientId (optional, number, `4310`) ... Client Id
+    + billingId (optional, number, `2310`) ... Billing Id
+    + projectId (optional, number, `6707`) ... Project Id
+    + challengeId (optional, number, `30000001`) ... Challenge Id
+    + username (optional, string, `heffan`) ... User Name
+    + password (optional, string, `password`) ... Password
+
++ Response 200 (application/json)
+
+        {
+             "totalChallenges": 15,
+             "totalRaces": 20,
+             "totalAmount": 30000.0,
+             "history":
+             [
+                {
+                    "paymentDate": "2013-09-12",
+                    "customer": "Topcoder",
+                    "billing": "Topcoder2013",
+                    "project": "CS-TC API",
+                    "filterValue": "phase 1 filter",
+                    "challenge": "challenge 1",
+                    "challengeId": 30030010,
+                    "referenceId": 456,
+                    "category": "development",
+                    "status": "completed",
+                    "launchDate": "2013-08-10",
+                    "completionDate": "2013-08-25",
+                    "paymentType": "contest fee",
+                    "amount": 5000.0,
+                    "invoiceNumber": "123-456",
+                    "invoiceDate": "2013-09-15",
+                    "invoiceAmount": 5000.0
+                },
+                {
+                    "paymentDate": "2013-09-15",
+                    "customer": "Topcoder",
+                    "billing": "Topcoder2013",
+                    "project": "NodeJS",
+                    "filterValue": "phase 2 filter",
+                    "challenge": "challenge 2",
+                    "challengeId": 30030013,
+                    "referenceId": 457,
+                    "category": "development",
+                    "status": "completed",
+                    "launchDate": "2013-08-14",
+                    "completionDate": "2013-08-29",
+                    "paymentType": "contest fee",
+                    "amount": 5000.0,
+                    "invoiceNumber": "124-457",
+                    "invoiceDate": "2013-09-15",
+                    "invoiceAmount": 5000.0            
+                }
+             ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 # Group User Profile
 Register a new user.
@@ -352,101 +446,6 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-
-## Invoice History [/invoice/history/{startDate}/{endDate}?clientid={clientId}&billingId={billingId}&projectId={projectId}&challengeId={challengeId}&username={username}&password={password}]
-### Invoice History [GET]
-
-+ Parameters
-    + startDate (required, string, `2013-07-01`) ... Start Date
-    + endDate (required, string, `2013-12-01`) ... End Date
-    + clientId (optional, number, `4310`) ... Client Id
-    + billingId (optional, number, `2310`) ... Billing Id
-    + projectId (optional, number, `6707`) ... Project Id
-    + challengeId (optional, number, `30000001`) ... Challenge Id
-    + username (optional, string, `heffan`) ... User Name
-    + password (optional, string, `password`) ... Password
-
-+ Response 200 (application/json)
-
-        {
-             "totalChallenges": 15,
-             "totalRaces": 20,
-             "totalAmount": 30000.0,
-             "history":
-             [
-                {
-                    "paymentDate": "2013-09-12",
-                    "customer": "Topcoder",
-                    "billing": "Topcoder2013",
-                    "project": "CS-TC API",
-                    "filterValue": "phase 1 filter",
-                    "challenge": "challenge 1",
-                    "challengeId": 30030010,
-                    "referenceId": 456,
-                    "category": "development",
-                    "status": "completed",
-                    "launchDate": "2013-08-10",
-                    "completionDate": "2013-08-25",
-                    "paymentType": "contest fee",
-                    "amount": 5000.0,
-                    "invoiceNumber": "123-456",
-                    "invoiceDate": "2013-09-15",
-                    "invoiceAmount": 5000.0
-                },
-                {
-                    "paymentDate": "2013-09-15",
-                    "customer": "Topcoder",
-                    "billing": "Topcoder2013",
-                    "project": "NodeJS",
-                    "filterValue": "phase 2 filter",
-                    "challenge": "challenge 2",
-                    "challengeId": 30030013,
-                    "referenceId": 457,
-                    "category": "development",
-                    "status": "completed",
-                    "launchDate": "2013-08-14",
-                    "completionDate": "2013-08-29",
-                    "paymentType": "contest fee",
-                    "amount": 5000.0,
-                    "invoiceNumber": "124-457",
-                    "invoiceDate": "2013-09-15",
-                    "invoiceAmount": 5000.0            
-                }
-             ]
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
 
 #Group Software Challenges
         
