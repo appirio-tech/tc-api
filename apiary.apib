@@ -440,143 +440,74 @@ Register a new user.
 #Group Software Challenges
         
 ## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Get Review Oppertunities [GET]
+### Get Review Opportunities [GET]
 
 + Parameters
-    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: type, contestName, catalog, registrationStartDate.type, registrationStartDate.firstDate, registrationStartDate.secondDate, submissionEndDate.type, submissionEndDate.firstDate, submissionEndDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the registrationStartDate, submissionEndDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: type, contestName, catalog, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
     + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
 
-
 + Response 200 (application/json)
 
         {
             "total": 21,
             "pageIndex": 1,
-            "pageSize": 10,
+            "pageSize": 4,
             "data": [
                 {
-                    "primaryReviewerPayment": 0,
+                    "primaryReviewerPayment": 18.00,
                     "secondaryReviewerPayment": 0,
                     "numberOfSubmissions": 1,
-                    "opensOn": "10.25.2013 21:09 EDT",
                     "reviewStart": "10.29.2013 21:13 EDT",
                     "reviewEnd": "10.31.2013 21:13 EDT",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "Copilot Posting",
-                    "reviewType": "Contest Review",
-                    "contestName": "DOE Open-WARP Software Copilot Opportunity"
+                    "type": "First 2 Finish",
+                    "reviewType": "Iterative Review",
+                    "challengeName": "Simple UI Fixes - Ganttview JS App",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039333",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7064"
                 },
                 {
-                    "primaryReviewerPayment": 442,
-                    "secondaryReviewerPayment": 336,
+                    "primaryReviewerPayment": 346.00,
+                    "secondaryReviewerPayment": 252.00,
                     "numberOfSubmissions": 3,
-                    "opensOn": "10.31.2013 22:22 EDT",
-                    "reviewStart": "11.07.2013 01:52 EST",
-                    "reviewEnd": "11.09.2013 01:52 EST",
+                    "reviewStart": "01.29.2014 16:05 EST",
+                    "reviewEnd": "01.31.2014 16:05 EST",
                     "numberOfReviewPositionsAvailable": 1,
                     "type": "Assembly Competition",
                     "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - Topcoder NodeJS Contest Retrieval API"
+                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
                 },
                 {
-                    "primaryReviewerPayment": 205,
-                    "secondaryReviewerPayment": 143,
+                    "primaryReviewerPayment": 50.00,
+                    "secondaryReviewerPayment": 0,
+                    "numberOfSubmissions": 0,
+                    "reviewStart": "01.24.2014 16:05 EST",
+                    "reviewEnd": "01.24.2014 20:05 EST",
+                    "numberOfReviewPositionsAvailable": 1,
+                    "type": "Assembly Competition",
+                    "reviewType": "Spec Review",
+                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
+                },
+                {
+                    "primaryReviewerPayment": 0,
+                    "secondaryReviewerPayment": 180.00,
                     "numberOfSubmissions": 1,
-                    "opensOn": "11.01.2013 23:25 EDT",
-                    "reviewStart": "11.08.2013 10:30 EST",
-                    "reviewEnd": "11.10.2013 10:30 EST",
-                    "numberOfReviewPositionsAvailable": 2,
-                    "type": "UI Prototype Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "NEW TC-CS Community TopCoder API Hooking Up part 2- Wordpress Plugin Development"
-                },
-                {
-                    "primaryReviewerPayment": 430,
-                    "secondaryReviewerPayment": 330,
-                    "submissionsNumber": 4,
-                    "opensOn": "11.02.2013 07:00 EDT",
-                    "reviewStart": "11.07.2013 18:05 EST",
-                    "reviewEnd": "11.09.2013 18:05 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Assembly Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Software Tops REST API"
-                },
-                {
-                    "primaryReviewerPayment": 0,
-                    "secondaryReviewerPayment": 0,
-                    "numberOfSubmissions": 2,
-                    "opensOn": "11.03.2013 20:33 EST",
-                    "reviewStart": "11.05.2013 20:38 EST",
-                    "reviewEnd": "11.07.2013 20:38 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Bug Hunt",
-                    "reviewType": "Contest Review",
-                    "contestName": "Hercules Player Personal Content DVR Bug Hunt"
-                },
-                {
-                    "primaryReviewerPayment": 490,
-                    "secondaryReviewerPayment": 360,
-                    "numberOfSubmissions": 0,
-                    "opensOn": "11.03.2013 23:20 EST",
-                    "reviewStart": "11.10.2013 11:25 EST",
-                    "reviewEnd": "11.12.2013 11:25 EST",
-                    "numberOfReviewPositionsAvailable": 2,
-                    "type": "Assembly Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "Hercules Tech App SAHIC Prototype Conversion Module Assembly"
-                },
-                {
-                    "primaryReviewerPayment": 0,
-                    "secondaryReviewerPayment": 0,
-                    "numberOfSubmissions": 3,
-                    "opensOn": "11.04.2013 03:00 EST",
-                    "reviewStart": "11.07.2013 03:05 EST",
-                    "reviewEnd": "11.09.2013 03:05 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Bug Hunt",
-                    "reviewType": "Contest Review",
-                    "contestName": "Styx Physical Access Control iPad Application iOS7 Bug Hunt 2"
-                },
-                {
-                    "primaryReviewerPayment": 0,
-                    "secondaryReviewerPayment": 0,
-                    "numberOfSubmissions": 3,
-                    "opensOn": "11.04.2013 03:00 EST",
-                    "reviewStart": "11.07.2013 03:05 EST",
-                    "reviewEnd": "11.09.2013 03:05 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Bug Hunt",
-                    "reviewType": "Contest Review",
-                    "contestName": "Styx Physical Access Control iPhone Application iOS7 Bug Hunt 2"
-                },
-                {
-                    "primaryReviewerPayment": 202,
-                    "secondaryReviewerPayment": 144,
-                    "numberOfSubmissions": 0,
-                    "opensOn": "11.04.2013 09:15 EST",
-                    "reviewStart": "11.09.2013 21:20 EST",
-                    "reviewEnd": "11.11.2013 21:20 EST",
+                    "reviewStart": "01.27.2014 21:10 EST",
+                    "reviewEnd": "01.30.2014 21:10 EST",
                     "numberOfReviewPositionsAvailable": 3,
-                    "type": "Assembly Competition",
+                    "type": "Code",
                     "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - ActionHero Tasks for Adding LDAP Entry and Sending Verification Emails"
-                },
-                {
-                    "primaryReviewerPayment": 298,
-                    "secondaryReviewerPayment": 216,
-                    "numberOfSubmissions": 0,
-                    "opensOn": "11.04.2013 09:29 EST",
-                    "reviewStart": "11.09.2013 21:34 EST",
-                    "reviewEnd": "11.11.2013 21:34 EST",
-                    "numberOfReviewPositionsAvailable": 3,
-                    "type": "Assembly Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Member Registration REST API"
+                    "contestName": "Build a DocuSign iOS Application using REST API",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039092",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=6967"
                 }
             ]
         }
