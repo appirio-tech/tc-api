@@ -14,5 +14,5 @@ See the [Deployment Guide](https://github.com/cloudspokes/tc-api/blob/master/doc
 
 *Notes*: We have provided clear steps to setup in CentOS 6.x, Ubuntu and MacOS, please check [wiki](https://github.com/cloudspokes/tc-api/wiki)
 
-Other flavors/versions of 64bit linux should work, but have not been validated. Windows based operating systems most likely will NOT work.
+Other flavors/versions of linux should work, but have not been validated yet. Windows based operating systems most likely will NOT work.
 
