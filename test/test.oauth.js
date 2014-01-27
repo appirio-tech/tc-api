@@ -356,5 +356,4 @@ describe('Test Oauth', function () {
             fun
         ], done);
     });
-
 });

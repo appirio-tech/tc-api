@@ -4,6 +4,90 @@ HOST: http://api.topcoder.com/v2
 # TopCoder API
 Programmatically access TopCoder challenges and members.
 
+# Group Reports
+Report APIs
+
+## Challenge Costs [/reports/costs/{startDate}/{endDate}?clientid={clientId}&billingId={billingId}&projectId={projectId}&challengeId={challengeId}]
+### Challenge Costs [GET]
+
++ Parameters
+    + startDate (required, string, `2013-07-01`) ... Start Date
+    + endDate (required, string, `2013-12-01`) ... End Date
+    + clientId (optional, number, `4310`) ... Client Id
+    + billingId (optional, number, `2310`) ... Billing Id
+    + projectId (optional, number, `6707`) ... Project Id
+    + challengeId (optional, number, `30000001`) ... Challenge Id
+
++ Response 200 (application/json)
+
+        {
+             "history":
+             [
+                {
+                    "paymentDate": "2013-09-12",
+                    "clientName": "Topcoder",
+                    "clientId": 1,
+                    "billingName": "Topcoder2013",
+                    "projectName": "CS-TC API",
+                    "challengeName": "challenge 1",
+                    "challengeId": 30030010,
+                    "challengeType": "development",
+                    "challengeStatus": "completed",
+                    "launchDate": "2013-08-10",
+                    "completionDate": "2013-08-25",
+                    "paymentType": "contest fee",
+                    "amount": 5000.0
+                },
+                {
+                    "paymentDate": "2013-09-15",
+                    "clientName": "Topcoder",
+                    "clientId": 1,
+                    "billingName": "Topcoder2013",
+                    "projectName": "CS-TC API",
+                    "challengeName": "challenge 2",
+                    "challengeId": 30030012,
+                    "challengeType": "development",
+                    "challengeStatus": "completed",
+                    "launchDate": "2013-08-12",
+                    "completionDate": "2013-08-27",
+                    "paymentType": "contest fee",
+                    "amount": 5000.0
+                }
+             ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 # Group Platform
 Platform APIs
 
@@ -353,149 +437,77 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-
-
-
 #Group Software Challenges
         
 ## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Get Review Oppertunities [GET]
+### Get Review Opportunities [GET]
 
 + Parameters
-    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: type, contestName, catalog, registrationStartDate.type, registrationStartDate.firstDate, registrationStartDate.secondDate, submissionEndDate.type, submissionEndDate.firstDate, submissionEndDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the registrationStartDate, submissionEndDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: type, contestName, catalog, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
     + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
 
-
 + Response 200 (application/json)
 
         {
             "total": 21,
             "pageIndex": 1,
-            "pageSize": 10,
+            "pageSize": 4,
             "data": [
                 {
-                    "primaryReviewerPayment": 0,
+                    "primaryReviewerPayment": 18.00,
                     "secondaryReviewerPayment": 0,
                     "numberOfSubmissions": 1,
-                    "opensOn": "10.25.2013 21:09 EDT",
                     "reviewStart": "10.29.2013 21:13 EDT",
                     "reviewEnd": "10.31.2013 21:13 EDT",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "Copilot Posting",
-                    "reviewType": "Contest Review",
-                    "contestName": "DOE Open-WARP Software Copilot Opportunity"
+                    "type": "First 2 Finish",
+                    "reviewType": "Iterative Review",
+                    "challengeName": "Simple UI Fixes - Ganttview JS App",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039333",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7064"
                 },
                 {
-                    "primaryReviewerPayment": 442,
-                    "secondaryReviewerPayment": 336,
+                    "primaryReviewerPayment": 346.00,
+                    "secondaryReviewerPayment": 252.00,
                     "numberOfSubmissions": 3,
-                    "opensOn": "10.31.2013 22:22 EDT",
-                    "reviewStart": "11.07.2013 01:52 EST",
-                    "reviewEnd": "11.09.2013 01:52 EST",
+                    "reviewStart": "01.29.2014 16:05 EST",
+                    "reviewEnd": "01.31.2014 16:05 EST",
                     "numberOfReviewPositionsAvailable": 1,
                     "type": "Assembly Competition",
                     "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - Topcoder NodeJS Contest Retrieval API"
+                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
                 },
                 {
-                    "primaryReviewerPayment": 205,
-                    "secondaryReviewerPayment": 143,
+                    "primaryReviewerPayment": 50.00,
+                    "secondaryReviewerPayment": 0,
+                    "numberOfSubmissions": 0,
+                    "reviewStart": "01.24.2014 16:05 EST",
+                    "reviewEnd": "01.24.2014 20:05 EST",
+                    "numberOfReviewPositionsAvailable": 1,
+                    "type": "Assembly Competition",
+                    "reviewType": "Spec Review",
+                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
+                },
+                {
+                    "primaryReviewerPayment": 0,
+                    "secondaryReviewerPayment": 180.00,
                     "numberOfSubmissions": 1,
-                    "opensOn": "11.01.2013 23:25 EDT",
-                    "reviewStart": "11.08.2013 10:30 EST",
-                    "reviewEnd": "11.10.2013 10:30 EST",
-                    "numberOfReviewPositionsAvailable": 2,
-                    "type": "UI Prototype Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "NEW TC-CS Community TopCoder API Hooking Up part 2- Wordpress Plugin Development"
-                },
-                {
-                    "primaryReviewerPayment": 430,
-                    "secondaryReviewerPayment": 330,
-                    "submissionsNumber": 4,
-                    "opensOn": "11.02.2013 07:00 EDT",
-                    "reviewStart": "11.07.2013 18:05 EST",
-                    "reviewEnd": "11.09.2013 18:05 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Assembly Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Software Tops REST API"
-                },
-                {
-                    "primaryReviewerPayment": 0,
-                    "secondaryReviewerPayment": 0,
-                    "numberOfSubmissions": 2,
-                    "opensOn": "11.03.2013 20:33 EST",
-                    "reviewStart": "11.05.2013 20:38 EST",
-                    "reviewEnd": "11.07.2013 20:38 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Bug Hunt",
-                    "reviewType": "Contest Review",
-                    "contestName": "Hercules Player Personal Content DVR Bug Hunt"
-                },
-                {
-                    "primaryReviewerPayment": 490,
-                    "secondaryReviewerPayment": 360,
-                    "numberOfSubmissions": 0,
-                    "opensOn": "11.03.2013 23:20 EST",
-                    "reviewStart": "11.10.2013 11:25 EST",
-                    "reviewEnd": "11.12.2013 11:25 EST",
-                    "numberOfReviewPositionsAvailable": 2,
-                    "type": "Assembly Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "Hercules Tech App SAHIC Prototype Conversion Module Assembly"
-                },
-                {
-                    "primaryReviewerPayment": 0,
-                    "secondaryReviewerPayment": 0,
-                    "numberOfSubmissions": 3,
-                    "opensOn": "11.04.2013 03:00 EST",
-                    "reviewStart": "11.07.2013 03:05 EST",
-                    "reviewEnd": "11.09.2013 03:05 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Bug Hunt",
-                    "reviewType": "Contest Review",
-                    "contestName": "Styx Physical Access Control iPad Application iOS7 Bug Hunt 2"
-                },
-                {
-                    "primaryReviewerPayment": 0,
-                    "secondaryReviewerPayment": 0,
-                    "numberOfSubmissions": 3,
-                    "opensOn": "11.04.2013 03:00 EST",
-                    "reviewStart": "11.07.2013 03:05 EST",
-                    "reviewEnd": "11.09.2013 03:05 EST",
-                    "numberOfReviewPositionsAvailable": 1,
-                    "type": "Bug Hunt",
-                    "reviewType": "Contest Review",
-                    "contestName": "Styx Physical Access Control iPhone Application iOS7 Bug Hunt 2"
-                },
-                {
-                    "primaryReviewerPayment": 202,
-                    "secondaryReviewerPayment": 144,
-                    "numberOfSubmissions": 0,
-                    "opensOn": "11.04.2013 09:15 EST",
-                    "reviewStart": "11.09.2013 21:20 EST",
-                    "reviewEnd": "11.11.2013 21:20 EST",
+                    "reviewStart": "01.27.2014 21:10 EST",
+                    "reviewEnd": "01.30.2014 21:10 EST",
                     "numberOfReviewPositionsAvailable": 3,
-                    "type": "Assembly Competition",
+                    "type": "Code",
                     "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - ActionHero Tasks for Adding LDAP Entry and Sending Verification Emails"
-                },
-                {
-                    "primaryReviewerPayment": 298,
-                    "secondaryReviewerPayment": 216,
-                    "numberOfSubmissions": 0,
-                    "opensOn": "11.04.2013 09:29 EST",
-                    "reviewStart": "11.09.2013 21:34 EST",
-                    "reviewEnd": "11.11.2013 21:34 EST",
-                    "numberOfReviewPositionsAvailable": 3,
-                    "type": "Assembly Competition",
-                    "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Member Registration REST API"
+                    "contestName": "Build a DocuSign iOS Application using REST API",
+                    "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039092",
+                    "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=6967"
                 }
             ]
         }
@@ -1297,8 +1309,88 @@ Register a new user.
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-        ]
-    }
+         ]
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "challengeType": "First2Finish",
+            "challengeName": "this is a F2F challenge",
+            "challengeId": 30500000,
+            "projectId": 30400001,
+            "screeningScorecardId": "3",
+            "reviewScorecardId": "1",
+            "cmcTaskId": "ab",
+            "numberOfCheckpointsPrizes": 0,
+            "topCheckPointPrize": "",
+            "currentStatus": "Active",
+            "currentPhaseName": "Submission",
+            "digitalRunPoints": 510,
+            "reliabilityBonus": 200,
+            "challengeCommunity": "develop",
+            "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
+            "technology": ["Java", "MySQL"],
+            "prize": [
+            1000
+            ],
+            "registrants": [
+            {
+                "handle": "heffan",
+                "reliability": "100%"
+            }
+            ],
+            "submissions": [
+            {
+                "handle": "heffan",
+                "placement": 1,
+                "screeningScore": 100,
+                "initialScore": 80,
+                "finalScore": 90,
+                "points": 510,
+                "submissionStatus": "Active"
+            }
+            ],
+            "Documents": [
+            {
+                "documentName": "document 1",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+            },
+            {
+                "documentName": "document 2",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+            }
+            ],
+            "numberOfSubmissions": 1,
+            "numberOfRegistrants": 1,
+            "platforms": [
+                "AWS",
+                "Cloud Foundry"
+            ],
+            "phases": [
+            {
+                "type": "Registration",
+                "status": "Closed",
+                "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+                "actualStartTime": "2013-12-20T01:40:00.000Z",
+                "scheduledEndTime": "2013-12-22T00:00:00.000Z",
+                "actualendTime": "2013-12-22T00:00:00.000Z"
+            },
+            {
+                "type": "Submission",
+                "status": "Open",
+                "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+                "actualStartTime": "2013-12-20T00:00:00.000Z",
+                "scheduledEndTime": "2013-12-26T00:00:00.000Z"
+            },
+            {
+                "type": "Iterative Review",
+                "status": "Scheduled",
+                "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+                "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+            }
+            ]
+        }
 
 + Response 400 (application/json)
 
@@ -1330,13 +1422,99 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }      
-         
-## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{id}]
-### Get Software Challenge Checkpoint Information [GET]
+        }
+        
+## Get Software Challenge Result [/develop/challenges/result/{id}]
+### Get Software Challenge Result [GET]
 
 + Parameters
     + id (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+        
+        {
+          "challengeType": "Assembly Competition",
+          "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
+          "challengeId": 30036437,
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "contestEndDate": "2013-12-10T08:33:19.000Z",
+          "challengeCommunity": "develop",
+          "registrants": 2,
+          "submissions": 2,
+          "submissionsPercentage": 100.0,
+          "submissionsPassedScreening": 100.0,
+          "averageInitialScore": 75.93,
+          "averageFinalScore": 75.93
+          "results":
+          [
+            {
+                "handle": "iRabbit",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-04T09:00:05.000Z",
+                "placement": 1,
+                "screeningScore": 100,
+                "initialScore": 98.98,
+                "finalScore": 99.95,
+                "points": 360,
+                "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123456"
+            },
+            {
+                "handle": "heffan",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-05T09:00:05.000Z",
+                "placement": 2,
+                "screeningScore": 100,
+                "initialScore": 97.98,
+                "finalScore": 97.95,
+                "points": 140,
+                "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123457"
+            }
+          ],
+          "finalFixes":
+          [
+            "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123466",
+            "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123476",
+            "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123486"
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        } 
+         
+## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{challlengeid}]
+### Get Software Challenge Checkpoint Information [GET]
+
++ Parameters
+    + challengeid (required, number, `30000000`) ... The submission id.
 
 + Response 200 (application/json)
 
@@ -1344,27 +1522,22 @@ Register a new user.
           "checkpointResults": [
             {
                 "id": 10134,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10135,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10136,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10137,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10138,
-                "handle": "iamtong",
                 "feedback": "nice design"
             }
           ],
@@ -1790,11 +1963,90 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{id}]
-### Get Studio Challenge Checkpoint Information [GET]
+## Get Studio Challenge Result [/design/challenges/result/{id}]
+### Get Studio Challenge Result [GET]
 
 + Parameters
     + id (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+        
+        {
+          "challengeType": "Web Design",
+          "challengeName": "CS-TC Help Center Storyboard Design Contest",
+          "challengeId": 30036283,
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "contestEndDate": "2013-12-10T08:33:19.000Z",
+          "challengeCommunity": "design",
+          "registrants": 2,
+          "submissions": 2,
+          "submissionsPassedScreening": 100.0
+          "results":
+          [
+            {
+                "handle": "iamtong",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-04T09:00:05.000Z",
+                "placement": 1,
+                "points": 360,
+                "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123456",
+                "previewDownloadLink": "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=123456&sbt=small"
+            },
+            {
+                "handle": "heffan",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-05T09:00:05.000Z",
+                "placement": 2,
+                "points": 140,
+                "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123457",
+                "previewDownloadLink": "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=123457&sbt=small"
+            }
+          ],
+          "finalFixes":
+          [
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123458",
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123459",
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123460"
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        } 
+        
+## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{challengeid}]
+### Get Studio Challenge Checkpoint Information [GET]
+
++ Parameters
+    + challengeid (required, number, `30000000`) ... The submission id.
 
 + Response 200 (application/json)
 
@@ -1802,27 +2054,22 @@ Register a new user.
           "checkpointResults": [
             {
                 "id": 10134,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10135,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10136,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10137,
-                "handle": "iamtong",
                 "feedback": "nice design"
             },
             {
                 "id": 10138,
-                "handle": "iamtong",
                 "feedback": "nice design"
             }
           ],
