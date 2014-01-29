@@ -87,6 +87,88 @@ Report APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}]
+### Client Challenge Costs [GET]
+
++ Parameters
+    + startDate (optional, string, `2013-07-01`) ... Start Date
+    + endDate (optional, string, `2013-12-01`) ... End Date
+    + clientId (optional, number, `4310`) ... Client Id
+
++ Response 200 (application/json)
+
+        {
+             "history":
+             [
+                {
+                    "customerName": "Topcoder",
+                    "customerId": 1,
+                    "projectName": "CS-TC API",
+                    "projectId": 1234,
+                    "challengeName": "challenge 1",
+                    "challengeId": 30030010,
+                    "challengeType": "development",
+                    "challengeStatus": "completed",
+                    "postingDate": "2013-08-10",
+                    "completionDate": "2013-08-25",
+                    "challengeFulfillment": 75,
+                    "challengeMemberCost": 5000.0,
+                    "challengeFee": 2500.0,
+                    "challengeTotalCost": 7500.0,
+                    "challengeDuration": 13.47
+                },
+                {
+                    "customerName": "Topcoder2",
+                    "customerId": 2,
+                    "projectName": "NodeJS API",
+                    "projectId": 1235,
+                    "challengeName": "challenge 2",
+                    "challengeId": 30030011,
+                    "challengeType": "development",
+                    "challengeStatus": "completed",
+                    "postingDate": "2013-08-11",
+                    "completionDate": "2013-08-26",
+                    "challengeFulfillment": 80,
+                    "challengeMemberCost": 5000.0,
+                    "challengeFee": 2500.0,
+                    "challengeTotalCost": 7500.0,
+                    "challengeDuration": 13.78
+                }
+             ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 # Group Platform
 Platform APIs
