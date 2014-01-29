@@ -22,6 +22,9 @@
  * - fix creating optional function for validation (to pass js lint)
  * changes in 1.7:
  * - add contestTypes
+ * changes in 1.8:
+ * - add isAdmin and isMember
+ * - update handleError to handle the unauthorized error.
  */
 "use strict";
 
@@ -30,6 +33,7 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
+var UnAuthorizedError = require('../errors/UnAuthorizedError');
 var helper = {};
 var crypto = require("crypto");
 
@@ -215,6 +219,11 @@ helper.studioChallengeTypes = {
         phaseId: 145
     }
 };
+
+/**
+ * Max value for integer
+ */
+helper.MAX_INT = 2147483647;
 
 var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.phaseId, item.name];
@@ -590,6 +599,9 @@ helper.handleError = function (api, connection, err) {
     if (err instanceof NotFoundError) {
         baseError = helper.apiCodes.notFound;
     }
+    if (err instanceof UnAuthorizedError) {
+        baseError = helper.apiCodes.unauthorized;
+    }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;
     connection.rawConnection.responseHttpCode = baseError.value;
@@ -827,6 +839,22 @@ helper.getColorStyle = function (rating) {
     }
     // return black otherwise.
     return "color: #000000";
+};
+
+/**
+ * Check if the caller is admin of TopCoder community.
+ * @param {Object} caller - the caller of api.
+ */
+helper.isAdmin = function (caller) {
+    return caller.accessLevel === 'admin';
+};
+
+/**
+ * Check if the caller is member of TopCoder community.
+ * @param {Object} caller - the caller of api.
+ */
+helper.isMember = function (caller) {
+    return caller.accessLevel === 'member';
 };
 
 /**

@@ -112,6 +112,8 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
 
+        { path: "/v2/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
+
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
