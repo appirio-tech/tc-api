@@ -1031,7 +1031,7 @@ Register a new user.
         }
 
         
-## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}]
 ### Search Software Challenges [GET]
 
 + Parameters
@@ -1042,7 +1042,7 @@ Register a new user.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+    + communityId (optional, number, `1`) ... The community id.
 
 + Response 200 (application/json)
 
@@ -1734,7 +1734,7 @@ Register a new user.
 
 # Group Studio Challenges
 
-## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}]
 ### Search Studio Challenges [GET]
 
 + Parameters
@@ -1745,6 +1745,7 @@ Register a new user.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
     
 + Response 200 (application/json)
         
