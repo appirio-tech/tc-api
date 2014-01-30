@@ -557,6 +557,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 projectId : data.project_id,
                 forumId : data.forum_id,
                 introduction: data.introduction,
+                round1Introduction: data.round_one_introduction,
+                round2Introduction: data.round_two_introduction,
                 detailedRequirements : isStudio ? data.studio_detailed_requirements : data.software_detailed_requirements,
                 finalSubmissionGuidelines : data.final_submission_guidelines,
                 screeningScorecardId : data.screening_scorecard_id,
@@ -604,6 +606,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.checkpoints;
                 delete challenge.winners;
                 delete challenge.introduction;
+                delete challenge.round1Introduction;
+                delete challenge.round2Introduction;
             }
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);

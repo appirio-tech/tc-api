@@ -5,6 +5,8 @@ SELECT
      , p.tc_direct_project_id AS project_id
      , sps.contest_description_text AS studio_detailed_requirements
      , sps.contest_introduction AS introduction
+     , sps.round_one_introduction
+     , sps.round_two_introduction
      , ps.detailed_requirements_text AS software_detailed_requirements
      , ps.final_submission_guidelines_text AS final_submission_guidelines
      , technology_list(pi1.value) AS technology

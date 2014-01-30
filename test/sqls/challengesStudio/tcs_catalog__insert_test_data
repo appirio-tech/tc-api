@@ -360,8 +360,8 @@ VALUES(10032,10032,1,3,10032,'132456',CURRENT,'132456',CURRENT);
 
 
 --past contest
-INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,contest_introduction,create_user,create_date,modify_user,modify_date)
-VALUES(1,'Description of Studio Contest 5.','Introduction of Studio Contest 5','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,contest_introduction,round_one_introduction,round_two_introduction,create_user,create_date,modify_user,modify_date)
+VALUES(1,'Description of Studio Contest 5.','Introduction of Studio Contest 5','Introduction of Studio Contest 5 Round 1','Introduction of Studio Contest 5 Round 2','132456',CURRENT,'132456',CURRENT);
 
 INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,project_studio_spec_id,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,7,16,30010001,1,'132456',CURRENT,'132456',CURRENT);
