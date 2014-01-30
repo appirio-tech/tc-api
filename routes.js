@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.7
  * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -16,6 +16,8 @@
  * - reorder route for studio challenge details
  * Changes in 1.6:
  * - add route oauth test
+ * Changes in 1.7:
+ * - add route oauth
  */
 
 /* ---------------------
@@ -126,6 +128,7 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/users", action: "memberRegister" }
+        { path: "/:apiVersion/users", action: "memberRegister" },
+        { path: "/:apiVersion/auth", action: "generateJwt" }
     ]
 };
