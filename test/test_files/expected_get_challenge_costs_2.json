@@ -1,7 +1,6 @@
 {
     "history": [
         {
-            "paymentDate": "2014-1-30",
             "clientName": "ACME",
             "clientId": 1,
             "billingName": "Test Client Project",
@@ -10,8 +9,6 @@
             "challengeId": 10001,
             "challengeType": "Bug Hunt",
             "challengeStatus": "Active  ",
-            "launchDate": "2014-1-20",
-            "completionDate": "2014-1-28",
             "paymentType": "Digital Run",
             "amount": 200
         }

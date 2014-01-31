@@ -341,10 +341,12 @@ describe('Get Challenge Costs API', function () {
         createRequest(BASE_URL + '/1900-1-1/2999-1-1', 200, adminAuthHeader, function (err, result) {
             if (!err) {
                 var actual = testHelper.getTrimmedData(result.res.text);
-                delete actual.paymentDate;
-                delete actual.launchDate;
-                delete actual.completionDate;
-                assert.deepEqual(testHelper.getTrimmedData(result.res.text), expected, 'invalid response');
+                actual.history.forEach(function (item) {
+                    delete item.paymentDate;
+                    delete item.launchDate;
+                    delete item.completionDate;
+                });
+                assert.deepEqual(actual, expected, 'invalid response');
             } else {
                 done(err);
                 return;
@@ -361,10 +363,12 @@ describe('Get Challenge Costs API', function () {
         createRequest(BASE_URL + '/2014-1-1/2999-1-1', 200, adminAuthHeader, function (err, result) {
             if (!err) {
                 var actual = testHelper.getTrimmedData(result.res.text);
-                delete actual.paymentDate;
-                delete actual.launchDate;
-                delete actual.completionDate;
-                assert.deepEqual(testHelper.getTrimmedData(result.res.text), expected, 'invalid response');
+                actual.history.forEach(function (item) {
+                    delete item.paymentDate;
+                    delete item.launchDate;
+                    delete item.completionDate;
+                });
+                assert.deepEqual(actual, expected, 'invalid response');
             } else {
                 done(err);
                 return;

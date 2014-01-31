@@ -54,9 +54,7 @@ var getChallengeCosts = function (api, connection, next) {
     }
     async.waterfall([
         function (cb) {
-            console.log('caller.accessLevel: ' + caller.accessLevel);
             if (!helper.isAdmin(caller)) {
-                console.log('------------------------------------------------------------------');
                 cb(new UnAuthorizedError('Not enough access level.'));
                 return;
             }
