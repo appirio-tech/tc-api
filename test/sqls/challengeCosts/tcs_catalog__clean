@@ -1,0 +1,4 @@
+DELETE FROM user_permission_grant WHERE user_permission_grant_id IN (10001, 10002);
+DELETE FROM project_phase WHERE project_id IN (10001, 10002);
+DELETE FROM project_info WHERE project_id IN (10001, 10002);
+DELETE FROM project WHERE project_id IN (10001, 10002);

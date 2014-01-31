@@ -30,6 +30,7 @@
 
 var async = require('async');
 var _ = require('underscore');
+var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -854,7 +855,45 @@ helper.isAdmin = function (caller) {
  * @param {Object} caller - the caller of api.
  */
 helper.isMember = function (caller) {
-    return caller.accessLevel === 'member';
+    return caller.accessLevel === 'member' || caller.accessLevel === 'admin';
+};
+
+/**
+ * Check if the date is a valid date value.
+ * @param {String} dateVal - the date value.
+ * @param {String} dateName - the date name.
+ * @param {String} format - the date format.
+ */
+helper.validateDate = function (dateVal, dateName, format) {
+    if (!moment(dateVal, format, true).isValid()) {
+        return new IllegalArgumentError(dateName + ' is not a valid date.');
+    }
+    return null;
+};
+
+/**
+ * Check dates. Check if the start date is after the end date or the start date and end date are same date.
+ * @param {String} startDate - the start date value.
+ * @param {String} endDate - the end date value.
+ */
+helper.checkDates = function (startDate, endDate) {
+    if (moment(startDate).isAfter(endDate) || moment(startDate).isSame(endDate)) {
+        return new IllegalArgumentError('startDate should be earlier than endDate or at same date.');
+    }
+    return null;
+};
+
+/**
+ * Format the date value to determine format.
+ * Will return empty string if the date is null.
+ * @param {String} date - the date value.
+ * @param {String} format - the format.
+ */
+helper.formatDate = function (date, format) {
+    if (date) {
+        return moment(date).format(format);
+    }
+    return '';
 };
 
 /**

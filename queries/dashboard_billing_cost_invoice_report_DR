@@ -12,7 +12,7 @@ SELECT
 , DECODE(pc.name, 'UI Prototype Competition', 'UI Prototype', 'Assembly Competition', 'Assembly', pc.name) challenge_type
 , pi.value as challenge_name
 , CASE WHEN ps.project_status_id not in (1,2,3) THEN 'Finished' WHEN ps.project_status_id = 1 THEN 'Active'  ELSE 'Draft' END as challenge_status
-, 'Digital Run' as line_item_category
+, 'Digital Run' as payment_type
 , case when p.project_status_id  in (1,7) then
 	nvl((select nvl(sum (cast (nvl (pi30.value, '0') as DECIMAL (10,2))), 0) from project_info pi30, project_info pi26
         where pi30.project_info_type_id = 30 and pi26.project_info_type_id = 26 and pi26.project_id = pi30.project_id

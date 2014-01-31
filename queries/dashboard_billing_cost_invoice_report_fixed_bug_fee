@@ -17,12 +17,17 @@ SELECT
 , tdp.fixed_bug_contest_fee as amount
 , ttc.client_id
 FROM informixoltp:payment pm
-        INNER JOIN informixoltp:payment_detail pmd ON pm.most_recent_detail_id = pmd.payment_detail_id
-        left join project_info pi57 ON pi57.project_id=pmd.component_project_id and pi57.project_info_type_id=57,
-     project p, tc_direct_project tdp, project_status_lu ps,
-     project_category_lu pc, project_info pi, project_info pi3,
-     time_oltp:project ttp, time_oltp:client_project ttcp, time_oltp:client ttc
-
+INNER JOIN informixoltp:payment_detail pmd ON pm.most_recent_detail_id = pmd.payment_detail_id
+left join project_info pi57 ON pi57.project_id=pmd.component_project_id and pi57.project_info_type_id=57
+, project p
+, tc_direct_project tdp
+, project_status_lu ps
+, project_category_lu pc
+, project_info pi
+, project_info pi3
+, time_oltp:project ttp
+, time_oltp:client_project ttcp
+, time_oltp:client ttc
 where  pmd.component_project_id = p.project_id
   and pmd.installment_number = 1 AND NOT pmd.payment_status_id IN (65,68, 69)
   and p.project_status_id = ps.project_status_id

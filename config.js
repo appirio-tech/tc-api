@@ -161,7 +161,9 @@ configData.databaseMapping = {
     "informixoltp" : "TC_DB",
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
-    "tcs_dw" : "TC_DW"
+    "tcs_dw" : "TC_DW",
+    "time_oltp": "TC_DB",
+    "corporate_oltp": "TC_DB"
 };
 
 /**
