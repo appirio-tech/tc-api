@@ -2,7 +2,7 @@
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
- * @author TCSASSEMBLER
+ * @author Sky_
  */
 "use strict";
 var async = require('async');
@@ -23,7 +23,7 @@ exports.action = {
     name: "downloadDocument",
     description: "downloadDocument",
     inputs: {
-        required: ["docId", "projectId"],
+        required: ["docId", "challengeId"],
         optional: []
     },
     blockedConnectionTypes: [],
@@ -36,7 +36,7 @@ exports.action = {
         api.log("Execute downloadDocument#run", 'debug');
         var helper = api.helper,
             docId = Number(connection.params.docId),
-            projectId = Number(connection.params.projectId),
+            challengeId = Number(connection.params.challengeId),
             dbConnectionMap = connection.dbConnectionMap,
             filePath;
         if (!dbConnectionMap) {
@@ -51,9 +51,9 @@ exports.action = {
                     return;
                 }
                 var error = helper.checkPositiveInteger(docId, "docId") ||
-                    helper.checkPositiveInteger(projectId, "projectId") ||
+                    helper.checkPositiveInteger(challengeId, "challengeId") ||
                     helper.checkMaxInt(docId, "docId") ||
-                    helper.checkMaxInt(projectId, "projectId");
+                    helper.checkMaxInt(challengeId, "challengeId");
                 cb(error);
             }, function (cb) {
                 var params = {
@@ -67,8 +67,8 @@ exports.action = {
                     return;
                 }
                 var document = result[0];
-                if (document.project_id !== projectId) {
-                    cb(new BadRequestError("Document does not belong to project with given projectId"));
+                if (document.project_id !== challengeId) {
+                    cb(new BadRequestError("Document does not belong to project with given challengeId"));
                     return;
                 }
                 if (document.can_download !== 1 && connection.caller.accessLevel !== "admin") {

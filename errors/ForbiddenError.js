@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2013 TopCoder, Inc. All rights reserved.
+ * Copyright (c) 2014 TopCoder, Inc. All rights reserved.
  */
 "use strict";
 
 /**
  * This file defines ForbiddenError
  *
- * @author TCSASSEMBLER
+ * @author Sky_
  * @version 1.0
  */
 
