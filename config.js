@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
+ * @version 1.4
  * @author vangavroche, TCSASSEMBLER, Ghost_141
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -9,6 +9,8 @@
  * - add badgeProperties.
  * changes in 1.3:
  * - add oauthClientId and oauthClientSecret parameter
+ * changes in 1.4:
+ * - add downloadsRootDirectory parameter
  */
 "use strict";
 
@@ -51,7 +53,8 @@ configData.general = {
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
-    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64')
+    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64'),
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
 };
 
 /////////////

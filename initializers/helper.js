@@ -6,7 +6,8 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.7 * changes in 1.1:
+ * @version 1.8
+ * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -22,6 +23,9 @@
  * - fix creating optional function for validation (to pass js lint)
  * changes in 1.7:
  * - add contestTypes
+ * changes in 1.8:
+ * - change handleError to support UnauthorizedError and ForbiddenError
+ * - add checkMaxInt
  */
 "use strict";
 
@@ -30,6 +34,8 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
+var ForbiddenError = require('../errors/ForbiddenError');
 var helper = {};
 var crypto = require("crypto");
 
@@ -590,6 +596,12 @@ helper.handleError = function (api, connection, err) {
     if (err instanceof NotFoundError) {
         baseError = helper.apiCodes.notFound;
     }
+    if (err instanceof UnauthorizedError) {
+        baseError = helper.apiCodes.unauthorized;
+    }
+    if (err instanceof ForbiddenError) {
+        baseError = helper.apiCodes.forbidden;
+    }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;
     connection.rawConnection.responseHttpCode = baseError.value;
@@ -827,6 +839,17 @@ helper.getColorStyle = function (rating) {
     }
     // return black otherwise.
     return "color: #000000";
+};
+
+
+/**
+ * Check whether given integer is not greater than given max int (2^31-1).
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the object name.
+ * @return {Error} if input not valid.
+ */
+helper.checkMaxInt = function (obj, objName) {
+    return helper.checkMaxNumber(obj, 2147483647, objName);
 };
 
 /**

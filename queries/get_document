@@ -1,0 +1,117 @@
+SELECT cd.document_id, cd.url, p.project_id,
+CASE WHEN
+(
+    (
+        p.project_studio_spec_id IS NULL --SOFTWARE
+        AND
+        (   --Case 1
+            cc.root_category_id IN (5801776, 5801777, 8459260, 8489485, 26805357, 27202903,  27202907, 27202909, 27202911, 27202913, 27355736)
+            OR
+            --Case 2
+            EXISTS (
+                SELECT ri.value::int
+                FROM resource_info ri
+                INNER JOIN resource r ON r.resource_id = ri.resource_id
+                INNER JOIN project_info pi ON pi.project_info_type_id = 1 AND pi.project_id = r.project_id AND pi.value = cv.comp_vers_id
+                WHERE ri.resource_info_type_id = 1 AND ri.value="@uid@"
+            )
+        )
+    )
+    OR
+    (
+        p.project_studio_spec_id IS NOT NULL --STUDIO
+        AND
+        (
+            --Case 3
+            EXISTS (
+                  select resource_id from user_permission_grant upg
+                  where upg.user_id=@uid@ and upg.permission_type_id IN (0,1,2,3) and upg.resource_id = p.tc_direct_project_id
+            )
+            OR
+            --Case 4
+            EXISTS (
+                  SELECT tdp2.project_id as tc_direct_project_id
+                  FROM tc_direct_project tdp2
+                  INNER JOIN group_associated_direct_projects gadp ON tdp2.project_id = gadp.tc_direct_project_id
+                  INNER JOIN customer_group sg ON sg.group_id = gadp.group_id
+                  INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                  WHERE gm.user_id = @uid@
+                  AND   gm.active = 1
+                  AND   sg.archived = 0
+                  AND   tdp2.project_id = p.tc_direct_project_id
+            )
+            OR
+            --Case 5
+            EXISTS (
+                   SELECT
+                          tdp2.project_id as tc_direct_project_id
+                   FROM tc_direct_project tdp2
+                   INNER JOIN corporate_oltp:direct_project_account dpa ON tdp2.project_id = dpa.project_id
+                   INNER JOIN group_associated_billing_accounts gaba ON gaba.billing_account_id = dpa.billing_account_id
+                   INNER JOIN customer_group sg ON sg.group_id = gaba.group_id
+                   INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                   WHERE gm.user_id = @uid@
+                   AND   gm.active = 1
+                   AND   sg.archived = 0
+                   AND tdp2.project_id = p.tc_direct_project_id
+            )
+            OR
+            --Case 6
+            EXISTS (
+                  SELECT sg.group_id
+                  FROM customer_group sg
+                  INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                  WHERE gm.user_id = @uid@
+                  AND   gm.active = 1
+                  AND   sg.archived = 0
+                  AND   sg.auto_grant = 1
+                  AND   sg.client_id = ttcp.client_id
+            )
+            OR
+            --Case 7
+            EXISTS (
+                SELECT ri.value from resource_info ri, resource r
+                WHERE ri.resource_id = r.resource_id
+                AND ri.value = '@uid@'
+                AND ri.resource_info_type_id = 1
+                AND r.resource_role_id in (18, 13, 14, 15, 12)
+                AND r.project_id = p.project_id
+            )
+            OR
+            --Case 8
+            EXISTS (
+                SELECT pp.project_phase_id from project_phase pp
+                WHERE pp.project_id = p.project_id
+                AND pp.phase_type_id = 2
+                AND pp.phase_status_id = 3
+                AND (
+                    (pp.phase_status_id = 3 AND CURRENT > pp.actual_end_time)
+                    OR
+                    (pp.phase_status_id != 3 AND CURRENT > pp.scheduled_end_time)
+                )
+            )
+            OR
+            --Case 9
+            EXISTS (
+                SELECT ri.value from resource_info ri, resource r
+                WHERE ri.resource_id = r.resource_id
+                AND ri.value = '@uid@'
+                AND ri.resource_info_type_id = 1
+                AND r.resource_role_id  = 1
+                AND r.project_id = p.project_id
+                AND p.project_status_id = 1
+            )
+        )
+
+    )
+)
+THEN 1 ELSE 0 END as can_download
+
+FROM comp_documentation cd
+INNER JOIN comp_versions cv ON cv.comp_vers_id = cd.comp_vers_id
+INNER JOIN comp_catalog cc ON cc.component_id = cv.component_id
+INNER JOIN project_info pi ON pi.project_info_type_id = 1 AND pi.value = cv.comp_vers_id
+INNER JOIN project p ON p.project_id = pi.project_id
+LEFT JOIN tt_client_project ttcp ON ttcp.project_id = p.tc_direct_project_id
+WHERE
+cd.document_id = @docid@

@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun * Changes in 1.1:
+ * @version 1.7
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun
+ * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
  * - add route for top
@@ -16,6 +17,8 @@
  * - reorder route for studio challenge details
  * Changes in 1.6:
  * - add route oauth test
+ * Changes in 1.7:
+ * - add route download document
  */
 
 /* ---------------------
@@ -116,6 +119,7 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+        { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         //Stubs APIs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
