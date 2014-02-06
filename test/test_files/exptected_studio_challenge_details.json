@@ -27,6 +27,13 @@
         500,
         200
     ],
+    "numberOfRegistrants": 1,
+    "registrants": [
+        {
+            "handle": "heffan",
+            "reliability": "100%"
+        }
+    ],
     "checkpoints": [
         {
             "submissionId": 10042,
