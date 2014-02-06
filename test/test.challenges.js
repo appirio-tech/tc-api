@@ -973,6 +973,7 @@ describe('Test Challenges API', function () {
                         assert.ok(body.winners[0].submissionTime);
                         delete body.submissions[0].submissionTime;
                         delete body.checkpoints[0].submissionTime;
+                        delete res.body.registrants[0].registrationDate;
                         delete body.winners[0].submissionTime;
                         delete body.currentPhaseEndDate;
                         testHelper.assertResponse(err,
