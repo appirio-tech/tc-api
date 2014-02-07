@@ -384,6 +384,8 @@ INSERT INTO project_info(project_id,project_info_type_id,value,create_user,creat
 VALUES(10041,53,'true','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,32,'2','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date)
+VALUES(10041,51,'3','132456',CURRENT,'132456',CURRENT);
 
 INSERT INTO comp_catalog(component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
 VALUES(10041, 1, 'this is DETAIL software ACTIVE/OPEN component 01', 'Component 10041', 'this is DETAIL software ACTIVE/OPEN contest 01', 'Component', Current, 102, 5801778, current, 0);

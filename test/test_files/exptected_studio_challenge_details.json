@@ -16,6 +16,7 @@
     "submissionEndDate": "2013-11-03T00:00:00.000Z",
     "appealsEndDate": "2013-11-05T00:00:00.000Z",
     "finalFixEndDate": "2013-11-05T00:00:00.000Z",
+    "submissionLimit" : "3",
     "currentStatus": "Completed",
     "currentPhaseName": "",
     "currentPhaseRemainingTime": 0,

@@ -573,6 +573,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date),
                 appealsEndDate : formatDate(data.appeals_end_date),
                 finalFixEndDate : formatDate(data.final_fix_end_date),
+                submissionLimit : data.submission_limit,
                 currentPhaseEndDate : formatDate(data.current_phase_end_date),
                 currentStatus : data.current_status,
                 currentPhaseName : convertNull(data.current_phase_name),
@@ -608,6 +609,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.introduction;
                 delete challenge.round1Introduction;
                 delete challenge.round2Introduction;
+                delete challenge.submissionLimit;
             }
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);
