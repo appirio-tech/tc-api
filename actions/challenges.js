@@ -27,6 +27,8 @@ var async = require('async');
 var S = require('string');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var BadRequestError = require('../errors/BadRequestError');
+var UnAuthorizedError = require('../errors/UnAuthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
@@ -44,7 +46,7 @@ var DEFAULT_SORT_COLUMN = "challengeName";
  */
 var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId"];
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -123,6 +125,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
 /**
  * This method is used to validate input parameter of the request.
  * @param {Object} helper - the helper.
+ * @param {Object} caller - the caller object.
  * @param {Object} query - the query string.
  * @param {Object} filter - the filter.
  * @param {Number} pageIndex - the page index.
@@ -133,7 +136,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {Object} dbConnectionMap - the database connection map.
  * @param {Function<err>} callback - the callback function.
  */
-function validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
+function validateInputParameter(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
@@ -141,6 +144,13 @@ function validateInputParameter(helper, query, filter, pageIndex, pageSize, sort
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
             helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
+
+    if (_.isDefined(query.communityId)) {
+        if (!_.isDefined(caller.userId)) {
+            error = error || new BadRequestError('The caller is not passed.');
+        }
+        error = error || helper.checkPositiveInteger(Number(filter.communityId), 'communityId');
+    }
 
     if (_.isDefined(filter.projectId)) {
         error = error || helper.checkPositiveInteger(Number(filter.projectId), "projectId");
@@ -173,6 +183,7 @@ function setFilter(filter, sqlParams) {
     sqlParams.prilower = 0;
     sqlParams.priupper = MAX_INT;
     sqlParams.tcdirectid = 0;
+    sqlParams.communityId = 0;
 
     if (_.isDefined(filter.challengeType)) {
         sqlParams.categoryName = filter.challengeType.toLowerCase();
@@ -191,6 +202,9 @@ function setFilter(filter, sqlParams) {
     }
     if (_.isDefined(filter.cmcTaskId)) {
         sqlParams.cmc = filter.cmcTaskId;
+    }
+    if (_.isDefined(filter.communityId)) {
+        sqlParams.communityId = filter.communityId;
     }
 }
 
@@ -283,8 +297,9 @@ function transferResult(src, helper) {
 var searchChallenges = function (api, connection, dbConnectionMap, community, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
+        caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmcTaskId"],
+            "prizeUpperBound", "cmcTaskId", 'communityId'],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -328,7 +343,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
     async.waterfall([
         function (cb) {
-            validateInputParameter(helper, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
+            validateInputParameter(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
@@ -346,10 +361,37 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Set the submission phase status id.
             sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
             sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
-            api.dataAccess.executeQuery('search_software_studio_challenges_count', sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            total = rows[0].total;
-            api.dataAccess.executeQuery('search_software_studio_challenges', sqlParams, dbConnectionMap, cb);
+            sqlParams.userId = caller.userId || 0;
+            // TODO: Remove this later
+//            api.dataAccess.executeQuery('search_software_studio_challenges_count', sqlParams, dbConnectionMap, cb);
+
+            async.parallel({
+                count: function (cb) {
+                    api.dataAccess.executeQuery('search_software_studio_challenges_count', sqlParams, dbConnectionMap, cb);
+                },
+                privateCheck: function (cb) {
+                    api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
+                }
+            }, cb);
+            // TODO: remove this line later.
+//        }, function (rows, cb) {
+        }, function (results, cb) {
+            total = results.count[0].total;
+//            total = rows[0].total;
+
+            if (results.privateCheck.length === 0) {
+                cb(new UnAuthorizedError('You\'re not belong to this group.'));
+                return;
+            }
+
+            if (_.isDefined(query.communityId)) {
+                api.dataAccess.executeQuery('search_private_software_studio_challenges', sqlParams, dbConnectionMap, cb);
+            } else {
+                api.dataAccess.executeQuery('search_software_studio_challenges', sqlParams, dbConnectionMap, cb);
+            }
+
+            // TODO: Update the query to remove the private challenge check.
+//            api.dataAccess.executeQuery('search_software_studio_challenges', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 result.data = [];
