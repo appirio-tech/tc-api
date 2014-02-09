@@ -76,11 +76,11 @@ where  pmd.component_project_id = p.project_id and pmd.payment_type_id = pt.paym
            and (exists (select phase_type_id from project_phase where project_id = p.project_id and phase_type_id =11 and phase_status_id in (2,3))
             OR not exists (select phase_type_id from project_phase  where project_id = p.project_id and phase_type_id =10 and phase_status_id in (1,2)))))
   and p.project_category_id != 27
-  and ttc.client_id = DECODE(@clientId@, 0, ttc.client_id, @clientId@)
-  and ttp.project_id = DECODE(@billingId@, 0, ttp.project_id, @billingId@)
+  and ttc.client_id = DECODE(@client_id@, 0, ttc.client_id, @client_id@)
+  and ttp.project_id = DECODE(@billing_id@, 0, ttp.project_id, @billing_id@)
   and p.tc_direct_project_id = tdp.project_id
-  and tdp.project_id = DECODE(@projectId@, 0, tdp.project_id, @projectId@)
-  and p.project_id = DECODE(@challengeId@, 0, p.project_id, @challengeId@)
+  and tdp.project_id = DECODE(@project_id@, 0, tdp.project_id, @project_id@)
+  and p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
   and pmd.payment_type_id in(6, 29, 10, 42, 43, 44, 49, 50, 51, 55, 61, 64, 65, 60, 13)
   and pmd.payment_detail_id =
   (select min(pmd2.payment_detail_id) from informixoltp:payment pm2
@@ -89,11 +89,11 @@ where  pmd.component_project_id = p.project_id and pmd.payment_type_id = pt.paym
            and pmd2.installment_number = 1
            AND NOT pmd2.payment_status_id IN (65,68, 69)
            and pmd2.payment_type_id in (6, 29, 10, 42, 43, 44, 49, 50, 51, 55, 61, 64, 65, 60, 13))
-  and (pm.create_date BETWEEN TO_DATE('@startDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@endDate@ 23:59:59', '%Y-%m-%d %H:%M:%S'))
+  and (pm.create_date BETWEEN TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@end_date@ 23:59:59', '%Y-%m-%d %H:%M:%S'))
    and (
              exists (
                      select resource_id from user_permission_grant upg
-                     where upg.user_id=DECODE(@userId@,0,upg.user_id,@userId@) and upg.permission_type_id IN (0,1,2,3) and upg.resource_id = p.tc_direct_project_id
+                     where upg.user_id=DECODE(@user_id@,0,upg.user_id,@user_id@) and upg.permission_type_id IN (0,1,2,3) and upg.resource_id = p.tc_direct_project_id
                      )
 
           OR
@@ -104,7 +104,7 @@ where  pmd.component_project_id = p.project_id and pmd.payment_type_id = pt.paym
                      INNER JOIN group_associated_direct_projects gadp ON tdp2.project_id = gadp.tc_direct_project_id
                      INNER JOIN customer_group sg ON sg.group_id = gadp.group_id
                      INNER JOIN group_member gm ON gm.group_id = sg.group_id
-                     WHERE gm.user_id = DECODE(@userId@, 0, gm.user_id, @userId@)
+                     WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
                      AND   gm.active = 1
                      AND   sg.archived = 0
                      AND   tdp2.project_id = p.tc_direct_project_id
@@ -118,7 +118,7 @@ where  pmd.component_project_id = p.project_id and pmd.payment_type_id = pt.paym
                       INNER JOIN group_associated_billing_accounts gaba ON gaba.billing_account_id = dpa.billing_account_id
                       INNER JOIN customer_group sg ON sg.group_id = gaba.group_id
                       INNER JOIN group_member gm ON gm.group_id = sg.group_id
-                      WHERE gm.user_id = DECODE(@userId@, 0, gm.user_id, @userId@)
+                      WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
                       AND   gm.active = 1
                       AND   sg.archived = 0
                       AND tdp2.project_id = p.tc_direct_project_id
@@ -128,7 +128,7 @@ where  pmd.component_project_id = p.project_id and pmd.payment_type_id = pt.paym
                    SELECT sg.group_id
                    FROM customer_group sg
                    INNER JOIN group_member gm ON gm.group_id = sg.group_id
-                   WHERE gm.user_id = DECODE(@userId@, 0, gm.user_id, @userId@)
+                   WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
                    AND   gm.active = 1
                    AND   sg.archived = 0
                    AND   sg.auto_grant = 1

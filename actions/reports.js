@@ -2,14 +2,16 @@
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
- * @author TCSASSEMBLER
+ * @author Ghost_141
+ * Changes in 1.0
+ * - add invoice history (challenge costs) api.
  */
 'use strict';
 
 require('datejs');
 var async = require('async');
 var _ = require('underscore');
-var UnAuthorizedError = require('../errors/UnAuthorizedError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
@@ -32,6 +34,11 @@ var MAX_DATE = '9999-1-1';
  */
 var DATE_FORMAT = 'YYYY-M-D';
 
+/**
+ * The date format for output date field.
+ */
+var OUTPUT_DATE_FORMAT = 'YYYY-MM-DD';
+
 var getChallengeCosts = function (api, connection, next) {
     var helper = api.helper, caller = connection.caller, error, challengeId, projectId, billingId, clientId, startDate,
         endDate, sqlParams, challengeCosts;
@@ -39,7 +46,7 @@ var getChallengeCosts = function (api, connection, next) {
         // Have challengeId and challengeId is not 0.
         clientId = DEFAULT_BILLING_ID;
         billingId = DEFAULT_BILLING_ID;
-        projectId = DEFAULT_BILLING_ID;
+        projectId = DEFAULT_PROJECT_ID;
         challengeId = connection.params.challengeId;
         startDate = MIN_DATE;
         endDate = MAX_DATE;
@@ -55,7 +62,7 @@ var getChallengeCosts = function (api, connection, next) {
     async.waterfall([
         function (cb) {
             if (!helper.isAdmin(caller)) {
-                cb(new UnAuthorizedError('Not enough access level.'));
+                cb(new UnauthorizedError('Not enough access level.'));
                 return;
             }
             error = helper.checkNonNegativeNumber(Number(challengeId), 'challengeId') ||
@@ -111,7 +118,7 @@ var getChallengeCosts = function (api, connection, next) {
                     notEmpty = true;
                     res.forEach(function (row) {
                         challengeCosts.history.push({
-                            paymentDate: helper.formatDate(row.payment_date, DATE_FORMAT),
+                            paymentDate: helper.formatDate(row.payment_date, OUTPUT_DATE_FORMAT),
                             clientName: row.client_name,
                             clientId: row.client_id,
                             billingName: row.billing_name,
@@ -119,9 +126,9 @@ var getChallengeCosts = function (api, connection, next) {
                             challengeName: row.challenge_name,
                             challengeId: row.challenge_id,
                             challengeType: row.challenge_type,
-                            challengeStatus: row.challenge_status,
-                            launchDate: helper.formatDate(row.launch_date, DATE_FORMAT),
-                            completionDate: helper.formatDate(row.completion_date, DATE_FORMAT),
+                            challengeStatus: row.challenge_status.trim(),
+                            launchDate: helper.formatDate(row.launch_date, OUTPUT_DATE_FORMAT),
+                            completionDate: helper.formatDate(row.completion_date, OUTPUT_DATE_FORMAT),
                             paymentType: row.payment_type,
                             amount: row.amount
                         });

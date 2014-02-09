@@ -8,7 +8,7 @@
             "challengeName": "Test Challenge 10001.",
             "challengeId": 10001,
             "challengeType": "Bug Hunt",
-            "challengeStatus": "Active  ",
+            "challengeStatus": "Active",
             "paymentType": "Digital Run",
             "amount": 200
         },
@@ -20,7 +20,7 @@
             "challengeName": "Test Challenge 10002.",
             "challengeId": 10002,
             "challengeType": "Bug Hunt",
-            "challengeStatus": "Active  ",
+            "challengeStatus": "Active",
             "paymentType": "Digital Run",
             "amount": 200
         }

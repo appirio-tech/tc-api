@@ -34,7 +34,7 @@ var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
-var UnAuthorizedError = require('../errors/UnAuthorizedError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var helper = {};
 var crypto = require("crypto");
 
@@ -600,7 +600,7 @@ helper.handleError = function (api, connection, err) {
     if (err instanceof NotFoundError) {
         baseError = helper.apiCodes.notFound;
     }
-    if (err instanceof UnAuthorizedError) {
+    if (err instanceof UnauthorizedError) {
         baseError = helper.apiCodes.unauthorized;
     }
     errdetail = _.clone(baseError);
@@ -845,6 +845,7 @@ helper.getColorStyle = function (rating) {
 /**
  * Check if the caller is admin of TopCoder community.
  * @param {Object} caller - the caller of api.
+ * @since 1.8
  */
 helper.isAdmin = function (caller) {
     return caller.accessLevel === 'admin';
@@ -853,6 +854,7 @@ helper.isAdmin = function (caller) {
 /**
  * Check if the caller is member of TopCoder community.
  * @param {Object} caller - the caller of api.
+ * @since 1.8
  */
 helper.isMember = function (caller) {
     return caller.accessLevel === 'member' || caller.accessLevel === 'admin';
@@ -863,6 +865,7 @@ helper.isMember = function (caller) {
  * @param {String} dateVal - the date value.
  * @param {String} dateName - the date name.
  * @param {String} format - the date format.
+ * @since 1.8
  */
 helper.validateDate = function (dateVal, dateName, format) {
     if (!moment(dateVal, format, true).isValid()) {
@@ -875,6 +878,7 @@ helper.validateDate = function (dateVal, dateName, format) {
  * Check dates. Check if the start date is after the end date or the start date and end date are same date.
  * @param {String} startDate - the start date value.
  * @param {String} endDate - the end date value.
+ * @since 1.8
  */
 helper.checkDates = function (startDate, endDate) {
     if (moment(startDate).isAfter(endDate) || moment(startDate).isSame(endDate)) {
@@ -888,6 +892,7 @@ helper.checkDates = function (startDate, endDate) {
  * Will return empty string if the date is null.
  * @param {String} date - the date value.
  * @param {String} format - the format.
+ * @since 1.8
  */
 helper.formatDate = function (date, format) {
     if (date) {

@@ -16,6 +16,8 @@
  * - reorder route for studio challenge details
  * Changes in 1.6:
  * - add route oauth test
+ * Changes in 1.7:
+ * - add invoice history api.
  */
 
 /* ---------------------
@@ -112,7 +114,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
 
-        { path: "/v2/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
+        { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },

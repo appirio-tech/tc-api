@@ -9,6 +9,8 @@
  * - add badgeProperties.
  * changes in 1.3:
  * - add oauthClientId and oauthClientSecret parameter
+ * changes in 1.4:
+ * - add time_oltp and corporate_oltp in databaseMapping.
  */
 "use strict";
 
