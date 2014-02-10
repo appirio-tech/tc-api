@@ -407,6 +407,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             if (isStudio) {
                 async.parallel({
                     details: execQuery('challenge_details'),
+                    registrants: execQuery('challenge_registrants'),
                     checkpoints: execQuery("get_studio_challenge_detail_checkpoints"),
                     submissions: execQuery("get_studio_challenge_detail_submissions"),
                     winners: execQuery("get_studio_challenge_detail_winners"),
@@ -557,6 +558,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 projectId : data.project_id,
                 forumId : data.forum_id,
                 introduction: data.introduction,
+                round1Introduction: data.round_one_introduction,
+                round2Introduction: data.round_two_introduction,
                 detailedRequirements : isStudio ? data.studio_detailed_requirements : data.software_detailed_requirements,
                 finalSubmissionGuidelines : data.final_submission_guidelines,
                 screeningScorecardId : data.screening_scorecard_id,
@@ -570,6 +573,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date),
                 appealsEndDate : formatDate(data.appeals_end_date),
                 finalFixEndDate : formatDate(data.final_fix_end_date),
+                submissionLimit : data.submission_limit,
                 currentPhaseEndDate : formatDate(data.current_phase_end_date),
                 currentStatus : data.current_status,
                 currentPhaseName : convertNull(data.current_phase_name),
@@ -581,6 +585,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 
                 technology: data.technology.split(', '),
                 prize: mapPrize(data),
+                numberOfRegistrants: results.registrants.length,
                 registrants: mapRegistrants(results.registrants),
                 checkpoints: mapCheckPoints(results.checkpoints),
                 submissions: mapSubmissions(results),
@@ -589,14 +594,12 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             };
 
             if (isStudio) {
-                delete challenge.registrants;
                 delete challenge.finalSubmissionGuidelines;
                 delete challenge.reliabilityBonus;
                 delete challenge.technology;
                 delete challenge.platforms;
             } else {
                 challenge.numberOfSubmissions = results.submissions.length;
-                challenge.numberOfRegistrants = results.registrants.length;
 
                 if (data.is_reliability_bonus_eligible !== 'true') {
                     delete challenge.reliabilityBonus;
@@ -604,6 +607,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.checkpoints;
                 delete challenge.winners;
                 delete challenge.introduction;
+                delete challenge.round1Introduction;
+                delete challenge.round2Introduction;
+                delete challenge.submissionLimit;
             }
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);

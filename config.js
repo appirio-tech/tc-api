@@ -95,6 +95,20 @@ configData.logger.transports.push(function (api, winston) {
 });
 
 ///////////
+// Stats //
+///////////
+
+configData.stats = {
+    // how often should the server write its stats to redis?
+    writeFrequency: 300000, //every five min
+    // what redis key(s) [hash] should be used to store stats?
+    //  provide no key if you do not want to store stats
+    keys: [
+        'actionHero:stats'
+    ]
+};
+
+///////////
 // Redis //
 ///////////
 
@@ -144,6 +158,11 @@ configData.servers = {
             uploadDir : "/tmp",
             keepExtensions : false,
             maxFieldsSize : 1024 * 1024 * 100
+        },
+        // Options to configure metadata in responses
+        metadataOptions: {
+            serverInformation: true,
+            requesterInformation: true
         },
         returnErrorCodes : false                // When true, returnErrorCodes will modify the response header for http(s) clients if connection.error is not null. You can also set connection.responseHttpCode to specify a code per request.
     },

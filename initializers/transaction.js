@@ -149,7 +149,7 @@ exports.transaction = function (api, next) {
 
                 // if the action is transactional, end the transaction
                 if (actionTemplate.transaction === "write") {
-                    connection.dbConnectionMap[databaseName].endTransaction(connection.error, callback);
+                    connection.dbConnectionMap[databaseName].endTransaction(connection.response.error, callback);
                 } else {
                     // connection.dbConnectionMap[databaseName].disconnect();
                     // next(connection);

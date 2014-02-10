@@ -5,6 +5,8 @@
     "projectId": 30010001,
     "forumId": "10000001",
     "introduction": "Introduction of Studio Contest 5",
+    "round1Introduction": "Introduction of Studio Contest 5 Round 1",
+    "round2Introduction": "Introduction of Studio Contest 5 Round 2",
     "cmcTaskId": "",
     "numberOfCheckpointsPrizes": 1,
     "topCheckPointPrize": 250,
@@ -14,6 +16,7 @@
     "submissionEndDate": "2013-11-03T00:00:00.000Z",
     "appealsEndDate": "2013-11-05T00:00:00.000Z",
     "finalFixEndDate": "2013-11-05T00:00:00.000Z",
+    "submissionLimit" : "3",
     "currentStatus": "Completed",
     "currentPhaseName": "",
     "currentPhaseRemainingTime": 0,
@@ -24,6 +27,13 @@
         1000,
         500,
         200
+    ],
+    "numberOfRegistrants": 1,
+    "registrants": [
+        {
+            "handle": "heffan",
+            "reliability": "100%"
+        }
     ],
     "checkpoints": [
         {

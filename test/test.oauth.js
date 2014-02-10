@@ -365,6 +365,7 @@ describe('Test Oauth', function () {
         /**
          * /v2/auth
          */
+        /*
         it("should create token", function (done) {
             request(API_ENDPOINT)
                 .post('/v2/auth')
@@ -382,10 +383,11 @@ describe('Test Oauth', function () {
                     done();
                 });
         });
-
+        */
         /**
          * /v2/auth
          */
+        /*
         it("should return error if credentials are invalid", function (done) {
             request(API_ENDPOINT)
                 .post('/v2/auth')
@@ -395,5 +397,6 @@ describe('Test Oauth', function () {
                 .expect(400)
                 .end(done);
         });
+        */
     });
 });

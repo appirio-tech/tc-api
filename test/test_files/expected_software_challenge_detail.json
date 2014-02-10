@@ -19,6 +19,7 @@
         1000,
         500
     ],
+    "numberOfRegistrants": 1,
     "registrants": [
         {
             "handle": "heffan",
@@ -51,7 +52,6 @@
         }
     ],
     "numberOfSubmissions": 1,
-    "numberOfRegistrants": 1,
     "platforms": [
         "AWS",
         "Cloud Foundry"

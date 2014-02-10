@@ -973,6 +973,7 @@ describe('Test Challenges API', function () {
                         assert.ok(body.winners[0].submissionTime);
                         delete body.submissions[0].submissionTime;
                         delete body.checkpoints[0].submissionTime;
+                        delete body.registrants[0].registrationDate;
                         delete body.winners[0].submissionTime;
                         delete body.currentPhaseEndDate;
                         testHelper.assertResponse(err,
@@ -982,35 +983,119 @@ describe('Test Challenges API', function () {
                     });
             });
 
+            it('should return challenge details(submissionLimit empty)', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery("UPDATE project_info SET value = '' WHERE project_info_type_id = 51 AND project_id = 10041", 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var body = res.body,
+                                    expected = require('./test_files/exptected_studio_challenge_details.json');
+                                assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                assert.lengthOf(body.winners, 1, "invalid winners count");
+                                //submissionTime is not constant value
+                                assert.ok(body.submissions[0].submissionTime);
+                                assert.ok(body.checkpoints[0].submissionTime);
+                                assert.ok(body.winners[0].submissionTime);
+                                delete body.submissions[0].submissionTime;
+                                delete body.checkpoints[0].submissionTime;
+                                delete body.registrants[0].registrationDate;
+                                delete body.winners[0].submissionTime;
+                                delete body.currentPhaseEndDate;
+                                delete body.serverInformation;
+                                delete body.requestorInformation;
+                                expected.submissionLimit = '';
+                                assert.deepEqual(body, expected, 'Invalid response');
+                                cb();
+                            });
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
+            });
+
+            it('should return challenge details(no submissionLimit)', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery('DELETE FROM project_info WHERE project_info_type_id = 51 AND project_id = 10041', 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var body = res.body,
+                                    expected = require('./test_files/exptected_studio_challenge_details.json');
+                                assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                assert.lengthOf(body.winners, 1, "invalid winners count");
+                                //submissionTime is not constant value
+                                assert.ok(body.submissions[0].submissionTime);
+                                assert.ok(body.checkpoints[0].submissionTime);
+                                assert.ok(body.winners[0].submissionTime);
+                                delete body.submissions[0].submissionTime;
+                                delete body.checkpoints[0].submissionTime;
+                                delete body.registrants[0].registrationDate;
+                                delete body.winners[0].submissionTime;
+                                delete body.currentPhaseEndDate;
+                                delete body.serverInformation;
+                                delete body.requestorInformation;
+                                delete expected.submissionLimit;
+                                assert.deepEqual(body, expected, 'Invalid response');
+                                cb();
+                            });
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
+            });
+
             it('should return challenge details(no reliabilityBonus)', function (done) {
                 async.waterfall([
                     function (cb) {
-                        testHelper.runSqlQuery('UPDATE project_info SET value = "false" WHERE project_info_type_id = 45 AND project_id = 10041', 'tcs_catalog', cb),
-                        function (cb) {
-                            request(API_ENDPOINT)
-                                .get('/v2/design/challenges/10041')
-                                .set('Accept', 'application/json')
-                                .expect('Content-Type', /json/)
-                                .expect(200)
-                                .end(function (err, res) {
-                                    var body = res.body,
-                                        expected = require('./test_files/exptected_studio_challenge_details.json');
-                                    assert.lengthOf(body.submissions, 1, "invalid submissions count");
-                                    assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
-                                    assert.lengthOf(body.winners, 1, "invalid winners count");
-                                    //submissionTime is not constant value
-                                    assert.ok(body.submissions[0].submissionTime);
-                                    assert.ok(body.checkpoints[0].submissionTime);
-                                    assert.ok(body.winners[0].submissionTime);
-                                    delete body.submissions[0].submissionTime;
-                                    delete body.checkpoints[0].submissionTime;
-                                    delete body.winners[0].submissionTime;
-                                    delete body.currentPhaseEndDate;
-                                    delete expected.reliabilityBonus;
-                                    assert.deepEqual(res.body, expected, 'Invalid response');
-                                    cb();
-                                });
-                        }
+                        testHelper.runSqlQuery('UPDATE project_info SET value = "false" WHERE project_info_type_id = 45 AND project_id = 10041', 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var body = res.body,
+                                    expected = require('./test_files/exptected_studio_challenge_details.json');
+                                assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                assert.lengthOf(body.winners, 1, "invalid winners count");
+                                //submissionTime is not constant value
+                                assert.ok(body.submissions[0].submissionTime);
+                                assert.ok(body.checkpoints[0].submissionTime);
+                                assert.ok(body.winners[0].submissionTime);
+                                delete body.submissions[0].submissionTime;
+                                delete body.registrants[0].registrationDate;
+                                delete body.checkpoints[0].submissionTime;
+                                delete body.winners[0].submissionTime;
+                                delete body.currentPhaseEndDate;
+                                delete body.serverInformation;
+                                delete body.requestorInformation;
+                                delete expected.reliabilityBonus;
+                                assert.deepEqual(res.body, expected, 'Invalid response');
+                                cb();
+                            });
                     }
                 ], function (err) {
                     if (err) {
