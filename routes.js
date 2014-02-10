@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.7
  * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:

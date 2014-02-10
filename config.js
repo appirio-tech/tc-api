@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
+ * @version 1.4
  * @author vangavroche, TCSASSEMBLER, Ghost_141
  * changes in 1.1:
  * - add defaultCacheLifetime parameter

@@ -399,4 +399,11 @@ describe('Get Challenge Costs API', function () {
         });
     });
 
+    /**
+     * Test 404 not found.
+     */
+    it('should return 404 not found. The challenge is not existed.', function (done) {
+        createRequest(BASE_URL + '/2015-1-1/2016-1-1', 404, adminAuthHeader, done);
+    });
+
 });

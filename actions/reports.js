@@ -44,7 +44,7 @@ var getChallengeCosts = function (api, connection, next) {
         endDate, sqlParams, challengeCosts;
     if (connection.params.challengeId && Number(connection.params.challengeId) !== 0) {
         // Have challengeId and challengeId is not 0.
-        clientId = DEFAULT_BILLING_ID;
+        clientId = DEFAULT_CLIENT_ID;
         billingId = DEFAULT_BILLING_ID;
         projectId = DEFAULT_PROJECT_ID;
         challengeId = connection.params.challengeId;
@@ -82,13 +82,13 @@ var getChallengeCosts = function (api, connection, next) {
                 return;
             }
             sqlParams = {
-                startDate: startDate,
-                endDate: endDate,
-                clientId: clientId,
-                projectId: projectId,
-                billingId: billingId,
-                challengeId: challengeId,
-                userId: caller.userId
+                start_date: startDate,
+                end_date: endDate,
+                client_id: clientId,
+                project_id: projectId,
+                billing_id: billingId,
+                challenge_id: challengeId,
+                user_id: caller.userId
             };
             var exeQuery = function (suffix) {
                 return function (cbx) {
