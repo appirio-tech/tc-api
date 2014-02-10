@@ -1,18 +1,18 @@
 {
-    "author": "TCASSEMBLER",
-    "name": "tcapi",
-    "description": "",
-    "version": "0.0.1",
-    "homepage": "",
-    "repository": {
-        "type": "",
-        "url": ""
-    },
-    "keywords": "",
-    "engines": {
-        "node": ">=0.8.0"
-    },
-    "dependencies": {
+  "author": "TCASSEMBLER",
+  "name": "tcapi",
+  "description": "",
+  "version": "0.0.1",
+  "homepage": "",
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "keywords": "",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
         "actionhero": "6.4.4",
         "xml2js": "0.2.8",
         "async": "0.2.9",
@@ -30,7 +30,10 @@
         "asn1": "*",
         "crypto": ">= 0.0.3",
         "jsonwebtoken": "*",
-        "request": "~2.33.0"
+        "request": "~2.33.0",
+        "soap": "~0.3.2",
+        "moment-timezone": "0.0.3",
+        "moment": "~2.5.1"
     },
     "devDependencies": {
         "supertest": "0.8.1",

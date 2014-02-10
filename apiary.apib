@@ -3765,3 +3765,78 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+# Group Open Bugs API
+
+## Bugs [/bugs/{jiraProjectId}/{status}]
+### Bugs [GET]
+
++ Parameters
+    + jiraProjectId (optional, string, `BUGR`) ... The project id. Default BUGR.
+    + status (optional, string, `OPEN`) ... The issue status. It can OPEN, CLOSED or ALL. Default OPEN.
+
++ Response 200 (application/json)
+
+    [
+          {
+            "name": "$75 TC Public Profile Tab Navigation Update",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10571",
+            "payment": 75,
+            "tcoPoints": 10,
+            "startDate": "2014-01-28T11:12:26-05:00"
+          },
+          {
+            "name": "[code] Stormbound Configuration Update",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10570",
+            "payment": 50,
+            "tcoPoints": 30,
+            "startDate": "2014-01-28T09:57:20-05:00"
+          },
+          {
+            "name": "$30 - TC_CS Case studies UI Prototype Updates  - HTML",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10566",
+            "payment": 30,
+            "tcoPoints": 10,
+            "startDate": "2014-01-28T02:29:51-05:00"
+          },
+          {
+            "name": "CS - TC API - Windows Setup Guide",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10563",
+            "payment": 50,
+            "tcoPoints": 20,
+            "startDate": "2014-01-27T18:37:46-05:00"
+          }
+    ]
+    
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }

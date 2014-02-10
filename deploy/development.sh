@@ -3,8 +3,10 @@
 #
 # Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.0
-# Author: vangavroche
+# Version: 1.1
+# Author: vangavroche, TCSASSEMBLER
+# changes in 1.1:
+# - add JIRA_USERNAME and JIRA_PASSWORD
 #
 
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
@@ -52,3 +54,7 @@ export MAXPOOL=20
 export MAXSIZE=0
 export IDLETIMEOUT=3600
 export TIMEOUT=3000
+
+# Used in Jira soap service (Bugs API)
+export JIRA_USERNAME=username
+export JIRA_PASSWORD=password
