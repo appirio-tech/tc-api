@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun * Changes in 1.1:
+ * @version 1.8
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun
+ * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
  * - add route for top
@@ -18,6 +19,8 @@
  * - add route oauth test
  * Changes in 1.7:
  * - add route oauth
+ * Changes in 1.8:
+ * - add route for bugs
  */
 
 /* ---------------------
@@ -118,6 +121,10 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+
+        { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
+        { path: "/:apiVersion/bugs/:jiraProjectId", action: "bugs" },
+        { path: "/:apiVersion/bugs", action: "bugs" },
 
         //Stubs APIs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },

@@ -30,7 +30,9 @@
         "asn1": "*",
         "crypto": ">= 0.0.3",
         "jsonwebtoken": "*",
-        "request": "~2.33.0"
+        "request": "~2.33.0",
+        "soap": "~0.3.2",
+        "moment-timezone": "0.0.3"
     },
     "devDependencies": {
         "supertest": "0.8.1",

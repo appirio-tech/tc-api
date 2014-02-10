@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author vangavroche, TCSASSEMBLER, Ghost_141
+ * @version 1.5
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -11,6 +11,8 @@
  * - add oauthClientId and oauthClientSecret parameters
  * changes in 1.4:
  * - add oauthConnection and oauthDomain parameters
+ * changes in 1.5:
+ * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
  */
 "use strict";
 
@@ -55,7 +57,10 @@ configData.general = {
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
     oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
-    oauthDomain: process.env.OAUTH_DOMAIN || "sma"
+    oauthDomain: process.env.OAUTH_DOMAIN || "sma",
+    jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
+    jiraUsername: process.env.JIRA_USERNAME,
+    jiraPassword: process.env.JIRA_PASSWORD
 };
 
 /////////////
