@@ -128,8 +128,11 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
                             _.extend(achieveItem, {
                                 badgeLink: {
                                     url: badgeLink,
-                                    leftOffset: badgeProperties[item.id].left,
-                                    topOffset: badgeProperties[item.id].top
+                                    //TODO: FIX THIS HORRIBLE HORRIBLE CHANGE. 
+                                    //THIS WAS PUT IN AS STOPGAP FIX TO STOP PRODUCTION FROM CRASHING
+                                    leftOffset: badgeProperties[item.id] ? badgeProperties[item.id].left : -17,
+                                    topOffset:  badgeProperties[item.id] ? badgeProperties[item.id].top  : -170
+                                    //END REALLY BAD FIX
                                 }
                             });
                         }

@@ -1,30 +1,16 @@
 [
     {
-        "name": "$40 - testing",
-        "jiraUrl": "https://apps.topcoder.com/bugs/browse/TEST-11",
-        "payment": 40,
-        "tcoPoints": "N/A",
-        "startDate": "2008-01-13T14:20:40-05:00"
+        "name": "Closed task 2",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-4",
+        "payment": 800,
+        "tcoPoints": 10,
+        "startDate": "2014-02-10T13:26:31-05:00"
     },
     {
-        "name": "$75 -Issue #2",
-        "jiraUrl": "https://apps.topcoder.com/bugs/browse/TEST-12",
-        "payment": "N/A",
-        "tcoPoints": "N/A",
-        "startDate": "2008-01-12T20:04:35-05:00"
-    },
-    {
-        "name": "$50 - Sean's Private bug",
-        "jiraUrl": "https://apps.topcoder.com/bugs/browse/TEST-13",
-        "payment": "N/A",
-        "tcoPoints": "N/A",
-        "startDate": "2008-01-12T14:48:42-05:00"
-    },
-    {
-        "name": "Issue from Test Project that is going to Bug Race",
-        "jiraUrl": "https://apps.topcoder.com/bugs/browse/TEST-7",
-        "payment": "N/A",
-        "tcoPoints": "N/A",
-        "startDate": "2008-01-12T14:45:56-05:00"
+        "name": "Closed task 1",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-3",
+        "payment": 500,
+        "tcoPoints": 30,
+        "startDate": "2014-02-10T13:19:26-05:00"
     }
 ]

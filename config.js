@@ -1,15 +1,17 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author vangavroche, TCSASSEMBLER, Ghost_141
+ * @version 1.5
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
  * - add badgeProperties.
  * changes in 1.3:
- * - add oauthClientId and oauthClientSecret parameter
+ * - add oauthClientId and oauthClientSecret parameters
  * changes in 1.4:
+ * - add oauthConnection and oauthDomain parameters
+ * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
  */
 "use strict";
@@ -54,6 +56,8 @@ configData.general = {
     oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64'),
+    oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
+    oauthDomain: process.env.OAUTH_DOMAIN || "sma",
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD
@@ -94,6 +98,20 @@ configData.logger.transports.push(function (api, winston) {
         timestamp : true
     });
 });
+
+///////////
+// Stats //
+///////////
+
+configData.stats = {
+    // how often should the server write its stats to redis?
+    writeFrequency: 300000, //every five min
+    // what redis key(s) [hash] should be used to store stats?
+    //  provide no key if you do not want to store stats
+    keys: [
+        'actionHero:stats'
+    ]
+};
 
 ///////////
 // Redis //
@@ -145,6 +163,11 @@ configData.servers = {
             uploadDir : "/tmp",
             keepExtensions : false,
             maxFieldsSize : 1024 * 1024 * 100
+        },
+        // Options to configure metadata in responses
+        metadataOptions: {
+            serverInformation: true,
+            requesterInformation: true
         },
         returnErrorCodes : false                // When true, returnErrorCodes will modify the response header for http(s) clients if connection.error is not null. You can also set connection.responseHttpCode to specify a code per request.
     },

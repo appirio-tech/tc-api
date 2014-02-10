@@ -360,8 +360,8 @@ VALUES(10032,10032,1,3,10032,'132456',CURRENT,'132456',CURRENT);
 
 
 --past contest
-INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,contest_introduction,create_user,create_date,modify_user,modify_date)
-VALUES(1,'Description of Studio Contest 5.','Introduction of Studio Contest 5','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,contest_introduction,round_one_introduction,round_two_introduction,create_user,create_date,modify_user,modify_date)
+VALUES(1,'Description of Studio Contest 5.','Introduction of Studio Contest 5','Introduction of Studio Contest 5 Round 1','Introduction of Studio Contest 5 Round 2','132456',CURRENT,'132456',CURRENT);
 
 INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,project_studio_spec_id,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,7,16,30010001,1,'132456',CURRENT,'132456',CURRENT);
@@ -384,12 +384,17 @@ INSERT INTO project_info(project_id,project_info_type_id,value,create_user,creat
 VALUES(10041,53,'true','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,32,'2','132456',CURRENT,'132456',CURRENT);
-
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date)
+VALUES(10041,51,'3','132456',CURRENT,'132456',CURRENT);
 
 INSERT INTO comp_catalog(component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
 VALUES(10041, 1, 'this is DETAIL software ACTIVE/OPEN component 01', 'Component 10041', 'this is DETAIL software ACTIVE/OPEN contest 01', 'Component', Current, 102, 5801778, current, 0);
 INSERT INTO comp_versions(comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
 VALUES(10041, 10041, 1, '1.0', current, 112, current, 1000, 'Cool', current, 0);
+
+INSERT INTO component_inquiry (component_inquiry_id, component_id, user_id, comment, agreed_to_terms, rating, phase, tc_user_id, version, create_time, project_id) 
+VALUES (100411, 10041, 132456, null, 1, 497, 147, 132456, 0, CURRENT, 10041);
+
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(10041, 10041, 0, 'document 1', 'test/document1.doc');
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(10042, 10041, 24, 'document 2', 'test/document2.doc');
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(10043, 10041, 25, 'document 3', 'test/document3.doc');
@@ -465,9 +470,13 @@ INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_
 VALUES(10045,20,10041,'132456',CURRENT,'132456',CURRENT);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
-VALUES(10041,1,'132457','132456',CURRENT,'132456',CURRENT);
+VALUES(10041,1,'132456','132456',CURRENT,'132456',CURRENT);
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,2,'super','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(10041,4,1800,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(10041,5,100,'132456',CURRENT,'132456',CURRENT);
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10042,1,'132458','132456',CURRENT,'132456',CURRENT);
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 

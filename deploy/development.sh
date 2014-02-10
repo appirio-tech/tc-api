@@ -34,7 +34,7 @@ export TC_LDAP_HOST=54.197.52.53
 export TC_LDAP_PORT=636
 export TC_LDAP_PASSWORD=secret
 export TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com"
-export TC_BIND_DN="cn=Manager,dc=topcode23.20.129.195r,dc=com"
+export TC_BIND_DN="cn=Manager,dc=topcoder,dc=com"
 
 # Mail settings
 export TC_EMAIL_HOST=smtp.gmail.com
