@@ -1,3 +1,4 @@
+DELETE FROM user_group_xref WHERE user_group_id = 2001;
 delete from submission;
 delete from upload;
 delete from resource_info;
@@ -19,6 +20,7 @@ delete from comp_categories where comp_categories_id > 30000000;
 delete from comp_catalog where component_id > 30000000;
 delete from group_contest_eligibility;
 delete from contest_eligibility;
+DELETE FROM security_groups WHERE group_id = 2001;
 delete from project_spec;
 delete from project_info;
 delete from project;

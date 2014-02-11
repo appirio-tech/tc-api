@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
+ * @version 1.7
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141
  * @changes from 1.0
  * merged with Member Registration API
@@ -19,6 +19,8 @@
  * 1. Update the logic when get results from database since the query has been updated.
  * changes in 1.6:
  * merge the backend logic of search software challenges and studio challenges together.
+ * changes in 1.7:
+ * support private challenge for get software/studio challenge detail api.
  */
 "use strict";
 
@@ -27,6 +29,7 @@ var async = require('async');
 var S = require('string');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
@@ -385,7 +388,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
 var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
-    var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software;
+    var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software,
+        caller = connection.caller;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
@@ -396,8 +400,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
             sqlParams = {
                 challengeId: connection.params.contestId,
-                project_type_id: challengeType.category
+                project_type_id: challengeType.category,
+                user_id: caller.userId || 0
             };
+
+            // Do the private check.
+            api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result[0].is_private && !result[0].has_access) {
+                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
+                return;
+            }
 
             var execQuery = function (name) {
                 return function (cbx) {

@@ -118,4 +118,3 @@ SELECT
    AND ps.project_id = p.project_id
    AND sps.project_studio_spec_id = p.project_studio_spec_id
    AND ps.version = (SELECT max(version) FROM project_spec ps2 WHERE ps2.project_id = ps.project_id)
-   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce JOIN group_contest_eligibility gce ON gce.contest_eligibility_id = ce.contest_eligibility_id WHERE ce.contest_id = p.project_id AND gce.group_id = 218)
