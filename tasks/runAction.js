@@ -14,6 +14,7 @@ task.name = "runAction";
 task.description = "I will run an action and return the connection object";
 task.scope = "any";
 task.frequency = 0;
+task.queue = '';
 
 /////////////////////////////////////////////////////////////////////
 // functional
