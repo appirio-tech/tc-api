@@ -4416,4 +4416,4 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (31320008, 31320002, 2, 2, null, CURRENT + 44640 UNITS MINUTE, CURRENT + 36000 UNITS MINUTE, CURRENT + 44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 
 insert into contest_eligibility(contest_eligibility_id, contest_id, is_studio) values (31320009, 31320002, 1);
-insert into group_contest_eligibility(contest_eligibility_id, group_id) values (31320009, 218);
+insert into group_contest_eligibility(contest_eligibility_id, group_id) values (31320009, 218); 

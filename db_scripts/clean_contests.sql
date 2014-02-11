@@ -19,4 +19,4 @@ delete from project_info;
 delete from project;
 delete from project_studio_specification;
 UPDATE project_category_lu SET project_catalog_id = null;
-delete from project_catalog_lu;
+delete from project_catalog_lu; 
