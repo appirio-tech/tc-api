@@ -30,11 +30,11 @@ exports.action = {
             grant_type: "password",
             username: connection.params.username,
             password: connection.params.password,
-            client_id: api.configData.general.oauthClientId,
-            connection: api.configData.general.oauthConnection,
+            client_id: api.config.general.oauthClientId,
+            connection: api.config.general.oauthConnection,
             scope: "openid"
         },
-            url = "https://" + api.configData.general.oauthDomain + ".auth0.com/oauth/ro";
+            url = "https://" + api.config.general.oauthDomain + ".auth0.com/oauth/ro";
         async.waterfall([
             function (cb) {
                 request.post({url: url, form: form}, cb);

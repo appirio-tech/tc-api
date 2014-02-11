@@ -560,7 +560,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             documentName: item.document_name,
-                            url: api.configData.documentProvider + '=' + item.document_id
+                            url: api.config.documentProvider + '=' + item.document_id
                         };
                     });
                 };
