@@ -276,7 +276,7 @@ helper.generatePartPaths = function (fileName, extension, count) {
 
 /**
  * Assert response from api to given file.
- * Fields serverInformation and requestorInformation are not compared.
+ * Fields serverInformation and requesterInformation are not compared.
  * @param {Error} err - the error from response
  * @param {Object} res - the response object
  * @param {String} filename - the filename to match. Path must be relative to /test/ directory.
@@ -288,7 +288,7 @@ helper.assertResponse = function (err, res, filename, done) {
     body = res.body;
     assert.isObject(body, "response body should be object");
     delete body.serverInformation;
-    delete body.requestorInformation;
+    delete body.requesterInformation;
     assert.deepEqual(body, expected, "invalid response");
     done();
 };
@@ -331,14 +331,14 @@ helper.decodePassword = function (password, key) {
 };
 
 /**
- * Convert text to JSON object and removes serverInformation and requestorInformation
+ * Convert text to JSON object and removes serverInformation and requesterInformation
  * @param {String} text - returned text data
  * @return {Object} trimmed object
  */
 helper.getTrimmedData = function (text) {
     var ret = JSON.parse(text);
     delete ret.serverInformation;
-    delete ret.requestorInformation;
+    delete ret.requesterInformation;
     return ret;
 };
 

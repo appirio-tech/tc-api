@@ -107,7 +107,7 @@ describe('Test Oauth', function () {
                 assert.ok(res.body);
                 var response = res.body;
                 delete response.serverInformation;
-                delete response.requestorInformation;
+                delete response.requesterInformation;
                 assert.deepEqual(response, expectedResponse);
                 done(err);
             });

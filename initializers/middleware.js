@@ -309,7 +309,7 @@ exports.middleware = function (api, next) {
                     lifetime = actionTemplate.cacheLifetime || api.configData.general.defaultCacheLifetime,
                     key = api.helper.createCacheKey(connection);
                 delete response.serverInformation;
-                delete response.requestorInformation;
+                delete response.requesterInformation;
                 api.cache.save(key, response, lifetime, cb);
             }
         ], function (err) {

@@ -96,7 +96,7 @@ describe('Get Basic User Profile API', function () {
                 }
                 var body = res.body, expected = require(name);
                 delete body.serverInformation;
-                delete body.requestorInformation;
+                delete body.requesterInformation;
                 body.Achievements.forEach(function (item) {
                     delete item.date;
                 });
