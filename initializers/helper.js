@@ -30,7 +30,7 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
-var UnAuthorizedError = require('../errors/UnAuthorizedError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var helper = {};
 var crypto = require("crypto");
 
@@ -591,7 +591,7 @@ helper.handleError = function (api, connection, err) {
     if (err instanceof NotFoundError) {
         baseError = helper.apiCodes.notFound;
     }
-    if (err instanceof UnAuthorizedError) {
+    if (err instanceof UnauthorizedError) {
         baseError = helper.apiCodes.unauthorized;
     }
     errdetail = _.clone(baseError);

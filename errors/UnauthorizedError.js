@@ -4,27 +4,27 @@
 'use strict';
 
 /**
- * This file defines UnAuthorizedError
+ * This file defines UnauthorizedError
  *
  * @author TCSASSEMBLER
  * @version 1.0
  */
 
 /**
- * Constructor of UnAuthorizedError
+ * Constructor of UnauthorizedError
  * @param {Object} message the error message
  * @param {Object} cause the error cause
  */
-var UnAuthorizedError = function (message, cause) {
+var UnauthorizedError = function (message, cause) {
     //captureStackTrace
     Error.call(this);
     Error.captureStackTrace(this);
-    this.message = message || "UnAuthorized Error";
+    this.message = message || "Unauthorized Error";
     this.cause = cause;
 };
 
 //use Error as prototype
-require('util').inherits(UnAuthorizedError, Error);
-UnAuthorizedError.prototype.name = 'UnAuthorized Error';
+require('util').inherits(UnauthorizedError, Error);
+UnauthorizedError.prototype.name = 'Unauthorized Error';
 
-module.exports = UnAuthorizedError;
+module.exports = UnauthorizedError;

@@ -9,6 +9,8 @@
  * - add badgeProperties.
  * changes in 1.3:
  * - add oauthClientId and oauthClientSecret parameter
+ * changes in 1.4:
+ * - add corporate_oltp in database mapping.
  */
 "use strict";
 
@@ -180,7 +182,8 @@ configData.databaseMapping = {
     "informixoltp" : "TC_DB",
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
-    "tcs_dw" : "TC_DW"
+    "tcs_dw" : "TC_DW",
+    'corporate_oltp': 'TC_DB'
 };
 
 /**

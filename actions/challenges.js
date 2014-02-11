@@ -28,7 +28,7 @@ var S = require('string');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
-var UnAuthorizedError = require('../errors/UnAuthorizedError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
@@ -149,7 +149,8 @@ function validateInputParameter(helper, caller, query, filter, pageIndex, pageSi
         if (!_.isDefined(caller.userId)) {
             error = error || new BadRequestError('The caller is not passed.');
         }
-        error = error || helper.checkPositiveInteger(Number(filter.communityId), 'communityId');
+        error = error || helper.checkPositiveInteger(Number(filter.communityId), 'communityId') ||
+            helper.checkMaxNumber(Number(filter.communityId), MAX_INT, 'communityId');
     }
 
     if (_.isDefined(filter.projectId)) {
@@ -362,8 +363,6 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
             sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
-            // TODO: Remove this later
-//            api.dataAccess.executeQuery('search_software_studio_challenges_count', sqlParams, dbConnectionMap, cb);
 
             async.parallel({
                 count: function (cb) {
@@ -373,14 +372,11 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
                     api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
                 }
             }, cb);
-            // TODO: remove this line later.
-//        }, function (rows, cb) {
         }, function (results, cb) {
             total = results.count[0].total;
-//            total = rows[0].total;
 
             if (results.privateCheck.length === 0) {
-                cb(new UnAuthorizedError('You\'re not belong to this group.'));
+                cb(new UnauthorizedError('You\'re not belong to this group.'));
                 return;
             }
 
@@ -390,8 +386,6 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
                 api.dataAccess.executeQuery('search_software_studio_challenges', sqlParams, dbConnectionMap, cb);
             }
 
-            // TODO: Update the query to remove the private challenge check.
-//            api.dataAccess.executeQuery('search_software_studio_challenges', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 result.data = [];

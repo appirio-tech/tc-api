@@ -16,6 +16,7 @@ var util = require('util');
 var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
+var jwt = require('jsonwebtoken');
 
 /**
  * The test helper
@@ -37,6 +38,12 @@ var DEFAULT_MAXPOOL = 60;
 var DEFAULT_MAXSIZE = 0;
 var DEFAULT_IDLETIMEOUT = 3600; // 3600s
 var DEFAULT_TIMEOUT = 30000; // 30s
+
+/**
+ * client id and secret.
+ */
+var CLIENT_ID = configs.configData.general.oauthClientId;
+var SECRET = configs.configData.general.oauthClientSecret;
 
 /**
  * create connection for given database
@@ -311,6 +318,16 @@ helper.decodePassword = function (password, key) {
     result = decipher.update(password, "base64", "utf8");
     result += decipher.final("utf8");
     return result;
+};
+
+/**
+ * Generate an auth header
+ * @param {Object} data the data to generate
+ * @return {String} the generated string
+ * @since
+ */
+helper.generateAuthHeader = function (data) {
+    return "Bearer " + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 };
 
 /**

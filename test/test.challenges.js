@@ -19,12 +19,14 @@ var request = require('supertest');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var async = require('async');
+var _ = require('underscore');
 var testHelper = require('./helpers/testHelper');
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 var SQL_DIR = __dirname + "/sqls/challenges/";
 var TCS_CATALOG = "tcs_catalog";
 var TCS_DW = 'tcs_dw';
+var CORPORATE_OLTP = 'corporate_oltp';
 var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
 var software_collection_length = {};
 software_collection_length[ListType.ACTIVE] = 5;
@@ -741,6 +743,198 @@ describe('Test Challenges API', function () {
         });
     });
 
+    /**
+     * Tests when there is a caller in request.
+     */
+    describe('--Search private challenges --', function () {
+
+        var SQL_DIR = __dirname + '/sqls/privateChallenges/',
+            heffan = "ad|132456",
+            userSuper = "ad|132457",
+            user = 'ad|132458',
+            heffanAuthHeader = testHelper.generateAuthHeader({ sub: heffan }),
+            superAuthHeader = testHelper.generateAuthHeader({ sub: userSuper }),
+            userAuthHeader = testHelper.generateAuthHeader({ sub: user });
+
+        function clearDb(done) {
+            async.waterfall([
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__clean', TCS_CATALOG, cb);
+                },
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'corporate_oltp__clean', CORPORATE_OLTP, cb);
+                }
+            ], function (err) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                done();
+            });
+        }
+
+        before(function (done) {
+            async.waterfall([
+                clearDb,
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'corporate_oltp__insert_test_data', CORPORATE_OLTP, cb);
+                },
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__insert_test_data', TCS_CATALOG, cb);
+                }
+            ], done);
+        });
+
+        after(function (done) {
+            clearDb(done);
+        });
+
+        /**
+         * Create a http request and test it.
+         * @param {String} url - the request url.
+         * @param {Number} expectStatus - the expected request response status.
+         * @param {Object} authHeader - the auth header for request.
+         * @param {Function} cb - the call back function.
+         */
+        function createRequest(url, expectStatus, authHeader, cb) {
+            var req = request(API_ENDPOINT)
+                .get(url)
+                .set('Accept', 'application/json');
+            if (authHeader) {
+                req.set('Authorization', authHeader);
+            }
+            req.expect('Content-Type', /json/)
+                .expect(expectStatus)
+                .end(cb);
+        }
+
+        /**
+         * Get challenge id from giving response.
+         * @param results the giving response.
+         */
+        function getChallengeIds(results) {
+            return _.map(results, function (item) {
+                return item.challengeId;
+            });
+        }
+
+        /**
+         * Should return private challenges for user 'heffan' and public challenges.
+         */
+        it('should return success results. The results should include private challenge that heffan can access and ' +
+            'public challenges.', function (done) {
+                createRequest('/v2/develop/challenges', 200, heffanAuthHeader, function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                    challengeIds = getChallengeIds(actual.data);
+                    assert.sameMembers([2001, 2002, 2004], challengeIds, 'invalid response');
+                    done();
+                });
+            });
+
+        /**
+         * Should return private challenges for user 'super' and public challenges.
+         */
+        it('should return success results. The results should include private challenge that super can access and ' +
+            'public challenges.', function (done) {
+                createRequest('/v2/develop/challenges', 200, superAuthHeader, function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                    challengeIds = getChallengeIds(actual.data);
+                    assert.sameMembers([2002, 2004], challengeIds, 'invalid response');
+                    done();
+                });
+            });
+
+        /**
+         * Should return private challenge for user 'user' and public chllenges.
+         */
+        it('should return success results. The results should only include public challenges since user can only ' +
+            'access public challenges.', function (done) {
+                createRequest('/v2/develop/challenges', 200, userAuthHeader, function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                    challengeIds = getChallengeIds(actual.data);
+                    assert.sameMembers([2004], challengeIds, 'invalid response');
+                    done();
+                });
+            });
+
+        /**
+         * Test when communityId is set. and the caller is in that group.
+         */
+        it('should return success results. The results should only include the challenges in group A.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 200, heffanAuthHeader, function (err, result) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                challengeIds = getChallengeIds(actual.data);
+                assert.sameMembers([2001], challengeIds, 'invalid response');
+                done();
+            });
+        });
+
+        /**
+         * Test when user is not in specific group.
+         */
+        it('should return unauthorized error. The user is not belong to group B.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 401, superAuthHeader, done);
+        });
+
+        /**
+         * Test when the communityId is set but the caller is not passed.
+         */
+        it('should return 400 bad request error. The caller should be passed when communityId is set.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 400, null, done);
+        });
+
+        /**
+         * Test when the caller is not in group.
+         */
+        it('should return 401 unauthorized error. The caller is not in the group.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 401, userAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=abc
+         */
+        it('should return 400 bad request. The communityId is not number.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=abc', 400, heffanAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=1.234
+         */
+        it('should return 400 bad request. The communityId is not integer.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=1.234', 400, heffanAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=-1
+         */
+        it('should return 400 bad request. The communityId is not positive.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=-1', 400, heffanAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=2147483648
+         */
+        it('should return 400 bad request. The communityId is too big.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2147483648', 400, heffanAuthHeader, done);
+        });
+    });
+
     describe('', function () {
         /**
          * Tests for Software challenge detail
@@ -840,7 +1034,7 @@ describe('Test Challenges API', function () {
                     done();
                 });
             });
-            
+
             /**
              * develop/challenges/30500000
              */
