@@ -6,7 +6,8 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.7 * changes in 1.1:
+ * @version 1.8
+ * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -22,6 +23,8 @@
  * - fix creating optional function for validation (to pass js lint)
  * changes in 1.7:
  * - add contestTypes
+ * changes in 1.8:
+ * Add support for unauthorized error.
  */
 "use strict";
 

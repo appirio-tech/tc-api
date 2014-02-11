@@ -1,10 +1,12 @@
-﻿/*
+/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.1
  * @author Sky_, muzehyun
  * changes in 1.1:
  * - add getTrimmedData method
+ * changes in 1.2:
+ * - add generateAuthHeader method.
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -340,6 +342,15 @@ helper.getTrimmedData = function (text) {
     delete ret.serverInformation;
     delete ret.requestorInformation;
     return ret;
+};
+
+/**
+ * Generate an auth header
+ * @param {Object} data the data to generate
+ * @return {String} the generated string
+ */
+helper.generateAuthHeader = function (data) {
+    return "Bearer " + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 };
 
 module.exports = helper;

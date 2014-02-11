@@ -6,8 +6,10 @@
 /**
  * This file defines UnauthorizedError
  *
- * @author TCSASSEMBLER
- * @version 1.0
+ * @author Ghost_141, TCSASSEMBLER
+ * @version 1.1
+ * changes in 1.1:
+ * - fix name error.
  */
 
 /**
@@ -19,7 +21,7 @@ var UnauthorizedError = function (message, cause) {
     //captureStackTrace
     Error.call(this);
     Error.captureStackTrace(this);
-    this.message = message || "Unauthorized Error";
+    this.message = message || 'Unauthorized Error';
     this.cause = cause;
 };
 

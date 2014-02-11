@@ -173,7 +173,7 @@ exports.middleware = function (api, next) {
             api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
             var errorMessage, baseError, errdetail;
             //error messages returned by jwt.verify(...) method
-            if (err.message === "Cannot read property 'alg' of undefined" ||
+            if (err.message.indexOf('Invalid token') !== -1 ||
                     String(err.message).startsWith("jwt audience invalid.") ||
                     err.message === "invalid signature") {
                 errorMessage = "Malformed Auth header";
