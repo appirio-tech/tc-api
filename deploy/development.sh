@@ -10,13 +10,14 @@
 #
 
 #Modify this ip address to use your own informix  database in VM
-TC_VM_IP=54.197.52.53
+TC_VM_IP=54.80.96.216
 
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
 export TC_DB_NAME=informixoltp_tcp
 export TC_DB_HOST=$TC_VM_IP
+export TC_DB_HOST=54.80.96.216
 export TC_DB_PORT=2021
 export TC_DB_USER=informix
 export TC_DB_PASSWORD=1nf0rm1x
@@ -61,3 +62,5 @@ export TIMEOUT=3000
 # Used in Jira soap service (Bugs API)
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
+
+export ACTIONHERO_CONFIG=./config.js

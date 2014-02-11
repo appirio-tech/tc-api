@@ -57,13 +57,8 @@ var SECRET = configs.config.general.oauthClientSecret;
  * @return {Object} the created connection
  */
 function createConnection(databaseName) {
-<<<<<<< HEAD
-    var dbServerPrefix = configs.configData.databaseMapping[databaseName], user,
+    var dbServerPrefix = configs.config.databaseMapping[databaseName], user,
         password, hostname, server, port, settings;
-=======
-    var error, dbServerPrefix = configs.config.databaseMapping[databaseName],
-        user, password, hostname, server, port, settings;
->>>>>>> actionhero update
 
     if (!dbServerPrefix) {
         throw new Error("database server prefix not found for database: " + databaseName);
