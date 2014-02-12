@@ -1,0 +1,118 @@
+DATABASE common_oltp;
+INSERT into user (user_id, handle, status, timezone_id) values (400011, 'normal_user_11', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400012, 'normal_user_12', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400013, 'normal_user_13', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400014, 'normal_user_14', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400015, 'normal_user_15', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400016, 'normal_user_16', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400017, 'normal_user_17', 'A', 143);
+
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400011', 400011, 1, 'user11');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400012', 400012, 1, 'user12');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400013', 400013, 1, 'user13');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400014', 400014, 1, 'user14');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400015', 400015, 1, 'user15');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400016', 400016, 1, 'user16');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400017', 400017, 1, 'user17');
+
+-- A UnitedStates address and a North Korea Address
+INSERT INTO 'informix'.address(address_id,address_type_id,address1,address2,city,state_code,zip,country_code,create_date,modify_date,address3,province) 
+VALUES (40000001, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO 'informix'.address(address_id,address_type_id,address1,address2,city,state_code,zip,country_code,create_date,modify_date,address3,province) 
+VALUES (40000002, 2, 'execution address', NULL, 'city', 'ME', '04043', '410', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+
+-- All users are from the US except 400014 who is from North Korea. User 400017 is missing country information
+INSERT INTO 'informix'.user_address_xref(user_id,address_id) VALUES (400011, 40000001);
+INSERT INTO 'informix'.user_address_xref(user_id,address_id) VALUES (400012, 40000001);
+INSERT INTO 'informix'.user_address_xref(user_id,address_id) VALUES (400013, 40000001);
+INSERT INTO 'informix'.user_address_xref(user_id,address_id) VALUES (400014, 40000002);
+INSERT INTO 'informix'.user_address_xref(user_id,address_id) VALUES (400015, 40000001);
+INSERT INTO 'informix'.user_address_xref(user_id,address_id) VALUES (400016, 40000001);
+
+-- fb400011 is part of Administrator group (group_id = 1)
+INSERT INTO 'informix'.security_user(login_id,user_id,password,create_user_id)
+VALUES (400011,'fb400011','4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO user_group_xref(user_group_id,login_id,group_id,create_user_id,security_status_id,create_date) 
+VALUES ((select max(user_group_id)+1 from user_group_xref), 400011, 1, 132456, 1, '2007-04-10 17:28:29.000');
+-- Contest 40000004 is only for admin group
+INSERT INTO contest_eligibility(contest_eligibility_id, contest_id, is_studio) VALUES(40000004, 40000004, 0); 
+INSERT INTO group_contest_eligibility(contest_eligibility_id, group_id) VALUES(40000004, 1);
+
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000001, 1, 20543, 1, 1);
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000001, 1, 20493, 2, 1);
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000001, 4, 20623, 3, 1);
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000001, 4, 20713, 4, 1);
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000001, 15, 20963, 5, 1);
+
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES (400011, 20543);
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES (400011, 20493);
+
+UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20543.txt' WHERE terms_of_use_id = 20543;
+UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20493.txt' WHERE terms_of_use_id = 20493;
+UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20623.txt' WHERE terms_of_use_id = 20623;
+UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20713.txt' WHERE terms_of_use_id = 20713;
+UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20963.txt' WHERE terms_of_use_id = 20963;
+
+DATABASE tcs_catalog;
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000001, 1, 1, 132456, CURRENT, 132456, CURRENT, 40000001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000001, 6, 'Software Contest With Registration Open', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000001, 40000001, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000002, 40000001, 2, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+
+-- Project with registration scheduled
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000002, 1, 1, 132456, CURRENT, 132456, CURRENT, 40000001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000002, 6, 'Software Contest With Registration Scheduled', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000003, 40000002, 1, 1, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000004, 40000002, 2, 1, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+
+-- Project with registration open but user (fb400012) is already registered
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000003, 1, 1, 132456, CURRENT, 132456, CURRENT, 40000001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000003, 6, 'Software Contest With Registration Open 2', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000005, 40000003, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000006, 40000003, 2, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO component_inquiry (component_inquiry_id, component_id, user_id, comment, agreed_to_terms, rating, phase, tc_user_id, version, create_time, project_id) VALUES (40000003, 40000003, 400012, null, 1, 497, 147, 400012, 0, CURRENT, 40000003);
+
+-- User fb400013 is suspended
+insert into user_status(user_id, user_status_type_id, user_status_id) values(400013, 1, 3);
+
+-- Project with custom eligibiliy requirements. User fb400011 fullfils but fb400012 does not
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000004, 1, 1, 132456, CURRENT, 132456, CURRENT, 40000001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000004, 6, 'Software Contest With Eligiblity Requirements', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000007, 40000004, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000008, 40000004, 2, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+-- Copilot posting project. User fb400011 is in copilot pool but fb400012 does not
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000005, 1, 29, 132456, CURRENT, 132456, CURRENT, 40000001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000005, 6, 'Copilot Posting Contest', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000009, 40000005, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000010, 40000005, 2, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+-- A copilot posting for a mobile project
+insert into project_copilot_type(project_id, project_copilot_type_id, create_user, create_date, modify_user, modify_date) VALUES(40000005, 3, 132456, CURRENT, 132456, CURRENT);
+
+-- User fb400011 is in the copilot pool
+insert into copilot_profile(copilot_profile_id, user_id, copilot_profile_status_id, suspension_count, reliability, create_user, create_date, update_user, update_date) values(40000001, 400011, 1, 0, 0.87, 132456, CURRENT, 132456, CURRENT);
+
+
+-- A tournament challenge
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000006, 1, 1, 132456, CURRENT, 132456, CURRENT, 40000001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000006, 6, 'Tournament Mashup Contest', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000011, 40000006, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000012, 40000006, 2, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(4001, 'The Great Mashup Challenge', 3437, CURRENT);
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(4001, 40000006, CURRENT);

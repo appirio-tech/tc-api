@@ -1,0 +1,10 @@
+delete from project_info where project_id > 40000000 and project_id < 40000020; 
+delete from project_phase where project_id > 40000000 and project_id < 40000020; 
+delete from component_inquiry where project_id > 40000000 and project_id < 40000020; 
+delete from project_copilot_type where project_id > 40000000 and project_id < 40000020;
+delete from copilot_profile where user_id > 400010 and user_id < 400020;
+delete from group_contest_eligibility where contest_eligibility_id > 40000000 and contest_eligibility_id < 40000020;
+delete from contest_eligibility where contest_id > 40000000 and contest_id < 40000020;
+delete from contest_project_xref where contest_id = 4001; 
+delete from contest where contest_id = 4001;
+delete from project where project_id > 40000000 and project_id < 40000020;

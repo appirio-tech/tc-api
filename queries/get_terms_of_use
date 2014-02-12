@@ -1,0 +1,8 @@
+SELECT 	tou.terms_of_use_id as terms_of_use_id,
+	tou.title, 
+	tou.url,
+	touat.name as agreeability_type,
+	tou.terms_text as text
+FROM terms_of_use tou 
+INNER JOIN terms_of_use_agreeability_type_lu touat ON touat.terms_of_use_agreeability_type_id = tou.terms_of_use_agreeability_type_id
+WHERE tou.terms_of_use_id = @termsOfUseId@

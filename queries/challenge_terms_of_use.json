@@ -1,0 +1,5 @@
+{
+    "name"    : "challenge_terms_of_use",
+    "db"      : "common_oltp",
+    "sqlfile" : "challenge_terms_of_use"
+}
