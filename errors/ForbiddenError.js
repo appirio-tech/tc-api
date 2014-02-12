@@ -4,27 +4,27 @@
 "use strict";
 
 /**
- * This file defines UnauthorizedError
+ * This file defines ForbiddenError
  *
  * @author Sky_
  * @version 1.0
  */
 
 /**
- * Constructor of UnauthorizedError
+ * Constructor of ForbiddenError
  * @param {Object} message the error message
  * @param {Object} cause the error cause
  */
-var UnauthorizedError = function (message, cause) {
+var ForbiddenError = function (message, cause) {
     //captureStackTrace
     Error.call(this);
     Error.captureStackTrace(this);
-    this.message = message || "Unauthorized Error";
+    this.message = message || "Forbidden Error";
     this.cause = cause;
 };
 
 //use Error as prototype
-require('util').inherits(UnauthorizedError, Error);
-UnauthorizedError.prototype.name = 'Unauthorized Error';
+require('util').inherits(ForbiddenError, Error);
+ForbiddenError.prototype.name = 'Forbidden Error';
 
-module.exports = UnauthorizedError;
+module.exports = ForbiddenError;

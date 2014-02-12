@@ -1,12 +1,14 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author Sky_, muzehyun
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
  * - add generateAuthHeader method.
+ * changes in 1.3:
+ * - add getAdminJwt and getMemberJwt
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -19,6 +21,8 @@ var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
+var CLIENT_ID = require('../../config').configData.general.oauthClientId;
+var SECRET = require('../../config').configData.general.oauthClientSecret;
 
 /**
  * The test helper
@@ -53,18 +57,18 @@ var SECRET = configs.configData.general.oauthClientSecret;
  * @return {Object} the created connection
  */
 function createConnection(databaseName) {
-    var error, dbServerPrefix = configs.configData.databaseMapping[databaseName],
-        user, password, hostname, server, port, settings;
+    var dbServerPrefix = configs.configData.databaseMapping[databaseName], user,
+        password, hostname, server, port, settings;
 
     if (!dbServerPrefix) {
         throw new Error("database server prefix not found for database: " + databaseName);
     }
 
-    user = eval('process.env.' + dbServerPrefix + "_USER");
-    password = eval('process.env.' + dbServerPrefix + "_PASSWORD");
-    hostname = eval('process.env.' + dbServerPrefix + "_HOST");
-    server = eval('process.env.' + dbServerPrefix + "_NAME");
-    port = eval('process.env.' + dbServerPrefix + "_PORT");
+    user =  process.env[dbServerPrefix + "_USER"];
+    password = process.env[dbServerPrefix + "_PASSWORD"];
+    hostname = process.env[dbServerPrefix + "_HOST"];
+    server = process.env[dbServerPrefix + "_NAME"];
+    port = process.env[dbServerPrefix + "_PORT"];
 
     // Initialize the database settings
     settings = {
@@ -107,8 +111,10 @@ helper.runSqlQueries = function (queries, databaseName, callback) {
 
             connection.query(query, cb, {
                 start: function (q) {
+                    return;
                 },
                 finish: function (f) {
+                    return;
                 }
             }).execute();
         }, function (err) {
@@ -151,8 +157,10 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
             },
                 {
                     start: function (q) {
+                        return;
                     },
                     finish: function (f) {
+                        return;
                     }
                 }).execute();
         }
@@ -341,6 +349,22 @@ helper.getTrimmedData = function (text) {
  */
 helper.generateAuthHeader = function (data) {
     return "Bearer " + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+};
+
+/**
+ * Get jwt token for admin
+ * @return {String} the header
+ */
+helper.getAdminJwt = function () {
+    return jwt.sign({sub: "ad|132456"}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+};
+
+/**
+ * Get jwt token for member
+ * @return {String} the jwt token
+ */
+helper.getMemberJwt = function () {
+    return jwt.sign({sub: "ad|132458"}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 };
 
 module.exports = helper;
