@@ -102,7 +102,7 @@ describe('Get Tops API', function () {
                 }
                 var body = res.body, expected = require("./test_files/" + file);
                 delete body.serverInformation;
-                delete body.requestorInformation;
+                delete body.requesterInformation;
                 assert.deepEqual(body, expected, "Invalid response");
                 done();
             });

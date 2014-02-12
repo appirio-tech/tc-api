@@ -41,10 +41,10 @@
         "chai": "1.8.1"
     },
     "scripts": {
-        "start": "node ./node_modules/.bin/actionHero start &",
+        "start": "node ./node_modules/.bin/actionhero start &",
         "test" : "node_modules/.bin/mocha --recursive ./test",
-        "startCluster": "node ./node_modules/.bin/actionHero startCluster",
-        "actionHero": "node ./node_modules/.bin/actionHero",
-        "help": "node ./node_modules/.bin/actionHero help"
+        "startCluster": "node ./node_modules/.bin/actionhero startCluster",
+        "actionHero": "node ./node_modules/.bin/actionhero",
+        "help": "node ./node_modules/.bin/actionhero help"
     }
 }
