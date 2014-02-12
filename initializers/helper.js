@@ -6,7 +6,8 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.7 * changes in 1.1:
+ * @version 1.8 
+ * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -22,14 +23,30 @@
  * - fix creating optional function for validation (to pass js lint)
  * changes in 1.7:
  * - add contestTypes
+ * changes in 1.8:
+ * - added a platform independent startsWith version to String prototype
+ * - added more error types to handleError method
  */
 "use strict";
+
+/**
+ * This method adds platform independent startsWith function to String, if it not exists already.
+ * @author TCSASSEMBLER
+ * @since 1.8
+ */
+if (typeof String.prototype.startsWith !== 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.indexOf(str) === 0;
+    };
+}
 
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
+var ForbiddenError = require('../errors/ForbiddenError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var helper = {};
 var crypto = require("crypto");
 
@@ -589,6 +606,12 @@ helper.handleError = function (api, connection, err) {
     }
     if (err instanceof NotFoundError) {
         baseError = helper.apiCodes.notFound;
+    }
+    if (err instanceof UnauthorizedError) {
+        baseError = helper.apiCodes.unauthorized;
+    }
+    if (err instanceof ForbiddenError) {
+        baseError = helper.apiCodes.forbidden;
     }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;

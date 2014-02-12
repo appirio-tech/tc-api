@@ -17,7 +17,7 @@
  * Changes in 1.6:
  * - add route oauth test
  * Changes in 1.7:
- * - add route oauth
+ * - added routes for terms api 
  */
 
 /* ---------------------
@@ -114,6 +114,9 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
 
+        { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
+        { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
+
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
@@ -128,7 +131,6 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/users", action: "memberRegister" },
-        { path: "/:apiVersion/auth", action: "generateJwt" }
+        { path: "/:apiVersion/users", action: "memberRegister" }
     ]
 };

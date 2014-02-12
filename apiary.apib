@@ -3718,3 +3718,155 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Terms of Use for a challenge [/terms/{challengeId}]
+### Terms of Use for a challenge [GET]
+
++ Parameters
+    + challengeId (required, number, `1234567`) ... The challenge for which to get terms of use
+
++ Response 200 (application/json)
+
+	  "terms": [
+		{
+		  "agreeabilityType": "Electronically-agreeable",
+		  "agreed": true,
+		  "title": "NodeJS API Sample Term Of Use 1",
+		  "termsOfUseId": 40000001,
+		  "url": "http://topcoder.com/tou40000001.txt"
+		},
+		{
+		  "agreeabilityType": "Electronically-agreeable",
+		  "agreed": true,
+		  "title": "NodeJS API Sample Term Of Use 2",
+		  "termsOfUseId": 40000002,
+		  "url": "http://topcoder.com/tou40000002.txt"
+		},
+		{
+		  "agreeabilityType": "Electronically-agreeable",
+		  "agreed": false,
+		  "title": "NodeJS API Sample Term Of Use 3",
+		  "termsOfUseId": 40000003,
+		  "url": "http://topcoder.com/tou40000003.txt"
+		},
+		{
+		  "agreeabilityType": "Non-electronically-agreeable",
+		  "agreed": false,
+		  "title": "NodeJS API Sample Term Of Use 4",
+		  "termsOfUseId": 40000004,
+		  "url": "http://topcoder.com/tou40000004.txt"
+		},
+		{
+		  "agreeabilityType": "Non-electronically-agreeable",
+		  "agreed": false,
+		  "title": "NodeJS API Sample Term Of Use 5",
+		  "termsOfUseId": 40000005,
+		  "url": "http://topcoder.com/tou40000005.txt"
+		}
+	  ]
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Terms of Use [/terms/detail/{termsOfUseId}]
+### Terms of Use by id [GET]
+
++ Parameters
+    + termsOfUseId (required, number, `534532`) ... The id of terms of use
+
++ Response 200 (application/json)
+
+		{
+		  "agreeabilityType": "Electronically-agreeable",
+		  "text": "This is the text of Term Of Use 1",
+		  "title": "NodeJS API Sample Term Of Use 1",
+		  "termsOfUseId": 40000001,
+		  "url": "http://topcoder.com/tou40000001.txt"
+		}
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }

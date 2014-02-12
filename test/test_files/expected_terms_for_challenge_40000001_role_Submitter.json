@@ -1,0 +1,18 @@
+{
+  "terms": [
+    {
+      "agreeabilityType": "Electronically-agreeable",
+      "agreed": false,
+      "title": "Submitter terms of use text 20543",
+      "termsOfUseId": 20543,
+      "url": "http://topcoder.com/terms/20543.txt"
+    },
+    {
+      "agreeabilityType": "Electronically-agreeable",
+      "agreed": false,
+      "title": "Another terms of use text",
+      "termsOfUseId": 20493,
+      "url": "http://topcoder.com/terms/20493.txt"
+    }
+  ]
+}

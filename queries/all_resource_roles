@@ -1,0 +1,1 @@
+select resource_role_id, name from resource_role_lu
