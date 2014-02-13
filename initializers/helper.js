@@ -878,7 +878,7 @@ helper.checkDateFormat = function (date, format, objName) {
  * @return {Error} if user is not admin
  */
 helper.checkAdmin = function (connection) {
-    if (!connection.caller || connection.caller.accessLevel === "anon") {
+    if (!connection.caller || connection.caller.accessLevel === "anon" ||  connection.caller.accessLevel === "member") {
         return new UnauthorizedError();
     }
     if (connection.caller.accessLevel === "admin") {
