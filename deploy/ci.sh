@@ -54,4 +54,6 @@ export MAXPOOL=20
 export MAXSIZE=0
 export IDLETIMEOUT=3600
 export TIMEOUT=3000
-
+# Used in Jira soap service (Bugs API)
+export JIRA_USERNAME=api_test
+export JIRA_PASSWORD=8CDDp6BHLtUeUdD

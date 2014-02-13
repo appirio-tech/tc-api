@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.8
+ * @version 1.9
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -27,8 +27,22 @@
  * - add checkDateFormat
  * - add checkAdmin
  * - change handleError to support UnauthorizedError and ForbiddenError
+ * changes in 1.9:
+ * - added a platform independent startsWith version to String prototype
+ * - added more error types to handleError method
  */
 "use strict";
+
+/**
+ * This method adds platform independent startsWith function to String, if it not exists already.
+ * @author TCSASSEMBLER
+ * @since 1.8
+ */
+if (typeof String.prototype.startsWith !== 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.indexOf(str) === 0;
+    };
+}
 
 var async = require('async');
 var _ = require('underscore');
@@ -864,7 +878,7 @@ helper.checkDateFormat = function (date, format, objName) {
  * @return {Error} if user is not admin
  */
 helper.checkAdmin = function (connection) {
-    if (!connection.caller || connection.caller.accessLevel === "anon") {
+    if (!connection.caller || connection.caller.accessLevel === "anon" ||  connection.caller.accessLevel === "member") {
         return new UnauthorizedError();
     }
     if (connection.caller.accessLevel === "admin") {

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
+ * @version 1.8
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141
  * @changes from 1.0
  * merged with Member Registration API
@@ -19,6 +19,10 @@
  * 1. Update the logic when get results from database since the query has been updated.
  * changes in 1.6:
  * merge the backend logic of search software challenges and studio challenges together.
+ * changes in 1.7:
+ * support private challenge for get software/studio challenge detail api.
+ * changes in 1.8:
+ * Added methods for getting terms of use by challenge or directly by id
  */
 "use strict";
 
@@ -27,7 +31,10 @@ var async = require('async');
 var S = require('string');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
+var ForbiddenError = require('../errors/ForbiddenError');
+var BadRequestError = require('../errors/BadRequestError');
 
 /**
  * Represents the sort column value. This value will be used in log, check, get information from request etc.
@@ -91,6 +98,11 @@ LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
 LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
 LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
 LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
+
+/**
+ * This copilot posting project type id
+ */
+var COPILOT_POSTING_PROJECT_TYPE = 29;
 
 /**
  * This method will used to check the query parameter and sort column of the request.
@@ -385,7 +397,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
 var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
-    var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software;
+    var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software,
+        caller = connection.caller;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
@@ -396,8 +409,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
             sqlParams = {
                 challengeId: connection.params.contestId,
-                project_type_id: challengeType.category
+                project_type_id: challengeType.category,
+                user_id: caller.userId || 0
             };
+
+            // Do the private check.
+            api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result[0].is_private && !result[0].has_access) {
+                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
+                return;
+            }
 
             var execQuery = function (name) {
                 return function (cbx) {
@@ -624,6 +646,262 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
         next(connection, true);
     });
 };
+
+/**
+ * Gets the challenge terms for the current user given the challenge id and an optional role.
+ * 
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ * @since 1.7
+ */
+var getChallengeTerms = function (api, connection, dbConnectionMap, next) {
+
+    //Check if the user is logged-in
+    if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
+            _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
+        api.helper.handleError(api, connection, new UnauthorizedError("Authentication details missing or incorrect."));
+        next(connection, true);
+        return;
+    }
+
+    var helper = api.helper,
+        sqlParams = {},
+        result = {},
+        userId = connection.caller.userId,
+        challengeId = Number(connection.params.challengeId),
+        role = connection.params.role;
+
+    async.waterfall([
+        function (cb) {
+
+            //Simple validations of the incoming parameters
+            var error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            //Check if the user passes validations for joining the challenge
+            sqlParams.userId = userId;
+            sqlParams.challengeId = challengeId;
+
+            api.dataAccess.executeQuery("challenge_registration_validations", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('No such challenge exists.'));
+                return;
+            }
+
+            if (!rows[0].no_elgibility_req && !rows[0].user_in_eligible_group) {
+                cb(new ForbiddenError('You are not part of the groups eligible for this challenge.'));
+                return;
+            }
+
+            if (!rows[0].reg_open) {
+                cb(new ForbiddenError('Registration Phase of this challenge is not open.'));
+                return;
+            }
+
+            if (rows[0].user_registered) {
+                cb(new ForbiddenError('You are already registered for this challenge.'));
+                return;
+            }
+
+            if (rows[0].user_suspended) {
+                cb(new ForbiddenError('You cannot participate in this challenge due to suspension.'));
+                return;
+            }
+
+            if (rows[0].user_country_missing_or_banned) {
+                cb(new ForbiddenError('You cannot participate in this challenge as your country information is either missing or is banned.'));
+                return;
+            }
+
+            if (rows[0].project_category_id === COPILOT_POSTING_PROJECT_TYPE) {
+                if (!rows[0].user_is_copilot && rows[0].copilot_type.indexOf("Marathon Match") < 0) {
+                    cb(new ForbiddenError('You cannot participate in this challenge because you are not an active member of the copilot pool.'));
+                    return;
+                }
+            }
+
+            // We are here. So all validations have passed.
+            // Next we get all roles
+            api.dataAccess.executeQuery("all_resource_roles", {}, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            // Prepare a comma separated string of resource role names that must match
+            var commaSepRoleIds = "",
+                compiled = _.template("<%= resource_role_id %>,"),
+                ctr = 0,
+                resourceRoleFound;
+            if (_.isUndefined(role)) {
+                rows.forEach(function (row) {
+                    commaSepRoleIds += compiled({resource_role_id: row.resource_role_id});
+                    ctr += 1;
+                    if (ctr === rows.length) {
+                        commaSepRoleIds = commaSepRoleIds.slice(0, -1);
+                    }
+                });
+            } else {
+                resourceRoleFound = _.find(rows, function (row) {
+                    return (row.name === role);
+                });
+                if (_.isUndefined(resourceRoleFound)) {
+                    //The role passed in is not recognized
+                    cb(new BadRequestError("The role: " + role + " was not found."));
+                    return;
+                }
+                commaSepRoleIds = resourceRoleFound.resource_role_id;
+            }
+
+            // Get the terms
+            sqlParams.resourceRoleIds = commaSepRoleIds;
+            api.dataAccess.executeQuery("challenge_terms_of_use", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            //We could just have down result.data = rows; but we need to change keys to camel case as per requirements
+            var camelCaseMap = {
+                'agreeability_type': 'agreeabilityType',
+                'terms_of_use_id': 'termsOfUseId'
+            };
+            result.terms = [];
+            _.each(rows, function (row) {
+                var item = {};
+                _.each(row, function (value, key) {
+                    key = camelCaseMap[key] || key;
+                    item[key] = value;
+                });
+                result.terms.push(item);
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * Gets the term details given the term id. 
+ * 
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ * @since 1.7
+ */
+var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
+
+    //Check if the user is logged-in
+    if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
+            _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
+        api.helper.handleError(api, connection, new UnauthorizedError("Authentication details missing or incorrect."));
+        next(connection, true);
+        return;
+    }
+
+    var helper = api.helper,
+        sqlParams = {},
+        result = {},
+        termsOfUseId = Number(connection.params.termsOfUseId);
+
+    async.waterfall([
+        function (cb) {
+
+            //Simple validations of the incoming parameters
+            var error = helper.checkPositiveInteger(termsOfUseId, 'termsOfUseId') ||
+                helper.checkMaxNumber(termsOfUseId, MAX_INT, 'termsOfUseId');
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            sqlParams.termsOfUseId = termsOfUseId;
+            api.dataAccess.executeQuery("get_terms_of_use", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('No such terms of use exists.'));
+                return;
+            }
+
+            //We could just have result = rows[0]; but we need to change keys to camel case as per requirements
+            var camelCaseMap = {
+                'agreeability_type': 'agreeabilityType',
+                'terms_of_use_id': 'termsOfUseId'
+            };
+            _.each(rows[0], function (value, key) {
+                key = camelCaseMap[key] || key;
+                result[key] = value;
+            });
+
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * The API for getting challenge terms of use
+ */
+exports.getChallengeTerms = {
+    name: "getChallengeTerms",
+    description: "getChallengeTerms",
+    inputs: {
+        required: ["challengeId"],
+        optional: ["role"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getChallengeTerms#run", 'debug');
+            getChallengeTerms(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for getting terms of use by id
+ */
+exports.getTermsOfUse = {
+    name: "getTermsOfUse",
+    description: "getTermsOfUse",
+    inputs: {
+        required: ["termsOfUseId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getTermsOfUse#run", 'debug');
+            getTermsOfUse(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
 
 /**
  * The API for getting challenge

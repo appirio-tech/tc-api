@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.2
@@ -6,6 +6,8 @@
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
+ * - add generateAuthHeader method.
+ * changes in 1.3:
  * - add getAdminJwt and getMemberJwt
  */
 "use strict";
@@ -42,6 +44,12 @@ var DEFAULT_MAXPOOL = 60;
 var DEFAULT_MAXSIZE = 0;
 var DEFAULT_IDLETIMEOUT = 3600; // 3600s
 var DEFAULT_TIMEOUT = 30000; // 30s
+
+/**
+ * client id and secret.
+ */
+var CLIENT_ID = configs.configData.general.oauthClientId;
+var SECRET = configs.configData.general.oauthClientSecret;
 
 /**
  * create connection for given database
@@ -332,6 +340,15 @@ helper.getTrimmedData = function (text) {
     delete ret.serverInformation;
     delete ret.requestorInformation;
     return ret;
+};
+
+/**
+ * Generate an auth header
+ * @param {Object} data the data to generate
+ * @return {String} the generated string
+ */
+helper.generateAuthHeader = function (data) {
+    return "Bearer " + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 };
 
 /**

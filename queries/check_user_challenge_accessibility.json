@@ -1,0 +1,5 @@
+{
+    "name"    : "check_user_challenge_accessibility",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "check_user_challenge_accessibility"
+}
