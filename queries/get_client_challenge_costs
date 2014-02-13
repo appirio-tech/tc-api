@@ -20,6 +20,6 @@ INNER JOIN tcs_dw:direct_project_dim d ON p.tc_direct_project_id = d.direct_proj
 WHERE p.complete_date is not null AND p.posting_date is not null
 AND Date(p.complete_date) BETWEEN TO_DATE('@sdt@', '%Y-%m-%d') AND TO_DATE('@edt@', '%Y-%m-%d')
 AND c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
-AND c.cmc_account_id = DECODE('@cmc_account_id@', '', c.cmc_account_id, '@cmc_account_id@')
+AND nvl(c.cmc_account_id, '') = DECODE('@cmc_account_id@', '', nvl(c.cmc_account_id, ''), '@cmc_account_id@')
 AND p.status_id in (4, 5, 6, 7, 8, 11)
 AND p.project_category_id not in (29)
