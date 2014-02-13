@@ -20,8 +20,8 @@ var jwt = require('jsonwebtoken');
 var testHelper = require('./helpers/testHelper');
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var CLIENT_ID = require('../config').configData.general.oauthClientId;
-var SECRET = require('../config').configData.general.oauthClientSecret;
+var CLIENT_ID = require('../config').config.general.oauthClientId;
+var SECRET = require('../config').config.general.oauthClientSecret;
 var COMMON_OLTP = "common_oltp";
 var SQL_DIR = __dirname + "/sqls/oauth/";
 
@@ -107,7 +107,7 @@ describe('Test Oauth', function () {
                 assert.ok(res.body);
                 var response = res.body;
                 delete response.serverInformation;
-                delete response.requestorInformation;
+                delete response.requesterInformation;
                 assert.deepEqual(response, expectedResponse);
                 done(err);
             });

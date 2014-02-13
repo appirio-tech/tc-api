@@ -1,19 +1,19 @@
 {
-  "author": "TCASSEMBLER",
-  "name": "tcapi",
-  "description": "",
-  "version": "0.0.1",
-  "homepage": "",
-  "repository": {
-    "type": "",
-    "url": ""
-  },
-  "keywords": "",
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "dependencies": {
-        "actionhero": "6.4.4",
+    "author": "TCASSEMBLER",
+    "name": "tcapi",
+    "description": "",
+    "version": "0.0.1",
+    "homepage": "",
+    "repository": {
+        "type": "",
+        "url": ""
+    },
+    "keywords": "",
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "dependencies": {
+        "actionhero": "7.6.2",
         "xml2js": "0.2.8",
         "async": "0.2.9",
         "underscore" : "1.5.2",
@@ -41,10 +41,10 @@
         "chai": "1.8.1"
     },
     "scripts": {
-        "start": "node ./node_modules/.bin/actionHero start &",
+        "start": "node ./node_modules/.bin/actionhero start &",
         "test" : "node_modules/.bin/mocha --recursive ./test",
-        "startCluster": "node ./node_modules/.bin/actionHero startCluster",
-        "actionHero": "node ./node_modules/.bin/actionHero",
-        "help": "node ./node_modules/.bin/actionHero help"
+        "startCluster": "node ./node_modules/.bin/actionhero startCluster",
+        "actionHero": "node ./node_modules/.bin/actionhero",
+        "help": "node ./node_modules/.bin/actionhero help"
     }
 }

@@ -81,7 +81,7 @@ function getSoapClient(api, callback) {
     if (soapClient) {
         callback(null, soapClient);
     } else {
-        soap.createClient(api.configData.general.jiraWsdlUrl, {}, function (err, client) {
+        soap.createClient(api.config.general.jiraWsdlUrl, {}, function (err, client) {
             soapClient = client;
             callback(err, soapClient);
         });
@@ -103,8 +103,8 @@ function getAuthToken(api, callback) {
             getSoapClient(api, cb);
         }, function (client, cb) {
             client.login({
-                in0: api.configData.general.jiraUsername,
-                in1: api.configData.general.jiraPassword
+                in0: api.config.general.jiraUsername,
+                in1: api.config.general.jiraPassword
             }, cb);
         }
     ], function (err, result) {
