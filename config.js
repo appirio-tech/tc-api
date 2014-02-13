@@ -60,7 +60,8 @@ config.general = {
     oauthDomain: process.env.OAUTH_DOMAIN || "sma",
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
-    jiraPassword: process.env.JIRA_PASSWORD
+    jiraPassword: process.env.JIRA_PASSWORD,
+    filteredParams: ['password']
 };
 
 /////////////
