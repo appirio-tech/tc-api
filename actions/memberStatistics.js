@@ -82,8 +82,8 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
             handle: handle
         },
         result,
-        badgeProperties = api.configData.badge.properties,
-        badgeLink = api.configData.badge.link;
+        badgeProperties = api.config.badge.properties,
+        badgeLink = api.config.badge.link;
 
     async.waterfall([
         function (cb) {

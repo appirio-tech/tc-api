@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
- * @author vangavroche, TCSASSEMBLER, Ghost_141
+ * @version 1.6
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -12,6 +12,8 @@
  * changes in 1.4:
  * - add oauthConnection and oauthDomain parameters
  * changes in 1.5:
+ * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
+ * changes in 1.6:
  * - add corporate_oltp in database mapping.
  */
 "use strict";
@@ -22,13 +24,13 @@
 var fs = require('fs');
 var cluster = require('cluster');
 
-var configData = {};
+var config = {};
 
 /////////////////////////
 // General Information //
 /////////////////////////
 
-configData.general = {
+config.general = {
     apiVersion : "0.0.1",
     serverName : "TopCoder API",
     // id: "myActionHeroServer",                                    // id can be set here, or it will be generated dynamically.  Be sure that every server you run has a unique ID (which will happen when genrated dynamically)
@@ -53,24 +55,28 @@ configData.general = {
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
-    oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
+    oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
     oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
-    oauthDomain: process.env.OAUTH_DOMAIN || "sma"
+    oauthDomain: process.env.OAUTH_DOMAIN || "sma",
+    jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
+    jiraUsername: process.env.JIRA_USERNAME,
+    jiraPassword: process.env.JIRA_PASSWORD,
+    filteredParams: ['password']
 };
 
 /////////////
 // logging //
 /////////////
 
-configData.logger = {
+config.logger = {
     transports : []
 };
 
 // console logger
 if (cluster.isMaster && !process.env.DISABLE_CONSOLE_LOG) {
-    configData.logger.transports.push(function (api, winston) {
+    config.logger.transports.push(function (api, winston) {
         return new (winston.transports.Console)({
             colorize : true,
             level : "debug",
@@ -87,9 +93,9 @@ fs.mkdir("./log", function (err) {
     }
 });
 
-configData.logger.transports.push(function (api, winston) {
+config.logger.transports.push(function (api, winston) {
     return new (winston.transports.File)({
-        filename : configData.general.paths.log + "/" + api.pids.title + '.log',
+        filename : config.general.paths.log + "/" + api.pids.title + '.log',
         level : "debug",
         json : false,
         timestamp : true
@@ -100,7 +106,7 @@ configData.logger.transports.push(function (api, winston) {
 // Stats //
 ///////////
 
-configData.stats = {
+config.stats = {
     // how often should the server write its stats to redis?
     writeFrequency: 300000, //every five min
     // what redis key(s) [hash] should be used to store stats?
@@ -114,7 +120,7 @@ configData.stats = {
 // Redis //
 ///////////
 
-configData.redis = {
+config.redis = {
     fake : !(process.env.REDIS_HOST && process.env.REDIS_HOST !== '127.0.0.1'),
     host : process.env.REDIS_HOST || "127.0.0.1",
     port : process.env.REDIS_PORT || 6379,
@@ -127,10 +133,30 @@ configData.redis = {
 // FAYE //
 //////////
 
-configData.faye = {
+config.faye = {
     mount : "/faye",
     timeout : 45,
-    ping : null
+    ping : null,
+    redis: config.redis,
+    namespace: 'faye:'
+};
+
+///////////
+// TASKS //
+///////////
+
+// see https://github.com/taskrabbit/node-resque for more information / options
+config.tasks = {
+  // Should this node run a scheduler to promote delayed tasks?
+    scheduler: false,
+  // what queues should the workers work and how many to spawn?
+  //  ['*'] is one worker working the * queue
+  //  ['high,low'] is one worker working 2 queues
+    queues: [],
+  // how long to sleep between jobs / scheduler checks
+    timeout: 5000,
+  // What redis server should we connect to for tasks / delayed jobs?
+    redis: config.redis
 };
 
 /////////////
@@ -139,7 +165,7 @@ configData.faye = {
 
 // uncomment the section to enable the server
 
-configData.servers = {
+config.servers = {
     "web" : {
         secure : false,                         // HTTP or HTTPS?
         serverOptions : {},                     // Passed to https.createServer if secure=ture. Should contain SSL certificates
@@ -181,7 +207,7 @@ configData.servers = {
 /**
  * A mapping indicating which database belongs to which database server.
  */
-configData.databaseMapping = {
+config.databaseMapping = {
     "common_oltp" : "TC_DB",
     "informixoltp" : "TC_DB",
     "tcs_catalog" : "TC_DB",
@@ -193,16 +219,16 @@ configData.databaseMapping = {
 /**
  * The badge config data.
  */
-configData.badge = {};
+config.badge = {};
 
 /**
  * The badge image link.
  */
-configData.badge.link = 'http://topcoder.com/images/badge.grid.small.png';
+config.badge.link = 'http://topcoder.com/images/badge.grid.small.png';
 /**
  * A mapping indicating the badge properties.
  */
-configData.badge.properties = {
+config.badge.properties = {
     1: {
         "left": 0,
         "top": 0
@@ -489,7 +515,7 @@ configData.badge.properties = {
     }
 };
 
-configData.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
 //////////////////////////////////
 
-exports.configData = configData;
+exports.config = config;

@@ -187,7 +187,7 @@
     "requestDuration": 3857,
     "currentTime": 1387099718890
   },
-  "requestorInformation": {
+  "requesterInformation": {
     "id": "1d552a5c50f1855de1fad46f287881137530667e",
     "remoteIP": "192.168.1.3",
     "receivedParams": {

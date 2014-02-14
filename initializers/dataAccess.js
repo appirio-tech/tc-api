@@ -174,7 +174,7 @@ exports.dataAccess = function (api, next) {
          * @return {Object} the created connection.
          */
         createConnection : function (databaseName) {
-            var error, dbServerPrefix = configs.configData.databaseMapping[databaseName],
+            var error, dbServerPrefix = configs.config.databaseMapping[databaseName],
                 user, password, hostname, server, port, settings;
             error = helper.checkDefined(dbServerPrefix, "database server prefix");
             if (error) {

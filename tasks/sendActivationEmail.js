@@ -48,6 +48,7 @@ var sendActivationEmail = {
     description: 'I will send activation Email',
     scope: 'any',
     frequency: 0,
+    queue: '',
     /**
      * Main function of addLdapEntry tasks
      *
@@ -59,11 +60,11 @@ var sendActivationEmail = {
     run: function (api, params, next) {
         api.log('Enter sendActivationEmail task#run', 'info');
         var index, transport, locals, message, requiredParams = ['subject', 'activationCode',
-            'template', 'toAddress', 'senderName', 'url'];
+            'template', 'toAddress', 'senderName', 'url'], err;
 
         for (index = 0; index < requiredParams.length; index += 1) {
-            var err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
-            
+            err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+
             if (err) {
                 api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
                 return next(null, true);

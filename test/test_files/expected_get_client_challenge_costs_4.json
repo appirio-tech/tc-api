@@ -1,0 +1,21 @@
+{
+    "history": [
+        {
+            "customerName": "test client 2",
+            "customerId": 2,
+            "projectName": "project 2",
+            "sfdcAccountId": "cmc2",
+            "challengeName": "challenge 4",
+            "challengeId": 500202,
+            "challengeType": "challenge type 1",
+            "challengeStatus": "status 1",
+            "postingDate": "2014-01-05",
+            "completionDate": "2014-01-09",
+            "challengeFulfillment": 70,
+            "challengeMemberCost": 1500,
+            "challengeFee": 200,
+            "challengeTotalCost": 1700,
+            "challengeDuration": 10
+        }
+    ]
+}

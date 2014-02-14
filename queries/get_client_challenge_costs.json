@@ -1,0 +1,5 @@
+{
+  "name"    : "get_client_challenge_costs",
+  "db"      : "tcs_dw",
+  "sqlfile" : "get_client_challenge_costs"
+}

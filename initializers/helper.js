@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.8
+ * @version 1.9
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -24,9 +24,25 @@
  * changes in 1.7:
  * - add contestTypes
  * changes in 1.8:
- * Add support for unauthorized error.
+ * - add checkDateFormat
+ * - add checkAdmin
+ * - change handleError to support UnauthorizedError and ForbiddenError
+ * changes in 1.9:
+ * - added a platform independent startsWith version to String prototype
+ * - added more error types to handleError method
  */
 "use strict";
+
+/**
+ * This method adds platform independent startsWith function to String, if it not exists already.
+ * @author TCSASSEMBLER
+ * @since 1.8
+ */
+if (typeof String.prototype.startsWith !== 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.indexOf(str) === 0;
+    };
+}
 
 var async = require('async');
 var _ = require('underscore');
@@ -34,8 +50,10 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
+var ForbiddenError = require('../errors/ForbiddenError');
 var helper = {};
 var crypto = require("crypto");
+var moment = require("moment");
 
 /**
  * software type.
@@ -597,6 +615,9 @@ helper.handleError = function (api, connection, err) {
     if (err instanceof UnauthorizedError) {
         baseError = helper.apiCodes.unauthorized;
     }
+    if (err instanceof ForbiddenError) {
+        baseError = helper.apiCodes.forbidden;
+    }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;
     connection.rawConnection.responseHttpCode = baseError.value;
@@ -834,6 +855,41 @@ helper.getColorStyle = function (rating) {
     }
     // return black otherwise.
     return "color: #000000";
+};
+
+
+/**
+ * Check whether given date is in the given format
+ * @param {String} date the date to check
+ * @param {String} format the date format
+ * @param {String} objName the object name.
+ * @return {Error} if input not valid.
+ */
+helper.checkDateFormat = function (date, format, objName) {
+    if (moment(date, format, true).isValid()) {
+        return null;
+    }
+    return new IllegalArgumentError("Invalid " + objName + ". Expected format is " + format);
+};
+
+/**
+ * Check whether given user is Admin or not
+ * @param connection
+ * @return {Error} if user is not admin
+ */
+helper.checkAdmin = function (connection) {
+    if (!connection.caller || connection.caller.accessLevel === "anon") {
+        return new UnauthorizedError();
+    }
+
+    if (connection.caller.accessLevel === "member") {
+        return new ForbiddenError();
+    }
+
+    if (connection.caller.accessLevel === "admin") {
+        return null;
+    }
+    return new ForbiddenError();
 };
 
 /**
