@@ -108,8 +108,7 @@ describe('Get Terms Of Use API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
-        // clearDb(done);
-        done();
+        clearDb(done);
     });
 
     /**
@@ -132,7 +131,7 @@ describe('Get Terms Of Use API', function () {
                 }
                 var body = res.body, expected = require('./test_files/' + name + '.json');
                 delete body.serverInformation;
-                delete body.requestorInformation;
+                delete body.requesterInformation;
                 assert.deepEqual(body, expected);
                 cb();
             });

@@ -381,7 +381,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Check the private challenge access
             api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
-            if (results.privateCheck.length === 0) {
+            if (results.length === 0) {
                 // Return error if the user is not allowed to a specific group(communityId is set)
                 // or any group(communityId is not set).
                 cb(new UnauthorizedError('You\'re not belong to this group.'));

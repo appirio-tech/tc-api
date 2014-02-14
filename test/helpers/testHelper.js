@@ -1,8 +1,8 @@
-/*
+﻿/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author Sky_, muzehyun
+ * @version 1.3
+ * @author Sky_, muzehyun, Ghost_141
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
@@ -21,8 +21,6 @@ var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
-var CLIENT_ID = require('../../config').config.general.oauthClientId;
-var SECRET = require('../../config').config.general.oauthClientSecret;
 
 /**
  * The test helper
@@ -331,21 +329,7 @@ helper.decodePassword = function (password, key) {
 };
 
 /**
-<<<<<<< HEAD
- * Generate an auth header
- * @param {Object} data the data to generate
- * @return {String} the generated string
- * @since
- */
-helper.generateAuthHeader = function (data) {
-    return "Bearer " + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
-};
-
-/**
- * Convert text to JSON object and removes serverInformation and requestorInformation
-=======
  * Convert text to JSON object and removes serverInformation and requesterInformation
->>>>>>> upstream/master
  * @param {String} text - returned text data
  * @return {Object} trimmed object
  */
