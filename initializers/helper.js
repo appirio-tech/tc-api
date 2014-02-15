@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.8
+ * @version 1.9
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -24,10 +24,25 @@
  * changes in 1.7:
  * - add contestTypes
  * changes in 1.8:
+ * - add checkDateFormat
+ * - add checkAdmin
  * - change handleError to support UnauthorizedError and ForbiddenError
- * - add checkMaxInt
+ * changes in 1.9:
+ * - added a platform independent startsWith version to String prototype
+ * - added more error types to handleError method
  */
 "use strict";
+
+/**
+ * This method adds platform independent startsWith function to String, if it not exists already.
+ * @author TCSASSEMBLER
+ * @since 1.8
+ */
+if (typeof String.prototype.startsWith !== 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.indexOf(str) === 0;
+    };
+}
 
 var async = require('async');
 var _ = require('underscore');
@@ -38,6 +53,7 @@ var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var helper = {};
 var crypto = require("crypto");
+var moment = require("moment");
 
 /**
  * software type.
@@ -843,9 +859,40 @@ helper.getColorStyle = function (rating) {
 
 
 /**
- * Check whether given integer is not greater than given max int (2^31-1).
- * @param {Object} obj the obj to check.
+ * Check whether given date is in the given format
+ * @param {String} date the date to check
+ * @param {String} format the date format
  * @param {String} objName the object name.
+ * @return {Error} if input not valid.
+ */
+helper.checkDateFormat = function (date, format, objName) {
+    if (moment(date, format, true).isValid()) {
+        return null;
+    }
+    return new IllegalArgumentError("Invalid " + objName + ". Expected format is " + format);
+};
+
+/**
+ * Check whether given user is Admin or not
+ * @param connection
+ * @return {Error} if user is not admin
+ */
+helper.checkAdmin = function (connection) {
+    if (!connection.caller || connection.caller.accessLevel === "anon") {
+        return new UnauthorizedError();
+    }
+	
+	if (connection.caller.accessLevel === "member") {
+        return new ForbiddenError();
+    }
+	
+    if (connection.caller.accessLevel === "admin") {
+        return null;
+    }
+    return new ForbiddenError();
+};
+
+/**
  * @return {Error} if input not valid.
  */
 helper.checkMaxInt = function (obj, objName) {

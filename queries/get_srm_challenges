@@ -14,7 +14,7 @@ select SKIP @firstRowIndex@ FIRST @pageSize@
       ,CASE WHEN rd1.num_coders = 0 THEN 0 ELSE rd1.challenges_made_successful / rd1.num_coders END::DECIMAL(10,2) AS div_i_average_solutions_challenged
       ,CASE WHEN rd2.num_coders = 0 THEN 0 ELSE rd2.challenges_made_successful / rd2.num_coders END::DECIMAL(10,2) AS div_ii_average_solutions_challenged
   FROM  contest c
-        JOIN round AS r ON r.contest_id = c.contest_id AND r.failed = 0
+        JOIN round AS r ON r.contest_id = c.contest_id AND r.failed = 0 AND r.status='A'
         LEFT JOIN round_division AS rd1 ON rd1.division_id = 1 AND rd1.round_id = r.round_id
         LEFT JOIN round_division AS rd2 ON rd2.division_id = 2 AND rd2.round_id = r.round_id
         JOIN calendar AS cal ON cal.calendar_id = r.calendar_id

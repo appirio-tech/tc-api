@@ -100,7 +100,7 @@ describe('Get Marathon Challenges API', function () {
                         return;
                     }
                     delete res.body.serverInformation;
-                    delete res.body.requestorInformation;
+                    delete res.body.requesterInformation;
                     var expectedData = require("./test_files/" + file),
                         compare = function (a, b, ord) {
                             if (typeof a === "string" && new Date(a).toString() !== "Invalid Date") {

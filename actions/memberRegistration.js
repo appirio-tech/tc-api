@@ -208,13 +208,9 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     } else {
                         url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
                         api.log("Activation url: " + url, "debug");
-                        task = new api.task({
-                            name: "sendActivationEmail",
-                            params: {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}
-                        });
 
-                        task.run();
-
+                        api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, '');
+                        
                         callback(null, null);
                     }
                 },
@@ -224,22 +220,22 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    var task = new api.task({
-                        name: "addMemberProfileLDAPEntry",
-                        params: {userId : user.id, handle : user.handle, password : user.password}
+                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : user.password}, function (err, result) {                       
+                        if (err) {
+                            next(err);
+                        } else {
+                            callback(null, null);
+                        }
                     });
-
-                    task.run();
-
+                },
+                function (callback) {
                     var hashedPassword = api.helper.encodePassword(user.password, PASSWORD_HASH_KEY);
                     api.log("Hashed Password : " + hashedPassword);
-
 
                     // insert with the hashed password
                     api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hashedPassword, createUserId : null}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
-
                 },
                 function (callback) {
                     async.waterfall([

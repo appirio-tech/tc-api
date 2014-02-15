@@ -10,9 +10,7 @@ In order to accelerate development we are looking to move some of the API work t
 Usage
 -----
 
-See the [Deployment Guide](https://github.com/cloudspokes/tc-api/blob/master/docs/Module%20Assembly%20-%20TopCoder%20NodeJS%20Authentication%20Middleware%20v1.0.doc) for detailed instructions. 
+We have provided clear steps to setup in CentOS 6.x, Ubuntu, MacOS and Windows, please check [wiki](https://github.com/cloudspokes/tc-api/wiki)
 
-*Notes*: We have provided clear steps to setup in CentOS 6.x, Ubuntu and MacOS, please check [wiki](https://github.com/cloudspokes/tc-api/wiki)
-
-Other flavors/versions of linux should work, but have not been validated yet. Windows based operating systems most likely will NOT work.
+Other flavors/versions of linux should work, but have not been validated yet.
 

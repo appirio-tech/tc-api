@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
+ * @version 1.10
  * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun
  * Changes in 1.1:
  * - add routes for search challenges
@@ -18,7 +18,13 @@
  * Changes in 1.6:
  * - add route oauth test
  * Changes in 1.7:
- * - add route download document
+ * - add route oauth
+ * Changes in 1.8:
+ * - add route for bugs
+ * Changes in 1.9:
+ * - add route for client challenge costs
+ * Changes in 1.10:
+ * - added routes for terms api 
  */
 
 /* ---------------------
@@ -115,11 +121,19 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
 
+        { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
+        { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
+
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
+        { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+
+        { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
+        { path: "/:apiVersion/bugs/:jiraProjectId", action: "bugs" },
+        { path: "/:apiVersion/bugs", action: "bugs" },
 
         //Stubs APIs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
@@ -130,6 +144,7 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/users", action: "memberRegister" }
+        { path: "/:apiVersion/users", action: "memberRegister" },
+		{ path: "/:apiVersion/auth", action: "generateJwt" }
     ]
 };

@@ -1,12 +1,14 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.3
  * @author Sky_, Ghost_141
  * changes in 1.1:
  * - remove studio tests
  * changes in 1.2:
  * Merge the tests for Search Studio Challenges, Get Studio Challenge Detail, Get Software Challenge Detail API in this file.
+ * changes in 1.3:
+ * update the test for private challenge support.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach, __dirname */
@@ -162,21 +164,6 @@ describe('Test Challenges API', function () {
                 done();
             });
     }
-
-    /**
-     * Assert challenges details are not found
-     * @param {Number} challengeId - the challenge id
-     * @param {Function<err>} done the callback
-     */
-    function assertChallengeDetailsNotFound(challengeId, done) {
-        request(API_ENDPOINT)
-            .get('/v2/develop/challenges/' + challengeId)
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(404)
-            .end(done);
-    }
-
 
     describe('', function () {
 
@@ -746,7 +733,11 @@ describe('Test Challenges API', function () {
          * Tests for Software challenge detail
          */
         describe('-- Software Challenge Detail API --', function () {
-            var SQL_DIR = __dirname + '/sqls/softwareChallengeDetail/';
+            var SQL_DIR = __dirname + '/sqls/softwareChallengeDetail/',
+                heffan = 'ad|132456',
+                heffanAuthHeader = testHelper.generateAuthHeader({ sub: heffan }),
+                user = 'ad|132458',
+                userAuthHeader = testHelper.generateAuthHeader({ sub: user });
 
             function clearDb(done) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__delete.sql", TCS_CATALOG, done);
@@ -766,6 +757,25 @@ describe('Test Challenges API', function () {
             });
 
             /**
+             * create a http request and test it.
+             * @param {String} url - the request url.
+             * @param {Number} expectStatus - the expected response status code.
+             * @param {Object} authHeader - the auth header for request.
+             * @param {Function} cb - the call back function.
+             */
+            function createRequest(url, expectStatus, authHeader, cb) {
+                var req = request(API_ENDPOINT)
+                    .get(url)
+                    .set('Accept', 'application/json');
+                if (authHeader) {
+                    req.set('Authorization', authHeader);
+                }
+                req.expect('Content-Type', /json/)
+                    .expect(expectStatus)
+                    .end(cb);
+            }
+
+            /**
              * develop/challenges/30400000
              */
             it('should return PAST software details', function (done) {
@@ -780,7 +790,7 @@ describe('Test Challenges API', function () {
                         }
                         var expected = require('./test_files/expected_software_challenge_detail.json');
                         delete res.body.serverInformation;
-                        delete res.body.requestorInformation;
+                        delete res.body.requesterInformation;
                         // The time in test data is not constant.
                         delete res.body.postingDate;
                         delete res.body.registrationEndDate;
@@ -816,7 +826,7 @@ describe('Test Challenges API', function () {
                                 delete expected.reliabilityBonus;
 
                                 delete res.body.serverInformation;
-                                delete res.body.requestorInformation;
+                                delete res.body.requesterInformation;
                                 // The time in test data is not constant.
                                 delete res.body.postingDate;
                                 delete res.body.registrationEndDate;
@@ -840,7 +850,7 @@ describe('Test Challenges API', function () {
                     done();
                 });
             });
-            
+
             /**
              * develop/challenges/30500000
              */
@@ -856,7 +866,7 @@ describe('Test Challenges API', function () {
                         }
                         var expected = require('./test_files/expected_f2f_challenge_detail.json');
                         delete res.body.serverInformation;
-                        delete res.body.requestorInformation;
+                        delete res.body.requesterInformation;
                         // The time in test data is not constant.
                         delete res.body.postingDate;
                         delete res.body.registrationEndDate;
@@ -873,34 +883,16 @@ describe('Test Challenges API', function () {
                     });
             });
 
-
-            /**
-             * develop/challenges/31210000
-             * develop/challenges/31200000
-             * develop/challenges/31220000
-             * develop/challenges/31300000
-             * develop/challenges/31310000
-             * develop/challenges/31320002
-             */
-
-            it('should return 404 while access PRIVATE challenge 31200000', function (done) {
-                assertChallengeDetailsNotFound(31200000, done);
+            it('should return success results. The caller heffan is in the group.', function (done) {
+                createRequest('/v2/develop/challenges/2001', 200, heffanAuthHeader, done);
             });
 
-            it('should return 404 while access PRIVATE challenge 31220000', function (done) {
-                assertChallengeDetailsNotFound(31220000, done);
+            it('should return 401 unauthorized error. The caller user is not in the group.', function (done) {
+                createRequest('/v2/develop/challenges/2001', 401, userAuthHeader, done);
             });
 
-            it('should return 404 while access PRIVATE challenge 31300000', function (done) {
-                assertChallengeDetailsNotFound(31300000, done);
-            });
-
-            it('should return 404 while access PRIVATE challenge 31310000', function (done) {
-                assertChallengeDetailsNotFound(31310000, done);
-            });
-
-            it('should return 404 while access PRIVATE challenge 31320002', function (done) {
-                assertChallengeDetailsNotFound(31320002, done);
+            it('should return 401 unauthorized error. The anonymous call is not allowed for private challenge.', function (done) {
+                createRequest('/v2/develop/challenges/2001', 401, null, done);
             });
         });
 
@@ -973,6 +965,7 @@ describe('Test Challenges API', function () {
                         assert.ok(body.winners[0].submissionTime);
                         delete body.submissions[0].submissionTime;
                         delete body.checkpoints[0].submissionTime;
+                        delete body.registrants[0].registrationDate;
                         delete body.winners[0].submissionTime;
                         delete body.currentPhaseEndDate;
                         testHelper.assertResponse(err,
@@ -982,35 +975,119 @@ describe('Test Challenges API', function () {
                     });
             });
 
+            it('should return challenge details(submissionLimit empty)', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery("UPDATE project_info SET value = '' WHERE project_info_type_id = 51 AND project_id = 10041", 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var body = res.body,
+                                    expected = require('./test_files/exptected_studio_challenge_details.json');
+                                assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                assert.lengthOf(body.winners, 1, "invalid winners count");
+                                //submissionTime is not constant value
+                                assert.ok(body.submissions[0].submissionTime);
+                                assert.ok(body.checkpoints[0].submissionTime);
+                                assert.ok(body.winners[0].submissionTime);
+                                delete body.submissions[0].submissionTime;
+                                delete body.checkpoints[0].submissionTime;
+                                delete body.registrants[0].registrationDate;
+                                delete body.winners[0].submissionTime;
+                                delete body.currentPhaseEndDate;
+                                delete body.serverInformation;
+                                delete body.requesterInformation;
+                                expected.submissionLimit = '';
+                                assert.deepEqual(body, expected, 'Invalid response');
+                                cb();
+                            });
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
+            });
+
+            it('should return challenge details(no submissionLimit)', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery('DELETE FROM project_info WHERE project_info_type_id = 51 AND project_id = 10041', 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var body = res.body,
+                                    expected = require('./test_files/exptected_studio_challenge_details.json');
+                                assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                assert.lengthOf(body.winners, 1, "invalid winners count");
+                                //submissionTime is not constant value
+                                assert.ok(body.submissions[0].submissionTime);
+                                assert.ok(body.checkpoints[0].submissionTime);
+                                assert.ok(body.winners[0].submissionTime);
+                                delete body.submissions[0].submissionTime;
+                                delete body.checkpoints[0].submissionTime;
+                                delete body.registrants[0].registrationDate;
+                                delete body.winners[0].submissionTime;
+                                delete body.currentPhaseEndDate;
+                                delete body.serverInformation;
+                                delete body.requesterInformation;
+                                delete expected.submissionLimit;
+                                assert.deepEqual(body, expected, 'Invalid response');
+                                cb();
+                            });
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
+            });
+
             it('should return challenge details(no reliabilityBonus)', function (done) {
                 async.waterfall([
                     function (cb) {
-                        testHelper.runSqlQuery('UPDATE project_info SET value = "false" WHERE project_info_type_id = 45 AND project_id = 10041', 'tcs_catalog', cb),
-                        function (cb) {
-                            request(API_ENDPOINT)
-                                .get('/v2/design/challenges/10041')
-                                .set('Accept', 'application/json')
-                                .expect('Content-Type', /json/)
-                                .expect(200)
-                                .end(function (err, res) {
-                                    var body = res.body,
-                                        expected = require('./test_files/exptected_studio_challenge_details.json');
-                                    assert.lengthOf(body.submissions, 1, "invalid submissions count");
-                                    assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
-                                    assert.lengthOf(body.winners, 1, "invalid winners count");
-                                    //submissionTime is not constant value
-                                    assert.ok(body.submissions[0].submissionTime);
-                                    assert.ok(body.checkpoints[0].submissionTime);
-                                    assert.ok(body.winners[0].submissionTime);
-                                    delete body.submissions[0].submissionTime;
-                                    delete body.checkpoints[0].submissionTime;
-                                    delete body.winners[0].submissionTime;
-                                    delete body.currentPhaseEndDate;
-                                    delete expected.reliabilityBonus;
-                                    assert.deepEqual(res.body, expected, 'Invalid response');
-                                    cb();
-                                });
-                        }
+                        testHelper.runSqlQuery('UPDATE project_info SET value = "false" WHERE project_info_type_id = 45 AND project_id = 10041', 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var body = res.body,
+                                    expected = require('./test_files/exptected_studio_challenge_details.json');
+                                assert.lengthOf(body.submissions, 1, "invalid submissions count");
+                                assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
+                                assert.lengthOf(body.winners, 1, "invalid winners count");
+                                //submissionTime is not constant value
+                                assert.ok(body.submissions[0].submissionTime);
+                                assert.ok(body.checkpoints[0].submissionTime);
+                                assert.ok(body.winners[0].submissionTime);
+                                delete body.submissions[0].submissionTime;
+                                delete body.registrants[0].registrationDate;
+                                delete body.checkpoints[0].submissionTime;
+                                delete body.winners[0].submissionTime;
+                                delete body.currentPhaseEndDate;
+                                delete body.serverInformation;
+                                delete body.requesterInformation;
+                                delete expected.reliabilityBonus;
+                                assert.deepEqual(res.body, expected, 'Invalid response');
+                                cb();
+                            });
                     }
                 ], function (err) {
                     if (err) {

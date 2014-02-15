@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Closed task 2",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-4",
+        "payment": 800,
+        "tcoPoints": 10,
+        "startDate": "2014-02-10T13:26:31-05:00"
+    },
+    {
+        "name": "Closed task 1",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-3",
+        "payment": 500,
+        "tcoPoints": 30,
+        "startDate": "2014-02-10T13:19:26-05:00"
+    },
+    {
+        "name": "Open task 2",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-2",
+        "payment": 300,
+        "tcoPoints": 20,
+        "startDate": "2014-02-10T13:18:09-05:00"
+    },
+    {
+        "name": "Open task 1",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-1",
+        "payment": 200,
+        "tcoPoints": 30,
+        "startDate": "2014-02-03T08:12:49-05:00"
+    }
+]

@@ -123,3 +123,28 @@ values (31500001, 30500000, 1);
 
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30500000, 30500002, 0, 'document 1', 'test/document1.doc');
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30500001, 30500002, 24, 'document 2', 'test/document2.doc');
+
+-- private challenge 2001
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 1, 14, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 2001, 1, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 2001, 2, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 6, 'Test Private Challenge 2001', 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 26, 'true', 132456, current, 132456, current);
+
+INSERT INTO security_groups(group_id, description, create_user_id)
+VALUES(2001, 'Group A', 132456);
+
+INSERT INTO contest_eligibility(contest_eligibility_id, contest_id, is_studio)
+VALUES(1, 2001, 0);
+
+INSERT INTO group_contest_eligibility(contest_eligibility_id, group_id)
+VALUES(1, 2001);
+INSERT INTO user_group_xref(user_group_id, login_id, group_id, create_user_id, security_status_id, create_date)
+VALUES(2001, 132456, 2001, 132456, 1, current);

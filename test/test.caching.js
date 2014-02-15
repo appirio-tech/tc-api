@@ -72,7 +72,7 @@ describe('Test Cache', function () {
                 assert.ok(res.body.test);
                 var response = res.body;
                 delete response.serverInformation;
-                delete response.requestorInformation;
+                delete response.requesterInformation;
                 done(err, response);
             });
     }

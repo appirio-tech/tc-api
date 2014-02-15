@@ -1,3 +1,4 @@
+/*jslint nomen: true */
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
@@ -97,7 +98,7 @@ var bindClient = function (api, client, callback) {
  * 
  * @param {Object} api - object used to access infrustrature
  * @param {Object} client - an object of current client of ldap server
- * @param {Object} params - the parameters of task
+ * @param {Object} params - the parameters
  * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
  */
 var addClient = function (api, client, params, callback) {
@@ -125,7 +126,7 @@ var addClient = function (api, client, params, callback) {
  * 
  * @param {Object} api - object used to access infrustrature
  * @param {Object} client - an object of current client of ldap server
- * @param {Object} params - the parameters of task
+ * @param {Object} params - the parameters
  * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
  */
 var passwordModify = function (api, client, params, callback) {
@@ -155,7 +156,7 @@ var passwordModify = function (api, client, params, callback) {
  * 
  * @param {Object} api - object used to access infrustrature
  * @param {Object} client - an object of current client of ldap server
- * @param {Object} params - the parameters of task
+ * @param {Object} params - the parameters
  * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
  */
 var modifyClient = function (api, client, params, callback) {
@@ -178,114 +179,108 @@ var modifyClient = function (api, client, params, callback) {
 };
 
 /**
- * Task - used to add a ldap entry 
+ * Expose the "ldapHelper" utility.
+ *
+ * @param {Object} api The api object that is used to access the infrastructure
+ * @param {Function} next The callback function to be called when everyting is done
  */
-exports.addMemberProfileLDAPEntry = {
-    name: 'addMemberProfileLDAPEntry',
-    description: 'I will add an ldap entry to ldap server',
-    scope: 'any',
-    frequency: 0,
-    /**
-     * Main function of addMemberProfileLDAPEntry tasks
-     *
-     * @param {Object} api - object used to access infrustrature
-     * @param {Object} params require fields: userId, handle, password
-     * @param {Function} next - callback function
-     */
-    run: function (api, params, next) {
-        api.log('Enter addMemberProfileLDAPEntry task#run', 'debug');
-
-        var client, error, index, requiredParams = ['userId', 'handle', 'password'];
-
-        for (index = 0; index < requiredParams.length; index += 1) {
-            error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
-            if (error) {
-                api.log("task addMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
-                return next(null, true);
+exports.ldapHelper = function (api, next) {
+    api.ldapHelper = {
+         /**
+         * Main function of addMemberProfileLDAPEntry
+         *
+         * @param {Object} api - object used to access infrustrature
+         * @param {Object} params require fields: userId, handle, password
+         * @param {Function} next - callback function
+         */
+        addMemberProfileLDAPEntry: function (params, next) {
+            api.log('Enter addMemberProfileLDAPEntry', 'debug');
+    
+            var client, error, index, requiredParams = ['userId', 'handle', 'password'];
+    
+            for (index = 0; index < requiredParams.length; index += 1) {
+                error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+                if (error) {
+                    api.log("addMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
+                    return next(error, null);
+                }
             }
-        }
-try {
-        async.series([
-            function (callback) {
-                client  = createClient();
-                callback(null, 'create client');
-            },
-            function (callback) {
-                bindClient(api, client, callback);
-            },
-            function (callback) {
-                addClient(api, client, params, callback);
-            },
-            function (callback) {
-                passwordModify(api, client, params, callback);
+            try {
+                async.series([
+                    function (callback) {
+                        client  = createClient();
+                        callback(null, 'create client');
+                    },
+                    function (callback) {
+                        bindClient(api, client, callback);
+                    },
+                    function (callback) {
+                        addClient(api, client, params, callback);
+                    },
+                    function (callback) {
+                        passwordModify(api, client, params, callback);
+                    }
+                ], function (err, result) {
+                    if (err) {
+                        error = result.pop();
+                        api.log('addMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
+                        return next(err, null);                    
+                    } else {
+                        client.unbind();
+                    }
+                    api.log('Leave addMemberProfileLDAPEntry', 'debug');
+                });
+            } catch (error) {
+              console.log('CAUGHT: ' + error);
+              return next(error, null);
             }
-        ], function (err, result) {
-            if (err) {
-                error = result.pop();
-                api.log('task addMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
-            } else {
-                client.unbind();
-            }
-            api.log('Leave addMemberProfileLDAPEntry task', 'debug');
-        });
-} catch (error) {
-  console.log('CAUGHT: ' + error);
-}
-        return next(null, true);
-    }
-};
-
-/**
- * Task - used to activate a ldap entry 
- */
-exports.activateMemberProfileLDAPEntry = {
-    name: 'activateMemberProfileLDAPEntry',
-    description: 'I will activate an ldap entry to ldap server',
-    scope: 'any',
-    frequency: 0,
-
-    /**
-     * Main function of activateMemberProfileLDAPEntry tasks
-     *
-     * @param {Object} api - object used to access infrustrature
-     * @param {Object} params require fields: userId
-     * @param {Function} next - callback function
-     */
-    run: function (api, params, next) {
-        api.log('Enter activateMemberProfileLDAPEntry task#run', 'debug');
+            return next(null, true);
+        },
         
-        var client, error;
-
-        // pararms validation
-
-        error = api.helper.checkDefined(params['userId'], 'userId');
-        if (error) {
-            api.log("task activateMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
+        /**
+         * Main function of activateMemberProfileLDAPEntry
+         *
+         * @param {Object} api - object used to access infrustrature
+         * @param {Object} params require fields: userId
+         * @param {Function} next - callback function
+         */
+        activateMemberProfileLDAPEntry: function (params, next) {
+            api.log('Enter activateMemberProfileLDAPEntry', 'debug');
+            
+            var client, error;
+    
+            // pararms validation
+    
+            error = api.helper.checkDefined(params['userId'], 'userId');
+            if (error) {
+                api.log("activateMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
+                return next(error, true);
+            }
+    
+            async.series([
+                function (callback) {
+                    client = createClient();
+                    
+                    callback(null, 'create client');
+                },
+                function (callback) {
+                    bindClient(api, client, callback);
+                },
+                function (callback) {
+                    modifyClient(api, client, params, callback);
+                }
+            ], function (err, result) {
+                if (err) {
+                    error = result.pop();
+                    api.log('activateMemberProfileLDAPEntry ' + err + ' ', 'error', error);
+                    return next(err, null);
+                } else {
+                    client.unbind();
+                }
+                api.log('Leave activateMemberProfileLDAPEntry', 'debug');
+            });
             return next(null, true);
         }
-
-        async.series([
-            function (callback) {
-                client = createClient();
-                
-                callback(null, 'create client');
-            },
-            function (callback) {
-                bindClient(api, client, callback);
-            },
-            function (callback) {
-                modifyClient(api, client, params, callback);
-            }
-        ], function (err, result) {
-            if (err) {
-                error = result.pop();
-                api.log('task activateMemberProfileLDAPEntry ' + err + ' ', 'error', error);
-            } else {
-                client.unbind();
-            }
-            api.log('Leave activateMemberProfileLDAPEntry task', 'debug');
-        });
-        return next(null, true);
-    }
+    };
+    next();
 };
-

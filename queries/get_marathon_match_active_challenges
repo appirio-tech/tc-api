@@ -6,6 +6,10 @@ SELECT
 , r.name AS short_name
 , rs.start_time AS start_date
 , rs.end_time AS end_date
+, (( rs.end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS time_remaining
+, (select count(*) from round_registration where round_id = r.round_id) as registrants_count
+, (select count(*) from long_component_state cs, long_submission s where s.example = 0 and s.long_component_state_id = cs.long_component_state_id and cs.round_id = r.round_id) as submission_count
+
 FROM 
   round_segment rs
 , round r
@@ -26,5 +30,4 @@ AND EXTEND(rs.end_time , year to day) >= '@end_time_start@'
 
 AND EXTEND(rs.start_time , year to day) <= '@start_time_end@'
 AND EXTEND(rs.start_time , year to day) >= '@start_time_start@'
-
 ORDER BY @sortColumn@ @sortOrder@, round_id desc
