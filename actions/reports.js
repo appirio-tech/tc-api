@@ -24,7 +24,7 @@ exports.action = {
     description: "getClientChallengeCosts",
     inputs: {
         required: ["startDate", "endDate"],
-        optional: ["clientId", "sfdcAccountId"]
+        optional: ["clientId", "sfdcAccountId", 'customerNumber']
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -39,6 +39,7 @@ exports.action = {
             startDate = connection.params.startDate,
             endDate = connection.params.endDate,
             cmc = connection.params.sfdcAccountId || "",
+			customerNumber = connection.params.customerNumber || "",
             sqlParameters,
             costs;
         if (!dbConnectionMap) {
@@ -67,7 +68,8 @@ exports.action = {
                     clientid: clientId,
                     sdt: startDate,
                     edt: endDate,
-                    cmc_account_id: cmc
+                    cmc_account_id: cmc,
+					customer_number: customerNumber
                 };
 
                 api.dataAccess.executeQuery("check_client_challenge_costs_exists", sqlParameters, dbConnectionMap, cb);
@@ -81,16 +83,15 @@ exports.action = {
                 costs = _.map(results, function (item) {
                     return {
                         "customerName": item.customer_name,
+						"customerNumber": item.customer_number,
                         "customerId": item.customer_id,
                         "projectName": item.project_name,
-                        "sfdcAccountId": item.cmc_account_id,
                         "challengeName": item.challenge_name,
                         "challengeId": item.challenge_id,
                         "challengeType": item.challenge_type,
                         "challengeStatus": item.challenge_status,
                         "postingDate": moment(item.posting_date).format("YYYY-MM-DD"),
                         "completionDate": moment(item.completion_date).format("YYYY-MM-DD"),
-                        "challengeFulfillment": item.challenge_fulfillment,
                         "challengeMemberCost": item.challenge_member_cost,
                         "challengeFee": item.challenge_fee,
                         "challengeTotalCost": item.challenge_total_cost,

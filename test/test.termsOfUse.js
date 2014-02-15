@@ -23,8 +23,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config').configData.general.oauthClientId;
-var SECRET = require('../config').configData.general.oauthClientSecret;
+var CLIENT_ID = require('../config').config.general.oauthClientId;
+var SECRET = require('../config').config.general.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 describe('Get Terms Of Use API', function () {

@@ -57,3 +57,5 @@ export TIMEOUT=3000
 # Used in Jira soap service (Bugs API)
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
+
+export ACTIONHERO_CONFIG=./config.js

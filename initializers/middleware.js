@@ -65,8 +65,8 @@ exports.middleware = function (api, next) {
                 cb(null, reg.exec(authHeader)[1]);
             }, function (token, cb) {
                 jwt.verify(token,
-                    api.configData.general.oauthClientSecret,
-                    { audience: api.configData.general.oauthClientId },
+                    api.config.general.oauthClientSecret,
+                    { audience: api.config.general.oauthClientId },
                     cb);
             }, function (result, cb) {
                 decoded = result;
@@ -155,7 +155,7 @@ exports.middleware = function (api, next) {
                 });
             }, function (userInfo, cb) {
                 connection.caller = userInfo;
-                var lifetime = api.configData.general.defaultAuthMiddlewareCacheLifetime;
+                var lifetime = api.config.general.defaultAuthMiddlewareCacheLifetime;
 
                 //don't re-set cache
                 if (isCachedReturned) {
@@ -260,7 +260,7 @@ exports.middleware = function (api, next) {
      */
     function preCacheProcessor(connection, actionTemplate, next) {
         //by default enabled, but turn it off if the global cache timeout is set to less to zero and local action doesn't have a timeout set (this logic is mostly for test purposes)
-        if (actionTemplate.cacheEnabled === false || (api.configData.general.defaultCacheLifetime < 0 && !actionTemplate.cacheLifetime)) {
+        if (actionTemplate.cacheEnabled === false || (api.config.general.defaultCacheLifetime < 0 && !actionTemplate.cacheLifetime)) {
             next(connection, true);
             return;
         }
@@ -306,10 +306,10 @@ exports.middleware = function (api, next) {
                     return;
                 }
                 var response = _.clone(connection.response),
-                    lifetime = actionTemplate.cacheLifetime || api.configData.general.defaultCacheLifetime,
+                    lifetime = actionTemplate.cacheLifetime || api.config.general.defaultCacheLifetime,
                     key = api.helper.createCacheKey(connection);
                 delete response.serverInformation;
-                delete response.requestorInformation;
+                delete response.requesterInformation;
                 api.cache.save(key, response, lifetime, cb);
             }
         ], function (err) {

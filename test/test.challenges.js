@@ -790,7 +790,7 @@ describe('Test Challenges API', function () {
                         }
                         var expected = require('./test_files/expected_software_challenge_detail.json');
                         delete res.body.serverInformation;
-                        delete res.body.requestorInformation;
+                        delete res.body.requesterInformation;
                         // The time in test data is not constant.
                         delete res.body.postingDate;
                         delete res.body.registrationEndDate;
@@ -826,7 +826,7 @@ describe('Test Challenges API', function () {
                                 delete expected.reliabilityBonus;
 
                                 delete res.body.serverInformation;
-                                delete res.body.requestorInformation;
+                                delete res.body.requesterInformation;
                                 // The time in test data is not constant.
                                 delete res.body.postingDate;
                                 delete res.body.registrationEndDate;
@@ -866,7 +866,7 @@ describe('Test Challenges API', function () {
                         }
                         var expected = require('./test_files/expected_f2f_challenge_detail.json');
                         delete res.body.serverInformation;
-                        delete res.body.requestorInformation;
+                        delete res.body.requesterInformation;
                         // The time in test data is not constant.
                         delete res.body.postingDate;
                         delete res.body.registrationEndDate;
@@ -1001,7 +1001,7 @@ describe('Test Challenges API', function () {
                                 delete body.winners[0].submissionTime;
                                 delete body.currentPhaseEndDate;
                                 delete body.serverInformation;
-                                delete body.requestorInformation;
+                                delete body.requesterInformation;
                                 expected.submissionLimit = '';
                                 assert.deepEqual(body, expected, 'Invalid response');
                                 cb();
@@ -1042,7 +1042,7 @@ describe('Test Challenges API', function () {
                                 delete body.winners[0].submissionTime;
                                 delete body.currentPhaseEndDate;
                                 delete body.serverInformation;
-                                delete body.requestorInformation;
+                                delete body.requesterInformation;
                                 delete expected.submissionLimit;
                                 assert.deepEqual(body, expected, 'Invalid response');
                                 cb();
@@ -1083,7 +1083,7 @@ describe('Test Challenges API', function () {
                                 delete body.winners[0].submissionTime;
                                 delete body.currentPhaseEndDate;
                                 delete body.serverInformation;
-                                delete body.requestorInformation;
+                                delete body.requesterInformation;
                                 delete expected.reliabilityBonus;
                                 assert.deepEqual(res.body, expected, 'Invalid response');
                                 cb();
