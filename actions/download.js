@@ -75,7 +75,7 @@ exports.action = {
                     cb(new ForbiddenError("You don't have permission to access this document"));
                     return;
                 }
-                filePath = path.join(api.configData.general.downloadsRootDirectory, document.url);
+                filePath = path.join(api.config.general.downloadsRootDirectory, document.url);
                 fs.stat(filePath, cb);
             }, function (stat, cb) {
                 var mime = Mime.lookup(filePath),
