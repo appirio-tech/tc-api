@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
+ * @version 1.6
  * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -13,6 +13,8 @@
  * - add oauthConnection and oauthDomain parameters
  * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
+ * changes in 1.6:
+ * - add corporate_oltp in database mapping.
  */
 "use strict";
 
@@ -146,16 +148,16 @@ config.faye = {
 // see https://github.com/taskrabbit/node-resque for more information / options
 config.tasks = {
   // Should this node run a scheduler to promote delayed tasks?
-  scheduler: false,
+    scheduler: false,
   // what queues should the workers work and how many to spawn?
   //  ['*'] is one worker working the * queue
   //  ['high,low'] is one worker working 2 queues
-  queues: [],
+    queues: [],
   // how long to sleep between jobs / scheduler checks
-  timeout: 5000,
+    timeout: 5000,
   // What redis server should we connect to for tasks / delayed jobs?
-  redis: config.redis
-}
+    redis: config.redis
+};
 
 /////////////
 // SERVERS //
@@ -210,7 +212,8 @@ config.databaseMapping = {
     "informixoltp" : "TC_DB",
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
-    "tcs_dw" : "TC_DW"
+    "tcs_dw" : "TC_DW",
+    'corporate_oltp': 'TC_DB'
 };
 
 /**

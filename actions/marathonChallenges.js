@@ -262,9 +262,9 @@ exports.searchMarathonChallenges = {
                             endDate: item.end_date,
                             winnerHandle: item.winner_handle,
                             winnerScore: item.winner_score,
-							timeRemaining: item.time_remaining,
-							numberOfRegistrants: item.registrants_count,
-							numberOfSubmissions: item.submission_count
+                            timeRemaining: item.time_remaining,
+                            numberOfRegistrants: item.registrants_count,
+                            numberOfSubmissions: item.submission_count
                         };
                         if (listType === ListType.ACTIVE) {
                             delete challenge.winnerHandle;

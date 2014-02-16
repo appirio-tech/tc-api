@@ -23,7 +23,7 @@ var SQL_DIR = __dirname + "/sqls/tops/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Get Tops API', function () {
-    this.timeout(30000);     // The api with testing remote db could be quit slow
+    this.timeout(60000);     // The api with testing remote db could be quit slow
 
 
     /**

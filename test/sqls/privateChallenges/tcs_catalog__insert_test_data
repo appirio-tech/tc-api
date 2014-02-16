@@ -1,0 +1,73 @@
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id)
+VALUES(2001, 1, 14, 132456, current, 132456, current, 2001);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 2001, 1, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 2001, 2, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 6, 'Test Private Challenge 2001', 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id)
+VALUES(2002, 1, 14, 132456, current, 132456, current, 2001);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 2002, 1, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 2002, 2, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 6, 'Test Private Challenge 2002', 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id)
+VALUES(2003, 1, 14, 132456, current, 132456, current, 2001);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2005, 2003, 1, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2006, 2003, 2, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 6, 'Test Private Challenge 2003', 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id)
+VALUES(2004, 1, 14, 132456, current, 132456, current, 2001);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2007, 2004, 1, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time,
+     duration, create_user, create_date, modify_user, modify_date)
+VALUES(2008, 2004, 2, 2, current, current + 5 units day, 86400000 * 5, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 6, 'Test Public Challenge 2004', 132456, current, 132456, current);
+
+INSERT INTO security_groups(group_id, description, create_user_id)
+VALUES(2001, 'Group A', 132456);
+INSERT INTO security_groups(group_id, description, create_user_id)
+VALUES(2002, 'Group B', 132456);
+INSERT INTO security_groups(group_id, description, create_user_id)
+VALUES(2003, 'Group C', 132456);
+
+
+INSERT INTO contest_eligibility(contest_eligibility_id, contest_id, is_studio)
+VALUES(1, 2001, 0);
+INSERT INTO contest_eligibility(contest_eligibility_id, contest_id, is_studio)
+VALUES(2, 2002, 0);
+INSERT INTO contest_eligibility(contest_eligibility_id, contest_id, is_studio)
+VALUES(3, 2003, 0);
+
+INSERT INTO group_contest_eligibility(contest_eligibility_id, group_id)
+VALUES(1, 2001);
+INSERT INTO user_group_xref(user_group_id, login_id, group_id, create_user_id, security_status_id, create_date)
+VALUES(2001, 132456, 2001, 132456, 1, current);
+
+INSERT INTO group_contest_eligibility(contest_eligibility_id, group_id)
+VALUES(2, 2002);
+INSERT INTO user_group_xref(user_group_id, login_id, group_id, create_user_id, security_status_id, create_date)
+VALUES(2002, 132456, 2002, 132456, 1, current);
+INSERT INTO user_group_xref(user_group_id, login_id, group_id, create_user_id, security_status_id, create_date)
+VALUES(2003, 132457, 2002, 132458, 1, current);
+
+INSERT INTO group_contest_eligibility(contest_eligibility_id, group_id)
+VALUES(3, 2003);

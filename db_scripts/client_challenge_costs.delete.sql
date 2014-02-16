@@ -1,6 +1,0 @@
-database tcs_dw;
-
-
-DELETE FROM project WHERE project_id IN (500102, 500112, 500122, 500202, 500212, 500222);
-DELETE FROM direct_project_dim WHERE direct_project_id IN (500101, 500201);
-DELETE FROM client_project_dim WHERE client_project_id IN (500100, 500200);

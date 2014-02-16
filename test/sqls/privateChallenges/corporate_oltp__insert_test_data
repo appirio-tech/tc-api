@@ -1,0 +1,2 @@
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(2001, 'Test Project 2001', 1, 132456, current);

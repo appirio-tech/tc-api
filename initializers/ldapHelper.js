@@ -31,11 +31,11 @@ var LDAP_TAG_EXOP_X_MODIFY_PASSWD_OLD = 0x81;
 var LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW = 0x82;
 
 /**
- * This function is used to translate the error of LADP
+ * This function is used to translate the error of LDAP
  * into a form of normal object
  * 
  * @param {Object} err - the error object returned by ldapjs
- * @param {Object} normal object of error
+ * @return {Object} normal object of error
  */
 var translateLdapError = function (err) {
     if (err) {
@@ -51,12 +51,12 @@ var translateLdapError = function (err) {
 
 /**
  * This function is used to check the existence of 
- * given paramters and ensure it not be empty
+ * given parameters and ensure it not be empty
  * 
- * @param {Object} params - a object of paramters
+ * @param {Object} params - a object of parameters
  * @param {String} name - the name of the to-be-checked parameter
- * @param {Boolean} true if params contains the given paramter 
- *                      and it is not empty; false otherwise. 
+ * @return {Boolean} true if params contains the given parameter
+ *                      and it is not empty; false otherwise.
  */
 var checkParameter = function (params, name) {
     return params.hasOwnProperty(name) && (params[name].toString().trim().length >= 1);
@@ -77,9 +77,9 @@ var createClient = function () {
 /**
  * Function used to bind a ldap server
  * 
- * @param {Object} api - object used to access infrustrature
+ * @param {Object} api - object used to access infrastructure
  * @param {Object} client - an object of current client of ldap server
- * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var bindClient = function (api, client, callback) {
     client.bind(ldap_host_bind_dn, ldap_password, function (err) {
@@ -87,7 +87,7 @@ var bindClient = function (api, client, callback) {
             api.log('binding failed');
             callback('cannot bind to ldap server', translateLdapError(err));
         } else {
-            api.log('Sucessfully bind to ldap server', 'info');
+            api.log('Successfully bind to ldap server', 'info');
             callback(null, 'bind to ldap server');
         }
     });
@@ -96,10 +96,10 @@ var bindClient = function (api, client, callback) {
 /**
  * Function used to add an entry in ldap server
  * 
- * @param {Object} api - object used to access infrustrature
+ * @param {Object} api - object used to access infrastructure
  * @param {Object} client - an object of current client of ldap server
  * @param {Object} params - the parameters
- * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var addClient = function (api, client, params, callback) {
     var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
@@ -115,7 +115,7 @@ var addClient = function (api, client, params, callback) {
             client.unbind();
             callback('cannot add to ldap server', translateLdapError(err));
         } else {
-            api.log('Sucessfully add to ldap server', 'info');
+            api.log('Successfully add to ldap server', 'info');
             callback(null, 'add to ldap server');
         }
     });
@@ -124,28 +124,28 @@ var addClient = function (api, client, params, callback) {
 /**
  * Function used to update the password in order to create a hashed version of it
  * 
- * @param {Object} api - object used to access infrustrature
+ * @param {Object} api - object used to access infrastructure
  * @param {Object} client - an object of current client of ldap server
  * @param {Object} params - the parameters
- * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var passwordModify = function (api, client, params, callback) {
-    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn;
-    var op = params.oldPassword || params.password;
-    var np = params.newPassword || params.password;
-    var writer = new Ber.Writer();
+    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
+        op = params.oldPassword || params.password,
+        np = params.newPassword || params.password,
+        writer = new Ber.Writer();
     writer.startSequence();
     writer.writeString(dn, LDAP_TAG_EXOP_X_MODIFY_PASSWD_ID);
     writer.writeString(op, LDAP_TAG_EXOP_X_MODIFY_PASSWD_OLD);
     writer.writeString(np, LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW);
     writer.endSequence();
 
-    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function(err, result) {
+    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err, result) {
         if (err) {
             client.unbind();
             callback('cannot modify password for user', translateLdapError(err));
         } else {
-            api.log('Sucessfully modified password', 'info');
+            api.log('Successfully modified password', 'info');
             callback(null, 'modified password');
         }
     });
@@ -154,10 +154,10 @@ var passwordModify = function (api, client, params, callback) {
 /**
  * Function used to modify an entry in ldap server
  * 
- * @param {Object} api - object used to access infrustrature
+ * @param {Object} api - object used to access infrastructure
  * @param {Object} client - an object of current client of ldap server
  * @param {Object} params - the parameters
- * @param {Function} callback - a async callback funtion with prototype like callback(err, results)
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var modifyClient = function (api, client, params, callback) {
     var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
@@ -172,7 +172,7 @@ var modifyClient = function (api, client, params, callback) {
             client.unbind();
             callback('cannot modify to ldap server', translateLdapError(err));
         } else {
-            api.log('Sucessfully modify to ldap server', 'info');
+            api.log('Successfully modify to ldap server', 'info');
             callback(null, 'modify to ldap server');
         }
     });
@@ -182,26 +182,26 @@ var modifyClient = function (api, client, params, callback) {
  * Expose the "ldapHelper" utility.
  *
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Function} next The callback function to be called when everyting is done
+ * @param {Function} next The callback function to be called when everything is done
  */
 exports.ldapHelper = function (api, next) {
     api.ldapHelper = {
          /**
          * Main function of addMemberProfileLDAPEntry
          *
-         * @param {Object} api - object used to access infrustrature
+         * @param {Object} api - object used to access infrastructure
          * @param {Object} params require fields: userId, handle, password
          * @param {Function} next - callback function
          */
         addMemberProfileLDAPEntry: function (params, next) {
             api.log('Enter addMemberProfileLDAPEntry', 'debug');
-    
+
             var client, error, index, requiredParams = ['userId', 'handle', 'password'];
-    
+
             for (index = 0; index < requiredParams.length; index += 1) {
                 error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
                 if (error) {
-                    api.log("addMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
+                    api.log("addMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                     return next(error, null);
                 }
             }
@@ -224,43 +224,42 @@ exports.ldapHelper = function (api, next) {
                     if (err) {
                         error = result.pop();
                         api.log('addMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
-                        return next(err, null);                    
+                        return next(err, null);
                     } else {
                         client.unbind();
                     }
                     api.log('Leave addMemberProfileLDAPEntry', 'debug');
                 });
-            } catch (error) {
-              console.log('CAUGHT: ' + error);
-              return next(error, null);
+            } catch (err) {
+                console.log('CAUGHT: ' + err);
+                return next(error, null);
             }
             return next(null, true);
         },
-        
+
         /**
          * Main function of activateMemberProfileLDAPEntry
          *
-         * @param {Object} api - object used to access infrustrature
          * @param {Object} params require fields: userId
          * @param {Function} next - callback function
          */
         activateMemberProfileLDAPEntry: function (params, next) {
             api.log('Enter activateMemberProfileLDAPEntry', 'debug');
-            
+
             var client, error;
-    
+
             // pararms validation
-    
+
             error = api.helper.checkDefined(params['userId'], 'userId');
             if (error) {
-                api.log("activateMemberProfileLDAPEntry: error occured: " + error + " " + (error.stack || ''), "error");
+                api.log("activateMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                 return next(error, true);
             }
-    
+
             async.series([
                 function (callback) {
                     client = createClient();
-                    
+
                     callback(null, 'create client');
                 },
                 function (callback) {

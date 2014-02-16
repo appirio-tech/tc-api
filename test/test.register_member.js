@@ -67,7 +67,7 @@ describe('Test Register Member API', function () {
         clearDb(done);
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return errors if inputs are spaces only', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_1.txt", 'utf8'),
             expected = JSON.parse(text);
@@ -86,7 +86,7 @@ describe('Test Register Member API', function () {
     });
 
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return errors: invalid country, email, firstname, lastname, handle, social', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_2.txt", 'utf8'),
             expected = JSON.parse(text);
@@ -104,7 +104,7 @@ describe('Test Register Member API', function () {
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return errors: invalid handle and invalid social id', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_3.txt", 'utf8'),
             expected = JSON.parse(text);
@@ -121,7 +121,7 @@ describe('Test Register Member API', function () {
                 done(err);
             });
     });
-    
+
     /// Check if the user is prevented to register without a password when not using social login
     it('should return errors: no password provided when registering (no social login)', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_4.txt", 'utf8'),
@@ -207,7 +207,7 @@ describe('Test Register Member API', function () {
         });
     };
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should register successfully', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
@@ -223,7 +223,7 @@ describe('Test Register Member API', function () {
                 validateDatabase(done);
             });
     });
-    
+
     /// Check if the user can register without a password when using social login
     it('should register successfully if no password is provided (via social login)', function (done) {
         supertest(API_ENDPOINT)
@@ -293,7 +293,7 @@ describe('Test Register Member API', function () {
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return if handle and email exists', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_existing.txt", 'utf8'),
             expected = JSON.parse(text);
