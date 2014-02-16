@@ -1,5 +1,0 @@
-database common_oltp;
-DELETE user_social_login where user_id in (400000, 400001);
-DELETE user_role_xref where user_role_id in (400000);
-DELETE security_user where login_id in (400001);
-DELETE user where user_id in (400000, 400001);

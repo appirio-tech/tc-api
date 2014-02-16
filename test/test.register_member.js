@@ -67,7 +67,7 @@ describe('Test Register Member API', function () {
         clearDb(done);
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return errors if inputs are spaces only', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_1.txt", 'utf8'),
             expected = JSON.parse(text);
@@ -86,7 +86,7 @@ describe('Test Register Member API', function () {
     });
 
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return errors: invalid country, email, firstname, lastname, handle, social', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_2.txt", 'utf8'),
             expected = JSON.parse(text);
@@ -104,7 +104,7 @@ describe('Test Register Member API', function () {
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return errors: invalid handle and invalid social id', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_3.txt", 'utf8'),
             expected = JSON.parse(text);
@@ -112,6 +112,24 @@ describe('Test Register Member API', function () {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
             .send({ firstName: 'foo', lastName: 'bar', handle: '1invalidHandle1', email: 'testHandleFoobar@foobar.com', password: '123456', country: 'Japan', socialProviderId: 999, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't' })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
+                }
+                done(err);
+            });
+    });
+
+    /// Check if the user is prevented to register without a password when not using social login
+    it('should return errors: no password provided when registering (no social login)', function (done) {
+        var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_4.txt", 'utf8'),
+            expected = JSON.parse(text);
+
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', country: 'Romania', regSource: "source1" })
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, result) {
@@ -189,7 +207,7 @@ describe('Test Register Member API', function () {
         });
     };
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should register successfully', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
@@ -203,6 +221,23 @@ describe('Test Register Member API', function () {
                 }
                 assert.isNumber(JSON.parse(result.res.text).userId);
                 validateDatabase(done);
+            });
+    });
+
+    /// Check if the user can register without a password when using social login
+    it('should register successfully if no password is provided (via social login)', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testNoPasswd', email: 'testNoPasswd@foobar.com', country: 'Japan', socialProviderId: 1, socialUserName: "testNoPasswd", socialEmail: "testNoPasswd@foobar.com", socialEmailVerified: 't', regSource: "source1" })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, result) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.isNumber(JSON.parse(result.res.text).userId);
+                done();
             });
     });
 
@@ -258,7 +293,7 @@ describe('Test Register Member API', function () {
             });
     });
 
-    /// Check if the data are in expected struture and data
+    /// Check if the data are in expected structure and data
     it('should return if handle and email exists', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_existing.txt", 'utf8'),
             expected = JSON.parse(text);

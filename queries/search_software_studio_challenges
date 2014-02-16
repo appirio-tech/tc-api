@@ -98,7 +98,25 @@ FIRST @pageSize@
    AND p.project_Id = nd_phase.project_id
    AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
    AND p.project_category_id = pcl.project_category_id
-   AND NOT EXISTS (SELECT 1 FROM contest_eligibility ce JOIN group_contest_eligibility gce ON gce.contest_eligibility_id = ce.contest_eligibility_id WHERE ce.contest_id = p.project_id AND gce.group_id = 218)
+   -- Filter out the challenge that user is not belong to.
+   AND p.project_id NOT IN (SELECT
+                              contest_id
+                            FROM contest_eligibility ce
+                            , group_contest_eligibility gce
+                            WHERE gce.contest_eligibility_id = ce.contest_eligibility_id
+                            AND gce.group_id NOT IN (
+                              SELECT
+                              DISTINCT sg.group_id
+                              FROM security_groups sg
+                              LEFT JOIN user_group_xref ugx ON sg.group_id = ugx.group_id
+                              WHERE login_id = DECODE(@userId@, 0, login_id, @userId@)
+                              UNION ALL
+                              SELECT
+                              DISTINCT sg.group_id
+                              FROM security_groups sg
+                              LEFT JOIN user_group_xref ugx ON sg.group_id = ugx.group_id
+                              WHERE login_id IS NULL AND @userId@ = 0
+                            ))
    AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
    -- start of parameters
    AND pstatus.project_status_id IN (@project_status_id@)
