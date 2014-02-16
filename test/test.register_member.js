@@ -121,6 +121,24 @@ describe('Test Register Member API', function () {
                 done(err);
             });
     });
+    
+    /// Check if the user is prevented to register without a password when not using social login
+    it('should return errors: no password provided when registering (no social login)', function (done) {
+        var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_4.txt", 'utf8'),
+            expected = JSON.parse(text);
+
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', country: 'Romania', regSource: "source1" })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, expected, "Invalid error message");
+                }
+                done(err);
+            });
+    });
 
     //validateDatabase for test successInput
     var validateDatabase = function (done) {
@@ -203,6 +221,23 @@ describe('Test Register Member API', function () {
                 }
                 assert.isNumber(JSON.parse(result.res.text).userId);
                 validateDatabase(done);
+            });
+    });
+    
+    /// Check if the user can register without a password when using social login
+    it('should register successfully if no password is provided (via social login)', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testNoPasswd', email: 'testNoPasswd@foobar.com', country: 'Japan', socialProviderId: 1, socialUserName: "testNoPasswd", socialEmail: "testNoPasswd@foobar.com", socialEmailVerified: 't', regSource: "source1" })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, result) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.isNumber(JSON.parse(result.res.text).userId);
+                done();
             });
     });
 

@@ -246,10 +246,6 @@ Register a new user.
             "country" : "UK",
             "email" : "name@domain.com",
             "password" : "HashedPassword",
-            "socialProvider" : "google",
-            "socialUserName" : "JohnsGoogleName",
-            "socialEmail" : "john@gmail.com",
-            "socialEmailVerified" : "true",
             "regSource": "http://registration.source.domain.com"
         }
 
@@ -306,6 +302,69 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+### Create a new user via social login [POST]
++ Request (application/json)
+
+    {
+        "firstname" : "John",
+        "lastname" : "Doe",
+        "handle" : "uniqueLogin",
+        "country" : "UK",
+        "email" : "name@domain.com",
+        "socialProvider" : "google",
+        "socialUserName" : "JohnsGoogleName",
+        "socialEmail" : "john@gmail.com",
+        "socialEmailVerified" : "true",
+        "regSource": "http://registration.source.domain.com"
+    }
+
++ Response 200 (application/json)
+
+        {
+            "name":"OK",
+            "value":"200",
+            "description":"This message will contain the new user id."
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 422 (application/json)
+
+        {
+            "name":"Unprocessable Entity",
+            "value":"422",
+            "description":"This message will explain why the POST data was not accepted."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## Basic User Profile [/users/{handle}]
 ### Basic User Profile [GET]

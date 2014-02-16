@@ -516,6 +516,12 @@ config.badge.properties = {
 };
 
 config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+
+/**
+ * The default password to be used for social register
+ */
+config.defaultPassword = "defaultpass";
+
 //////////////////////////////////
 
 exports.config = config;
