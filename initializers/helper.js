@@ -893,6 +893,13 @@ helper.checkAdmin = function (connection) {
 };
 
 /**
+ * @return {Error} if input not valid.
+ */
+helper.checkMaxInt = function (obj, objName) {
+    return helper.checkMaxNumber(obj, 2147483647, objName);
+};
+
+/**
 * Expose the "helper" utility.
 *
 * @param {Object} api The api object that is used to access the infrastructure

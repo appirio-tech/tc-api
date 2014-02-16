@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.7
  * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -15,6 +15,8 @@
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
  * changes in 1.6:
  * - add corporate_oltp in database mapping.
+ * changes in 1.7:
+ * - add downloadsRootDirectory parameter
  */
 "use strict";
 
@@ -63,7 +65,8 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
-    filteredParams: ['password']
+    filteredParams: ['password'],
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
 };
 
 /////////////

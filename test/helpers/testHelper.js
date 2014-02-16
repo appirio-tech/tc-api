@@ -359,10 +359,11 @@ helper.getAdminJwt = function () {
 
 /**
  * Get jwt token for member
+ * @param {String} [userId] the user id to generate
  * @return {String} the jwt token
  */
-helper.getMemberJwt = function () {
-    return jwt.sign({sub: "ad|132458"}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+helper.getMemberJwt = function (userId) {
+    return jwt.sign({sub: "ad|" + (userId || "132458")}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 };
 
 module.exports = helper;

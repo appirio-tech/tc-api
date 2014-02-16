@@ -1,0 +1,288 @@
+INSERT INTO time_oltp:payment_terms (payment_terms_id, description, creation_date, creation_user, modification_date, modification_user, active, term)
+VALUES (6000000, 'Payment Terms 1', CURRENT, 132456, CURRENT, 132456, 1, 1);
+
+INSERT INTO time_oltp:company (company_id, name, passcode, is_deleted, creation_date, creation_user, modification_date, modification_user)
+VALUES (6000003, 'c', 'PASSCODE 1(6000003)', 0, CURRENT, 132456, CURRENT, 132456);
+
+INSERT INTO time_oltp:client (client_id, name, company_id, payment_term_id, status, salestax, start_date, end_date, code_name, is_deleted, client_status_id, creation_date, creation_user, modification_date, modification_user)
+VALUES (6000002, 'Client 6000002', 6000003, 6000000, 1, 39.0, '2014-01-18 23:15:58', '2014-02-04 23:15:58', 'CodeName 1', 0, 1, CURRENT, 132456, CURRENT, 132456);
+
+
+
+
+
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5010000,7,13,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5010000, 1, 5010001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5010001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5010001, 5010001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5010002, 5010001, 0, "doc", "test/test.doc");
+
+----
+
+
+--CASE 1
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5020000,7,13,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5020000, 1, 5020001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5020001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 5801776, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5020001, 5020001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5020002, 5020001, 0, "doc", "test/test.doc");
+
+--CASE 2
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5030000,7,13,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5030000, 1, 5030001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5030001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5030001, 5030001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5030002, 5030001, 0, "doc", "test/test.docx");
+
+insert into resource(resource_id, resource_role_id, project_id,create_user,create_date,modify_user,modify_date)
+values (5030003, 1, 5030000,'132456',CURRENT,'132456',CURRENT);
+
+insert into resource_info(resource_id, resource_info_type_id, value,create_user, create_date,modify_user,modify_date)
+values (5030003, 1, '132458','132456',CURRENT,'132456',CURRENT);
+
+--CASE 3
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5040004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5040003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5040000, 5040003, 7,13,5040004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5040000, 1, 5040001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5040001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5040001, 5040001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5040002, 5040001, 0, "doc", "test/test.jar");
+
+insert into user_permission_grant (user_permission_grant_id, user_id, resource_id, permission_type_id, is_studio)
+values(5040005, 132458, 5040004, 1, 1);
+
+--CASE 4
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5050004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5050003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5050000, 5050003, 7,13,5050004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5050000, 1, 5050001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5050001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5050001, 5050001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5050002, 5050001, 0, "doc", "test/test.jpg");
+
+insert into customer_group(group_id, name, default_permission, client_id,  archived, auto_grant)
+values (5050005, "name", 1, 1, 0, 0);
+
+insert into group_associated_direct_projects(group_direct_project_id, group_id, tc_direct_project_id)
+values(5050006, 5050005, 5050004);
+
+insert into group_member(group_member_id, user_id, group_id, active, activated_on, use_group_default)
+values(5050007, 132458, 5050005, 1, CURRENT, 1);
+
+--Case 5
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5060004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5060003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5060000, 5060003, 7,13,5060004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5060000, 1, 5060001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5060001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5060001, 5060001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5060002, 5060001, 0, "doc", "test/test.pdf");
+
+insert into customer_group(group_id, name, default_permission, client_id,  archived, auto_grant)
+values (5060005, "name", 1, 1, 0, 0);
+
+
+insert into group_member(group_member_id, user_id, group_id, active, activated_on, use_group_default)
+values(5060007, 132458, 5060005, 1, CURRENT, 1);
+
+
+insert into corporate_oltp:direct_project_account(direct_project_account_id, project_id, billing_account_id)
+values (5060008, 5060004, 5060009);
+
+insert into group_associated_billing_accounts(group_id, billing_account_id)
+values (5060005, 5060009);
+
+
+--Case 6
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5070004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5070003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5070000, 5070003, 7,13,5070004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5070000, 1, 5070001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5070001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5070001, 5070001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+insert into comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5070002, 5070001, 0, "doc", "test/test.ppt");
+
+insert into customer_group(group_id, name, default_permission, client_id,  archived, auto_grant)
+values (5070005, "name", 1, 6000002, 0, 1);
+
+insert into group_member(group_member_id, user_id, group_id, active, activated_on, use_group_default)
+values(5070007, 132458, 5070005, 1, CURRENT, 1);
+
+INSERT INTO tt_project (project_id, company_id, name, active, sales_tax, po_box_number, payment_terms_id, description, start_date, end_date, project_status_id, client_id, parent_project_id, is_deleted, is_manual_prize_setting, budget, creation_date, creation_user, modification_date, modification_user)
+VALUES (5070004, 6000003, 'Client 5070000 Billing Account 1', 1, 30.0, 'PO BOX 5070000', 6000000, 'Client 5070000 Billing Account 1', '2014-01-20 23:15:58', '2017-03-31 04:51:10', 1, 6000002, null, 0, 0, 41205.0, CURRENT, 132456, CURRENT, 132456);
+
+
+insert into tt_client_project(client_id, project_id, creation_date, creation_user, modification_date, modification_user)
+values (6000002, 5070004, CURRENT, 132456, CURRENT, 132456);
+
+
+---Case 7
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5080004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5080003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5080000, 5080003, 7,13,5080004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5080000, 1, 5080001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5080001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5080001, 5080001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+INSERT INTO comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5080002, 5080001, 0, "doc", "test/test.txt");
+
+INSERT INTO resource(resource_id, resource_role_id, project_id,create_user,create_date,modify_user,modify_date)
+values (5080003, 13, 5080000,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource_info(resource_id, resource_info_type_id, value,create_user, create_date,modify_user,modify_date)
+values (5080003, 1, '132458','132456',CURRENT,'132456',CURRENT);
+
+
+---Case 8
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5090004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5090003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5090000, 5090003, 7,13,5090004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5090000, 1, 5090001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5090001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5090001, 5090001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+INSERT INTO comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5090002, 5090001, 0, "doc", "test/test.xls");
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES (5090005, 5090000, 2, 3, CURRENT + -70560 UNITS MINUTE, CURRENT + -70560 UNITS MINUTE, CURRENT + -67680 UNITS MINUTE, CURRENT + -70560 UNITS MINUTE, CURRENT + -67680 UNITS MINUTE, 172800000, 132456, CURRENT, 132456, CURRENT);
+
+
+-- Case 9
+
+
+insert into tc_direct_project(project_id, name, description, project_status_id, user_id,create_date)
+values (5100004, 'name', 'desc', 1, 132456, CURRENT);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date)
+VALUES(5100003,'desc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project(project_id, project_studio_spec_id, project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date)
+VALUES(5100000, 5100003, 1,13,5090004,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id, project_info_type_id, value,create_user,create_date,modify_user,modify_date)
+VALUES(5100000, 1, 5100001, '132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (5100001, 1, 'a', 's', 'd', 'f', CURRENT, 1, 27202915, CURRENT, 1);
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (5100001, 5100001, 1, '1.0', CURRENT, 142, CURRENT, 1700.0, 'Comments for version #1', CURRENT, 0);
+
+INSERT INTO comp_documentation (document_id, comp_vers_id, document_type_id, document_name, url)
+values (5100002, 5100001, 0, "doc", "test/test.zip");
+
+INSERT INTO resource(resource_id, resource_role_id, project_id,create_user,create_date,modify_user,modify_date)
+values (5100003, 1, 5100000,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource_info(resource_id, resource_info_type_id, value,create_user, create_date,modify_user,modify_date)
+values (5100003, 1, '132458','132456',CURRENT,'132456',CURRENT);

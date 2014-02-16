@@ -128,6 +128,7 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+        { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
