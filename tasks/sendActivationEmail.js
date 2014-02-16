@@ -23,7 +23,7 @@ var tc_email_account = process.env.TC_EMAIL_ACCOUNT,
     tc_email_host = process.env.TC_EMAIL_HOST,
     tc_email_host_port = process.env.TC_EMAIL_HOST_PORT;
 if (!_.isBoolean(tc_email_secured)) {
-    tc_email_secured = !_.isString(tc_email_secured) || tc_email_secured.toLowerCase() != "false";
+    tc_email_secured = !_.isString(tc_email_secured) || tc_email_secured.toLowerCase() !== "false";
 }
 
 /**
@@ -66,7 +66,7 @@ var sendActivationEmail = {
             err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
 
             if (err) {
-                api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
+                api.log("task sendActivationEmail: error occurred: " + err + " " + (err.stack || ''), "error");
                 return next(null, true);
             }
         }
