@@ -1,0 +1,4 @@
+SELECT FIRST 1 1
+FROM user_group_xref
+WHERE group_id = DECODE(@communityId@, 0, group_id, @communityId@)
+AND login_id = DECODE(@userId@, 0, login_id, @userId@)

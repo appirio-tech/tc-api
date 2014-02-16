@@ -1,8 +1,8 @@
-/*
+﻿/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author Sky_, muzehyun
+ * @version 1.3
+ * @author Sky_, muzehyun, Ghost_141
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
@@ -21,8 +21,6 @@ var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
-var CLIENT_ID = require('../../config').config.general.oauthClientId;
-var SECRET = require('../../config').config.general.oauthClientSecret;
 
 /**
  * The test helper

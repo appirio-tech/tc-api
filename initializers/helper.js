@@ -881,11 +881,11 @@ helper.checkAdmin = function (connection) {
     if (!connection.caller || connection.caller.accessLevel === "anon") {
         return new UnauthorizedError();
     }
-	
-	if (connection.caller.accessLevel === "member") {
+
+    if (connection.caller.accessLevel === "member") {
         return new ForbiddenError();
     }
-	
+
     if (connection.caller.accessLevel === "admin") {
         return null;
     }

@@ -33,9 +33,9 @@ INSERT INTO 'informix'.round_type_lu(round_type_id,round_type_desc,algo_rating_t
 INSERT INTO 'informix'.round_type_lu(round_type_id,round_type_desc,algo_rating_type_id) VALUES (22, 'AMD Marathon Match', NULL);
 INSERT INTO 'informix'.round_type_lu(round_type_id,round_type_desc,algo_rating_type_id) VALUES (23, 'AMD Marathon Match Practice', NULL);
 
-INSERT INTO round(round_id, contest_id, name, failed, round_type_id, round_type_desc, short_name, calendar_id) VALUES (1, 1, 'SRM 1', 0, 1, 'Single Round Match', 'SRM 1', 3292);
-INSERT INTO round(round_id, contest_id, name, failed, round_type_id, round_type_desc, short_name, calendar_id) VALUES (2, 2, 'SRM 2', 0, 1, 'Single Round Match', 'SRM 2', 3299);
-INSERT INTO round(round_id, contest_id, name, failed, round_type_id, round_type_desc, short_name, calendar_id) VALUES (3, 3, 'SRM 3', 0, 1, 'Single Round Match', 'SRM 3', 3306);
+INSERT INTO round(round_id, contest_id, name, failed, round_type_id, round_type_desc, short_name, calendar_id, status) VALUES (1, 1, 'SRM 1', 0, 1, 'Single Round Match', 'SRM 1', 3292, 'A');
+INSERT INTO round(round_id, contest_id, name, failed, round_type_id, round_type_desc, short_name, calendar_id, status) VALUES (2, 2, 'SRM 2', 0, 1, 'Single Round Match', 'SRM 2', 3299, 'A');
+INSERT INTO round(round_id, contest_id, name, failed, round_type_id, round_type_desc, short_name, calendar_id, status) VALUES (3, 3, 'SRM 3', 0, 1, 'Single Round Match', 'SRM 3', 3306, 'A');
 
 
 INSERT INTO level_lu(level_id, level, level_desc) VALUES (1, 'Easy', 'Easy');

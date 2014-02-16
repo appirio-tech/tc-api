@@ -1,0 +1,3 @@
+[
+    "Password is a required parameter if the registering is not through social login."
+]

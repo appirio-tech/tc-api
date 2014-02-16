@@ -187,6 +187,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             next(err);
         } else {
             user.id = result;
+            var password = (user.password !== null && user.password !== undefined) ? user.password : api.config.defaultPassword;
             // perform a series of insert
             async.series([
                 function (callback) {
@@ -220,7 +221,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : user.password}, function (err, result) {                       
+                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : password}, function (err, result) {                       
                         if (err) {
                             next(err);
                         } else {
@@ -229,7 +230,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    var hashedPassword = api.helper.encodePassword(user.password, PASSWORD_HASH_KEY);
+                    var hashedPassword = api.helper.encodePassword(password, PASSWORD_HASH_KEY);
                     api.log("Hashed Password : " + hashedPassword);
 
                     // insert with the hashed password
@@ -846,8 +847,8 @@ exports.action = {
     name: "memberRegister",
     description: "Register a new member",
     inputs: {
-        required: ["firstName", "lastName", "handle", "country", "email", "password"],
-        optional: ["socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource"]
+        required: ["firstName", "lastName", "handle", "country", "email"],
+        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource"]
     },
     blockedConnectionTypes : [],
     outputExample : {},
@@ -874,6 +875,13 @@ exports.action = {
 
             // validate parameters that require database access
             async.series({
+                validatePassword: function (callback) {
+                    if ((connection.params.socialProviderId == null || connection.params.socialProviderId == undefined) && (connection.params.password == null || connection.params.password == undefined)) {                   
+                        callback(null, "Password is a required parameter if the registering is not through social login.");
+                    } else {
+                        callback(null, null);
+                    }
+                },
                 validateEmail: function (callback) {
                     validateEmail(api, connection.params.email, dbConnectionMap, function (err, result) {
                         callback(err, result);
@@ -929,6 +937,7 @@ exports.action = {
                         return;
                     }
 
+                    messages.push(results.validatePassword);
                     messages.push(results.validateEmail);
                     messages.push(results.validateHandle);
                     messages.push(results.validateCountryName);

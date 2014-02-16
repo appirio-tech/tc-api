@@ -20,7 +20,7 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 // var API_ENDPOINT = 'http://protected-retreat-7238.herokuapp.com';
 
 describe('Get Tops Statistics API - ', function () {
-    this.timeout(30000); // The api with testing remote db could be quit slow
+    this.timeout(60000); // The api with testing remote db could be quit slow
 
     beforeEach(function () {
         request = require('supertest');

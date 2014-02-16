@@ -39,7 +39,7 @@ exports.action = {
             startDate = connection.params.startDate,
             endDate = connection.params.endDate,
             cmc = connection.params.sfdcAccountId || "",
-			customerNumber = connection.params.customerNumber || "",
+            customerNumber = connection.params.customerNumber || "",
             sqlParameters,
             costs;
         if (!dbConnectionMap) {
@@ -69,7 +69,7 @@ exports.action = {
                     sdt: startDate,
                     edt: endDate,
                     cmc_account_id: cmc,
-					customer_number: customerNumber
+                    customer_number: customerNumber
                 };
 
                 api.dataAccess.executeQuery("check_client_challenge_costs_exists", sqlParameters, dbConnectionMap, cb);
@@ -83,7 +83,7 @@ exports.action = {
                 costs = _.map(results, function (item) {
                     return {
                         "customerName": item.customer_name,
-						"customerNumber": item.customer_number,
+                        "customerNumber": item.customer_number,
                         "customerId": item.customer_id,
                         "projectName": item.project_name,
                         "challengeName": item.challenge_name,
