@@ -174,6 +174,7 @@ function mapIssue(api, data, callback) {
     var issue, customFields;
     try {
         issue = {
+            id: data.key,
             name: data.summary,
             jiraUrl: "https://apps.topcoder.com/bugs/browse/" + data.key,
             payment: 'N/A',
