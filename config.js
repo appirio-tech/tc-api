@@ -523,7 +523,7 @@ config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocum
 /**
  * The default password to be used for social register
  */
-config.defaultPassword = "defaultpass";
+config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
 
 //////////////////////////////////
 
