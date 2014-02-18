@@ -1,5 +1,6 @@
 [
     {
+        "id": "APITEST-4",
         "name": "Closed task 2",
         "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-4",
         "payment": 800,
@@ -7,6 +8,7 @@
         "startDate": "2014-02-10T13:26:31-05:00"
     },
     {
+        "id": "APITEST-3",
         "name": "Closed task 1",
         "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-3",
         "payment": 500,
@@ -14,6 +16,7 @@
         "startDate": "2014-02-10T13:19:26-05:00"
     },
     {
+        "id": "APITEST-2",
         "name": "Open task 2",
         "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-2",
         "payment": 300,
@@ -21,6 +24,7 @@
         "startDate": "2014-02-10T13:18:09-05:00"
     },
     {
+        "id": "APITEST-1",
         "name": "Open task 1",
         "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-1",
         "payment": 200,
