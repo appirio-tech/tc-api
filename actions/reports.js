@@ -97,7 +97,8 @@ exports.action = {
                         "challengeMemberCost": item.challenge_member_cost,
                         "challengeFee": item.challenge_fee,
                         "challengeTotalCost": item.challenge_total_cost,
-                        "challengeDuration": item.challenge_duration
+                        "challengeDuration": item.challenge_duration,
+						"lastModificationDate": item.last_modification_date
                     };
                 });
                 cb();
