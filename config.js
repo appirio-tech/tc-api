@@ -155,7 +155,7 @@ config.tasks = {
   // what queues should the workers work and how many to spawn?
   //  ['*'] is one worker working the * queue
   //  ['high,low'] is one worker working 2 queues
-    queues: [],
+    queues: ['default'],
   // how long to sleep between jobs / scheduler checks
     timeout: 5000,
   // What redis server should we connect to for tasks / delayed jobs?
