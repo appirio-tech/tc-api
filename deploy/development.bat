@@ -55,3 +55,6 @@ set TIMEOUT=3000
 REM Used in Jira soap service (Bugs API)
 set JIRA_USERNAME=api_test
 set JIRA_PASSWORD=8CDDp6BHLtUeUdD
+
+set ACTIONHERO_CONFIG=./config.js
+

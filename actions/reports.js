@@ -85,6 +85,8 @@ exports.action = {
                         "customerName": item.customer_name,
                         "customerNumber": item.customer_number,
                         "customerId": item.customer_id,
+						"billingAccountId": item.billing_account_id,
+						"billingAccountName": item.billing_account_name,
                         "projectName": item.project_name,
                         "challengeName": item.challenge_name,
                         "challengeId": item.challenge_id,
@@ -95,7 +97,8 @@ exports.action = {
                         "challengeMemberCost": item.challenge_member_cost,
                         "challengeFee": item.challenge_fee,
                         "challengeTotalCost": item.challenge_total_cost,
-                        "challengeDuration": item.challenge_duration
+                        "challengeDuration": item.challenge_duration,
+						"lastModificationDate": item.last_modification_date
                     };
                 });
                 cb();

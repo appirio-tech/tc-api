@@ -210,7 +210,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
                         api.log("Activation url: " + url, "debug");
 
-                        api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, '');
+                        api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
                         
                         callback(null, null);
                     }

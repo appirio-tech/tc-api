@@ -48,7 +48,7 @@ var sendActivationEmail = {
     description: 'I will send activation Email',
     scope: 'any',
     frequency: 0,
-    queue: '',
+    queue: 'default',
     /**
      * Main function of addLdapEntry tasks
      *
