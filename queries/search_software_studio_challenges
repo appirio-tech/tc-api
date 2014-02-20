@@ -27,16 +27,8 @@ FIRST @pageSize@
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 6)::DECIMAL(10,2) AS prize6
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 7)::DECIMAL(10,2) AS prize7
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 8)::DECIMAL(10,2) AS prize8
-     , (SELECT NVL(NVL(ppd.actual_start_time, psd.actual_start_time), ppd.scheduled_start_time)
-          FROM project proj
-             , OUTER project_phase psd
-             , OUTER project_phase ppd
-         WHERE psd.project_id = proj.project_id
-           AND psd.phase_type_id = 2
-           AND ppd.project_id = proj.project_id
-           AND proj.project_id = p.project_id
-           AND ppd.phase_type_id = 1) AS posting_date
-     , NVL(pp1.scheduled_end_time, pp2.scheduled_end_time) AS registration_end_date
+     , NVL(pp1.actual_start_time, pp1.scheduled_start_time) AS posting_date
+     , NVL(pp1.actual_end_time, pp1.scheduled_end_time) AS registration_end_date
      , pp15.scheduled_end_time AS checkpoint_submission_end_date
      , pp2.scheduled_end_time AS submission_end_date
      , NVL(pp6.scheduled_end_time, pp4.scheduled_end_time) AS appeals_end_date
