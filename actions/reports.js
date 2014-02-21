@@ -71,8 +71,11 @@ exports.action = {
                     cmc_account_id: cmc,
                     customer_number: customerNumber
                 };
-
-                api.dataAccess.executeQuery("check_client_challenge_costs_exists", sqlParameters, dbConnectionMap, cb);
+                if (_.isDefined(connection.params.clientId) || _.isDefined(connection.params.sfdcAccountId)) {
+                    api.dataAccess.executeQuery("check_client_challenge_costs_exists", sqlParameters, dbConnectionMap, cb);
+                } else {
+                    cb(null, ["dummy"]);
+                }
             }, function (results, cb) {
                 if (!results.length) {
                     cb(new NotFoundError('Client not found'));
@@ -85,8 +88,8 @@ exports.action = {
                         "customerName": item.customer_name,
                         "customerNumber": item.customer_number,
                         "customerId": item.customer_id,
-						"billingAccountId": item.billing_account_id,
-						"billingAccountName": item.billing_account_name,
+                        "billingAccountId": item.billing_account_id,
+                        "billingAccountName": item.billing_account_name,
                         "projectName": item.project_name,
                         "challengeName": item.challenge_name,
                         "challengeId": item.challenge_id,
@@ -98,7 +101,7 @@ exports.action = {
                         "challengeFee": item.challenge_fee,
                         "challengeTotalCost": item.challenge_total_cost,
                         "challengeDuration": item.challenge_duration,
-						"lastModificationDate": item.last_modification_date
+                        "lastModificationDate": item.last_modification_date
                     };
                 });
                 cb();
