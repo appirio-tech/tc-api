@@ -191,7 +191,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             // perform a series of insert
             async.series([
                 function (callback) {
-                    var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
+                    var status = 'U';
                     var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
@@ -206,12 +206,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
-                    } else {
-                        url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
-                        api.log("Activation url: " + url, "debug");
-
-                        api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
-                        
+                    } else {    
                         callback(null, null);
                     }
                 },
@@ -291,6 +286,16 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     ], function (err, result) {
                         callback(err, result);
                     });
+                },
+				function (callback) {
+                    var url;
+                    url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
+                    api.log("Activation url: " + url, "debug");
+
+                    api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
+                        
+                    callback(null, null);
+                    
                 }
             ],
                 // This is called when all above operations are done or any error occurs
