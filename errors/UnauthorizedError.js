@@ -25,6 +25,6 @@ var UnauthorizedError = function (message, cause) {
 
 //use Error as prototype
 require('util').inherits(UnauthorizedError, Error);
-UnauthorizedError.prototype.name = 'UnAuthorized Error';
+UnauthorizedError.prototype.name = 'Unauthorized Error';
 
 module.exports = UnauthorizedError;
