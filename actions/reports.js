@@ -106,6 +106,7 @@ var getChallengeCosts = function (api, connection, next) {
                 reliability: exeQuery('reliability'),
                 fixedFee: exeQuery('fixed_fee'),
                 percentageFeeDR: exeQuery('percentage_fee_DR'),
+                credit: exeQuery('credit'),
                 fixedBugFee: exeQuery('fixed_bug_fee'),
                 fixedProjectLevelBugFee: exeQuery('fixed_project_level_bug_fee'),
                 percentageFeeProjectLevelPayment: exeQuery('percentage_fee_project_level_payment')
