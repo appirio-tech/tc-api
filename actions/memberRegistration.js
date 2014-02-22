@@ -203,7 +203,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var url, task;
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
-                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
+                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : user.socialUserId}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
                     } else {    
@@ -853,7 +853,7 @@ exports.action = {
     description: "Register a new member",
     inputs: {
         required: ["firstName", "lastName", "handle", "country", "email"],
-        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource"]
+        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource", "socialUserId"]
     },
     blockedConnectionTypes : [],
     outputExample : {},
