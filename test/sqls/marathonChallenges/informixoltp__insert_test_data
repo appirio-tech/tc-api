@@ -1,309 +1,309 @@
 ﻿INSERT INTO contest(contest_id, name) VALUES(2001, 'test contest 2001');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2001, 2001, 'test round 2001', 6);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 2, '2013-11-02 01:50:51', '2014-12-02 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2002, 2001, 'test round 2002', 11);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2002, 2, '2013-11-25 01:50:51', '2053-12-25 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2002, 2, '2013-11-25 01:50:51', '2014-12-25 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2003, 2001, 'test round 2003', 18);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2003, 2, '2013-10-19 01:50:51', '2053-11-18 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2003, 2, '2013-10-19 01:50:51', '2014-11-18 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2004, 2001, 'test round 2004', 13);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2004, 2, '2013-11-20 01:50:51', '2053-12-20 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2004, 2, '2013-11-20 01:50:51', '2014-12-20 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2005, 2001, 'test round 2005', 9);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2005, 2, '2013-10-18 01:50:51', '2053-11-17 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2005, 2, '2013-10-18 01:50:51', '2014-11-17 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2006, 2001, 'test round 2006', 19);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2006, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2006, 2, '2013-10-09 01:50:51', '2014-11-08 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2007, 2001, 'test round 2007', 14);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2007, 2, '2013-11-19 01:50:51', '2053-12-19 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2007, 2, '2013-11-19 01:50:51', '2014-12-19 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2008, 2001, 'test round 2008', 23);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2008, 2, '2013-10-27 01:50:51', '2053-11-26 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2008, 2, '2013-10-27 01:50:51', '2014-11-26 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2009, 2001, 'test round 2009', 10);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2009, 2, '2013-10-11 01:50:51', '2053-11-10 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2009, 2, '2013-10-11 01:50:51', '2014-11-10 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2010, 2001, 'test round 2010', 15);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2010, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2010, 2, '2013-10-09 01:50:51', '2014-11-08 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2011, 2001, 'test round 2011', 17);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2011, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2011, 2, '2013-10-08 01:50:51', '2014-11-07 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2012, 2001, 'test round 2012', 23);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2012, 2, '2013-10-26 01:50:51', '2053-11-25 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2012, 2, '2013-10-26 01:50:51', '2014-11-25 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2013, 2001, 'test round 2013', 13);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2013, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2013, 2, '2013-11-02 01:50:51', '2014-12-02 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2014, 2001, 'test round 2014', 13);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2014, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2014, 2, '2013-10-15 01:50:51', '2014-11-14 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2015, 2001, 'test round 2015', 10);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2015, 2, '2013-10-25 01:50:51', '2053-11-24 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2015, 2, '2013-10-25 01:50:51', '2014-11-24 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2016, 2001, 'test round 2016', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2016, 2, '2013-10-28 01:50:51', '2053-11-27 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2016, 2, '2013-10-28 01:50:51', '2014-11-27 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2017, 2001, 'test round 2017', 15);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2017, 2, '2013-10-19 01:50:51', '2053-11-18 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2017, 2, '2013-10-19 01:50:51', '2014-11-18 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2018, 2001, 'test round 2018', 22);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2018, 2, '2013-11-09 01:50:51', '2053-12-09 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2018, 2, '2013-11-09 01:50:51', '2014-12-09 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2019, 2001, 'test round 2019', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2019, 2, '2013-11-15 01:50:51', '2053-12-15 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2019, 2, '2013-11-15 01:50:51', '2014-12-15 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2020, 2001, 'test round 2020', 10);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2020, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2020, 2, '2013-10-08 01:50:51', '2014-11-07 01:50:51', 'A');
 
 INSERT INTO contest(contest_id, name) VALUES(2002, 'test contest 2002');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2021, 2002, 'test round 2021', 2);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2021, 2, '2013-10-25 01:50:51', '2053-11-24 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2021, 2, '2013-10-25 01:50:51', '2014-11-24 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2022, 2002, 'test round 2022', 22);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2022, 2, '2013-11-22 01:50:51', '2053-12-22 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2022, 2, '2013-11-22 01:50:51', '2014-12-22 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2023, 2002, 'test round 2023', 1);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2023, 2, '2013-11-17 01:50:51', '2053-12-17 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2023, 2, '2013-11-17 01:50:51', '2014-12-17 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2024, 2002, 'test round 2024', 18);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2024, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2024, 2, '2013-10-08 01:50:51', '2014-11-07 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2025, 2002, 'test round 2025', 14);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2025, 2, '2013-11-01 01:50:51', '2053-12-01 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2025, 2, '2013-11-01 01:50:51', '2014-12-01 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2026, 2002, 'test round 2026', 9);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2026, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2026, 2, '2013-11-23 01:50:51', '2014-12-23 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2027, 2002, 'test round 2027', 14);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2027, 2, '2013-10-30 01:50:51', '2053-11-29 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2027, 2, '2013-10-30 01:50:51', '2014-11-29 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2028, 2002, 'test round 2028', 19);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2028, 2, '2013-10-23 01:50:51', '2053-11-22 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2028, 2, '2013-10-23 01:50:51', '2014-11-22 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2029, 2002, 'test round 2029', 7);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2029, 2, '2013-11-09 01:50:51', '2053-12-09 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2029, 2, '2013-11-09 01:50:51', '2014-12-09 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2030, 2002, 'test round 2030', 1);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2030, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2030, 2, '2013-10-17 01:50:51', '2014-11-16 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2031, 2002, 'test round 2031', 7);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2031, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2031, 2, '2013-10-17 01:50:51', '2014-11-16 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2032, 2002, 'test round 2032', 15);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2032, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2032, 2, '2013-11-23 01:50:51', '2014-12-23 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2033, 2002, 'test round 2033', 27);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2033, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2033, 2, '2013-11-02 01:50:51', '2014-12-02 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2034, 2002, 'test round 2034', 15);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2034, 2, '2013-11-18 01:50:51', '2053-12-18 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2034, 2, '2013-11-18 01:50:51', '2014-12-18 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2035, 2002, 'test round 2035', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2035, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2035, 2, '2013-11-23 01:50:51', '2014-12-23 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2036, 2002, 'test round 2036', 23);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2036, 2, '2013-11-25 01:50:51', '2053-12-25 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2036, 2, '2013-11-25 01:50:51', '2014-12-25 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2037, 2002, 'test round 2037', 3);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2037, 2, '2013-11-21 01:50:51', '2053-12-21 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2037, 2, '2013-11-21 01:50:51', '2014-12-21 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2038, 2002, 'test round 2038', 23);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2038, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2038, 2, '2013-10-17 01:50:51', '2014-11-16 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2039, 2002, 'test round 2039', 21);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2039, 2, '2013-10-16 01:50:51', '2053-11-15 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2039, 2, '2013-10-16 01:50:51', '2014-11-15 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2040, 2002, 'test round 2040', 7);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2040, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2040, 2, '2013-11-23 01:50:51', '2014-12-23 01:50:51', 'A');
 
 INSERT INTO contest(contest_id, name) VALUES(2003, 'test contest 2003');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2041, 2003, 'test round 2041', 18);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2041, 2, '2013-10-19 01:50:51', '2053-11-18 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2041, 2, '2013-10-19 01:50:51', '2014-11-18 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2042, 2003, 'test round 2042', 7);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2042, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2042, 2, '2013-10-15 01:50:51', '2014-11-14 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2043, 2003, 'test round 2043', 9);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2043, 2, '2013-11-07 01:50:51', '2053-12-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2043, 2, '2013-11-07 01:50:51', '2014-12-07 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2044, 2003, 'test round 2044', 9);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2044, 2, '2013-10-27 01:50:51', '2053-11-26 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2044, 2, '2013-10-27 01:50:51', '2014-11-26 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2045, 2003, 'test round 2045', 2);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2045, 2, '2013-10-24 01:50:51', '2053-11-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2045, 2, '2013-10-24 01:50:51', '2014-11-23 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2046, 2003, 'test round 2046', 10);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2046, 2, '2013-10-20 01:50:51', '2053-11-19 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2046, 2, '2013-10-20 01:50:51', '2014-11-19 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2047, 2003, 'test round 2047', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2047, 2, '2013-11-07 01:50:51', '2053-12-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2047, 2, '2013-11-07 01:50:51', '2014-12-07 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2048, 2003, 'test round 2048', 20);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2048, 2, '2013-11-10 01:50:51', '2053-12-10 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2048, 2, '2013-11-10 01:50:51', '2014-12-10 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2049, 2003, 'test round 2049', 6);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2049, 2, '2013-10-28 01:50:51', '2053-11-27 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2049, 2, '2013-10-28 01:50:51', '2014-11-27 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2050, 2003, 'test round 2050', 12);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2050, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2050, 2, '2013-10-09 01:50:51', '2014-11-08 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2051, 2003, 'test round 2051', 22);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2051, 2, '2013-11-26 01:50:51', '2053-12-26 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2051, 2, '2013-11-26 01:50:51', '2014-12-26 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2052, 2003, 'test round 2052', 3);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2052, 2, '2013-11-08 01:50:51', '2053-12-08 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2052, 2, '2013-11-08 01:50:51', '2014-12-08 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2053, 2003, 'test round 2053', 12);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2053, 2, '2013-11-11 01:50:51', '2053-12-11 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2053, 2, '2013-11-11 01:50:51', '2014-12-11 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2054, 2003, 'test round 2054', 11);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2054, 2, '2013-11-20 01:50:51', '2053-12-20 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2054, 2, '2013-11-20 01:50:51', '2014-12-20 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2055, 2003, 'test round 2055', 2);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2055, 2, '2013-11-01 01:50:51', '2053-12-01 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2055, 2, '2013-11-01 01:50:51', '2014-12-01 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2056, 2003, 'test round 2056', 13);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2056, 2, '2013-10-14 01:50:51', '2053-11-13 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2056, 2, '2013-10-14 01:50:51', '2014-11-13 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2057, 2003, 'test round 2057', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2057, 2, '2013-10-11 01:50:51', '2053-11-10 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2057, 2, '2013-10-11 01:50:51', '2014-11-10 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2058, 2003, 'test round 2058', 15);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2058, 2, '2013-10-12 01:50:51', '2053-11-11 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2058, 2, '2013-10-12 01:50:51', '2014-11-11 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2059, 2003, 'test round 2059', 11);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2059, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2059, 2, '2013-10-15 01:50:51', '2014-11-14 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2060, 2003, 'test round 2060', 19);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2060, 2, '2013-11-25 01:50:51', '2053-12-25 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2060, 2, '2013-11-25 01:50:51', '2014-12-25 01:50:51', 'A');
 
 INSERT INTO contest(contest_id, name) VALUES(2004, 'test contest 2004');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2061, 2004, 'test round 2061', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2061, 2, '2013-11-19 01:50:51', '2053-12-19 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2061, 2, '2013-11-19 01:50:51', '2014-12-19 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2062, 2004, 'test round 2062', 2);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2062, 2, '2013-10-21 01:50:51', '2053-11-20 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2062, 2, '2013-10-21 01:50:51', '2014-11-20 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2063, 2004, 'test round 2063', 27);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2063, 2, '2013-10-13 01:50:51', '2053-11-12 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2063, 2, '2013-10-13 01:50:51', '2014-11-12 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2064, 2004, 'test round 2064', 14);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2064, 2, '2013-11-03 01:50:51', '2053-12-03 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2064, 2, '2013-11-03 01:50:51', '2014-12-03 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2065, 2004, 'test round 2065', 27);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2065, 2, '2013-11-02 01:50:51', '2053-12-02 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2065, 2, '2013-11-02 01:50:51', '2014-12-02 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2066, 2004, 'test round 2066', 17);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2066, 2, '2013-11-12 01:50:51', '2053-12-12 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2066, 2, '2013-11-12 01:50:51', '2014-12-12 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2067, 2004, 'test round 2067', 3);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2067, 2, '2013-10-10 01:50:51', '2053-11-09 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2067, 2, '2013-10-10 01:50:51', '2014-11-09 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2068, 2004, 'test round 2068', 14);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2068, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2068, 2, '2013-11-23 01:50:51', '2014-12-23 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2069, 2004, 'test round 2069', 23);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2069, 2, '2013-11-07 01:50:51', '2053-12-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2069, 2, '2013-11-07 01:50:51', '2014-12-07 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2070, 2004, 'test round 2070', 20);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2070, 2, '2013-10-17 01:50:51', '2053-11-16 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2070, 2, '2013-10-17 01:50:51', '2014-11-16 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2071, 2004, 'test round 2071', 6);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2071, 2, '2013-10-22 01:50:51', '2053-11-21 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2071, 2, '2013-10-22 01:50:51', '2014-11-21 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2072, 2004, 'test round 2072', 1);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2072, 2, '2013-10-30 01:50:51', '2053-11-29 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2072, 2, '2013-10-30 01:50:51', '2014-11-29 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2073, 2004, 'test round 2073', 18);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2073, 2, '2013-10-31 01:50:51', '2053-11-30 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2073, 2, '2013-10-31 01:50:51', '2014-11-30 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2074, 2004, 'test round 2074', 11);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2074, 2, '2013-11-21 01:50:51', '2053-12-21 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2074, 2, '2013-11-21 01:50:51', '2014-12-21 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2075, 2004, 'test round 2075', 17);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2075, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2075, 2, '2013-10-15 01:50:51', '2014-11-14 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2076, 2004, 'test round 2076', 11);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2076, 2, '2013-10-23 01:50:51', '2053-11-22 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2076, 2, '2013-10-23 01:50:51', '2014-11-22 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2077, 2004, 'test round 2077', 3);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2077, 2, '2013-11-11 01:50:51', '2053-12-11 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2077, 2, '2013-11-11 01:50:51', '2014-12-11 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2078, 2004, 'test round 2078', 17);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2078, 2, '2013-10-20 01:50:51', '2053-11-19 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2078, 2, '2013-10-20 01:50:51', '2014-11-19 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2079, 2004, 'test round 2079', 17);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2079, 2, '2013-10-09 01:50:51', '2053-11-08 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2079, 2, '2013-10-09 01:50:51', '2014-11-08 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2080, 2004, 'test round 2080', 2);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2080, 2, '2013-11-23 01:50:51', '2053-12-23 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2080, 2, '2013-11-23 01:50:51', '2014-12-23 01:50:51', 'A');
 
 INSERT INTO contest(contest_id, name) VALUES(2005, 'test contest 2005');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2081, 2005, 'test round 2081', 12);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2081, 2, '2013-10-08 01:50:51', '2053-11-07 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2081, 2, '2013-10-08 01:50:51', '2014-11-07 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2082, 2005, 'test round 2082', 10);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2082, 2, '2013-10-25 01:50:51', '2053-11-24 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2082, 2, '2013-10-25 01:50:51', '2014-11-24 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2083, 2005, 'test round 2083', 17);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2083, 2, '2013-10-20 01:50:51', '2053-11-19 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2083, 2, '2013-10-20 01:50:51', '2014-11-19 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2084, 2005, 'test round 2084', 23);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2084, 2, '2013-10-27 01:50:51', '2053-11-26 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2084, 2, '2013-10-27 01:50:51', '2014-11-26 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2085, 2005, 'test round 2085', 6);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2085, 2, '2013-11-06 01:50:51', '2053-12-06 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2085, 2, '2013-11-06 01:50:51', '2014-12-06 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2086, 2005, 'test round 2086', 20);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2086, 2, '2013-10-18 01:50:51', '2053-11-17 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2086, 2, '2013-10-18 01:50:51', '2014-11-17 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2087, 2005, 'test round 2087', 7);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2087, 2, '2013-11-05 01:50:51', '2053-12-05 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2087, 2, '2013-11-05 01:50:51', '2014-12-05 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2088, 2005, 'test round 2088', 27);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2088, 2, '2013-10-13 01:50:51', '2053-11-12 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2088, 2, '2013-10-13 01:50:51', '2014-11-12 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2089, 2005, 'test round 2089', 20);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2089, 2, '2013-11-16 01:50:51', '2053-12-16 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2089, 2, '2013-11-16 01:50:51', '2014-12-16 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2090, 2005, 'test round 2090', 20);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2090, 2, '2013-10-31 01:50:51', '2053-11-30 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2090, 2, '2013-10-31 01:50:51', '2014-11-30 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2091, 2005, 'test round 2091', 20);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2091, 2, '2013-11-26 01:50:51', '2053-12-26 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2091, 2, '2013-11-26 01:50:51', '2014-12-26 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2092, 2005, 'test round 2092', 12);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2092, 2, '2013-10-16 01:50:51', '2053-11-15 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2092, 2, '2013-10-16 01:50:51', '2014-11-15 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2093, 2005, 'test round 2093', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2093, 2, '2013-10-15 01:50:51', '2053-11-14 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2093, 2, '2013-10-15 01:50:51', '2014-11-14 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2094, 2005, 'test round 2094', 4);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2094, 2, '2013-11-26 01:50:51', '2053-12-26 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2094, 2, '2013-11-26 01:50:51', '2014-12-26 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2095, 2005, 'test round 2095', 27);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2095, 2, '2013-11-17 01:50:51', '2053-12-17 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2095, 2, '2013-11-17 01:50:51', '2014-12-17 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2096, 2005, 'test round 2096', 10);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2096, 2, '2013-11-18 01:50:51', '2053-12-18 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2096, 2, '2013-11-18 01:50:51', '2014-12-18 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2097, 2005, 'test round 2097', 21);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2097, 2, '2013-11-10 01:50:51', '2053-12-10 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2097, 2, '2013-11-10 01:50:51', '2014-12-10 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2098, 2005, 'test round 2098', 1);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2098, 2, '2013-10-31 01:50:51', '2053-11-30 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2098, 2, '2013-10-31 01:50:51', '2014-11-30 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2099, 2005, 'test round 2099', 8);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2099, 2, '2013-11-24 01:50:51', '2053-12-24 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2099, 2, '2013-11-24 01:50:51', '2014-12-24 01:50:51', 'A');
 
 INSERT INTO round(round_id, contest_id, name, round_type_id) VALUES(2100, 2005, 'test round 2100', 19);
-INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2100, 2, '2013-10-16 01:50:51', '2053-11-15 01:50:51', 'A');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2100, 2, '2013-10-16 01:50:51', '2014-11-15 01:50:51', 'A');

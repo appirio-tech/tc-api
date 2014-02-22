@@ -19,3 +19,7 @@ delete from 'informix'.user where handle = 'testDRegSource';
 delete from 'informix'.security_user where user_id = 'testRegSource';
 delete from 'informix'.email where address = 'testRegSource@foobar.com';
 delete from 'informix'.user where handle = 'testRegSource';
+
+delete from 'informix'.security_user where user_id = 'testNoPasswd';
+delete from 'informix'.email where address = 'testNoPasswd@foobar.com';
+delete from 'informix'.user where handle = 'testNoPasswd';

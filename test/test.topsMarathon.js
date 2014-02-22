@@ -84,7 +84,7 @@ describe('Get Top Ranked Marathon Members API', function () {
                 }
                 var body = res.body, expected = require("./test_files/" + file);
                 delete body.serverInformation;
-                delete body.requestorInformation;
+                delete body.requesterInformation;
                 assert.deepEqual(body, expected, "Invalid response");
                 done();
             });

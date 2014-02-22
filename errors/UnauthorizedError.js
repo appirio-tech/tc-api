@@ -6,7 +6,7 @@
 /**
  * This file defines UnauthorizedError
  *
- * @author TCSASSEMBLER
+ * @author Sky_
  * @version 1.0
  */
 
@@ -19,7 +19,7 @@ var UnauthorizedError = function (message, cause) {
     //captureStackTrace
     Error.call(this);
     Error.captureStackTrace(this);
-    this.message = message || "UnAuthorized Error";
+    this.message = message || "Unauthorized Error";
     this.cause = cause;
 };
 

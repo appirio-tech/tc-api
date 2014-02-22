@@ -23,7 +23,7 @@ var tc_email_account = process.env.TC_EMAIL_ACCOUNT,
     tc_email_host = process.env.TC_EMAIL_HOST,
     tc_email_host_port = process.env.TC_EMAIL_HOST_PORT;
 if (!_.isBoolean(tc_email_secured)) {
-    tc_email_secured = !_.isString(tc_email_secured) || tc_email_secured.toLowerCase() != "false";
+    tc_email_secured = !_.isString(tc_email_secured) || tc_email_secured.toLowerCase() !== "false";
 }
 
 /**
@@ -48,6 +48,7 @@ var sendActivationEmail = {
     description: 'I will send activation Email',
     scope: 'any',
     frequency: 0,
+    queue: 'default',
     /**
      * Main function of addLdapEntry tasks
      *
@@ -59,13 +60,13 @@ var sendActivationEmail = {
     run: function (api, params, next) {
         api.log('Enter sendActivationEmail task#run', 'info');
         var index, transport, locals, message, requiredParams = ['subject', 'activationCode',
-            'template', 'toAddress', 'senderName', 'url'];
+            'template', 'toAddress', 'senderName', 'url'], err;
 
         for (index = 0; index < requiredParams.length; index += 1) {
-            var err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
-            
+            err = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+
             if (err) {
-                api.log("task sendActivationEmail: error occured: " + err + " " + (err.stack || ''), "error");
+                api.log("task sendActivationEmail: error occurred: " + err + " " + (err.stack || ''), "error");
                 return next(null, true);
             }
         }

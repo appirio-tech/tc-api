@@ -4,3 +4,4 @@ delete from coder where coder_id = 22758846;
 delete from coder where coder_id = 22758847;
 delete from coder where coder_id = 22758848;
 delete from coder where coder_id = 22758849;
+delete from coder where coder_id = 22758850;

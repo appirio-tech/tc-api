@@ -47,7 +47,7 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
  * Expose the "transaction" utility.
  *
  * @param {Object} api The api object that is used to access the infrastructure
- * @param {Function} next The callback function to be called when everyting is done
+ * @param {Function} next The callback function to be called when everything is done
  */
 exports.transaction = function (api, next) {
     var transactionPreProcessor, transactionPostProcessor;
@@ -149,7 +149,7 @@ exports.transaction = function (api, next) {
 
                 // if the action is transactional, end the transaction
                 if (actionTemplate.transaction === "write") {
-                    connection.dbConnectionMap[databaseName].endTransaction(connection.error, callback);
+                    connection.dbConnectionMap[databaseName].endTransaction(connection.response.error, callback);
                 } else {
                     // connection.dbConnectionMap[databaseName].disconnect();
                     // next(connection);

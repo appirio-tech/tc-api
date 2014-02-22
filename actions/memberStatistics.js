@@ -82,8 +82,8 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
             handle: handle
         },
         result,
-        badgeProperties = api.configData.badge.properties,
-        badgeLink = api.configData.badge.link;
+        badgeProperties = api.config.badge.properties,
+        badgeLink = api.config.badge.link;
 
     async.waterfall([
         function (cb) {
@@ -128,8 +128,11 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
                             _.extend(achieveItem, {
                                 badgeLink: {
                                     url: badgeLink,
-                                    leftOffset: badgeProperties[item.id].left,
-                                    topOffset: badgeProperties[item.id].top
+                                    //TODO: FIX THIS HORRIBLE HORRIBLE CHANGE. 
+                                    //THIS WAS PUT IN AS STOPGAP FIX TO STOP PRODUCTION FROM CRASHING
+                                    leftOffset: badgeProperties[item.id] ? badgeProperties[item.id].left : -17,
+                                    topOffset:  badgeProperties[item.id] ? badgeProperties[item.id].top  : -170
+                                    //END REALLY BAD FIX
                                 }
                             });
                         }

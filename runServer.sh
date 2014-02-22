@@ -20,4 +20,4 @@ export MAXSIZE=15
 export IDLETIMEOUT=3600
 export TIMEOUT=6000
 
-node ./node_modules/.bin/actionHero start
+node ./node_modules/.bin/actionhero start

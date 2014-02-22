@@ -1,0 +1,34 @@
+{
+    "history": [
+        {
+            "customerName": "test client",
+            "customerId": 1,
+            "projectName": "project 1",
+            "challengeName": "challenge 1",
+            "challengeId": 500102,
+            "challengeType": "challenge type 1",
+            "challengeStatus": "status 1",
+            "postingDate": "2014-01-01",
+            "completionDate": "2014-01-01",
+            "challengeMemberCost": 1500,
+            "challengeFee": 200,
+            "challengeTotalCost": 1700,
+            "challengeDuration": 10
+        },
+        {
+            "customerName": "test client",
+            "customerId": 1,
+            "projectName": "project 1",
+            "challengeName": "challenge 2",
+            "challengeId": 500112,
+            "challengeType": "challenge type 1",
+            "challengeStatus": "status 1",
+            "postingDate": "2014-01-01",
+            "completionDate": "2014-01-03",
+            "challengeMemberCost": 2500,
+            "challengeFee": 300,
+            "challengeTotalCost": 2800,
+            "challengeDuration": 6.67
+        }
+    ]
+}

@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun * Changes in 1.1:
+ * @version 1.11
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, Ghost_141
+ * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
  * - add route for top
@@ -17,6 +18,14 @@
  * Changes in 1.6:
  * - add route oauth test
  * Changes in 1.7:
+ * - add route oauth
+ * Changes in 1.8:
+ * - add route for bugs
+ * Changes in 1.9:
+ * - add route for client challenge costs
+ * Changes in 1.10:
+ * - added routes for terms api
+ * Changes in 1.11:
  * - add invoice history api.
  */
 
@@ -114,12 +123,21 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
 
-        { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
+        { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
+        { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+        { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
+
+        { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+        { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
+
+        { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
+        { path: "/:apiVersion/bugs/:jiraProjectId", action: "bugs" },
+        { path: "/:apiVersion/bugs", action: "bugs" },
 
         //Stubs APIs
         { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
@@ -130,6 +148,7 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/users", action: "memberRegister" }
+        { path: "/:apiVersion/users", action: "memberRegister" },
+        { path: "/:apiVersion/auth", action: "generateJwt" }
     ]
 };

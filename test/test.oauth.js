@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
+ * @version 1.1
  * @author Sky_
+ * changes in 1.1:
+ * - add tests for Create Token api
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -18,8 +20,8 @@ var jwt = require('jsonwebtoken');
 var testHelper = require('./helpers/testHelper');
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var CLIENT_ID = require('../config').configData.general.oauthClientId;
-var SECRET = require('../config').configData.general.oauthClientSecret;
+var CLIENT_ID = require('../config').config.general.oauthClientId;
+var SECRET = require('../config').config.general.oauthClientSecret;
 var COMMON_OLTP = "common_oltp";
 var SQL_DIR = __dirname + "/sqls/oauth/";
 
@@ -105,7 +107,7 @@ describe('Test Oauth', function () {
                 assert.ok(res.body);
                 var response = res.body;
                 delete response.serverInformation;
-                delete response.requestorInformation;
+                delete response.requesterInformation;
                 assert.deepEqual(response, expectedResponse);
                 done(err);
             });
@@ -355,5 +357,42 @@ describe('Test Oauth', function () {
             clearDb,
             fun
         ], done);
+    });
+
+
+    describe("Create Token api", function () {
+
+        /**
+         * /v2/auth
+         */
+        it("should create token", function (done) {
+            request(API_ENDPOINT)
+                .post('/v2/auth')
+                .set('Accept', 'application/json')
+                .send({username: "heffan", password: "password"})
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    assert.ok(res.body);
+                    assert.ok(res.body.token);
+                    done();
+                });
+        });
+        /**
+         * /v2/auth
+         */
+        it("should return error if credentials are invalid", function (done) {
+            request(API_ENDPOINT)
+                .post('/v2/auth')
+                .set('Accept', 'application/json')
+                .send({username: "heffan", password: "xxx"})
+                .expect('Content-Type', /json/)
+                .expect(400)
+                .end(done);
+        });
     });
 });

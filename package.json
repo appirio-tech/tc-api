@@ -1,47 +1,51 @@
 {
-    "author": "TCASSEMBLER",
-    "name": "tcapi",
-    "description": "",
-    "version": "0.0.1",
-    "homepage": "",
-    "repository": {
-        "type": "",
-        "url": ""
-    },
-    "keywords": "",
-    "engines": {
-        "node": ">=0.8.0"
-    },
-    "dependencies": {
-        "actionHero": "6.4.1",
-        "xml2js": "0.2.8",
-        "async": "0.2.9",
-        "underscore" : "1.5.2",
-        "datejs" : "0.0.2",
-        "string" : "1.6.1",
-        "ldapjs" : "git://github.com/mcavage/node-ldapjs.git#2f1b0790f6d5dd201468a3d5cb9674c3e2623f24",
-        "nodemailer" : "0.5.7",
-        "email-templates" : "0.1.1",
-        "bcrypt" : "0.7.7",
-        "bigdecimal": "0.6.1",
-        "bignum": "0.6.2",
-        "java": "0.2.9",
-        "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#9085b4610c51beb0b80d209e3101d7b1d66a539d",
-        "asn1": "*",
-        "crypto": ">= 0.0.3",
-        "jsonwebtoken": "*",
-        "moment": "2.5.1"
-    },
-    "devDependencies": {
-        "supertest": "0.8.1",
-        "mocha": "1.13.0",
-        "chai": "1.8.1"
-    },
-    "scripts": {
-        "start": "node ./node_modules/.bin/actionHero start &",
-        "test" : "node_modules/.bin/mocha --recursive ./test",
-        "startCluster": "node ./node_modules/.bin/actionHero startCluster",
-        "actionHero": "node ./node_modules/.bin/actionHero",
-        "help": "node ./node_modules/.bin/actionHero help"
-    }
+  "author": "TCASSEMBLER",
+  "name": "tcapi",
+  "description": "",
+  "version": "0.0.1",
+  "homepage": "",
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "keywords": "",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "actionhero": "7.6.2",
+    "xml2js": "0.2.8",
+    "async": "0.2.9",
+    "underscore": "1.5.2",
+    "datejs": "0.0.2",
+    "string": "1.6.1",
+    "ldapjs": "git://github.com/mcavage/node-ldapjs.git#2f1b0790f6d5dd201468a3d5cb9674c3e2623f24",
+    "nodemailer": "0.5.7",
+    "email-templates": "0.1.1",
+    "bcrypt": "0.7.7",
+    "bigdecimal": "0.6.1",
+    "bignum": "0.6.2",
+    "java": "0.2.9",
+    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#9085b4610c51beb0b80d209e3101d7b1d66a539d",
+    "asn1": "*",
+    "crypto": ">= 0.0.3",
+    "jsonwebtoken": "*",
+    "request": "~2.33.0",
+    "soap": "~0.3.2",
+    "moment-timezone": "0.0.3",
+    "moment": "~2.5.1",
+    "mime": "~1.2.11"
+  },
+  "devDependencies": {
+    "supertest": "0.8.1",
+    "mocha": "1.13.0",
+    "chai": "1.8.1"
+  },
+  "scripts": {
+    "start": "node ./node_modules/.bin/actionhero start &",
+    "test": "node_modules/.bin/mocha --recursive ./test",
+    "startCluster": "node ./node_modules/.bin/actionhero startCluster",
+    "actionHero": "node ./node_modules/.bin/actionhero",
+    "help": "node ./node_modules/.bin/actionhero help"
+  }
 }

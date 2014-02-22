@@ -1,0 +1,18 @@
+{
+  "terms": [
+    {
+      "agreeabilityType": "Electronically-agreeable",
+      "agreed": false,
+      "title": "Submitter terms of use text",
+      "termsOfUseId": 20623,
+      "url": "http://topcoder.com/terms/20623.txt"
+    },
+    {
+      "agreeabilityType": "Non-electronically-agreeable",
+      "agreed": false,
+      "title": "CCA terms of use text 20713",
+      "termsOfUseId": 20713,
+      "url": "http://topcoder.com/terms/20713.txt"
+    }
+  ]
+}

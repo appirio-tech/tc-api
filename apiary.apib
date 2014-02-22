@@ -4,6 +4,53 @@ HOST: http://api.topcoder.com/v2
 # TopCoder API
 Programmatically access TopCoder challenges and members.
 
+# Group Authorization
+Authorization APIs
+
+## Create JWT Token [/auth]
+### Create JWT Token [POST]
++ Parameters
+    + username (required, string, `heffan`) ... The username
+    + password (required, string, `password`) ... The password
+    
++ Response 200 (application/json)
+
+        {
+             "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NtYS5hdXRoMC5jb20vIiwic3ViIjoiYWR8"
+        }
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }            
+
 # Group Reports
 Report APIs
 
@@ -87,6 +134,88 @@ Report APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}]
+### Client Challenge Costs [GET]
+
++ Parameters
+    + startDate (optional, string, `2013-07-01`) ... Start Date
+    + endDate (optional, string, `2013-12-01`) ... End Date
+    + clientId (optional, number, `4310`) ... Client Id
+
++ Response 200 (application/json)
+
+        {
+             "history":
+             [
+                {
+                    "customerName": "Topcoder",
+                    "customerId": 1,
+                    "projectName": "CS-TC API",
+                    "projectId": 1234,
+                    "challengeName": "challenge 1",
+                    "challengeId": 30030010,
+                    "challengeType": "development",
+                    "challengeStatus": "completed",
+                    "postingDate": "2013-08-10",
+                    "completionDate": "2013-08-25",
+                    "challengeFulfillment": 75,
+                    "challengeMemberCost": 5000.0,
+                    "challengeFee": 2500.0,
+                    "challengeTotalCost": 7500.0,
+                    "challengeDuration": 13.47
+                },
+                {
+                    "customerName": "Topcoder2",
+                    "customerId": 2,
+                    "projectName": "NodeJS API",
+                    "projectId": 1235,
+                    "challengeName": "challenge 2",
+                    "challengeId": 30030011,
+                    "challengeType": "development",
+                    "challengeStatus": "completed",
+                    "postingDate": "2013-08-11",
+                    "completionDate": "2013-08-26",
+                    "challengeFulfillment": 80,
+                    "challengeMemberCost": 5000.0,
+                    "challengeFee": 2500.0,
+                    "challengeTotalCost": 7500.0,
+                    "challengeDuration": 13.78
+                }
+             ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 # Group Platform
 Platform APIs
@@ -117,10 +246,6 @@ Register a new user.
             "country" : "UK",
             "email" : "name@domain.com",
             "password" : "HashedPassword",
-            "socialProvider" : "google",
-            "socialUserName" : "JohnsGoogleName",
-            "socialEmail" : "john@gmail.com",
-            "socialEmailVerified" : "true",
             "regSource": "http://registration.source.domain.com"
         }
 
@@ -177,6 +302,69 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+### Create a new user via social login [POST]
++ Request (application/json)
+
+    {
+        "firstname" : "John",
+        "lastname" : "Doe",
+        "handle" : "uniqueLogin",
+        "country" : "UK",
+        "email" : "name@domain.com",
+        "socialProvider" : "google",
+        "socialUserName" : "JohnsGoogleName",
+        "socialEmail" : "john@gmail.com",
+        "socialEmailVerified" : "true",
+        "regSource": "http://registration.source.domain.com"
+    }
+
++ Response 200 (application/json)
+
+        {
+            "name":"OK",
+            "value":"200",
+            "description":"This message will contain the new user id."
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 422 (application/json)
+
+        {
+            "name":"Unprocessable Entity",
+            "value":"422",
+            "description":"This message will explain why the POST data was not accepted."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## Basic User Profile [/users/{handle}]
 ### Basic User Profile [GET]
@@ -949,7 +1137,7 @@ Register a new user.
         }
 
         
-## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}]
 ### Search Software Challenges [GET]
 
 + Parameters
@@ -960,7 +1148,7 @@ Register a new user.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+    + communityId (optional, number, `1`) ... The community id.
 
 + Response 200 (application/json)
 
@@ -1309,87 +1497,89 @@ Register a new user.
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-        ]
-    }
+         ]
+        }
+
 + Response 200 (application/json)
         
-    {
-        "challengeType": "First2Finish",
-        "challengeName": "this is a F2F challenge",
-        "challengeId": 30500000,
-        "projectId": 30400001,
-        "screeningScorecardId": "3",
-        "reviewScorecardId": "1",
-        "cmcTaskId": "ab",
-        "numberOfCheckpointsPrizes": 0,
-        "topCheckPointPrize": "",
-        "currentStatus": "Active",
-        "currentPhaseName": "Submission",
-        "digitalRunPoints": 510,
-        "reliabilityBonus": 200,
-        "challengeCommunity": "develop",
-        "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
-        "technology": ["Java", "MySQL"],
-        "prize": [
-        1000
-        ],
-        "registrants": [
         {
-            "handle": "heffan",
-            "reliability": "100%"
+            "challengeType": "First2Finish",
+            "challengeName": "this is a F2F challenge",
+            "challengeId": 30500000,
+            "projectId": 30400001,
+            "screeningScorecardId": "3",
+            "reviewScorecardId": "1",
+            "cmcTaskId": "ab",
+            "numberOfCheckpointsPrizes": 0,
+            "topCheckPointPrize": "",
+            "currentStatus": "Active",
+            "currentPhaseName": "Submission",
+            "digitalRunPoints": 510,
+            "reliabilityBonus": 200,
+            "challengeCommunity": "develop",
+            "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
+            "technology": ["Java", "MySQL"],
+            "prize": [
+            1000
+            ],
+            "numberOfRegistrants": 1,
+            "registrants": [
+            {
+                "handle": "heffan",
+                "reliability": "100%"
+            }
+            ],
+            "submissions": [
+            {
+                "handle": "heffan",
+                "placement": 1,
+                "screeningScore": 100,
+                "initialScore": 80,
+                "finalScore": 90,
+                "points": 510,
+                "submissionStatus": "Active"
+            }
+            ],
+            "Documents": [
+            {
+                "documentName": "document 1",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+            },
+            {
+                "documentName": "document 2",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+            }
+            ],
+            "numberOfSubmissions": 1,
+            "platforms": [
+                "AWS",
+                "Cloud Foundry"
+            ],
+            "phases": [
+            {
+                "type": "Registration",
+                "status": "Closed",
+                "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+                "actualStartTime": "2013-12-20T01:40:00.000Z",
+                "scheduledEndTime": "2013-12-22T00:00:00.000Z",
+                "actualendTime": "2013-12-22T00:00:00.000Z"
+            },
+            {
+                "type": "Submission",
+                "status": "Open",
+                "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+                "actualStartTime": "2013-12-20T00:00:00.000Z",
+                "scheduledEndTime": "2013-12-26T00:00:00.000Z"
+            },
+            {
+                "type": "Iterative Review",
+                "status": "Scheduled",
+                "scheduledStartTime": "2013-12-26T12:00:00.000Z",
+                "scheduledEndTime": "2014-01-01T12:00:00.000Z"
+            }
+            ]
         }
-        ],
-        "submissions": [
-        {
-            "handle": "heffan",
-            "placement": 1,
-            "screeningScore": 100,
-            "initialScore": 80,
-            "finalScore": 90,
-            "points": 510,
-            "submissionStatus": "Active"
-        }
-        ],
-        "Documents": [
-        {
-            "documentName": "document 1",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
-        },
-        {
-            "documentName": "document 2",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
-        }
-        ],
-        "numberOfSubmissions": 1,
-        "numberOfRegistrants": 1,
-        "platforms": [
-            "AWS",
-            "Cloud Foundry"
-        ],
-        "phases": [
-        {
-            "type": "Registration",
-            "status": "Closed",
-            "scheduledStartTime": "2013-12-20T00:00:00.000Z",
-            "actualStartTime": "2013-12-20T01:40:00.000Z",
-            "scheduledEndTime": "2013-12-22T00:00:00.000Z",
-            "actualendTime": "2013-12-22T00:00:00.000Z"
-        },
-        {
-            "type": "Submission",
-            "status": "Open",
-            "scheduledStartTime": "2013-12-20T00:00:00.000Z",
-            "actualStartTime": "2013-12-20T00:00:00.000Z",
-            "scheduledEndTime": "2013-12-26T00:00:00.000Z"
-        },
-        {
-            "type": "Iterative Review",
-            "status": "Scheduled",
-            "scheduledStartTime": "2013-12-26T12:00:00.000Z",
-            "scheduledEndTime": "2014-01-01T12:00:00.000Z"
-        }
-        ]
-    }
+
 + Response 400 (application/json)
 
         {
@@ -1420,13 +1610,99 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }      
+        }
+        
+## Get Software Challenge Result [/develop/challenges/result/{id}]
+### Get Software Challenge Result [GET]
+
++ Parameters
+    + id (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+        
+        {
+          "challengeType": "Assembly Competition",
+          "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
+          "challengeId": 30036437,
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "contestEndDate": "2013-12-10T08:33:19.000Z",
+          "challengeCommunity": "develop",
+          "registrants": 2,
+          "submissions": 2,
+          "submissionsPercentage": 100.0,
+          "submissionsPassedScreening": 100.0,
+          "averageInitialScore": 75.93,
+          "averageFinalScore": 75.93
+          "results":
+          [
+            {
+                "handle": "iRabbit",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-04T09:00:05.000Z",
+                "placement": 1,
+                "screeningScore": 100,
+                "initialScore": 98.98,
+                "finalScore": 99.95,
+                "points": 360,
+                "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123456"
+            },
+            {
+                "handle": "heffan",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-05T09:00:05.000Z",
+                "placement": 2,
+                "screeningScore": 100,
+                "initialScore": 97.98,
+                "finalScore": 97.95,
+                "points": 140,
+                "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123457"
+            }
+          ],
+          "finalFixes":
+          [
+            "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123466",
+            "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123476",
+            "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=123486"
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        } 
          
-## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{submissionid}]
+## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{challlengeid}]
 ### Get Software Challenge Checkpoint Information [GET]
 
 + Parameters
-    + submissionid (required, number, `30000000`) ... The submission id.
+    + challengeid (required, number, `30000000`) ... The submission id.
 
 + Response 200 (application/json)
 
@@ -1564,7 +1840,7 @@ Register a new user.
 
 # Group Studio Challenges
 
-## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}]
 ### Search Studio Challenges [GET]
 
 + Parameters
@@ -1575,6 +1851,7 @@ Register a new user.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
     
 + Response 200 (application/json)
         
@@ -1698,6 +1975,8 @@ Register a new user.
           "projectId": 6847,
           "forumId": "4076",
           "introduction": "This is the overview. It can contain HTML.",
+          "round1Introduction": "Round 1 Intro",
+          "round2Introduction": "Round 2 Intro",
           "roundOneDetails": "Description for round 1.",
           "roundTwoDetails": "Description for round 2.",
           "detailedRequirements": "<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\">The main aim of this contest is to come up designs for the New CS-TC Help-Center, this<span style=\"color: rgb(33, 33, 33); line-height: 18px;\">&nbsp;large help-center which will cover help information for all sections which includes Design, Software, Data/Algorithms, Copilots/Reviewers, and </span></span></span><span style=\"font-size: 13px;\">TopCoder Universi</span><span style=\"font-size: 13px;\">ty</span><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color: rgb(33, 33, 33); line-height: 18px;\">.&nbsp;</span><span style=\"color: rgb(33, 33, 33); line-height: 18px;\">The Help Center will have its own wordpress theme and wordpress &quot;site&quot;.</span><br />\n<br />\n<span style=\"color: rgb(33, 33, 33); line-height: 18px;\">We recently ran a few design contests to create new site design for the TopCoder-Cloudspokes Community, in this contest - you will reuse many of the design elements to help us build a consistent design.</span><br />\n<br />\n<span style=\"color:#FF0000;\"><span style=\"line-height: 18px;\"><strong>IMPORTANT!! Design Considerations:</strong></span></span><br />\n<span style=\"color: rgb(33, 33, 33); line-height: 18px;\">- Please</span><span style=\"color: rgb(33, 33, 33); line-height: 18px;\">&nbsp;use&nbsp;the global header and navigation at the top and a global footer at the bottom from the attached storyboards<br />\n- Follow the color scheme as shown in the attached designs.<br />\n- Create icons whereever necessary, follow the design aesthetics from the attached designs.<br />\n- Continue the FLAT&nbsp;design trend shown in the New Designs<br />\n- You may reuse any designs from the attached Storyboards.</span><br />\n<span style=\"color:#FF0000;\"><span style=\"line-height: 18px;\">- We are looking for your help in&nbsp;designing the desktop view (1024 x 768) and mobile view (320 x 480)</span></span></span></span></p>\n\n<p><span style=\"color:#0066cc;\"><strong>General Requirements:&nbsp;</strong></span><br />\nBelow are some of the areas, where we would like to&nbsp;see your&nbsp;creativity by coming&nbsp;up with an out of the box solutions&hellip;</p>\n\n<p><strong>Navigation:&nbsp;</strong><br />\n- It will show &quot;Sections &gt; Topics &gt; Sub-Topics&quot;, please see the attached excel file to get an idea on what a section, topic could be.<br />\n<span style=\"font-size: 13px;\">- We would like the navigation for this help-center to be in a sidebar like shown in the wireframe</span><br />\n- We need consistent icons for each of the section, they are&nbsp;&quot;Design, Development, Data/Algorithms, Copilots/Reviewers and TopCoder University&quot;<br />\n<span style=\"color:#FF0000;\">- Please reuse the icons for Design, Development and Data/Algorithms from the attached designs</span><br />\n- Design the icons for Copilots/Reviewers and TopCoder University.<br />\n- Based on the wireframe, we are planning to show a smaller version of these section icons in the left side&nbsp;collpased view i.e. when a section is selected and a medium size above the Topics/Sub-topics list with the name of the section.<br />\n- Create the hover and selected styles for all these navigation links (Section, Topics, Sub-topics).<br />\n- Probably we will need a scroll bar to be&nbsp;shown in the Topics/Sub-topics navigation like shown in the wireframe - as this list could be long.<br />\n- You also need to think on how these should be planned for a mobile view?</p>\n\n<p><strong>Breadcrumbs:</strong><br />\n- Please show breadcrumbs in your designs, follow the wireframes for this.<br />\n- Please create the hover and selected style for this</p>\n\n<p><strong>Search:</strong><br />\n- We will need a prominent location for the search bar like shown in the wireframe.<br />\n- Search bar will shown in all pages within the help-center.<br />\n- Design this search bar, create search icon&nbsp;if needed.<br />\n<span style=\"font-family: Arial, Helvetica, Verdana, sans-serif; line-height: 16px;\">- Please place the following words inside the search bar: &quot;Search Help Center&quot;.</span><br />\n- Also, show your designs for the auto-suggest drop-down. (i.e. as a user types the text, they need to see matching topics in a drop-down).<br />\n<br />\n<span style=\"line-height: 1.6em;\"><strong>Support:&nbsp;</strong></span><br />\n<span style=\"line-height: 1.6em;\">- We need an Email Support link shown on all pages, like shown in the wireframe<br />\n-&nbsp;</span><span style=\"font-family: Arial, Helvetica, Verdana, sans-serif; line-height: 16px;\">Please use the following words for the support email area: &quot;Email Support Team&quot;.</span><br />\n<span style=\"line-height: 1.6em;\">- Please come up with better designs for this.</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><span style=\"line-height: 18px;\"><strong>Page Requirements</strong></span></span><br />\n<span style=\"color:#000000;\"><span style=\"line-height: 18px;\">Below&nbsp;are the required pages from the wireframe...</span></span></span></span><br />\n<br />\n<strong>Help Center Home:</strong><br />\nThis is main page in the help-center, it will be a gateway for the user to proceed to other sections of the help-center<br />\n- This page will play a very important role in the help-center.&nbsp;<br />\n- Please reduce the height of the slideshow a bit.<br />\n<span style=\"color:#000000;\">- We will have the colored bars with the icon and name of the section at the bottom of the slideshow - clicking on these will show the corresponding slide.&nbsp;<br />\n- Colored bars shown at the bottom of the slideshow&nbsp;need to have a Hover and Active styles<br />\n- FAQs will be a static area&nbsp;shown on the right side.</span><br />\n- Click on the &quot;More&quot; in &#39;Member Tips&quot; shown at the bottom, please design the member tips view.<br />\n- Please follow the wireframe for contents to be shown in this page.<br />\n<br />\n<strong>Section:</strong><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 18px;\">This New Help Center would contain mainly five sections to start with; they are Design, Development, Data/Algorithms, Copilots/Reviewers, and </span><span style=\"font-size: 13px;\">TopCoder Universi</span><span style=\"font-size: 13px;\">ty</span><span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 18px;\">.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 19.1875px;\">- You can reach the section landing page simply by clicking on the any of the section shown in the left.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; font-size: 13px; line-height: 19.1875px;\">- These sections would have their own landing page, follow the contents from the wireframe.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 19.1875px;\">- This page has a banner at the top, you may use a placeholder for it.<br />\n- This page shows contents in Grid and List view, please reuse the grid/list buttons from the attached designs.<br />\n- Please show your designs for grid and list views<br />\n<br />\n<strong>Topics:</strong><br />\n- Click on a &quot;Topic Name&quot; (example: In studio section, topics names are Competition Types, Tournaments etc..)&nbsp;from the left-side navigation to reach this page.<br />\n- This page shows Topic Summary at the top, since this will be consistent in all topic landing pages, please create a style to show the summary.<br />\n- Below the topic summary, we will list all the Sub-topics within that topic.<br />\n- Please remove the &quot;thumb image, username and date&quot; - its not required, just the sub-topic title and a few lines from it should be fine.<br />\n<br />\n<strong>Sub-Topics:</strong><br />\n- In the wireframe, from the topic landing page, click on any of the listed sub-topics to view the sub-topic page.</span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 18px;\">- These are the exact pages where a user would see the help information in the form of Articles, Videos, and Tutorials/Walkthroughs etc&hellip;<br />\n- Follow the wireframe for the contents<br />\n- These would contain &#39;Title&#39; and followed by &quot;Table of Contents&quot; at the top, these table of contents will mostly be used for the help contents in Software section - please come up with a design that highlishts these table of contents.<br />\n- At the bottom, we will have two columns 1)&nbsp;&quot;Related&quot; which will have a few links and 2) Resources - which will show few documents and a video thumbnail. How should these be shown?<br />\n<br />\n<strong>Search Results:</strong></span><br />\n<span style=\"color: rgb(33, 33, 33); font-family: arial, helvetica, sans-serif; line-height: 19.1875px;\">As mentioned earlier, a search bar is expected to be in all pages:<br />\n- Click on the magnifier icon in the search bar to see the results<br />\n- The top buttons shown in the search results are filters, how should these be shown in your designs?<br />\n- Follow the contents from the wireframe.</span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><strong>Branding Guidelines</strong></span><br />\n- Please use the logo from the attached storyboard designs<br />\n- Please follow the colors from the attached designs.<br />\n- Please continue to use the Flat design concept&nbsp;</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong><span style=\"color:#0066cc;\">Target User</span></strong><br />\n<span style=\"color: rgb(33, 33, 33); line-height: 19.1875px;\">-Members, Copilots, Reviewers, Customers and CS-TC Admins</span></span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><strong>Judging Criteria</strong></span><br />\n- How well you create your designs based on the wireframes.<br />\n- Cleanliness of your graphics and design.<br />\n- Design looks and User Experience.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><span style=\"color:#0066cc;\"><strong>Submission &amp; Source Files</strong></span><br />\n<strong>Preview Image</strong><br />\nPlease create your preview image as one (1) 1024x1024px JPG or PNG file in RGB color mode at 72dpi and place a screenshot of your submission within it.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong>Submission File</strong><br />\nSubmit JPG/PNG for your submission files.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong>Source Files</strong><br />\nAll original source files of the submitted design. Files should be created in Adobe Photoshop and saved as layered PSD file.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size:12px;\"><strong>Final Fixes</strong><br />\nAs part of the final fixes phase you may be asked to modify your graphics (sizes or colors) or modify overall colors. We may ask you to update your design or graphics based on other winning placements.</span></span></p>\n",
@@ -1748,6 +2027,13 @@ Register a new user.
             500
           ],
           "generalCheckpointFeedback": "This is general feedback from all competitors.",
+          "numberOfRegistrants": 1,
+          "registrants": [
+            {
+                "handle": "heffan",
+                "reliability": "100%"
+            }
+          ],
           "checkpoints": [
             {
               "submissionId": 162433,
@@ -1875,11 +2161,90 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{submisionid}]
+## Get Studio Challenge Result [/design/challenges/result/{id}]
+### Get Studio Challenge Result [GET]
+
++ Parameters
+    + id (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+        
+        {
+          "challengeType": "Web Design",
+          "challengeName": "CS-TC Help Center Storyboard Design Contest",
+          "challengeId": 30036283,
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "contestEndDate": "2013-12-10T08:33:19.000Z",
+          "challengeCommunity": "design",
+          "registrants": 2,
+          "submissions": 2,
+          "submissionsPassedScreening": 100.0
+          "results":
+          [
+            {
+                "handle": "iamtong",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-04T09:00:05.000Z",
+                "placement": 1,
+                "points": 360,
+                "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123456",
+                "previewDownloadLink": "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=123456&sbt=small"
+            },
+            {
+                "handle": "heffan",
+                "registrationDate": "2013-12-03T09:00:05.000Z",
+                "submissionDate": "2013-12-05T09:00:05.000Z",
+                "placement": 2,
+                "points": 140,
+                "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123457",
+                "previewDownloadLink": "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=123457&sbt=small"
+            }
+          ],
+          "finalFixes":
+          [
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123458",
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123459",
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=123460"
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        } 
+        
+## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{challengeid}]
 ### Get Studio Challenge Checkpoint Information [GET]
 
 + Parameters
-    + submissionid (required, number, `30000000`) ... The submission id.
+    + challengeid (required, number, `30000000`) ... The submission id.
 
 + Response 200 (application/json)
 
@@ -3459,3 +3824,225 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+# Group Open Bugs API
+
+## Bugs [/bugs/{jiraProjectId}/{status}]
+### Bugs [GET]
+
++ Parameters
+    + jiraProjectId (optional, string, `BUGR`) ... The project id. Default BUGR.
+    + status (optional, string, `OPEN`) ... The issue status. It can OPEN, CLOSED or ALL. Default OPEN.
+
++ Response 200 (application/json)
+
+    [
+          {
+            "id": "BUGR-10571",
+            "name": "$75 TC Public Profile Tab Navigation Update",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10571",
+            "payment": 75,
+            "tcoPoints": 10,
+            "startDate": "2014-01-28T11:12:26-05:00"
+          },
+          {
+            "id": "BUGR-10570",
+            "name": "[code] Stormbound Configuration Update",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10570",
+            "payment": 50,
+            "tcoPoints": 30,
+            "startDate": "2014-01-28T09:57:20-05:00"
+          },
+          {
+            "id": "BUGR-10566",
+            "name": "$30 - TC_CS Case studies UI Prototype Updates  - HTML",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10566",
+            "payment": 30,
+            "tcoPoints": 10,
+            "startDate": "2014-01-28T02:29:51-05:00"
+          },
+          {
+            "id": "BUGR-10563",
+            "name": "CS - TC API - Windows Setup Guide",
+            "jiraUrl": "https://apps.topcoder.com/bugs/browse/BUGR-10563",
+            "payment": 50,
+            "tcoPoints": 20,
+            "startDate": "2014-01-27T18:37:46-05:00"
+          }
+    ]
+    
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+## Terms of Use for a challenge [/terms/{challengeId}]
+### Terms of Use for a challenge [GET]
+
++ Parameters
+    + challengeId (required, number, `1234567`) ... The challenge for which to get terms of use
+
++ Response 200 (application/json)
+
+    "terms": [
+        {
+            "agreeabilityType": "Electronically-agreeable",
+            "agreed": true,
+            "title": "NodeJS API Sample Term Of Use 1",
+            "termsOfUseId": 40000001,
+            "url": "http://topcoder.com/tou40000001.txt"
+        },
+        {
+            "agreeabilityType": "Electronically-agreeable",
+            "agreed": true,
+            "title": "NodeJS API Sample Term Of Use 2",
+            "termsOfUseId": 40000002,
+            "url": "http://topcoder.com/tou40000002.txt"
+        },
+        {
+            "agreeabilityType": "Electronically-agreeable",
+            "agreed": false,
+            "title": "NodeJS API Sample Term Of Use 3",
+            "termsOfUseId": 40000003,
+            "url": "http://topcoder.com/tou40000003.txt"
+        },
+        {
+            "agreeabilityType": "Non-electronically-agreeable",
+            "agreed": false,
+            "title": "NodeJS API Sample Term Of Use 4",
+            "termsOfUseId": 40000004,
+            "url": "http://topcoder.com/tou40000004.txt"
+        },
+        {
+            "agreeabilityType": "Non-electronically-agreeable",
+            "agreed": false,
+            "title": "NodeJS API Sample Term Of Use 5",
+            "termsOfUseId": 40000005,
+            "url": "http://topcoder.com/tou40000005.txt"
+        }
+    ]
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Terms of Use [/terms/detail/{termsOfUseId}]
+### Terms of Use by id [GET]
+
++ Parameters
+    + termsOfUseId (required, number, `534532`) ... The id of terms of use
+
++ Response 200 (application/json)
+
+        {
+            "agreeabilityType": "Electronically-agreeable",
+            "text": "This is the text of Term Of Use 1",
+            "title": "NodeJS API Sample Term Of Use 1",
+            "termsOfUseId": 40000001,
+            "url": "http://topcoder.com/tou40000001.txt"
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+

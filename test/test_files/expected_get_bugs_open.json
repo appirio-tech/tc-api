@@ -1,0 +1,18 @@
+[
+    {
+        "id": "APITEST-2",
+        "name": "Open task 2",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-2",
+        "payment": 300,
+        "tcoPoints": 20,
+        "startDate": "2014-02-10T13:18:09-05:00"
+    },
+    {
+        "id": "APITEST-1",
+        "name": "Open task 1",
+        "jiraUrl": "https://apps.topcoder.com/bugs/browse/APITEST-1",
+        "payment": 200,
+        "tcoPoints": 30,
+        "startDate": "2014-02-03T08:12:49-05:00"
+    }
+]
