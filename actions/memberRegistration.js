@@ -203,7 +203,11 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var url, task;
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
-                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : user.socialUserId}, dbConnectionMap, function (err, result) {
+						var suid = null;
+						if (connection.params.socialUserId !== null && connection.params.socialUserId !== undefined) {
+							suid = connection.params.socialUserId;
+						}
+                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : sudi}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
                     } else {    
