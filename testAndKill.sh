@@ -34,11 +34,11 @@ echo searching for processes....
 
 # if they are not blank, kill them
     if [[ -n $sockproc ]]; then
-echo killing $sockproc ...
+      echo killing $sockproc ...
       kill -9 $sockproc
       echo "kill -9 ${sockproc}"
     else
-echo "Node process was not found."
+      echo "Node process was not found."
     fi
 
 exit ${exitcode}

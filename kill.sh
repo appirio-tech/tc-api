@@ -17,3 +17,5 @@ echo searching for processes....
     else
       echo "Node process was not found."
     fi
+
+exit ${exitcode}
