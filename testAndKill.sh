@@ -11,7 +11,13 @@ safeRunCommand() {
   exitcode=$?
 }
 
-source ./deploy/development.sh
+environment="$1"
+if [[ "$environment" = "" ]]
+then
+  environment = "ci"
+fi
+
+source "./deploy/${environment}.sh"
 
 safeRunCommand "npm install"
 
