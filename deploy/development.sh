@@ -9,21 +9,23 @@
 # - add JIRA_USERNAME and JIRA_PASSWORD
 #
 
-#Modify this ip address to use your own informix  database in VM
-TC_VM_IP=54.80.96.216
-
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
+VM_IP=informix.cloud.topcoder.com
+if [ -n "$TC_VM_IP" ]
+then
+VM_IP=$TC_VM_IP
+fi
+
 export TC_DB_NAME=informixoltp_tcp
-export TC_DB_HOST=$TC_VM_IP
-export TC_DB_HOST=54.80.96.216
+export TC_DB_HOST=$VM_IP
 export TC_DB_PORT=2021
 export TC_DB_USER=informix
 export TC_DB_PASSWORD=1nf0rm1x
 
 export TC_DW_NAME=informixoltp_tcp
-export TC_DW_HOST=$TC_VM_IP
+export TC_DW_HOST=$VM_IP
 #export TC_DW_NAME=datawarehouse_tcp
 #export TC_DW_HOST=54.204.103.114
 export TC_DW_PORT=2021
@@ -34,7 +36,7 @@ export TC_DW_PASSWORD=1nf0rm1x
 export TC_API_HOST=api.topcoder.com
 
 # LDAP settings
-export TC_LDAP_HOST=$TC_VM_IP
+export TC_LDAP_HOST=$VM_IP
 export TC_LDAP_PORT=636
 export TC_LDAP_PASSWORD=secret
 export TC_LDAP_MEMBER_BASE_DN="ou=members, dc=topcoder, dc=com"
