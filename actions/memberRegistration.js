@@ -798,7 +798,7 @@ var validateSocialProviderId = function (socialProviderId) {
  */
 var validateSocialUserName = function (socialUserName) {
     if (isNullOrEmptyString(socialUserName) || !stringUtils.containsOnly(socialUserName, HANDLE_ALPHABET)) {
-        return "Social user name is required";
+        return null;
     }
 
     if (socialUserName.length > MAX_SOCIAL_USER_NAME_LENGTH) {
@@ -816,7 +816,7 @@ var validateSocialUserName = function (socialUserName) {
  */
 var validateSocialEmail = function (email) {
     if (isNullOrEmptyString(email)) {
-        return "Social Email is required";
+        return null;
     }
 
     if (email.length > MAX_EMAIL_LENGTH) {
@@ -828,6 +828,20 @@ var validateSocialEmail = function (email) {
         return "Social Email address is invalid";
     }
 
+    return null;
+};
+
+/**
+ * Validate the social email
+ *
+ * @param {String} email The social email to check
+ * @return {String} the error message or null if the social email is valid.
+ */
+var validateSocialUserId = function (socialUserId) {
+   
+	if (socialUserId === null || socialUserId === undefined) {
+		return "Social User Id is required";
+	}
     return null;
 };
 
@@ -877,9 +891,11 @@ exports.action = {
 
             if (connection.params.socialProviderId !== null && connection.params.socialProviderId !== undefined) {
                 api.log("social provider id: " + connection.params.socialProviderId, "debug");
+				messages.push(validateSocialUserId(connection.params.socialUserId));
                 messages.push(validateSocialUserName(connection.params.socialUserName));
                 messages.push(validateSocialEmail(connection.params.socialEmail));
                 messages.push(validateSocialEmailVerified(connection.params.socialEmailVerified));
+				
             }
 
             // validate parameters that require database access
