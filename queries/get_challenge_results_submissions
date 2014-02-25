@@ -1,0 +1,29 @@
+select 	s.submission_id,
+		ri1.value as user_id,
+       	ri2.value as handle,
+       	NVL(s.placement, 0) as placed,
+       	s.mark_for_purchase,
+       	NVL(s.final_score, 0.0) as final_score,
+		NVL(s.screening_score, 0.0) as screening_score,
+		NVL(s.initial_score, 0.0) as initial_score,
+       	s.create_date as submission_date,
+		ci.create_time as registration_date,
+		u.upload_id
+from
+	upload u,
+    submission s,
+	component_inquiry ci,
+	resource_info ri1,
+	resource_info ri2
+where u.project_id = @challengeId@
+ and ri1.resource_id = u.resource_id 
+ and ri1.resource_info_type_id = '1' 
+ and ri2.resource_id = u.resource_id 
+ and ri2.resource_info_type_id = '2' 
+ and ci.project_id = u.project_id
+ and ci.user_id = ri1.value
+ and s.upload_id = u.upload_id
+ and u.upload_type_id = 1
+ and s.submission_type_id = 1
+ and s.submission_status_id IN (1,2,3,4)
+order by s.final_score desc

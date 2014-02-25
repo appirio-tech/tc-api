@@ -2,15 +2,15 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.4
- * @author vangavroche, TCSASSEMBLER, Ghost_141
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
  * - add badgeProperties.
  * changes in 1.3:
- * - add oauthClientId and oauthClientSecret parameters
+ * - add oauthClientId and oauthClientSecret parameter
  * changes in 1.4:
- * - add oauthConnection and oauthDomain parameters
+ * - added submissionLink and finalFixLink
  */
 "use strict";
 
@@ -51,11 +51,9 @@ configData.general = {
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
-    oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
+    oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
-    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
-    oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
-    oauthDomain: process.env.OAUTH_DOMAIN || "sma"
+    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64')
 };
 
 /////////////
@@ -487,6 +485,10 @@ configData.badge.properties = {
 };
 
 configData.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+
+configData.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
+configData.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
+configData.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
 //////////////////////////////////
 
 exports.configData = configData;
