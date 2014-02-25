@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
- * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
+ * @version 1.6
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_, TCSASSEMBLER
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -13,6 +13,8 @@
  * - add oauthConnection and oauthDomain parameters
  * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
+ * changes in 1.6:
+ * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
  */
 "use strict";
 
@@ -492,6 +494,30 @@ configData.badge.properties = {
 };
 
 configData.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+
+//The name of the folder where to store the submission files.
+//Please make sure the directory already exists
+//configData.devUploadSubmissionDir = 'test/tmp/submissions';
+configData.devUploadSubmissionDir = '/tmp/submissions';
+
+//Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
+//Set to 0 or negative for no size limit.
+configData.submissionMaxSizeBytes = 2048;
+
+//////Thurgood configurables///////
+configData.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
+
+//API URL for production
+//configData.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs';
+//API URL for testing
+configData.thurgoodApiUrl = 'http://localhost:8090/';
+
+configData.thurgoodTimeout = 5000;
+
+//API KEY for testing
+//Can be overwritten by an environment variable of name THURGOOD_API_KEY 
+configData.thurgoodApiKey = 'mock_api_key';
+
 //////////////////////////////////
 
 exports.configData = configData;

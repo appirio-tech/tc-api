@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.9
+ * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
+ * @version 1.10
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * changes in 1.9:
  * - added a platform independent startsWith version to String prototype
  * - added more error types to handleError method
+ * changes in 1.10
+ * - added handling of RequestTooLargeError
  */
 "use strict";
 
@@ -51,6 +53,7 @@ var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
+var RequestTooLargeError = require('../errors/RequestTooLargeError');
 var helper = {};
 var crypto = require("crypto");
 var moment = require("moment");
@@ -293,6 +296,25 @@ helper.checkFunction = function (obj, objName) {
 helper.checkString = function (obj, objName) {
     if (!_.isString(obj)) {
         return new IllegalArgumentError(objName + " should be string.");
+    }
+    return null;
+};
+
+/**
+ * Check Object given object is string and is not null or empty after trimming.
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if invalid or null if valid.
+ */
+helper.checkStringPopulated = function (obj, objName) {
+    if (_.isUndefined(obj)) {
+        return new IllegalArgumentError(objName + " should be defined.");
+    }
+    if (!_.isString(obj)) {
+        return new IllegalArgumentError(objName + " should be string.");
+    }
+    if (_.isNull(obj) || obj.trim() === '') {
+        return new IllegalArgumentError(objName + " should be non-null and non-empty string.");
     }
     return null;
 };
@@ -584,6 +606,11 @@ helper.apiCodes = {
         value: 403,
         description: 'The request is understood, but it has been refused or access is not allowed.'
     },
+    requestTooLarge: {
+        name: 'Request Too Large',
+        value: 413,
+        description: 'The request is understood, but is larger than the server is willing or able to process.'
+    },
     notFound: {
         name: 'Not Found',
         value: 404,
@@ -617,6 +644,9 @@ helper.handleError = function (api, connection, err) {
     }
     if (err instanceof ForbiddenError) {
         baseError = helper.apiCodes.forbidden;
+    }
+    if (err instanceof RequestTooLargeError) {
+        baseError = helper.apiCodes.requestTooLarge;
     }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;

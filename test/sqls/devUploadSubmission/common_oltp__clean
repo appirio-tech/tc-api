@@ -1,0 +1,1 @@
+delete from user_social_login where user_id IN (124764, 124772, 124766, 124776, 124834, 132456);
