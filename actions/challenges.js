@@ -32,6 +32,7 @@ require('datejs');
 var async = require('async');
 var S = require('string');
 var _ = require('underscore');
+var extend = require('xtend');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
@@ -273,8 +274,17 @@ function transferResult(src, helper) {
             registrationEndDate : formatDate(row.registration_end_date),
             checkpointSubmissionEndDate : formatDate(row.checkpoint_submission_end_date),
             submissionEndDate : formatDate(row.submission_end_date),
-            appealsEndDate : formatDate(row.appeals_end_date),
-            finalFixEndDate : formatDate(row.final_fix_end_date),
+        };
+
+        if (row.appeals_end_date) {
+            challenge.appealsEndDate = formatDate(row.appeals_end_date);
+        }
+        if (row.final_fix_end_date) {
+            challenge.finalFixEndDate = formatDate(row.final_fix_end_date);
+        }
+
+        //use xtend to preserve ordering of attributes
+        challenge = extend(challenge, {
             currentPhaseEndDate : formatDate(row.current_phase_end_date),
             currentPhaseRemainingTime : row.current_phase_remaining_time,
             currentStatus : row.current_status,
@@ -283,8 +293,9 @@ function transferResult(src, helper) {
             prize: [],
             reliabilityBonus: helper.getReliabilityBonus(row.prize1),
             challengeCommunity: row.is_studio ? 'design' : 'develop'
-        },
-            i,
+        });
+
+        var i,
             prize;
         for (i = 1; i < 10; i = i + 1) {
             prize = row["prize" + i];
@@ -292,6 +303,7 @@ function transferResult(src, helper) {
                 challenge.prize.push(prize);
             }
         }
+
         ret.push(challenge);
     });
     return ret;
@@ -641,9 +653,18 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 postingDate : formatDate(data.posting_date),
                 registrationEndDate : formatDate(data.registration_end_date),
                 checkpointSubmissionEndDate : formatDate(data.checkpoint_submission_end_date),
-                submissionEndDate : formatDate(data.submission_end_date),
-                appealsEndDate : formatDate(data.appeals_end_date),
-                finalFixEndDate : formatDate(data.final_fix_end_date),
+                submissionEndDate : formatDate(data.submission_end_date)
+            };
+
+            if (data.appeals_end_date) {
+                challenge.appealsEndDate = formatDate(data.appeals_end_date);
+            }
+            if (data.final_fix_end_date) {
+                challenge.finalFixEndDate = formatDate(data.final_fix_end_date);
+            }
+            
+            //use xtend to preserve ordering of attributes
+            challenge = extend(challenge, {
                 currentPhaseEndDate : formatDate(data.current_phase_end_date),
                 currentStatus : data.current_status,
                 currentPhaseName : convertNull(data.current_phase_name),
@@ -652,7 +673,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 reliabilityBonus: helper.getReliabilityBonus(data.prize1),
                 challengeCommunity: challengeType.community,
                 directUrl : helper.getDirectProjectLink(data.challenge_id),
-
                 technology: data.technology.split(', '),
                 prize: mapPrize(data),
                 registrants: mapRegistrants(results.registrants),
@@ -660,7 +680,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissions: mapSubmissions(results),
                 winners: mapWinners(results.winners),
                 Documents: mapDocuments(results.documents)
-            };
+            });
 
             if (isStudio) {
                 delete challenge.registrants;

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips
+ * @version 1.11
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -24,7 +24,9 @@
  * Changes in 1.9:
  * - add route for client challenge costs
  * Changes in 1.10:
- * - added routes for terms api 
+ * - added routes for terms api
+ * Changes in 1.11:
+ * - add invoice history api.
  */
 
 /* ---------------------
@@ -131,7 +133,9 @@ exports.routes = {
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
+
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+        { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
         { path: "/:apiVersion/bugs/:jiraProjectId", action: "bugs" },

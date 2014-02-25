@@ -29,11 +29,11 @@ FIRST @pageSize@
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 8)::DECIMAL(10,2) AS prize8
      , NVL(pp1.actual_start_time, pp1.scheduled_start_time) AS posting_date
      , NVL(pp1.actual_end_time, pp1.scheduled_end_time) AS registration_end_date
-     , pp15.scheduled_end_time AS checkpoint_submission_end_date
-     , pp2.scheduled_end_time AS submission_end_date
+     , NVL(pp15.actual_end_time , pp15.scheduled_end_time) AS checkpoint_submission_end_date
+     , NVL(pp2.actual_end_time, pp2.scheduled_end_time) AS submission_end_date
      , NVL(pp6.scheduled_end_time, pp4.scheduled_end_time) AS appeals_end_date
-     , NVL(pp9.scheduled_end_time, pp4.scheduled_end_time) final_fix_end_date
-     , nd_phase.scheduled_end_time AS current_phase_end_date
+     , NVL(pp9.actual_end_time, pp9.scheduled_end_time) AS final_fix_end_date
+     , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
      , (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS current_phase_remaining_time
      , pstatus.name AS current_status
      , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN

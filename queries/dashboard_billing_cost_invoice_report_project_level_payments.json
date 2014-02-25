@@ -1,0 +1,5 @@
+{
+    "name"    : "dashboard_billing_cost_invoice_report_project_level_payments",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "dashboard_billing_cost_invoice_report_project_level_payments"
+}

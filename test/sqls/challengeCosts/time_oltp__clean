@@ -1,0 +1,2 @@
+DELETE FROM client_project WHERE project_id IN (10001, 10002);
+DELETE FROM project WHERE project_id IN (10001, 10002);

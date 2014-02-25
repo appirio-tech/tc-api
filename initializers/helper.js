@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.9
+ * @version 1.10
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * changes in 1.9:
  * - added a platform independent startsWith version to String prototype
  * - added more error types to handleError method
+ * changes in 1.10:
+ * - add isAdmin and isMember
  */
 "use strict";
 
@@ -46,6 +48,7 @@ if (typeof String.prototype.startsWith !== 'function') {
 
 var async = require('async');
 var _ = require('underscore');
+var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -53,7 +56,6 @@ var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var helper = {};
 var crypto = require("crypto");
-var moment = require("moment");
 
 /**
  * software type.
@@ -237,6 +239,11 @@ helper.studioChallengeTypes = {
         phaseId: 145
     }
 };
+
+/**
+ * Max value for integer
+ */
+helper.MAX_INT = 2147483647;
 
 var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.phaseId, item.name];
@@ -897,6 +904,65 @@ helper.checkAdmin = function (connection) {
  */
 helper.checkMaxInt = function (obj, objName) {
     return helper.checkMaxNumber(obj, 2147483647, objName);
+};
+
+/**
+ * Check if the caller is admin of TopCoder community.
+ * @param {Object} caller - the caller of api.
+ * @since 1.8
+ */
+helper.isAdmin = function (caller) {
+    return caller.accessLevel === 'admin';
+};
+
+/**
+ * Check if the caller is member of TopCoder community.
+ * @param {Object} caller - the caller of api.
+ * @since 1.8
+ */
+helper.isMember = function (caller) {
+    return caller.accessLevel === 'member' || caller.accessLevel === 'admin';
+};
+
+/**
+ * Check if the date is a valid date value.
+ * @param {String} dateVal - the date value.
+ * @param {String} dateName - the date name.
+ * @param {String} format - the date format.
+ * @since 1.8
+ */
+helper.validateDate = function (dateVal, dateName, format) {
+    if (!moment(dateVal, format, true).isValid()) {
+        return new IllegalArgumentError(dateName + ' is not a valid date.');
+    }
+    return null;
+};
+
+/**
+ * Check dates. Check if the start date is after the end date or the start date and end date are same date.
+ * @param {String} startDate - the start date value.
+ * @param {String} endDate - the end date value.
+ * @since 1.8
+ */
+helper.checkDates = function (startDate, endDate) {
+    if (moment(startDate).isAfter(endDate) || moment(startDate).isSame(endDate)) {
+        return new IllegalArgumentError('startDate should be earlier than endDate or at same date.');
+    }
+    return null;
+};
+
+/**
+ * Format the date value to determine format.
+ * Will return empty string if the date is null.
+ * @param {String} date - the date value.
+ * @param {String} format - the format.
+ * @since 1.8
+ */
+helper.formatDate = function (date, format) {
+    if (date) {
+        return moment(date).format(format);
+    }
+    return '';
 };
 
 /**

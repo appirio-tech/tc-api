@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
+ * @version 1.8
  * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -17,6 +17,8 @@
  * - add corporate_oltp in database mapping.
  * changes in 1.7:
  * - add downloadsRootDirectory parameter
+ * changes in 1.8:
+ * - add time_oltp and corporate_oltp in databaseMapping.
  */
 "use strict";
 
@@ -215,7 +217,8 @@ config.databaseMapping = {
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW",
-    'corporate_oltp': 'TC_DB'
+    "time_oltp": "TC_DB",
+    "corporate_oltp": "TC_DB"
 };
 
 /**
