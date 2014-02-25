@@ -1766,6 +1766,78 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Software Challenge Upload Submission [/develop/challenges/{challlengeid}/submit]
+### Upload a submission [POST]
++ Request (application/json)
+
++ Parameters
+    + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
+    + fileData (required, string, `SGVsbG8gV29ybGQ=`) ... The Base64 encoded content of the file being uploaded. The example value is 'Hello World' base64 encoded
+    + type (optional, string, `checkpoint`) ... The type of submission. Can be 'final' or 'checkpoint'. If absent, 'final' is assumed.
+	
++ Response 200 (application/json)
+
+        {
+			"submissionId": 10000164,
+			"uploadId": 10000163
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 413 (application/json)
+
+        {
+            "name":"Request Too Large",
+            "value":"413",
+            "description":"The request is understood, but is larger than the server is willing or able to process."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Top Ranked Members [/develop/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked Members [GET]
 

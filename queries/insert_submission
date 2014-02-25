@@ -1,0 +1,2 @@
+INSERT INTO submission (submission_id, upload_id, submission_status_id, submission_type_id, create_user, create_date, modify_user, modify_date, thurgood_job_id) 
+VALUES (@submissionId@, @uploadId@, 1, @submissionTypeId@, '@userId@', CURRENT, '@userId@', CURRENT, DECODE(@thurgoodJobId@, NULL, NULL, '@thurgoodJobId@'));
