@@ -8,7 +8,7 @@
  * changes in 1.2:
  * - add badgeProperties.
  * changes in 1.3:
- * - add oauthClientId and oauthClientSecret parameter
+ * - add oauthClientId and oauthClientSecret parameters
  * changes in 1.4:
  * - add oauthConnection and oauthDomain parameters
  * - added submissionLink and finalFixLink
@@ -63,6 +63,7 @@ config.general = {
     oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
+    oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
     oauthDomain: process.env.OAUTH_DOMAIN || "sma",
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,

@@ -150,7 +150,7 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        { path: "/:apiVersion/auth", action: "generateJwt" },
-        { path: "/:apiVersion/users", action: "memberRegister" }
+        { path: "/:apiVersion/users", action: "memberRegister" },
+        { path: "/:apiVersion/auth", action: "generateJwt" }
     ]
 };
