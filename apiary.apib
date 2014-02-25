@@ -51,6 +51,7 @@ Authorization APIs
             "description":"Servers are up but overloaded. Try again later."
         }            
 
+
 # Group Reports
 Report APIs
 
@@ -1523,7 +1524,6 @@ Register a new user.
             "prize": [
             1000
             ],
-            "numberOfRegistrants": 1,
             "registrants": [
             {
                 "handle": "heffan",
@@ -1552,6 +1552,7 @@ Register a new user.
             }
             ],
             "numberOfSubmissions": 1,
+            "numberOfRegistrants": 1,
             "platforms": [
                 "AWS",
                 "Cloud Foundry"
@@ -1613,11 +1614,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Software Challenge Result [/develop/challenges/result/{id}]
+## Get Software Challenge Result [/develop/challenges/result/{challengeId}]
 ### Get Software Challenge Result [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
         
@@ -1626,7 +1627,7 @@ Register a new user.
           "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
           "challengeId": 30036437,
           "postingDate": "2013-12-02T09:00:05.000Z",
-          "contestEndDate": "2013-12-10T08:33:19.000Z",
+          "challengeEndDate": "2013-12-10T08:33:19.000Z",
           "challengeCommunity": "develop",
           "registrants": 2,
           "submissions": 2,
@@ -2028,13 +2029,6 @@ Register a new user.
             500
           ],
           "generalCheckpointFeedback": "This is general feedback from all competitors.",
-          "numberOfRegistrants": 1,
-          "registrants": [
-            {
-                "handle": "heffan",
-                "reliability": "100%"
-            }
-          ],
           "checkpoints": [
             {
               "submissionId": 162433,

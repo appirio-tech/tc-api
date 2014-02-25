@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.11
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, Ghost_141
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -16,9 +16,9 @@
  * - add routes for software rating history and distribution
  * - reorder route for studio challenge details
  * Changes in 1.6:
- * - add route oauth test
+ * - add route oauth, oauth test
  * Changes in 1.7:
- * - add route oauth
+ * - added routes for challenge results
  * Changes in 1.8:
  * - add route for bugs
  * Changes in 1.9:
@@ -97,6 +97,7 @@ exports.routes = {
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
+        { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
@@ -104,6 +105,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
 
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
+        { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
         { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },

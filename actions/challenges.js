@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.9
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, TCSASSEMBLER
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -974,6 +974,175 @@ exports.getTermsOfUse = {
 
 
 /**
+ * This function gets the challenge results for both develop (software) and design (studio) contests.
+ * 
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Boolean} isStudio Whether this is studio challenge (true) or software challenge (false) 
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ */
+var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        error,
+        challengeId = Number(connection.params.challengeId),
+        result = {};
+
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(challengeId, "challengeId")
+                || helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            sqlParams.challengeId = challengeId;
+            api.dataAccess.executeQuery("get_challenge_results_validations", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('Challenge with given id is not found.'));
+                return;
+            }
+
+            if (rows[0].is_private_challenge) {
+                cb(new NotFoundError('This is a private challenge. You cannot view it.'));
+                return;
+            }
+
+            if (!rows[0].is_challenge_finished) {
+                cb(new BadRequestError('You cannot view the results because the challenge is not yet finished or was cancelled.'));
+                return;
+            }
+
+            if (isStudio) {
+                if (rows[0].project_type_id !== 3) {
+                    cb(new BadRequestError('Requested challenge is not a design challenge.'));
+                    return;
+                }
+            } else {
+                if (!_.contains([1, 2], rows[0].project_type_id)) {
+                    cb(new BadRequestError('Requested challenge is not a develop challenge.'));
+                    return;
+                }
+                //Spec Review, Copilot postings, Marathon Matches are not served by this API
+                if (_.contains([27, 29, 37], rows[0].project_category_id)) {
+                    cb(new BadRequestError('Requested challenge type is not supported.'));
+                    return;
+                }
+            }
+
+            result.challengeCommunity = isStudio ? "design" : "develop";
+
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+                };
+            };
+
+            async.parallel({
+                info: execQuery('get_challenge_results'),
+                results: execQuery("get_challenge_results_submissions"),
+                drPoints: execQuery("get_challenge_results_dr_points"),
+                finalFixes: execQuery("get_challenge_results_final_fixes"),
+                restrictions: execQuery("get_challenge_restrictions")
+            }, cb);
+
+        }, function (res, cb) {
+            var infoRow = res.info[0];
+            _.extend(result, {
+                challengeType: infoRow.project_category_name,
+                challengeName: infoRow.component_name,
+                challengeId: infoRow.project_id,
+                postingDate: infoRow.posting_date,
+                challengeEndDate: infoRow.complete_date,
+                registrants: infoRow.num_registrations,
+                submissions: infoRow.num_submissions,
+                submissionsPassedScreening: infoRow.num_valid_submissions
+            });
+
+            //This information is only for develop contests
+            if (!isStudio) {
+                _.extend(result, {
+                    submissionsPercentage: +(infoRow.submission_percent).toFixed(2),
+                    averageInitialScore: infoRow.avg_raw_score,
+                    averageFinalScore: infoRow.avg_final_score
+                });
+            }
+
+            //Populate the result standings for the contest
+            result.results = _.map(res.results, function (el) {
+                var resEl = {
+                    placement: el.placed === 0 ? 'n/a' : el.placed,
+                    submissionDate: el.submission_date,
+                    registrationDate: el.registration_date
+                }, drRowFound;
+
+                if (!isStudio) {
+                    _.extend(resEl, {
+                        finalScore: el.final_score,
+                        screeningScore: el.screening_score,
+                        initialScore: el.initial_score,
+                    });
+                }
+
+
+                //In the DR points resultset, find the row with same user_id and use it to set the DR points
+                drRowFound = _.find(res.drPoints, function (drEl) {
+                    return Number(drEl.user_id) === Number(el.user_id);
+                });
+                resEl.points = drRowFound === undefined ? 0 : drRowFound.dr_points;
+
+                //Submission Links
+                if (isStudio) {
+                    if (res.restrictions[0].show_submissions) {
+                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id;
+                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "&sbt=small";
+                    }
+                } else {
+                    resEl.submissionDownloadLink = api.config.submissionLink + el.upload_id;
+                }
+
+                //Handle
+                if (isStudio) {
+                    if (res.restrictions[0].show_coders) {
+                        resEl.handle = el.handle;
+                    }
+                } else {
+                    resEl.handle = el.handle;
+                }
+
+                return resEl;
+            });
+
+            //Populate the final fixes
+            if (isStudio) {
+                if (res.restrictions[0].show_submissions) {
+                    result.finalFixes = _.map(res.finalFixes, function (ff) {
+                        return api.config.designSubmissionLink + ff.submission_id;
+                    });
+                }
+            } else {
+                result.finalFixes = _.map(res.finalFixes, function (ff) {
+                    return api.config.finalFixLink + ff.upload_id;
+                });
+            }
+
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+
+/**
  * The API for getting challenge
  */
 exports.getSoftwareChallenge = {
@@ -1092,6 +1261,56 @@ exports.searchSoftwareAndStudioChallenges = {
         if (connection.dbConnectionMap) {
             api.log("Execute searchSoftwareAndStudioChallenges#run", 'debug');
             searchChallenges(api, connection, connection.dbConnectionMap, 'both', next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * API for getting challenge results for software contests
+ */
+exports.getSoftwareChallengeResults = {
+    name: "getSoftwareChallengeResults",
+    description: "getSoftwareChallengeResults",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getSoftwareChallengeResults#run", 'debug');
+            getChallengeResults(api, connection, connection.dbConnectionMap, false, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Generic API for getting challenge results for studio contests
+ */
+exports.getStudioChallengeResults = {
+    name: "getStudioChallengeResults",
+    description: "getStudioChallengeResults",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getStudioChallengeResults#run", 'debug');
+            getChallengeResults(api, connection, connection.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.8
- * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -11,6 +11,7 @@
  * - add oauthClientId and oauthClientSecret parameters
  * changes in 1.4:
  * - add oauthConnection and oauthDomain parameters
+ * - added submissionLink and finalFixLink
  * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
  * changes in 1.6:
@@ -67,7 +68,6 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
-    // filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
 };
 
@@ -527,6 +527,10 @@ config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocum
  * The default password to be used for social register
  */
 config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
+config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
+config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
+config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
+
 
 //////////////////////////////////
 

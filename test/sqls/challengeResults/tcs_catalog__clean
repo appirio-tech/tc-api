@@ -1,0 +1,13 @@
+DELETE FROM submission WHERE upload_id >= 66900 and upload_id <= 66999;
+DELETE FROM upload WHERE upload_id >= 66900 and upload_id <= 66999;
+DELETE FROM resource_info WHERE resource_id >= 66900 AND resource_id <= 66999;
+DELETE FROM resource WHERE resource_id >= 66900 AND resource_id <= 66999;
+DELETE FROM component_inquiry WHERE component_id >= 66900 AND component_id <= 66999;
+DELETE FROM phase_criteria WHERE project_phase_id >= 66900 AND project_phase_id <= 66999;
+DELETE FROM project_phase WHERE project_phase_id >= 66900 AND project_phase_id <= 66999;
+DELETE FROM project_info WHERE project_id >= 66900 AND project_id <= 66999;
+DELETE FROM comp_version_dates WHERE comp_vers_id  > 66900 AND comp_vers_id <= 66999;
+DELETE FROM comp_versions WHERE comp_vers_id  > 66900 AND comp_vers_id <= 66999;
+DELETE FROM comp_catalog WHERE component_id  > 66900 AND component_id <= 66999;
+DELETE FROM contest_eligibility WHERE contest_id >= 66900 AND contest_id <= 66999;
+DELETE FROM project WHERE project_id >= 66900 AND project_id <= 66999;
