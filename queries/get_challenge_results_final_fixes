@@ -1,0 +1,6 @@
+select u.upload_id, s.submission_id
+from upload u
+left join submission s on u.upload_id = s.upload_id
+where u.project_id = @challengeId@
+and u.upload_type_id = 3
+order by u.create_date desc;

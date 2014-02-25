@@ -2,15 +2,15 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.7
- * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
  * - add badgeProperties.
  * changes in 1.3:
- * - add oauthClientId and oauthClientSecret parameters
+ * - add oauthClientId and oauthClientSecret parameter
  * changes in 1.4:
- * - add oauthConnection and oauthDomain parameters
+ * - added submissionLink and finalFixLink
  * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
  * changes in 1.6:
@@ -59,8 +59,7 @@ config.general = {
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
-    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
-    oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
+    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'dDBwYzBkZXI=', 'base64'),
     oauthDomain: process.env.OAUTH_DOMAIN || "sma",
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
@@ -524,6 +523,10 @@ config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocum
  * The default password to be used for social register
  */
 config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
+config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
+config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
+config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
+
 
 //////////////////////////////////
 
