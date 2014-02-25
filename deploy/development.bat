@@ -10,7 +10,7 @@ REM tests rely on caching being off. But set this to a real value (or remove) wh
 
 set VM_IP=%TC_VM_IP%
 IF [%VM_IP%] == [] (
-  set dbhost="informix.cloud.topcoder.com"
+  set VM_IP="informix.cloud.topcoder.com"
 )
 
 set CACHE_EXPIRY=-1
