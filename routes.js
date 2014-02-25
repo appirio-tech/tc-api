@@ -16,7 +16,7 @@
  * - add routes for software rating history and distribution
  * - reorder route for studio challenge details
  * Changes in 1.6:
- * - add route oauth test
+ * - add route oauth, oauth test
  * Changes in 1.7:
  * - added routes for challenge results
  * Changes in 1.8:
@@ -150,6 +150,7 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
+        { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/users", action: "memberRegister" }
     ]
 };
