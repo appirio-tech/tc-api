@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.9
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, TCSASSEMBLER
+ * @version 1.10
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -25,19 +25,26 @@
  * Added methods for getting terms of use by challenge or directly by id
  * changes in 1.9:
  * support private challenge search for search software/studio/both challenges api.
+ * changes in 1.10:
+ * Added method for uploading submission to a develop challenge
  */
 "use strict";
 
 require('datejs');
+var fs = require('fs');
 var async = require('async');
 var S = require('string');
 var _ = require('underscore');
 var extend = require('xtend');
+var request = require('request');
+
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
+
+var RequestTooLargeError = require('../errors/RequestTooLargeError');
 
 /**
  * Represents the sort column value. This value will be used in log, check, get information from request etc.
@@ -923,6 +930,315 @@ var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
 };
 
 /**
+ * This is the function that handles user's submission for a develop challenge.
+ * It handles both checkpoint and final submissions
+ * @since 1.9 
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        ret = {},
+        userId = connection.caller.userId,
+        challengeId = Number(connection.params.challengeId),
+        fileName = connection.params.fileName,
+        fileData = connection.params.fileData,
+        type = connection.params.type,
+        error,
+        resourceId,
+        userEmail,
+        userHandle,
+        submissionPhaseId,
+        checkpointSubmissionPhaseId,
+        uploadId,
+        submissionId,
+        thurgoodLanguage,
+        thurgoodPlatform,
+        thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.thurgoodApiKey,
+        thurgoodJobId = null,
+        multipleSubmissionPossible,
+        savedFilePath = null;
+
+    async.waterfall([
+        function (cb) {
+            //Check if the user is logged-in
+            if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
+                    _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
+                cb(new UnauthorizedError("Authentication details missing or incorrect."));
+                return;
+            }
+
+            //Simple validations of the incoming parameters
+            error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId') ||
+                helper.checkStringPopulated(fileName, 'fileName') ||
+                helper.checkStringPopulated(fileData, 'fileData');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            //Validation for the type parameter
+            if (_.isNull(type) || _.isUndefined(type)) {
+                type = 'final';
+            } else {
+                type = type.toLowerCase();
+                if (type !== 'final' && type !== 'checkpoint') {
+                    cb(new BadRequestError("type can either be final or checkpoint."));
+                    return;
+                }
+            }
+
+            //Validation for the size of the fileName parameter. It should be 256 chars as this is max length of parameter field in submission table.
+            if (fileName.length > 256) {
+                cb(new BadRequestError("The file name is too long. It must be 256 characters or less."));
+                return;
+            }
+
+            //All basic validations now pass.
+            //Check if the backend validations for submitting to the challenge are passed
+            sqlParams.userId = userId;
+            sqlParams.challengeId = challengeId;
+
+            api.dataAccess.executeQuery("challenge_submission_validations_and_info", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('No such challenge exists.'));
+                return;
+            }
+
+            if (!rows[0].is_develop_challenge) {
+                cb(new BadRequestError('Non-develop challenges are not supported.'));
+                return;
+            }
+
+            if (!rows[0].is_submission_open && type === 'final') {
+                cb(new BadRequestError('Submission phase for this challenge is not open.'));
+                return;
+            }
+
+            if (!rows[0].is_checkpoint_submission_open && type === 'checkpoint') {
+                cb(new BadRequestError('Checkpoint submission phase for this challenge is not open.'));
+                return;
+            }
+
+            if (_.contains([27, 29], rows[0].project_category_id)) {
+                cb(new BadRequestError('Submission to Marathon Matches and Spec Reviews are not supported.'));
+                return;
+            }
+
+            //Note 1 - this will also cover the case where user is not registered, 
+            //as the corresponding resource with role = Submitter will be absent in DB.
+            //Note 2 - this will also cover the case of private challenges
+            //User will have role Submitter only if the user belongs to group of private challenge and is registered.
+            if (!rows[0].is_user_submitter_for_challenge) {
+                cb(new ForbiddenError('You cannot submit for this challenge as you are not a Submitter.'));
+                return;
+            }
+
+            resourceId = rows[0].resource_id;
+            submissionPhaseId = rows[0].submission_phase_id;
+            checkpointSubmissionPhaseId = rows[0].checkpoint_submission_phase_id;
+            thurgoodPlatform = rows[0].thurgood_platform;
+            thurgoodLanguage = rows[0].thurgood_language;
+            userHandle = rows[0].user_handle;
+            userEmail = rows[0].user_email;
+            multipleSubmissionPossible = rows[0].multiple_submissions_possible;
+
+            //All validations are now complete. Generate the new ids for the upload and submission
+            async.parallel({
+                submissionId: function (cb) {
+                    api.idGenerator.getNextID("SUBMISSION_SEQ", dbConnectionMap, cb);
+                },
+                uploadId: function (cb) {
+                    api.idGenerator.getNextID("UPLOAD_SEQ", dbConnectionMap, cb);
+                }
+            }, cb);
+        }, function (generatedIds, cb) {
+            uploadId = generatedIds.uploadId;
+            submissionId = generatedIds.submissionId;
+
+            var submissionPath,
+                filePathToSave,
+                decodedFileData;
+
+            //The file output dir should be overwritable by environment variable
+            submissionPath = process.env.DEV_UPLOAD_SUBMISSION_DIR || api.config.devUploadSubmissionDir;
+
+            //The path to save is the folder with the name as <base submission path>
+            //The name of the file is the <generated upload id>_<original file name>
+            filePathToSave = submissionPath + "/" + uploadId + "_" + connection.params.fileName;
+
+            //Decode the base64 encoded file data
+            decodedFileData = new Buffer(connection.params.fileData, 'base64');
+
+            //Write the submission to file
+            fs.writeFile(filePathToSave, decodedFileData, function (err) {
+                if (err) {
+                    cb(err);
+                    return;
+                }
+
+                //Check the max length of the submission file (if there is a limit)
+                if (api.config.submissionMaxSizeBytes > 0) {
+                    fs.stat(filePathToSave, function (err, stats) {
+                        if (err) {
+                            cb(err);
+                            return;
+                        }
+                        if (stats.size > api.config.submissionMaxSizeBytes) {
+                            cb(new RequestTooLargeError(
+                                "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
+                            ));
+                            return;
+                        }
+                        savedFilePath = filePathToSave;
+                        cb();
+                    });
+                } else {
+                    savedFilePath = filePathToSave;
+                    cb();
+                }
+            });
+        }, function (cb) {
+            //Now insert into upload table
+            _.extend(sqlParams, {
+                uploadId: uploadId,
+                userId: userId,
+                challengeId: challengeId,
+                projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
+                resourceId: resourceId,
+                fileName: fileName,
+            });
+            api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
+        }, function (notUsed, cb) {
+            //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
+            if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
+                //Make request to the thurgood job api url
+
+                //Prepare the options for the request
+                var options = {
+                    url: api.config.thurgoodApiUrl,
+                    timeout: api.config.thurgoodTimeout,
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Token: token=' + thurgoodApiKey
+                    },
+                    form: {
+                        'email': userEmail,
+                        'thurgoodLanguage': thurgoodLanguage,
+                        'userId': userHandle,
+                        'notification': 'email',
+                        'codeUrl': api.config.thurgoodCodeUrl + uploadId,
+                        'platform': thurgoodPlatform
+                    }
+                };
+
+                //Make the actual request
+                request(options, function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        var respJson = JSON.parse(body);
+                        if (_.has(respJson, 'success') && respJson.success.toLowerCase() === 'true'
+                                && _.has(respJson, 'data') && _.has(respJson.data, '_id') && String(respJson.data._id) !== '') {
+                            thurgoodJobId = String(respJson.data._id);
+                        }
+                    }
+                    //Even if the request fails, we don't mind. This follows from the strategy used in current code.
+                    //In case of error, thurgoodJobId will just be null and the next call will not be made.
+                    cb();
+                });
+            } else {
+                cb();
+            }
+        }, function (cb) {
+            //If we created a thurgood job id, then we now submit it.
+            if (!_.isNull(thurgoodJobId)) {
+                //Make request to the submit thurgood job id api url
+
+                //Prepare the options for the request
+                var options = {
+                    url: api.config.thurgoodApiUrl + '/' + thurgoodJobId + '/submit',
+                    timeout: api.config.thurgoodTimeout,
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Token: token=' + thurgoodApiKey
+                    }
+                };
+
+                //Make the actual request
+                request(options, function () {
+                    //Even if the request fails, we don't mind. This follows from the strategy used in current code.
+                    //Although this seems counter-intuitive, this is how it is implemented currently in code, and so we stick with it.
+                    cb();
+                });
+            } else {
+                cb();
+            }
+        }, function (cb) {
+            //Now we are ready to 
+            //1) Insert into submission table 
+            //2) Insert into resource_submission table
+            //3) Possibly delete older submissions and uploads by the user, if multiple submissions are not allowed
+            _.extend(sqlParams, {
+                submissionId: submissionId,
+                thurgoodJobId: thurgoodJobId,
+                submissionTypeId: type === 'final' ? 1 : 3
+            });
+
+            async.series([
+                function (cb) {
+                    api.dataAccess.executeQuery("insert_submission", sqlParams, dbConnectionMap, function (err, result) {
+                        cb(err, result);
+                    });
+                }, function (cb) {
+                    api.dataAccess.executeQuery("insert_resource_submission", sqlParams, dbConnectionMap, function (err, result) {
+                        cb(err, result);
+                    });
+                }, function (cb) {
+                    if (!multipleSubmissionPossible) {
+                        api.dataAccess.executeQuery("delete_old_submissions", sqlParams, dbConnectionMap, function (err, result) {
+                            cb(err, result);
+                        });
+                    } else {
+                        cb();
+                    }
+                }, function (cb) {
+                    if (!multipleSubmissionPossible) {
+                        api.dataAccess.executeQuery("delete_old_uploads", sqlParams, dbConnectionMap, function (err, result) {
+                            cb(err, result);
+                        });
+                    } else {
+                        cb();
+                    }
+                }
+            ], cb);
+        }
+    ], function (err) {
+        if (err) {
+            //If file has been written before error, delete it
+            if (!_.isNull(savedFilePath)) {
+                //If we are unable to delete, we cannot do anything
+                fs.unlink(savedFilePath, null);
+            }
+            helper.handleError(api, connection, err);
+        } else {
+            ret = {
+                submissionId: submissionId,
+                uploadId: uploadId
+            };
+            connection.response = ret;
+        }
+        next(connection, true);
+    });
+};
+
+
+/**
  * The API for getting challenge terms of use
  */
 exports.getChallengeTerms = {
@@ -1288,6 +1604,31 @@ exports.getSoftwareChallengeResults = {
             getChallengeResults(api, connection, connection.dbConnectionMap, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+}
+ 
+/**           
+ * The API for posting submission to software challenge
+ * @since 1.10
+ */
+exports.submitForDevelopChallenge = {
+    name: "submitForDevelopChallenge",
+    description: "submitForDevelopChallenge",
+    inputs: {
+        required: ["challengeId", "fileName", "fileData"],
+        optional: ["type"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    cacheEnabled : false,
+    databases: ["tcs_catalog", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute submitForDevelopChallenge#run", 'debug');
+            submitForDevelopChallenge(api, connection, connection.dbConnectionMap, next);
         }
     }
 };

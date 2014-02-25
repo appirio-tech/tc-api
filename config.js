@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.8
+ * @version 1.9
  * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -20,6 +20,8 @@
  * - add downloadsRootDirectory parameter
  * changes in 1.8:
  * - add time_oltp and corporate_oltp in databaseMapping.
+ * changes in 1.9:
+ * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
  */
 "use strict";
 
@@ -531,6 +533,28 @@ config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadCo
 config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
 config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
 
+//The name of the folder where to store the submission files.
+//Please make sure the directory already exists
+config.devUploadSubmissionDir = 'test/tmp/submissions';
+//config.devUploadSubmissionDir = '/tmp/submissions';
+
+//Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
+//Set to 0 or negative for no size limit.
+config.submissionMaxSizeBytes = 2048;
+
+//////Thurgood configurables///////
+config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
+
+//API URL for production
+//config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs';
+//API URL for testing
+config.thurgoodApiUrl = 'http://localhost:8090/';
+
+config.thurgoodTimeout = 5000;
+
+//API KEY for testing
+//Can be overwritten by an environment variable of name THURGOOD_API_KEY 
+config.thurgoodApiKey = 'mock_api_key';
 
 //////////////////////////////////
 

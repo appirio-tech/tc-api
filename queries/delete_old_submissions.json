@@ -1,0 +1,5 @@
+{
+  "name" : "delete_old_submissions",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "delete_old_submissions"
+}

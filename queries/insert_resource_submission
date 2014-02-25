@@ -1,0 +1,2 @@
+INSERT INTO resource_submission (submission_id, resource_id, create_user, create_date, modify_user, modify_date) 
+VALUES (@submissionId@, @resourceId@, @userId@, CURRENT, @userId@, CURRENT);

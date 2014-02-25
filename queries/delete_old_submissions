@@ -1,0 +1,13 @@
+UPDATE submission
+SET submission_status_id = 5,
+modify_user = '@userId@',
+modify_date = CURRENT
+WHERE
+upload_id IN (
+	SELECT u.upload_id FROM upload u
+	INNER JOIN resource r ON u.resource_id = r.resource_id
+	WHERE u.project_id = @challengeId@
+	AND r.resource_id = @resourceId@
+)
+AND submission_id != @submissionId@
+AND submission_type_id = @submissionTypeId@;
