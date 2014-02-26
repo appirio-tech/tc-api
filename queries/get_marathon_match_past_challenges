@@ -24,7 +24,7 @@ AND lcr.placed = 1
 AND r.round_id = DECODE(@round_id@, 0, r.round_id, @round_id@)
 AND LOWER(c.name) LIKE (LOWER('%@full_name@%'))
 AND LOWER(r.name) LIKE (LOWER('%@short_name@%'))
-AND LOWER(co.handle) LIKE (LOWER('%@winner_handle@%'))
+AND handle_lower LIKE (LOWER('%@winner_handle@%'))
 AND lcr.system_point_total BETWEEN @score_lower@ AND @score_upper@
 
 AND EXTEND(c.end_date , year to day) <= '@end_time_end@'

@@ -4,4 +4,4 @@ FROM payment AS p
 JOIN user_payment AS up ON p.payment_id = up.payment_id
 JOIN coder AS c ON c.coder_id = up.user_id
 WHERE p.show_in_profile_ind = 1
-AND LOWER(c.handle) = LOWER('@handle@')
+AND handle_lower = LOWER('@handle@')

@@ -14,7 +14,7 @@ FROM
 , coder_level cl
 , coder c
 WHERE cl.coder_id = c.coder_id
-AND LOWER(c.handle) = LOWER('@handle@')
+AND handle_lower = LOWER('@handle@')
 AND l.level_id = cl.level_id
 AND cl.algo_rating_type_id = 1
 GROUP by l.level_desc, l.level_id
