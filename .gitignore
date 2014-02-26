@@ -1,6 +1,6 @@
 *.log
-*.zip
 log
 pids
 deploy/prod.sh
 node_modules
+test/tmp/submissions/*.zip

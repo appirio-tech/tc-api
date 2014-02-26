@@ -1,8 +1,10 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, Ghost_141
+ * Changes in 1.1:
+ * - update the test since the query has been updated.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -35,9 +37,6 @@ describe('Get Member Studio Statistics API', function () {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean", "tcs_catalog", cb);
             },
             function (cb) {
-                testHelper.runSqlFile(SQL_DIR + "tcs_dw__clean", "tcs_dw", cb);
-            },
-            function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "topcoder_dw__clean", "topcoder_dw", cb);
             }
         ], done);
@@ -51,9 +50,6 @@ describe('Get Member Studio Statistics API', function () {
     beforeEach(function (done) {
         async.waterfall([
             clearDb,
-            function (cb) {
-                testHelper.runSqlFile(SQL_DIR + "tcs_dw__insert_test_data", "tcs_dw", cb);
-            },
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert_test_data", "tcs_catalog", cb);
             },
@@ -97,7 +93,7 @@ describe('Get Member Studio Statistics API', function () {
     it("should return correct statistics for heffan (no tracks)", function (done) {
         async.waterfall([
             function (cb) {
-                testHelper.runSqlFile(SQL_DIR + "tcs_dw__clean_tracks", "tcs_dw", cb);
+                testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean_tracks", "tcs_catalog", cb);
             }, function (cb) {
                 request(API_ENDPOINT)
                     .get('/v2/users/heffan/statistics/design')

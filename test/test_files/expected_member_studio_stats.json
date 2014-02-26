@@ -1,75 +1,66 @@
 ﻿{
-  "handle": "heffan",
-  "Tracks": {
-    "Idea Generation": {
-      "numberOfSubmissions": 3,
-      "numberOfPassedScreeningSubmissions": 0,
-      "numberOfWinningSubmissions": 1,
-      "copilotCompletedContests": 7,
-      "copilotFailedContests": 4
-    },
-    "Banners/Icons": {
-      "numberOfSubmissions": 1,
-      "numberOfPassedScreeningSubmissions": 1,
-      "numberOfWinningSubmissions": 2,
-      "copilotCompletedContests": 4,
-      "copilotFailedContests": 2
-    },
-    "Application Front-End Design": {
-      "numberOfSubmissions": 2,
-      "numberOfPassedScreeningSubmissions": 1,
-      "numberOfWinningSubmissions": 1,
-      "copilotCompletedContests": 6,
-      "copilotFailedContests": 6
-    },
-    "Logo Design": {
-      "numberOfSubmissions": 5,
-      "numberOfPassedScreeningSubmissions": 4,
-      "numberOfWinningSubmissions": 0,
-      "copilotCompletedContests": 5,
-      "copilotFailedContests": 2
-    },
-    "Widget or Mobile Screen Design": {
-      "numberOfSubmissions": 3,
-      "numberOfPassedScreeningSubmissions": 1,
-      "numberOfWinningSubmissions": 0,
-      "copilotCompletedContests": 6,
-      "copilotFailedContests": 6
-    },
-    "Other": {
-      "numberOfSubmissions": 2,
-      "numberOfPassedScreeningSubmissions": 0,
-      "numberOfWinningSubmissions": 1,
-      "copilotCompletedContests": 1,
-      "copilotFailedContests": 1
-    },
-    "Web Design": {
-      "numberOfSubmissions": 3,
-      "numberOfPassedScreeningSubmissions": 2,
-      "numberOfWinningSubmissions": 0,
-      "copilotCompletedContests": 7,
-      "copilotFailedContests": 7
-    },
-    "Wireframes": {
-      "numberOfSubmissions": 3,
-      "numberOfPassedScreeningSubmissions": 0,
-      "numberOfWinningSubmissions": 2,
-      "copilotCompletedContests": 3,
-      "copilotFailedContests": 2
-    },
-    "Print/Presentation": {
-      "numberOfSubmissions": 4,
-      "numberOfPassedScreeningSubmissions": 3,
-      "numberOfWinningSubmissions": 0,
-      "copilotCompletedContests": 7,
-      "copilotFailedContests": 7
-    },
-    "Front-End Flash": {
-      "numberOfSubmissions": 2,
-      "numberOfPassedScreeningSubmissions": 0,
-      "numberOfWinningSubmissions": 1,
-      "copilotCompletedContests": 4,
-      "copilotFailedContests": 3
+    "handle": "heffan",
+    "Tracks": {
+        "Application Front-End Design": {
+            "numberOfSubmissions": 1,
+            "numberOfPassedScreeningSubmissions": 1,
+            "numberOfWinningSubmissions": 1,
+            "copilotCompletedContests": 6,
+            "copilotFailedContests": 6
+        },
+        "Banners/Icons": {
+            "numberOfSubmissions": 2,
+            "numberOfPassedScreeningSubmissions": 2,
+            "numberOfWinningSubmissions": 0,
+            "copilotCompletedContests": 4,
+            "copilotFailedContests": 2
+        },
+        "Front-End Flash": {
+            "numberOfSubmissions": 1,
+            "numberOfPassedScreeningSubmissions": 1,
+            "numberOfWinningSubmissions": 1,
+            "copilotCompletedContests": 4,
+            "copilotFailedContests": 3
+        },
+        "Idea Generation": {
+            "numberOfSubmissions": 4,
+            "numberOfPassedScreeningSubmissions": 4,
+            "numberOfWinningSubmissions": 3,
+            "copilotCompletedContests": 7,
+            "copilotFailedContests": 4
+        },
+        "Logo Design": {
+            "numberOfSubmissions": 3,
+            "numberOfPassedScreeningSubmissions": 3,
+            "numberOfWinningSubmissions": 2,
+            "copilotCompletedContests": 5,
+            "copilotFailedContests": 2
+        },
+        "Other": {
+            "copilotCompletedContests": 1,
+            "copilotFailedContests": 1
+        },
+        "Print/Presentation": {
+            "numberOfSubmissions": 3,
+            "numberOfPassedScreeningSubmissions": 3,
+            "numberOfWinningSubmissions": 1,
+            "copilotCompletedContests": 7,
+            "copilotFailedContests": 7
+        },
+        "Web Design": {
+            "copilotCompletedContests": 7,
+            "copilotFailedContests": 7
+        },
+        "Widget or Mobile Screen Design": {
+            "copilotCompletedContests": 6,
+            "copilotFailedContests": 6
+        },
+        "Wireframes": {
+            "numberOfSubmissions": 2,
+            "numberOfPassedScreeningSubmissions": 2,
+            "numberOfWinningSubmissions": 1,
+            "copilotCompletedContests": 3,
+            "copilotFailedContests": 2
+        }
     }
-  }
 }

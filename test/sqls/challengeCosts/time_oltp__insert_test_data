@@ -1,0 +1,9 @@
+INSERT INTO project(project_id, company_id, name, description, active, sales_tax, po_box_number, payment_terms_id, start_date, end_date, client_id, creation_user, creation_date, modification_user, modification_date)
+VALUES(10001, 1, 'Test Client Project', 'Test Client Project 10001 description', 1, 0, 'TESTPROJECT-01', 1, current - 200 units day, current + 200 units day, 1, 'admin', current, 'admin', current);
+INSERT INTO client_project(client_id, project_id, creation_date, creation_user, modification_date, modification_user)
+VALUES(1, 10001, current, 'admin', current, 'admin');
+
+INSERT INTO project(project_id, company_id, name, description, active, sales_tax, po_box_number, payment_terms_id, start_date, end_date, client_id, creation_user, creation_date, modification_user, modification_date)
+VALUES(10002, 1, 'Test Client Project 10002', 'Test Client Project 10002 description', 1, 0, 'TESTPROJECT-01', 1, current - 200 units day, current + 200 units day, 1, 'admin', current, 'admin', current);
+INSERT INTO client_project(client_id, project_id, creation_date, creation_user, modification_date, modification_user)
+VALUES(1, 10002, current, 'admin', current, 'admin');

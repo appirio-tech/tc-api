@@ -23,32 +23,32 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config').configData.general.oauthClientId;
-var SECRET = require('../config').configData.general.oauthClientSecret;
+var CLIENT_ID = require('../config').config.general.oauthClientId;
+var SECRET = require('../config').config.general.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 describe('Get Terms Of Use API', function () {
 
-	/**
+    /**
     * Users that we have setup.
     */
-	var user11 = 'facebook|fb400011',
-		user12 = 'facebook|fb400012',
-		user13 = 'facebook|fb400013',
-		user14 = 'facebook|fb400014',
-		user15 = 'facebook|fb400015',
-		user16 = 'facebook|fb400016',
-		user17 = 'facebook|fb400017'; 
+    var user11 = 'facebook|fb400011',
+        user12 = 'facebook|fb400012',
+        user13 = 'facebook|fb400013',
+        user14 = 'facebook|fb400014',
+        user15 = 'facebook|fb400015',
+        user16 = 'facebook|fb400016',
+        user17 = 'facebook|fb400017';
 
 
     /**
      * Return the authentication header to be used for the given user. 
      * @param {Object} user the user to authenticate
      */
-	function getAuthHeader(user) {
-		var authHeader = "Bearer " + jwt.sign({sub: user}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});	
-		return authHeader;
-	}
+    function getAuthHeader(user) {
+        var authHeader = "Bearer " + jwt.sign({sub: user}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+        return authHeader;
+    }
 
     /**
      * Creates a Request object using the given URL.
@@ -58,16 +58,15 @@ describe('Get Terms Of Use API', function () {
      * @param {Object} user the user to authenticate
      * @param {Number} expectedStatusCode the expected status code of the response
      */
-	function getRequest(url, user, expectedStatusCode) {
+    function getRequest(url, user, expectedStatusCode) {
         var req = request(API_ENDPOINT)
             .get(url)
             .set('Accept', 'application/json')
-			.set('Authorization', getAuthHeader(user))
+            .set('Authorization', getAuthHeader(user))
             .expect('Content-Type', /json/)
             .expect(expectedStatusCode);
- 		return req;
-	}
-	
+        return req;
+    }
 
     this.timeout(120000); // The api with testing remote db could be quit slow
 
@@ -77,13 +76,13 @@ describe('Get Terms Of Use API', function () {
      */
     function clearDb(done) {
         async.waterfall([
-           function (cb) {
+            function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "common_oltp__clean", "common_oltp", cb);
-           },
-           function (cb) {
+            },
+            function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean", "tcs_catalog", cb);
-           }
-       ], done);
+            }
+        ], done);
     }
 
     /**
@@ -93,14 +92,14 @@ describe('Get Terms Of Use API', function () {
      */
     before(function (done) {
         async.waterfall([
-			clearDb,
+            clearDb,
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "common_oltp__insert_test_data", "common_oltp", cb);
             },
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert_test_data", "tcs_catalog", cb);
             }
-       ], done);
+        ], done);
     });
 
     /**
@@ -109,8 +108,7 @@ describe('Get Terms Of Use API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
-        // clearDb(done);
-		done();
+        clearDb(done);
     });
 
     /**
@@ -119,12 +117,12 @@ describe('Get Terms Of Use API', function () {
      * @param {String} name - the expected file name.
      * @param {Function} cb - the call back function.
      */
-    var checkAPI = function (url, user, name, cb) {
+    function checkAPI(url, user, name, cb) {
         request(API_ENDPOINT)
             .get(url)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-			.set('Authorization', getAuthHeader(user))
+            .set('Authorization', getAuthHeader(user))
             .expect(200)
             .end(function (err, res) {
                 if (err) {
@@ -133,11 +131,11 @@ describe('Get Terms Of Use API', function () {
                 }
                 var body = res.body, expected = require('./test_files/' + name + '.json');
                 delete body.serverInformation;
-                delete body.requestorInformation;
+                delete body.requesterInformation;
                 assert.deepEqual(body, expected);
                 cb();
             });
-    };
+    }
 
     /**
      * Test /v2/terms/:challengeId but user is not logged-in
@@ -168,8 +166,8 @@ describe('Get Terms Of Use API', function () {
      * should return 404 error
      */
     it('should return 404 error', function (done) {
-		var req = getRequest('/v2/terms/40000099', user11, 404);
-		done();
+        var req = getRequest('/v2/terms/40000099', user11, 404);
+        done();
     });
 
     /**
@@ -177,8 +175,8 @@ describe('Get Terms Of Use API', function () {
      * should return 404 error
      */
     it('should return 404 error', function (done) {
-		var req = getRequest('/v2/terms/detail/99099', user11, 404);
-		done();
+        var req = getRequest('/v2/terms/detail/99099', user11, 404);
+        done();
     });
 
     /**
@@ -186,15 +184,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because registration not open', function (done) {
-   		var req = getRequest('/v2/terms/40000002', user11, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "Registration Phase of this challenge is not open.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000002', user11, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "Registration Phase of this challenge is not open.");
+            done();
+        });
     });
 
     /**
@@ -202,15 +200,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because user already registered for challenge', function (done) {
-   		var req = getRequest('/v2/terms/40000003', user12, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "You are already registered for this challenge.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000003', user12, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "You are already registered for this challenge.");
+            done();
+        });
     });
 
     /**
@@ -218,15 +216,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because user is suspended', function (done) {
-   		var req = getRequest('/v2/terms/40000001', user13, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "You cannot participate in this challenge due to suspension.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000001', user13, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "You cannot participate in this challenge due to suspension.");
+            done();
+        });
     });
 
     /**
@@ -234,15 +232,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because user country is banned', function (done) {
-   		var req = getRequest('/v2/terms/40000001', user14, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country information is either missing or is banned.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000001', user14, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country information is either missing or is banned.");
+            done();
+        });
     });
 
     /**
@@ -250,15 +248,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because user country is missing', function (done) {
-   		var req = getRequest('/v2/terms/40000001', user17, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country information is either missing or is banned.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000001', user17, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country information is either missing or is banned.");
+            done();
+        });
     });
 
     /**
@@ -266,15 +264,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because challenge is only meant for a group and user does not belong to that group', function (done) {
-   		var req = getRequest('/v2/terms/40000004', user12, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "You are not part of the groups eligible for this challenge.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000004', user12, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "You are not part of the groups eligible for this challenge.");
+            done();
+        });
     });
 
     /**
@@ -282,15 +280,15 @@ describe('Get Terms Of Use API', function () {
      * should return 403 error
      */
     it('should return 403 error because user not in copilot pool for copilot challenge', function (done) {
-   		var req = getRequest('/v2/terms/40000005', user12, 403);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "You cannot participate in this challenge because you are not an active member of the copilot pool.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000005', user12, 403);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "You cannot participate in this challenge because you are not an active member of the copilot pool.");
+            done();
+        });
     });
 
     /**
@@ -299,7 +297,7 @@ describe('Get Terms Of Use API', function () {
      * It also shows that user11 has agreed to 2 terms
      */
     it('should return the terms for the challenge for user11', function (done) {
-   		checkAPI('/v2/terms/40000001', user11, 'expected_terms_for_challenge_40000001_user11', done);
+        checkAPI('/v2/terms/40000001', user11, 'expected_terms_for_challenge_40000001_user11', done);
     });
 
     /**
@@ -308,7 +306,7 @@ describe('Get Terms Of Use API', function () {
      * It also shows that user12 has agreed to none of the terms
      */
     it('should return the terms for the challenge for user12', function (done) {
-   		checkAPI('/v2/terms/40000001', user12, 'expected_terms_for_challenge_40000001_user12', done);
+        checkAPI('/v2/terms/40000001', user12, 'expected_terms_for_challenge_40000001_user12', done);
     });
 
     /**
@@ -316,7 +314,7 @@ describe('Get Terms Of Use API', function () {
      * should return the terms for the challenge for Submitters
      */
     it('should return the terms for the challenge for submitters', function (done) {
-   		checkAPI('/v2/terms/40000001?role=Submitter', user12, 'expected_terms_for_challenge_40000001_role_Submitter', done);
+        checkAPI('/v2/terms/40000001?role=Submitter', user12, 'expected_terms_for_challenge_40000001_role_Submitter', done);
     });
 
     /**
@@ -324,7 +322,7 @@ describe('Get Terms Of Use API', function () {
      * should return the terms for the challenge for Reviewer
      */
     it('should return the terms for the challenge for reviewers', function (done) {
-   		checkAPI('/v2/terms/40000001?role=Reviewer', user12, 'expected_terms_for_challenge_40000001_role_Reviewer', done);
+        checkAPI('/v2/terms/40000001?role=Reviewer', user12, 'expected_terms_for_challenge_40000001_role_Reviewer', done);
     });
 
     /**
@@ -332,7 +330,7 @@ describe('Get Terms Of Use API', function () {
      * should return the terms for the challenge for Client Manager
      */
     it('should return the terms for the challenge for reviewers', function (done) {
-   		checkAPI('/v2/terms/40000001?role=Client%20Manager', user11, 'expected_terms_for_challenge_40000001_role_Client_Manager', done);
+        checkAPI('/v2/terms/40000001?role=Client%20Manager', user11, 'expected_terms_for_challenge_40000001_role_Client_Manager', done);
     });
 
     /**
@@ -340,15 +338,15 @@ describe('Get Terms Of Use API', function () {
      * should return 400 error
      */
     it('should return 400 error because role does not exist', function (done) {
-   		var req = getRequest('/v2/terms/40000001?role=NoSuchRole', user11, 400);
-		req.end(function(err, resp) {
-			if (err) {
-				done(err);
-				return;
-			}			
-			assert.equal(resp.body.error.details, "The role: NoSuchRole was not found.");
-			done();
-		}); 
+        var req = getRequest('/v2/terms/40000001?role=NoSuchRole', user11, 400);
+        req.end(function (err, resp) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.equal(resp.body.error.details, "The role: NoSuchRole was not found.");
+            done();
+        });
     });
 
     /**
@@ -356,7 +354,7 @@ describe('Get Terms Of Use API', function () {
      * should return the terms of use for the given id
      */
     it('should return the terms of use for the given id', function (done) {
-   		checkAPI('/v2/terms/detail/20963', user11, 'expected_terms_detail_20963', done);
+        checkAPI('/v2/terms/detail/20963', user11, 'expected_terms_detail_20963', done);
     });
 
 });

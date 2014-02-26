@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
- * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
+ * @version 1.9
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -11,8 +11,17 @@
  * - add oauthClientId and oauthClientSecret parameters
  * changes in 1.4:
  * - add oauthConnection and oauthDomain parameters
+ * - added submissionLink and finalFixLink
  * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
+ * changes in 1.6:
+ * - add corporate_oltp in database mapping.
+ * changes in 1.7:
+ * - add downloadsRootDirectory parameter
+ * changes in 1.8:
+ * - add time_oltp and corporate_oltp in databaseMapping.
+ * changes in 1.9:
+ * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
  */
 "use strict";
 
@@ -22,13 +31,13 @@
 var fs = require('fs');
 var cluster = require('cluster');
 
-var configData = {};
+var config = {};
 
 /////////////////////////
 // General Information //
 /////////////////////////
 
-configData.general = {
+config.general = {
     apiVersion : "0.0.1",
     serverName : "TopCoder API",
     // id: "myActionHeroServer",                                    // id can be set here, or it will be generated dynamically.  Be sure that every server you run has a unique ID (which will happen when genrated dynamically)
@@ -53,27 +62,28 @@ configData.general = {
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
-    oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
+    oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
     oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
     oauthDomain: process.env.OAUTH_DOMAIN || "sma",
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
-    jiraPassword: process.env.JIRA_PASSWORD
+    jiraPassword: process.env.JIRA_PASSWORD,
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
 };
 
 /////////////
 // logging //
 /////////////
 
-configData.logger = {
+config.logger = {
     transports : []
 };
 
 // console logger
 if (cluster.isMaster && !process.env.DISABLE_CONSOLE_LOG) {
-    configData.logger.transports.push(function (api, winston) {
+    config.logger.transports.push(function (api, winston) {
         return new (winston.transports.Console)({
             colorize : true,
             level : "debug",
@@ -90,9 +100,9 @@ fs.mkdir("./log", function (err) {
     }
 });
 
-configData.logger.transports.push(function (api, winston) {
+config.logger.transports.push(function (api, winston) {
     return new (winston.transports.File)({
-        filename : configData.general.paths.log + "/" + api.pids.title + '.log',
+        filename : config.general.paths.log + "/" + api.pids.title + '.log',
         level : "debug",
         json : false,
         timestamp : true
@@ -103,7 +113,7 @@ configData.logger.transports.push(function (api, winston) {
 // Stats //
 ///////////
 
-configData.stats = {
+config.stats = {
     // how often should the server write its stats to redis?
     writeFrequency: 300000, //every five min
     // what redis key(s) [hash] should be used to store stats?
@@ -117,7 +127,7 @@ configData.stats = {
 // Redis //
 ///////////
 
-configData.redis = {
+config.redis = {
     fake : !(process.env.REDIS_HOST && process.env.REDIS_HOST !== '127.0.0.1'),
     host : process.env.REDIS_HOST || "127.0.0.1",
     port : process.env.REDIS_PORT || 6379,
@@ -130,10 +140,30 @@ configData.redis = {
 // FAYE //
 //////////
 
-configData.faye = {
+config.faye = {
     mount : "/faye",
     timeout : 45,
-    ping : null
+    ping : null,
+    redis: config.redis,
+    namespace: 'faye:'
+};
+
+///////////
+// TASKS //
+///////////
+
+// see https://github.com/taskrabbit/node-resque for more information / options
+config.tasks = {
+  // Should this node run a scheduler to promote delayed tasks?
+    scheduler: false,
+  // what queues should the workers work and how many to spawn?
+  //  ['*'] is one worker working the * queue
+  //  ['high,low'] is one worker working 2 queues
+    queues: ['default'],
+  // how long to sleep between jobs / scheduler checks
+    timeout: 5000,
+  // What redis server should we connect to for tasks / delayed jobs?
+    redis: config.redis
 };
 
 /////////////
@@ -142,7 +172,7 @@ configData.faye = {
 
 // uncomment the section to enable the server
 
-configData.servers = {
+config.servers = {
     "web" : {
         secure : false,                         // HTTP or HTTPS?
         serverOptions : {},                     // Passed to https.createServer if secure=ture. Should contain SSL certificates
@@ -184,27 +214,29 @@ configData.servers = {
 /**
  * A mapping indicating which database belongs to which database server.
  */
-configData.databaseMapping = {
+config.databaseMapping = {
     "common_oltp" : "TC_DB",
     "informixoltp" : "TC_DB",
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
-    "tcs_dw" : "TC_DW"
+    "tcs_dw" : "TC_DW",
+    "time_oltp": "TC_DB",
+    "corporate_oltp": "TC_DB"
 };
 
 /**
  * The badge config data.
  */
-configData.badge = {};
+config.badge = {};
 
 /**
  * The badge image link.
  */
-configData.badge.link = 'http://topcoder.com/images/badge.grid.small.png';
+config.badge.link = 'http://topcoder.com/images/badge.grid.small.png';
 /**
  * A mapping indicating the badge properties.
  */
-configData.badge.properties = {
+config.badge.properties = {
     1: {
         "left": 0,
         "top": 0
@@ -491,7 +523,38 @@ configData.badge.properties = {
     }
 };
 
-configData.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+
+/**
+ * The default password to be used for social register
+ */
+config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
+config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
+config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
+config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
+
+//The name of the folder where to store the submission files.
+//Please make sure the directory already exists
+config.devUploadSubmissionDir = 'test/tmp/submissions';
+
+//Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
+//Set to 0 or negative for no size limit.
+config.submissionMaxSizeBytes = 2048;
+
+//////Thurgood configurables///////
+config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
+
+//API URL for production
+//config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs';
+//API URL for testing
+config.thurgoodApiUrl = 'http://localhost:8090/';
+
+config.thurgoodTimeout = 5000;
+
+//API KEY for testing
+//Can be overwritten by an environment variable of name THURGOOD_API_KEY 
+config.thurgoodApiKey = 'mock_api_key';
+
 //////////////////////////////////
 
-exports.configData = configData;
+exports.config = config;

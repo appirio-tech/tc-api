@@ -1,0 +1,7 @@
+DELETE FROM user_group_xref WHERE user_group_id IN (2001, 2002, 2003);
+DELETE FROM group_contest_eligibility WHERE contest_eligibility_id IN (1, 2, 3);
+DELETE FROM contest_eligibility WHERE contest_id IN (2001, 2002, 2003);
+DELETE FROM security_groups WHERE group_id IN (2001, 2002, 2003);
+DELETE FROM project_info WHERE project_id IN (2001, 2002, 2003, 2004);
+DELETE FROM project_phase WHERE project_id IN (2001, 2002, 2003, 2004);
+DELETE FROM project WHERE project_id IN (2001, 2002, 2003, 2004);

@@ -1,0 +1,15 @@
+INSERT INTO project(project_id, component_name, num_registrations, num_submissions, num_valid_submissions, avg_raw_score, avg_final_score, posting_date, complete_date, project_category_id, project_category_name, status_id, component_id, version_id, phase_id) VALUES (66901, 'NodeJS Result API Dev Project', 25, 5, 4, 87.2, 89.9, '2013-12-10 09:30:15', '2013-12-17 09:30:15', 7, 'Architecture', 4, 66901, 1, 112);
+INSERT INTO project(project_id, component_name, num_registrations, num_submissions, num_valid_submissions, avg_raw_score, avg_final_score, posting_date, complete_date, project_category_id, project_category_name) VALUES (66902, 'NodeJS Result API Des Project - Private', 3, 2, 2, 87.4, 89.0, '2013-12-10 09:30:15', '2013-12-17 09:30:15', 16, 'Banner/Icons');
+INSERT INTO project(project_id, component_name, num_registrations, num_submissions, num_valid_submissions, avg_raw_score, avg_final_score, posting_date, complete_date, project_category_id, project_category_name) VALUES (66913, 'NodeJS Result API Des Project - Public', 3, 2, 2, 87.4, 89.0, '2013-12-10 09:30:15', '2013-12-17 09:30:15', 16, 'Banner/Icons');
+
+INSERT INTO project_result(project_id, user_id, points_awarded, final_points, submit_ind, valid_submission_ind, raw_score, final_score, inquire_timestamp, submit_timestamp) VALUES(66901, 124764, 270, 270, 1, 1, 88.6, 97.47, CURRENT, CURRENT);
+INSERT INTO project_result(project_id, user_id, points_awarded, final_points, submit_ind, valid_submission_ind, raw_score, final_score, inquire_timestamp, submit_timestamp) VALUES(66901, 124772, 135, 135, 1, 1, 89.1, 93.41, CURRENT, CURRENT);
+INSERT INTO project_result(project_id, user_id, points_awarded, final_points, submit_ind, valid_submission_ind, raw_score, final_score, inquire_timestamp, submit_timestamp) VALUES(66901, 124766, 45, 45, 1, 1, 80.0, 81.47, CURRENT, CURRENT);
+INSERT INTO project_result(project_id, user_id, points_awarded, final_points, submit_ind, valid_submission_ind, raw_score, final_score, inquire_timestamp, submit_timestamp) VALUES(66901, 124776, 0, 0, 1, 0, 74.2, 73.97, CURRENT, CURRENT);
+INSERT INTO project_result(project_id, user_id, points_awarded, final_points, submit_ind, valid_submission_ind, raw_score, final_score, inquire_timestamp, submit_timestamp) VALUES(66901, 124834, 0, 0, 1, 0, NULL, NULL, CURRENT, CURRENT);
+
+INSERT INTO project_result(project_id, user_id, final_points, submit_ind) VALUES(66902, 124766, 350, 1);
+INSERT INTO project_result(project_id, user_id, final_points, submit_ind) VALUES(66902, 124776, 150, 1);
+
+INSERT INTO project_result(project_id, user_id, final_points, submit_ind) VALUES(66913, 124766, 350, 1);
+INSERT INTO project_result(project_id, user_id, final_points, submit_ind) VALUES(66913, 124776, 150, 1);

@@ -1,0 +1,13 @@
+UPDATE upload
+SET upload_status_id = 2,
+modify_user = '@userId@',
+modify_date = CURRENT
+WHERE project_id = @challengeId@
+AND resource_id = @resourceId@
+AND upload_id != @uploadId@
+AND upload_id IN (
+	SELECT upload_id
+	FROM
+	submission
+	WHERE submission_type_id = @submissionTypeId@
+)

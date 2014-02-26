@@ -187,10 +187,11 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             next(err);
         } else {
             user.id = result;
+            var password = (user.password !== null && user.password !== undefined) ? user.password : api.config.defaultPassword;
             // perform a series of insert
             async.series([
                 function (callback) {
-                    var status = user.socialProviderId !== null && user.socialProviderId !== undefined ? 'A' : 'U';
+                    var status = 'U';
                     var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
@@ -202,19 +203,14 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var url, task;
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
-                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified}, dbConnectionMap, function (err, result) {
+						var suid = null;
+						if (user.socialUserId !== null && user.socialUserId !== undefined) {
+							suid = user.socialUserId;
+						}
+                        api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : suid}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
-                    } else {
-                        url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
-                        api.log("Activation url: " + url, "debug");
-                        task = new api.task({
-                            name: "sendActivationEmail",
-                            params: {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}
-                        });
-
-                        task.run();
-
+                    } else {    
                         callback(null, null);
                     }
                 },
@@ -224,7 +220,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : user.password}, function (err, result) {                       
+                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : password}, function (err, result) {                       
                         if (err) {
                             next(err);
                         } else {
@@ -233,7 +229,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    var hashedPassword = api.helper.encodePassword(user.password, PASSWORD_HASH_KEY);
+                    var hashedPassword = api.helper.encodePassword(password, PASSWORD_HASH_KEY);
                     api.log("Hashed Password : " + hashedPassword);
 
                     // insert with the hashed password
@@ -294,6 +290,16 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     ], function (err, result) {
                         callback(err, result);
                     });
+                },
+				function (callback) {
+                    var url;
+                    url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
+                    api.log("Activation url: " + url, "debug");
+
+                    api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
+                        
+                    callback(null, null);
+                    
                 }
             ],
                 // This is called when all above operations are done or any error occurs
@@ -792,7 +798,7 @@ var validateSocialProviderId = function (socialProviderId) {
  */
 var validateSocialUserName = function (socialUserName) {
     if (isNullOrEmptyString(socialUserName) || !stringUtils.containsOnly(socialUserName, HANDLE_ALPHABET)) {
-        return "Social user name is required";
+        return null;
     }
 
     if (socialUserName.length > MAX_SOCIAL_USER_NAME_LENGTH) {
@@ -810,7 +816,7 @@ var validateSocialUserName = function (socialUserName) {
  */
 var validateSocialEmail = function (email) {
     if (isNullOrEmptyString(email)) {
-        return "Social Email is required";
+        return null;
     }
 
     if (email.length > MAX_EMAIL_LENGTH) {
@@ -822,6 +828,20 @@ var validateSocialEmail = function (email) {
         return "Social Email address is invalid";
     }
 
+    return null;
+};
+
+/**
+ * Validate the social email
+ *
+ * @param {String} email The social email to check
+ * @return {String} the error message or null if the social email is valid.
+ */
+var validateSocialUserId = function (socialUserId) {
+   
+	if (socialUserId === null || socialUserId === undefined) {
+		return "Social User Id is required";
+	}
     return null;
 };
 
@@ -850,8 +870,8 @@ exports.action = {
     name: "memberRegister",
     description: "Register a new member",
     inputs: {
-        required: ["firstName", "lastName", "handle", "country", "email", "password"],
-        optional: ["socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource"]
+        required: ["firstName", "lastName", "handle", "country", "email"],
+        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource", "socialUserId"]
     },
     blockedConnectionTypes : [],
     outputExample : {},
@@ -871,13 +891,22 @@ exports.action = {
 
             if (connection.params.socialProviderId !== null && connection.params.socialProviderId !== undefined) {
                 api.log("social provider id: " + connection.params.socialProviderId, "debug");
+				messages.push(validateSocialUserId(connection.params.socialUserId));
                 messages.push(validateSocialUserName(connection.params.socialUserName));
                 messages.push(validateSocialEmail(connection.params.socialEmail));
                 messages.push(validateSocialEmailVerified(connection.params.socialEmailVerified));
+				
             }
 
             // validate parameters that require database access
             async.series({
+                validatePassword: function (callback) {
+                    if ((connection.params.socialProviderId == null || connection.params.socialProviderId == undefined) && (connection.params.password == null || connection.params.password == undefined)) {                   
+                        callback(null, "Password is a required parameter if the registering is not through social login.");
+                    } else {
+                        callback(null, null);
+                    }
+                },
                 validateEmail: function (callback) {
                     validateEmail(api, connection.params.email, dbConnectionMap, function (err, result) {
                         callback(err, result);
@@ -933,6 +962,7 @@ exports.action = {
                         return;
                     }
 
+                    messages.push(results.validatePassword);
                     messages.push(results.validateEmail);
                     messages.push(results.validateHandle);
                     messages.push(results.validateCountryName);

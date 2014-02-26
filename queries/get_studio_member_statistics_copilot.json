@@ -1,5 +1,0 @@
-{
-  "name"    : "get_studio_member_statistics_copilot",
-  "db"      : "tcs_catalog",
-  "sqlfile" : "get_studio_member_statistics_copilot"
-}

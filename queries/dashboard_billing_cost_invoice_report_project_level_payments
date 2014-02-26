@@ -1,0 +1,77 @@
+SELECT
+  pm.create_date payment_date
+, null::int AS challenge_id
+, ttc.name AS client_name
+, ttp.name AS billing_name
+, tdp.name AS project_name
+, null::datetime year to fraction AS launch_date
+, null::datetime year to fraction AS completion_date
+, null::varchar AS challenge_type
+, null::varchar AS challenge_name
+, null::varchar AS challenge_status
+, CASE WHEN pmd.payment_type_id in (69)  THEN 'Copilot'
+       WHEN pmd.payment_type_id in (68, 70, 71)  THEN 'Bugs'
+       ELSE 'Misc' END AS payment_type
+, pmd.total_amount AS amount
+, ttc.client_id
+FROM informixoltp:payment pm
+INNER JOIN informixoltp:payment_detail pmd ON pm.most_recent_detail_id = pmd.payment_detail_id
+, informixoltp:payment_type_lu pt
+, tc_direct_project tdp
+, time_oltp:project ttp
+, time_oltp:client_project ttcp
+, time_oltp:client ttc
+where pmd.cockpit_project_id = tdp.project_id   and pmd.payment_type_id = pt.payment_type_id
+    and pmd.installment_number = 1 and pmd.payment_type_id != 4 and NOT pmd.payment_status_id IN (65,68, 69)
+    and ttp.project_id = ttcp.project_id and ttcp.client_id = ttc.client_id
+    and ttc.client_id = DECODE(@client_id@, 0, ttc.client_id, @client_id@)
+    and ttp.project_id = (select min(billing_account_id) from corporate_oltp:direct_project_account dpa where dpa.project_id = tdp.project_id)
+    and ttp.project_id = DECODE(@billing_id@, 0, ttp.project_id, @billing_id@)
+    and tdp.project_id = DECODE(@project_id@, 0, tdp.project_id, @project_id@)
+    and 0 = DECODE(@challenge_id@, 0, 0, @challenge_id@)
+    and (pm.create_date BETWEEN TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@end_date@ 23:59:59', '%Y-%m-%d %H:%M:%S'))
+   and (
+             exists (
+                     select resource_id from user_permission_grant upg
+                     where upg.user_id=DECODE(@user_id@,0,upg.user_id,@user_id@) and upg.permission_type_id IN (0,1,2,3) and upg.resource_id = tdp.project_id
+                     )
+
+          OR
+             exists (
+                     SELECT
+                            tdpt.project_id as tc_direct_project_id
+                     FROM tc_direct_project tdpt
+                     INNER JOIN group_associated_direct_projects gadp ON tdpt.project_id = gadp.tc_direct_project_id
+                     INNER JOIN customer_group sg ON sg.group_id = gadp.group_id
+                     INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                     WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
+                     AND   gm.active = 1
+                     AND   sg.archived = 0
+                     AND   tdpt.project_id = tdp.project_id
+                     )
+          OR
+              exists (
+                      SELECT
+                             tdpt.project_id as tc_direct_project_id
+                      FROM tc_direct_project tdpt
+                      INNER JOIN corporate_oltp:direct_project_account dpa ON tdpt.project_id = dpa.project_id
+                      INNER JOIN group_associated_billing_accounts gaba ON gaba.billing_account_id = dpa.billing_account_id
+                      INNER JOIN customer_group sg ON sg.group_id = gaba.group_id
+                      INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                      WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
+                      AND   gm.active = 1
+                      AND   sg.archived = 0
+                      AND tdpt.project_id = tdp.project_id
+                      )
+          OR
+           exists (
+                   SELECT sg.group_id
+                   FROM customer_group sg
+                   INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                   WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
+                   AND   gm.active = 1
+                   AND   sg.archived = 0
+                   AND   sg.auto_grant = 1
+                   AND   sg.client_id = ttc.client_id
+                   )
+          )

@@ -26,7 +26,7 @@ exports.getLogTail = {
     run: function (api, connection, next) {
 
         var lines = connection.params.lines || 30,
-            logfile = api.configData.general.paths.log + "/" + api.pids.title + '.log',
+            logfile = api.config.general.paths.log + "/" + api.pids.title + '.log',
             cmd = 'tail ' + logfile + ' -n ' + lines;
         exec(cmd, function (err, stdout, stderr) {
             if (err) {

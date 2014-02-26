@@ -1,0 +1,19 @@
+select 
+	project_id,
+	component_name,
+	project_category_name,
+    project_category_id,
+	NVL(num_registrations, 0) as num_registrations,
+	NVL(num_submissions, 0) as num_submissions,
+	NVL(num_valid_submissions, 0) as num_valid_submissions, 
+	posting_date,
+	complete_date,
+    CASE num_registrations
+    	WHEN null then 0
+    	WHEN 0 then 0
+        ELSE 100.0 * NVL(num_submissions, 0) / num_registrations
+    END as submission_percent,
+    avg_raw_score,
+    avg_final_score
+from project 
+where project_id = @challengeId@

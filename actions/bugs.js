@@ -2,7 +2,7 @@
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
- * @author TCSASSEMBLER
+ * @author Sky_
  */
 "use strict";
 
@@ -81,7 +81,7 @@ function getSoapClient(api, callback) {
     if (soapClient) {
         callback(null, soapClient);
     } else {
-        soap.createClient(api.configData.general.jiraWsdlUrl, {}, function (err, client) {
+        soap.createClient(api.config.general.jiraWsdlUrl, {}, function (err, client) {
             soapClient = client;
             callback(err, soapClient);
         });
@@ -103,8 +103,8 @@ function getAuthToken(api, callback) {
             getSoapClient(api, cb);
         }, function (client, cb) {
             client.login({
-                in0: api.configData.general.jiraUsername,
-                in1: api.configData.general.jiraPassword
+                in0: api.config.general.jiraUsername,
+                in1: api.config.general.jiraPassword
             }, cb);
         }
     ], function (err, result) {
@@ -174,6 +174,7 @@ function mapIssue(api, data, callback) {
     var issue, customFields;
     try {
         issue = {
+            id: data.key,
             name: data.summary,
             jiraUrl: "https://apps.topcoder.com/bugs/browse/" + data.key,
             payment: 'N/A',

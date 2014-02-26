@@ -1,8 +1,8 @@
-/*
+﻿/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author Sky_, muzehyun
+ * @version 1.3
+ * @author Sky_, muzehyun, Ghost_141
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
@@ -21,8 +21,6 @@ var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
-var CLIENT_ID = require('../../config').configData.general.oauthClientId;
-var SECRET = require('../../config').configData.general.oauthClientSecret;
 
 /**
  * The test helper
@@ -48,8 +46,8 @@ var DEFAULT_TIMEOUT = 30000; // 30s
 /**
  * client id and secret.
  */
-var CLIENT_ID = configs.configData.general.oauthClientId;
-var SECRET = configs.configData.general.oauthClientSecret;
+var CLIENT_ID = configs.config.general.oauthClientId;
+var SECRET = configs.config.general.oauthClientSecret;
 
 /**
  * create connection for given database
@@ -57,7 +55,7 @@ var SECRET = configs.configData.general.oauthClientSecret;
  * @return {Object} the created connection
  */
 function createConnection(databaseName) {
-    var dbServerPrefix = configs.configData.databaseMapping[databaseName], user,
+    var dbServerPrefix = configs.config.databaseMapping[databaseName], user,
         password, hostname, server, port, settings;
 
     if (!dbServerPrefix) {
@@ -276,7 +274,7 @@ helper.generatePartPaths = function (fileName, extension, count) {
 
 /**
  * Assert response from api to given file.
- * Fields serverInformation and requestorInformation are not compared.
+ * Fields serverInformation and requesterInformation are not compared.
  * @param {Error} err - the error from response
  * @param {Object} res - the response object
  * @param {String} filename - the filename to match. Path must be relative to /test/ directory.
@@ -288,7 +286,7 @@ helper.assertResponse = function (err, res, filename, done) {
     body = res.body;
     assert.isObject(body, "response body should be object");
     delete body.serverInformation;
-    delete body.requestorInformation;
+    delete body.requesterInformation;
     assert.deepEqual(body, expected, "invalid response");
     done();
 };
@@ -331,14 +329,14 @@ helper.decodePassword = function (password, key) {
 };
 
 /**
- * Convert text to JSON object and removes serverInformation and requestorInformation
+ * Convert text to JSON object and removes serverInformation and requesterInformation
  * @param {String} text - returned text data
  * @return {Object} trimmed object
  */
 helper.getTrimmedData = function (text) {
     var ret = JSON.parse(text);
     delete ret.serverInformation;
-    delete ret.requestorInformation;
+    delete ret.requesterInformation;
     return ret;
 };
 
@@ -361,10 +359,11 @@ helper.getAdminJwt = function () {
 
 /**
  * Get jwt token for member
+ * @param {String} [userId] the user id to generate
  * @return {String} the jwt token
  */
-helper.getMemberJwt = function () {
-    return jwt.sign({sub: "ad|132458"}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+helper.getMemberJwt = function (userId) {
+    return jwt.sign({sub: "ad|" + (userId || "132458")}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 };
 
 module.exports = helper;

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2014 TopCoder, Inc. All rights reserved.
  */
-"use strict";
+'use strict';
 
 /**
  * This file defines UnauthorizedError
