@@ -17,6 +17,8 @@
  * - Update srm (Algorithm) statistics and marathon statistics api to add 'history' and 'distribution' field.
  * changes in 1.7:
  * - implement software rating history and distribution
+ * changes in 1.8:
+ * - Update studio statistics api to retrieve data from tcs_catalog database.
  */
 "use strict";
 var async = require('async');
@@ -453,7 +455,7 @@ exports.getStudioStatistics = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
-    databases: ["topcoder_dw", "tcs_catalog", "tcs_dw"],
+    databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getStudioStatistics#run", 'debug');
         var dbConnectionMap = connection.dbConnectionMap,
@@ -477,38 +479,26 @@ exports.getStudioStatistics = {
             }, function (cb) {
                 checkUserActivated(handle, api, dbConnectionMap, cb);
             }, function (cb) {
-                var execQuery = function (name, cbx) {
-                    api.dataAccess.executeQuery(name,
-                        sqlParams,
-                        dbConnectionMap,
-                        cbx);
-                };
-                async.parallel({
-                    tracks: function (cbx) {
-                        execQuery("get_studio_member_statistics_track", cbx);
-                    },
-                    copilotStats: function (cbx) {
-                        execQuery("get_studio_member_statistics_copilot", cbx);
-                    }
-                }, cb);
+                api.dataAccess.executeQuery('get_studio_member_statistics_track', sqlParams, dbConnectionMap, cb);
             }, function (results, cb) {
-                results.tracks.forEach(function (track) {
-                    result.Tracks[track.category_name] = {
-                        numberOfSubmissions: track.submissions,
-                        numberOfPassedScreeningSubmissions: track.passed_screening,
-                        numberOfWinningSubmissions: track.wins
-                    };
-                });
-                results.copilotStats.forEach(function (track) {
-                    if (track.completed_contests === 0) {
-                        return;
+                results.forEach(function (row) {
+                    var track = {};
+                    if (row.submissions !== 0 || row.completed_contests !== 0) {
+                        if (row.submissions > 0) {
+                            _.extend(track, {
+                                numberOfSubmissions: row.submissions,
+                                numberOfPassedScreeningSubmissions: row.passed_screening,
+                                numberOfWinningSubmissions: row.wins
+                            });
+                        }
+                        if (row.completed_contests > 0) {
+                            _.extend(track, {
+                                copilotCompletedContests: row.completed_contests,
+                                copilotFailedContests: row.failed_contests
+                            });
+                        }
+                        result.Tracks[row.challenge_type] = track;
                     }
-                    if (!result.Tracks[track.name]) {
-                        result.Tracks[track.name] = {};
-                    }
-                    var data = result.Tracks[track.name];
-                    data.copilotCompletedContests = track.completed_contests;
-                    data.copilotFailedContests = track.failed_contests;
                 });
                 cb();
             }

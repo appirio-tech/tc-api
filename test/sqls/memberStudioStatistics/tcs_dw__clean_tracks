@@ -1,2 +1,0 @@
-﻿DELETE FROM project_result WHERE project_id >= 4000;
-DELETE FROM project WHERE project_id >= 4000;
