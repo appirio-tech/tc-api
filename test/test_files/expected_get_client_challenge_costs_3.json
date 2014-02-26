@@ -3,6 +3,8 @@
         {
             "customerName": "test client 2",
             "customerId": 2,
+            "billingAccountId": 1,
+            "billingAccountName": "test project",
             "projectName": "project 2",
             "challengeName": "challenge 4",
             "challengeId": 500202,
