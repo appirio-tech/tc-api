@@ -679,7 +679,6 @@ exports.getBasicUserProfile = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    cacheEnabled: false,
     transaction: 'read',
     databases: ['informixoltp', 'topcoder_dw'],
     run: function (api, connection, next) {
