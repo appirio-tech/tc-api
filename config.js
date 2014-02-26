@@ -536,7 +536,6 @@ config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmis
 //The name of the folder where to store the submission files.
 //Please make sure the directory already exists
 config.devUploadSubmissionDir = 'test/tmp/submissions';
-//config.devUploadSubmissionDir = '/tmp/submissions';
 
 //Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
 //Set to 0 or negative for no size limit.

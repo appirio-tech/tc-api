@@ -9,7 +9,6 @@
 # - add JIRA_USERNAME and JIRA_PASSWORD
 #
 
-TC_VM_IP=54.204.253.124
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
