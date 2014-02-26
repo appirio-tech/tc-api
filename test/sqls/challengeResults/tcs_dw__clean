@@ -1,0 +1,2 @@
+DELETE FROM project_result where project_id >= 66900 AND project_id <= 66999;
+DELETE FROM project where project_id >= 66900 AND project_id <= 66999;

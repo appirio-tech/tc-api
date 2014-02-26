@@ -34,7 +34,8 @@
     "soap": "~0.3.2",
     "moment-timezone": "0.0.3",
     "moment": "~2.5.1",
-    "mime": "~1.2.11"
+    "mime": "~1.2.11",
+    "xtend": "2.1.2"
   },
   "devDependencies": {
     "supertest": "0.8.1",

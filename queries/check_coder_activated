@@ -1,1 +1,1 @@
-SELECT status FROM coder WHERE LOWER(handle) = LOWER('@handle@')
+SELECT status FROM coder WHERE handle_lower = LOWER('@handle@')

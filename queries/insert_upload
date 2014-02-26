@@ -1,0 +1,2 @@
+INSERT INTO upload (upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, upload_desc, create_user, create_date, modify_user, modify_date) 
+VALUES (@uploadId@, @challengeId@, @projectPhaseId@, @resourceId@, 1, 1, '@fileName@', NULL, '@userId@', CURRENT, '@userId@', CURRENT);

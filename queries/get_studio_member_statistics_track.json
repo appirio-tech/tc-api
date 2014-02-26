@@ -1,5 +1,5 @@
 {
   "name"    : "get_studio_member_statistics_track",
-  "db"      : "topcoder_dw",
+  "db"      : "tcs_catalog",
   "sqlfile" : "get_studio_member_statistics_track"
 }

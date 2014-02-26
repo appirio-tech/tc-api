@@ -3,7 +3,7 @@ SELECT
 , pps.scheduled_start_time AS round_2_scheduled_start_date
 , ppm.scheduled_start_time AS round_1_scheduled_start_date
 , 'Screening' AS type
-, (SELECT LOWER(handle) FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri
+, (SELECT handle_lower FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri
       WHERE r.project_id = p.project_id AND r.resource_role_id IN (2, 19)
       AND ri.resource_id = r.resource_id and ri.resource_info_type_id = 1),0))) AS reviewer
 , CASE WHEN p.project_category_id = 20 THEN 150 ELSE 100 END AS reviewer_payment
@@ -22,7 +22,7 @@ SELECT
 , NULL::DATETIME YEAR TO FRACTION AS round_2_scheduled_start_date
 , pps.scheduled_start_time AS round_1_scheduled_start_date
 , 'Spec Review' AS type
-, (SELECT LOWER(handle) FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri WHERE r.project_id = p.project_id AND r.resource_role_id = 18
+, (SELECT handle_lower FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri WHERE r.project_id = p.project_id AND r.resource_role_id = 18
       AND ri.resource_id = r.resource_id and ri.resource_info_type_id = 1),0))) AS reviewer
 , 75 AS reviewer_payment
 FROM project p

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
- * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
+ * @version 1.9
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -11,12 +11,17 @@
  * - add oauthClientId and oauthClientSecret parameters
  * changes in 1.4:
  * - add oauthConnection and oauthDomain parameters
+ * - added submissionLink and finalFixLink
  * changes in 1.5:
  * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
  * changes in 1.6:
  * - add corporate_oltp in database mapping.
  * changes in 1.7:
  * - add downloadsRootDirectory parameter
+ * changes in 1.8:
+ * - add time_oltp and corporate_oltp in databaseMapping.
+ * changes in 1.9:
+ * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
  */
 "use strict";
 
@@ -65,7 +70,6 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
-    filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
 };
 
@@ -216,7 +220,8 @@ config.databaseMapping = {
     "tcs_catalog" : "TC_DB",
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW",
-    'corporate_oltp': 'TC_DB'
+    "time_oltp": "TC_DB",
+    "corporate_oltp": "TC_DB"
 };
 
 /**
@@ -524,6 +529,31 @@ config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocum
  * The default password to be used for social register
  */
 config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
+config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
+config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
+config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
+
+//The name of the folder where to store the submission files.
+//Please make sure the directory already exists
+config.devUploadSubmissionDir = 'test/tmp/submissions';
+
+//Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
+//Set to 0 or negative for no size limit.
+config.submissionMaxSizeBytes = 2048;
+
+//////Thurgood configurables///////
+config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
+
+//API URL for production
+//config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs';
+//API URL for testing
+config.thurgoodApiUrl = 'http://localhost:8090/';
+
+config.thurgoodTimeout = 5000;
+
+//API KEY for testing
+//Can be overwritten by an environment variable of name THURGOOD_API_KEY 
+config.thurgoodApiKey = 'mock_api_key';
 
 //////////////////////////////////
 

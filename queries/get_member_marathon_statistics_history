@@ -14,7 +14,7 @@ WHERE r.round_id = rr.round_id
 AND rr.coder_id = c.coder_id
 AND cal.calendar_id = r.calendar_id
 AND r.round_type_id IN (13,15,19)
-AND LOWER(c.handle) = LOWER('@handle@')
+AND handle_lower = LOWER('@handle@')
 AND rr.round_id = crh.round_id
 AND rr.coder_id = crh.coder_id
 AND crh.coder_rank_type_id = 2

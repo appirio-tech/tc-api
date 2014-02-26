@@ -1,0 +1,32 @@
+{
+    "inputParameter": {
+        "invalidStartDate": "startDate is not a valid date.",
+        "invalidEndDate": "endDate is not a valid date.",
+        "wrongSeq": "startDate should be earlier than endDate or at same date."
+    },
+    "auth": "Not enough access level.",
+    "clientId": {
+        "negative": "clientId should be greater or equal to 0",
+        "notNumber": "clientId should be number.",
+        "tooBig": "clientId should be less or equal to 2147483647.",
+        "notInteger": "clientId should be Integer."
+    },
+    "challengeId": {
+        "negative": "challengeId should be greater or equal to 0",
+        "notNumber": "challengeId should be number.",
+        "tooBig": "challengeId should be less or equal to 2147483647.",
+        "notInteger": "challengeId should be Integer."
+    },
+    "projectId": {
+        "negative": "projectId should be greater or equal to 0",
+        "notNumber": "projectId should be number.",
+        "tooBig": "projectId should be less or equal to 2147483647.",
+        "notInteger": "projectId should be Integer."
+    },
+    "billingId": {
+        "negative": "billingId should be greater or equal to 0",
+        "notNumber": "billingId should be number.",
+        "tooBig": "billingId should be less or equal to 2147483647.",
+        "notInteger": "billingId should be Integer."
+    }
+}
