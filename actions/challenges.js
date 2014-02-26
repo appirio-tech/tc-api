@@ -1068,7 +1068,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 decodedFileData;
 
             //The file output dir should be overwritable by environment variable
-            submissionPath = process.env.DEV_UPLOAD_SUBMISSION_DIR || api.config.devUploadSubmissionDir;
+            submissionPath = api.config.submissionDir;
 
             //The path to save is the folder with the name as <base submission path>
             //The name of the file is the <generated upload id>_<original file name>

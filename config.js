@@ -535,7 +535,7 @@ config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmis
 
 //The name of the folder where to store the submission files.
 //Please make sure the directory already exists
-config.devUploadSubmissionDir = 'test/tmp/submissions';
+config.submissionDir = process.env.SUBMISSION_DIR || 'test/tmp/submissions';
 
 //Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
 //Set to 0 or negative for no size limit.
@@ -547,13 +547,13 @@ config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadC
 //API URL for production
 //config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs';
 //API URL for testing
-config.thurgoodApiUrl = 'http://localhost:8090/';
+config.thurgoodApiUrl = process.env.THURGOOD_API_URL || 'http://localhost:8090/';
 
 config.thurgoodTimeout = 5000;
 
 //API KEY for testing
 //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
-config.thurgoodApiKey = 'mock_api_key';
+config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 
 //////////////////////////////////
 
