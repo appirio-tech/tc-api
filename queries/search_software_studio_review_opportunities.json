@@ -1,0 +1,5 @@
+{
+    "name"    : "search_software_studio_review_opportunities",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "search_software_studio_review_opportunities"
+}

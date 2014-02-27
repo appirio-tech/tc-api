@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
+ * @version 1.8
  * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -17,6 +17,8 @@
  * - add corporate_oltp in database mapping.
  * changes in 1.7:
  * - add downloadsRootDirectory parameter
+ * changes in 1.8:
+ * - add challengeCommunityLink and reviewAuctionDetailLink.
  */
 "use strict";
 
@@ -66,7 +68,9 @@ config.general = {
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
     filteredParams: ['password'],
-    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
+    challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
+    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid='
 };
 
 /////////////

@@ -1,20 +1,19 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author Sky_, Ghost_141
  * changes in 1.1
  * - Implement the studio review opportunities.
+ * changes in 1.2
+ * - Implement the general(software & studio) review opportunities.
+ * - remove getStudioReviewOpportunities method.
  */
-"use strict";
+'use strict';
 var async = require('async');
 var _ = require('underscore');
 var NotFoundError = require('../errors/NotFoundError');
-
-/**
- * Sample result from specification for Review Opportunities
- */
-var sampleReviewOpportunities;
+var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 /**
  * Sample result from specification for Review Opportunity Detail
@@ -39,12 +38,72 @@ var MAX_INT = 2147483647;
 
 var ALLOWABLE_SORT_ORDER = ['asc', 'desc'];
 
+/**
+ * The allowed sort column value for search studio review opportunities api.
+ */
 var STUDIO_ALLOWABLE_SORT_COLUMN = ['challengeName', 'round2ScheduledStartDate', 'round1ScheduledStartDate',
-    'type', 'reviewer', 'reviewerPayment'];
+    'reviewType', 'reviewer'];
 
 /**
- * Format the date value to a specific parttern.
+ * The review type for studio review opportunities api.
+ */
+var STUDIO_REVIEW_TYPE = ['Screening', 'Spec Review'];
+
+/**
+ * The allowed sort column value for search software review opportunities api.
+ */
+var SOFTWARE_ALLOWABLE_SORT_COLUMN = ['challengeName', 'reviewStart', 'reviewEnd', 'challengeType', 'reviewType',
+    'numberOfSubmissions', 'numberOfReviewPositionsAvailable'];
+
+/**
+ * The allowed query parameter for search software review opportunities api.
+ */
+var SOFTWARE_ALLOWABLE_QUERY_PARAMETER = ['reviewStartDate.type', 'reviewStartDate.firstDate',
+    'reviewStartDate.secondDate', 'reviewEndDate.type', 'reviewEndDate.firstDate', 'reviewEndDate.secondDate', 'pageSize',
+    'pageIndex', 'sortOrder', 'sortColumn', 'challengeName', 'challengeType', 'reviewType', 'reviewPaymentUpperBound',
+    'reviewPaymentLowerBound'];
+
+/**
+ * The allowed query parameter for search studio review opportunities api.
+ */
+var STUDIO_ALLOWABLE_QUERY_PARAMETER = ['round1ScheduledStartDate.type', 'round1ScheduledStartDate.firstDate',
+    'round1ScheduledStartDate.secondDate', 'round2ScheduledStartDate.type', 'round2ScheduledStartDate.firstDate',
+    'round2ScheduledStartDate.secondDate', 'pageSize', 'pageIndex', 'sortOrder', 'sortColumn', 'challengeName',
+    'reviewType', 'reviewPaymentUpperBound', 'reviewPaymentLowerBound', 'challengeType'];
+
+/**
+ * The review type for software review opportunities api.
+ */
+var SOFTWARE_REVIEW_TYPE = ['Iterative Review', 'Spec Review', 'Contest Review'];
+
+/**
+ * The review application role id for primary reviewer.
+ * It wll be used in payment calculation.
+ */
+var PRIMARY_REVIEW_APPLICATION_ROLE_ID = 1;
+
+/**
+ * The review application role id for secondary reviewer.
+ * It wll be used in payment calculation.
+ */
+var SECONDARY_REVIEW_APPLICATION_ROLE_ID = 2;
+
+/**
+ * The review application role id for specification reviewer.
+ * It wll be used in payment calculation.
+ */
+var SPECIFICATION_REVIEW_APPLICATION_ROLE_ID = 7;
+
+/**
+ * The review application role id for iterative reviewer.
+ * It wll be used in payment calculation.
+ */
+var ITERATIVE_REVIEW_APPLICATION_ROLE_ID = 8;
+
+/**
+ * Format the date value to a specific pattern.
  * @param dateValue {String} the date value.
+ * @return the empty value or the date value itself.
  */
 var formatDate = function (dateValue) {
     if (!dateValue) {
@@ -54,114 +113,10 @@ var formatDate = function (dateValue) {
 };
 
 /**
- * This is the function that retrieve studio review opportunities.
- *
- * @param {Object} api The api object that is used to access the global infrastructure
- * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Function<connection, render>} next The callback to be called after this function is done
- */
-var getStudioReviewOpportunities = function (api, connection, dbConnectionMap, next) {
-    var helper = api.helper, pageIndex, pageSize, sortColumn, sortOrder, result = {}, sqlParams = {}, error;
-    pageIndex = Number(connection.params.pageIndex || 1);
-    pageSize = Number(connection.params.pageSize || 10);
-    sortColumn = connection.params.sortColumn || 'round1ScheduledStartDate';
-    sortOrder = connection.params.sortOrder || 'ASC';
-
-    async.waterfall([
-        function (cb) {
-            if (_.isDefined(connection.params.pageIndex)) {
-                error = helper.checkDefined(connection.params.pageSize, 'pageSize');
-            }
-            if (_.isDefined(connection.params.pageSize)) {
-                error = helper.checkDefined(connection.params.pageIndex, 'pageIndex');
-            }
-            if (_.isDefined(connection.params.sortColumn)) {
-                error = error || helper.checkDefined(connection.params.sortOrder, 'sortOrder');
-            }
-            if (_.isDefined(connection.params.sortOrder)) {
-                error = error || helper.checkDefined(connection.params.sortColumn, 'sortColumn');
-            }
-
-            error = error ||
-                helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-                helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
-                helper.checkPageIndex(pageIndex, 'pageIndex') ||
-                helper.checkPositiveInteger(pageSize, 'pageSize') ||
-                helper.checkContains(helper.getLowerCaseList(STUDIO_ALLOWABLE_SORT_COLUMN), sortColumn.toLowerCase(), 'sortColumn') ||
-                helper.checkContains(helper.getLowerCaseList(ALLOWABLE_SORT_ORDER), sortOrder.toLowerCase(), 'sortOrder');
-
-            if (error) {
-                cb(error);
-                return;
-            }
-
-            if (pageIndex === -1) {
-                pageIndex = 1;
-                pageSize = MAX_INT;
-            }
-
-            sqlParams.sortColumn = helper.getLowerCaseList(STUDIO_ALLOWABLE_SORT_COLUMN).indexOf(sortColumn.toLowerCase()) + 1;
-            sqlParams.sortOrder = sortOrder;
-            api.dataAccess.executeQuery('get_studio_review_opportunities_count', sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            if (rows.length === 0) {
-                cb(new Error('No rows returned from get_studio_review_opportunities_count.'));
-                return;
-            }
-            if (rows[0].count === 0 && rows[1].count === 0) {
-                cb(new NotFoundError('No Studio Review Opportunities found.'));
-                return;
-            }
-            var total = rows[0].count + rows[1].count;
-
-            if (pageIndex > total) {
-                cb(new NotFoundError('No Studio Review Opportunities found.'));
-                return;
-            }
-
-            result.total = total;
-            result.pageIndex = pageIndex;
-            result.pageSize = pageSize;
-            api.dataAccess.executeQuery('get_studio_review_opportunities', sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            if (rows.length === 0) {
-                cb(new NotFoundError('No Studio Review Opportunities found.'));
-                return;
-            }
-            result.data = [];
-            // paging the results.
-            rows.slice(pageIndex - 1, pageIndex + pageSize - 1).forEach(function (row) {
-                var reviewType = row.type.trim(), reviewOpp;
-                reviewOpp = {
-                    challengeName: row.challenge_name,
-                    round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
-                    round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),
-                    reviewerPayment: row.reviewer_payment,
-                    reviewer: row.reviewer,
-                    type: reviewType
-                };
-                if (reviewType === 'Spec Review') {
-                    delete reviewOpp.round2ScheduledStartDate;
-                }
-                result.data.push(reviewOpp);
-            });
-            cb();
-        }
-    ], function (err) {
-        if (err) {
-            helper.handleError(api, connection, err);
-        } else {
-            connection.response = result;
-        }
-        next(connection, true);
-    });
-};
-
-/**
  * This method will calculate the duration between two times. It will only return how many hours between the given time.
  * @param startTime {String} the start time
  * @param endTime {String} the end time
+ * @return The duration hours between start time and the end time.
  */
 var getDuration = function (startTime, endTime) {
     var s = new Date(startTime), e = new Date(endTime);
@@ -230,22 +185,395 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
 };
 
 /**
+ * Create date for filter object from given parameters.
+ * @param {Object} helper - the helper object.
+ * @param {Object} params - the request parameters.
+ * @param {String} dateName - the date name.
+ */
+var createDate = function (helper, params, dateName) {
+    var type = (params[dateName + '.type'] || '').toUpperCase(), date, MIN_DATE, MAX_DATE, now;
+    MIN_DATE = '01.01.1900';
+    MAX_DATE = '01.01.2999';
+    now = new Date();
+
+    // For the unset date filter just return the default date filter - between min date and max date.
+    if (!params[dateName + '.type'] && !params[dateName + '.firstDate'] && !params[dateName + '.secondDate']) {
+        return {
+            type: helper.consts.BETWEEN_DATES,
+            firstDate: MIN_DATE,
+            secondDate: MAX_DATE
+        };
+    }
+
+    switch (type) {
+    case helper.consts.ON:
+        date = {
+            type: type,
+            firstDate: params[dateName + '.firstDate'],
+            secondDate: params[dateName + '.firstDate']
+        };
+        break;
+    case helper.consts.BEFORE:
+        date = {
+            type: type,
+            firstDate: MIN_DATE,
+            secondDate: params[dateName + '.firstDate']
+        };
+        break;
+    case helper.consts.AFTER:
+        date = {
+            type: type,
+            firstDate: params[dateName + '.firstDate'],
+            secondDate: MAX_DATE
+        };
+        break;
+    case helper.consts.AFTER_CURRENT_DATE:
+        date = {
+            type: type,
+            firstDate: now,
+            secondDate: MAX_DATE
+        };
+        break;
+    case helper.consts.BEFORE_CURRENT_DATE:
+        date = {
+            type: type,
+            firstDate: MIN_DATE,
+            secondDate: now
+        };
+        break;
+    case helper.consts.BETWEEN_DATES:
+        date = {
+            type: type,
+            firstDate: params[dateName + '.firstDate'],
+            secondDate: params[dateName + '.secondDate']
+        };
+        break;
+    default:
+        // If you are here, it means the type value is invalid.
+        date = {
+            type: type,
+            firstDate: MIN_DATE,
+            secondDate: MAX_DATE
+        };
+        break;
+    }
+    return date;
+};
+
+/**
+ * Validate the input parameter.
+ * @param {Object} helper - the api helper.
+ * @param {Object} connection - the connection object.
+ * @param {Object} filter - the filter object.
+ * @param {Boolean} isStudio - The flag that represent which kind of challenge to search.
+ * @param {Function} cb - the callback function.
+ */
+var validateInputParameter = function (helper, connection, filter, isStudio, cb) {
+
+    var pageSize, pageIndex, sortOrder, sortColumn, allowedSortColumn, allowedReviewType, params, allowedQueryParameter,
+        queryKeys = helper.getLowerCaseList(Object.keys(connection.rawConnection.parsedURL.query)),
+        challengeType = isStudio ? helper.studio : helper.software,
+        error;
+
+    params = connection.params;
+    pageSize = Number(params.pageSize || 10);
+    pageIndex = Number(params.pageIndex || 1);
+    sortOrder = params.sortOrder || 'asc';
+    sortColumn = params.sortColumn || 'challengeName';
+    allowedSortColumn = isStudio ? STUDIO_ALLOWABLE_SORT_COLUMN : SOFTWARE_ALLOWABLE_SORT_COLUMN;
+    allowedQueryParameter = helper.getLowerCaseList(isStudio ? STUDIO_ALLOWABLE_QUERY_PARAMETER : SOFTWARE_ALLOWABLE_QUERY_PARAMETER);
+
+    error =
+        helper.checkPageIndex(pageIndex, 'pageIndex') ||
+        helper.checkPositiveInteger(pageSize, 'pageSize') ||
+        helper.checkMaxInt(pageSize, 'pageSize') ||
+        helper.checkContains(helper.getLowerCaseList(allowedSortColumn), sortColumn.toLowerCase(), 'sortColumn') ||
+        helper.checkContains(helper.getLowerCaseList(ALLOWABLE_SORT_ORDER), sortOrder.toLowerCase(), 'sortOrder');
+
+    queryKeys.forEach(function (n) {
+        if (allowedQueryParameter.indexOf(n) === -1) {
+            error = error ||
+                new IllegalArgumentError('The query parameter contains invalid parameter.');
+        }
+    });
+
+    filter.challengeName = params.challengeName || '%';
+    filter.reviewType = params.reviewType || '';
+    filter.reviewPaymentLowerBound = Number(params.reviewPaymentLowerBound) || -1;
+    filter.reviewPaymentUpperBound = Number(params.reviewPaymentUpperBound) || helper.MAX_INT;
+    filter.reviewStartDate = createDate(helper, params, 'reviewStartDate');
+    filter.reviewEndDate = createDate(helper, params, 'reviewEndDate');
+    filter.challengeType = (params.challengeType || '').toLowerCase();
+    filter.round1ScheduledStartDate = createDate(helper, params, 'round1ScheduledStartDate');
+    filter.round2ScheduledStartDate = createDate(helper, params, 'round2ScheduledStartDate');
+
+    if (_.isDefined(params.reviewType)) {
+        allowedReviewType = isStudio ? STUDIO_REVIEW_TYPE : SOFTWARE_REVIEW_TYPE;
+        error = error || helper.checkContains(helper.getLowerCaseList(allowedReviewType), filter.reviewType.toLowerCase(), 'reviewType');
+    }
+
+    if (_.isDefined(params.reviewPaymentLowerBound)) {
+        error = error || helper.checkNumber(Number(params.reviewPaymentLowerBound), 'reviewPaymentLowerBound');
+    }
+
+    if (_.isDefined(params.reviewPaymentUpperBound)) {
+        error = error || helper.checkNumber(Number(params.reviewPaymentUpperBound), 'reviewPaymentUpperBound');
+    }
+
+    error = error ||
+        helper.checkFilterDate(filter.reviewStartDate, 'reviewStartDate', 'MM.DD.YYYY') ||
+        helper.checkFilterDate(filter.reviewEndDate, 'reviewEndDate', 'MM.DD.YYYY') ||
+        helper.checkFilterDate(filter.round1ScheduledStartDate, 'round1ScheduledStartDate', 'MM.DD.YYYY') ||
+        helper.checkFilterDate(filter.round2ScheduledStartDate, 'round2ScheduledStartDate', 'MM.DD.YYYY');
+
+    if (error) {
+        cb(error);
+        return;
+    }
+
+    // Check the category name last.
+    if (_.isDefined(params.challengeType)) {
+        helper.isChallengeTypeValid(filter.challengeType, connection.dbConnectionMap, challengeType, cb);
+    } else {
+        cb();
+    }
+};
+
+/**
+ * Calculate the review payment based on default, adjust payment and review role.
+ * @param {Object} defaultPayments - the default payments array.
+ * @param {Object} adjustPayments - the adjust payments array.
+ * @param {Object} reviewOpp - the review Opportunity item.
+ * @param {Number} role - the review application role id.
+ * @return {Number} The payment of the determined role.
+ */
+var calculatePayment = function (defaultPayments, adjustPayments, reviewOpp, role) {
+    if (role === 0) {
+        return 0.00;
+    }
+    // filter out the payment for other review opportunities first and other review application role (eg. primary reviewer)
+    var defaultPayment = _.filter(defaultPayments, function (item) {
+        return item.review_auction_id === reviewOpp.review_auction_id && item.review_application_role_id === role;
+    }), adjustPayment = _.filter(adjustPayments, function (item) {
+        return item.review_auction_id === reviewOpp.review_auction_id;
+    }), payment = 0.00;
+
+    defaultPayment.forEach(function (row) {
+        var adjust = _.find(adjustPayment, function (item) { return item.resource_role_id === row.resource_role_id; }),
+            defPayment,
+            submissionCount = row.submission_count;
+        // Fix the submission count. Treat 0 as 1 submission. treat none result as 0 submission.
+        if (submissionCount === 0) {
+            submissionCount = 1;
+        } else if (!submissionCount) {
+            submissionCount = 0;
+        }
+        // Calculate the default payment.
+        defPayment = row.fixed_amount + (row.base_coefficient + row.incremental_coefficient * submissionCount) * row.prize;
+
+        // adjust it if necessary.
+        if (adjust) {
+            // We have adjust payment for this role.
+            if (adjust.fixed_amount) {
+                payment += Number(adjust.fixed_amount);
+            }
+            if (adjust.multiplier) {
+                payment += Number(defPayment) * Number(adjust.multiplier);
+            }
+        } else {
+            // We don't have adjust payment for this role.
+            payment += Number(defPayment);
+        }
+    });
+    return payment;
+};
+
+/**
+ * Get the review opportunities
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Boolean} isStudio - the flag that represent if to search studio challenge review opportunities.
+ * @param {Function} next - the callback function.
+ */
+var getReviewOpportunities = function (api, connection, isStudio, next) {
+    var helper = api.helper, result = {}, sqlParams, dbConnectionMap = connection.dbConnectionMap, pageIndex,
+        pageSize, sortOrder, sortColumn, filter = {}, reviewAuctionIds, reviewOpportunities, challengeIds;
+
+    pageSize = Number(connection.params.pageSize || 10);
+    pageIndex = Number(connection.params.pageIndex || 1);
+    sortOrder = connection.params.sortOrder || 'asc';
+    sortColumn = connection.params.sortColumn || 'challengeName';
+
+    async.waterfall([
+        function (cb) {
+            validateInputParameter(helper, connection, filter, isStudio, cb);
+        },
+        function (cb) {
+
+            if (pageIndex === -1) {
+                pageIndex = 1;
+                pageSize = helper.MAX_INT;
+            }
+
+            sqlParams = {
+                sortOrder: sortOrder,
+                sortColumn: helper.getSortColumnDBName(sortColumn),
+                reviewType: filter.reviewType,
+                challengeType: filter.challengeType,
+                challengeName: filter.challengeName,
+                projectTypeId: isStudio ? helper.studio.category : helper.software.category,
+                round1ScheduledStartDateFirstDate: helper.formatDate(filter.round1ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
+                round1ScheduledStartDateSecondDate: helper.formatDate(filter.round1ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
+                round2ScheduledStartDateFirstDate: helper.formatDate(filter.round2ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
+                round2ScheduledStartDateSecondDate: helper.formatDate(filter.round2ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
+                reviewStartDateFirstDate: helper.formatDate(filter.reviewStartDate.firstDate, 'YYYY-MM-DD'),
+                reviewStartDateSecondDate: helper.formatDate(filter.reviewStartDate.secondDate, 'YYYY-MM-DD'),
+                reviewEndDateFirstDate: helper.formatDate(filter.reviewEndDate.firstDate, 'YYYY-MM-DD'),
+                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD')
+            };
+
+            api.dataAccess.executeQuery('search_software_studio_review_opportunities', sqlParams, dbConnectionMap, cb);
+        },
+        function (results, cb) {
+            reviewOpportunities = results;
+            var exeQuery = function (suffix) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery('search_software_studio_review_opportunities_' + suffix,
+                        { challengeIds: challengeIds, reviewAuctionIds: reviewAuctionIds }, dbConnectionMap, cbx);
+                };
+            };
+            if (!isStudio) {
+                // Get the review Auctions ids and execute payment query.
+                if (results.length === 0) {
+                    cb(null, null);
+                    return;
+                }
+
+                reviewAuctionIds = _.map(results, function (row) {
+                    return row.review_auction_id;
+                });
+                challengeIds = _.map(results, function (row) {
+                    return row.challenge_id;
+                });
+                async.parallel({
+                    defaultPayment: exeQuery('default_payment'),
+                    adjustPayment: exeQuery('adjust_payment')
+                }, cb);
+            } else {
+                //callback
+                cb(null, null);
+            }
+        },
+        function (results, cb) {
+            var defaultPayment, adjustPayment, pageStart = (pageIndex - 1) * pageSize, primaryRoleId, secondaryRoleId, reviewType;
+            result.data = [];
+            if (reviewOpportunities.length === 0) {
+                result.data = [];
+                result.total = 0;
+                result.pageIndex = pageIndex;
+                result.pageSize = pageIndex === -1 ? 0 : pageSize;
+                cb();
+                return;
+            }
+
+            if (isStudio) {
+                // Handle the studio challenge here.
+                reviewOpportunities.forEach(function (row) {
+                    reviewType = row.review_type.trim();
+                    var reviewOpp = {
+                        challengeName: row.challenge_name,
+                        round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
+                        round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),
+                        reviewerPayment: row.reviewer_payment,
+                        reviewer: row.reviewer,
+                        reviewType: reviewType
+                    };
+                    if (reviewType === 'Spec Review') {
+                        delete reviewOpp.round2ScheduledStartDate;
+                    }
+                    result.data.push(reviewOpp);
+                });
+            } else {
+                // Handle the software challenge here.
+                defaultPayment = results.defaultPayment;
+                adjustPayment = results.adjustPayment;
+                reviewOpportunities.forEach(function (row) {
+                    reviewType = row.review_type.trim();
+                    if (reviewType === 'Contest Review') {
+                        primaryRoleId = PRIMARY_REVIEW_APPLICATION_ROLE_ID;
+                        secondaryRoleId = SECONDARY_REVIEW_APPLICATION_ROLE_ID;
+                    } else if (reviewType === 'Spec Review') {
+                        primaryRoleId = SPECIFICATION_REVIEW_APPLICATION_ROLE_ID;
+                        secondaryRoleId = 0;
+                    } else if (reviewType === 'Iterative Review') {
+                        primaryRoleId = ITERATIVE_REVIEW_APPLICATION_ROLE_ID;
+                        secondaryRoleId = 0;
+                    }
+                    result.data.push({
+                        primaryReviewerPayment: calculatePayment(defaultPayment, adjustPayment, row, primaryRoleId),
+                        secondaryReviewerPayment: calculatePayment(defaultPayment, adjustPayment, row, secondaryRoleId),
+                        numberOfSubmissions: row.number_of_submissions,
+                        reviewStart: row.review_start,
+                        reviewEnd: row.review_end,
+                        numberOfReviewPositionsAvailable: row.number_of_review_positions_available,
+                        challengeType: row.challenge_type,
+                        reviewType: row.review_type.trim(),
+                        challengeName: row.challenge_name,
+                        challengeLink: api.config.general.challengeCommunityLink + row.challenge_id,
+                        detailLink: api.config.general.reviewAuctionDetailLink + row.review_auction_id
+                    });
+                });
+
+            }
+            // filter the payment.
+            result.data = _(result.data)
+                .filter(function (item) {
+                    if (isStudio) {
+                        return item.reviewerPayment >= filter.reviewPaymentLowerBound
+                            && item.reviewerPayment <= filter.reviewPaymentUpperBound;
+                    }
+                    return item.primaryReviewerPayment >= filter.reviewPaymentLowerBound
+                        && item.primaryReviewerPayment <= filter.reviewPaymentUpperBound;
+                });
+
+            result.total = result.data.length;
+            result.pageIndex = pageIndex;
+            result.pageSize = Number(connection.params.pageIndex) === -1 ? result.data.length : pageSize;
+            result.data = result.data.slice(pageStart, pageStart + pageSize);
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
  * The API for searching review opportunities
  */
 exports.searchReviewOpportunities = {
-    name: "searchReviewOpportunities",
-    description: "searchReviewOpportunities",
+    name: 'searchReviewOpportunities',
+    description: 'searchReviewOpportunities',
     inputs: {
         required: [],
-        optional: ["filter", "value", "pageIndex", "pageSize", "sortColumn", "sortOrder"]
+        optional: SOFTWARE_ALLOWABLE_QUERY_PARAMETER
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ['tcs_catalog'],
     run: function (api, connection, next) {
-        api.log("Execute searchReviewOpportunities#run", 'debug');
-        connection.response = sampleReviewOpportunities;
-        next(connection, true);
+        if (connection.dbConnectionMap) {
+            api.log('Execute searchReviewOpportunities#run', 'debug');
+            getReviewOpportunities(api, connection, false, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
 
@@ -253,8 +581,8 @@ exports.searchReviewOpportunities = {
  * The API for getting review opportunity information
  */
 exports.getReviewOpportunity = {
-    name: "getReviewOpportunity",
-    description: "getReviewOpportunity",
+    name: 'getReviewOpportunity',
+    description: 'getReviewOpportunity',
     inputs: {
         required: [],
         optional: []
@@ -263,7 +591,7 @@ exports.getReviewOpportunity = {
     outputExample: {},
     version: 'v2',
     run: function (api, connection, next) {
-        api.log("Execute getReviewOpportunity#run", 'debug');
+        api.log('Execute getReviewOpportunity#run', 'debug');
         connection.response = sampleReviewOpportunity;
         next(connection, true);
     }
@@ -273,11 +601,11 @@ exports.getReviewOpportunity = {
  * The API for getting review opportunities for studio
  */
 exports.getStudioReviewOpportunities = {
-    name: "getStudioReviewOpportunities",
-    description: "getStudioReviewOpportunities",
+    name: 'getStudioReviewOpportunities',
+    description: 'getStudioReviewOpportunities',
     inputs: {
         required: [],
-        optional: ['pageIndex', 'pageSize', 'sortColumn', 'sortOrder']
+        optional: STUDIO_ALLOWABLE_QUERY_PARAMETER
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -287,7 +615,7 @@ exports.getStudioReviewOpportunities = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log('Execute getStudioReviewOpportunities#run', 'debug');
-            getStudioReviewOpportunities(api, connection, connection.dbConnectionMap, next);
+            getReviewOpportunities(api, connection, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -357,134 +685,6 @@ exports.getAlgorithmsReviewOpportunity = {
         connection.response = sampleAlgorithmsReviewOpportunity;
         next(connection, true);
     }
-};
-
-sampleReviewOpportunities = {
-    "total": 21,
-    "pageIndex": 1,
-    "pageSize": 10,
-    "data": [
-        {
-            "primaryReviewerPayment": 0,
-            "secondaryReviewerPayment": 0,
-            "submissionsNumber": 1,
-            "opensOn": "10.25.2013 21:09 EDT",
-            "reviewStart": "10.29.2013 21:13 EDT",
-            "reviewEnd": "10.31.2013 21:13 EDT",
-            "numberOfReviewPositionsAvailable": 1,
-            "type": "Copilot Posting",
-            "reviewType": "Challenge Review",
-            "contestName": "DOE Open-WARP Software Copilot Opportunity"
-        },
-        {
-            "primaryReviewerPayment": 442,
-            "secondaryReviewerPayment": 336,
-            "submissionsNumber": 3,
-            "opensOn": "10.31.2013 22:22 EDT",
-            "reviewStart": "11.07.2013 01:52 EST",
-            "reviewEnd": "11.09.2013 01:52 EST",
-            "numberOfReviewPositionsAvailable": 1,
-            "type": "Assembly Competition",
-            "reviewType": "Challenge Review",
-            "contestName": "Module Assembly - Topcoder NodeJS Challenge Retrieval API"
-        },
-        {
-            "primaryReviewerPayment": 205,
-            "secondaryReviewerPayment": 143,
-            "submissionsNumber": 1,
-            "opensOn": "11.01.2013 23:25 EDT",
-            "reviewStart": "11.08.2013 10:30 EST",
-            "reviewEnd": "11.10.2013 10:30 EST",
-            "numberOfReviewPositionsAvailable": 2,
-            "type": "UI Prototype Competition",
-            "reviewType": "Challenge Review",
-            "contestName": "NEW TC-CS Community TopCoder API Hooking Up part 2- Wordpress Plugin Development"
-        },
-        {
-            "primaryReviewerPayment": 430,
-            "secondaryReviewerPayment": 330,
-            "submissionsNumber": 4,
-            "opensOn": "11.02.2013 07:00 EDT",
-            "reviewStart": "11.07.2013 18:05 EST",
-            "reviewEnd": "11.09.2013 18:05 EST",
-            "numberOfReviewPositionsAvailable": 1,
-            "type": "Assembly Competition",
-            "reviewType": "Challenge Review",
-            "contestName": "Module Assembly - TopCoder NodeJS Software Tops REST API"
-        },
-        {
-            "primaryReviewerPayment": 0,
-            "secondaryReviewerPayment": 0,
-            "submissionsNumber": 2,
-            "opensOn": "11.03.2013 20:33 EST",
-            "reviewStart": "11.05.2013 20:38 EST",
-            "reviewEnd": "11.07.2013 20:38 EST",
-            "numberOfReviewPositionsAvailable": 1,
-            "type": "Bug Hunt",
-            "reviewType": "Challenge Review",
-            "contestName": "Hercules Player Personal Content DVR Bug Hunt"
-        },
-        {
-            "primaryReviewerPayment": 490,
-            "secondaryReviewerPayment": 360,
-            "submissionsNumber": 0,
-            "opensOn": "11.03.2013 23:20 EST",
-            "reviewStart": "11.10.2013 11:25 EST",
-            "reviewEnd": "11.12.2013 11:25 EST",
-            "numberOfReviewPositionsAvailable": 2,
-            "type": "Assembly Competition",
-            "reviewType": "Challenge Review",
-            "contestName": "Hercules Tech App SAHIC Prototype Conversion Module Assembly"
-        },
-        {
-            "primaryReviewerPayment": 0,
-            "secondaryReviewerPayment": 0,
-            "submissionsNumber": 3,
-            "opensOn": "11.04.2013 03:00 EST",
-            "reviewStart": "11.07.2013 03:05 EST",
-            "reviewEnd": "11.09.2013 03:05 EST",
-            "numberOfReviewPositionsAvailable": 1,
-            "type": "Bug Hunt",
-            "reviewType": "Challenge Review",
-            "contestName": "Styx Physical Access Control iPad Application iOS7 Bug Hunt 2"
-        },
-        {
-            "primaryReviewerPayment": 0,
-            "secondaryReviewerPayment": 0,
-            "submissionsNumber": 3,
-            "opensOn": "11.04.2013 03:00 EST",
-            "reviewStart": "11.07.2013 03:05 EST",
-            "reviewEnd": "11.09.2013 03:05 EST",
-            "numberOfReviewPositionsAvailable": 1,
-            "type": "Bug Hunt",
-            "reviewType": "Challenge Review",
-            "contestName": "Styx Physical Access Control iPhone Application iOS7 Bug Hunt 2"
-        },
-        {
-            "primaryReviewerPayment": 202,
-            "secondaryReviewerPayment": 144,
-            "submissionsNumber": 0,
-            "opensOn": "11.04.2013 09:15 EST",
-            "reviewStart": "11.09.2013 21:20 EST",
-            "reviewEnd": "11.11.2013 21:20 EST",
-            "numberOfReviewPositionsAvailable": 3,
-            "type": "Assembly Competition",
-            "reviewType": "Challenge Review",
-            "contestName": "Module Assembly - ActionHero Tasks for Adding LDAP Entry and Sending Verification Emails"
-        },
-        {
-            "primaryReviewerPayment": 298,
-            "secondaryReviewerPayment": 216,
-            "submissionsNumber": 0,
-            "opensOn": "11.04.2013 09:29 EST",
-            "reviewStart": "11.09.2013 21:34 EST",
-            "reviewEnd": "11.11.2013 21:34 EST",
-            "numberOfReviewPositionsAvailable": 3,
-            "type": "Assembly Competition",
-            "reviewType": "Challenge Review",
-            "contestName": "Module Assembly - TopCoder NodeJS Member Registration REST API"
-        }
-    ]
 };
 
 sampleReviewOpportunity = {

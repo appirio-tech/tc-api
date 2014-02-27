@@ -138,6 +138,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * This method is used to validate input parameter of the request.
  * @param {Object} helper - the helper.
  * @param {Object} caller - the caller object.
+ * @param {Object} challengeType - the challenge type object.
  * @param {Object} query - the query string.
  * @param {Object} filter - the filter.
  * @param {Number} pageIndex - the page index.
@@ -148,7 +149,7 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  * @param {Object} dbConnectionMap - the database connection map.
  * @param {Function<err>} callback - the callback function.
  */
-function validateInputParameter(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
+function validateInputParameter(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
@@ -179,7 +180,7 @@ function validateInputParameter(helper, caller, query, filter, pageIndex, pageSi
         return;
     }
     if (_.isDefined(query.challengeType)) {
-        helper.isCategoryNameValid(query.challengeType, dbConnectionMap, callback);
+        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, challengeType, callback);
     } else {
         callback();
     }
@@ -358,7 +359,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
     async.waterfall([
         function (cb) {
-            validateInputParameter(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
+            validateInputParameter(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;

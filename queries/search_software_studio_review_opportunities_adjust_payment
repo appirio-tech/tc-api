@@ -1,0 +1,17 @@
+SELECT
+  resource_role_id
+, fixed_amount
+, multiplier
+, ra.review_auction_id
+FROM project_payment_adjustment ppa
+INNER JOIN review_auction ra ON ra.project_id = ppa.project_id
+WHERE ppa.project_id IN (@challengeIds@)
+AND ra.review_auction_id iN (@reviewAuctionIds@)
+AND resource_role_id IN
+  (SELECT
+  DISTINCT rarrrx.resource_role_id
+  FROM review_auction ra
+  INNER JOIN project p ON p.project_id = ra.project_id
+  INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
+  INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
+  WHERE ra.project_id IN (@reviewAuctionIds@))
