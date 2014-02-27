@@ -1,0 +1,29 @@
+{
+  "handle": "super",
+  "memberSince": "2008-07-23T16:09:58.000Z",
+  "quote": "Do unto your code, as your code would do unto you",
+  "photoLink": "",
+  "isCopilot": {
+    "value": false,
+    "software": false,
+    "studio": false
+  },
+  "isPM": false,
+  "ratingSummary": [],
+  "Achievements": [],
+  "emails": [
+    {
+      "email": "secondary@failed.com",
+      "type": "Second",
+      "status": "Failed"
+    },
+    {
+      "email": "foo@fooonyou.com",
+      "type": "Primary",
+      "status": "Active"
+    }
+  ],
+  "name": "super user",
+  "address": "addr1, addr2, addr3, city1, Illinois, 61801, United States",
+  "age": "18 - 24"
+}
