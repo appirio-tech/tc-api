@@ -8,6 +8,7 @@
             "challengeType": "Assembly Competition",
             "reviewType": "Contest Review",
             "challengeName": "Test Challenge 2001",
+            "challengeId": 2001,
             "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=2001",
             "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=2001"
         }
