@@ -36,7 +36,7 @@ where  ir.contest_id = p.project_id and ir.invoice_type_id = 12
   and ttc.client_id = DECODE(@client_id@, 0, ttc.client_id, @client_id@)
   and ttp.project_id = DECODE(@billing_id@, 0, ttp.project_id, @billing_id@)
   and p.tc_direct_project_id = tdp.project_id and tdp.project_id = DECODE(@project_id@, 0, tdp.project_id, @project_id@)
-  and p.project_id = DECODE(@challenge_name@, 0, p.project_id, @challenge_name@)
+  and p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
   and (ir.create_date BETWEEN TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@end_date@ 23:59:59', '%Y-%m-%d %H:%M:%S'))
    and (
              exists (
@@ -111,7 +111,7 @@ where ir.cockpit_project_id = tdp.project_id and ir.invoice_type_id = 12
     and ttp.project_id = (select min(billing_account_id) from corporate_oltp:direct_project_account dpa where dpa.project_id = tdp.project_id)
     and ttp.project_id = DECODE(@billing_id@, 0, ttp.project_id, @billing_id@)
     and tdp.project_id = DECODE(@project_id@, 0, tdp.project_id, @project_id@)
-    and 0 = DECODE(@challenge_name@, 0, 0, @challenge_name@)
+    and 0 = DECODE(@challenge_id@, 0, 0, @challenge_id@)
     and (ir.create_date BETWEEN TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@end_date@ 23:59:59', '%Y-%m-%d %H:%M:%S'))
    and (
              exists (
