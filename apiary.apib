@@ -687,11 +687,11 @@ Register a new user.
 ### Get Review Opportunities [GET]
 
 + Parameters
-    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: type, contestName, catalog, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
-    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
 
 + Response 200 (application/json)
@@ -708,7 +708,7 @@ Register a new user.
                     "reviewStart": "10.29.2013 21:13 EDT",
                     "reviewEnd": "10.31.2013 21:13 EDT",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "First 2 Finish",
+                    "challengeType": "First 2 Finish",
                     "reviewType": "Iterative Review",
                     "challengeName": "Simple UI Fixes - Ganttview JS App",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039333",
@@ -721,9 +721,9 @@ Register a new user.
                     "reviewStart": "01.29.2014 16:05 EST",
                     "reviewEnd": "01.31.2014 16:05 EST",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "Assembly Competition",
+                    "challengeType": "Assembly Competition",
                     "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeName": "Module Assembly - TopCoder NodeJS Open Bugs API",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
                     "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
                 },
@@ -734,9 +734,9 @@ Register a new user.
                     "reviewStart": "01.24.2014 16:05 EST",
                     "reviewEnd": "01.24.2014 20:05 EST",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "Assembly Competition",
+                    "challengeType": "Assembly Competition",
                     "reviewType": "Spec Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeName": "Module Assembly - TopCoder NodeJS Open Bugs API",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
                     "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
                 },
@@ -747,9 +747,9 @@ Register a new user.
                     "reviewStart": "01.27.2014 21:10 EST",
                     "reviewEnd": "01.30.2014 21:10 EST",
                     "numberOfReviewPositionsAvailable": 3,
-                    "type": "Code",
+                    "challengeType": "Code",
                     "reviewType": "Contest Review",
-                    "contestName": "Build a DocuSign iOS Application using REST API",
+                    "challengeName": "Build a DocuSign iOS Application using REST API",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039092",
                     "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=6967"
                 }
@@ -2435,20 +2435,20 @@ Register a new user.
         {
          "data": [
           {
-            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+            "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "type":"screening"
+            "reviewType":"screening"
           },
           {
-            "contestName": "Cornell - Responsive Storyboard",
+            "challengeName": "Cornell - Responsive Storyboard",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "type":"screening"
+            "reviewType":"screening"
           }
          ]
         }

@@ -1,0 +1,184 @@
+SELECT
+*
+FROM (
+-- software contest review
+SELECT
+  ra.review_auction_id
+, ra.review_auction_type_id
+, ra.project_id AS challenge_id
+, (SELECT COUNT(DISTINCT u.resource_id)
+   FROM upload u
+   INNER JOIN submission s ON u.upload_id = s.upload_id
+   WHERE u.project_id = p.project_id
+   AND s.submission_type_id = 1
+   AND s.submission_status_id IN (1,2,3,4)
+   AND u.upload_type_id = 1) AS number_of_submissions
+, NVL(pp4.actual_start_time, pp4.scheduled_start_time) AS review_start
+, pp4.scheduled_end_time AS review_end
+, pc.parameter::int - (SELECT count(r.resource_id) FROM resource r WHERE r.project_id=p.project_id
+    AND r.resource_role_id IN (4,5,6,7)) AS number_of_review_positions_available
+, pcl.name AS challenge_type
+, 'Contest Review' AS review_type
+, pi6.value AS challenge_name
+, CURRENT::DATETIME YEAR TO FRACTION AS round_2_scheduled_start_date
+, CURRENT::DATETIME YEAR TO FRACTION AS round_1_scheduled_start_date
+, '' AS reviewer
+, 0 AS reviewer_payment
+FROM review_auction ra
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=1
+INNER JOIN project p ON p.project_id=ra.project_id
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
+INNER JOIN project_phase pp4 ON pp4.project_id=p.project_id AND pp4.phase_type_id=4
+INNER JOIN phase_criteria pc ON pc.project_phase_id=pp4.project_phase_id AND pc.phase_criteria_type_id=6
+INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_info_type_id = 6
+WHERE p.project_status_id=1
+AND pcl.project_type_id IN (@projectTypeId@)
+AND pp2.phase_status_id IN (2,3)
+AND pp4.phase_status_id IN (1,2)
+AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
+
+UNION ALL
+
+-- software Spec review
+SELECT
+  ra.review_auction_id
+, ratl.review_auction_type_id
+, ra.project_id AS challenge_id
+, 0 AS number_of_submissions
+, pp14.scheduled_start_time AS review_start
+, pp14.scheduled_end_time AS review_end
+, 1 - (SELECT count(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND
+    r.resource_role_id = 18) AS number_of_review_positions_available
+, pcl.name AS challenge_type
+, 'Spec Review' AS review_type
+, pi6.value AS challenge_name
+, CURRENT::DATETIME YEAR TO FRACTION AS round_2_scheduled_start_date
+, CURRENT::DATETIME YEAR TO FRACTION AS round_1_scheduled_start_date
+, '' AS reviewer
+, 0 AS reviewer_payment
+FROM review_auction ra
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=2
+INNER JOIN project p ON p.project_id=ra.project_id
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+INNER JOIN project_phase pp13 ON pp13.project_id=p.project_id AND pp13.phase_type_id=13 AND not exists (SELECT 1 FROM phase_dependency WHERE dependent_phase_id=pp13.project_phase_id)
+INNER JOIN phase_dependency pd ON pd.dependency_phase_id=pp13.project_phase_id
+INNER JOIN project_phase pp14 ON pp14.project_id=p.project_id AND pp14.phase_type_id=14 AND pp14.project_phase_id=pd.dependent_phase_id
+INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_info_type_id = 6
+WHERE p.project_status_id = 1
+AND pcl.project_type_id IN (@projectTypeId@)
+AND pp13.phase_status_id IN (2,3)
+AND pp14.phase_status_id IN (1,2)
+AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
+
+UNION ALL
+
+--software iter review
+SELECT
+  ra.review_auction_id
+, ra.review_auction_type_id
+, ra.project_id AS challenge_id
+, (SELECT COUNT(DISTINCT u.resource_id)
+    FROM upload u
+    INNER JOIN submission s ON u.upload_id = s.upload_id
+    WHERE u.project_id = p.project_id
+    AND s.submission_type_id = 1
+    AND s.submission_status_id IN (1,2,3,4)
+    AND u.upload_type_id = 1) AS number_of_submissions
+, pp18.scheduled_start_time AS review_start
+, pp18.scheduled_end_time AS review_end
+, pc.parameter::int - (SELECT count(r.resource_id) FROM resource r WHERE r.project_id=p.project_id
+  AND r.resource_role_id = 21) as number_of_review_positions_available
+, pcl.name AS challenge_type
+, 'Iterative Review' AS review_type
+, pi6.value AS challenge_name
+, CURRENT::DATETIME YEAR TO FRACTION AS round_2_scheduled_start_date
+, CURRENT::DATETIME YEAR TO FRACTION AS round_1_scheduled_start_date
+, '' AS reviewer
+, 0 AS reviewer_payment
+FROM review_auction ra
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=3
+INNER JOIN project p ON p.project_id=ra.project_id
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
+INNER JOIN project_phase pp18 ON pp18.project_id=p.project_id AND pp18.phase_type_id=18
+INNER JOIN phase_dependency pd ON pd.dependent_phase_id=pp18.project_phase_id AND pd.dependent_start=1 AND pd.dependency_phase_id=pp2.project_phase_id AND pd.dependency_start=1
+INNER JOIN phase_criteria pc ON pc.project_phase_id=pp18.project_phase_id AND pc.phase_criteria_type_id=6
+INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_info_type_id = 6
+WHERE p.project_status_id = 1
+AND pcl.project_type_id IN (@projectTypeId@)
+AND pp2.phase_status_id IN (2,3)
+AND pp18.phase_status_id IN (1,2)
+AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
+
+UNION ALL
+-- studio screen review
+SELECT
+  0 AS review_auction_id
+, 0 AS review_auction_type_id
+, p.project_id AS challenge_id
+, 0 AS number_of_submissions
+, pps.scheduled_start_time AS review_start
+, pps.scheduled_end_time AS review_end
+, 0 AS number_of_review_positions_available
+, pcl.name AS challenge_type
+, 'Screening' AS review_type
+, (SELECT pi.value FROM project_info pi WHERE pi.project_id = p.project_id AND pi.project_info_type_id = 6) AS challenge_name
+, pps.scheduled_start_time AS round_2_scheduled_start_date
+, ppm.scheduled_start_time AS round_1_scheduled_start_date
+, (SELECT LOWER(handle) FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri
+  WHERE r.project_id = p.project_id AND r.resource_role_id IN (2, 19)
+  AND ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1),0))) AS reviewer
+, CASE WHEN p.project_category_id = 20 THEN 150 ELSE 100 END AS reviewer_payment
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+INNER JOIN project_phase pps ON p.project_id = pps.project_id AND pps.phase_type_id = 3
+INNER JOIN project_phase ppsub ON p.project_id = ppsub.project_id AND ppsub.phase_type_id = 2
+LEFT  JOIN project_phase ppm ON p.project_id = ppm.project_id AND ppm.phase_type_id = 16
+WHERE p.project_status_id = 1
+AND pcl.project_type_id IN (@projectTypeId@)
+AND (ppm.phase_status_id <> 3 OR pps.phase_status_id <> 3)
+AND ppsub.phase_status_id IN (2, 3)
+
+UNION ALL
+-- studio spec review
+SELECT
+  0 AS review_auction_id
+, 0 AS review_auction_type_id
+, p.project_id AS challenge_id
+, 0 AS number_of_submissions
+, pps.scheduled_start_time AS review_start
+, pps.scheduled_end_time AS review_end
+, 0 AS number_of_review_positions_available
+, pcl.name AS challenge_type
+, 'Spec Review' AS review_type
+, (SELECT pi.value FROM project_info pi WHERE pi.project_id = p.project_id AND pi.project_info_type_id = 6) AS challenge_name
+, CURRENT::DATETIME YEAR TO FRACTION AS round_2_scheduled_start_date
+, pps.scheduled_start_time AS round_1_scheduled_start_date
+, (SELECT LOWER(handle) FROM user WHERE user_id = (NVL((SELECT min(ri.value::int) FROM resource r, resource_info ri WHERE r.project_id = p.project_id AND r.resource_role_id = 18
+  AND ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1),0))) AS reviewer
+, 75 AS reviewer_payment
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+INNER JOIN project_phase pps ON p.project_id = pps.project_id AND pps.phase_type_id = 14
+INNER JOIN project_phase ppsub ON p.project_id = ppsub.project_id AND ppsub.phase_type_id = 2
+WHERE p.project_status_id = 1
+AND pcl.project_type_id IN (@projectTypeId@)
+AND pps.phase_status_id = 2
+AND ppsub.phase_status_id = 1
+)
+WHERE 1=1
+AND LOWER(review_type) = LOWER(DECODE('@reviewType@', '', review_type, '@reviewType@'))
+AND LOWER(challenge_name) LIKE LOWER('%@challengeName@%')
+AND LOWER(challenge_type) = LOWER(DECODE('@challengeType@', '', challenge_type, '@challengeType@'))
+AND EXTEND(review_start, year to day) <= '@reviewStartDateSecondDate@'
+AND EXTEND(review_start, year to day) >= '@reviewStartDateFirstDate@'
+AND EXTEND(review_end, year to day) <= '@reviewEndDateSecondDate@'
+AND EXTEND(review_end, year to day) >= '@reviewEndDateFirstDate@'
+AND EXTEND(round_1_scheduled_start_date, year to day) <= '@round1ScheduledStartDateSecondDate@'
+AND EXTEND(round_1_scheduled_start_date, year to day) >= '@round1ScheduledStartDateFirstDate@'
+AND EXTEND(round_2_scheduled_start_date, year to day) <= '@round2ScheduledStartDateSecondDate@'
+AND EXTEND(round_2_scheduled_start_date, year to day) >= '@round2ScheduledStartDateFirstDate@'
+
+ORDER BY @sortColumn@ @sortOrder@
+

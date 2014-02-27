@@ -1,0 +1,15 @@
+DELETE FROM review_auction WHERE review_auction_id IN (2001, 2002, 2003);
+DELETE FROM phase_dependency WHERE dependency_phase_id = 2003;
+DELETE FROM phase_dependency WHERE dependency_phase_id = 2005;
+DELETE FROM phase_criteria WHERE project_phase_id = 2002 AND phase_criteria_type_id = 6;
+DELETE FROM phase_criteria WHERE project_phase_id = 2006 AND phase_criteria_type_id = 6;
+DELETE FROM project_info WHERE project_id IN (2001, 2002, 2003);
+DELETE FROM project_phase WHERE project_id IN (2001, 2002, 2003);
+DELETE FROM prize WHERE project_id IN (2001, 2002, 2003);
+DELETE FROM project WHERE project_id IN (2001, 2002, 2003);
+
+DELETE FROM resource_info WHERE resource_id >= 3001 AND resource_id <= 4000;
+DELETE FROM resource WHERE resource_id >= 3001 AND resource_id <= 4000;
+DELETE FROM project_phase WHERE project_id >= 3001 AND project_id <= 4000;
+DELETE FROM project_info WHERE project_id >= 3001 AND project_id <= 4000;
+DELETE FROM project WHERE project_id >= 3001 AND project_id <= 4000;

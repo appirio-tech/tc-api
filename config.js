@@ -1,8 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.9
- * @author vangavroche, TCSASSEMBLER, Ghost_141, kurtrips, Sky_
+ * @author vangavroche, Ghost_141, kurtrips, Sky_
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -22,6 +21,8 @@
  * - add time_oltp and corporate_oltp in databaseMapping.
  * changes in 1.9:
  * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
+ * changes in 1.10:
+ * - add challengeCommunityLink and reviewAuctionDetailLink.
  */
 "use strict";
 
@@ -70,7 +71,10 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
-    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
+    filteredParams: ['password'],
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
+    challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
+    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid='
 };
 
 /////////////
