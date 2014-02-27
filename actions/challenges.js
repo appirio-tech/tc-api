@@ -1390,6 +1390,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             //Populate the result standings for the contest
             result.results = _.map(res.results, function (el) {
                 var resEl = {
+					handle: el.handle,
                     placement: el.placed === 0 ? 'n/a' : el.placed,
                     submissionDate: el.submission_date,
                     registrationDate: el.registration_date
