@@ -1,0 +1,23 @@
+{
+  "handle": "user",
+  "memberSince": "2008-07-23T16:11:03.000Z",
+  "quote": "carpe noctem",
+  "photoLink": "",
+  "isCopilot": {
+    "value": false,
+    "software": false,
+    "studio": false
+  },
+  "isPM": false,
+  "ratingSummary": [],
+  "Achievements": [],
+  "emails": [
+    {
+      "email": "foo@fooonyou.com",
+      "type": "Primary",
+      "status": "Active"
+    }
+  ],
+  "name": "normal user",
+  "address": "addr1, addr2, addr3, city1, province1, 123123, Samoa"
+}

@@ -370,9 +370,22 @@ Register a new user.
 
 ## Basic User Profile [/users/{handle}]
 ### Basic User Profile [GET]
+- if no jwt passed, simply return the public info as current.
+- if jwt passed but not an admin and the same user as request, simply return the public info as current.
+- if jwt is present and the same user as request (viewing his own profile), return the public info as current plus the private info email, name, address, age, gender, and shirt_size.
+- if jwt is present and not the same user as request but an admin role, return the public info as current plus the private info email, name, address, age, gender, and shirt_size.
+- First 200 response: pivate result included
+- Second 200 responss: public result only<br>
+
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
+
++ Request
+    
+    + Headers
+        
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
 
 + Response 200 (application/json)
 
@@ -410,187 +423,228 @@ Register a new user.
             [
                 {
                   "date": "03.17.2013 00:00 EDT",
-                  "description": "First Forum Post",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": 0
-                  }
+                  "description": "First Forum Post"
                  },
                  {
                   "date": "02.19.2013 00:00 EST",
-                  "description": "One Hundred Forum Posts",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": 0
-                  }
+                  "description": "One Hundred Forum Posts"
                  },
                  {
                   "date": "10.03.2012 00:00 EDT",
-                  "description": "First Passing Submission",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -17
-                  }
+                  "description": "First Passing Submission"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First Successful Challenge",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -255
-                  }
+                  "description": "First Successful Challenge"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Five Rated Algorithm Competitions",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -204
-                  }
+                  "description": "Five Rated Algorithm Competitions"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Five Successful Challenges",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -255
-                  }
+                  "description": "Five Successful Challenges"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "SRM Winner Div 2",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -34,
-                   "topOffset": -85
-                  }
+                  "description": "SRM Winner Div 2"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Solved Hard Div1 Problem in SRM",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -68,
-                   "topOffset": -102
-                  }
+                  "description": "Solved Hard Div1 Problem in SRM"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First Rated Algorithm Competition",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -204
-                  }
+                  "description": "First Rated Algorithm Competition"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Solved Hard Div2 Problem in SRM",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -119
-                  }
+                  "description": "Solved Hard Div2 Problem in SRM"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First SRM Room Win (Any Division)",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -221
-                  }
+                  "description": "First SRM Room Win (Any Division)"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Ten Solved Algorithm Problems",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -238
-                  }
+                  "description": "Ten Solved Algorithm Problems"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First Solved Algorithm Problem",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -238
-                  }
+                  "description": "First Solved Algorithm Problem"
                  },
                  {
                   "date": "09.17.2012 00:00 EDT",
-                  "description": "Five Hundred Forum Posts",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -34,
-                   "topOffset": 0
-                  }
+                  "description": "Five Hundred Forum Posts"
                  },
                  {
                   "date": "08.27.2012 00:00 EDT",
-                  "description": "First Win",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -68
-                  }
+                  "description": "First Win"
                  },
                  {
                   "date": "08.27.2012 00:00 EDT",
-                  "description": "First Placement",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -51
-                  }
+                  "description": "First Placement"
                  },
                  {
                   "date": "08.20.2012 00:00 EDT",
-                  "description": "TopCoder Reviewer",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png"
-                  }
+                  "description": "TopCoder Reviewer"
                  },
                  {
                   "date": "04.10.2012 00:00 EDT",
-                  "description": "2012 TopCoder Open Mod Dash Champion",
-                  "badgeLink": {}
+                  "description": "2012 TopCoder Open Mod Dash Champion"
                  },
                  {
                   "date": "04.07.2012 00:00 EDT",
-                  "description": "One Thousand Forum Posts",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -51,
-                   "topOffset": 0
-                  }
+                  "description": "One Thousand Forum Posts"
                  },
                  {
                   "date": "09.28.2011 00:00 EDT",
-                  "description": "2011 TopCoder Open Mod Dash Finalists",
-                  "badgeLink": {}
+                  "description": "2011 TopCoder Open Mod Dash Finalists"
                  },
                  {
                   "date": "10.14.2010 00:00 EDT",
-                  "description": "2010 TopCoder Open Mod Dash Finalist",
-                  "badgeLink": {}
+                  "description": "2010 TopCoder Open Mod Dash Finalist"
                  },
                  {
                   "date": "10.21.2005 00:00 EDT",
-                  "description": "Twenty Five Placements",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -51
+                  "description": "Twenty Five Placements"
+                 }
+            ],
+            "emails": [
+            {
+                "email": "foo@fooonyou.com",
+                "type": "Primary",
+                "status": "Active"
+            }
+            ],
+            "name": "firstdok lastdok",
+            "address": "address1, city, Maine, 04043, United States",
+            "age": "25 - 34",
+            "gender": "Male",
+            "shirt_size": "Medium"
+        }
+
++ Response 200 (application/json)
+
+        {
+             "handle": "hohosky",
+             "country": "China",
+             "memberSince": "09.28.2005 15:47 EDT",
+             "overallEarning": 0,
+             "quote": "Focus is a matter of deciding what things you're not going to do.",
+             "ratingsSummary": [
+                  {
+                   "name": "Development",
+                   "rating": 1906,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Design",
+                   "rating": 1516,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Specification",
+                   "rating": 1747,
+                   "colorStyle": "color: #DDCC00"
                   }
+             ],
+             "photoLink": "/i/m/hohosky_big.jpg",
+             "isCopilot": {
+                  "value": true,
+                  "software": false,
+                  "studio": false
+             },
+             "isPM": false,
+            "Achievements":
+            [
+                {
+                  "date": "03.17.2013 00:00 EDT",
+                  "description": "First Forum Post"
+                 },
+                 {
+                  "date": "02.19.2013 00:00 EST",
+                  "description": "One Hundred Forum Posts"
+                 },
+                 {
+                  "date": "10.03.2012 00:00 EDT",
+                  "description": "First Passing Submission"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Successful Challenge"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Rated Algorithm Competitions"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Successful Challenges"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "SRM Winner Div 2"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div1 Problem in SRM"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Rated Algorithm Competition"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div2 Problem in SRM"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First SRM Room Win (Any Division)"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Ten Solved Algorithm Problems"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Solved Algorithm Problem"
+                 },
+                 {
+                  "date": "09.17.2012 00:00 EDT",
+                  "description": "Five Hundred Forum Posts"
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Win"
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Placement"
+                 },
+                 {
+                  "date": "08.20.2012 00:00 EDT",
+                  "description": "TopCoder Reviewer"
+                 },
+                 {
+                  "date": "04.10.2012 00:00 EDT",
+                  "description": "2012 TopCoder Open Mod Dash Champion"
+                 },
+                 {
+                  "date": "04.07.2012 00:00 EDT",
+                  "description": "One Thousand Forum Posts"
+                 },
+                 {
+                  "date": "09.28.2011 00:00 EDT",
+                  "description": "2011 TopCoder Open Mod Dash Finalists"
+                 },
+                 {
+                  "date": "10.14.2010 00:00 EDT",
+                  "description": "2010 TopCoder Open Mod Dash Finalist"
+                 },
+                 {
+                  "date": "10.21.2005 00:00 EDT",
+                  "description": "Twenty Five Placements"
                  }
             ]
         }
