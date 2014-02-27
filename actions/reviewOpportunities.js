@@ -482,6 +482,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                     reviewType = row.review_type.trim();
                     var reviewOpp = {
                         challengeName: row.challenge_name,
+                        challengeId: row.challenge_id,
                         round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
                         round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),
                         reviewerPayment: row.reviewer_payment,
@@ -519,6 +520,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                         challengeType: row.challenge_type,
                         reviewType: row.review_type.trim(),
                         challengeName: row.challenge_name,
+                        challengeId: row.challenge_id,
                         challengeLink: api.config.general.challengeCommunityLink + row.challenge_id,
                         detailLink: api.config.general.reviewAuctionDetailLink + row.review_auction_id
                     });
