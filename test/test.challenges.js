@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author Sky_, Ghost_141
+ * @version 1.5
+ * @author Sky_, Ghost_141, OlinaRuan
  * changes in 1.1:
  * - remove studio tests
  * changes in 1.2:
@@ -11,6 +11,10 @@
  * update the test for private challenge support.
  * changes in 1.4:
  * update the test for search private challenges support
+ * changes in 1.5
+ * update to test text columns for challenge details API.
+ * All test cases written for challenge details API are updated to compare text column,
+ * for example "/v2/design/challenges/10041" around line #1141.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach, __dirname */
@@ -944,6 +948,9 @@ describe('Test Challenges API', function () {
                     clearDb,
                     function (cb) {
                         testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert.sql", TCS_CATALOG, cb);
+                    },
+                    function (cb) {
+                        testHelper.updateTextColumn('update project_spec set detailed_requirements_text = ?, final_submission_guidelines_text = ?', 'tcs_catalog', [{type: 'text', value : 'detailed requirement content'}, {type: 'text', value: 'final submission guideline content'}], cb);
                     }
                 ], done);
             });
@@ -1119,6 +1126,8 @@ describe('Test Challenges API', function () {
                     },
                     function (cb) {
                         testHelper.runSqlFile(SQL_DIR + "tcs_dw__insert_test_data", TCS_DW, cb);
+                    }, function (cb) {
+                        testHelper.updateTextColumn('update project_studio_specification set contest_description_text = ?', 'tcs_catalog', [{type: 'text', value: 'studio detail requirement'}], cb);
                     }
                 ], done);
             });
@@ -1126,20 +1135,6 @@ describe('Test Challenges API', function () {
             after(function (done) {
                 clearDb(done);
             });
-
-            /**
-             * Create request to search challenges API and assert 400 http code
-             * @param {String} challengeId - the challenge id
-             * @param {Function} done - the callback function
-             */
-            function assert400(challengeId, done) {
-                request(API_ENDPOINT)
-                    .get('/v2/design/challenges/' + challengeId)
-                    .set('Accept', 'application/json')
-                    .expect('Content-Type', /json/)
-                    .expect(400)
-                    .end(done);
-            }
 
             /**
              * /v2/design/challenges/10041

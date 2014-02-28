@@ -1,14 +1,16 @@
 ﻿/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, muzehyun, Ghost_141
+ * @version 1.4
+ * @author Sky_, muzehyun, Ghost_141, OlinaRuan
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
  * - add generateAuthHeader method.
  * changes in 1.3:
  * - add getAdminJwt and getMemberJwt
+ * changes in 1.4
+ * - add updateTextColumn method.
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -161,6 +163,38 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
                         return;
                     }
                 }).execute();
+        }
+    });
+};
+
+/**
+ * Run to update text column of a table in given database
+ * @param {String} query - the query to execute
+ * @param {String} databaseName - the database name
+ * @param {String} params - parameters
+ * @param {Function<err, result>} callback - the callback function
+ */
+helper.updateTextColumn = function (query, databaseName, params, callback) {
+    var connection = createConnection(databaseName);
+
+    connection.connect(function (err, result) {
+        if (err) {
+            connection.disconnect();
+            callback(err, result);
+        } else {
+            connection.query(query, function (err, result) {
+                if (err) {
+                    connection.disconnect();
+                }
+                callback(err, result);
+            }, {
+                start: function (q) {
+                    return;
+                },
+                finish: function (f) {
+                    return;
+                }
+            }).execute(params);
         }
     });
 };
