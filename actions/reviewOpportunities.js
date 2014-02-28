@@ -385,7 +385,7 @@ var calculatePayment = function (defaultPayments, adjustPayments, reviewOpp, rol
             payment += Number(defPayment);
         }
     });
-    return payment;
+    return Number(payment.toFixed(2));
 };
 
 /**
@@ -500,6 +500,8 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 adjustPayment = results.adjustPayment;
                 reviewOpportunities.forEach(function (row) {
                     reviewType = row.review_type.trim();
+                    // TODO: Fix this later.
+                    // TODO: This part should be hard coded. It should be retrieved from database.
                     if (reviewType === 'Contest Review') {
                         primaryRoleId = PRIMARY_REVIEW_APPLICATION_ROLE_ID;
                         secondaryRoleId = SECONDARY_REVIEW_APPLICATION_ROLE_ID;
