@@ -5,6 +5,6 @@
     "Maximum length of first name is 64",
     "Social Email Verified can only be t or f",
     "Social Email address is invalid",
-    "Social user name is required",
+    "Social User Id is required",
     "The handle may contain only letters, numbers and -_.{}[]"
 ]

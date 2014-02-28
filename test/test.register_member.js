@@ -211,7 +211,7 @@ describe('Test Register Member API', function () {
     it('should register successfully', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1" })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2 })
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {
@@ -228,7 +228,7 @@ describe('Test Register Member API', function () {
     it('should register successfully if no password is provided (via social login)', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testNoPasswd', email: 'testNoPasswd@foobar.com', country: 'Japan', socialProviderId: 1, socialUserName: "testNoPasswd", socialEmail: "testNoPasswd@foobar.com", socialEmailVerified: 't', regSource: "source1" })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testNoPasswd', email: 'testNoPasswd@foobar.com', country: 'Japan', socialProviderId: 1, socialUserName: "testNoPasswd", socialEmail: "testNoPasswd@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2  })
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {
@@ -300,7 +300,7 @@ describe('Test Register Member API', function () {
 
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't' })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', "socialUserId": 2 })
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, result) {
