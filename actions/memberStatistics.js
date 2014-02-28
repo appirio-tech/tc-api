@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
+ * @version 1.9
  * @author Sky_, Ghost_141, muzehyun
  * changes in 1.1:
  * - implement marathon statistics
@@ -19,6 +19,9 @@
  * - implement software rating history and distribution
  * changes in 1.8:
  * - Update studio statistics api to retrieve data from tcs_catalog database.
+ * changes in 1.9
+ * - update user basic profile to support private info
+ * - remove badge related parts
  */
 "use strict";
 var async = require('async');
@@ -84,8 +87,7 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
             handle: handle
         },
         result,
-        badgeProperties = api.config.badge.properties,
-        badgeLink = api.config.badge.link;
+        privateInfoEligibility = false;
 
     async.waterfall([
         function (cb) {
@@ -98,16 +100,18 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
                     api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
                 };
             };
-
+            privateInfoEligibility = connection.caller.accessLevel === 'admin' || connection.caller.handle === handle;
             async.parallel({
                 basic: execQuery('basic'),
                 earning: execQuery('overall_earning'),
                 ratingSummary: execQuery('rating_summary'),
-                achievements: execQuery('achievements')
+                achievements: execQuery('achievements'),
+                privateInfo: privateInfoEligibility ? execQuery('private') : function (cbx) { cbx(); },
+                emails: privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
             }, cb);
         }, function (results, cb) {
             var basic = results.basic[0], earning = results.earning[0], ratingSummary = results.ratingSummary,
-                achievements = results.achievements,
+                achievements = results.achievements, privateInfo,
                 mapRatingSummary = function (ratings) {
                     var ret = [];
                     ratings.forEach(function (item) {
@@ -126,21 +130,38 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
                             date: item.achievement_date,
                             description: item.description
                         };
-                        if (item.id > 0) {
-                            _.extend(achieveItem, {
-                                badgeLink: {
-                                    url: badgeLink,
-                                    //TODO: FIX THIS HORRIBLE HORRIBLE CHANGE. 
-                                    //THIS WAS PUT IN AS STOPGAP FIX TO STOP PRODUCTION FROM CRASHING
-                                    leftOffset: badgeProperties[item.id] ? badgeProperties[item.id].left : -17,
-                                    topOffset:  badgeProperties[item.id] ? badgeProperties[item.id].top  : -170
-                                    //END REALLY BAD FIX
-                                }
-                            });
-                        }
                         ret.push(achieveItem);
                     });
                     return ret;
+                },
+                mapEmails = function (emails) {
+                    var ret = [];
+                    emails.forEach(function (item) {
+                        ret.push({
+                            email: item.email,
+                            type: item.type,
+                            status: item.status
+                        });
+                    });
+                    return ret;
+                },
+                appendIfNotEmpty = function (str) {
+                    var ret = '';
+                    if (str && str.length > 0) {
+                        ret += ', ' + str;
+                    }
+                    return ret;
+                },
+                getAddressString = function (privateInfo) {
+                    var address = privateInfo.address1;
+                    if (!address) { return undefined; }  // if address1 is undefined, there is no address.
+
+                    address += appendIfNotEmpty(privateInfo.address2);
+                    address += appendIfNotEmpty(privateInfo.address3);
+                    address += ', ' + privateInfo.city;
+                    address += appendIfNotEmpty(privateInfo.state);
+                    address += ', ' + privateInfo.zip + ', ' + privateInfo.country;
+                    return address;
                 };
             result = {
                 handle: basic.handle,
@@ -168,6 +189,17 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
                 delete result.ratingSummary;
             }
 
+            if (privateInfoEligibility) {
+                result.emails = mapEmails(results.emails);
+                if (results.privateInfo && results.privateInfo[0]) {
+                    privateInfo = results.privateInfo[0];
+                    result.name = privateInfo.first_name + ' ' + privateInfo.last_name;
+                    result.address = getAddressString(privateInfo);
+                    result.age = privateInfo.age;
+                    result.gender = privateInfo.gender;
+                    result.shirtSize = privateInfo.shirt_size;
+                }
+            }
             cb();
         }
     ], function (err) {
@@ -680,7 +712,7 @@ exports.getBasicUserProfile = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
-    databases: ['informixoltp', 'topcoder_dw'],
+    databases: ['informixoltp', 'topcoder_dw', 'common_oltp'],
     run: function (api, connection, next) {
         if (!connection.dbConnectionMap) {
             api.helper.handleNoConnection(api, connection, next);

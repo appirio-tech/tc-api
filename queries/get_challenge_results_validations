@@ -5,6 +5,6 @@ select
 	p.project_category_id,
 	pcl.project_type_id 
 from project p
-left join contest_eligibility ce on p.project_id = ce.contest_id and ce.is_studio = 0
+left join contest_eligibility ce on p.project_id = ce.contest_id 
 inner join project_category_lu pcl on p.project_category_id = pcl.project_category_id
 where p.project_id = @challengeId@

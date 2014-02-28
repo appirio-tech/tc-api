@@ -1,0 +1,20 @@
+INSERT INTO demographic_response (user_id, demographic_answer_id, demographic_question_id)
+  VALUES (132456, 3, 1);
+INSERT INTO demographic_response (user_id, demographic_answer_id, demographic_question_id)
+  VALUES (132456, 6, 2);
+INSERT INTO demographic_response (user_id, demographic_answer_id, demographic_question_id)
+  VALUES (132456, 180, 26);
+
+INSERT INTO demographic_response (user_id, demographic_answer_id, demographic_question_id)
+  VALUES (132457, 2, 1);
+
+INSERT INTO user_address_xref (user_id, address_id) VALUES (132457, 9990001);
+INSERT INTO address (address_id, address_type_id, address1, address2, address3, city, state_code, zip, country_code) 
+  VALUES (9990001, 2, 'addr1', 'addr2', 'addr3', 'city1', 'IL', '61801', 840);
+
+INSERT INTO user_address_xref (user_id, address_id) VALUES (132458, 9990002);
+INSERT INTO address (address_id, address_type_id, address1, address2, address3, city, province, zip, country_code) 
+  VALUES (9990002, 2, 'addr1', 'addr2', 'addr3', 'city1', 'province1', '123123', 882);
+
+INSERT INTO email (user_id, email_id, email_type_id, address, primary_ind, status_id)
+  VALUES (132457, 9990001, 2, 'secondary@failed.com', 0, 3);

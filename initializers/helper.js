@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
- * @version 1.11
+ * @version 1.12
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -34,6 +34,13 @@
  * - add isAdmin and isMember
  * changes in 1.11
  * - added handling of RequestTooLargeError
+ * changes in 1.12
+ * - add MAX_INT.
+ * - update apiName2dbNameMap.
+ * - update method isChallengeTypeValid to isChallengeTypeValid. And the check is based on project type now which make more sense.
+ * - update method getSortColumnDBName to lowercase the column name when search it.
+ * - update checkFilterDate to use checkDateFormat to check date value.
+ * - add method formatDate.
  */
 "use strict";
 
@@ -86,6 +93,11 @@ helper.both = {
 };
 
 /**
+ * The max value for integer.
+ */
+helper.MAX_INT = 2147483647;
+
+/**
  * The name in api response to database name map.
  */
 var apiName2dbNameMap = {
@@ -115,7 +127,14 @@ var apiName2dbNameMap = {
     submissionenddate: 'submission_end_date',
     finalfixenddate: 'final_fix_end_date',
     currentstatus: 'current_status',
-    digitalrunpoints: 'digital_run_points'
+    digitalrunpoints: 'digital_run_points',
+    reviewstart: 'review_start',
+    reviewend: 'review_end',
+    reviewtype: 'review_type',
+    numberofsubmissions: 'number_of_submissions',
+    numberofreviewpositionsavailable: 'number_of_review_positions_available',
+    round2scheduledstartdate: 'round_2_scheduled_start_date',
+    round1scheduledstartdate: 'round_1_scheduled_start_date'
 };
 
 /**
@@ -423,7 +442,7 @@ helper.checkInteger = function (obj, objName) {
  * @return {Error} if input not valid.
  */
 helper.checkPageIndex = function (obj, objName) {
-    var result = helper.checkInteger(obj, objName);
+    var result = helper.checkMaxInt(obj, objName);
     if (result) {
         return result;
     }
@@ -455,9 +474,10 @@ helper.checkPositiveInteger = function (obj, objName) {
  * Check date valid or not.
  * @param {Object} date the obj to check.
  * @param {String} dateName the obj name.
+ * @param {String} dateFormat - the format of the date value.
  * @return {Error} if input not valid.
  */
-helper.checkFilterDate = function (date, dateName) {
+helper.checkFilterDate = function (date, dateName, dateFormat) {
     var result = helper.checkObject(date, dateName) ||
         helper.checkContains(helper.consts.ALLOWABLE_DATE_TYPE, date.type, dateName + ".type");
     if (result) {
@@ -465,13 +485,13 @@ helper.checkFilterDate = function (date, dateName) {
     }
     if (date.type.toUpperCase() !== helper.consts.AFTER_CURRENT_DATE &&
             date.type.toUpperCase() !== helper.consts.BEFORE_CURRENT_DATE) {
-        result = helper.checkString(date.firstDate, dateName + ".firstDate");
+        result = helper.checkDateFormat(date.firstDate, dateFormat, dateName + '.firstDate');
         if (!new Date(date.firstDate).getTime()) {
             result = result || new IllegalArgumentError(dateName + ".firstDate is invalid");
         }
     }
     if (date.type.toUpperCase() === helper.consts.BETWEEN_DATES) {
-        result = result || helper.checkString(date.secondDate, dateName + ".secondDate");
+        result = result || helper.checkDateFormat(date.secondDate, dateFormat, dateName + '.secondDate');
         if (!new Date(date.secondDate).getTime()) {
             result = result || new IllegalArgumentError(dateName + ".secondDate is invalid");
         }
@@ -496,17 +516,19 @@ helper.getLowerCaseList = function (arr) {
  * This method tests if the given category name is valid or not.
  * @param {String} name - name of the category.
  * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Object} challengeType - the challengeType object
  * @param {Function<err>} callback - the callback function
  */
-helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
-    var error = new IllegalArgumentError("The type parameter is not a correct project category value.");
+helper.isChallengeTypeValid = function (name, dbConnectionMap, challengeType, callback) {
+    var error = new IllegalArgumentError("The challengeType parameter is not a correct project category value.");
     if (!name) {
         callback(error);
         return;
     }
     async.waterfall([
         function (cb) {
-            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { categoryName: name }, dbConnectionMap, cb);
+            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid",
+                { categoryName: name, projectTypeId: challengeType.category }, dbConnectionMap, cb);
         }, function (result, cb) {
             if (!result.length) {
                 cb(error);
@@ -520,6 +542,7 @@ helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
         }
     ], callback);
 };
+
 /**
  * Check whether given integer is not greater than given max.
  * @param {Object} obj the obj to check.
@@ -724,8 +747,8 @@ helper.getReliabilityBonus = function (prize) {
  * @param {String} apiName - the api name to sort.
  */
 helper.getSortColumnDBName = function (apiName) {
-    if (_.isDefined(apiName2dbNameMap[apiName])) {
-        return apiName2dbNameMap[apiName];
+    if (_.isDefined(apiName2dbNameMap[apiName.toLowerCase()])) {
+        return apiName2dbNameMap[apiName.toLowerCase()];
     }
     return apiName;
 };
@@ -910,6 +933,15 @@ helper.checkDateFormat = function (date, format, objName) {
 };
 
 /**
+ * Format the date to a specific pattern.
+ * @param {String} date - the date value.
+ * @param {String} format - the date format pattern.
+ */
+helper.formatDate = function (date, format) {
+    return moment(date).format(format);
+};
+
+/**
  * Check whether given user is Admin or not
  * @param connection
  * @return {Error} if user is not admin
@@ -933,7 +965,7 @@ helper.checkAdmin = function (connection) {
  * @return {Error} if input not valid.
  */
 helper.checkMaxInt = function (obj, objName) {
-    return helper.checkMaxNumber(obj, 2147483647, objName);
+    return helper.checkMaxNumber(obj, helper.MAX_INT, objName);
 };
 
 /**

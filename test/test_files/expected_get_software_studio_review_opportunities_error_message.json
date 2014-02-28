@@ -1,0 +1,40 @@
+{
+    "pageSize": {
+        "notNumber": "pageSize should be number.",
+        "negative": "pageSize should be positive.",
+        "notInteger": "pageSize should be Integer.",
+        "tooBig": "pageSize should be less or equal to 2147483647."
+    },
+    "pageIndex": {
+        "notNumber": "pageIndex should be number.",
+        "negative": "pageIndex should be equal to -1 or greater than 0",
+        "notInteger": "pageIndex should be Integer.",
+        "tooBig": "pageIndex should be less or equal to 2147483647."
+    },
+    "sortOrder": {
+        "invalid": "sortOrder should be an element of asc,desc."
+    },
+    "sortColumn": {
+        "invalidForDevelop": "sortColumn should be an element of challengename,reviewstart,reviewend,challengetype,reviewtype,numberofsubmissions,numberofreviewpositionsavailable.",
+        "invalidForDesign": "sortColumn should be an element of challengename,round2scheduledstartdate,round1scheduledstartdate,reviewtype,reviewer."
+    },
+    "challengeType": {
+        "invalidForDevelop": "The challengeType parameter is not a correct project category value.",
+        "invalidForDesign": "The challengeType parameter is not a correct project category value."
+    },
+    "reviewType": {
+        "invalidDevelop": "reviewType should be an element of iterative review,spec review,contest review.",
+        "invalidDesign": "reviewType should be an element of screening,spec review"
+    },
+    "reviewStartDate": {
+        "missingType": "reviewStartDate.type should be an element of AFTER,AFTER_CURRENT_DATE,BEFORE,BEFORE_CURRENT_DATE,BETWEEN_DATES,ON.",
+        "invalidFormat": "Invalid reviewStartDate.firstDate. Expected format is MM.DD.YYYY",
+        "missingSecondDate": "Invalid reviewStartDate.secondDate. Expected format is MM.DD.YYYY"
+    },
+    "reviewPaymentLowerBound": {
+        "notNumber": "reviewPaymentLowerBound should be number."
+    },
+    "reviewPaymentUpperBound": {
+        "notNumber": "reviewPaymentUpperBound should be number."
+    }
+}

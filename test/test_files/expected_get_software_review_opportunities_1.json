@@ -1,0 +1,43 @@
+{
+    "data": [
+        {
+            "primaryReviewerPayment": 442,
+            "secondaryReviewerPayment": 324,
+            "numberOfSubmissions": 0,
+            "numberOfReviewPositionsAvailable": 3,
+            "challengeType": "Assembly Competition",
+            "reviewType": "Contest Review",
+            "challengeName": "Test Challenge 2001",
+            "challengeId": 2001,
+            "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=2001",
+            "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=2001"
+        },
+        {
+            "primaryReviewerPayment": 50,
+            "secondaryReviewerPayment": 0,
+            "numberOfSubmissions": 0,
+            "numberOfReviewPositionsAvailable": 1,
+            "challengeType": "Assembly Competition",
+            "reviewType": "Spec Review",
+            "challengeName": "Test Challenge 2002",
+            "challengeId": 2002,
+            "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=2002",
+            "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=2002"
+        },
+        {
+            "primaryReviewerPayment": 108,
+            "secondaryReviewerPayment": 0,
+            "numberOfSubmissions": 0,
+            "numberOfReviewPositionsAvailable": 3,
+            "challengeType": "First2Finish",
+            "reviewType": "Iterative Review",
+            "challengeName": "Test Challenge 2003",
+            "challengeId": 2003,
+            "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=2003",
+            "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=2003"
+        }
+    ],
+    "total": 3,
+    "pageIndex": 1,
+    "pageSize": 10
+}
