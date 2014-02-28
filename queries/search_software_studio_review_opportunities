@@ -34,6 +34,8 @@ INNER JOIN phase_criteria pc ON pc.project_phase_id=pp4.project_phase_id AND pc.
 INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_info_type_id = 6
 WHERE p.project_status_id=1
 AND pcl.project_type_id IN (@projectTypeId@)
+AND pcl.project_category_id != 29
+AND pcl.project_category_id != 37
 AND pp2.phase_status_id IN (2,3)
 AND pp4.phase_status_id IN (1,2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
@@ -67,6 +69,8 @@ INNER JOIN project_phase pp14 ON pp14.project_id=p.project_id AND pp14.phase_typ
 INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_info_type_id = 6
 WHERE p.project_status_id = 1
 AND pcl.project_type_id IN (@projectTypeId@)
+AND pcl.project_category_id != 29
+AND pcl.project_category_id != 37
 AND pp13.phase_status_id IN (2,3)
 AND pp14.phase_status_id IN (1,2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
@@ -107,6 +111,8 @@ INNER JOIN phase_criteria pc ON pc.project_phase_id=pp18.project_phase_id AND pc
 INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_info_type_id = 6
 WHERE p.project_status_id = 1
 AND pcl.project_type_id IN (@projectTypeId@)
+AND pcl.project_category_id != 29
+AND pcl.project_category_id != 37
 AND pp2.phase_status_id IN (2,3)
 AND pp18.phase_status_id IN (1,2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
@@ -120,7 +126,7 @@ SELECT
 , 0 AS number_of_submissions
 , pps.scheduled_start_time AS review_start
 , pps.scheduled_end_time AS review_end
-, 0 AS number_of_review_positions_available
+, 1 AS number_of_review_positions_available
 , pcl.name AS challenge_type
 , 'Screening' AS review_type
 , (SELECT pi.value FROM project_info pi WHERE pi.project_id = p.project_id AND pi.project_info_type_id = 6) AS challenge_name
@@ -149,7 +155,7 @@ SELECT
 , 0 AS number_of_submissions
 , pps.scheduled_start_time AS review_start
 , pps.scheduled_end_time AS review_end
-, 0 AS number_of_review_positions_available
+, 1 AS number_of_review_positions_available
 , pcl.name AS challenge_type
 , 'Spec Review' AS review_type
 , (SELECT pi.value FROM project_info pi WHERE pi.project_id = p.project_id AND pi.project_info_type_id = 6) AS challenge_name
@@ -179,6 +185,7 @@ AND EXTEND(round_1_scheduled_start_date, year to day) <= '@round1ScheduledStartD
 AND EXTEND(round_1_scheduled_start_date, year to day) >= '@round1ScheduledStartDateFirstDate@'
 AND EXTEND(round_2_scheduled_start_date, year to day) <= '@round2ScheduledStartDateSecondDate@'
 AND EXTEND(round_2_scheduled_start_date, year to day) >= '@round2ScheduledStartDateFirstDate@'
+AND number_of_review_positions_available > 0
 
 ORDER BY @sortColumn@ @sortOrder@
 
