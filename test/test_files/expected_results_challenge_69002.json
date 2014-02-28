@@ -10,12 +10,14 @@
   "submissionsPassedScreening": 2,
   "results": [
     {
+	  "handle": "twight",
       "placement": 1,
       "submissionDate": "2013-12-12T01:00:00.000Z",
       "registrationDate": "2013-12-12T00:00:00.000Z",
       "points": 350
     },
     {
+	  "handle": "sandking",
       "placement": 2,
       "submissionDate": "2013-12-12T10:30:00.000Z",
       "registrationDate": "2013-12-12T00:00:00.000Z",
