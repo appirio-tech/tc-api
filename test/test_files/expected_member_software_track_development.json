@@ -1,0 +1,40 @@
+{
+    "handle": "heffan",
+    "Tracks": {
+        "Development": {
+            "rating": 478,
+            "activePercentile": "65.45%",
+            "activeRank": 1,
+            "activeCountryRank": 1,
+            "activeSchoolRank": 1,
+            "overallPercentile": "9.50%",
+            "overallRank": 1,
+            "overallCountryRank": 1,
+            "overallSchoolRank": 1,
+            "volatility": 102,
+            "competitions": 5,
+            "maximumRating": 2696,
+            "minimumRating": 585,
+            "inquiries": 5,
+            "submissions": 4,
+            "submissionRate": "80.00%",
+            "passedScreening": 3,
+            "screeningSuccessRate": "75.00%",
+            "passedReview": 3,
+            "reviewSuccessRate": "75.00%",
+            "appeals": 18,
+            "appealSuccessRate": "38.89%",
+            "maximumScore": 87.74,
+            "minimumScore": 17.91,
+            "averageScore": 47.2,
+            "averagePlacement": 3.6,
+            "wins": 1,
+            "winPercentage": "25.00%",
+            "reviewerRating": 1906,
+            "copilotCompletedContests": 5,
+            "copilotRepostedContests": 1,
+            "copilotFailedContests": 5,
+            "copilotFulfillment": "0%"
+        }
+    }
+}

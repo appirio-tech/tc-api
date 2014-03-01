@@ -1,20 +1,18 @@
-SELECT * FROM TABLE(
-   MULTISET(
-      SELECT EXTEND(ua.achievement_date, YEAR TO SECOND) AS achievement_date
-            , ua.description
-            , -1 as id
-      FROM user_achievement ua
-      JOIN coder AS c ON c.coder_id = ua.coder_id
-      WHERE ua.achievement_type_id in (1,4,5,6,7,8,9) AND handle_lower = LOWER('@handle@')
-   UNION
-      SELECT EXTEND(DATE(arx.create_date), YEAR TO SECOND) AS achievement_date
-         , ar.user_achievement_name as description
-         , ar.user_achievement_rule_id as id
-      FROM tcs_dw:user_achievement_rule ar
-      JOIN tcs_dw:user_achievement_xref arx ON ar.user_achievement_rule_id = arx.user_achievement_rule_id
-      JOIN coder AS c ON c.coder_id = arx.user_id
-      WHERE ar.user_achievement_type_id = 3
-      AND handle_lower = LOWER('@handle@')
-  )
-)
-ORDER BY achievement_date desc
+SELECT 
+  EXTEND(ua.achievement_date, YEAR TO SECOND) AS achievement_date
+, ua.description
+, -1 as id
+FROM user_achievement ua
+JOIN coder AS c ON c.coder_id = ua.coder_id
+WHERE ua.achievement_type_id in (1,4,5,6,7,8,9) AND handle_lower = LOWER('@handle@') AND c.status = 'A'
+UNION ALL
+SELECT 
+  EXTEND(DATE(arx.create_date), YEAR TO SECOND) AS achievement_date
+, ar.user_achievement_name as description
+, ar.user_achievement_rule_id as id
+FROM tcs_dw:user_achievement_rule ar
+JOIN tcs_dw:user_achievement_xref arx ON ar.user_achievement_rule_id = arx.user_achievement_rule_id
+JOIN coder AS c ON c.coder_id = arx.user_id
+WHERE ar.user_achievement_type_id = 3
+AND handle_lower = LOWER('@handle@') AND c.status = 'A'
+ORDER BY achievement_date DESC

@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
- * @version 1.12
+ * @version 1.13
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -41,6 +41,9 @@
  * - update method getSortColumnDBName to lowercase the column name when search it.
  * - update checkFilterDate to use checkDateFormat to check date value.
  * - add method formatDate.
+ * changes in 1.13
+ * - add method checkTrackName, getPhaseId.
+ * - add phaseName2Id map.
  */
 "use strict";
 
@@ -167,7 +170,7 @@ helper.softwareChallengeTypes = {
         phaseId: 124
     },
     assembly: {
-        name: "Assembly",
+        name: "Assembly Competition",
         phaseId: 125
     },
     ui_prototypes: {
@@ -267,8 +270,19 @@ helper.studioChallengeTypes = {
  */
 helper.MAX_INT = 2147483647;
 
+/**
+ * The phase id to name map.
+ */
 var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.phaseId, item.name];
+}));
+
+/**
+ * The phase name to id map.
+ * @since 1.13
+ */
+var phaseName2Id = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
+    return [item.name.toLowerCase(), item.phaseId];
 }));
 
 /**
@@ -881,12 +895,22 @@ helper.getCachedValue = function (key, callback) {
     });
 };
 
-/*
+/**
  * Get the phase name based on phase Id
  * @param {Number} phaseId - the phase id.
  */
 helper.getPhaseName = function (phaseId) {
     return phaseId2Name[phaseId];
+};
+
+/**
+ * Get the phase name by given phase id.
+ * @param {String} phaseName - the phase name.
+ * @returns {Number} - the phase id.
+ * @since 1.13
+ */
+helper.getPhaseId = function (phaseName) {
+    return phaseName2Id[phaseName.toLowerCase()];
 };
 
 
@@ -1025,6 +1049,19 @@ helper.formatDate = function (date, format) {
         return moment(date).format(format);
     }
     return '';
+};
+
+/**
+ * Check if the track name is a valid one.
+ * @param {String} track - the track name.
+ * @param {Boolean} isStudio - represent the track is a studio track name or not.
+ * @returns {Error} - if the track name is invalid.
+ * @since 1.13
+ */
+helper.checkTrackName = function (track, isStudio) {
+    var validTrack = isStudio ? helper.studioChallengeTypes : helper.softwareChallengeTypes,
+        validTrackName = _.map(_.values(validTrack), function (item) { return item.name.toLowerCase(); });
+    return helper.checkContains(validTrackName, track, 'track');
 };
 
 /**

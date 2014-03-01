@@ -1,8 +1,10 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, TCSASSEMBLER
+ * Changes in 1.1:
+ * - add test for new parameter - track.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -147,6 +149,47 @@ describe('Get Member Software Statistics API', function () {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(404)
+            .end(done);
+    });
+
+    /**
+     * Test when track is set.
+     */
+    it('should return success results. Search track - development.', function (done) {
+        request(API_ENDPOINT)
+            .get('/v2/users/heffan/statistics/develop?track=development')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, res) {
+                testHelper.assertResponse(err,
+                    res,
+                    RESPONSE_FILE_PREFIX + "track_development.json",
+                    done);
+            });
+    });
+
+    /**
+     * Test when track is a studio type.
+     */
+    it('should return bad request. The track name is studio type.', function (done) {
+        request(API_ENDPOINT)
+            .get('/v2/users/heffan/statistics/develop?track=Web Design')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(done);
+    });
+
+    /**
+     * Test when track name is invalid.
+     */
+    it('should return bad request. The track name is invalid.', function (done) {
+        request(API_ENDPOINT)
+            .get('/v2/users/heffan/statistics/develop?track=abc')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(400)
             .end(done);
     });
 });

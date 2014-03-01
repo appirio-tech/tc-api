@@ -1,0 +1,25 @@
+SELECT DISTINCT(c.coder_id)
+     , ur.phase_id AS category_id
+     , c.handle AS handle
+     , NVL(ur.rating, 0.0) AS rating
+     , NVL(activeRank.percentile, 0) AS active_percentile
+     , NVL(activeRank.rank, 0) AS active_rank
+     , NVL(activeCR.rank, 0) AS active_country_rank
+     , NVL(activeSUR.rank, 0) AS active_school_rank
+     , NVL(overallRank.percentile, 0) AS overall_percentile
+     , NVL(overallRank.rank, 0) AS overall_rank
+     , NVL(overallCR.rank, 0) AS overall_country_rank
+     , NVL(overallSUR.rank, 0) AS overall_school_rank
+     , NVL(ur.vol, 0) AS vol
+  FROM tcs_dw:user_rating ur
+      LEFT OUTER JOIN tcs_dw:user_rank activeRank ON activeRank.phase_id = ur.phase_id AND activeRank.user_id = ur.user_id AND activeRank.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:country_user_rank activeCR ON activeCR.phase_id = ur.phase_id AND activeCR.user_id = ur.user_id AND activeCR.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:school_user_rank activeSUR ON activeSUR.phase_id = ur.phase_id AND activeSUR.user_id = ur.user_id AND activeSUR.user_rank_type_id = 2
+      LEFT OUTER JOIN tcs_dw:user_rank overallRank ON overallRank.phase_id = ur.phase_id AND overallRank.user_id = ur.user_id AND overallRank.user_rank_type_id = 1
+      LEFT OUTER JOIN tcs_dw:country_user_rank overallCR ON overallCR.phase_id = ur.phase_id AND overallCR.user_id = ur.user_id AND overallCR.user_rank_type_id = 1
+      LEFT OUTER JOIN tcs_dw:school_user_rank overallSUR ON overallSUR.phase_id = ur.phase_id AND overallSUR.user_id = ur.user_id AND overallSUR.user_rank_type_id = 1
+     , coder AS c
+ WHERE ur.user_id = c.coder_id
+   AND ur.phase_id IN (@phaseIds@)
+   AND handle_lower= LOWER('@handle@')
+   AND c.status = 'A'

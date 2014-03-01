@@ -3,4 +3,5 @@ SELECT
 , r.phase_id
 FROM coder c
 INNER JOIN tcs_dw:user_rating AS r ON r.user_id = c.coder_id
-WHERE LOWER(c.handle) = LOWER('@handle@')
+WHERE c.handle_lower = LOWER('@handle@')
+AND c.status = 'A'

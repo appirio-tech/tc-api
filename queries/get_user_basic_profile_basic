@@ -25,9 +25,11 @@ FROM user u
     , path p)
 , OUTER user_preference up
 WHERE u.handle_lower = LOWER('@handle@')
+AND u.status = 'A'
 AND u.user_id = cp.user_id
 AND u.user_id = co.coder_id
 AND u.user_id = r.coder_id
+AND r.algo_rating_type_id = 1
 AND u.user_id = cix.coder_id
 AND c.country_code = co.comp_country_code
 AND cix.display_flag = 1

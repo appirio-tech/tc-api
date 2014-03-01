@@ -3,26 +3,29 @@ SELECT
 , pc.project_category_id AS category_id
 , pc.name AS category_name
 , (SELECT 
-	COUNT(*) 
-	FROM project p
-	INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
-	INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
-	WHERE usr.user_id = ri.value AND p.project_status_id in (4, 5, 6, 10, 11) AND p.project_category_id = pc.project_category_id
+  COUNT(*) 
+  FROM project p
+  INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
+  INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
+  WHERE usr.user_id = ri.value AND p.project_status_id in (4, 5, 6, 10, 11) AND p.project_category_id = pc.project_category_id
+  AND p.project_category_id IN (@challengeTypes@)
 ) AS failed_contests
 , (SELECT 
-	COUNT(*)
-	FROM project p
-	INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
-	INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1 
-	WHERE usr.user_id = ri.value AND p.project_category_id = pc.project_category_id
+  COUNT(*)
+  FROM project p
+  INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
+  INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1 
+  WHERE usr.user_id = ri.value AND p.project_category_id = pc.project_category_id
+  AND p.project_category_id IN (@challengeTypes@)
 ) AS completed_contests
 , (SELECT 
-	COUNT(*) 
-	FROM project p
-	INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
-	INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
-	LEFT OUTER JOIN linked_project_xref lp ON p.project_id = lp.source_project_id AND lp.link_type_id = 5
-	WHERE usr.user_id = ri.value AND lp.source_project_id is not null AND p.project_category_id = pc.project_category_id
+  COUNT(*) 
+  FROM project p
+  INNER JOIN resource r ON r.project_id = p.project_id AND r.resource_role_id = 14 AND p.project_status_id != 2 AND p.project_status_id != 3
+  INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
+  LEFT OUTER JOIN linked_project_xref lp ON p.project_id = lp.source_project_id AND lp.link_type_id = 5
+  WHERE usr.user_id = ri.value AND lp.source_project_id is not null AND p.project_category_id = pc.project_category_id
+  AND p.project_category_id IN (@challengeTypes@)
 ) AS reposted_contests
 FROM
 project_category_lu pc
@@ -41,10 +44,13 @@ LEFT JOIN (
   p.project_id = rr.project_id
   AND rr.user_id = u.user_id
   AND u.handle_lower = LOWER('@handle@')
+  AND p.project_category_id IN (@challengeTypes@)
 ) temp_table ON temp_table.project_category_id = pc.project_category_id 
 JOIN user usr on usr.handle_lower = LOWER('@handle@')
 WHERE (temp_table.review_date = 
-       (SELECT max(rr1.review_date) FROM reviewer_rating rr1 INNER JOIN project p1 ON p1.project_id = rr1.project_id AND p1.project_category_id = pc.project_category_id)
+       (SELECT max(rr1.review_date) FROM reviewer_rating rr1 INNER JOIN project p1 ON p1.project_id = rr1.project_id 
+        AND p1.project_category_id = pc.project_category_id AND p1.project_category_id IN (@challengeTypes@))
        OR temp_table.review_date IS NULL)
 AND pc.project_type_id IN (1, 2) 
-AND display = 't';
+AND pc.project_category_id IN (@challengeTypes@)
+AND display = 't'
