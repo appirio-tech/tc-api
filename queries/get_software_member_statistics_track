@@ -1,5 +1,6 @@
 SELECT DISTINCT(c.coder_id)
      , c.handle AS handle
+     , url.rating AS reliability
      , sub_info.category_name AS category_name
      , sub_info.phase_id - 111 AS category_id
      , NVL(ur.rating, 0.0) AS rating
@@ -36,6 +37,7 @@ SELECT DISTINCT(c.coder_id)
       LEFT OUTER JOIN tcs_dw:user_rank overallRank ON overallRank.phase_id = ur.phase_id AND overallRank.user_id = ur.user_id AND overallRank.user_rank_type_id = 1
       LEFT OUTER JOIN tcs_dw:country_user_rank overallCR ON overallCR.phase_id = ur.phase_id AND overallCR.user_id = ur.user_id AND overallCR.user_rank_type_id = 1
       LEFT OUTER JOIN tcs_dw:school_user_rank overallSUR ON overallSUR.phase_id = ur.phase_id AND overallSUR.user_id = ur.user_id AND overallSUR.user_rank_type_id = 1
+      LEFT OUTER JOIN tcs_dw:user_reliability url ON url.user_id = ur.user_id AND url.phase_id = ur.phase_id
       JOIN (
         SELECT 
                p.phase_id AS phase_id
