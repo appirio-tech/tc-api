@@ -1,24 +1,25 @@
 {
-    "challengeType": "First2Finish",
-    "challengeName": "this is a F2F challenge",
-    "challengeId": 30500000,
+    "challengeType": "Copilot Posting",
+    "challengeName": "this is a Copilot post challenge",
+    "challengeId": 32500000,
     "projectId": 30400001,
     "detailedRequirements": "detailed requirement content",
     "finalSubmissionGuidelines": "final submission guideline content",
-    "reviewScorecardId": "1",
     "cmcTaskId": "ab",
     "numberOfCheckpointsPrizes": 0,
     "topCheckPointPrize": "",
+    "copilotDetailedRequirements": "copilot private_description_text",
     "currentStatus": "Active",
-    "currentPhaseName": "Iterative Review",
+    "currentPhaseName": "Submission",
     "digitalRunPoints": 510,
     "reliabilityBonus": 200,
     "challengeCommunity": "develop",
-    "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
+    "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=32500000",
     "technology": ["Java", "MySQL"],
     "prize": [
         1000
     ],
+    "numberOfRegistrants": 1,
     "registrants": [
         {
             "handle": "heffan",
@@ -55,7 +56,6 @@
         }
     ],
     "numberOfSubmissions": 1,
-    "numberOfRegistrants": 1,
     "platforms": [
         "AWS",
         "Cloud Foundry"
@@ -71,22 +71,10 @@
      },
      {
        "type": "Submission",
-       "status": "Closed",
+       "status": "Open",
        "scheduledStartTime": "2013-12-20T00:00:00.000Z",
        "actualStartTime": "2013-12-20T00:00:00.000Z",
        "scheduledEndTime": "2013-12-26T00:00:00.000Z"
-     },
-     {
-       "type": "Iterative Review",
-       "status": "Open",
-       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
-       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
-     },
-     {
-       "type": "Iterative Review",
-       "status": "Scheduled",
-       "scheduledStartTime": "2013-12-27T12:00:00.000Z",
-       "scheduledEndTime": "2014-01-02T12:00:00.000Z"
      }
    ]
 }

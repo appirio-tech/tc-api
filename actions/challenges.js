@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips
+ * @version 1.11
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -27,6 +27,8 @@
  * support private challenge search for search software/studio/both challenges api.
  * changes in 1.10:
  * Added method for uploading submission to a develop challenge
+ * changes in 1.11:
+ * Added 'private_description_text' field for copilot challenge details api
  */
 "use strict";
 
@@ -114,6 +116,10 @@ LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
  */
 var COPILOT_POSTING_PROJECT_TYPE = 29;
 
+/**
+ * If the user is a copilot
+ */
+var isCopilot = false;
 /**
  * This method will used to check the query parameter and sort column of the request.
  *
@@ -514,13 +520,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     submissions: execQuery('challenge_submissions'),
                     platforms: execQuery('challenge_platforms'),
                     phases: execQuery('challenge_phases'),
-                    documents: execQuery('challenge_documents')
+                    documents: execQuery('challenge_documents'),
+                    copilot: execQuery('check_is_copilot')
                 }, cb);
             }
         }, function (results, cb) {
             if (results.details.length === 0) {
                 cb(new NotFoundError('Challenge not found.'));
                 return;
+            }
+            if (!isStudio && results.copilot.length) {
+                isCopilot = results.copilot[0].user_is_copilot;
             }
             var data = results.details[0], i = 0, prize = 0,
                 mapSubmissions = function (results) {
@@ -665,6 +675,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
+            if(data.project_type == COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
+                challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
+            }
             if (data.appeals_end_date) {
                 challenge.appealsEndDate = formatDate(data.appeals_end_date);
             }

@@ -8,6 +8,7 @@ SELECT
      , sps.round_one_introduction
      , sps.round_two_introduction
      , ps.detailed_requirements_text AS software_detailed_requirements
+     , ps.private_description_text AS copilot_detailed_requirements
      , ps.final_submission_guidelines_text AS final_submission_guidelines
      , technology_list(pi1.value) AS technology
      , p.project_category_id AS project_type
