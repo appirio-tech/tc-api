@@ -23,7 +23,9 @@
     "registrants": [
         {
             "handle": "heffan",
-            "reliability": "100%"
+            "reliability": "100%",
+            "rating": 1800,
+            "colorStyle": "color: #DDCC00"
         }
     ],
     "submissions": [
