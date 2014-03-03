@@ -130,5 +130,9 @@
        "scheduledEndTime": "2013-11-05T00:00:00.000Z",
        "actualendTime": "2013-11-05T00:00:00.000Z"
      }
-   ]
+   ],
+   "event": {
+       "id": 3437,
+       "description": "TCO"
+   }
 }

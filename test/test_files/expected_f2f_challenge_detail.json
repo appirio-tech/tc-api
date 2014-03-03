@@ -19,10 +19,13 @@
     "prize": [
         1000
     ],
+    "numberOfRegistrants": 1,
     "registrants": [
         {
             "handle": "heffan",
-            "reliability": "100%"
+            "reliability": "100%",
+            "rating": 1800,
+            "colorStyle": "color: #DDCC00"
         }
     ],
     "submissions": [
@@ -55,7 +58,6 @@
         }
     ],
     "numberOfSubmissions": 1,
-    "numberOfRegistrants": 1,
     "platforms": [
         "AWS",
         "Cloud Foundry"
@@ -88,5 +90,9 @@
        "scheduledStartTime": "2013-12-27T12:00:00.000Z",
        "scheduledEndTime": "2014-01-02T12:00:00.000Z"
      }
-   ]
+   ],
+   "event": {
+       "id": 3437,
+       "description": "TCO"
+   }
 }

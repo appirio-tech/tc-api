@@ -526,3 +526,7 @@ VALUES(1,1,30003114,10042,'review item answer', 1,'132456',CURRENT,'132456',CURR
 
 INSERT INTO review_item_comment(review_item_comment_id,resource_id,review_item_id,comment_type_id,content,sort,create_user,create_date,modify_user,modify_date)  
 VALUES(1,10045,1,1,'review item comment content',1,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO event (event_id, event_type_id, event_desc) VALUES (3437, 4, "TCO");
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(10041, 'TCO Challenge', 3437, CURRENT);
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(10041, 10041, CURRENT);

@@ -56,6 +56,8 @@ SELECT
        NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id)) 
        ELSE NULL END AS digital_run_points
      , pi51.value AS submission_limit
+     , nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0) as event_id
+     , (SELECT event_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_description
   FROM project p
      , project_status_lu pstatus
      , outer project_spec ps

@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.11
@@ -599,11 +599,16 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         return [];
                     }
                     return _.map(results, function (item) {
-                        return {
+                        var registrant = {
                             handle: item.handle,
                             reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
                             registrationDate: formatDate(item.inquiry_date)
                         };
+                        if(!isStudio){
+                            registrant.rating = item.rating;
+                            registrant.colorStyle = helper.getColorStyle(item.rating);
+                        }
+                        return registrant;
                     });
                 },
                 mapPrize = function (results) {
@@ -703,7 +708,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 checkpoints: mapCheckPoints(results.checkpoints),
                 submissions: mapSubmissions(results),
                 winners: mapWinners(results.winners),
-                Documents: mapDocuments(results.documents)
+                Documents: mapDocuments(results.documents),
             });
 
             if (isStudio) {
@@ -726,6 +731,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);
+            if(data.event_id !== 0){
+                challenge.event = {id: data.event_id, description: data.event_description};
+            }
             cb();
         }
     ], function (err) {

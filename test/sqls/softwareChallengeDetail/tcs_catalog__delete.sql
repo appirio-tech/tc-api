@@ -1,3 +1,6 @@
+delete from event where event_id = 3437;
+delete from contest_project_xref where contest_id = 31500001; 
+delete from contest where contest_id = 31500001;
 DELETE FROM user_group_xref WHERE user_group_id = 2001;
 delete from submission;
 delete from upload;

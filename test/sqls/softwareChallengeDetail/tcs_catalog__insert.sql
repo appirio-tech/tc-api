@@ -120,6 +120,10 @@ values (30500008, 1, 3, 132456, CURRENT, 132456, CURRENT);
 insert into project_spec(project_spec_id, project_id, version)
 values (31500001, 30500000, 1);
 
+INSERT INTO event (event_id, event_type_id, event_desc) VALUES (3437, 4, "TCO");
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(31500001, 'TCO', 3437, CURRENT);
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 30500000, CURRENT);
+
 
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30500000, 30500002, 0, 'document 1', 'test/document1.doc');
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30500001, 30500002, 24, 'document 2', 'test/document2.doc');
