@@ -1,0 +1,20 @@
+INSERT INTO notification
+(
+	project_id,
+	external_ref_id,
+	notification_type_id,
+	create_user,
+	create_date,
+	modify_user,
+	modify_date
+)
+VALUES
+(
+	@challengeId@,
+	@userId@,
+	@notificationTypeId@,
+	@createUser@,
+	CURRENT,
+	@modifyUser@,
+	CURRENT
+)
