@@ -1,0 +1,1 @@
+SELECT rating FROM user_rating WHERE phase_id = @phaseId@ AND user_id = @userId@

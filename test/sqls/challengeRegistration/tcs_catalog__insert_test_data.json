@@ -1,0 +1,5 @@
+{
+  "name"    : "tcs_catalog__insert_test_data",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "tcs_catalog__insert_test_data"
+}
