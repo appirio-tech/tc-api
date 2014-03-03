@@ -31,6 +31,8 @@
  * - added route for dev upload submission api
  * Changes in 1.13
  * - added register challenge for a given user api.
+ * Changes in 1.14:
+ * - added route for active billing accounts
  */
 
 /* ---------------------
@@ -138,6 +140,8 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+        { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
