@@ -1,3 +1,6 @@
+delete from event where event_id = 3437; 
+delete from contest_project_xref where contest_id = 10041; 
+delete from contest where contest_id = 10041;
 DELETE FROM component_inquiry WHERE component_id = 10041;
 DELETE FROM comp_documentation WHERE comp_vers_id = 10041;
 DELETE FROM comp_versions WHERE comp_vers_id = 10041;
