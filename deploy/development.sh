@@ -52,6 +52,8 @@ export TC_EMAIL_FROM=tc.ldap.test@gmail.com
 export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
+export TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
+export TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 
 export PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 ## JDBC connection pool environment variables - set for all databases

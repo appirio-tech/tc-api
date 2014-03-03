@@ -1,0 +1,4 @@
+(SELECT i.value FROM resource_info i WHERE r.resource_id = i.resource_id AND i.resource_info_type_id = 1 ) AS user_id,
+(SELECT i.value FROM resource_info i WHERE r.resource_id = i.resource_id AND i.resource_info_type_id = 2 ) AS handle,
+(SELECT i.value FROM resource_info i WHERE r.resource_id = i.resource_id AND i.resource_info_type_id = 8 ) AS payments
+FROM resource r WHERE project_id = 40000002;

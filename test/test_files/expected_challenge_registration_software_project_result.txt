@@ -1,0 +1,7 @@
+{
+    "project_id": 40000001,
+    "user_id": 400011,
+    "rating_ind": 0,
+    "valid_submission_ind": 0,
+    "old_rating": 0
+}
