@@ -1,0 +1,18 @@
+INSERT INTO resource_info
+	(	resource_id,
+		resource_info_type_id,
+		value,
+		create_user,
+		create_date,
+		modify_user,
+		modify_date
+	)
+VALUES 
+	( 	@resourceId@,
+		@resourceInfoTypeId@,
+		@value@,
+		@createUser@,
+		CURRENT,
+		@modifyUser@,
+		CURRENT
+	)

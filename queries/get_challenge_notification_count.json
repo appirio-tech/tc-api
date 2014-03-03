@@ -1,0 +1,5 @@
+{
+	"name"		:	"get_challenge_notification_count",
+	"db"		:	"tcs_catalog",
+	"sqlfile"	:	"get_challenge_notification_count"
+}

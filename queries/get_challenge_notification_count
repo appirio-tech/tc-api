@@ -1,0 +1,5 @@
+SELECT count(*) AS total_count FROM notification 
+WHERE 
+	project_id = @challengeId@ 
+	AND external_ref_id = @userId@ 
+	AND notification_type_id = @notificationTypeId@

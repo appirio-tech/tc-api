@@ -1,0 +1,6 @@
+{
+    "resource_role_id" : 1,
+    "project_id" : 40000001,
+    "create_user" : "400011",
+    "modify_user" : "400011"
+}

@@ -1,0 +1,1 @@
+SELECT handle, email FROM email_user WHERE user_id = @userId@ 

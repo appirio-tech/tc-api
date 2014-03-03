@@ -210,7 +210,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : suid}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
-                    } else {    
+                    } else {
                         callback(null, null);
                     }
                 },
@@ -296,7 +296,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
                     api.log("Activation url: " + url, "debug");
 
-                    api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
+                    api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
                         
                     callback(null, null);
                     
