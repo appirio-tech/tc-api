@@ -1,14 +1,16 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author TCSASSEMBLER, Sky_
+ * @version 1.3
+ * @author TCSASSEMBLER, Sky_, xjtufreeman
  * change in 1.1:
  * - use before and after to setup and clean data
  * - use testHelper for data access
  * - merge successInput and validateDatabase into one test
  * change in 1.2:
  * - fix tests to the latest code (new sequence generation)
+ * change in 1.3:
+ * - fix tests to the latest code
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -188,9 +190,11 @@ describe('Test Register Member API', function () {
                 assertProp(user, "user_id", id);
                 assert.deepEqual(userExpected, user, "Invalid returned message");
 
-                assert.equal(group.length, 2);
+                assert.equal(group.length, 4);
                 assertProp(group[0], "login_id", id);
                 assertProp(group[1], "login_id", id);
+                assertProp(group[2], "login_id", id);
+                assertProp(group[3], "login_id", id);
                 assert.deepEqual(userGroupExpected, group, "Invalid returned message");
 
                 assertProp(security, "login_id", id);
@@ -228,7 +232,7 @@ describe('Test Register Member API', function () {
     it('should register successfully if no password is provided (via social login)', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testNoPasswd', email: 'testNoPasswd@foobar.com', country: 'Japan', socialProviderId: 1, socialUserName: "testNoPasswd", socialEmail: "testNoPasswd@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2  })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testNoPasswd', email: 'testNoPasswd@foobar.com', country: 'Japan', socialProviderId: 1, socialUserName: "testNoPasswd", socialEmail: "testNoPasswd@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 1  })
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {
@@ -294,13 +298,13 @@ describe('Test Register Member API', function () {
     });
 
     /// Check if the data are in expected structure and data
-    it('should return if handle and email exists', function (done) {
+    it('should return if handle and email(case-insensitive) exists', function (done) {
         var text = fs.readFileSync("test/test_files/exptected_member_register_invalid_existing.txt", 'utf8'),
             expected = JSON.parse(text);
 
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', "socialUserId": 2 })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'TEstHandleFoo@foobar.com'.toLocaleLowerCase(), password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', "socialUserId": 2 })
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, result) {

@@ -1,0 +1,5 @@
+{
+    "name"    : "add_algo_rating",
+    "db"      : "informixoltp",
+    "sqlfile" : "add_algo_rating"
+}
