@@ -1,0 +1,22 @@
+{
+    "activeBillingAccounts": [
+        {
+            "clientName": "Notus",
+            "clientId": 70014096,
+            "billingAccountId": 70016343,
+            "billingAccountName": "Liquid",
+            "subscriptionNumber": "null",
+            "projectEndDate": "2099-01-01T00:00:00.000Z",
+            "poNumber": "TC0000377"
+        },
+        {
+            "clientName": "Notus",
+            "clientId": 70014096,
+            "billingAccountId": 70016347,
+            "billingAccountName": "CIO projects",
+            "subscriptionNumber": "null",
+            "projectEndDate": "2099-01-01T00:00:00.000Z",
+            "poNumber": "TC0000381"
+        }
+    ]
+}

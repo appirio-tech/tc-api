@@ -49,6 +49,8 @@ set TC_EMAIL_FROM=tc.ldap.test@gmail.com
 set TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 set TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
+set TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
+set TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 
 set PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 REM JDBC connection pool environment variables - set for all databases

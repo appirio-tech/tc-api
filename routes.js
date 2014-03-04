@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.12
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141
+ * @version 1.13
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -29,6 +29,10 @@
  * - add invoice history api.
  * Changes in 1.12:
  * - added route for dev upload submission api
+ * Changes in 1.13
+ * - added register challenge for a given user api.
+ * Changes in 1.14:
+ * - added route for active billing accounts
  */
 
 /* ---------------------
@@ -98,6 +102,7 @@ exports.routes = {
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
+        { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
@@ -106,6 +111,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
 
+        { path: "/:apiVersion/design/challenges/:challengeId/register", action: "registerStudioChallenge" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
@@ -134,6 +140,8 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+        { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },

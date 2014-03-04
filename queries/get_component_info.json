@@ -1,0 +1,5 @@
+{
+	"name"		:	"get_component_info",
+	"db"		:	"tcs_catalog",
+	"sqlfile"	:	"get_component_info"
+}
