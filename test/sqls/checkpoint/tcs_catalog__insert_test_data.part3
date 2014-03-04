@@ -1,0 +1,43 @@
+INSERT INTO project_studio_specification(project_studio_spec_id, general_feedback, create_user, create_date, modify_user, modify_date) VALUES(4002, null, 132456, current, 132456, current);
+INSERT INTO project_studio_specification(project_studio_spec_id, general_feedback, create_user, create_date, modify_user, modify_date) VALUES(4004, 'general feedback for challenge 4004', 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, create_user, create_date, modify_user, modify_date) VALUES(4001, 2, 14, 132456, 4001, current, 132456, current);
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, create_user, create_date, modify_user, modify_date) VALUES(4003, 2, 14, 132456, 4001, current, 132456, current);
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date) VALUES(4002, 2, 17, 132456, 4002, 4002, current, 132456, current);
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date) VALUES(4004, 2, 17, 132456, 4004, 4004, current, 132456, current);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(4001, 4001, 17, 3, current, current + 2 units day, current + 2 units day, 172800000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(4002, 4002, 17, 3, current, current + 2 units day, current + 2 units day, 172800000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(4003, 4003, 17, 3, current, current + 2 units day, current + 2 units day, 172800000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(4004, 4004, 17, 3, current, current + 2 units day, current + 2 units day, 172800000, 132456, current, 132456, current);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4001, 20, 4001, 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4002, 20, 4002, 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4003, 20, 4003, 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4004, 20, 4004, 132456, current, 132456, current);
+
+INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(4003, 4003, 'General feedback for challenge 4003');
+INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(4004, 4004, 'General feedback for challenge 4004');
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(4001, 4001, 4001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(4001, 4001, 1, 400, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(4001, 4001, 1, 2, 3, 4001, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(4001, 4001, 4001, 4001, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(4001, 4001, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(4001, 4001, 4001, 11, 'Checkpoint review for submission 4001', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(4006, 4002, 4002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(4006, 4002, 1, 400, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(4006, 4006, 1, 2, 3, 4006, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(4006, 4002, 4006, 4002, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(4006, 4006, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(4006, 4002, 4006, 11, 'Checkpoint review for submission 4006', 1, 132456, current, 132456, current);
+
+INSERT INTO project_studio_specification(project_studio_spec_id, general_feedback, create_user, create_date, modify_user, modify_date) VALUES(4011, null, 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, create_user, create_date, modify_user, modify_date) VALUES(4010, 2, 14, 132456, 4010, current, 132456, current);
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date) VALUES(4011, 2, 17, 132456, 4011, 4011, current, 132456, current);

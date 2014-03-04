@@ -1,7 +1,7 @@
     /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.12
+ * @version 1.13
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi
  * @changes from 1.0
  * merged with Member Registration API
@@ -31,6 +31,8 @@
  * Added 'private_description_text' field for copilot challenge details api
  * changes in 1.12
  * refactor out the getChallengeTerms functionality into initializers/challengeHelper.js.
+ * changes in 1.13:
+ * add API for checkpoint results for software and studio
  */
 "use strict";
 
@@ -325,6 +327,59 @@ function transferResult(src, helper) {
     return ret;
 }
 
+/**
+ * Check input data.
+ * Verify challengeId is correct number.
+ * It exists and it's studio or software.
+ * User has permissions to this challenge.
+ * @param {Object} api The api object that is used to access the global infrastructure.
+ * @param {Object} connection The connection object for the current request.
+ * @param {Object} dbConnectionMap The database connection map for the current request.
+ * @param {Number} challengeId the challenge id.
+ * @param {Boolean} isStudio true if challenge is studio challenge, false if software.
+ * @param {Function<err>} callback the callback function. It will pass error if any information are invalid.
+ * @since 1.10
+ */
+function validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, callback) {
+    var error, sqlParams, helper = api.helper;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                challengeId: challengeId,
+                user_id: connection.caller.userId || 0
+            };
+            async.parallel({
+                accessibility: function (cbx) {
+                    api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cbx);
+                },
+                exists:  function (cbx) {
+                    api.dataAccess.executeQuery('check_challenge_exists', sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
+        }, function (res, cb) {
+            if (res.exists.length === 0 || Boolean(res.exists[0].is_studio) !== isStudio) {
+                cb(new NotFoundError("Challenge not found."));
+                return;
+            }
+            var access = res.accessibility[0];
+            if (access.is_private && !access.has_access && connection.caller.accessLevel !== "admin") {
+                if (connection.caller.accessLevel === "anon") {
+                    cb(new UnauthorizedError());
+                } else {
+                    cb(new ForbiddenError());
+                }
+                return;
+            }
+            cb();
+        }
+    ], callback);
+}
 
 /**
  * This is the function that actually search challenges
@@ -1121,6 +1176,62 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
     });
 };
 
+/**
+ * Gets the checkpoint results for studio or software challenge
+ *
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Boolean} isStudio True if studio checkpoint, false if software
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ * @since 1.10
+ */
+var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) {
+    var result = {}, helper = api.helper, challengeId = Number(connection.params.challengeId),
+        feedbackQueryName = isStudio ?
+                "get_studio_checkpoint_general_feedback" : "get_software_checkpoint_general_feedback",
+        sqlParams = {
+            challengeId: challengeId,
+            user_id: connection.caller.userId || 0,
+            projectCategory: isStudio ? helper.studio.category : helper.software.category
+        };
+    async.waterfall([
+        function (cb) {
+            //whole validation is here
+            validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, cb);
+        }, function (cb) {
+            async.parallel({
+                detail: function (cbx) {
+                    api.dataAccess.executeQuery('get_checkpoint_detail', sqlParams, dbConnectionMap, cbx);
+                },
+                feedback: function (cbx) {
+                    api.dataAccess.executeQuery(feedbackQueryName, sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
+        }, function (res, cb) {
+            var generalFeedback = "", hasGeneralFeedback = true;
+            if (res.feedback.length === 0 || !_.isDefined(res.feedback[0].general_feedback)) {
+                hasGeneralFeedback = false;
+            } else {
+                generalFeedback = res.feedback[0].general_feedback || "";
+            }
+            if (res.detail.length === 0 && !hasGeneralFeedback) {
+                cb(new NotFoundError("Checkpoint data not found."));
+                return;
+            }
+            result.checkpointResults = res.detail;
+            result.generalFeedback = generalFeedback;
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
 
 /**
  * The API for getting challenge terms of use
@@ -1509,8 +1620,8 @@ exports.getSoftwareChallengeResults = {
             api.helper.handleNoConnection(api, connection, next);
         }
     }
-}
- 
+};
+
 /**           
  * The API for posting submission to software challenge
  * @since 1.10
@@ -1555,6 +1666,58 @@ exports.getStudioChallengeResults = {
         if (connection.dbConnectionMap) {
             api.log("Execute getStudioChallengeResults#run", 'debug');
             getChallengeResults(api, connection, connection.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for software checkpoint
+ * @since 1.13
+ */
+exports.getSoftwareCheckpoint = {
+    name: "getSoftwareCheckpoint",
+    description: "getSoftwareCheckpoint",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getSoftwareCheckpoint#run", 'debug');
+            getCheckpoint(api, connection, connection.dbConnectionMap, false, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for studio checkpoint
+ * @since 1.13
+ */
+exports.getStudioCheckpoint = {
+    name: "getStudioCheckpoint",
+    description: "getStudioCheckpoint",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getStudioCheckpoint#run", 'debug');
+            getCheckpoint(api, connection, connection.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

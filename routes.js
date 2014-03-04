@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.13
+ * @version 1.15
  * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
@@ -33,6 +33,9 @@
  * - added register challenge for a given user api.
  * Changes in 1.14:
  * - added route for active billing accounts
+ * - added routes for terms api
+ * Changes in 1.15:
+ * - added routes for getting studio and software checkpoints
  */
 
 /* ---------------------
@@ -101,6 +104,9 @@ exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
+
+        { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
+        { path: "/:apiVersion/design/challenges/checkpoint/:challengeId", action: "getStudioCheckpoint" },
 
         { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
