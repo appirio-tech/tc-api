@@ -1,0 +1,5 @@
+{
+    "name"    : "get_user_basic_profile_private",
+    "db"      : "common_oltp",
+    "sqlfile" : "get_user_basic_profile_private"
+}

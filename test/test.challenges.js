@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author Sky_, Ghost_141
+ * @version 1.6
+ * @author Sky_, Ghost_141, OlinaRuan, xjtufreeman
  * changes in 1.1:
  * - remove studio tests
  * changes in 1.2:
@@ -11,6 +11,12 @@
  * update the test for private challenge support.
  * changes in 1.4:
  * update the test for search private challenges support
+ * changes in 1.5
+ * update to test text columns for challenge details API.
+ * All test cases written for challenge details API are updated to compare text column,
+ * for example "/v2/design/challenges/10041" around line #1141.
+ * changes in 1.6
+ * Add test cases to test the new field 'private_description_text' for copilot postings.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach, __dirname */
@@ -33,7 +39,7 @@ var TCS_DW = 'tcs_dw';
 var CORPORATE_OLTP = 'corporate_oltp';
 var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
 var software_collection_length = {};
-software_collection_length[ListType.ACTIVE] = 5;
+software_collection_length[ListType.ACTIVE] = 4;
 software_collection_length[ListType.OPEN] = 4;
 software_collection_length[ListType.UPCOMING] = 2;
 software_collection_length[ListType.PAST] = 2;
@@ -220,7 +226,7 @@ describe('Test Challenges API', function () {
             /**
              * Test develop/challenges?listType=active
              */
-            it('should return 5 ACTIVE challenges', function (done) {
+            it('should return 4 ACTIVE challenges', function (done) {
                 assertCollection(ListType.ACTIVE, done);
             });
 
@@ -344,14 +350,14 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=active&sortColumn=submissionEndDate
              */
             it("should return results for ?listType=active&sortColumn=submissionEndDate", function (done) {
-                validateResult("listType=active&sortColumn=submissionEndDate", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1, 2], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=submissionEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=submissionEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
@@ -668,7 +674,7 @@ describe('Test Challenges API', function () {
         });
 
         describe('-- Search Both Challenges --', function () {
-            it('should return 8 Active challenges', function (done) {
+            it('should return 7 Active challenges', function (done) {
                 request(API_ENDPOINT)
                     .get('/v2/challenges?listType=active')
                     .set('Accept', 'application/json')
@@ -676,10 +682,10 @@ describe('Test Challenges API', function () {
                     .expect(200)
                     .end(function (err, res) {
                         var body = res.body;
-                        assert.equal(body.total, 8, 'Invalid total number');
+                        assert.equal(body.total, 7, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
-                        assert.equal(body.data.length, 8, 'Invalid data length');
+                        assert.equal(body.data.length, 7, 'Invalid data length');
                         done();
                     });
             });
@@ -944,6 +950,10 @@ describe('Test Challenges API', function () {
                     clearDb,
                     function (cb) {
                         testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert.sql", TCS_CATALOG, cb);
+                    },
+                    function (cb) {
+                        testHelper.updateTextColumn('update project_spec set detailed_requirements_text = ?, final_submission_guidelines_text = ?, private_description_text = ?', 'tcs_catalog',
+                            [{type: 'text', value : 'detailed requirement content'}, {type: 'text', value: 'final submission guideline content'}, {type: 'text', value: 'copilot private_description_text'}], cb);
                     }
                 ], done);
             });
@@ -970,6 +980,72 @@ describe('Test Challenges API', function () {
                     .expect(expectStatus)
                     .end(cb);
             }
+
+            /**
+             * develop/challenges/32500000
+             */
+            it('should return Copilot Post details for admin', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/develop/challenges/' + '32500000')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', heffanAuthHeader)
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) {
+                            done(err);
+                        }
+                        var expected = require('./test_files/expected_copilot_challenge_detail.json');
+                        delete res.body.serverInformation;
+                        delete res.body.requesterInformation;
+                        // The time in test data is not constant.
+                        delete res.body.postingDate;
+                        delete res.body.registrationEndDate;
+                        delete res.body.checkpointSubmissionEndDate;
+                        delete res.body.appealsEndDate;
+                        delete res.body.finalFixEndDate;
+                        delete res.body.submissionEndDate;
+                        delete res.body.currentPhaseEndDate;
+                        delete res.body.currentPhaseRemainingTime;
+                        delete res.body.registrants[0].registrationDate;
+                        delete res.body.submissions[0].submissionDate;
+                        assert.deepEqual(res.body, expected, 'Invalid response');
+                        done();
+                    });
+            });
+
+            /**
+             * develop/challenges/32500000
+             */
+            it('should return Copilot Post details for copilot', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/develop/challenges/' + '32500000')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', userAuthHeader)
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) {
+                            done(err);
+                        }
+                        var expected = require('./test_files/expected_copilot_challenge_detail.json');
+                        delete res.body.serverInformation;
+                        delete res.body.requesterInformation;
+                        // The time in test data is not constant.
+                        delete res.body.postingDate;
+                        delete res.body.registrationEndDate;
+                        delete res.body.checkpointSubmissionEndDate;
+                        delete res.body.appealsEndDate;
+                        delete res.body.finalFixEndDate;
+                        delete res.body.submissionEndDate;
+                        delete res.body.currentPhaseEndDate;
+                        delete res.body.currentPhaseRemainingTime;
+                        delete res.body.registrants[0].registrationDate;
+                        delete res.body.submissions[0].submissionDate;
+                        assert.deepEqual(res.body, expected, 'Invalid response');
+                        done();
+                    });
+            });
 
             /**
              * develop/challenges/30400000
@@ -1028,8 +1104,8 @@ describe('Test Challenges API', function () {
                                 delete res.body.registrationEndDate;
                                 delete res.body.checkpointSubmissionEndDate;
                                 delete res.body.appealsEndDate;
-                                delete res.body.finalFixEndDate;
                                 delete res.body.submissionEndDate;
+                                delete res.body.finalFixEndDate;
                                 delete res.body.currentPhaseEndDate;
                                 delete res.body.currentPhaseRemainingTime;
                                 delete res.body.registrants[0].registrationDate;
@@ -1119,6 +1195,8 @@ describe('Test Challenges API', function () {
                     },
                     function (cb) {
                         testHelper.runSqlFile(SQL_DIR + "tcs_dw__insert_test_data", TCS_DW, cb);
+                    }, function (cb) {
+                        testHelper.updateTextColumn('update project_studio_specification set contest_description_text = ?', 'tcs_catalog', [{type: 'text', value: 'studio detail requirement'}], cb);
                     }
                 ], done);
             });
@@ -1126,20 +1204,6 @@ describe('Test Challenges API', function () {
             after(function (done) {
                 clearDb(done);
             });
-
-            /**
-             * Create request to search challenges API and assert 400 http code
-             * @param {String} challengeId - the challenge id
-             * @param {Function} done - the callback function
-             */
-            function assert400(challengeId, done) {
-                request(API_ENDPOINT)
-                    .get('/v2/design/challenges/' + challengeId)
-                    .set('Accept', 'application/json')
-                    .expect('Content-Type', /json/)
-                    .expect(400)
-                    .end(done);
-            }
 
             /**
              * /v2/design/challenges/10041
@@ -1152,6 +1216,7 @@ describe('Test Challenges API', function () {
                     .expect(200)
                     .end(function (err, res) {
                         var body = res.body;
+                        assert.isUndefined(res.body.finalFixEndDate, 'studio challenge should not contain final fix end date');
                         assert.lengthOf(body.submissions, 1, "invalid submissions count");
                         assert.lengthOf(body.checkpoints, 1, "invalid checkpoints count");
                         assert.lengthOf(body.winners, 1, "invalid winners count");
@@ -1162,6 +1227,9 @@ describe('Test Challenges API', function () {
                         delete body.submissions[0].submissionTime;
                         delete body.checkpoints[0].submissionTime;
                         delete body.registrants[0].registrationDate;
+                        delete body.registrants[1].registrationDate;
+                        delete body.registrants[2].registrationDate;
+                        delete body.registrants[3].registrationDate;
                         delete body.winners[0].submissionTime;
                         delete body.currentPhaseEndDate;
                         testHelper.assertResponse(err,
@@ -1194,6 +1262,9 @@ describe('Test Challenges API', function () {
                                 delete body.submissions[0].submissionTime;
                                 delete body.checkpoints[0].submissionTime;
                                 delete body.registrants[0].registrationDate;
+                                delete body.registrants[1].registrationDate;
+                                delete body.registrants[2].registrationDate;
+                                delete body.registrants[3].registrationDate;
                                 delete body.winners[0].submissionTime;
                                 delete body.currentPhaseEndDate;
                                 delete body.serverInformation;
@@ -1235,6 +1306,9 @@ describe('Test Challenges API', function () {
                                 delete body.submissions[0].submissionTime;
                                 delete body.checkpoints[0].submissionTime;
                                 delete body.registrants[0].registrationDate;
+                                delete body.registrants[1].registrationDate;
+                                delete body.registrants[2].registrationDate;
+                                delete body.registrants[3].registrationDate;
                                 delete body.winners[0].submissionTime;
                                 delete body.currentPhaseEndDate;
                                 delete body.serverInformation;
@@ -1275,6 +1349,9 @@ describe('Test Challenges API', function () {
                                 assert.ok(body.winners[0].submissionTime);
                                 delete body.submissions[0].submissionTime;
                                 delete body.registrants[0].registrationDate;
+                                delete body.registrants[1].registrationDate;
+                                delete body.registrants[2].registrationDate;
+                                delete body.registrants[3].registrationDate;
                                 delete body.checkpoints[0].submissionTime;
                                 delete body.winners[0].submissionTime;
                                 delete body.currentPhaseEndDate;

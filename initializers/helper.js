@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun
- * @version 1.9
+ * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
+ * @version 1.12
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -30,6 +30,17 @@
  * changes in 1.9:
  * - added a platform independent startsWith version to String prototype
  * - added more error types to handleError method
+ * changes in 1.10:
+ * - add isAdmin and isMember
+ * changes in 1.11
+ * - added handling of RequestTooLargeError
+ * changes in 1.12
+ * - add MAX_INT.
+ * - update apiName2dbNameMap.
+ * - update method isChallengeTypeValid to isChallengeTypeValid. And the check is based on project type now which make more sense.
+ * - update method getSortColumnDBName to lowercase the column name when search it.
+ * - update checkFilterDate to use checkDateFormat to check date value.
+ * - add method formatDate.
  */
 "use strict";
 
@@ -46,14 +57,15 @@ if (typeof String.prototype.startsWith !== 'function') {
 
 var async = require('async');
 var _ = require('underscore');
+var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
+var RequestTooLargeError = require('../errors/RequestTooLargeError');
 var helper = {};
 var crypto = require("crypto");
-var moment = require("moment");
 
 /**
  * software type.
@@ -79,6 +91,11 @@ helper.both = {
     community: 'both',
     category: [1, 2, 3]
 };
+
+/**
+ * The max value for integer.
+ */
+helper.MAX_INT = 2147483647;
 
 /**
  * The name in api response to database name map.
@@ -110,7 +127,14 @@ var apiName2dbNameMap = {
     submissionenddate: 'submission_end_date',
     finalfixenddate: 'final_fix_end_date',
     currentstatus: 'current_status',
-    digitalrunpoints: 'digital_run_points'
+    digitalrunpoints: 'digital_run_points',
+    reviewstart: 'review_start',
+    reviewend: 'review_end',
+    reviewtype: 'review_type',
+    numberofsubmissions: 'number_of_submissions',
+    numberofreviewpositionsavailable: 'number_of_review_positions_available',
+    round2scheduledstartdate: 'round_2_scheduled_start_date',
+    round1scheduledstartdate: 'round_1_scheduled_start_date'
 };
 
 /**
@@ -238,6 +262,11 @@ helper.studioChallengeTypes = {
     }
 };
 
+/**
+ * Max value for integer
+ */
+helper.MAX_INT = 2147483647;
+
 var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.phaseId, item.name];
 }));
@@ -293,6 +322,25 @@ helper.checkFunction = function (obj, objName) {
 helper.checkString = function (obj, objName) {
     if (!_.isString(obj)) {
         return new IllegalArgumentError(objName + " should be string.");
+    }
+    return null;
+};
+
+/**
+ * Check Object given object is string and is not null or empty after trimming.
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if invalid or null if valid.
+ */
+helper.checkStringPopulated = function (obj, objName) {
+    if (_.isUndefined(obj)) {
+        return new IllegalArgumentError(objName + " should be defined.");
+    }
+    if (!_.isString(obj)) {
+        return new IllegalArgumentError(objName + " should be string.");
+    }
+    if (_.isNull(obj) || obj.trim() === '') {
+        return new IllegalArgumentError(objName + " should be non-null and non-empty string.");
     }
     return null;
 };
@@ -394,7 +442,7 @@ helper.checkInteger = function (obj, objName) {
  * @return {Error} if input not valid.
  */
 helper.checkPageIndex = function (obj, objName) {
-    var result = helper.checkInteger(obj, objName);
+    var result = helper.checkMaxInt(obj, objName);
     if (result) {
         return result;
     }
@@ -426,9 +474,10 @@ helper.checkPositiveInteger = function (obj, objName) {
  * Check date valid or not.
  * @param {Object} date the obj to check.
  * @param {String} dateName the obj name.
+ * @param {String} dateFormat - the format of the date value.
  * @return {Error} if input not valid.
  */
-helper.checkFilterDate = function (date, dateName) {
+helper.checkFilterDate = function (date, dateName, dateFormat) {
     var result = helper.checkObject(date, dateName) ||
         helper.checkContains(helper.consts.ALLOWABLE_DATE_TYPE, date.type, dateName + ".type");
     if (result) {
@@ -436,13 +485,13 @@ helper.checkFilterDate = function (date, dateName) {
     }
     if (date.type.toUpperCase() !== helper.consts.AFTER_CURRENT_DATE &&
             date.type.toUpperCase() !== helper.consts.BEFORE_CURRENT_DATE) {
-        result = helper.checkString(date.firstDate, dateName + ".firstDate");
+        result = helper.checkDateFormat(date.firstDate, dateFormat, dateName + '.firstDate');
         if (!new Date(date.firstDate).getTime()) {
             result = result || new IllegalArgumentError(dateName + ".firstDate is invalid");
         }
     }
     if (date.type.toUpperCase() === helper.consts.BETWEEN_DATES) {
-        result = result || helper.checkString(date.secondDate, dateName + ".secondDate");
+        result = result || helper.checkDateFormat(date.secondDate, dateFormat, dateName + '.secondDate');
         if (!new Date(date.secondDate).getTime()) {
             result = result || new IllegalArgumentError(dateName + ".secondDate is invalid");
         }
@@ -467,17 +516,19 @@ helper.getLowerCaseList = function (arr) {
  * This method tests if the given category name is valid or not.
  * @param {String} name - name of the category.
  * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Object} challengeType - the challengeType object
  * @param {Function<err>} callback - the callback function
  */
-helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
-    var error = new IllegalArgumentError("The type parameter is not a correct project category value.");
+helper.isChallengeTypeValid = function (name, dbConnectionMap, challengeType, callback) {
+    var error = new IllegalArgumentError("The challengeType parameter is not a correct project category value.");
     if (!name) {
         callback(error);
         return;
     }
     async.waterfall([
         function (cb) {
-            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid", { categoryName: name }, dbConnectionMap, cb);
+            helper.api.dataAccess.executeQuery("restapi_statistics_category_name_valid",
+                { categoryName: name, projectTypeId: challengeType.category }, dbConnectionMap, cb);
         }, function (result, cb) {
             if (!result.length) {
                 cb(error);
@@ -491,6 +542,7 @@ helper.isCategoryNameValid = function (name, dbConnectionMap, callback) {
         }
     ], callback);
 };
+
 /**
  * Check whether given integer is not greater than given max.
  * @param {Object} obj the obj to check.
@@ -584,6 +636,11 @@ helper.apiCodes = {
         value: 403,
         description: 'The request is understood, but it has been refused or access is not allowed.'
     },
+    requestTooLarge: {
+        name: 'Request Too Large',
+        value: 413,
+        description: 'The request is understood, but is larger than the server is willing or able to process.'
+    },
     notFound: {
         name: 'Not Found',
         value: 404,
@@ -617,6 +674,9 @@ helper.handleError = function (api, connection, err) {
     }
     if (err instanceof ForbiddenError) {
         baseError = helper.apiCodes.forbidden;
+    }
+    if (err instanceof RequestTooLargeError) {
+        baseError = helper.apiCodes.requestTooLarge;
     }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;
@@ -687,8 +747,8 @@ helper.getReliabilityBonus = function (prize) {
  * @param {String} apiName - the api name to sort.
  */
 helper.getSortColumnDBName = function (apiName) {
-    if (_.isDefined(apiName2dbNameMap[apiName])) {
-        return apiName2dbNameMap[apiName];
+    if (_.isDefined(apiName2dbNameMap[apiName.toLowerCase()])) {
+        return apiName2dbNameMap[apiName.toLowerCase()];
     }
     return apiName;
 };
@@ -873,6 +933,15 @@ helper.checkDateFormat = function (date, format, objName) {
 };
 
 /**
+ * Format the date to a specific pattern.
+ * @param {String} date - the date value.
+ * @param {String} format - the date format pattern.
+ */
+helper.formatDate = function (date, format) {
+    return moment(date).format(format);
+};
+
+/**
  * Check whether given user is Admin or not
  * @param connection
  * @return {Error} if user is not admin
@@ -896,7 +965,66 @@ helper.checkAdmin = function (connection) {
  * @return {Error} if input not valid.
  */
 helper.checkMaxInt = function (obj, objName) {
-    return helper.checkMaxNumber(obj, 2147483647, objName);
+    return helper.checkMaxNumber(obj, helper.MAX_INT, objName);
+};
+
+/**
+ * Check if the caller is admin of TopCoder community.
+ * @param {Object} caller - the caller of api.
+ * @since 1.8
+ */
+helper.isAdmin = function (caller) {
+    return caller.accessLevel === 'admin';
+};
+
+/**
+ * Check if the caller is member of TopCoder community.
+ * @param {Object} caller - the caller of api.
+ * @since 1.8
+ */
+helper.isMember = function (caller) {
+    return caller.accessLevel === 'member' || caller.accessLevel === 'admin';
+};
+
+/**
+ * Check if the date is a valid date value.
+ * @param {String} dateVal - the date value.
+ * @param {String} dateName - the date name.
+ * @param {String} format - the date format.
+ * @since 1.8
+ */
+helper.validateDate = function (dateVal, dateName, format) {
+    if (!moment(dateVal, format, true).isValid()) {
+        return new IllegalArgumentError(dateName + ' is not a valid date.');
+    }
+    return null;
+};
+
+/**
+ * Check dates. Check if the start date is after the end date or the start date and end date are same date.
+ * @param {String} startDate - the start date value.
+ * @param {String} endDate - the end date value.
+ * @since 1.8
+ */
+helper.checkDates = function (startDate, endDate) {
+    if (moment(startDate).isAfter(endDate) || moment(startDate).isSame(endDate)) {
+        return new IllegalArgumentError('startDate should be earlier than endDate or at same date.');
+    }
+    return null;
+};
+
+/**
+ * Format the date value to determine format.
+ * Will return empty string if the date is null.
+ * @param {String} date - the date value.
+ * @param {String} format - the format.
+ * @since 1.8
+ */
+helper.formatDate = function (date, format) {
+    if (date) {
+        return moment(date).format(format);
+    }
+    return '';
 };
 
 /**

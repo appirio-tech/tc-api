@@ -150,47 +150,22 @@
     ],
     "Achievements": [
         {
-            "description": "First Forum Post",
-            "badgeLink": {
-                "url": "http://topcoder.com/images/badge.grid.small.png",
-                "leftOffset": 0,
-                "topOffset": 0
-            }
+            "description": "First Forum Post"
         },
         {
             "description": "Algorithm Coder of the Month"
         },
         {
-            "description": "One Hundred Forum Posts",
-            "badgeLink": {
-                "url": "http://topcoder.com/images/badge.grid.small.png",
-                "leftOffset": -17,
-                "topOffset": 0
-            }
+            "description": "One Hundred Forum Posts"
         },
         {
-            "description": "First Passing Submission",
-            "badgeLink": {
-                "url": "http://topcoder.com/images/badge.grid.small.png",
-                "leftOffset": 0,
-                "topOffset": -17
-            }
+            "description": "First Passing Submission"
         },
         {
-            "description": "First Milestone Prize",
-            "badgeLink": {
-                "url": "http://topcoder.com/images/badge.grid.small.png",
-                "leftOffset": 0,
-                "topOffset": -34
-            }
+            "description": "First Milestone Prize"
         },
         {
-            "description": "First Placement",
-            "badgeLink": {
-                "url": "http://topcoder.com/images/badge.grid.small.png",
-                "leftOffset": 0,
-                "topOffset": -51
-            }
+            "description": "First Placement"
         }
     ]
 }

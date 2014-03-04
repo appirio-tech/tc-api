@@ -1,0 +1,5 @@
+SELECT rating
+FROM user_reliability 
+WHERE
+	user_id = @userId@ AND
+	phase_id = (SELECT 111 + project_category_id FROM project WHERE project_id = @challengeId@)

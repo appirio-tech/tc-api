@@ -1,0 +1,4 @@
+DELETE FROM demographic_response;
+DELETE FROM user_address_xref WHERE address_id > 9990000 AND address_id < 9999999;
+DELETE FROM address WHERE address_id > 9990000 AND address_id < 9999999;
+DELETE FROM email WHERE email_id > 9990000 AND email_id < 9999999;

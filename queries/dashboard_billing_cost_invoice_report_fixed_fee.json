@@ -1,0 +1,5 @@
+{
+    "name"    : "dashboard_billing_cost_invoice_report_fixed_fee",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "dashboard_billing_cost_invoice_report_fixed_fee"
+}

@@ -1,0 +1,200 @@
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 1, 14, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 2001, 2, 2, current - 10 units day, current + 10 units day, 1728000000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 2001, 4, 1, current + 10 units day, current + 12 units day, 172800000, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 6, 'Test Challenge 2001', 132456, current, 132456, current);
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 6, 3, 132456, current ,132456, current);
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id)
+VALUES(2001, 2001, 1);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 2001, 1, 1800, 15, 3, 132456, current, 132456, current);
+
+-- spec review
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 1, 14, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 6, 'Test Challenge 2002', 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 2002, 13, 2, current, current + 1 units day, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 2002, 14, 1, current + 1 units day, current + 2 units day, 86400000, 132456, current, 132456, current);
+INSERT INTO phase_dependency(dependency_phase_id, dependent_phase_id, dependency_start, dependent_start, lag_time, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 2004, 1, 1, 0, 132456, current, 132456, current);
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id)
+VALUES(2002, 2002, 3);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 2002, 1, 1800, 15, 3, 132456, current, 132456, current);
+
+-- iterative review
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 1, 38, 132456, current, 132456, current);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 6, 'Test Challenge 2003', 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2005, 2003, 2, 2, current, current + 1 units day, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2006, 2003, 18, 1, current + 1 units day, current + 2 units day, 86400000, 132456, current, 132456, current);
+INSERT INTO phase_dependency(dependency_phase_id, dependent_phase_id, dependency_start, dependent_start, lag_time, create_user, create_date, modify_user, modify_date)
+VALUES(2005, 2006, 1, 1, 0, 132456, current, 132456, current);
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2006, 6, 3, 132456, current ,132456, current);
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id)
+VALUES(2003, 2003, 4);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 2003, 1, 1800, 15, 3, 132456, current, 132456, current);
+
+-- studio review
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3001, 1, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3001, 6, 'test project 3001', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, actual_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3001, 3001, 1, 2, CURRENT - 3 UNITS DAY, CURRENT - 3 UNITS DAY, CURRENT - 1 UNITS DAY, 172800000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3002, 3001, 2, 2, CURRENT - 3 UNITS DAY, CURRENT + 1 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3003, 3001, 3, 2, CURRENT + 1 UNITS DAY, CURRENT + 2 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3004, 3001, 16, 2, CURRENT - 1 UNITS DAY, CURRENT, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3001, 2, 3001, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3001, 1, 124766, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3002, 1, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3002, 6, 'test project 3002', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, actual_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3005, 3002, 1, 2, CURRENT - 3 UNITS DAY, CURRENT - 3 UNITS DAY, CURRENT - 1 UNITS DAY, 172800000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3006, 3002, 2, 2, CURRENT - 3 UNITS DAY, CURRENT + 1 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3007, 3002, 3, 2, CURRENT + 1 UNITS DAY, CURRENT + 2 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3008, 3002, 16, 2, CURRENT - 1 UNITS DAY, CURRENT, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3002, 19, 3002, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3002, 1, 124766, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3003, 1, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3003, 6, 'test project 3003', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, actual_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3009, 3003, 1, 2, CURRENT - 3 UNITS DAY, CURRENT - 3 UNITS DAY, CURRENT - 1 UNITS DAY, 172800000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3010, 3003, 2, 2, CURRENT - 3 UNITS DAY, CURRENT + 1 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3011, 3003, 3, 2, CURRENT + 1 UNITS DAY, CURRENT + 2 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3012, 3003, 16, 2, CURRENT - 1 UNITS DAY, CURRENT, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3003, 2, 3003, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3003, 1, 124861, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3004, 1, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3004, 6, 'test project 3004', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, actual_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3013, 3004, 1, 2, CURRENT - 3 UNITS DAY, CURRENT - 3 UNITS DAY, CURRENT - 1 UNITS DAY, 172800000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3014, 3004, 2, 2, CURRENT - 3 UNITS DAY, CURRENT + 1 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3015, 3004, 3, 2, CURRENT + 1 UNITS DAY, CURRENT + 2 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3016, 3004, 16, 2, CURRENT - 1 UNITS DAY, CURRENT, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3004, 2, 3004, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3004, 1, 124857, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3005, 1, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3005, 6, 'test project 3005', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, actual_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3017, 3005, 1, 2, CURRENT - 3 UNITS DAY, CURRENT - 3 UNITS DAY, CURRENT - 1 UNITS DAY, 172800000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3018, 3005, 2, 2, CURRENT - 3 UNITS DAY, CURRENT + 1 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3019, 3005, 3, 2, CURRENT + 1 UNITS DAY, CURRENT + 2 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3020, 3005, 16, 2, CURRENT - 1 UNITS DAY, CURRENT, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3005, 19, 3005, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3005, 1, 132457, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3006, 1, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3006, 6, 'test project 3006', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3021, 3006, 2, 1, CURRENT + 1 UNITS DAY, CURRENT + 5 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3022, 3006, 14, 2, CURRENT, CURRENT + 1 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3006, 18, 3006, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3006, 1, 124834, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3007, 1, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3007, 6, 'test project 3007', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3023, 3007, 2, 1, CURRENT + 1 UNITS DAY, CURRENT + 5 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3024, 3007, 14, 2, CURRENT, CURRENT + 1 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3007, 18, 3007, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3007, 1, 132456, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3008, 1, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3008, 6, 'test project 3008', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3025, 3008, 2, 1, CURRENT + 1 UNITS DAY, CURRENT + 5 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3026, 3008, 14, 2, CURRENT, CURRENT + 1 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3008, 18, 3008, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3008, 1, 124764, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3009, 1, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3009, 6, 'test project 3009', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3027, 3009, 2, 1, CURRENT + 1 UNITS DAY, CURRENT + 5 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3028, 3009, 14, 2, CURRENT, CURRENT + 1 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3009, 18, 3009, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3009, 1, 124772, 'heffan', CURRENT, 'heffan', CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(3010, 1, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3010, 6, 'test project 3010', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3029, 3010, 2, 1, CURRENT + 1 UNITS DAY, CURRENT + 5 UNITS DAY, 345600000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(3030, 3010, 14, 2, CURRENT, CURRENT + 1 UNITS DAY, 86400000, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+VALUES(3010, 18, 3010, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(3010, 1, 124835, 'heffan', CURRENT, 'heffan', CURRENT);

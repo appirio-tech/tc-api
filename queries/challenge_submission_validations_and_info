@@ -1,0 +1,29 @@
+SELECT
+	pcl.project_category_id,
+	pps.project_phase_id as submission_phase_id,
+	ppcs.project_phase_id as checkpoint_submission_phase_id,
+	pcl.project_type_id IN (1,2) as is_develop_challenge,
+	pps.project_phase_id IS NOT NULL as is_submission_open,
+	ppcs.project_phase_id IS NOT NULL as is_checkpoint_submission_open,
+	r.resource_id,
+	r.resource_id IS NOT NULL as is_user_submitter_for_challenge,
+	(NVL(piams.value, 'false') = 'true') as multiple_submissions_possible,
+	pithp.value as thurgood_platform,
+	pithl.value as thurgood_language,
+	u.handle as user_handle,
+	ue.address as user_email
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+LEFT JOIN project_phase pps ON pps.project_id = p.project_id AND pps.phase_type_id = 2 AND pps.phase_status_id = 2
+LEFT JOIN project_phase ppcs ON ppcs.project_id = p.project_id AND ppcs.phase_type_id = 15 AND ppcs.phase_status_id = 2
+LEFT JOIN (
+	resource r INNER JOIN resource_info ri 
+	ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1 AND ri.value = '@userId@'
+	AND r.resource_role_id = 1
+) ON r.project_id = p.project_id
+LEFT JOIN project_info piams ON piams.project_id = p.project_id AND piams.project_info_type_id = 28
+LEFT JOIN project_info pithp ON pithp.project_id = p.project_id AND pithp.project_info_type_id = 75
+LEFT JOIN project_info pithl ON pithl.project_id = p.project_id AND pithl.project_info_type_id = 76
+INNER JOIN informix.user u ON u.user_id = @userId@
+INNER JOIN informix.email ue ON u.user_id = ue.user_id AND ue.email_type_id = 1
+WHERE p.project_id = @challengeId@;

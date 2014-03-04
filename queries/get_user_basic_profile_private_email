@@ -1,0 +1,8 @@
+SELECT e.address AS email
+  , etl.email_type_desc AS type
+  , esl.status_desc AS status
+FROM user u, email e, email_type_lu etl, email_status_lu esl
+WHERE LOWER(u.handle) = LOWER('@handle@')
+  AND e.user_id = u.user_id
+  AND etl.email_type_id = e.email_type_id
+  AND esl.status_id = e.status_id

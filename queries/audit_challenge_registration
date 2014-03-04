@@ -1,0 +1,18 @@
+INSERT INTO project_user_audit 
+	(	project_user_audit_id,
+		project_id,
+		resource_user_id, 
+		resource_role_id,
+		audit_action_type_id,
+		action_date, 
+		action_user_id
+	) 
+VALUES 
+	(	PROJECT_USER_AUDIT_SEQ.nextval,
+		@projectId@,
+		@resourceUserId@,
+		@resourceRoleId@,
+		@auditActionTypeId@,
+		CURRENT,
+		@actionUserId@
+	)

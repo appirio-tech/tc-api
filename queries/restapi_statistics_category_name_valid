@@ -1,3 +1,4 @@
 SELECT COUNT(project_category_id) AS val 
 FROM project_category_lu
 WHERE LOWER(name) = LOWER('@categoryName@')
+AND project_type_id IN (@projectTypeId@)

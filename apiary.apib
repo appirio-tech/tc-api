@@ -51,6 +51,7 @@ Authorization APIs
             "description":"Servers are up but overloaded. Try again later."
         }            
 
+
 # Group Reports
 Report APIs
 
@@ -312,10 +313,11 @@ Register a new user.
         "country" : "UK",
         "email" : "name@domain.com",
         "socialProvider" : "google",
+        "socialUserId": "3003300",
         "socialUserName" : "JohnsGoogleName",
         "socialEmail" : "john@gmail.com",
         "socialEmailVerified" : "true",
-        "regSource": "http://registration.source.domain.com"
+        "regSource": "TC API"
     }
 
 + Response 200 (application/json)
@@ -368,9 +370,22 @@ Register a new user.
 
 ## Basic User Profile [/users/{handle}]
 ### Basic User Profile [GET]
+- if no jwt passed, simply return the public info as current.
+- if jwt passed but not an admin and the same user as request, simply return the public info as current.
+- if jwt is present and the same user as request (viewing his own profile), return the public info as current plus the private info email, name, address, age, gender, and shirt_size.
+- if jwt is present and not the same user as request but an admin role, return the public info as current plus the private info email, name, address, age, gender, and shirt_size.
+- First 200 response: pivate result included
+- Second 200 responss: public result only<br>
+
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
+
++ Request
+    
+    + Headers
+        
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
 
 + Response 200 (application/json)
 
@@ -408,187 +423,228 @@ Register a new user.
             [
                 {
                   "date": "03.17.2013 00:00 EDT",
-                  "description": "First Forum Post",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": 0
-                  }
+                  "description": "First Forum Post"
                  },
                  {
                   "date": "02.19.2013 00:00 EST",
-                  "description": "One Hundred Forum Posts",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": 0
-                  }
+                  "description": "One Hundred Forum Posts"
                  },
                  {
                   "date": "10.03.2012 00:00 EDT",
-                  "description": "First Passing Submission",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -17
-                  }
+                  "description": "First Passing Submission"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First Successful Challenge",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -255
-                  }
+                  "description": "First Successful Challenge"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Five Rated Algorithm Competitions",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -204
-                  }
+                  "description": "Five Rated Algorithm Competitions"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Five Successful Challenges",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -255
-                  }
+                  "description": "Five Successful Challenges"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "SRM Winner Div 2",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -34,
-                   "topOffset": -85
-                  }
+                  "description": "SRM Winner Div 2"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Solved Hard Div1 Problem in SRM",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -68,
-                   "topOffset": -102
-                  }
+                  "description": "Solved Hard Div1 Problem in SRM"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First Rated Algorithm Competition",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -204
-                  }
+                  "description": "First Rated Algorithm Competition"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Solved Hard Div2 Problem in SRM",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -119
-                  }
+                  "description": "Solved Hard Div2 Problem in SRM"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First SRM Room Win (Any Division)",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -221
-                  }
+                  "description": "First SRM Room Win (Any Division)"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "Ten Solved Algorithm Problems",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -238
-                  }
+                  "description": "Ten Solved Algorithm Problems"
                  },
                  {
                   "date": "09.28.2012 00:00 EDT",
-                  "description": "First Solved Algorithm Problem",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -238
-                  }
+                  "description": "First Solved Algorithm Problem"
                  },
                  {
                   "date": "09.17.2012 00:00 EDT",
-                  "description": "Five Hundred Forum Posts",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -34,
-                   "topOffset": 0
-                  }
+                  "description": "Five Hundred Forum Posts"
                  },
                  {
                   "date": "08.27.2012 00:00 EDT",
-                  "description": "First Win",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -68
-                  }
+                  "description": "First Win"
                  },
                  {
                   "date": "08.27.2012 00:00 EDT",
-                  "description": "First Placement",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": 0,
-                   "topOffset": -51
-                  }
+                  "description": "First Placement"
                  },
                  {
                   "date": "08.20.2012 00:00 EDT",
-                  "description": "TopCoder Reviewer",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png"
-                  }
+                  "description": "TopCoder Reviewer"
                  },
                  {
                   "date": "04.10.2012 00:00 EDT",
-                  "description": "2012 TopCoder Open Mod Dash Champion",
-                  "badgeLink": {}
+                  "description": "2012 TopCoder Open Mod Dash Champion"
                  },
                  {
                   "date": "04.07.2012 00:00 EDT",
-                  "description": "One Thousand Forum Posts",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -51,
-                   "topOffset": 0
-                  }
+                  "description": "One Thousand Forum Posts"
                  },
                  {
                   "date": "09.28.2011 00:00 EDT",
-                  "description": "2011 TopCoder Open Mod Dash Finalists",
-                  "badgeLink": {}
+                  "description": "2011 TopCoder Open Mod Dash Finalists"
                  },
                  {
                   "date": "10.14.2010 00:00 EDT",
-                  "description": "2010 TopCoder Open Mod Dash Finalist",
-                  "badgeLink": {}
+                  "description": "2010 TopCoder Open Mod Dash Finalist"
                  },
                  {
                   "date": "10.21.2005 00:00 EDT",
-                  "description": "Twenty Five Placements",
-                  "badgeLink": {
-                   "url": "http://topcoder.com/images/badge.grid.small.png",
-                   "leftOffset": -17,
-                   "topOffset": -51
+                  "description": "Twenty Five Placements"
+                 }
+            ],
+            "emails": [
+            {
+                "email": "foo@fooonyou.com",
+                "type": "Primary",
+                "status": "Active"
+            }
+            ],
+            "name": "firstdok lastdok",
+            "address": "address1, city, Maine, 04043, United States",
+            "age": "25 - 34",
+            "gender": "Male",
+            "shirt_size": "Medium"
+        }
+
++ Response 200 (application/json)
+
+        {
+             "handle": "hohosky",
+             "country": "China",
+             "memberSince": "09.28.2005 15:47 EDT",
+             "overallEarning": 0,
+             "quote": "Focus is a matter of deciding what things you're not going to do.",
+             "ratingsSummary": [
+                  {
+                   "name": "Development",
+                   "rating": 1906,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Design",
+                   "rating": 1516,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Specification",
+                   "rating": 1747,
+                   "colorStyle": "color: #DDCC00"
                   }
+             ],
+             "photoLink": "/i/m/hohosky_big.jpg",
+             "isCopilot": {
+                  "value": true,
+                  "software": false,
+                  "studio": false
+             },
+             "isPM": false,
+            "Achievements":
+            [
+                {
+                  "date": "03.17.2013 00:00 EDT",
+                  "description": "First Forum Post"
+                 },
+                 {
+                  "date": "02.19.2013 00:00 EST",
+                  "description": "One Hundred Forum Posts"
+                 },
+                 {
+                  "date": "10.03.2012 00:00 EDT",
+                  "description": "First Passing Submission"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Successful Challenge"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Rated Algorithm Competitions"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Successful Challenges"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "SRM Winner Div 2"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div1 Problem in SRM"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Rated Algorithm Competition"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div2 Problem in SRM"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First SRM Room Win (Any Division)"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Ten Solved Algorithm Problems"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Solved Algorithm Problem"
+                 },
+                 {
+                  "date": "09.17.2012 00:00 EDT",
+                  "description": "Five Hundred Forum Posts"
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Win"
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Placement"
+                 },
+                 {
+                  "date": "08.20.2012 00:00 EDT",
+                  "description": "TopCoder Reviewer"
+                 },
+                 {
+                  "date": "04.10.2012 00:00 EDT",
+                  "description": "2012 TopCoder Open Mod Dash Champion"
+                 },
+                 {
+                  "date": "04.07.2012 00:00 EDT",
+                  "description": "One Thousand Forum Posts"
+                 },
+                 {
+                  "date": "09.28.2011 00:00 EDT",
+                  "description": "2011 TopCoder Open Mod Dash Finalists"
+                 },
+                 {
+                  "date": "10.14.2010 00:00 EDT",
+                  "description": "2010 TopCoder Open Mod Dash Finalist"
+                 },
+                 {
+                  "date": "10.21.2005 00:00 EDT",
+                  "description": "Twenty Five Placements"
                  }
             ]
         }
@@ -631,11 +687,11 @@ Register a new user.
 ### Get Review Opportunities [GET]
 
 + Parameters
-    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: type, contestName, catalog, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
-    + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
 
 + Response 200 (application/json)
@@ -652,7 +708,7 @@ Register a new user.
                     "reviewStart": "10.29.2013 21:13 EDT",
                     "reviewEnd": "10.31.2013 21:13 EDT",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "First 2 Finish",
+                    "challengeType": "First 2 Finish",
                     "reviewType": "Iterative Review",
                     "challengeName": "Simple UI Fixes - Ganttview JS App",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039333",
@@ -665,9 +721,9 @@ Register a new user.
                     "reviewStart": "01.29.2014 16:05 EST",
                     "reviewEnd": "01.31.2014 16:05 EST",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "Assembly Competition",
+                    "challengeType": "Assembly Competition",
                     "reviewType": "Contest Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeName": "Module Assembly - TopCoder NodeJS Open Bugs API",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
                     "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
                 },
@@ -678,9 +734,9 @@ Register a new user.
                     "reviewStart": "01.24.2014 16:05 EST",
                     "reviewEnd": "01.24.2014 20:05 EST",
                     "numberOfReviewPositionsAvailable": 1,
-                    "type": "Assembly Competition",
+                    "challengeType": "Assembly Competition",
                     "reviewType": "Spec Review",
-                    "contestName": "Module Assembly - TopCoder NodeJS Open Bugs API",
+                    "challengeName": "Module Assembly - TopCoder NodeJS Open Bugs API",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039321",
                     "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=7048"
                 },
@@ -691,9 +747,9 @@ Register a new user.
                     "reviewStart": "01.27.2014 21:10 EST",
                     "reviewEnd": "01.30.2014 21:10 EST",
                     "numberOfReviewPositionsAvailable": 3,
-                    "type": "Code",
+                    "challengeType": "Code",
                     "reviewType": "Contest Review",
-                    "contestName": "Build a DocuSign iOS Application using REST API",
+                    "challengeName": "Build a DocuSign iOS Application using REST API",
                     "challengeLink": "http://community.topcoder.com/tc?module=ProjectDetail&pj=30039092",
                     "detailLink": "http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=6967"
                 }
@@ -1332,108 +1388,125 @@ Register a new user.
               "handle": "Luca",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T09:09:08.000Z"
             },
             {
               "handle": "freegod",
               "reliability": "40%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T09:27:46.000Z"
             },
             {
               "handle": "Ghost_141",
               "reliability": "53%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T09:31:53.000Z"
             },
             {
               "handle": "Gando19850304",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T09:56:15.000Z"
             },
             {
               "handle": "saarixx",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T10:19:36.000Z"
             },
             {
               "handle": "moulyg",
               "reliability": "30%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T10:21:05.000Z"
             },
             {
               "handle": "DanLazar",
               "reliability": "13%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T12:09:28.000Z"
             },
             {
               "handle": "Schpotsky",
               "reliability": "100%",
-              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T12:27:50.000Z"
             },
             {
               "handle": "Fantoccini",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T19:21:55.000Z"
             },
             {
               "handle": "Standlove",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T19:50:41.000Z"
             },
             {
               "handle": "brain_cn",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T21:41:37.000Z"
             },
             {
               "handle": "phead",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-02T21:44:32.000Z"
             },
             {
               "handle": "alfiya_Zi",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-03T00:49:54.000Z"
             },
             {
               "handle": "sunbinbrother",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-03T02:13:48.000Z"
             },
             {
               "handle": "muzehyun",
               "reliability": "0%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-03T03:15:31.000Z"
             },
             {
               "handle": "KeSyren",
               "reliability": "13%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-03T05:39:21.000Z"
             },
             {
               "handle": "Sky_",
               "reliability": "100%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-03T06:18:30.000Z"
             },
             {
               "handle": "woodjhon",
               "reliability": "6%",
               "rating": 1234,
+              "colorStyle": "color: #DDCC00",
               "registrationDate": "2013-12-03T07:19:29.000Z"
             }
           ],
@@ -1497,7 +1570,11 @@ Register a new user.
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-         ]
+         ],
+         "event": {
+             "id": 3437,
+             "description": "TCO"
+         }
         }
 
 + Response 200 (application/json)
@@ -1522,11 +1599,12 @@ Register a new user.
             "prize": [
             1000
             ],
-            "numberOfRegistrants": 1,
             "registrants": [
             {
                 "handle": "heffan",
-                "reliability": "100%"
+                "reliability": "100%",
+                "rating": 1800,
+                "colorStyle": "color: #DDCC00"
             }
             ],
             "submissions": [
@@ -1551,6 +1629,7 @@ Register a new user.
             }
             ],
             "numberOfSubmissions": 1,
+            "numberOfRegistrants": 1,
             "platforms": [
                 "AWS",
                 "Cloud Foundry"
@@ -1577,7 +1656,93 @@ Register a new user.
                 "scheduledStartTime": "2013-12-26T12:00:00.000Z",
                 "scheduledEndTime": "2014-01-01T12:00:00.000Z"
             }
-            ]
+            ],
+            "event": {
+                "id": 3437,
+                "description": "TCO"
+            }
+        }
++ Response 200 (application/json)
+
+        {
+            "challengeType": "Copilot Posting",
+            "challengeName": "this is a Copilot post challenge",
+            "challengeId": 32500000,
+            "projectId": 30400001,
+            "detailedRequirements": "detailed requirement content",
+            "finalSubmissionGuidelines": "final submission guideline content",
+            "cmcTaskId": "ab",
+            "numberOfCheckpointsPrizes": 0,
+            "topCheckPointPrize": "",
+            "copilotDetailedRequirements": "copilot private_description_text",
+            "currentStatus": "Active",
+            "currentPhaseName": "Submission",
+            "digitalRunPoints": 510,
+            "reliabilityBonus": 200,
+            "challengeCommunity": "develop",
+            "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=32500000",
+            "technology": ["Java", "MySQL"],
+            "prize": [
+                1000
+            ],
+            "numberOfRegistrants": 1,
+            "registrants": [
+                {
+                    "handle": "heffan",
+                    "reliability": "100%"
+                }
+            ],
+            "submissions": [
+                {
+                    "handle": "heffan",
+                    "placement": 1,
+                    "screeningScore": 100,
+                    "initialScore": 80,
+                    "finalScore": 90,
+                    "points": 510,
+                    "submissionStatus": "Active"
+                }
+            ],
+            "Documents": [
+                {
+                    "documentName": "document 1",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+                },
+                {
+                    "documentName": "document 3",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=32500000"
+                },
+                {
+                    "documentName": "document 4",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=32500001"
+                },
+                {
+                    "documentName": "document 2",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+                }
+            ],
+            "numberOfSubmissions": 1,
+            "platforms": [
+                "AWS",
+                "Cloud Foundry"
+            ],
+            "phases": [
+             {
+               "type": "Registration",
+               "status": "Closed",
+               "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+               "actualStartTime": "2013-12-20T01:40:00.000Z",
+               "scheduledEndTime": "2013-12-22T00:00:00.000Z",
+               "actualendTime": "2013-12-22T00:00:00.000Z"
+             },
+             {
+               "type": "Submission",
+               "status": "Open",
+               "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+               "actualStartTime": "2013-12-20T00:00:00.000Z",
+               "scheduledEndTime": "2013-12-26T00:00:00.000Z"
+             }
+           ]
         }
 
 + Response 400 (application/json)
@@ -1612,11 +1777,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Software Challenge Result [/develop/challenges/result/{id}]
+## Get Software Challenge Result [/develop/challenges/result/{challengeId}]
 ### Get Software Challenge Result [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
         
@@ -1625,7 +1790,7 @@ Register a new user.
           "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
           "challengeId": 30036437,
           "postingDate": "2013-12-02T09:00:05.000Z",
-          "contestEndDate": "2013-12-10T08:33:19.000Z",
+          "challengeEndDate": "2013-12-10T08:33:19.000Z",
           "challengeCommunity": "develop",
           "registrants": 2,
           "submissions": 2,
@@ -1746,6 +1911,78 @@ Register a new user.
             "name":"Not Found",
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Software Challenge Upload Submission [/develop/challenges/{challlengeid}/submit]
+### Upload a submission [POST]
++ Request (application/json)
+
++ Parameters
+    + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
+    + fileData (required, string, `SGVsbG8gV29ybGQ=`) ... The Base64 encoded content of the file being uploaded. The example value is 'Hello World' base64 encoded
+    + type (optional, string, `checkpoint`) ... The type of submission. Can be 'final' or 'checkpoint'. If absent, 'final' is assumed.
+
++ Response 200 (application/json)
+
+        {
+            "submissionId": 10000164,
+            "uploadId": 10000163
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 413 (application/json)
+
+        {
+            "name":"Request Too Large",
+            "value":"413",
+            "description":"The request is understood, but is larger than the server is willing or able to process."
         }
         
 + Response 500 (application/json)
@@ -2027,13 +2264,6 @@ Register a new user.
             500
           ],
           "generalCheckpointFeedback": "This is general feedback from all competitors.",
-          "numberOfRegistrants": 1,
-          "registrants": [
-            {
-                "handle": "heffan",
-                "reliability": "100%"
-            }
-          ],
           "checkpoints": [
             {
               "submissionId": 162433,
@@ -2126,7 +2356,11 @@ Register a new user.
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-          ]
+          ],
+          "event": {
+              "id": 3437,
+              "description": "TCO"
+          }
         }
 
 + Response 400 (application/json)
@@ -2314,20 +2548,20 @@ Register a new user.
         {
          "data": [
           {
-            "contestName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+            "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "type":"screening"
+            "reviewType":"screening"
           },
           {
-            "contestName": "Cornell - Responsive Storyboard",
+            "challengeName": "Cornell - Responsive Storyboard",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "type":"screening"
+            "reviewType":"screening"
           }
          ]
         }
@@ -4020,6 +4254,126 @@ Register a new user.
             "name":"Unauthorized",
             "value":"401",
             "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Register for a software challenge [/develop/challenges/{challengeId}/register]
+### Register for a software challenge [GET]
+
++ Parameters
+    + challengeId (required, number, `1234567`) ... The challenge for which to register.
+
++ Response 200 (application/json)
+
+    {
+      "message":"ok" 
+    }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Register for a studio challenge [/design/challenges/{challengeId}/register]
+### Register for a studio challenge [GET]
+
++ Parameters
+    + challengeId (required, number, `1234567`) ... The challenge for which to register
+
++ Response 200 (application/json)
+
+    {
+      "message":"ok" 
+    }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
         }
 
 + Response 404 (application/json)

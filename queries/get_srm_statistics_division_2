@@ -16,7 +16,7 @@ LEFT JOIN (
     , coder_level cl
     , coder c
     WHERE cl.coder_id = c.coder_id
-    AND LOWER(c.handle) = LOWER('@handle@')
+    AND handle_lower = LOWER('@handle@')
     AND l.level_id = cl.level_id
     AND cl.division_id = 2
     AND cl.algo_rating_type_id = 1

@@ -1,0 +1,37 @@
+SELECT u.first_name
+  , u.last_name
+  , da1.demographic_answer_text AS age
+  , da2.demographic_answer_text AS gender
+  , da26.demographic_answer_text AS shirt_size
+  , a.address1
+  , a.address2
+  , a.address3
+  , a.city
+  , a.zip
+  , c.country_name AS country
+  , (CASE WHEN a.country_code = 840                             -- United States
+      THEN (SELECT state_name FROM state WHERE state.state_code = a.state_code)
+      ELSE a.province
+      END) AS state
+FROM user u
+  , OUTER (demographic_response dr1, demographic_answer da1)    -- Age 
+  , OUTER (demographic_response dr2, demographic_answer da2)    -- Gender
+  , OUTER (demographic_response dr26, demographic_answer da26)  -- Shirt size
+  , OUTER (user_address_xref uax, address a, country c)
+WHERE LOWER(u.handle) = LOWER('@handle@')
+  AND da1.demographic_question_id = 1                           -- Age
+  AND da1.demographic_question_id = dr1.demographic_question_id
+  AND da1.demographic_answer_id = dr1.demographic_answer_id
+  AND dr1.user_id = u.user_id
+  AND da2.demographic_question_id = 2                           -- Gender
+  AND da2.demographic_question_id = dr2.demographic_question_id
+  AND da2.demographic_answer_id = dr2.demographic_answer_id
+  AND dr2.user_id = u.user_id
+  AND da26.demographic_question_id = 26                         -- Shirt size
+  AND da26.demographic_question_id = dr26.demographic_question_id
+  AND da26.demographic_answer_id = dr26.demographic_answer_id
+  AND dr26.user_id = u.user_id
+  AND uax.user_id = u.user_id
+  AND a.address_id = uax.address_id
+  AND a.address_type_id = 2                                     -- Home
+  AND c.country_code = a.country_code

@@ -20,7 +20,7 @@ FROM
 , OUTER coder_rank cr
 , OUTER school_coder_rank scr
 , OUTER country_coder_rank ccr
-WHERE LOWER(c.handle) = LOWER('@handle@')
+WHERE handle_lower = LOWER('@handle@')
 AND c.coder_id = r.coder_id
 AND l.language_id = c.language_id
 AND rd.round_id = r.last_rated_round_id

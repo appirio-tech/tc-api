@@ -7,6 +7,7 @@
     "introduction": "Introduction of Studio Contest 5",
     "round1Introduction": "Introduction of Studio Contest 5 Round 1",
     "round2Introduction": "Introduction of Studio Contest 5 Round 2",
+    "detailedRequirements": "studio detail requirement",
     "cmcTaskId": "",
     "numberOfCheckpointsPrizes": 1,
     "topCheckPointPrize": 250,
@@ -15,7 +16,6 @@
     "checkpointSubmissionEndDate": "2013-11-03T00:00:00.000Z",
     "submissionEndDate": "2013-11-03T00:00:00.000Z",
     "appealsEndDate": "2013-11-05T00:00:00.000Z",
-    "finalFixEndDate": "2013-11-05T00:00:00.000Z",
     "submissionLimit" : "3",
     "currentStatus": "Completed",
     "currentPhaseName": "",
@@ -28,11 +28,23 @@
         500,
         200
     ],
-    "numberOfRegistrants": 1,
+    "numberOfRegistrants": 4,
     "registrants": [
         {
             "handle": "heffan",
             "reliability": "100%"
+        },
+        {
+            "handle": "user",
+            "reliability": "n/a"
+        },
+        {
+            "handle": "twight",
+            "reliability": "n/a"
+        },
+        {
+            "handle": "sandking",
+            "reliability": "n/a"
         }
     ],
     "checkpoints": [
@@ -118,5 +130,9 @@
        "scheduledEndTime": "2013-11-05T00:00:00.000Z",
        "actualendTime": "2013-11-05T00:00:00.000Z"
      }
-   ]
+   ],
+   "event": {
+       "id": 3437,
+       "description": "TCO"
+   }
 }

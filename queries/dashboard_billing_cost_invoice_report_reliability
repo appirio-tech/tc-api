@@ -1,0 +1,96 @@
+SELECT
+  pm2.create_date AS payment_date
+, p.project_id AS contest_id
+, ttc.name AS client
+, ttp.name AS billing_name
+, tdp.name AS direct_project_name
+, (select max (scheduled_start_time) from project_phase where phase_type_id = 1 and project_id = p.project_id) AS launch_date
+, nvl((select  MAX(NVL(actual_end_time, scheduled_end_time)) AS completion_time from project_phase
+        where phase_type_id = (case when p.project_category_id in (9, 29) then 4 when pc.project_type_id in (1,2) then 10  else 4 end)
+        and project_id = p.project_id),
+      (select  MAX(NVL(actual_end_time, scheduled_end_time)) from project_phase where project_id = p.project_id and phase_type_id = 4)) AS completion_date
+, DECODE(pc.name, 'UI Prototype Competition', 'UI Prototype', 'Assembly Competition', 'Assembly', pc.name) AS challenge_type
+, pi.value AS challenge_name
+, CASE WHEN ps.project_status_id not in (1,2,3) THEN 'Finished'
+       WHEN ps.project_status_id = 1 THEN 'Active'  ELSE 'Draft' END AS challenge_status
+, CASE WHEN pmd2.payment_type_id in (24, 67)  THEN 'Reliability' ELSE 'Misc' END AS payment_type
+, pmd2.total_amount AS amount
+, ttc.client_id
+FROM informixoltp:payment pm
+INNER JOIN informixoltp:payment_detail pmd ON pm.most_recent_detail_id = pmd.payment_detail_id
+INNER JOIN (informixoltp:payment_detail pmd2 JOIN informixoltp:payment pm2 on pm2.most_recent_detail_id = pmd2.payment_detail_id
+                                            AND pmd2.payment_type_id in (24, 67) AND NOT pmd2.payment_status_id IN (65, 68, 69)) on pm.payment_id = pmd2.parent_payment_id
+, informixoltp:payment_type_lu pt
+, project p
+, tc_direct_project tdp
+, project_status_lu ps
+, project_category_lu pc
+, project_info pi
+, project_info pi2
+, project_info pi3
+, time_oltp:project ttp
+, time_oltp:client_project ttcp
+, time_oltp:client ttc
+where  pmd.component_project_id = p.project_id and pmd.payment_type_id = pt.payment_type_id
+   and pmd2.installment_number = 1 and pmd2.payment_type_id != 4 AND NOT pmd.payment_status_id IN (65,68, 69)
+   and p.project_status_id = ps.project_status_id and p.project_category_id = pc.project_category_id
+  and p.project_id = pi.project_id and pi.project_info_type_id = 6
+  and p.project_id = pi2.project_id and pi2.project_info_type_id = 31
+  and p.project_id = pi3.project_id and pi3.project_info_type_id = 32
+  and pi3.value = ttp.project_id and ttp.project_id = ttcp.project_id  and ttcp.client_id = ttc.client_id
+  and ttc.client_id = DECODE(@client_id@, 0, ttc.client_id, @client_id@)
+  and ttp.project_id = DECODE(@billing_id@, 0, ttp.project_id, @billing_id@)
+  and p.tc_direct_project_id = tdp.project_id  and tdp.project_id = DECODE(@project_id@, 0, tdp.project_id, @project_id@)
+  and p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@) and p.project_category_id != 27
+  and (p.project_status_id not in (1,2,3)
+          OR (p.project_status_id  = 1 and (p.project_category_id in (9, 29) or pc.project_type_id = 3)
+           and exists (select phase_type_id from project_phase where project_id = p.project_id and phase_type_id =4 and phase_status_id = 3))
+    OR (p.project_status_id  = 1 and (p.project_category_id not in (9, 29) and pc.project_type_id in (1,2))
+           and (exists (select phase_type_id from project_phase where project_id = p.project_id and phase_type_id =11 and phase_status_id in (2,3))
+            OR not exists (select phase_type_id from project_phase  where project_id = p.project_id and phase_type_id =10 and phase_status_id in ( 1,2)))))
+  and (pm2.create_date BETWEEN TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@end_date@ 23:59:59', '%Y-%m-%d %H:%M:%S'))
+   and (
+             exists (
+                     select resource_id from user_permission_grant upg
+                     where upg.user_id=DECODE(@user_id@,0,upg.user_id,@user_id@) and upg.permission_type_id IN (0,1,2,3) and upg.resource_id = p.tc_direct_project_id
+                     )
+
+          OR
+             exists (
+                     SELECT
+                            tdp2.project_id as tc_direct_project_id
+                     FROM tc_direct_project tdp2
+                     INNER JOIN group_associated_direct_projects gadp ON tdp2.project_id = gadp.tc_direct_project_id
+                     INNER JOIN customer_group sg ON sg.group_id = gadp.group_id
+                     INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                     WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
+                     AND   gm.active = 1
+                     AND   sg.archived = 0
+                     AND   tdp2.project_id = p.tc_direct_project_id
+                     )
+          OR
+              exists (
+                      SELECT
+                             tdp2.project_id as tc_direct_project_id
+                      FROM tc_direct_project tdp2
+                      INNER JOIN corporate_oltp:direct_project_account dpa ON tdp2.project_id = dpa.project_id
+                      INNER JOIN group_associated_billing_accounts gaba ON gaba.billing_account_id = dpa.billing_account_id
+                      INNER JOIN customer_group sg ON sg.group_id = gaba.group_id
+                      INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                      WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
+                      AND   gm.active = 1
+                      AND   sg.archived = 0
+                      AND tdp2.project_id = p.tc_direct_project_id
+                      )
+          OR
+           exists (
+                   SELECT sg.group_id
+                   FROM customer_group sg
+                   INNER JOIN group_member gm ON gm.group_id = sg.group_id
+                   WHERE gm.user_id = DECODE(@user_id@, 0, gm.user_id, @user_id@)
+                   AND   gm.active = 1
+                   AND   sg.archived = 0
+                   AND   sg.auto_grant = 1
+                   AND   sg.client_id = ttc.client_id
+                   )
+          )

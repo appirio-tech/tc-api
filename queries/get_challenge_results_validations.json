@@ -1,0 +1,5 @@
+{
+  "name"    : "get_challenge_results_validations",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_challenge_results_validations"
+}

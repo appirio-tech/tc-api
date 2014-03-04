@@ -8,6 +8,7 @@ SELECT
      , sps.round_one_introduction
      , sps.round_two_introduction
      , ps.detailed_requirements_text AS software_detailed_requirements
+     , ps.private_description_text AS copilot_detailed_requirements
      , ps.final_submission_guidelines_text AS final_submission_guidelines
      , technology_list(pi1.value) AS technology
      , p.project_category_id AS project_type
@@ -35,12 +36,12 @@ SELECT
            AND ppd.project_id = proj.project_id
            AND proj.project_id = p.project_id
            AND ppd.phase_type_id = 1) AS posting_date
-     , NVL(pp1.scheduled_end_time, pp2.scheduled_end_time) AS registration_end_date
-     , pp15.scheduled_end_time AS checkpoint_submission_end_date
-     , pp2.scheduled_end_time AS submission_end_date
-     , NVL(pp6.scheduled_end_time, pp4.scheduled_end_time) AS appeals_end_date
-     , NVL(pp9.scheduled_end_time, pp4.scheduled_end_time) final_fix_end_date
-     , nd_phase.scheduled_end_time AS current_phase_end_date
+     , NVL(NVL(pp1.actual_end_time, pp1.scheduled_end_time), NVL(pp2.actual_end_time, pp2.scheduled_end_time)) AS registration_end_date
+     , NVL(pp15.actual_end_time, pp15.scheduled_end_time) AS checkpoint_submission_end_date
+     , NVL(pp2.actual_end_time, pp2.scheduled_end_time)  AS submission_end_date
+     , NVL(NVL(pp6.actual_end_time, pp6.scheduled_end_time), NVL(pp4.actual_end_time, pp4.scheduled_end_time)) AS appeals_end_date
+     , NVL(pp9.actual_end_time, pp9.scheduled_end_time) AS final_fix_end_date
+     , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
      , pstatus.name AS current_status
      , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
                 (SELECT phase_type_lu.description FROM phase_type_lu
@@ -55,6 +56,8 @@ SELECT
        NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id)) 
        ELSE NULL END AS digital_run_points
      , pi51.value AS submission_limit
+     , nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0) as event_id
+     , (SELECT event_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_description
   FROM project p
      , project_status_lu pstatus
      , outer project_spec ps

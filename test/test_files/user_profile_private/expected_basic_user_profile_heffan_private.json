@@ -1,0 +1,31 @@
+{
+  "handle": "heffan",
+  "country": "United States",
+  "memberSince": "2001-05-09T01:04:42.000Z",
+  "quote": "Acknowledge and move on.",
+  "photoLink": "",
+  "isCopilot": {
+    "value": false,
+    "software": false,
+    "studio": false
+  },
+  "isPM": false,
+  "ratingSummary": [],
+  "Achievements": [
+    {
+      "description": "Algorithm Coder of the Month"
+    }
+  ],
+  "emails": [
+    {
+      "email": "foo@fooonyou.com",
+      "type": "Primary",
+      "status": "Active"
+    }
+  ],
+  "name": "firstdok lastdok",
+  "address": "address1, city, Maine, 04043, United States",
+  "age": "25 - 34",
+  "gender": "Male",
+  "shirtSize": "Medium"
+}

@@ -1,5 +1,6 @@
 SELECT DISTINCT(c.coder_id)
      , c.handle AS handle
+     , url.rating AS reliability
      , sub_info.category_name AS category_name
      , sub_info.phase_id - 111 AS category_id
      , NVL(ur.rating, 0.0) AS rating
@@ -36,6 +37,7 @@ SELECT DISTINCT(c.coder_id)
       LEFT OUTER JOIN tcs_dw:user_rank overallRank ON overallRank.phase_id = ur.phase_id AND overallRank.user_id = ur.user_id AND overallRank.user_rank_type_id = 1
       LEFT OUTER JOIN tcs_dw:country_user_rank overallCR ON overallCR.phase_id = ur.phase_id AND overallCR.user_id = ur.user_id AND overallCR.user_rank_type_id = 1
       LEFT OUTER JOIN tcs_dw:school_user_rank overallSUR ON overallSUR.phase_id = ur.phase_id AND overallSUR.user_id = ur.user_id AND overallSUR.user_rank_type_id = 1
+      LEFT OUTER JOIN tcs_dw:user_reliability url ON url.user_id = ur.user_id AND url.phase_id = ur.phase_id
       JOIN (
         SELECT 
                p.phase_id AS phase_id
@@ -60,7 +62,7 @@ SELECT DISTINCT(c.coder_id)
         WHERE pr.user_id = cc.coder_id
         AND p.project_id = pr.project_id
         AND p.status_id in (4,5,7,8)
-        AND LOWER(cc.handle) = LOWER('@handle@')
+        AND handle_lower = LOWER('@handle@')
         AND p.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
         GROUP BY p.phase_id, p.phase_desc
       ) sub_info ON sub_info.phase_id = ur.phase_id
@@ -73,7 +75,7 @@ SELECT DISTINCT(c.coder_id)
         WHERE pr.user_id = cc.coder_id
         AND p.project_id = pr.project_id
         AND p.status_id in (4,5,7,8)
-        AND LOWER(cc.handle) = LOWER('@handle@')
+        AND handle_lower = LOWER('@handle@')
         AND p.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
         AND new_rating > 0
         GROUP BY p.phase_id
@@ -81,4 +83,4 @@ SELECT DISTINCT(c.coder_id)
      , coder AS c
  WHERE ur.user_id = c.coder_id
    AND ur.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 134, 135, 136, 137, 140, 146, 147, 148, 149, 150)
-   AND LOWER(c.handle)= LOWER('@handle@')
+   AND handle_lower= LOWER('@handle@')
