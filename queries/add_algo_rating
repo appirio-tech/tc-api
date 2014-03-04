@@ -1,0 +1,1 @@
+INSERT INTO algo_rating(coder_id, rating, vol, round_id, num_ratings, algo_rating_type_id, modify_date) VALUES (@userId@, 0, 0, 0, 0, 1, CURRENT)
