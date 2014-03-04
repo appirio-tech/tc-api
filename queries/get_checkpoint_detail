@@ -1,0 +1,19 @@
+SELECT
+  s.submission_id AS id
+, ric.content AS feedback
+FROM submission s
+INNER JOIN review r ON r.submission_id = s.submission_id
+INNER JOIN review_item ri ON ri.review_id = r.review_id
+INNER JOIN review_item_comment ric ON ric.review_item_id = ri.review_item_id
+INNER JOIN resource res ON res.resource_id = r.resource_id
+INNER JOIN project p ON p.project_id = res.project_id
+INNER JOIN project_phase pp ON pp.project_phase_id = r.project_phase_id 
+INNER JOIN project_category_lu pc ON pc.project_category_id = p.project_category_id
+WHERE s.submission_type_id = 3
+AND res.resource_role_id = 20
+AND pp.phase_type_id = 17
+AND pp.phase_status_id = 3 
+AND res.project_id = @challengeId@
+AND ric.review_item_comment_id = (SELECT MIN(review_item_comment_id) FROM review_item_comment ric2 WHERE ric.review_item_id = ric2.review_item_id)
+AND pc.project_type_id IN (@projectCategory@)
+ORDER BY ric.review_item_comment_id

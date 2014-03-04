@@ -1,0 +1,5 @@
+{
+  "name"    : "check_challenge_exists",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "check_challenge_exists"
+}

@@ -1,0 +1,5 @@
+{
+  "name"    : "get_studio_checkpoint_general_feedback",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_studio_checkpoint_general_feedback"
+}

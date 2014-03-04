@@ -1,0 +1,5 @@
+{
+  "name"    : "get_checkpoint_detail",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_checkpoint_detail"
+}

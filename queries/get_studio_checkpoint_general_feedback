@@ -1,0 +1,5 @@
+SELECT
+  general_feedback
+FROM project p
+INNER JOIN project_studio_specification pss ON pss.project_studio_spec_id = p.project_studio_spec_id
+WHERE p.project_id = @challengeId@

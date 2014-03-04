@@ -1,0 +1,25 @@
+{
+    "checkpointResults": [
+        {
+            "feedback": "Checkpoint review for submission 2006",
+            "id": 2006
+        },
+        {
+            "feedback": "Checkpoint review for submission 2007",
+            "id": 2007
+        },
+        {
+            "feedback": "Checkpoint review for submission 2008",
+            "id": 2008
+        },
+        {
+            "feedback": "Checkpoint review for submission 2009",
+            "id": 2009
+        },
+        {
+            "feedback": "Checkpoint review for submission 2010",
+            "id": 2010
+        }
+    ],
+    "generalFeedback": "general feedback for challenge 2002"
+}

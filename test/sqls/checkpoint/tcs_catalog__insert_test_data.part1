@@ -1,0 +1,88 @@
+INSERT INTO project_studio_specification(project_studio_spec_id, general_feedback, create_user, create_date, modify_user, modify_date) VALUES(2002, 'general feedback for challenge 2002', 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, create_user, create_date, modify_user, modify_date) VALUES(2001, 2, 14, 132456, 2001, current, 132456, current);
+INSERT INTO project(project_id, project_status_id, project_category_id, tc_direct_project_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date) VALUES(2002, 2, 17, 132456, 2002, 2002, current, 132456, current);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 2001, 17, 3, current, current + 2 units day, current + 2 units day, 172800000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 2002, 17, 3, current, current + 2 units day, current + 2 units day, 172800000, 132456, current, 132456, current);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(2001, 20, 2001, 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(2002, 20, 2002, 132456, current, 132456, current);
+
+INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(2001, 2001, 'General feedback for challenge 2001');
+INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(2002, 2002, 'General feedback for challenge 2002');
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2001, 2001, 2001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2001, 2001, 1, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2001, 2001, 1, 2, 3, 2001, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2001, 2001, 2001, 2001, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2001, 2001, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2001, 2001, 2001, 11, 'Checkpoint review for submission 2001', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2002, 2001, 2001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2002, 2001, 2, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2002, 2002, 1, 2, 3, 2002, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2002, 2001, 2002, 2001, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2002, 2002, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2002, 2001, 2002, 11, 'Checkpoint review for submission 2002', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2003, 2001, 2001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2003, 2001, 3, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2003, 2003, 1, 2, 3, 2003, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2003, 2001, 2003, 2001, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2003, 2003, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2003, 2001, 2003, 11, 'Checkpoint review for submission 2003', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2004, 2001, 2001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2004, 2001, 4, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2004, 2004, 1, 2, 3, 2004, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2004, 2001, 2004, 2001, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2004, 2004, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2004, 2001, 2004, 11, 'Checkpoint review for submission 2004', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2005, 2001, 2001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2005, 2001, 5, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2005, 2005, 1, 2, 3, 2005, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2005, 2001, 2005, 2001, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2005, 2005, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2005, 2001, 2005, 11, 'Checkpoint review for submission 2005', 1, 132456, current, 132456, current);
+
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2006, 2002, 2002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2006, 2002, 1, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2006, 2006, 1, 2, 3, 2006, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2006, 2002, 2006, 2002, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2006, 2006, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2006, 2002, 2006, 11, 'Checkpoint review for submission 2006', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2007, 2002, 2002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2007, 2002, 2, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2007, 2007, 1, 2, 3, 2007, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2007, 2002, 2007, 2002, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2007, 2007, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2007, 2002, 2007, 11, 'Checkpoint review for submission 2007', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2008, 2002, 2002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2008, 2002, 3, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2008, 2008, 1, 2, 3, 2008, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2008, 2002, 2008, 2002, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2008, 2008, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2008, 2002, 2008, 11, 'Checkpoint review for submission 2008', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2009, 2002, 2002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2009, 2002, 4, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2009, 2009, 1, 2, 3, 2009, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2009, 2002, 2009, 2002, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2009, 2009, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2009, 2002, 2009, 11, 'Checkpoint review for submission 2009', 1, 132456, current, 132456, current);
+
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES(2010, 2002, 2002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date) VALUES(2010, 2002, 5, 200, 14, 1, 'heffan', CURRENT, 'heffan', CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date) VALUES(2010, 2010, 1, 2, 3, 2010, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review(review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, create_user, create_date, modify_user, modify_date) VALUES(2010, 2002, 2010, 2002, 30000417, 1, 132456, current, 132456, current);
+INSERT INTO review_item(review_item_id, review_id, scorecard_question_id, answer, sort, create_user, create_date, modify_user, modify_date) VALUES(2010, 2010, 30003113, 'test', 1, 132456, current, 132456, current);
+INSERT INTO review_item_comment(review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date) VALUES(2010, 2002, 2010, 11, 'Checkpoint review for submission 2010', 1, 132456, current, 132456, current);
+
+

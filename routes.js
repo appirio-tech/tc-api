@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
+ * @version 1.11
  * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun
  * Changes in 1.1:
  * - add routes for search challenges
@@ -24,7 +24,9 @@
  * Changes in 1.9:
  * - add route for client challenge costs
  * Changes in 1.10:
- * - added routes for terms api 
+ * - added routes for terms api
+ * Changes in 1.11:
+ * - added routes for getting studio and software checkpoints
  */
 
 /* ---------------------
@@ -93,6 +95,9 @@ exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
+
+        { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
+        { path: "/:apiVersion/design/challenges/checkpoint/:challengeId", action: "getStudioCheckpoint" },
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
