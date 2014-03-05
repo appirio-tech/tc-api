@@ -1208,7 +1208,9 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
             }, cb);
         }, function (res, cb) {
             var generalFeedback = "", hasGeneralFeedback = true;
-            if (res.feedback.length === 0 || !_.isDefined(res.feedback[0].general_feedback)) {
+            if (res.feedback.length === 0 ||
+                !_.isDefined(res.feedback[0].general_feedback) ||
+                res.feedback[0].general_feedback.trim().length === 0) {
                 hasGeneralFeedback = false;
             } else {
                 generalFeedback = res.feedback[0].general_feedback || "";
