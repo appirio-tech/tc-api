@@ -2859,6 +2859,68 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+## Studio Member Recent Winning Submissions [/users/{handle}/statistics/design?numberOfRecentWins]
+### Studio Member Recent Winning Submissions [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+    + numberOfRecentWins (optional, number, `7`) ... number of recent wins
+
++ Response 200 (application/json)
+
+        {
+            size: 7,
+            recentWinningSubmissions:
+            [
+                {
+                    contestName: "TC - CS Storyboard Redesign Lorem Ipsum Dolor sit Amet 2",
+                    rank: 1,
+                    prize: 1300,
+                    submissionDate: "10.31.2013 at 07:58 EST",
+                    preview: "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=169728&sbt=small"
+                },
+                {
+                    contestName: "TC Redesign Lorem Ipsum Dolor sit Amet 2",
+                    rank: 2,
+                    prize: 600,
+                    submissionDate: "11.5.2013 at 06:40 EST",
+                    preview: "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=169728&sbt=small"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
         
 ## Top Ranked Members [/design/statistics/tops/{challengeType}]
 ### Top Ranked Members [GET]
