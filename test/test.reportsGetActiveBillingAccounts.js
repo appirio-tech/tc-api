@@ -24,6 +24,9 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 describe('Get Active Billing Accounts', function () {
     this.timeout(120000); // The api with testing remote db could be quit slow
 
+    var admin = testHelper.generateAuthHeader({ sub: 'ad|132456' }),
+        member = testHelper.generateAuthHeader({ sub: 'ad|132457' });
+
     /**
      * Create request and return it
      * @param {Number} statusCode the expected status code
@@ -103,7 +106,7 @@ describe('Get Active Billing Accounts', function () {
          * It should return two valid results
          */
         it('should return two valid results', function (done) {
-            assertResponse('expected_get_active_billing_accounts_two', null, done);
+            assertResponse('expected_get_active_billing_accounts_two', admin, done);
         });
     });
 
@@ -136,8 +139,22 @@ describe('Get Active Billing Accounts', function () {
          * It should return empty results
          */
         it('should return empty results', function (done) {
-            assertResponse('expected_get_active_billing_accounts_empty', null, done);
+            assertResponse('expected_get_active_billing_accounts_empty', admin, done);
         });
+    });
+
+    /**
+     * Test when anonymous call this api.
+     */
+    it('should return unauthorized error. The caller is anonymous.', function (done) {
+        createRequest(401, null).end(done);
+    });
+
+    /**
+     * Test when member call this api.
+     */
+    it('should return forbidden error. The caller is member.', function (done) {
+        createRequest(403, member).end(done);
     });
 
 });
