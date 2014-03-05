@@ -233,6 +233,38 @@ Platform APIs
             "completedProjectsCount": 500,
             "prizePurse": "$100000"
         }
+        
+## Active Billing Accounts [/platform/activeBillingAccounts]
+### Get Activity Summary [GET]
+
++ Response 200 (application/json)
+
+        {
+            "activeBillingAccounts": [
+                {
+                    "clientName": "client1",
+                    "clientCustomerNumber": "customer1",
+                    "clientId": 70014096,
+                    "billingAccountId": 70016343,
+                    "billingAccountName": "Liquid",
+                    "subscriptionNumber": "s",
+                    "projectStartDate": "2009-01-01T00:00:00.000Z",
+                    "projectEndDate": "2099-01-01T00:00:00.000Z",
+                    "poNumber": "TC0000377"
+                },
+                {
+                    ""clientName": "client2",
+                    "clientCustomerNumber": "customer2",
+                    "clientId": 70014096,
+                    "billingAccountId": 70016347,
+                    "billingAccountName": "CIO projects",
+                    "subscriptionNumber": "d",
+                    "projectStartDate": "2009-01-01T00:00:00.000Z",
+                    "projectEndDate": "2099-01-01T00:00:00.000Z",
+                    "poNumber": "TC0000381"
+                }
+            ]
+        }
 
 # Group User Profile
 Register a new user.
