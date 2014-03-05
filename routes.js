@@ -146,7 +146,7 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
-       // { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+        { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
