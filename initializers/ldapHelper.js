@@ -122,6 +122,27 @@ var addClient = function (api, client, params, callback) {
 };
 
 /**
+ * Function used to delete an entry from ldap server
+ * 
+ * @param {Object} api - object used to access infrastructure
+ * @param {Object} client - an object of current client of ldap server
+ * @param {Object} userId - the user id
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
+ */
+var removeClient = function (api, client, userId, callback) {
+    var dn = 'uid=' + userId + ', ' + topcoder_member_base_dn;
+    client.del(dn, function (err) {
+        if (err) {
+            client.unbind();
+            callback('cannot delete from ldap server', translateLdapError(err));
+        } else {
+            api.log('Successfully deleted from ldap server', 'info');
+            callback(null, 'delete from ldap server');
+        }
+    });
+};
+
+/**
  * Function used to update the password in order to create a hashed version of it
  * 
  * @param {Object} api - object used to access infrastructure
@@ -229,6 +250,46 @@ exports.ldapHelper = function (api, next) {
                         client.unbind();
                     }
                     api.log('Leave addMemberProfileLDAPEntry', 'debug');
+                });
+            } catch (err) {
+                console.log('CAUGHT: ' + err);
+                return next(error, null);
+            }
+            return next(null, true);
+        },
+        
+        /**
+         * Main function of removeMemberProfileLDAPEntry
+         *
+         * @param {Object} api - object used to access infrastructure
+         * @param {Object} userId - the user id
+         * @param {Function} next - callback function
+         */
+        removeMemberProfileLDAPEntry: function (userId, next) {
+            api.log('Enter removeMemberProfileLDAPEntry', 'debug');
+            var client;
+
+            try {
+                async.series([
+                    function (callback) {
+                        client  = createClient();
+                        callback(null, 'create client');
+                    },
+                    function (callback) {
+                        bindClient(api, client, callback);
+                    },
+                    function (callback) {
+                        removeClient(api, client, userId, callback);
+                    }
+                ], function (err, result) {
+                    
+                    if (err) {
+                        api.log('removeMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
+                        return next(err, null);
+                    } else {
+                        client.unbind();
+                    }
+                    api.log('Leave removeMemberProfileLDAPEntry', 'debug');
                 });
             } catch (err) {
                 console.log('CAUGHT: ' + err);

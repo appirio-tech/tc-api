@@ -309,6 +309,8 @@ exports.getActiveBillingAccounts = {
         }
         async.waterfall([
             function (cb) {
+                cb(helper.checkAdmin(connection));
+            }, function (cb) {
                 api.dataAccess.executeQuery("get_active_billing_accounts", {}, dbConnectionMap, cb);
             }, function (results, cb) {
                 result.activeBillingAccounts = _.map(results, function (item) {
