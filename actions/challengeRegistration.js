@@ -73,7 +73,7 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
                 return;
             }
             userInfo = result[0];
-            api.idGenerator.getNextID("COMPONNENT_INQUIRY_SEQ", dbConnectionMap, function (err, componentInquiryId) {
+            api.idGenerator.getNextID("COMPONENT_INQUIRY_SEQ", dbConnectionMap, function (err, componentInquiryId) {
                 cb(err, componentInquiryId);
             });
         },
