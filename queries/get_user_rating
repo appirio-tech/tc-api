@@ -1,1 +1,7 @@
-SELECT rating FROM user_rating WHERE phase_id = @phaseId@ AND user_id = @userId@
+SELECT
+
+nvl((SELECT rating FROM user_rating 
+
+WHERE phase_id = @phaseId@ AND user_id = @userId@
+
+FROM dual
