@@ -1219,7 +1219,12 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
                 cb(new NotFoundError("Checkpoint data not found."));
                 return;
             }
-            result.checkpointResults = res.detail;
+            result.checkpointResults = _.map(res.detail, function (ele) {
+                return {
+                    submissionId: ele.id,
+                    feedback: ele.feedback
+                };
+            });
             result.generalFeedback = generalFeedback;
             cb();
         }
