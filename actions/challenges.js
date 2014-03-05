@@ -1,4 +1,4 @@
-    /*
+/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.13
@@ -291,8 +291,8 @@ function transferResult(src, helper) {
             postingDate : formatDate(row.posting_date),
             registrationEndDate : formatDate(row.registration_end_date),
             checkpointSubmissionEndDate : formatDate(row.checkpoint_submission_end_date),
-            submissionEndDate : formatDate(row.submission_end_date),
-        };
+            submissionEndDate : formatDate(row.submission_end_date)
+        }, i, prize;
 
         if (row.appeals_end_date) {
             challenge.appealsEndDate = formatDate(row.appeals_end_date);
@@ -313,8 +313,6 @@ function transferResult(src, helper) {
             challengeCommunity: row.is_studio ? 'design' : 'develop'
         });
 
-        var i,
-            prize;
         for (i = 1; i < 10; i = i + 1) {
             prize = row["prize" + i];
             if (prize && prize !== -1) {
@@ -661,7 +659,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                             reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
                             registrationDate: formatDate(item.inquiry_date)
                         };
-                        if(!isStudio){
+                        if (!isStudio) {
                             registrant.rating = item.rating;
                             registrant.colorStyle = helper.getColorStyle(item.rating);
                         }
@@ -737,7 +735,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
-            if(data.project_type == COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
+            if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
                 challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
             }
             if (data.appeals_end_date) {
@@ -746,7 +744,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             if (data.final_fix_end_date) {
                 challenge.finalFixEndDate = formatDate(data.final_fix_end_date);
             }
-            
+
             //use xtend to preserve ordering of attributes
             challenge = extend(challenge, {
                 submissionLimit : data.submission_limit,
@@ -765,7 +763,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 checkpoints: mapCheckPoints(results.checkpoints),
                 submissions: mapSubmissions(results),
                 winners: mapWinners(results.winners),
-                Documents: mapDocuments(results.documents),
+                Documents: mapDocuments(results.documents)
             });
 
             if (isStudio) {
@@ -788,7 +786,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);
-            if(data.event_id !== 0){
+            if (data.event_id !== 0) {
                 challenge.event = {id: data.event_id, description: data.event_description};
             }
             cb();
@@ -1052,7 +1050,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 challengeId: challengeId,
                 projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
                 resourceId: resourceId,
-                fileName: fileName,
+                fileName: fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
         }, function (notUsed, cb) {
@@ -1403,7 +1401,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             //Populate the result standings for the contest
             result.results = _.map(res.results, function (el) {
                 var resEl = {
-					handle: el.handle,
+                    handle: el.handle,
                     placement: el.placed === 0 ? 'n/a' : el.placed,
                     submissionDate: el.submission_date,
                     registrationDate: el.registration_date
@@ -1413,7 +1411,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     _.extend(resEl, {
                         finalScore: el.final_score,
                         screeningScore: el.screening_score,
-                        initialScore: el.initial_score,
+                        initialScore: el.initial_score
                     });
                 }
 
