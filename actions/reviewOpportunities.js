@@ -77,30 +77,6 @@ var STUDIO_ALLOWABLE_QUERY_PARAMETER = ['round1ScheduledStartDate.type', 'round1
 var SOFTWARE_REVIEW_TYPE = ['Iterative Review', 'Spec Review', 'Contest Review'];
 
 /**
- * The review application role id for primary reviewer.
- * It wll be used in payment calculation.
- */
-var PRIMARY_REVIEW_APPLICATION_ROLE_ID = 1;
-
-/**
- * The review application role id for secondary reviewer.
- * It wll be used in payment calculation.
- */
-var SECONDARY_REVIEW_APPLICATION_ROLE_ID = 2;
-
-/**
- * The review application role id for specification reviewer.
- * It wll be used in payment calculation.
- */
-var SPECIFICATION_REVIEW_APPLICATION_ROLE_ID = 7;
-
-/**
- * The review application role id for iterative reviewer.
- * It wll be used in payment calculation.
- */
-var ITERATIVE_REVIEW_APPLICATION_ROLE_ID = 8;
-
-/**
  * Format the date value to a specific pattern.
  * @param dateValue {String} the date value.
  * @return the empty value or the date value itself.
@@ -340,52 +316,51 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
 };
 
 /**
- * Calculate the review payment based on default, adjust payment and review role.
- * @param {Object} defaultPayments - the default payments array.
- * @param {Object} adjustPayments - the adjust payments array.
- * @param {Object} reviewOpp - the review Opportunity item.
- * @param {Number} role - the review application role id.
- * @return {Number} The payment of the determined role.
+ * Get the payment for a review opportunity.
+ * @param {Object} reviewOpportunityInfo - the review opportunity information object. It contains the default payment
+ * info and review opp info.
+ * @param {Array} adjustPayments - the adjust payment information.
+ * @returns {Array} a array payment information.
  */
-var calculatePayment = function (defaultPayments, adjustPayments, reviewOpp, role) {
-    if (role === 0) {
-        return 0.00;
-    }
-    // filter out the payment for other review opportunities first and other review application role (eg. primary reviewer)
-    var defaultPayment = _.filter(defaultPayments, function (item) {
-        return item.review_auction_id === reviewOpp.review_auction_id && item.review_application_role_id === role;
-    }), adjustPayment = _.filter(adjustPayments, function (item) {
-        return item.review_auction_id === reviewOpp.review_auction_id;
-    }), payment = 0.00;
+var calculatePayment = function (reviewOpportunityInfo, adjustPayments) {
+    // filter out the payment for other review opportunities first
+    var adjustPayment = _.filter(adjustPayments, function (item) {
+        return item.review_auction_id === reviewOpportunityInfo[0].review_auction_id;
+    }), payment = {};
 
-    defaultPayment.forEach(function (row) {
+    reviewOpportunityInfo.forEach(function (row) {
         var adjust = _.find(adjustPayment, function (item) { return item.resource_role_id === row.resource_role_id; }),
             defPayment,
-            submissionCount = row.submission_count;
+            submissionCount = row.submission_count,
+            applicationRole = row.review_application_role_id;
         // Fix the submission count. Treat 0 as 1 submission. treat none result as 0 submission.
         if (submissionCount === 0) {
             submissionCount = 1;
         } else if (!submissionCount) {
             submissionCount = 0;
         }
+        // initialize the payment if it's undefined.
+        if (!payment[applicationRole]) {
+            payment[applicationRole] = 0.00;
+        }
+
         // Calculate the default payment.
         defPayment = row.fixed_amount + (row.base_coefficient + row.incremental_coefficient * submissionCount) * row.prize;
 
-        // adjust it if necessary.
         if (adjust) {
             // We have adjust payment for this role.
             if (adjust.fixed_amount) {
-                payment += Number(adjust.fixed_amount);
+                payment[applicationRole] += Number(adjust.fixed_amount);
             }
             if (adjust.multiplier) {
-                payment += Number(defPayment) * Number(adjust.multiplier);
+                payment[applicationRole] += Number(defPayment) * Number(adjust.multiplier);
             }
         } else {
             // We don't have adjust payment for this role.
-            payment += Number(defPayment);
+            payment[applicationRole] += Number(defPayment);
         }
     });
-    return Number(payment.toFixed(2));
+    return _.chain(payment).values().sortBy(function (item) { return -item; }).value();
 };
 
 /**
@@ -397,7 +372,7 @@ var calculatePayment = function (defaultPayments, adjustPayments, reviewOpp, rol
  */
 var getReviewOpportunities = function (api, connection, isStudio, next) {
     var helper = api.helper, result = {}, sqlParams, dbConnectionMap = connection.dbConnectionMap, pageIndex,
-        pageSize, sortOrder, sortColumn, filter = {}, reviewAuctionIds, reviewOpportunities, challengeIds;
+        pageSize, sortOrder, sortColumn, filter = {}, reviewOpportunities, queryName;
 
     pageSize = Number(connection.params.pageSize || 10);
     pageIndex = Number(connection.params.pageIndex || 1);
@@ -432,43 +407,31 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD')
             };
 
-            api.dataAccess.executeQuery('search_software_studio_review_opportunities', sqlParams, dbConnectionMap, cb);
-        },
-        function (results, cb) {
-            reviewOpportunities = results;
-            var exeQuery = function (suffix) {
-                return function (cbx) {
-                    api.dataAccess.executeQuery('search_software_studio_review_opportunities_' + suffix,
-                        { challengeIds: challengeIds, reviewAuctionIds: reviewAuctionIds }, dbConnectionMap, cbx);
-                };
-            };
-            if (!isStudio) {
-                // Get the review Auctions ids and execute payment query.
-                if (results.length === 0) {
-                    cb(null, null);
-                    return;
-                }
+            queryName = isStudio ? 'search_studio_review_opportunities' : 'search_software_review_opportunities_data';
 
-                reviewAuctionIds = _.map(results, function (row) {
-                    return row.review_auction_id;
-                });
-                challengeIds = _.map(results, function (row) {
-                    return row.challenge_id;
-                });
-                async.parallel({
-                    defaultPayment: exeQuery('default_payment'),
-                    adjustPayment: exeQuery('adjust_payment')
-                }, cb);
-            } else {
-                //callback
-                cb(null, null);
-            }
+            async.parallel({
+                reviewData: function (cbx) {
+                    api.dataAccess.executeQuery(queryName, sqlParams, dbConnectionMap, cbx);
+                },
+                adjustPayment: function (cbx) {
+                    if (isStudio) {
+                        cbx();
+                        return;
+                    }
+                    api.dataAccess.executeQuery('search_software_review_opportunities_adjust_payment', sqlParams,
+                        dbConnectionMap, cbx);
+                }
+            }, cb);
         },
         function (results, cb) {
-            var defaultPayment, adjustPayment, pageStart = (pageIndex - 1) * pageSize, primaryRoleId, secondaryRoleId, reviewType;
+            reviewOpportunities = _.groupBy(results.reviewData, function (item) { return item.challenge_id; });
+            var keys = _.keys(reviewOpportunities),
+                adjustPayment = results.adjustPayment,
+                pageStart = (pageIndex - 1) * pageSize;
+
             result.data = [];
-            if (reviewOpportunities.length === 0) {
-                result.data = [];
+
+            if (results.reviewData.length === 0) {
                 result.total = 0;
                 result.pageIndex = pageIndex;
                 result.pageSize = pageIndex === -1 ? 0 : pageSize;
@@ -476,58 +439,44 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 return;
             }
 
-            if (isStudio) {
-                // Handle the studio challenge here.
-                reviewOpportunities.forEach(function (row) {
-                    reviewType = row.review_type.trim();
-                    var reviewOpp = {
-                        challengeName: row.challenge_name,
-                        challengeId: row.challenge_id,
-                        round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
-                        round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),
-                        reviewerPayment: row.reviewer_payment,
-                        reviewer: row.reviewer,
-                        reviewType: reviewType
-                    };
+            if (!isStudio) {
+                // Handle the software challenge here.
+                keys.forEach(function (key) {
+                    var rows = reviewOpportunities[key],
+                        payment = calculatePayment(rows, adjustPayment);
+
+                    result.data.push({
+                        primaryReviewerPayment: payment[0],
+                        secondaryReviewerPayment: payment[1] || 0,
+                        numberOfSubmissions: rows[0].number_of_submissions,
+                        reviewStart: rows[0].review_start,
+                        reviewEnd: rows[0].review_end,
+                        numberOfReviewPositionsAvailable: rows[0].number_of_review_positions_available,
+                        challengeType: rows[0].challenge_type,
+                        reviewType: rows[0].review_type.trim(),
+                        challengeName: rows[0].challenge_name,
+                        challengeId: rows[0].challenge_id,
+                        challengeLink: api.config.general.challengeCommunityLink + rows[0].challenge_id,
+                        detailLink: api.config.general.reviewAuctionDetailLink + rows[0].review_auction_id
+                    });
+                });
+            } else {
+                results.reviewData.forEach(function (row) {
+                    var reviewType = row.review_type.trim(),
+                        reviewOpp = {
+                            challengeName: row.challenge_name,
+                            challengeId: row.challenge_id,
+                            round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
+                            round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),
+                            reviewerPayment: row.reviewer_payment,
+                            reviewer: row.reviewer,
+                            reviewType: reviewType
+                        };
                     if (reviewType === 'Spec Review') {
                         delete reviewOpp.round2ScheduledStartDate;
                     }
                     result.data.push(reviewOpp);
                 });
-            } else {
-                // Handle the software challenge here.
-                defaultPayment = results.defaultPayment;
-                adjustPayment = results.adjustPayment;
-                reviewOpportunities.forEach(function (row) {
-                    reviewType = row.review_type.trim();
-                    // TODO: Fix this later.
-                    // TODO: This part should be hard coded. It should be retrieved from database.
-                    if (reviewType === 'Contest Review') {
-                        primaryRoleId = PRIMARY_REVIEW_APPLICATION_ROLE_ID;
-                        secondaryRoleId = SECONDARY_REVIEW_APPLICATION_ROLE_ID;
-                    } else if (reviewType === 'Spec Review') {
-                        primaryRoleId = SPECIFICATION_REVIEW_APPLICATION_ROLE_ID;
-                        secondaryRoleId = 0;
-                    } else if (reviewType === 'Iterative Review') {
-                        primaryRoleId = ITERATIVE_REVIEW_APPLICATION_ROLE_ID;
-                        secondaryRoleId = 0;
-                    }
-                    result.data.push({
-                        primaryReviewerPayment: calculatePayment(defaultPayment, adjustPayment, row, primaryRoleId),
-                        secondaryReviewerPayment: calculatePayment(defaultPayment, adjustPayment, row, secondaryRoleId),
-                        numberOfSubmissions: row.number_of_submissions,
-                        reviewStart: row.review_start,
-                        reviewEnd: row.review_end,
-                        numberOfReviewPositionsAvailable: row.number_of_review_positions_available,
-                        challengeType: row.challenge_type,
-                        reviewType: row.review_type.trim(),
-                        challengeName: row.challenge_name,
-                        challengeId: row.challenge_id,
-                        challengeLink: api.config.general.challengeCommunityLink + row.challenge_id,
-                        detailLink: api.config.general.reviewAuctionDetailLink + row.review_auction_id
-                    });
-                });
-
             }
             // filter the payment.
             result.data = _(result.data)
@@ -539,7 +488,6 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                     return item.primaryReviewerPayment >= filter.reviewPaymentLowerBound
                         && item.primaryReviewerPayment <= filter.reviewPaymentUpperBound;
                 });
-
             result.total = result.data.length;
             result.pageIndex = pageIndex;
             result.pageSize = Number(connection.params.pageIndex) === -1 ? result.data.length : pageSize;
