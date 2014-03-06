@@ -1,0 +1,1 @@
+INSERT INTO invalid_handles VALUES (1, 'duck');
