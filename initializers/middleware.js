@@ -24,6 +24,13 @@ var jwt = require('jsonwebtoken');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 /**
+ * The list of private action name.
+ * TODO: This is just a temporary implement.
+ */
+var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'getChallengeCosts',
+    'getReviewOpportunity', 'getChallengeTerms', 'getBasicUserProfile'];
+
+/**
  * Expose the middleware function to add the pre-processor for authentication via Oauth.
  *
  * @param {Object} api The api object used to access the infrastructure.
@@ -265,7 +272,12 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key = api.helper.createCacheKey(connection);
+        var key, userId = connection.caller.userId || 0;
+        if (PRIVATE_ACTIONS.indexOf(connection.action) > 0) {
+            key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+        } else {
+            key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+        }
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Returning cached response', 'debug');
@@ -298,7 +310,12 @@ exports.middleware = function (api, next) {
 
         async.waterfall([
             function (cb) {
-                var key = api.helper.createCacheKey(connection);
+                var key, userId = connection.caller.userId || 0;
+                if (PRIVATE_ACTIONS.indexOf(connection.action) > 0) {
+                    key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+                } else {
+                    key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+                }
                 api.helper.getCachedValue(key, cb);
             }, function (value, cb) {
                 if (value || connection.response.error) {
