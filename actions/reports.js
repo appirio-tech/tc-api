@@ -170,6 +170,7 @@ exports.getChallengeCosts = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
+    cacheEnabled: false,
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -196,6 +197,7 @@ exports.getClientChallengeCosts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled: false,
     databases: ["tcs_dw"],
     run: function (api, connection, next) {
         api.log("Execute getClientChallengeCosts#run", 'debug');
@@ -297,6 +299,7 @@ exports.getActiveBillingAccounts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled: false,
     databases: ["time_oltp"],
     run: function (api, connection, next) {
         api.log("Execute getActiveBillingAccounts#run", 'debug');
