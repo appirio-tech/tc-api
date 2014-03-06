@@ -12,3 +12,4 @@ WHERE cp.client_id = c.client_id
   AND p.project_id = cp.project_id
   AND p.start_date <= CURRENT
   AND p.end_date >= CURRENT
+  AND p.active = 1
