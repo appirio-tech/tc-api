@@ -713,6 +713,42 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Validate Handle [/users/validate/{handle}]
+### Validate Handle [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+            "handle":"iRabbit"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The handle you entered is not valid"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 #Group Software Challenges
         
 ## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
