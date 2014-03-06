@@ -69,10 +69,10 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
         },
         function (result, cb) {
             if (result.length === 0) {
-                cb(new NotFoundError("user rating info not found"));
-                return;
+                userInfo['rating'] = 0;
+            } else {
+                userInfo = result[0];
             }
-            userInfo = result[0];
             api.idGenerator.getNextID("COMPONENT_INQUIRY_SEQ", dbConnectionMap, function (err, componentInquiryId) {
                 cb(err, componentInquiryId);
             });
@@ -306,11 +306,12 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                                 cbk);
                         },
                         function (result, cbk) {
+                            var reliability;
                             if (result.length === 0) {
-                                cbk(new NotFoundError("user's reliability not found"));
-                                return;
+                                reliability = 0;
+                            } else {
+                                reliability = result[0].rating;    
                             }
-                            var reliability = result[0].rating;
                             if (!_.isNull(reliability) && !_.isUndefined(reliability)) {
                                 persistResourceInfo(api, resourceId, 5, reliability, userId, dbConnectionMap, cbk);
                             } else {
