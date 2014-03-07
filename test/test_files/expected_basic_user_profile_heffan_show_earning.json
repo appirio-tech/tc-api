@@ -133,11 +133,6 @@
             "colorStyle": "color: #00A900"
         },
         {
-            "name": "Marathon Match",
-            "rating": 1622,
-            "colorStyle": "color: #DDCC00"
-        },
-        {
             "name": "First2Finish",
             "rating": 2151,
             "colorStyle": "color: #DDCC00"
@@ -146,6 +141,16 @@
             "name": "Code",
             "rating": 3416,
             "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Algorithm",
+            "rating": 1000,
+            "colorStyle": "color: #00A900"
+        },
+        {
+            "name": "Marathon Match",
+            "rating": 2000,
+            "colorStyle": "color: #DDCC00"
         }
     ],
     "Achievements": [

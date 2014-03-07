@@ -301,7 +301,7 @@ describe('Get Basic User Profile API (with private info)', function () {
             },
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + 'common_oltp__insert_test_data', 'common_oltp', cb);
-            },
+            }
         ], done);
     });
 
@@ -325,7 +325,7 @@ describe('Get Basic User Profile API (with private info)', function () {
 
     /**
      * Create request and return it
-     * @param {String} user requred user
+     * @param {String} user required user
      * @param {Number} statusCode the expected status code
      * @param {String} authHeader the Authorization header. Optional
      * @return {Object} request

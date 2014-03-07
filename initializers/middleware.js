@@ -31,6 +31,22 @@ var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'g
     'getReviewOpportunity', 'getChallengeTerms', 'getBasicUserProfile'];
 
 /**
+ * calculate the key for cache.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @returns {String} the key value.
+ */
+var calculateCacheKey = function (api, connection) {
+    var key, userId = connection.caller.userId || 0;
+    if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
+        key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+    } else {
+        key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+    }
+    return key;
+};
+
+/**
  * Expose the middleware function to add the pre-processor for authentication via Oauth.
  *
  * @param {Object} api The api object used to access the infrastructure.
@@ -272,12 +288,8 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key, userId = connection.caller.userId || 0;
-        if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-            key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
-        } else {
-            key = connection.action + '-' + api.helper.createCacheKey(connection, false);
-        }
+        var key = calculateCacheKey(api, connection);
+
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Returning cached response', 'debug');
@@ -308,12 +320,7 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key, userId = connection.caller.userId || 0;
-        if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-            key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
-        } else {
-            key = connection.action + '-' + api.helper.createCacheKey(connection, false);
-        }
+        var key = calculateCacheKey(api, connection);
 
         async.waterfall([
             function (cb) {

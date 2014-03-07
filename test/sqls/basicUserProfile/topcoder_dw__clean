@@ -1,3 +1,5 @@
+DELETE FROM algo_rating WHERE coder_id = 132456;
+DELETE FROM algo_rating_type_lu;
 DELETE FROM user_payment WHERE user_id = 132456;
 DELETE FROM payment WHERE payment_id = 1000;
 DELETE FROM user_achievement WHERE coder_id = 132456;

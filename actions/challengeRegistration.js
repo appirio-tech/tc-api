@@ -121,7 +121,13 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
         modifyUser: '"' + userId + '"'
     },
         dbConnectionMap,
-        next);
+        function (err, result) {
+            if (err) {
+                next(err);
+            } else {
+                next(null, resourceId);
+            }
+        });
 };
 
 /**
@@ -239,11 +245,10 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
             });
         },
         function (resourceId, callback) {
+            persistResource(api, resourceId, userId, challengeId, dbConnectionMap, callback);
+        },
+        function (resourceId, callback) {
             async.parallel([
-
-                function (cb) {
-                    persistResource(api, resourceId, userId, challengeId, dbConnectionMap, cb);
-                },
                 function (cb) {
                     aduitResourceAddition(api, userId, challengeId, dbConnectionMap, cb);
                 },
@@ -310,7 +315,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                             if (result.length === 0) {
                                 reliability = 0;
                             } else {
-                                reliability = result[0].rating;    
+                                reliability = result[0].rating;
                             }
                             if (!_.isNull(reliability) && !_.isUndefined(reliability)) {
                                 persistResourceInfo(api, resourceId, 5, reliability, userId, dbConnectionMap, cbk);
@@ -367,7 +372,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, dbConnectionMa
                 documentationDetails = '(See "Development Phase Documents" thread)';
             }
 
-            if(componentInfo.phase_id === 112 || componentInfo.phase_id === 113){
+            if (componentInfo.phase_id === 112 || componentInfo.phase_id === 113) {
                 umlToolInfo = "You can read more about our UML tool and download it at\n" +
                         "http://www.topcoder.com/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
             }
@@ -445,12 +450,12 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
                 callback(err, resourceId);
             });
         },
+
+        function (resourceId, callback) {
+            persistResource(api, resourceId, userId, challengeId, dbConnectionMap, callback);
+        },
         function (resourceId, callback) {
             async.parallel([
-
-                function (cb) {
-                    persistResource(api, resourceId, userId, challengeId, dbConnectionMap, cb);
-                },
                 function (cb) {
                     //External Reference ID
                     persistResourceInfo(api, resourceId, 1, userId, userId, dbConnectionMap, cb);
@@ -558,6 +563,7 @@ exports.registerSoftwareChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled : false,
     transaction: 'write',
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -571,7 +577,7 @@ exports.registerSoftwareChallenge = {
                     api.challengeHelper.getChallengeTerms(
                         connection,
                         challengeId,
-                        undefined, //optional value. Here we don't need to provide such value.
+                        "Submitter", //optional value. Here we don't need to provide such value.
                         connection.dbConnectionMap,
                         cb
                     );
@@ -617,6 +623,7 @@ exports.registerStudioChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled : false,
     transaction: 'write',
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -630,7 +637,7 @@ exports.registerStudioChallenge = {
                     api.challengeHelper.getChallengeTerms(
                         connection,
                         challengeId,
-                        undefined, //optional value. Here we don't need to provide such value.
+                        "Submitter",
                         connection.dbConnectionMap,
                         cb
                     );
