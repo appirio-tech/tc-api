@@ -22,7 +22,6 @@ INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 3778, 136);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 2977, 137);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 3995, 146);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 1158, 147);
-INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 1622, 148);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 2151, 149);
 INSERT INTO user_rating(user_id, rating, phase_id) VALUES(132456, 3416, 150);
 
