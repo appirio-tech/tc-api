@@ -41,7 +41,7 @@ var sendEmail = {
      * Main function of addLdapEntry tasks
      *
      * @param {Object} api - object used to access infrastructure
-     * @param {Object} params require fields such as subject, template, toAddress, senderName, url
+     * @param {Object} params require fields such as subject, template, toAddress, senderName, url, userHandle
      * @param {Function} next - callback function
      */
     run: function (api, params, next) {
