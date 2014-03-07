@@ -131,7 +131,7 @@ var getChallengeCosts = function (api, connection, next) {
                             challengeName: row.challenge_name,
                             challengeId: row.challenge_id,
                             challengeType: row.challenge_type,
-                            challengeStatus: row.challenge_status.trim(),
+                            challengeStatus: (row.challenge_status || '').trim(),
                             launchDate: helper.formatDate(row.launch_date, OUTPUT_DATE_FORMAT),
                             completionDate: helper.formatDate(row.completion_date, OUTPUT_DATE_FORMAT),
                             paymentType: row.payment_type,
