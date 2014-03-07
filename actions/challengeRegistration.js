@@ -571,7 +571,7 @@ exports.registerSoftwareChallenge = {
                     api.challengeHelper.getChallengeTerms(
                         connection,
                         challengeId,
-                        SUBMITTER_RESOURCE_ROLE_ID, //optional value. Here we don't need to provide such value.
+                        "Submitter", //optional value. Here we don't need to provide such value.
                         connection.dbConnectionMap,
                         cb
                     );
@@ -630,7 +630,7 @@ exports.registerStudioChallenge = {
                     api.challengeHelper.getChallengeTerms(
                         connection,
                         challengeId,
-                        SUBMITTER_RESOURCE_ROLE_ID, 
+                        "Submitter", 
                         connection.dbConnectionMap,
                         cb
                     );
