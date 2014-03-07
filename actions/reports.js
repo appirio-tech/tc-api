@@ -299,7 +299,6 @@ exports.getActiveBillingAccounts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
-    cacheEnabled: false,
     databases: ["time_oltp"],
     run: function (api, connection, next) {
         api.log("Execute getActiveBillingAccounts#run", 'debug');

@@ -308,14 +308,15 @@ exports.middleware = function (api, next) {
             return;
         }
 
+        var key, userId = connection.caller.userId || 0;
+        if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
+            key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+        } else {
+            key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+        }
+
         async.waterfall([
             function (cb) {
-                var key, userId = connection.caller.userId || 0;
-                if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-                    key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
-                } else {
-                    key = connection.action + '-' + api.helper.createCacheKey(connection, false);
-                }
                 api.helper.getCachedValue(key, cb);
             }, function (value, cb) {
                 if (value || connection.response.error) {
@@ -323,8 +324,7 @@ exports.middleware = function (api, next) {
                     return;
                 }
                 var response = _.clone(connection.response),
-                    lifetime = actionTemplate.cacheLifetime || api.config.general.defaultCacheLifetime,
-                    key = api.helper.createCacheKey(connection);
+                    lifetime = actionTemplate.cacheLifetime || api.config.general.defaultCacheLifetime;
                 delete response.serverInformation;
                 delete response.requesterInformation;
                 api.cache.save(key, response, lifetime, cb);
