@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.15
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, ecnu_haozi
+ * @version 1.16
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -36,6 +36,8 @@
  * - added routes for terms api
  * Changes in 1.15:
  * - added routes for getting studio and software checkpoints
+ * Changes in 1.16:
+ * - added routes for validate handle
  */
 
 /* ---------------------
@@ -108,7 +110,6 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
         { path: "/:apiVersion/design/challenges/checkpoint/:challengeId", action: "getStudioCheckpoint" },
 
-        { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
@@ -117,7 +118,6 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
 
-        { path: "/:apiVersion/design/challenges/:challengeId/register", action: "registerStudioChallenge" },
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
@@ -125,6 +125,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
 
+        { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
@@ -168,6 +169,8 @@ exports.routes = {
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId/register", action: "registerStudioChallenge" },
+        { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" }
     ]
 };

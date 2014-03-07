@@ -191,7 +191,7 @@ describe('Challenge Registration API', function () {
     // Here the notification email will be sent. Modify user11's address and check it manually.
     it('Register software challenge with all of terms of use agreed should success', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/develop/challenges/40000001/register")
+            .post("/v2/develop/challenges/40000001/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user11))
             .expect('Content-Type', /json/)
@@ -210,7 +210,7 @@ describe('Challenge Registration API', function () {
     // Here the notification email will be sent. Modify user11's address and check it manually.
     it('Register again should fail', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/develop/challenges/40000001/register")
+            .post("/v2/develop/challenges/40000001/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user11))
             .expect('Content-Type', /json/)
@@ -222,7 +222,7 @@ describe('Challenge Registration API', function () {
     /// Check if the data are in expected structure and data
     it('Register studio challenge with all of terms of use agreed should success', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/design/challenges/40000002/register")
+            .post("/v2/design/challenges/40000002/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user11))
             .expect('Content-Type', /json/)
@@ -239,7 +239,7 @@ describe('Challenge Registration API', function () {
     // Only agreed a part of terms of use.
     it('Register software challenge with a part of terms of use agreed should fail', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/develop/challenges/40000001/register")
+            .post("/v2/develop/challenges/40000001/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user12))
             .expect('Content-Type', /json/)
@@ -249,7 +249,7 @@ describe('Challenge Registration API', function () {
     // Only agreed a part of terms of use.
     it('Register studio challenge with a part of terms of use agreed should fail', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/design/challenges/40000002/register")
+            .post("/v2/design/challenges/40000002/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user12))
             .expect('Content-Type', /json/)
@@ -259,7 +259,7 @@ describe('Challenge Registration API', function () {
     // negative challengeId number.
     it('negative challenge number', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/design/challenges/-40000002/register")
+            .post("/v2/design/challenges/-40000002/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user12))
             .expect('Content-Type', /json/)
@@ -269,7 +269,7 @@ describe('Challenge Registration API', function () {
     // the challengeId param is not a number.
     it('negative challenge number', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/design/challenges/NAN/register")
+            .post("/v2/design/challenges/NAN/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user12))
             .expect('Content-Type', /json/)
@@ -279,7 +279,7 @@ describe('Challenge Registration API', function () {
     // the challengeId param exceed MAX_INT.
     it('negative challenge number', function (done) {
         supertest(API_ENDPOINT)
-            .get("/v2/design/challenges/214748364700/register")
+            .post("/v2/design/challenges/214748364700/register")
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user12))
             .expect('Content-Type', /json/)

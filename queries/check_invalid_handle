@@ -1,3 +1,3 @@
 select count(*) as count
 from 'informix'.invalid_handles ih
-where ih.invalid_handle = '@invalidHandle@'
+where (ih.invalid_handle) = lower('@invalidHandle@')

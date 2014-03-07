@@ -10,3 +10,10 @@ VALUES(132456, current - 1 units DAY, 5, 'Algorithm Coder of the Month', 'Algori
 
 INSERT INTO payment(payment_id, payment_type_id, payment_type_desc, show_in_profile_ind, charity_ind, show_details_ind) VALUES(1000, 28, 'Assembly Competition Review', 1, 0, 1);
 INSERT INTO user_payment(payment_id, user_id, gross_amount) VALUES(1000, 132456, 1000);
+
+INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(1,'TopCoder Rating');
+INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(2,'TopCoder High School Rating');
+INSERT INTO algo_rating_type_lu(algo_rating_type_id,algo_rating_type_desc) VALUES(3,'Marathon Match Rating');
+
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(132456, 1000, 1);
+INSERT INTO algo_rating(coder_id, rating, algo_rating_type_id) VALUES(132456, 2000, 3);

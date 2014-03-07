@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author mekanizumu, Sky_, xjtufreeman
+ * @version 1.4
+ * @author mekanizumu, Sky_, xjtufreeman, muzehyun
  * changes in 1.1:
  * - disable cache for member register action
  * changes in 1.2:
@@ -12,6 +12,8 @@
  * - Add a new record in algo_rating table
  * - Add a check and error if there is already a social provider id + social user id.
  * - Modify to use case-insensitive check for email.
+ * changes in 1.4:
+ * - Add validate handle api
  */
 "use strict";
 
@@ -25,6 +27,7 @@ var stringUtils = require("../common/stringUtils.js");
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var BadRequestError = require('../errors/BadRequestError');
 
 /**
  * The max surname length
@@ -350,7 +353,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
                     api.log("Activation url: " + url, "debug");
 
-                    api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
+                    api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url, userHandle : user.handle}, 'default');
                         
                     callback(null, null);
                     
@@ -947,7 +950,7 @@ var validateSocialEmailVerified = function (verified) {
 /**
  * The API for register a new member. It is transactional. The response contains a 'message' property if there's any error, or it contains the 'userId' property representing the id of the newly registered user.
  */
-exports.action = {
+exports.memberRegister = {
     name: "memberRegister",
     description: "Register a new member",
     inputs: {
@@ -1100,21 +1103,48 @@ exports.action = {
 };
 
 /**
- * The fake action to avoid a bug in actionHero. actionHero would assume the name of the action to be 'action' if there is only one action. So a dummy one is needed.
+ * The API for validate handle.
  */
-exports.fake = {
-    name: "fake",
-    description: "Fake export to avoid a bug in actionHero",
+exports.validateHandle = {
+    name: "validateHandle",
+    description: "validateHandle",
     inputs: {
-        required: [],
+        required: ["handle"],
         optional: []
     },
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',
+    transaction : 'read',
+    databases : ["common_oltp"],
     run: function (api, connection, next) {
-        if (api) {
-            next(connection, true);
+        var helper = api.helper,
+            handle = connection.params.handle,
+            dbConnectionMap = connection.dbConnectionMap,
+            result;
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
         }
+        async.waterfall([
+            function (cb) {
+                validateHandle(api, connection.params.handle, dbConnectionMap, cb);
+            }, function (results, cb) {
+                if (results) {
+                    cb(new BadRequestError(results));
+                    return;
+                } else {
+                    result = { valid: true };
+                }
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        }); 
     }
-};
+}; // validateHandle
