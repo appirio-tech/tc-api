@@ -563,6 +563,7 @@ exports.registerSoftwareChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled : false,
     transaction: 'write',
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -622,6 +623,7 @@ exports.registerStudioChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled : false,
     transaction: 'write',
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
