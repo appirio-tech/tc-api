@@ -272,12 +272,7 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key, userId = connection.caller.userId || 0;
-        if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-            key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
-        } else {
-            key = connection.action + '-' + api.helper.createCacheKey(connection, false);
-        }
+        var key = api.helper.createCacheKey(connection);
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Returning cached response', 'debug');
@@ -310,12 +305,7 @@ exports.middleware = function (api, next) {
 
         async.waterfall([
             function (cb) {
-                var key, userId = connection.caller.userId || 0;
-                if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-                    key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
-                } else {
-                    key = connection.action + '-' + api.helper.createCacheKey(connection, false);
-                }
+                var key = api.helper.createCacheKey(connection);
                 api.helper.getCachedValue(key, cb);
             }, function (value, cb) {
                 if (value || connection.response.error) {
