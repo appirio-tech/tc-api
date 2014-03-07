@@ -110,7 +110,6 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
         { path: "/:apiVersion/design/challenges/checkpoint/:challengeId", action: "getStudioCheckpoint" },
 
-        { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
@@ -170,6 +169,7 @@ exports.routes = {
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
+		{ path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" }
     ]
