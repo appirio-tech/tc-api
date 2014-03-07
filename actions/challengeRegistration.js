@@ -122,7 +122,7 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
     },
         dbConnectionMap,
         function (err, result) {
-            if(err) {
+            if (err) {
                 next(err);
             } else {
                 next(null, resourceId);
@@ -315,7 +315,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                             if (result.length === 0) {
                                 reliability = 0;
                             } else {
-                                reliability = result[0].rating;    
+                                reliability = result[0].rating;
                             }
                             if (!_.isNull(reliability) && !_.isUndefined(reliability)) {
                                 persistResourceInfo(api, resourceId, 5, reliability, userId, dbConnectionMap, cbk);
@@ -372,7 +372,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, dbConnectionMa
                 documentationDetails = '(See "Development Phase Documents" thread)';
             }
 
-            if(componentInfo.phase_id === 112 || componentInfo.phase_id === 113){
+            if (componentInfo.phase_id === 112 || componentInfo.phase_id === 113) {
                 umlToolInfo = "You can read more about our UML tool and download it at\n" +
                         "http://www.topcoder.com/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
             }
@@ -637,7 +637,7 @@ exports.registerStudioChallenge = {
                     api.challengeHelper.getChallengeTerms(
                         connection,
                         challengeId,
-                        "Submitter", 
+                        "Submitter",
                         connection.dbConnectionMap,
                         cb
                     );

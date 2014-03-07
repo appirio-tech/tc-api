@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author Ghost_141, Sky_, muzehyun
  * Changes in 1.1
  * - add invoice history (challenge costs) api.
@@ -299,7 +299,6 @@ exports.getActiveBillingAccounts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
-    cacheEnabled: false,
     databases: ["time_oltp"],
     run: function (api, connection, next) {
         api.log("Execute getActiveBillingAccounts#run", 'debug');
