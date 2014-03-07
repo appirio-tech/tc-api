@@ -1,7 +1,8 @@
 SELECT
   project_category_id AS challenge_category_id
 , project_type_id AS challenge_type_id
-, name
+, DECODE(name, 'UI Prototype Competition', 'UI Prototype', 'Assembly Competition', 'Assembly', 'Design', 'Component Design', 
+               'Development', 'Component Development', 'RIA Component Competition', 'RIA Component', 'RIA Build Competition', 'RIA Build', name) as name
 , description
 FROM project_category_lu
 WHERE project_type_id IN (@project_type_id@)
