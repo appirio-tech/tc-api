@@ -5,4 +5,5 @@ SELECT
 , description
 FROM project_category_lu
 WHERE project_type_id IN (@project_type_id@)
-ORDER BY project_category_id ASC
+AND display = 't'
+ORDER BY display_order ASC
