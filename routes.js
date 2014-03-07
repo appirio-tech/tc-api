@@ -168,7 +168,6 @@ exports.routes = {
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
-		{ path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/register", action: "registerStudioChallenge" },
         { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
