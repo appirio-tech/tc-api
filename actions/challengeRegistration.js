@@ -121,7 +121,13 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
         modifyUser: '"' + userId + '"'
     },
         dbConnectionMap,
-        next);
+        function (err, result) {
+            if(err) {
+                next(err);
+            } else {
+                next(null, resourceId);
+            }
+        });
 };
 
 /**
@@ -239,11 +245,10 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
             });
         },
         function (resourceId, callback) {
+            persistResource(api, resourceId, userId, challengeId, dbConnectionMap, callback);
+        },
+        function (resourceId, callback) {
             async.parallel([
-
-                function (cb) {
-                    persistResource(api, resourceId, userId, challengeId, dbConnectionMap, cb);
-                },
                 function (cb) {
                     aduitResourceAddition(api, userId, challengeId, dbConnectionMap, cb);
                 },
@@ -445,12 +450,12 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
                 callback(err, resourceId);
             });
         },
+
+        function (resourceId, callback) {
+            persistResource(api, resourceId, userId, challengeId, dbConnectionMap, callback);
+        },
         function (resourceId, callback) {
             async.parallel([
-
-                function (cb) {
-                    persistResource(api, resourceId, userId, challengeId, dbConnectionMap, cb);
-                },
                 function (cb) {
                     //External Reference ID
                     persistResourceInfo(api, resourceId, 1, userId, userId, dbConnectionMap, cb);
