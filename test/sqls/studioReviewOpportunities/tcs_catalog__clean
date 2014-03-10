@@ -1,5 +1,0 @@
-DELETE FROM resource_info WHERE resource_id >= 2001 AND resource_id <= 3000;
-DELETE FROM resource WHERE resource_id >= 2001 AND resource_id <= 3000;
-DELETE FROM project_phase WHERE project_id >= 2001 AND project_id <= 3000;
-DELETE FROM project_info WHERE project_id >= 2001 AND project_id <= 3000;
-DELETE FROM project WHERE project_id >= 2001 AND project_id <= 3000;
