@@ -8,3 +8,4 @@ delete from security_user where login_id > 400010 and login_id < 400020;
 delete from email where email_id > 400010 and email_id < 400020;
 delete from corona_event where user_id > 400010 and user_id < 400020;
 delete from user where user_id > 400010 and user_id < 400020;
+

@@ -38,6 +38,8 @@
  * - added routes for getting studio and software checkpoints
  * Changes in 1.16:
  * - added routes for validate handle
+ * changes in 1.16:
+ * - Combine Challenge Registration API(BUGR-11058)
  */
 
 /* ---------------------
@@ -169,8 +171,7 @@ exports.routes = {
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
-        { path: "/:apiVersion/design/challenges/:challengeId/register", action: "registerStudioChallenge" },
-        { path: "/:apiVersion/develop/challenges/:challengeId/register", action: "registerSoftwareChallenge" },
+        { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" }
     ]
 };
