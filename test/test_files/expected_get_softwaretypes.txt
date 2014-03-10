@@ -1,33 +1,27 @@
 [
   {
-    "challengeCategoryId": 1,
-    "challengeTypeId": 1,
-    "name": "Design",
-    "description": "Design"
+    "challengeCategoryId": 29,
+    "challengeTypeId": 2,
+    "name": "Copilot Posting",
+    "description": "Copilot Posting"
   },
   {
-    "challengeCategoryId": 2,
-    "challengeTypeId": 1,
-    "name": "Development",
-    "description": "Development"
+    "challengeCategoryId": 14,
+    "challengeTypeId": 2,
+    "name": "Assembly",
+    "description": "Assembly Competition"
   },
   {
-    "challengeCategoryId": 3,
-    "challengeTypeId": 1,
-    "name": "Security",
-    "description": "Security"
+    "challengeCategoryId": 13,
+    "challengeTypeId": 2,
+    "name": "Test Suites",
+    "description": "Test Suites"
   },
-  {
-    "challengeCategoryId": 4,
-    "challengeTypeId": 1,
-    "name": "Process",
-    "description": "Process"
-  },
-  {
-    "challengeCategoryId": 5,
-    "challengeTypeId": 1,
-    "name": "Testing Competition",
-    "description": "Testing Competition"
+  { 
+    "challengeCategoryId": 23,
+    "challengeTypeId": 2,
+    "name": "Conceptualization",
+    "description": "Conceptualization"
   },
   {
     "challengeCategoryId": 6,
@@ -42,70 +36,16 @@
     "description": "Architecture"
   },
   {
-    "challengeCategoryId": 8,
-    "challengeTypeId": 2,
-    "name": "Component Production",
-    "description": "Component Production"
+    "challengeCategoryId": 1,
+    "challengeTypeId": 1,
+    "name": "Component Design",
+    "description": "Design"
   },
   {
-    "challengeCategoryId": 9,
-    "challengeTypeId": 2,
-    "name": "Bug Hunt",
-    "description": "Bug Hunt"
-  },
-  {
-    "challengeCategoryId": 10,
-    "challengeTypeId": 2,
-    "name": "Deployment",
-    "description": "Deployment"
-  },
-  {
-    "challengeCategoryId": 11,
-    "challengeTypeId": 2,
-    "name": "Security",
-    "description": "Security"
-  },
-  {
-    "challengeCategoryId": 12,
-    "challengeTypeId": 2,
-    "name": "Process",
-    "description": "Process"
-  },
-  {
-    "challengeCategoryId": 13,
-    "challengeTypeId": 2,
-    "name": "Test Suites",
-    "description": "Test Suites"
-  },
-  {
-    "challengeCategoryId": 14,
-    "challengeTypeId": 2,
-    "name": "Assembly Competition",
-    "description": "Assembly Competition"
-  },
-  {
-    "challengeCategoryId": 15,
-    "challengeTypeId": 2,
-    "name": "Legacy",
-    "description": "Legacy"
-  },
-  {
-    "challengeCategoryId": 19,
-    "challengeTypeId": 2,
-    "name": "UI Prototypes",
-    "description": "UI Prototypes"
-  },
-  {
-    "challengeCategoryId": 23,
-    "challengeTypeId": 2,
-    "name": "Conceptualization",
-    "description": "Conceptualization"
-  },
-  {
-    "challengeCategoryId": 24,
-    "challengeTypeId": 2,
-    "name": "RIA Build",
-    "description": "RIA Build"
+    "challengeCategoryId": 2,
+    "challengeTypeId": 1,
+    "name": "Component Development",
+    "description": "Development"
   },
   {
     "challengeCategoryId": 25,
@@ -114,22 +54,22 @@
     "description": "RIA Component"
   },
   {
+    "challengeCategoryId": 24,
+    "challengeTypeId": 2,
+    "name": "RIA Build",
+    "description": "RIA Build"
+  },
+  {
+    "challengeCategoryId": 19,
+    "challengeTypeId": 2,
+    "name": "UI Prototypes",
+    "description": "UI Prototypes"
+  },
+  {
     "challengeCategoryId": 26,
     "challengeTypeId": 2,
     "name": "Test Scenarios",
     "description": "Test Scenarios"
-  },
-  {
-    "challengeCategoryId": 27,
-    "challengeTypeId": 2,
-    "name": "Spec Review",
-    "description": "Spec Review"
-  },
-  {
-    "challengeCategoryId": 29,
-    "challengeTypeId": 2,
-    "name": "Copilot Posting",
-    "description": "Copilot Posting"
   },
   {
     "challengeCategoryId": 35,
@@ -148,6 +88,12 @@
     "challengeTypeId": 2,
     "name": "Marathon Match",
     "description": "Marathon Match"
+  },
+  { 
+    "challengeCategoryId": 9,
+    "challengeTypeId": 2,
+    "name": "Bug Hunt",
+    "description": "Bug Hunt"
   },
   {
     "challengeCategoryId": 38,

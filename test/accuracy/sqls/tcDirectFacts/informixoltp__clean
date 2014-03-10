@@ -1,0 +1,7 @@
+DELETE FROM round_registration WHERE round_id = 13673;
+DELETE FROM round_component WHERE round_id = 13673;
+DELETE FROM round_terms WHERE round_id = 13673;
+DELETE FROM room WHERE round_id = 13673;
+DELETE FROM round_room_assignment WHERE round_id = 13673;
+DELETE FROM round_segment WHERE round_id = 13673;
+DELETE FROM round WHERE round_id = 13673;

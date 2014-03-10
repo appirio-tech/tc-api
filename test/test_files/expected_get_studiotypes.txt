@@ -1,21 +1,9 @@
 [
   {
-    "challengeCategoryId": 16,
-    "challengeTypeId": 3,
-    "name": "Banners/Icons",
-    "description": "Banners/Icons"
-  },
-  {
     "challengeCategoryId": 17,
     "challengeTypeId": 3,
     "name": "Web Design",
     "description": "Web Design"
-  },
-  {
-    "challengeCategoryId": 18,
-    "challengeTypeId": 3,
-    "name": "Wireframes",
-    "description": "Wireframes"
   },
   {
     "challengeCategoryId": 20,
@@ -24,16 +12,16 @@
     "description": "Logo Design"
   },
   {
-    "challengeCategoryId": 21,
+    "challengeCategoryId": 16,
     "challengeTypeId": 3,
-    "name": "Print/Presentation",
-    "description": "Print/Presentation"
+    "name": "Banners/Icons",
+    "description": "Banners/Icons"
   },
   {
-    "challengeCategoryId": 22,
+    "challengeCategoryId": 32,
     "challengeTypeId": 3,
-    "name": "Idea Generation",
-    "description": "Idea Generation"
+    "name": "Application Front-End Design",
+    "description": "Application Front-End Design"
   },
   {
     "challengeCategoryId": 30,
@@ -48,10 +36,22 @@
     "description": "Front-End Flash"
   },
   {
-    "challengeCategoryId": 32,
+    "challengeCategoryId": 21,
     "challengeTypeId": 3,
-    "name": "Application Front-End Design",
-    "description": "Application Front-End Design"
+    "name": "Print/Presentation",
+    "description": "Print/Presentation"
+  },
+  {
+    "challengeCategoryId": 18,
+    "challengeTypeId": 3,
+    "name": "Wireframes",
+    "description": "Wireframes"
+  },
+  {
+    "challengeCategoryId": 22,
+    "challengeTypeId": 3,
+    "name": "Idea Generation",
+    "description": "Idea Generation"
   },
   {
     "challengeCategoryId": 34,

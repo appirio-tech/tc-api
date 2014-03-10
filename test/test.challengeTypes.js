@@ -38,7 +38,6 @@ describe('Get Challenge Types API', function () {
         check = function (url, fileName, done) {
             var text = fs.readFileSync("test/test_files/" + fileName, 'utf8'),
                 expected = JSON.parse(text);
-            expected.sort(sortBy("challengeCategoryId"));
             request(API_ENDPOINT)
                 .get(url)
                 .set('Accept', 'application/json')

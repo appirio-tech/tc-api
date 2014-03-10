@@ -42,6 +42,9 @@ describe('Get TC Direct Facts', function () {
             clearDb,
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert_test_data", "tcs_catalog", cb);
+            },
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "informixoltp__clean", "informixoltp", cb);
             }
         ], done);
     });
