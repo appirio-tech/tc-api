@@ -1261,18 +1261,18 @@ Register a new user.
         }
 
         
-## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}]
+## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Software Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
-    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -1287,6 +1287,9 @@ Register a new user.
                     "challengeId": 30036096,
                     "projectId": 6789,
                     "forumId": 1001,
+                    "eventId": 1,
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
                     "numSubmissions": 16,
                     "numRegistrants": 27,
                     "screeningScorecardId": 1001,
@@ -1315,6 +1318,9 @@ Register a new user.
                     "challengeId": 30036099,
                     "projectId": 6484,
                     "forumId": 1001,
+                    "eventId": 1,
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
                     "numSubmissions": 16,
                     "numRegistrants": 27,
                     "screeningScorecardId": 1001,
@@ -1343,6 +1349,9 @@ Register a new user.
                     "challengeId": 30036091,
                     "projectId": 6778,
                     "forumId": 1001,
+                    "eventId": 1,
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
                     "numSubmissions": 16,
                     "numRegistrants": 27,
                     "screeningScorecardId": 1001,
