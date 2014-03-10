@@ -265,27 +265,6 @@ Platform APIs
                 }
             ]
         }
-        
-## Platforms [/platform/platforms]
-### Platforms [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "count": 2,
-            "platforms": [ "Heroku", "NodeJs" ]
-            "technologies": [ "JavaScript", "NodeJS" ]
-        }
-        
-## Technologies [/platform/technologies]
-### Technologies [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "count": 2,
-            "technologies": [ "JavaScript", "NodeJS" ]
-        }
 
 # Group User Profile
 Register a new user.
@@ -359,19 +338,19 @@ Register a new user.
 ### Create a new user via social login [POST]
 + Request (application/json)
 
-    {
-        "firstname" : "John",
-        "lastname" : "Doe",
-        "handle" : "uniqueLogin",
-        "country" : "UK",
-        "email" : "name@domain.com",
-        "socialProvider" : "google",
-        "socialUserId": "3003300",
-        "socialUserName" : "JohnsGoogleName",
-        "socialEmail" : "john@gmail.com",
-        "socialEmailVerified" : "true",
-        "regSource": "TC API"
-    }
+        {
+            "firstname" : "John",
+            "lastname" : "Doe",
+            "handle" : "uniqueLogin",
+            "country" : "UK",
+            "email" : "name@domain.com",
+            "socialProvider" : "google",
+            "socialUserId": "3003300",
+            "socialUserName" : "JohnsGoogleName",
+            "socialEmail" : "john@gmail.com",
+            "socialEmailVerified" : "true",
+            "regSource": "TC API"
+        }
 
 + Response 200 (application/json)
 
@@ -3062,7 +3041,27 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-# Group Algorithms Challenges
+# Group Data
+
+## Platforms [/data/platforms]
+### Platforms [GET]
+
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "platforms": [ "Heroku", "NodeJs" ]
+        }
+        
+## Technologies [/data/technologies]
+### Technologies [GET]
+
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "technologies": [ "JavaScript", "NodeJS" ]
+        }
 
 ## Challenge Types Collection [/data/challengetypes]
 ### List all challenge types [GET]
