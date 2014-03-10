@@ -2,6 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_
+ * @version 1.11
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -23,6 +24,8 @@
  * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
  * changes in 1.10:
  * - add challengeCommunityLink and reviewAuctionDetailLink.
+ * Changes in 1.11:
+ * - add cachePrefix in config.general.
  */
 "use strict";
 
@@ -63,6 +66,7 @@ config.general = {
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
+    cachePrefix: '',
     oauthClientId: process.env.OAUTH_CLIENT_ID || "topcoder",
     //auth0 secret is encoded in base64!
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
