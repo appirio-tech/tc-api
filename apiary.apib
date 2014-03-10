@@ -265,6 +265,27 @@ Platform APIs
                 }
             ]
         }
+        
+## Platforms [/platform/platforms]
+### Platforms [GET]
+
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "platforms": [ "Heroku", "NodeJs" ]
+            "technologies": [ "JavaScript", "NodeJS" ]
+        }
+        
+## Technologies [/platform/technologies]
+### Technologies [GET]
+
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "technologies": [ "JavaScript", "NodeJS" ]
+        }
 
 # Group User Profile
 Register a new user.
