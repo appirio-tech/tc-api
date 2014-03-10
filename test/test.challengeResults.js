@@ -91,8 +91,7 @@ describe('Get Challenge Results API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
-        // clearDb(done);
-        done();
+        clearDb(done);
     });
 
     /**

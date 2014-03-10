@@ -179,8 +179,8 @@ exports.searchMarathonChallenges = {
                     helper.checkNonNegativeNumberOptional(filter.roundId, "roundId") ||
                     helper.checkNonNegativeNumber(filter.winnerScoreLowerBound, "winnerScoreLowerBound") ||
                     helper.checkNonNegativeNumber(filter.winnerScoreUpperBound, "winnerScoreUpperBound") ||
-                    helper.checkFilterDateOptional(filter.startDate, "startDate") ||
-                    helper.checkFilterDateOptional(filter.endDate, "endDate");
+                    helper.checkFilterDateOptional(filter.startDate, "startDate", "YYYY-MM-DD") ||
+                    helper.checkFilterDateOptional(filter.endDate, "endDate", "YYYY-MM-DD");
                 if (error) {
                     cb(error);
                     return;

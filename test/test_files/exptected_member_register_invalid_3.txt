@@ -1,5 +1,4 @@
 [
     "Social User Id is required",
-    "Social provider id is not valid.",
-    "The handle you entered is not valid"
+    "Social provider id is not valid."
 ]

@@ -19,7 +19,7 @@ fi
 
 source "./deploy/${environment}.sh"
 
-safeRunCommand "npm install"
+safeRunCommand "npm install --quiet"
 
 safeRunCommand "npm start"
 

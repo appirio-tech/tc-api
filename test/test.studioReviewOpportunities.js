@@ -129,15 +129,8 @@ describe('Get Studio Review Opportunities API', function () {
             .get('/v2/design/reviewOpportunities?pageSize=10')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(400)
-            .end(function (err, result) {
-                if (!err) {
-                    assert.equal(result.body.error.details.trim(), errorObject.pageIndex.missing.trim(), 'Invalid error message');
-                } else {
-                    return done(err);
-                }
-                done();
-            });
+            .expect(200)
+            .end(done);
     });
 
     it('should return Bad Request. pageSize is not number', function (done) {
@@ -204,7 +197,7 @@ describe('Get Studio Review Opportunities API', function () {
             });
     });
 
-    it('should return Bad Request. pageSize is missing', function (done) {
+    it('should return Success results. pageSize is missing', function (done) {
         request(API_ENDPOINT)
             .get('/v2/design/statistics/tops/web_design?pageIndex=1')
             .set('Accept', 'application/json')
@@ -238,7 +231,7 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Success results. sortColumn is valid but in uppercase', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=REVIEWERPAYMENT&sortOrder=desc')
+            .get('/v2/design/reviewOpportunities?sortColumn=REVIEWER&sortOrder=desc')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -247,32 +240,25 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Success results. sortColumn is valid but in lowercase', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=reviewerpayment&sortOrder=desc')
+            .get('/v2/design/reviewOpportunities?sortColumn=reviewtype&sortOrder=desc')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
             .end(done);
     });
 
-    it('should return Bad Request. sortColumn is missing', function (done) {
+    it('should return Success results. sortColumn is missing', function (done) {
         request(API_ENDPOINT)
             .get('/v2/design/reviewOpportunities?sortOrder=asc')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(400)
-            .end(function (err, result) {
-                if (!err) {
-                    assert.equal(result.body.error.details.trim(), errorObject.sortColumn.missing.trim(), 'Invalid error message');
-                } else {
-                    return done(err);
-                }
-                done();
-            });
+            .expect(200)
+            .end(done);
     });
 
     it('should return Bad Request. sortOrder not a valid column name', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortOrder=abc&sortColumn=type')
+            .get('/v2/design/reviewOpportunities?sortOrder=abc&sortColumn=reviewtype')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(400)
@@ -288,7 +274,7 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Success results. sortOrder is valid but in uppercase', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=type&sortOrder=DESC')
+            .get('/v2/design/reviewOpportunities?sortColumn=reviewtype&sortOrder=DESC')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -297,7 +283,7 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Success results. sortOrder is valid but in lowercase', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=type&sortOrder=desc')
+            .get('/v2/design/reviewOpportunities?sortColumn=reviewtype&sortOrder=desc')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -306,29 +292,22 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Bad Request. sortOrder is missing', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=type')
+            .get('/v2/design/reviewOpportunities?sortColumn=reviewtype')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(400)
-            .end(function (err, result) {
-                if (!err) {
-                    assert.equal(result.body.error.details.trim(), errorObject.sortOrder.missing.trim(), 'Invalid error message');
-                } else {
-                    return done(err);
-                }
-                done();
-            });
+            .expect(200)
+            .end(done);
     });
 
-    it('should return Not found', function (done) {
+    it('should return empty results', function (done) {
         request(API_ENDPOINT)
             .get('/v2/design/reviewOpportunities?pageIndex=100&pageSize=200')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(404)
+            .expect(200)
             .end(function (err, result) {
                 if (!err) {
-                    assert(result.body.error.details.trim(), "No Studio Review Opportunities found.", 'Invalid error message');
+                    assert(result.body, "No Studio Review Opportunities found.", 'Invalid error message');
                 } else {
                     return done(err);
                 }
@@ -356,7 +335,7 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Success results. sorting is set', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=type&sortOrder=desc')
+            .get('/v2/design/reviewOpportunities?sortColumn=reviewtype&sortOrder=desc')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -365,7 +344,7 @@ describe('Get Studio Review Opportunities API', function () {
 
     it('should return Success results. sorting and paging are set', function (done) {
         request(API_ENDPOINT)
-            .get('/v2/design/reviewOpportunities?sortColumn=type&sortOrder=desc&pageIndex=1&pageSize=10')
+            .get('/v2/design/reviewOpportunities?sortColumn=reviewtype&sortOrder=desc&pageIndex=1&pageSize=10')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
