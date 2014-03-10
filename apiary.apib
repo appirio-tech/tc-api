@@ -2154,7 +2154,7 @@ Register a new user.
 
 # Group Studio Challenges
 
-## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}]
+## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Studio Challenges [GET]
 
 + Parameters
@@ -2166,6 +2166,8 @@ Register a new user.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
     
 + Response 200 (application/json)
         
@@ -2181,6 +2183,7 @@ Register a new user.
                     "challengeId": 30036096,
                     "projectId": 6789,
                     "forumId": 1001,
+                    "eventId": 1,
                     "numSubmissions": 16,
                     "numRegistrants": 27,
                     "screeningScorecardId": 1001,
@@ -2209,6 +2212,7 @@ Register a new user.
                     "challengeId": 30036096,
                     "projectId": 6789,
                     "forumId": 1001,
+                    "eventId": 1,
                     "numSubmissions": 16,
                     "numRegistrants": 27,
                     "screeningScorecardId": 1001,
