@@ -1265,7 +1265,7 @@ Register a new user.
 ### Search Software Challenges [GET]
 
 + Parameters
-    + value (optional, string, `Development`) ... Value of the filter key-value pair
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
