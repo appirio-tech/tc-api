@@ -19,7 +19,6 @@
 var http = require('http');
 var async = require('async');
 var _ = require('underscore');
-var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
@@ -37,7 +36,7 @@ var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'g
  * @returns {String} the key value.
  */
 var calculateCacheKey = function (api, connection) {
-    var key, userId = connection.caller.userId || 0;
+    var key = '', userId = connection.caller.userId || 0;
     if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
         key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
     } else {
