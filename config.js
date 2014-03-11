@@ -20,6 +20,7 @@
  * - add downloadsRootDirectory parameter
  * changes in 1.8:
  * - add time_oltp and corporate_oltp in databaseMapping.
+ * - added uploadsRootDirectory, thurgoodDownloadUsername and thurgoodDownloadPassword parameters
  * changes in 1.9:
  * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
  * changes in 1.10:
@@ -78,7 +79,13 @@ config.general = {
     filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
-    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid='
+    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
+    
+    /**
+     * The directory where uploaded files are stored.
+     * It can be relative to the current directory or can be absolute 
+     */
+    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission"
 };
 
 /////////////
@@ -245,6 +252,12 @@ config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmis
 //The name of the folder where to store the submission files.
 //Please make sure the directory already exists
 config.submissionDir = process.env.SUBMISSION_DIR || 'test/tmp/submissions';
+
+/**
+ * The thurgood username and password used for downloading submissions
+ */
+config.thurgoodDownloadUsername = process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood";
+config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret";
 
 //Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
 //Set to 0 or negative for no size limit.

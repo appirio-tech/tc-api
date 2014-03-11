@@ -1,0 +1,296 @@
+database common_oltp;
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124764', 124764, 1, 'user124764');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124772', 124772, 1, 'user124772');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124766', 124766, 1, 'user124766');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124776', 124776, 1, 'user124776');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124834', 124834, 1, 'user124834');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb132456', 132456, 1, 'user132456');
+
+database tcs_catalog;
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88801, 2, 7, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind) 
+VALUES ('88801', '1', 'Sample contest for upload submission API', 'NodeJS Upload Submission API Dev Project', 'Sample contest for upload submission API', 'Component', '2010-05-21 07:20:14.48', '102', '5801778', '2010-05-21 07:23:44.0', '0');
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind) 
+VALUES ('88801', '88801', '1', '1.0', '2010-05-21 07:20:14.48', '112', '1976-05-04 00:00:00.0', '1000.00', 'Cool', '2010-05-21 07:27:01.0', '0');
+
+INSERT INTO comp_version_dates (comp_version_dates_id, comp_vers_id, phase_id, posting_date, initial_submission_date, winner_announced_date, final_submission_date, estimated_dev_date, price, total_submissions, status_id, create_time, level_id, screening_complete_date, review_complete_date, aggregation_complete_date, phase_complete_date, production_date, aggregation_complete_date_comment, phase_complete_date_comment, review_complete_date_comment, winner_announced_date_comment, initial_submission_date_comment, screening_complete_date_comment, final_submission_date_comment, production_date_comment, modify_date) 
+VALUES ('88801', '88801', '112', '1976-05-05', '2000-01-01', '2000-01-01', '2000-01-01', '2000-01-01', NULL, '0', '301', '2010-05-21 07:27:01.0', '100', '2000-01-01', '2000-01-01', '2000-01-01', '2000-01-01', '2010-12-01', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2010-05-21 07:27:01.0');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88801', '88801', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88802', '88801', '2', '2', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88803', '88801', '3', '1', '2010-06-07 09:00:00.0', '2010-06-07 09:00:00.0', '2010-06-08 09:00:00.0', NULL, NULL, '86400000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88804', '88801', '4', '1', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88805', '88801', '15', '2', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES ('88801', '1', '88801', '132456', '2010-05-21 07:26:30.0', '132456', '2010-05-21 07:26:30.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES ('88801', '75', '88802', 'thPlat', '2010-05-21 07:26:30.0', '132456', '2010-05-21 07:26:30.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES ('88801', '76', '88803', 'thLang', '2010-05-21 07:26:30.0', '132456', '2010-05-21 07:26:30.0');
+
+INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date) VALUES ('88804', '1', '0', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+-- Hung is submitter, twight is reviewer and screener, sandking is Copilot, Partha is post-mortem reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88811, 1, 88801, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88812, 16, 88801, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88813, 2, 88801, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88814, 4, 88801, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88815, 14, 88801, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88811, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88811, 2, 'Hung', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88812, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88812, 2, 'Partha', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88813, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88813, 2, 'twight', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88814, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88814, 2, 'twight', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88815, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88815, 2, 'sandking', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88821, 88801, 88811, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88822, 88801, 88811, 1, 2, 'test.zip', 132456, '2013-12-12 04:01:24', 132456, '2013-12-12 00:00:00');
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88823, 88801, 88811, 1, 1, 'test.zip', 132456, '2013-12-12 07:00:07', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88821, 88821, 1, 100.0, 88.6, 97.47, 1, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88822, 88822, 5, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 04:01:24', 132458, '2013-12-12 04:01:24', null);
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88823, 88823, 1, 100.0, NULL, NULL, NULL, 3, 132458, '2013-12-12 07:00:07', 132458, '2013-12-12 07:00:07', null);
+
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88802, 2, 16, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88881, 1, 88802, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88881, 88802, 88881, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88881, 88881, 1, 100.0, 88.6, 97.47, 1, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88803, 2, 37, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88882, 1, 88803, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88882, 88803, 88882, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88882, 88882, 1, 100.0, 88.6, 97.47, 1, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+-- This is a similar project to 88801 but it is in screening phase rather than submission phase
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88804, 2, 7, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88806', '88804', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88807', '88804', '2', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88808', '88804', '3', '2', '2010-06-07 09:00:00.0', '2010-06-07 09:00:00.0', '2010-06-08 09:00:00.0', NULL, NULL, '86400000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88809', '88804', '4', '1', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung is submitter, twight is reviewer and screener, sandking is Copilot, Partha is reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88816, 1, 88804, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88817, 4, 88804, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88818, 2, 88804, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88819, 4, 88804, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88820, 14, 88804, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88816, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88817, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88818, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88819, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88820, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88824, 88804, 88816, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88824, 88824, 1, 100.0, 88.6, 97.47, 1, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+
+-- This is a similar project to 88804 but it is in review phase rather than screening phase
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88805, 2, 7, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88810', '88805', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88811', '88805', '2', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88812', '88805', '3', '3', '2010-06-07 09:00:00.0', '2010-06-07 09:00:00.0', '2010-06-08 09:00:00.0', NULL, NULL, '86400000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88813', '88805', '4', '2', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung and Partha are submitters, twight is reviewer and screener, Partha is reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88821, 1, 88805, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88822, 4, 88805, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88823, 2, 88805, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88824, 4, 88805, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88830, 1, 88805, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88821, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88822, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88823, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88824, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88830, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88825, 88805, 88821, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88830, 88805, 88830, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88825, 88825, 1, 100.0, 88.6, 97.47, 1, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88830, 88830, 1, 100.0, 84.6, 91.2, 2, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+
+-- This is a similar project to 88805 but it is in aggregation phase rather than review phase
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88806, 2, 7, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88814', '88806', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88815', '88806', '2', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88816', '88806', '3', '3', '2010-06-07 09:00:00.0', '2010-06-07 09:00:00.0', '2010-06-08 09:00:00.0', NULL, NULL, '86400000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88817', '88806', '4', '3', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88818', '88806', '5', '3', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88819', '88806', '6', '3', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88820', '88806', '7', '2', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung, Partha and sandking are submitters, twight is reviewer and screener
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88825, 1, 88806, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88826, 1, 88806, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88827, 2, 88806, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88828, 4, 88806, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88829, 1, 88806, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88825, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88826, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88827, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88828, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88829, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88826, 88806, 88825, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88826, 88826, 1, 100.0, 88.6, 97.47, 1, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88827, 88806, 88826, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88827, 88827, 1, 100.0, 78.1, 87.47, 2, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+-- A submission which failed screening
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88828, 88806, 88829, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88828, 88828, 2, 20.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+-- This is a First2Finish project so it has Iterative Review. It is currently in Submission Phase with 4 submissions 2 of which are already reviewed 
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88807, 2, 38, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88821', '88807', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88822', '88807', '2', '2', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung, Partha and sandking are submitters, twight is iterative reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88831, 1, 88807, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88832, 1, 88807, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88833, 21, 88807, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88834, 1, 88807, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88831, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88832, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88833, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88834, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88831, 88807, 88831, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88831, 88831, 3, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88832, 88807, 88832, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88832, 88832, 3, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 04:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88834, 88807, 88834, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88834, 88834, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 10:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88835, 88807, 88831, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88835, 88835, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 11:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO review (review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, score, create_user, create_date, modify_user, modify_date) VALUES (88801, 88833, 88831, 88822, 30000419, 1, 60, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO review (review_id, resource_id, submission_id, project_phase_id, scorecard_id, committed, score, create_user, create_date, modify_user, modify_date) VALUES (88802, 88833, 88832, 88822, 30000419, 1, 65, 132456, CURRENT, 132456, CURRENT);
+
+
+
+-- This is a project where a submitter makes submissions in all sorts of formats
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88808, 2, 38, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88823', '88808', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88824', '88808', '2', '2', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung is a submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88840, 1, 88808, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88840, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88840, 88808, 88840, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88840, 88840, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88841, 88808, 88840, 1, 1, 'test.tar.gz', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88841, 88841, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88842, 88808, 88840, 1, 1, 'test.doc', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88842, 88842, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88843, 88808, 88840, 1, 1, 'test.7z', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88843, 88843, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88844, 88808, 88840, 1, 1, 'test.jar', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88844, 88844, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88845, 88808, 88840, 1, 1, 'test.docx', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88845, 88845, 1, 100.0, NULL, NULL, NULL, 1, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+
+-- This is a project in checkpoint screening phase and a checkpoint submission
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88809, 2, 7, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88825', '88809', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88826', '88809', '2', '2', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88827', '88809', '16', '2', '2010-06-07 09:00:00.0', '2010-06-07 09:00:00.0', '2010-06-08 09:00:00.0', NULL, NULL, '86400000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88828', '88809', '17', '1', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung is submitter, sandking is checkpoint screener, Partha is checkpoint reviewer, twight is screener and reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88851, 1, 88809, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88852, 19, 88809, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88853, 20, 88809, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88854, 3, 88809, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88855, 4, 88809, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88851, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88852, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88853, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88854, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88855, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88851, 88809, 88851, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88851, 88851, 1, NULL, NULL, NULL, NULL, 3, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
+
+-- This is a project in checkpoint review phase and a checkpoint submission
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (88810, 2, 7, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88830', '88810', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', NULL, NULL, '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88831', '88810', '2', '2', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88832', '88810', '16', '3', '2010-06-07 09:00:00.0', '2010-06-07 09:00:00.0', '2010-06-08 09:00:00.0', NULL, NULL, '86400000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('88833', '88810', '17', '2', '2010-06-08 09:00:00.0', '2010-06-08 09:00:00.0', '2010-06-14 09:00:00.0', NULL, NULL, '345600000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
+
+-- Hung is submitter, sandking is checkpoint screener, Partha is checkpoint reviewer, twight is screener and reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88856, 1, 88810, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88857, 19, 88810, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88858, 20, 88810, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88859, 3, 88810, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (88860, 4, 88810, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88856, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88857, 1, 124776, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88858, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88859, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (88860, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+
+
+INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date) VALUES (88852, 88810, 88856, 1, 1, 'test.zip', 132456, '2013-12-12 01:00:00', 132456, '2013-12-12 00:00:00');
+
+INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (88852, 88852, 1, NULL, NULL, NULL, NULL, 3, 132458, '2013-12-12 01:00:00', 132458, '2013-12-12 01:00:00', null);
+
+
