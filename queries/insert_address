@@ -1,0 +1,2 @@
+INSERT INTO address(address_id, line1, line2, city, country_name_id, state_name_id, zip_code, creation_date, creation_user, modification_date, modification_user) 
+VALUES (@addressId@, '@line1@', '@line2@', '@city@', @countryNameId@, @stateNameId@, '@zipCode@', CURRENT, @userId@, CURRENT, @userId@)

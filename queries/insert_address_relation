@@ -1,0 +1,2 @@
+INSERT INTO address_relation(entity_id, address_type_id, address_id, creation_date, creation_user, modification_date, modification_user) 
+VALUES (@entityId@, @addressTypeId@, @addressId@, CURRENT, '@userId@', CURRENT, '@userId@')
