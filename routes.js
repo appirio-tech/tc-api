@@ -27,6 +27,7 @@
  * - added routes for terms api
  * Changes in 1.11:
  * - add invoice history api.
+ * - added route for dev download submission api 
  * Changes in 1.12:
  * - added route for dev upload submission api
  * - added route for create customer
@@ -121,6 +122,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+        { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
 
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },

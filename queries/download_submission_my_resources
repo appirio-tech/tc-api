@@ -1,0 +1,10 @@
+SELECT r.resource_id, r.resource_role_id, rrl.name as resource_role_name
+FROM resource r
+INNER JOIN resource_info ri ON r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1
+INNER JOIN resource_role_lu rrl ON r.resource_role_id = rrl.resource_role_id
+WHERE ri.value = '@userId@'
+AND r.project_id = (
+	SELECT project_id
+	FROM upload
+	WHERE upload_id = @uploadId@	
+);

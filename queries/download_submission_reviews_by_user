@@ -1,0 +1,12 @@
+SELECT u.upload_id, s.submission_id
+FROM upload u
+INNER JOIN submission s ON u.upload_id = s.upload_id
+INNER JOIN review rev ON rev.submission_id = s.submission_id
+INNER JOIN resource r ON rev.resource_id = r.resource_id
+INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
+WHERE ri.value = '@userId@'
+AND u.project_id = (
+	SELECT project_id
+	FROM upload
+	WHERE upload_id = @uploadId@
+);

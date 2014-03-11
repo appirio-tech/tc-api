@@ -1,0 +1,5 @@
+{
+  "name"  	: "download_submission_reviews_by_user",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "download_submission_reviews_by_user"
+}
