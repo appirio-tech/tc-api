@@ -37,10 +37,6 @@ exports.getPlatforms = {
         }
         async.waterfall([
             function (cb) {
-                if (connection.caller.accessLevel === 'anon') {
-                    cb(new UnauthorizedError());
-                    return;
-                }
                 api.dataAccess.executeQuery('get_data_platforms', {}, dbConnectionMap, cb);
             }, function (results, cb) {
                 result = {
@@ -86,10 +82,6 @@ exports.getTechnologies = {
         }
         async.waterfall([
             function (cb) {
-                if (connection.caller.accessLevel === 'anon') {
-                    cb(new UnauthorizedError('Not allowed for anonymouse'));
-                    return;
-                }
                 api.dataAccess.executeQuery('get_data_technologies', {}, dbConnectionMap, cb);
             }, function (results, cb) {
                 result = {
