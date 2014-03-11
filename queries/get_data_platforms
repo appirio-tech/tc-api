@@ -1,0 +1,4 @@
+SELECT project_platform_lu.name
+FROM project_platform, project_platform_lu
+WHERE project_platform.project_platform_id = project_platform_lu.project_platform_id
+ORDER BY name ASC;

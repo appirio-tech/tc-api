@@ -1,0 +1,4 @@
+SELECT DISTINCT technology_types.technology_name AS name
+FROM comp_technology, technology_types
+WHERE technology_types.technology_type_id = comp_technology.technology_type_id
+ORDER BY name ASC;

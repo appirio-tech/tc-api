@@ -1,0 +1,5 @@
+{
+    "name"    : "get_data_technologies",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_data_technologies"
+}
