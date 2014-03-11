@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.16
+ * @version 1.17
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
@@ -42,6 +42,8 @@
  * - added routes for validate handle
  * changes in 1.16:
  * - Combine Challenge Registration API(BUGR-11058)
+ * changes in 1.17:
+ * - added routes for data platforms and technologies
  */
 
 /* ---------------------
@@ -143,6 +145,8 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
+        { path: "/:apiVersion/data/platforms", action: "getPlatforms" },
+        { path: "/:apiVersion/data/technologies", action: "getTechnologies" },
 
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
