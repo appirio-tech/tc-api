@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.11
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141
+ * @version 1.12
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -27,6 +27,8 @@
  * - added routes for terms api
  * Changes in 1.11:
  * - add invoice history api.
+ * Changes in 1.12:
+ * - added route for create customer
  */
 
 /* ---------------------
@@ -151,6 +153,7 @@ exports.routes = {
     ].concat(testMethods.get),
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
-        { path: "/:apiVersion/auth", action: "generateJwt" }
+        { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
     ]
 };
