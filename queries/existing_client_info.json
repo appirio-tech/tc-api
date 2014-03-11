@@ -1,0 +1,5 @@
+{
+  "name"    : "existing_client_info",
+  "db"      : "time_oltp",
+  "sqlfile" : "existing_client_info"
+}

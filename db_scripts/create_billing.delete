@@ -1,0 +1,17 @@
+database common_oltp;
+delete from user_social_login where user_id in (124764, 132456);
+
+database time_oltp;
+delete from client_project where project_id >= 10000000 AND project_id <= 10010000;
+delete from project where project_id >= 10000000 AND project_id <= 10010000;
+delete from address_relation where address_id >= 11000000 AND address_id <= 11010000;
+delete from address where address_id >= 11000000 AND address_id <= 11010000;
+delete from contact_relation where contact_id >= 12000000 AND contact_id <= 12010000;
+delete from contact where contact_id >= 12000000 AND contact_id <= 12010000;
+
+delete from address_audit where address_id >= 11000000 AND address_id <= 11000100;
+delete from contact_audit where contact_id >= 12000000 AND contact_id <= 12000100;
+delete from project_audit where project_id >= 10000000 AND project_id <= 10000100;
+
+delete from client where client_id IN (78601, 78602);
+delete from client_audit where client_id IN (78601, 78602);

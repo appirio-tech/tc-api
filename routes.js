@@ -30,7 +30,8 @@
  * Changes in 1.12:
  * - added route for dev upload submission api
  * - added route for create customer
- * Changes in 1.13
+ * Changes in 1.13:
+ * - added route for create billing api
  * - added register challenge for a given user api.
  * Changes in 1.14:
  * - added route for active billing accounts
@@ -174,6 +175,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/platform/billing", action: "createBilling" }
         { path: "/:apiVersion/platform/customer", action: "createCustomer" }
     ]
 };

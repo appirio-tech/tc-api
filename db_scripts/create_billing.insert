@@ -1,0 +1,13 @@
+database common_oltp;
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124764', 124764, 1, 'user124764');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb132456', 132456, 1, 'user132456');
+
+database time_oltp;
+INSERT INTO client(client_id, name, company_id, payment_term_id, status, salestax, start_date, end_date, creation_date, creation_user, modification_date, modification_user, customer_number) 
+VALUES (78601, 'existingClientName', 1, 1, 1, 0, CURRENT, CURRENT + 3 UNITS YEAR, CURRENT, '132456', CURRENT, '132456', 'existingCustomerNumber');
+
+INSERT INTO client(client_id, name, company_id, payment_term_id, status, salestax, start_date, end_date, creation_date, creation_user, modification_date, modification_user, customer_number) 
+VALUES (78602, 'blah1234235', 1, 1, 1, 0, CURRENT, CURRENT + 3 UNITS YEAR, CURRENT, '132456', CURRENT, '132456', 'customerNumberDEF');
+
+INSERT INTO project(project_id, company_id, name, payment_terms_id, active, sales_tax, po_box_number, description, start_date, end_date, creation_date, creation_user, modification_date, modification_user, is_manual_prize_setting, subscription_number) 
+VALUES (10009999, 1, 'proj89734983274', 1, 1, 0, '06663', 'descproj83297823792', CURRENT, CURRENT + 3 UNITS YEAR, CURRENT, '132456', CURRENT, '132456', 1, 'existingSubscriptionNumber');

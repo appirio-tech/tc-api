@@ -1,0 +1,1 @@
+SELECT client_id FROM client WHERE customer_number = '@customerNumber@'
