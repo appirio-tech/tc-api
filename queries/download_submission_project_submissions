@@ -1,0 +1,17 @@
+SELECT 
+	r.resource_id, 
+	r.resource_role_id, 
+	u.upload_id, 
+	s.submission_id, 
+	s.submission_status_id, 
+	s.create_date
+FROM upload u
+INNER JOIN submission s ON u.upload_id = s.upload_id
+INNER JOIN resource r ON u.resource_id = r.resource_id
+AND s.submission_type_id = 1
+AND r.project_id = (
+	SELECT project_id
+	FROM upload
+	WHERE upload_id = @uploadId@
+)
+ORDER BY s.create_date ASC;

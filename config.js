@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.7
- * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_
+ * @version 1.8
+ * @author vangavroche, TCSASSEMBLER, Ghost_141, Sky_, TCSASSEMBLER
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -17,6 +17,8 @@
  * - add corporate_oltp in database mapping.
  * changes in 1.7:
  * - add downloadsRootDirectory parameter
+ * changes in 1.8
+ * - added uploadsRootDirectory, thurgoodDownloadUsername and thurgoodDownloadPassword parameters
  */
 "use strict";
 
@@ -66,7 +68,12 @@ config.general = {
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
     // filteredParams: ['password'],
-    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads"
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
+    /**
+     * The directory where uploaded files are stored.
+     * It can be relative to the current directory or can be absolute 
+     */
+    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission"
 };
 
 /////////////
@@ -524,6 +531,12 @@ config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocum
  * The default password to be used for social register
  */
 config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
+
+/**
+ * The thurgood username and password used for downloading submissions
+ */
+config.thurgoodDownloadUsername = process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood";
+config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret";
 
 //////////////////////////////////
 

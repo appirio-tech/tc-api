@@ -1,0 +1,5 @@
+{
+  "name"  	: "download_submission_project_submissions",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "download_submission_project_submissions"
+}

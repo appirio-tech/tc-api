@@ -1,5 +1,4 @@
 *.log
-*.zip
 log
 pids
 deploy/prod.sh

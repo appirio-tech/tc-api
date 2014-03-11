@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun
+ * @version 1.11
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -25,6 +25,8 @@
  * - add route for client challenge costs
  * Changes in 1.10:
  * - added routes for terms api 
+ * Changes in 1.11:
+ * - added route for dev download submission api 
  */
 
 /* ---------------------
@@ -100,6 +102,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+        { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
 
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },

@@ -4046,3 +4046,62 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+# Group Download
+Download APIs
+
+## Download Dev Submission [/dev/download/{uploadId}]
+### Download Dev Submission [GET]
++ Parameters
+    + uploadId (required, string, `uploadId`) ... The upload id of the submission
+    
++ Response 200 (application/json)
+
+        ...[raw file data]...
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+		
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }            

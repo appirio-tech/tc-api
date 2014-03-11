@@ -1,0 +1,5 @@
+{
+  "name"  	: "download_submission_my_resources",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "download_submission_my_resources"
+}
