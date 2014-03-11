@@ -12,7 +12,6 @@
 "use strict";
 var async = require('async');
 
-
 /**
  * Expose the "idGenerator" utility.
  *
