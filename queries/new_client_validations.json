@@ -1,0 +1,5 @@
+{
+  "name"    : "new_client_validations",
+  "db"      : "time_oltp",
+  "sqlfile" : "new_client_validations"
+}

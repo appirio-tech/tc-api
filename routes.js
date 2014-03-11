@@ -29,6 +29,7 @@
  * - add invoice history api.
  * Changes in 1.12:
  * - added route for dev upload submission api
+ * - added route for create customer
  * Changes in 1.13
  * - added register challenge for a given user api.
  * Changes in 1.14:
@@ -172,6 +173,7 @@ exports.routes = {
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
-        { path: "/:apiVersion/auth", action: "generateJwt" }
+        { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
     ]
 };
