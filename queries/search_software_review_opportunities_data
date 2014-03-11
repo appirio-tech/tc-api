@@ -34,9 +34,8 @@ SELECT
           AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 3 AND up.project_id = p.project_id AND up.upload_type_id = 1)
        WHEN dpp.resource_role_id = 20 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
           AND s.submission_status_id IN (1,2,3,4,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
-       WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up, review r WHERE s.upload_id = up.upload_id 
-          AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1
-          AND r.submission_id = s.submission_id AND r.committed = 1)
+       WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
+          AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
   END AS submission_count
 
 FROM review_auction ra
@@ -89,9 +88,8 @@ SELECT
           AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 3 AND up.project_id = p.project_id AND up.upload_type_id = 1)
        WHEN dpp.resource_role_id = 20 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
           AND s.submission_status_id IN (1,2,3,4,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
-       WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up, review r WHERE s.upload_id = up.upload_id 
-          AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1
-          AND r.submission_id = s.submission_id AND r.committed = 1)
+       WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
+          AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
   END AS submission_count
 
 FROM review_auction ra
@@ -150,9 +148,8 @@ SELECT
           AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 3 AND up.project_id = p.project_id AND up.upload_type_id = 1)
        WHEN dpp.resource_role_id = 20 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
           AND s.submission_status_id IN (1,2,3,4,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
-       WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up, review r WHERE s.upload_id = up.upload_id 
-          AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1
-          AND r.submission_id = s.submission_id AND r.committed = 1)
+       WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
+          AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
   END AS submission_count
 
 FROM review_auction ra
