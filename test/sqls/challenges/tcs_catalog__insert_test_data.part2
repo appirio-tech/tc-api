@@ -108,6 +108,15 @@ VALUES(200011,30,'675','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(200011,45,'true','132456',CURRENT,'132456',CURRENT);
 
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 200011, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (200011, 1, 30400008, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400008, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400008, 30400008, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10004, 30400008, 4);
 
 INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
 VALUES(200011,200011,1,1500.0,15,1,'132456',CURRENT,'132456',CURRENT);
@@ -219,6 +228,8 @@ VALUES(10001,32,'2','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10001,70,'cmc','132456',CURRENT,'132456',CURRENT);
 
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500002, 10001, CURRENT);
+
 --registration phase
 INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,
 fixed_start_time,scheduled_start_time,scheduled_end_time,actual_start_time,actual_end_time,duration,
@@ -304,6 +315,8 @@ INSERT INTO project_info(project_id,project_info_type_id,value,create_user,creat
 VALUES(10011,36,'800','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10011,32,'2','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500002, 10011, CURRENT);
 
 --registration phase
 INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,

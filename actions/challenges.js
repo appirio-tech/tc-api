@@ -301,7 +301,17 @@ function formatDate(date) {
  * @return {Array} a list of transferred challenges
  */
 function transferResult(src, helper) {
-    var ret = [];
+    var ret = [],
+    mapPlatforms = function (results) {
+        if (!_.isDefined(results)) {
+            return [];
+        }
+        var platforms = [];
+        results.forEach(function (item) {
+            platforms.push(item.name);
+        });
+        return platforms;
+    };
     src.forEach(function (row) {
         var challenge = {
             challengeType : row.challenge_type,
@@ -309,6 +319,10 @@ function transferResult(src, helper) {
             challengeId : row.challenge_id,
             projectId : row.project_id,
             forumId : row.forum_id,
+            eventId: row.event_id,
+            eventName: row.event_name,
+            platforms: row.platforms.split(', '),
+            technologies: row.technology.split(', '),
             numSubmissions : row.num_submissions,
             numRegistrants : row.num_registrants,
             screeningScorecardId : row.screening_scorecard_id,

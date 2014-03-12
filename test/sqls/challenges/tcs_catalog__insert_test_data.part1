@@ -308,6 +308,23 @@ VALUES(100001,30,'450','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(100001,45,'true','132456',CURRENT,'132456',CURRENT);
 
+INSERT INTO event (event_id, event_type_id, event_short_desc) VALUES (3437, 4, "TCO14");
+INSERT INTO event (event_id, event_type_id, event_short_desc) VALUES (3436, 4, "TCO13");
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(31500001, 'TCO', 3437, CURRENT);
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(31500002, 'TCO', 3436, CURRENT);
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 100001, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (100001, 1, 30400003, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400003, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400003, 30400003, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10003, 30400003, 3);
+
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100001, 4, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100001, 5, 132456, CURRENT, 132456, CURRENT);
+
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(100001,70,'cmc','132456',CURRENT,'132456',CURRENT);
 
@@ -407,6 +424,19 @@ VALUES(100011,45,'true','132456',CURRENT,'132456',CURRENT);
 
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(100011,70,'cmc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 100011, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (100011, 1, 30400005, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400005, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400005, 30400005, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10002, 30400005, 4);
+
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100011, 1, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100011, 2, 132456, CURRENT, 132456, CURRENT);
 
 INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
 VALUES(100011,100011,1,800.0,15,1,'132456',CURRENT,'132456',CURRENT);
@@ -532,3 +562,19 @@ INSERT INTO project_info(project_id,project_info_type_id,value,create_user,creat
 VALUES(200001,30,'450','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(200001,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500002, 200001, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (200001, 1, 30400002, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400002, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400002, 30400002, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10000, 30400002, 2);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10001, 30400002, 27167850);
+
+
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (200001, 1, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (200001, 6, 132456, CURRENT, 132456, CURRENT);
+

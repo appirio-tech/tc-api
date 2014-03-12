@@ -64,6 +64,12 @@ describe('Test Challenges API', function () {
             "Invalid submissionEndDate");
         assert.ok(challenge.prize, "Invalid prize");
         assert.ok(challenge.prize.length, "Invalid prize.length");
+        assert.ok(challenge.eventId, "Invalid eventId");
+        assert.ok(challenge.eventName, "Invalid eventName");
+        assert.ok(challenge.platforms, "Invalid platforms");
+        assert.ok(challenge.platforms.length, "Invalid platforms.length");
+        assert.ok(challenge.technologies, "Invalid technologies");
+        assert.ok(challenge.technologies.length, "Invalid technologies.length");
     }
 
     /**
