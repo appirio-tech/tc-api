@@ -33,22 +33,16 @@ AND submpp.scheduled_end_time > CURRENT
    AND r.round_type_id in (13,15,19,22,24,25)
    )  AS active_contests_count,
 
-    (select count (distinct u.user_id)
+    (select count (unique u.user_id)
   from resource rur
   	 , resource_info ri
      , project p
-     , project_phase pi
      , user u
-     , project_info pi_vi
  where 1 =  1
   and p.project_id = rur.project_id
   and rur.resource_id = ri.resource_id
   and rur.resource_role_id = 1
   and ri.resource_info_type_id = 1
-  and p.project_id = pi_vi.project_id
-  and pi_vi.project_info_type_id = 2
-  and pi.project_id = p.project_id
-  and pi.phase_type_id = 2
   and ri.value = u.user_id
   and p.project_status_id = 1) AS active_members_count, 
   
