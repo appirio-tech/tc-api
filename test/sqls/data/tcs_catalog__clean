@@ -1,2 +1,0 @@
-DELETE FROM project_platform;
-DELETE FROM comp_technology WHERE technology_type_id != 1

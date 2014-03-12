@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author TCSASSEMBLER
+ * @version 1.1
+ * @author muzehyun
+ * @changes in 1.1
+ * - Allowed anonymous user, returns all existing platforms and technologies.
  */
 "use strict";
 var async = require('async');
