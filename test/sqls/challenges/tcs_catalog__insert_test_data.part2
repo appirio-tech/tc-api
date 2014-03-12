@@ -427,6 +427,8 @@ VALUES(10021,36,'1000','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10021,32,'2','132456',CURRENT,'132456',CURRENT);
 
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 10021, CURRENT);
+
 --registration phase
 INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,
 fixed_start_time,scheduled_start_time,scheduled_end_time,actual_start_time,actual_end_time,duration,
@@ -473,6 +475,8 @@ INSERT INTO project_info(project_id,project_info_type_id,value,create_user,creat
 VALUES(10031,36,'1000','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10031,32,'2','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 10031, CURRENT);
 
 --registration phase
 INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,
@@ -575,6 +579,9 @@ INSERT INTO project_info(project_id,project_info_type_id,value,create_user,creat
 VALUES(10041,53,'true','132456',CURRENT,'132456',CURRENT);
 INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,32,'2','132456',CURRENT,'132456',CURRENT);
+
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 10041, CURRENT);
 
 --registration phase
 INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,
