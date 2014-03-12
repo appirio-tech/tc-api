@@ -2,8 +2,18 @@ DELETE FROM review_item_comment WHERE resource_id = 10045;
 DELETE FROM review_item WHERE review_item_id = 1;
 DELETE FROM review WHERE review_id = 1;
 
+DELETE FROM event WHERE event_id > 3000;
+DELETE FROM contest_project_xref WHERE contest_id > 31500000;
+DELETE FROM contest WHERE contest_id > 31500000;
+
 DELETE FROM submission WHERE submission_id > 10000;
 DELETE FROM upload WHERE upload_id > 10000;
+
+DELETE FROM comp_technology where comp_vers_id > 30400000;
+DELETE FROM comp_versions where comp_vers_id > 30000000;
+DELETE FROM comp_catalog where component_id > 30000000;
+
+DELETE FROM project_platform;
 
 DELETE FROM prize WHERE prize_id > 10000;
 
