@@ -301,17 +301,7 @@ function formatDate(date) {
  * @return {Array} a list of transferred challenges
  */
 function transferResult(src, helper) {
-    var ret = [],
-    mapPlatforms = function (results) {
-        if (!_.isDefined(results)) {
-            return [];
-        }
-        var platforms = [];
-        results.forEach(function (item) {
-            platforms.push(item.name);
-        });
-        return platforms;
-    };
+    var ret = [];
     src.forEach(function (row) {
         var challenge = {
             challengeType : row.challenge_type,
