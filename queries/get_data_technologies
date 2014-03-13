@@ -1,0 +1,3 @@
+SELECT DISTINCT technology_types.technology_name AS name
+FROM  technology_types
+ORDER BY name ASC;

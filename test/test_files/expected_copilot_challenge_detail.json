@@ -1,0 +1,82 @@
+{
+    "challengeType": "Copilot Posting",
+    "challengeName": "this is a Copilot post challenge",
+    "challengeId": 32500000,
+    "projectId": 30400001,
+    "detailedRequirements": "detailed requirement content",
+    "finalSubmissionGuidelines": "final submission guideline content",
+    "cmcTaskId": "ab",
+    "numberOfCheckpointsPrizes": 0,
+    "topCheckPointPrize": "",
+    "copilotDetailedRequirements": "copilot private_description_text",
+    "currentStatus": "Active",
+    "currentPhaseName": "Submission",
+    "digitalRunPoints": 510,
+    "reliabilityBonus": 200,
+    "challengeCommunity": "develop",
+    "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=32500000",
+    "technology": ["Java", "MySQL"],
+    "prize": [
+        1000
+    ],
+    "numberOfRegistrants": 1,
+    "registrants": [
+        {
+            "handle": "heffan",
+            "reliability": "100%",
+            "rating": 1800,
+            "colorStyle": "color: #DDCC00"
+        }
+    ],
+    "submissions": [
+        {
+            "handle": "heffan",
+            "placement": 1,
+            "screeningScore": 100,
+            "initialScore": 80,
+            "finalScore": 90,
+            "points": 510,
+            "submissionStatus": "Active"
+        }
+    ],
+    "Documents": [
+        {
+            "documentName": "document 1",
+            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+        },
+        {
+            "documentName": "document 2",
+            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+        },
+        {
+            "documentName": "document 3",
+            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=32500000"
+        },
+        {
+            "documentName": "document 4",
+            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=32500001"
+        }
+    ],
+    "numberOfSubmissions": 1,
+    "platforms": [
+        "AWS",
+        "Cloud Foundry"
+    ],
+    "phases": [
+     {
+       "type": "Registration",
+       "status": "Closed",
+       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+       "actualStartTime": "2013-12-20T01:40:00.000Z",
+       "scheduledEndTime": "2013-12-22T00:00:00.000Z",
+       "actualendTime": "2013-12-22T00:00:00.000Z"
+     },
+     {
+       "type": "Submission",
+       "status": "Open",
+       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
+       "actualStartTime": "2013-12-20T00:00:00.000Z",
+       "scheduledEndTime": "2013-12-26T00:00:00.000Z"
+     }
+   ]
+}

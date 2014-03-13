@@ -1,0 +1,31 @@
+SELECT 
+	p.project_id,
+	u.upload_id,
+	u.parameter as upload_parameter,
+	u.upload_status_id = 2 as is_upload_deleted,
+	u.upload_type_id = 1 as is_submission,
+	s.submission_type_id,
+	p.project_category_id,
+	pcl.project_type_id IN (1,2) as is_develop_challenge,
+	u.resource_id as owner_resource_id,
+	ppsc.phase_status_id IN (2,3) as is_at_or_after_screening,
+	ppcsc.phase_status_id IN (2,3) as is_at_or_after_checkpoint_screening,
+	ppre.phase_status_id = 2 as is_at_review,
+	ppre.phase_status_id = 3 as is_after_review,
+	ppcre.phase_status_id = 2 as is_at_checkpoint_review,
+	ppcre.phase_status_id = 3 as is_after_checkpoint_review,
+	ppar.phase_status_id = 3 as is_after_appeal_response,
+	pithp.value as thurgood_platform,
+	pithl.value as thurgood_language
+FROM submission s
+INNER JOIN upload u ON u.upload_id = s.upload_id
+INNER JOIN project p ON u.project_id = p.project_id
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+LEFT JOIN project_phase ppsc ON p.project_id = ppsc.project_id AND ppsc.phase_type_id = 3
+LEFT JOIN project_phase ppre ON p.project_id = ppre.project_id AND ppre.phase_type_id = 4
+LEFT JOIN project_phase ppcsc ON p.project_id = ppcsc.project_id AND ppcsc.phase_type_id = 16
+LEFT JOIN project_phase ppcre ON p.project_id = ppcre.project_id AND ppcre.phase_type_id = 17
+LEFT JOIN project_phase ppar ON p.project_id = ppar.project_id AND ppar.phase_type_id = 6
+LEFT JOIN project_info pithp ON pithp.project_id = p.project_id AND pithp.project_info_type_id = 75
+LEFT JOIN project_info pithl ON pithl.project_id = p.project_id AND pithl.project_info_type_id = 76
+WHERE s.submission_id = @submissionId@;

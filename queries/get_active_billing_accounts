@@ -1,0 +1,15 @@
+SELECT c.name AS client_name
+  , c.customer_number AS client_customer_number
+  , c.client_id
+  , p.project_id AS billing_account_id
+  , p.name AS billing_account_name
+  , p.subscription_number
+  , p.start_date AS project_start_date
+  , p.end_date AS project_end_date
+  , p.po_box_number AS po_number
+FROM client c, client_project cp, project p
+WHERE cp.client_id = c.client_id
+  AND p.project_id = cp.project_id
+  AND p.start_date <= CURRENT
+  AND p.end_date >= CURRENT
+  AND p.active = 1

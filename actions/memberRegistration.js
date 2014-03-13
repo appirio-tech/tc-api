@@ -1,12 +1,19 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author mekanizumu, Sky_
+ * @version 1.4
+ * @author mekanizumu, Sky_, xjtufreeman, muzehyun
  * changes in 1.1:
  * - disable cache for member register action
  * changes in 1.2:
  * - Update few function since the query has been standardized.
+ * changes in 1.3:
+ * - Add more user group related,the user group id is 10 and 14.
+ * - Add a new record in algo_rating table
+ * - Add a check and error if there is already a social provider id + social user id.
+ * - Modify to use case-insensitive check for email.
+ * changes in 1.4:
+ * - Add validate handle api
  */
 "use strict";
 
@@ -20,6 +27,7 @@ var stringUtils = require("../common/stringUtils.js");
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var BadRequestError = require('../errors/BadRequestError');
 
 /**
  * The max surname length
@@ -66,10 +74,10 @@ var HANDLE_ALPHABET = stringUtils.ALPHABET_ALPHA_EN + stringUtils.ALPHABET_DIGIT
 /**
  * The regular expression for email
  */
-var emailPattern = new RegExp("\\b(^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-])+((\\.com)"
+var emailPattern = new RegExp("(^[\\+_A-Za-z0-9-]+(\\.[\\+_A-Za-z0-9-]+)*@([A-Za-z0-9-])+((\\.com)"
         + "|(\\.net)|(\\.org)|(\\.info)|(\\.edu)|(\\.mil)|(\\.gov)|(\\.biz)|(\\.ws)|(\\.us)|(\\.tv)|(\\.cc)"
         + "|(\\.aero)|(\\.arpa)|(\\.coop)|(\\.int)|(\\.jobs)|(\\.museum)|(\\.name)|(\\.pro)|(\\.travel)|(\\.nato)"
-        + "|(\\..{2,3})|(\\.([A-Za-z0-9-])+\\..{2,3}))$)\\b");
+        + "|(\\..{2,3})|(\\.([A-Za-z0-9-])+\\..{2,3}))$)");
 
 /**
  * The patterns for checking invalid handle
@@ -84,7 +92,9 @@ var ANONYMOUS_GROUP_ID = 2000118;
 /**
  * Users group id.
  */
-var USERS_GROUP_ID = 2;
+var USERS_GROUP_ID_1 = 2,
+    USERS_GROUP_ID_2 = 10,
+    USERS_GROUP_ID_3 = 14;
 
 
 /**
@@ -210,7 +220,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : suid}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
-                    } else {    
+                    } else {
                         callback(null, null);
                     }
                 },
@@ -234,6 +244,12 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 
                     // insert with the hashed password
                     api.dataAccess.executeQuery("insert_security_user", {loginId : user.id, userId : user.handle, password : hashedPassword, createUserId : null}, dbConnectionMap, function (err, result) {
+                        callback(err, result);
+                    });
+                },
+                function (callback) {
+                    // insert the algo_rating
+                    api.dataAccess.executeQuery("add_algo_rating", {userId : user.id}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -264,14 +280,55 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                             });
                         },
                         function (userGroupId, callback) {
-                            // insert user group relation for USERS_GROUP_ID
-                            api.dataAccess.executeQuery("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID}, dbConnectionMap, function (err, result) {
+                            // insert user group relation for USERS_GROUP_ID_1
+                            api.dataAccess.executeQuery("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID_1}, dbConnectionMap, function (err, result) {
+                                callback(err, result);
+                            });
+
+                        }
+                    ], function (err, result) {
+                        callback(err, result);
+                    });
+
+                },
+                function (callback) {
+                    async.waterfall([
+                        function (callback) {
+                            // get the next user group id
+                            api.idGenerator.getNextID("USER_GROUP_SEQ", dbConnectionMap, function (err, userGroupId) {
+                                callback(err, userGroupId);
+                            });
+                        },
+                        function (userGroupId, callback) {
+                            // insert user group relation for USERS_GROUP_ID_2
+                            api.dataAccess.executeQuery("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID_2}, dbConnectionMap, function (err, result) {
+                                callback(err, result);
+                            });
+
+                        }
+                    ], function (err, result) {
+                        callback(err, result);
+                    });
+
+                },
+                function (callback) {
+                    async.waterfall([
+                        function (callback) {
+                            // get the next user group id
+                            api.idGenerator.getNextID("USER_GROUP_SEQ", dbConnectionMap, function (err, userGroupId) {
+                                callback(err, userGroupId);
+                            });
+                        },
+                        function (userGroupId, callback) {
+                            // insert user group relation for USERS_GROUP_ID_3
+                            api.dataAccess.executeQuery("add_user_to_groups", {userGroupId : userGroupId, loginId : user.id, groupId : USERS_GROUP_ID_3}, dbConnectionMap, function (err, result) {
                                 callback(err, result);
                             });
                         }
                     ], function (err, result) {
                         callback(err, result);
                     });
+
                 },
                 function (callback) {
                     async.waterfall([
@@ -296,7 +353,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
                     api.log("Activation url: " + url, "debug");
 
-                    api.tasks.enqueue("sendActivationEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url}, 'default');
+                    api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url, userHandle : user.handle}, 'default');
                         
                     callback(null, null);
                     
@@ -433,6 +490,33 @@ var isSoicalProviderIdValid = function (socialProviderId, api, dbConnectionMap, 
                 next(null, false);
             } else {
                 next(null, result[0].count > 0);
+            }
+        }
+    });
+};
+
+/**
+ * Checks whether given social provider id + social user id already existed.
+ * The result will be passed to the "next" callback. It's true if the social provider id + social user id not existed.
+ *
+ * @param {String} socialProviderId - the social provider id to check
+ * @param {String} socialUserId - the social user id to check
+ * @param {Object} api The api object that is used to access the infrastructure
+ * @param {Object} dbConnectionMap - The database connection map
+ * @param {Function} next - The callback function
+ */
+var isSoicalLoginExisted = function (socialProviderId, socialUserId, api, dbConnectionMap, next) {
+    api.dataAccess.executeQuery("get_user_by_social_login", {social_user_id: socialUserId, provider_id: socialProviderId},
+        dbConnectionMap, function (err, result) {
+        api.log("Execute result returned", "debug");
+        if (err) {
+            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
+            next(err);
+        } else {
+            if (result.length) {
+                next(null, true);
+            } else {
+                next(null, false);
             }
         }
     });
@@ -866,7 +950,7 @@ var validateSocialEmailVerified = function (verified) {
 /**
  * The API for register a new member. It is transactional. The response contains a 'message' property if there's any error, or it contains the 'userId' property representing the id of the newly registered user.
  */
-exports.action = {
+exports.memberRegister = {
     name: "memberRegister",
     description: "Register a new member",
     inputs: {
@@ -951,6 +1035,21 @@ exports.action = {
                     } else {
                         callback(null, null);
                     }
+                },
+                validateSocialLogin: function(callback) {
+                    if (connection.params.socialProviderId !== null && connection.params.socialProviderId !== undefined
+                        && connection.params.socialUserId !== null && connection.params.socialUserId !== undefined) {
+
+                        isSoicalLoginExisted(connection.params.socialProviderId, connection.params.socialUserId, api, dbConnectionMap, function (err, result) {
+                            if (result) {
+                                callback(err, "social login already existed.");
+                            } else {
+                                callback(err, null);
+                            }
+                        });
+                    } else {
+                        callback(null, null);
+                    }
                 }
             },
                 function (err, results) {
@@ -967,6 +1066,7 @@ exports.action = {
                     messages.push(results.validateHandle);
                     messages.push(results.validateCountryName);
                     messages.push(results.validateSocialProviderId);
+                    messages.push(results.validateSocialLogin);
                     filteredMessage = [];
 
                     for (i = 0; i < messages.length; i += 1) {
@@ -1003,21 +1103,48 @@ exports.action = {
 };
 
 /**
- * The fake action to avoid a bug in actionHero. actionHero would assume the name of the action to be 'action' if there is only one action. So a dummy one is needed.
+ * The API for validate handle.
  */
-exports.fake = {
-    name: "fake",
-    description: "Fake export to avoid a bug in actionHero",
+exports.validateHandle = {
+    name: "validateHandle",
+    description: "validateHandle",
     inputs: {
-        required: [],
+        required: ["handle"],
         optional: []
     },
     blockedConnectionTypes : [],
     outputExample : {},
     version : 'v2',
+    transaction : 'read',
+    databases : ["common_oltp"],
     run: function (api, connection, next) {
-        if (api) {
-            next(connection, true);
+        var helper = api.helper,
+            handle = connection.params.handle,
+            dbConnectionMap = connection.dbConnectionMap,
+            result;
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
         }
+        async.waterfall([
+            function (cb) {
+                validateHandle(api, connection.params.handle, dbConnectionMap, cb);
+            }, function (results, cb) {
+                if (results) {
+                    cb(new BadRequestError(results));
+                    return;
+                } else {
+                    result = { valid: true };
+                }
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        }); 
     }
-};
+}; // validateHandle

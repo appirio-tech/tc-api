@@ -1,0 +1,9 @@
+SELECT
+  mf.feedback AS general_feedback
+FROM project p
+, project_category_lu pcl
+, OUTER comp_milestone_feedback mf
+WHERE p.project_id = mf.project_id
+AND pcl.project_category_id = p.project_category_id
+AND p.project_id = @challengeId@
+AND project_type_id IN (1,2)

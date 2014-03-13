@@ -19,9 +19,31 @@
 var http = require('http');
 var async = require('async');
 var _ = require('underscore');
-var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+
+/**
+ * The list of private action name.
+ * TODO: This is just a temporary implement.
+ */
+var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'getChallengeCosts',
+     'getChallengeTerms', 'getBasicUserProfile'];
+
+/**
+ * calculate the key for cache.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @returns {String} the key value.
+ */
+var calculateCacheKey = function (api, connection) {
+    var key = '', userId = connection.caller.userId || 0;
+    if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
+        key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+    } else {
+        key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+    }
+    return key;
+};
 
 /**
  * Expose the middleware function to add the pre-processor for authentication via Oauth.
@@ -265,7 +287,8 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key = api.helper.createCacheKey(connection);
+        var key = calculateCacheKey(api, connection);
+
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
                 api.log('Returning cached response', 'debug');
@@ -296,9 +319,10 @@ exports.middleware = function (api, next) {
             return;
         }
 
+        var key = calculateCacheKey(api, connection);
+
         async.waterfall([
             function (cb) {
-                var key = api.helper.createCacheKey(connection);
                 api.helper.getCachedValue(key, cb);
             }, function (value, cb) {
                 if (value || connection.response.error) {
@@ -306,8 +330,7 @@ exports.middleware = function (api, next) {
                     return;
                 }
                 var response = _.clone(connection.response),
-                    lifetime = actionTemplate.cacheLifetime || api.config.general.defaultCacheLifetime,
-                    key = api.helper.createCacheKey(connection);
+                    lifetime = actionTemplate.cacheLifetime || api.config.general.defaultCacheLifetime;
                 delete response.serverInformation;
                 delete response.requesterInformation;
                 api.cache.save(key, response, lifetime, cb);

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.12
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141
+ * @version 1.17
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -27,8 +27,24 @@
  * - added routes for terms api
  * Changes in 1.11:
  * - add invoice history api.
+ * - added route for dev download submission api 
  * Changes in 1.12:
  * - added route for dev upload submission api
+ * - added route for create customer
+ * Changes in 1.13:
+ * - added route for create billing api
+ * - added register challenge for a given user api.
+ * Changes in 1.14:
+ * - added route for active billing accounts
+ * - added routes for terms api
+ * Changes in 1.15:
+ * - added routes for getting studio and software checkpoints
+ * Changes in 1.16:
+ * - added routes for validate handle
+ * changes in 1.16:
+ * - Combine Challenge Registration API(BUGR-11058)
+ * changes in 1.17:
+ * - added routes for data platforms and technologies
  */
 
 /* ---------------------
@@ -98,6 +114,9 @@ exports.routes = {
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
+        { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
+        { path: "/:apiVersion/design/challenges/checkpoint/:challengeId", action: "getStudioCheckpoint" },
+
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
         { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
@@ -105,6 +124,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+        { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
 
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
@@ -113,6 +133,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
 
+        { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
@@ -126,6 +147,8 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
+        { path: "/:apiVersion/data/platforms", action: "getPlatforms" },
+        { path: "/:apiVersion/data/technologies", action: "getTechnologies" },
 
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
@@ -134,6 +157,8 @@ exports.routes = {
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
+        { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
@@ -154,6 +179,9 @@ exports.routes = {
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
-        { path: "/:apiVersion/auth", action: "generateJwt" }
+        { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
+        { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/platform/billing", action: "createBilling" },
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
     ]
 };

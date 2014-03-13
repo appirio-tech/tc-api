@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author Ghost_141, Sky_
+ * @version 1.2
+ * @author Ghost_141, Sky_, muzehyun
  * Changes in 1.1
  * - add invoice history (challenge costs) api.
+ * Changes in 1.2
+ * - add active billing account api.
  */
 'use strict';
 
@@ -129,7 +131,7 @@ var getChallengeCosts = function (api, connection, next) {
                             challengeName: row.challenge_name,
                             challengeId: row.challenge_id,
                             challengeType: row.challenge_type,
-                            challengeStatus: row.challenge_status.trim(),
+                            challengeStatus: (row.challenge_status || '').trim(),
                             launchDate: helper.formatDate(row.launch_date, OUTPUT_DATE_FORMAT),
                             completionDate: helper.formatDate(row.completion_date, OUTPUT_DATE_FORMAT),
                             paymentType: row.payment_type,
@@ -168,6 +170,7 @@ exports.getChallengeCosts = {
     outputExample : {},
     version : 'v2',
     transaction : 'read', // this action is read-only
+    cacheEnabled: false,
     databases : ['tcs_catalog'],
     run : function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -194,6 +197,7 @@ exports.getClientChallengeCosts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled: false,
     databases: ["tcs_dw"],
     run: function (api, connection, next) {
         api.log("Execute getClientChallengeCosts#run", 'debug');
@@ -280,3 +284,59 @@ exports.getClientChallengeCosts = {
         });
     }
 };
+
+/**
+ * The API for getting active billing accounts
+ */
+exports.getActiveBillingAccounts = {
+    name: "getActiveBillingAccounts",
+    description: "getActiveBillingAccounts",
+    inputs: {
+        required: [],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ["time_oltp"],
+    run: function (api, connection, next) {
+        api.log("Execute getActiveBillingAccounts#run", 'debug');
+        var dbConnectionMap = connection.dbConnectionMap,
+            helper = api.helper,
+            result = {};
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+        async.waterfall([
+            function (cb) {
+                cb(helper.checkAdmin(connection));
+            }, function (cb) {
+                api.dataAccess.executeQuery("get_active_billing_accounts", {}, dbConnectionMap, cb);
+            }, function (results, cb) {
+                result.activeBillingAccounts = _.map(results, function (item) {
+                    return {
+                        "clientName": item.client_name,
+                        "clientCustomerNumber": item.client_customer_number,
+                        "clientId": item.client_id,
+                        "billingAccountId": item.billing_account_id,
+                        "billingAccountName": item.billing_account_name,
+                        "subscriptionNumber": item.subscription_number,
+                        "projectStartDate": item.project_start_date,
+                        "projectEndDate": item.project_end_date,
+                        "poNumber": item.po_number
+                    };
+                });
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
+    }
+}; // getActiveBillingAccounts

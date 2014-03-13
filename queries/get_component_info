@@ -1,0 +1,18 @@
+SELECT
+    d.scheduled_end_time AS initial_submission_date,
+    c.component_id AS component_id,
+    c.phase_id AS phase_id,
+    c.comp_vers_id AS comp_vers_id,
+    c.version AS version,
+     nvl(c.comments, '') AS comments,
+    -- the project category id, e.g. Logo Design, Developemnt, Assembly
+    (select project_category_id from project where project_id = @challengeId@ ) as project_category_id,
+    -- the project name.
+    (select value from project_info where project_id = @challengeId@ AND project_info_type_id = 6 ) as project_name 
+FROM comp_versions c
+    INNER JOIN project_info p ON c.component_id = p.value
+    INNER JOIN project_phase d ON d.project_id = @challengeId@
+WHERE
+    p.project_info_type_id = 2 
+    AND c.phase_id IN (112, 113)
+    AND p.project_id = @challengeId@

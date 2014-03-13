@@ -1,0 +1,24 @@
+INSERT INTO component_inquiry (
+  component_inquiry_id,
+  component_id,
+  user_id,
+  comment,
+  agreed_to_terms,
+  rating,
+  phase,
+  tc_user_id,
+  version,
+  project_id
+) 
+VALUES (
+  @componentInquiryId@,
+  @componentId@,
+  @userId@,
+  @comment@,
+  @agreedToTerms@,
+  @rating@,
+  @phase@,
+  @tcUserId@,
+  @version@,
+  @projectId@
+);

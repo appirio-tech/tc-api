@@ -2,16 +2,17 @@
 
 DELETE FROM long_submission;
 DELETE FROM long_component_state;
-DELETE FROM long_comp_result WHERE round_id = 2001;
-DELETE FROM round_registration WHERE round_id = 2001;
-DELETE FROM round_component WHERE round_id = 2001;
+DELETE FROM long_comp_result WHERE round_id = 2001 OR round_id = 13673;
+DELETE FROM round_registration WHERE round_id = 2001 OR round_id = 13673;
+DELETE FROM round_component WHERE round_id = 2001 OR round_id = 13673;
 DELETE FROM division WHERE division_id = 100;
 DELETE FROM component WHERE component_id = 2001;
 DELETE FROM problem WHERE problem_id = 2001;
-DELETE FROM round_segment WHERE round_id = 2001;
-DELETE FROM round_segment WHERE round_id >= 2001 AND round_id <= 2100;
-DELETE FROM round WHERE round_id = 2001;
-DELETE FROM round WHERE round_id >= 2001 AND round_id <= 2100;
+DELETE FROM round_terms WHERE round_id = 13673;
+DELETE FROM room WHERE round_id = 13673;
+DELETE FROM round_room_assignment WHERE round_id = 13673;
+DELETE FROM round_segment WHERE round_id >= 2001 AND round_id <= 2100 OR round_id = 13673;
+DELETE FROM round WHERE round_id >= 2001 AND round_id <= 2100 OR round_id = 13673;
 DELETE FROM contest WHERE contest_id = 2001;
 DELETE FROM contest WHERE contest_id >= 2001 AND contest_id <= 2005;
 DELETE FROM algo_rating WHERE coder_id >= 3001 AND coder_id <= 3100;

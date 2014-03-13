@@ -1,0 +1,4 @@
+SELECT
+  CASE WHEN (p.project_studio_spec_id is NULL) THEN 0 ELSE 1 END as is_studio
+FROM project p
+WHERE p.project_id = @challengeId@

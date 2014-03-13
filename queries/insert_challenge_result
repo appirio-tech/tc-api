@@ -1,0 +1,14 @@
+INSERT INTO project_result
+	(	project_id,
+		user_id,
+		rating_ind, 
+		valid_submission_ind,
+		old_rating
+	) 
+VALUES 
+	(	@projectId@,
+		@userId@,
+		@ratingInd@, 
+		@validSubmissionInd@,
+		@oldRating@
+	)

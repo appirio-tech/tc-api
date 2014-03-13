@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips
+ * @version 1.13
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -27,6 +27,12 @@
  * support private challenge search for search software/studio/both challenges api.
  * changes in 1.10:
  * Added method for uploading submission to a develop challenge
+ * changes in 1.11:
+ * Added 'private_description_text' field for copilot challenge details api
+ * changes in 1.12
+ * refactor out the getChallengeTerms functionality into initializers/challengeHelper.js.
+ * changes in 1.13:
+ * add API for checkpoint results for software and studio
  */
 "use strict";
 
@@ -61,7 +67,8 @@ var DEFAULT_SORT_COLUMN = "challengeName";
  */
 var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId'];
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId',
+    "submissionEndFrom", "submissionEndTo"];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -114,6 +121,23 @@ LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
  */
 var COPILOT_POSTING_PROJECT_TYPE = 29;
 
+/**
+ * Max and min date value for date parameter.
+ * @type {string}
+ */
+var MIN_DATE = '1900-1-1';
+var MAX_DATE = '9999-1-1';
+
+/**
+ * The date format for input date parameter startDate and enDate.
+ * Dates like 2014-01-29 and 2014-1-29 are valid
+ */
+var DATE_FORMAT = 'YYYY-M-D';
+
+/**
+ * If the user is a copilot
+ */
+var isCopilot = false;
 /**
  * This method will used to check the query parameter and sort column of the request.
  *
@@ -183,6 +207,12 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
     if (_.isDefined(filter.prizeUpperBound)) {
         error = error || helper.checkNonNegativeNumber(Number(filter.prizeUpperBound), "prizeUpperBound");
     }
+    if (_.isDefined(filter.submissionEndFrom)) {
+        error = error || helper.validateDate(filter.submissionEndFrom, 'submissionEndFrom', DATE_FORMAT);
+    }
+    if (_.isDefined(filter.submissionEndTo)) {
+        error = error || helper.validateDate(filter.submissionEndTo, 'submissionEndTo', DATE_FORMAT);
+    }
     if (error) {
         callback(error);
         return;
@@ -206,6 +236,8 @@ function setFilter(filter, sqlParams) {
     sqlParams.priupper = MAX_INT;
     sqlParams.tcdirectid = 0;
     sqlParams.communityId = 0;
+    sqlParams.submissionEndFrom = MIN_DATE;
+    sqlParams.submissionEndTo = MAX_DATE;
 
     if (_.isDefined(filter.challengeType)) {
         sqlParams.categoryName = filter.challengeType.toLowerCase();
@@ -227,6 +259,12 @@ function setFilter(filter, sqlParams) {
     }
     if (_.isDefined(filter.communityId)) {
         sqlParams.communityId = filter.communityId;
+    }
+    if (_.isDefined(filter.submissionEndFrom)) {
+        sqlParams.submissionEndFrom = filter.submissionEndFrom;
+    }
+    if (_.isDefined(filter.submissionEndTo)) {
+        sqlParams.submissionEndTo = filter.submissionEndTo;
     }
 }
 
@@ -271,6 +309,10 @@ function transferResult(src, helper) {
             challengeId : row.challenge_id,
             projectId : row.project_id,
             forumId : row.forum_id,
+            eventId: row.event_id,
+            eventName: row.event_name,
+            platforms: _.isDefined(row.platforms) ? row.platforms.split(', ') : [],
+            technologies: _.isDefined(row.technology) ? row.technology.split(', ') : [],
             numSubmissions : row.num_submissions,
             numRegistrants : row.num_registrants,
             screeningScorecardId : row.screening_scorecard_id,
@@ -281,8 +323,8 @@ function transferResult(src, helper) {
             postingDate : formatDate(row.posting_date),
             registrationEndDate : formatDate(row.registration_end_date),
             checkpointSubmissionEndDate : formatDate(row.checkpoint_submission_end_date),
-            submissionEndDate : formatDate(row.submission_end_date),
-        };
+            submissionEndDate : formatDate(row.submission_end_date)
+        }, i, prize;
 
         if (row.appeals_end_date) {
             challenge.appealsEndDate = formatDate(row.appeals_end_date);
@@ -303,8 +345,6 @@ function transferResult(src, helper) {
             challengeCommunity: row.is_studio ? 'design' : 'develop'
         });
 
-        var i,
-            prize;
         for (i = 1; i < 10; i = i + 1) {
             prize = row["prize" + i];
             if (prize && prize !== -1) {
@@ -317,6 +357,59 @@ function transferResult(src, helper) {
     return ret;
 }
 
+/**
+ * Check input data.
+ * Verify challengeId is correct number.
+ * It exists and it's studio or software.
+ * User has permissions to this challenge.
+ * @param {Object} api The api object that is used to access the global infrastructure.
+ * @param {Object} connection The connection object for the current request.
+ * @param {Object} dbConnectionMap The database connection map for the current request.
+ * @param {Number} challengeId the challenge id.
+ * @param {Boolean} isStudio true if challenge is studio challenge, false if software.
+ * @param {Function<err>} callback the callback function. It will pass error if any information are invalid.
+ * @since 1.10
+ */
+function validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, callback) {
+    var error, sqlParams, helper = api.helper;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                challengeId: challengeId,
+                user_id: connection.caller.userId || 0
+            };
+            async.parallel({
+                accessibility: function (cbx) {
+                    api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cbx);
+                },
+                exists:  function (cbx) {
+                    api.dataAccess.executeQuery('check_challenge_exists', sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
+        }, function (res, cb) {
+            if (res.exists.length === 0 || Boolean(res.exists[0].is_studio) !== isStudio) {
+                cb(new NotFoundError("Challenge not found."));
+                return;
+            }
+            var access = res.accessibility[0];
+            if (access.is_private && !access.has_access && connection.caller.accessLevel !== "admin") {
+                if (connection.caller.accessLevel === "anon") {
+                    cb(new UnauthorizedError());
+                } else {
+                    cb(new ForbiddenError());
+                }
+                return;
+            }
+            cb();
+        }
+    ], callback);
+}
 
 /**
  * This is the function that actually search challenges
@@ -332,7 +425,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmcTaskId", 'communityId'],
+            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -514,13 +607,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     submissions: execQuery('challenge_submissions'),
                     platforms: execQuery('challenge_platforms'),
                     phases: execQuery('challenge_phases'),
-                    documents: execQuery('challenge_documents')
+                    documents: execQuery('challenge_documents'),
+                    copilot: execQuery('check_is_copilot')
                 }, cb);
             }
         }, function (results, cb) {
             if (results.details.length === 0) {
                 cb(new NotFoundError('Challenge not found.'));
                 return;
+            }
+            if (!isStudio && results.copilot.length) {
+                isCopilot = results.copilot[0].user_is_copilot;
             }
             var data = results.details[0], i = 0, prize = 0,
                 mapSubmissions = function (results) {
@@ -589,11 +686,16 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         return [];
                     }
                     return _.map(results, function (item) {
-                        return {
+                        var registrant = {
                             handle: item.handle,
                             reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
                             registrationDate: formatDate(item.inquiry_date)
                         };
+                        if (!isStudio) {
+                            registrant.rating = item.rating;
+                            registrant.colorStyle = helper.getColorStyle(item.rating);
+                        }
+                        return registrant;
                     });
                 },
                 mapPrize = function (results) {
@@ -665,13 +767,16 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
+            if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
+                challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
+            }
             if (data.appeals_end_date) {
                 challenge.appealsEndDate = formatDate(data.appeals_end_date);
             }
             if (data.final_fix_end_date) {
                 challenge.finalFixEndDate = formatDate(data.final_fix_end_date);
             }
-            
+
             //use xtend to preserve ordering of attributes
             challenge = extend(challenge, {
                 submissionLimit : data.submission_limit,
@@ -713,6 +818,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);
+            if (data.event_id !== 0) {
+                challenge.event = {id: data.event_id, description: data.event_description};
+            }
             cb();
         }
     ], function (err) {
@@ -720,146 +828,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             helper.handleError(api, connection, err);
         } else {
             connection.response = challenge;
-        }
-        next(connection, true);
-    });
-};
-
-/**
- * Gets the challenge terms for the current user given the challenge id and an optional role.
- * 
- * @param {Object} api The api object that is used to access the global infrastructure
- * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Function<connection, render>} next The callback to be called after this function is done
- * @since 1.7
- */
-var getChallengeTerms = function (api, connection, dbConnectionMap, next) {
-
-    //Check if the user is logged-in
-    if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
-            _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
-        api.helper.handleError(api, connection, new UnauthorizedError("Authentication details missing or incorrect."));
-        next(connection, true);
-        return;
-    }
-
-    var helper = api.helper,
-        sqlParams = {},
-        result = {},
-        userId = connection.caller.userId,
-        challengeId = Number(connection.params.challengeId),
-        role = connection.params.role;
-
-    async.waterfall([
-        function (cb) {
-
-            //Simple validations of the incoming parameters
-            var error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
-
-            if (error) {
-                cb(error);
-                return;
-            }
-
-            //Check if the user passes validations for joining the challenge
-            sqlParams.userId = userId;
-            sqlParams.challengeId = challengeId;
-
-            api.dataAccess.executeQuery("challenge_registration_validations", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            if (rows.length === 0) {
-                cb(new NotFoundError('No such challenge exists.'));
-                return;
-            }
-
-            if (!rows[0].no_elgibility_req && !rows[0].user_in_eligible_group) {
-                cb(new ForbiddenError('You are not part of the groups eligible for this challenge.'));
-                return;
-            }
-
-            if (!rows[0].reg_open) {
-                cb(new ForbiddenError('Registration Phase of this challenge is not open.'));
-                return;
-            }
-
-            if (rows[0].user_registered) {
-                cb(new ForbiddenError('You are already registered for this challenge.'));
-                return;
-            }
-
-            if (rows[0].user_suspended) {
-                cb(new ForbiddenError('You cannot participate in this challenge due to suspension.'));
-                return;
-            }
-
-            if (rows[0].user_country_missing_or_banned) {
-                cb(new ForbiddenError('You cannot participate in this challenge as your country information is either missing or is banned.'));
-                return;
-            }
-
-            if (rows[0].project_category_id === COPILOT_POSTING_PROJECT_TYPE) {
-                if (!rows[0].user_is_copilot && rows[0].copilot_type.indexOf("Marathon Match") < 0) {
-                    cb(new ForbiddenError('You cannot participate in this challenge because you are not an active member of the copilot pool.'));
-                    return;
-                }
-            }
-
-            // We are here. So all validations have passed.
-            // Next we get all roles
-            api.dataAccess.executeQuery("all_resource_roles", {}, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            // Prepare a comma separated string of resource role names that must match
-            var commaSepRoleIds = "",
-                compiled = _.template("<%= resource_role_id %>,"),
-                ctr = 0,
-                resourceRoleFound;
-            if (_.isUndefined(role)) {
-                rows.forEach(function (row) {
-                    commaSepRoleIds += compiled({resource_role_id: row.resource_role_id});
-                    ctr += 1;
-                    if (ctr === rows.length) {
-                        commaSepRoleIds = commaSepRoleIds.slice(0, -1);
-                    }
-                });
-            } else {
-                resourceRoleFound = _.find(rows, function (row) {
-                    return (row.name === role);
-                });
-                if (_.isUndefined(resourceRoleFound)) {
-                    //The role passed in is not recognized
-                    cb(new BadRequestError("The role: " + role + " was not found."));
-                    return;
-                }
-                commaSepRoleIds = resourceRoleFound.resource_role_id;
-            }
-
-            // Get the terms
-            sqlParams.resourceRoleIds = commaSepRoleIds;
-            api.dataAccess.executeQuery("challenge_terms_of_use", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            //We could just have down result.data = rows; but we need to change keys to camel case as per requirements
-            var camelCaseMap = {
-                'agreeability_type': 'agreeabilityType',
-                'terms_of_use_id': 'termsOfUseId'
-            };
-            result.terms = [];
-            _.each(rows, function (row) {
-                var item = {};
-                _.each(row, function (value, key) {
-                    key = camelCaseMap[key] || key;
-                    item[key] = value;
-                });
-                result.terms.push(item);
-            });
-            cb();
-        }
-    ], function (err) {
-        if (err) {
-            helper.handleError(api, connection, err);
-        } else {
-            connection.response = result;
         }
         next(connection, true);
     });
@@ -1114,7 +1082,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 challengeId: challengeId,
                 projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
                 resourceId: resourceId,
-                fileName: fileName,
+                fileName: fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
         }, function (notUsed, cb) {
@@ -1238,6 +1206,69 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
     });
 };
 
+/**
+ * Gets the checkpoint results for studio or software challenge
+ *
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Boolean} isStudio True if studio checkpoint, false if software
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ * @since 1.10
+ */
+var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) {
+    var result = {}, helper = api.helper, challengeId = Number(connection.params.challengeId),
+        feedbackQueryName = isStudio ?
+                "get_studio_checkpoint_general_feedback" : "get_software_checkpoint_general_feedback",
+        sqlParams = {
+            challengeId: challengeId,
+            user_id: connection.caller.userId || 0,
+            projectCategory: isStudio ? helper.studio.category : helper.software.category
+        };
+    async.waterfall([
+        function (cb) {
+            //whole validation is here
+            validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, cb);
+        }, function (cb) {
+            async.parallel({
+                detail: function (cbx) {
+                    api.dataAccess.executeQuery('get_checkpoint_detail', sqlParams, dbConnectionMap, cbx);
+                },
+                feedback: function (cbx) {
+                    api.dataAccess.executeQuery(feedbackQueryName, sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
+        }, function (res, cb) {
+            var generalFeedback = "", hasGeneralFeedback = true;
+            if (res.feedback.length === 0 ||
+                !_.isDefined(res.feedback[0].general_feedback) ||
+                res.feedback[0].general_feedback.trim().length === 0) {
+                hasGeneralFeedback = false;
+            } else {
+                generalFeedback = res.feedback[0].general_feedback || "";
+            }
+            if (res.detail.length === 0 && !hasGeneralFeedback) {
+                cb(new NotFoundError("Checkpoint data not found."));
+                return;
+            }
+            result.checkpointResults = _.map(res.detail, function (ele) {
+                return {
+                    submissionId: ele.id,
+                    feedback: ele.feedback
+                };
+            });
+            result.generalFeedback = generalFeedback;
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
 
 /**
  * The API for getting challenge terms of use
@@ -1257,7 +1288,25 @@ exports.getChallengeTerms = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getChallengeTerms#run", 'debug');
-            getChallengeTerms(api, connection, connection.dbConnectionMap, next);
+            var challengeId = Number(connection.params.challengeId), role = connection.params.role;
+            async.waterfall([
+                function (cb) {
+                    api.challengeHelper.getChallengeTerms(
+                        connection,
+                        challengeId,
+                        role,
+                        connection.dbConnectionMap,
+                        cb
+                    );
+                }
+            ], function (err, data) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                } else {
+                    connection.response = {terms : data};
+                }
+                next(connection, true);
+            });
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -1391,7 +1440,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             //Populate the result standings for the contest
             result.results = _.map(res.results, function (el) {
                 var resEl = {
-					handle: el.handle,
+                    handle: el.handle,
                     placement: el.placed === 0 ? 'n/a' : el.placed,
                     submissionDate: el.submission_date,
                     registrationDate: el.registration_date
@@ -1401,7 +1450,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     _.extend(resEl, {
                         finalScore: el.final_score,
                         screeningScore: el.screening_score,
-                        initialScore: el.initial_score,
+                        initialScore: el.initial_score
                     });
                 }
 
@@ -1608,8 +1657,8 @@ exports.getSoftwareChallengeResults = {
             api.helper.handleNoConnection(api, connection, next);
         }
     }
-}
- 
+};
+
 /**           
  * The API for posting submission to software challenge
  * @since 1.10
@@ -1654,6 +1703,58 @@ exports.getStudioChallengeResults = {
         if (connection.dbConnectionMap) {
             api.log("Execute getStudioChallengeResults#run", 'debug');
             getChallengeResults(api, connection, connection.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for software checkpoint
+ * @since 1.13
+ */
+exports.getSoftwareCheckpoint = {
+    name: "getSoftwareCheckpoint",
+    description: "getSoftwareCheckpoint",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getSoftwareCheckpoint#run", 'debug');
+            getCheckpoint(api, connection, connection.dbConnectionMap, false, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for studio checkpoint
+ * @since 1.13
+ */
+exports.getStudioCheckpoint = {
+    name: "getStudioCheckpoint",
+    description: "getStudioCheckpoint",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction : 'read', // this action is read-only
+    databases : ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getStudioCheckpoint#run", 'debug');
+            getCheckpoint(api, connection, connection.dbConnectionMap, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

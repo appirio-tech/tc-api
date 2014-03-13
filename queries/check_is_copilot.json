@@ -1,0 +1,5 @@
+{
+    "name"    : "check_is_copilot",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "check_is_copilot"
+}

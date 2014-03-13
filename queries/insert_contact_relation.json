@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_contact_relation",
+  "db"      : "time_oltp",
+  "sqlfile" : "insert_contact_relation"
+}

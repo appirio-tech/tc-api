@@ -1,0 +1,7 @@
+SELECT 
+	name = '@clientName@' as name_exists,
+	customer_number = '@customerNumber@' as customer_number_exists
+FROM client
+WHERE 
+name = '@clientName@' OR
+customer_number = '@customerNumber@';

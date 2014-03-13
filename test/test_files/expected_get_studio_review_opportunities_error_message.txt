@@ -12,7 +12,7 @@
 		"missing": "pageSize should not be null or undefined"
 	},
 	"sortColumn": {
-		"invalid": "sortColumn should be an element of challengename,round2scheduledstartdate,round1scheduledstartdate,type,reviewer,reviewerpayment.",
+		"invalid": "sortColumn should be an element of challengename,round2scheduledstartdate,round1scheduledstartdate,reviewtype,reviewer.",
 		"missing": "sortColumn should not be null or undefined"
 	},
 	"sortOrder": {

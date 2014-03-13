@@ -1,0 +1,5 @@
+{
+    "name"    : "search_software_review_opportunities_adjust_payment",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "search_software_review_opportunities_adjust_payment"
+}

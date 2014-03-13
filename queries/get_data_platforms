@@ -1,0 +1,3 @@
+SELECT project_platform_lu.name
+FROM  project_platform_lu
+ORDER BY name ASC;

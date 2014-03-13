@@ -216,6 +216,10 @@ helper.softwareChallengeTypes = {
     code: {
         name: 'Code',
         phaseId: 150
+    },
+    algorithm: {
+        name: 'Algorithm',
+        phaseId: 999
     }
 };
 

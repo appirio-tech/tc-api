@@ -1,0 +1,1 @@
+INSERT INTO project_download_audit (upload_id, user_id, ip_address, successful, date) VALUES (@uploadId@, @userId@, '@ipAddress@', '@successful@', CURRENT);

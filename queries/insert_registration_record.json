@@ -1,0 +1,5 @@
+{
+	"name"		:	"insert_registration_record",
+	"db"		:	"tcs_catalog",
+	"sqlfile"	:	"insert_registration_record"
+}
