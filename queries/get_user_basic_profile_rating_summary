@@ -3,5 +3,18 @@ SELECT
 , r.phase_id
 FROM coder c
 INNER JOIN tcs_dw:user_rating AS r ON r.user_id = c.coder_id
+WHERE LOWER(c.handle) = LOWER('@handle@')
+AND c.status = 'A'
+
+UNION ALL
+
+SELECT
+  ar.rating
+, CASE WHEN ar.algo_rating_type_id = 1 THEN 999
+  WHEN ar.algo_rating_type_id = 3 THEN 148
+  END AS phase_id
+FROM coder c
+INNER JOIN algo_rating ar ON ar.coder_id = c.coder_id
 WHERE c.handle_lower = LOWER('@handle@')
 AND c.status = 'A'
+AND ar.algo_rating_type_id IN (1,3)
