@@ -18,7 +18,7 @@ FROM user u
   , OUTER (demographic_response dr2, demographic_answer da2)    -- Gender
   , OUTER (demographic_response dr26, demographic_answer da26)  -- Shirt size
   , OUTER (user_address_xref uax, address a, country c)
-WHERE LOWER(u.handle) = LOWER('@handle@')
+WHERE u.handle_lower = LOWER('@handle@')
   AND da1.demographic_question_id = 1                           -- Age
   AND da1.demographic_question_id = dr1.demographic_question_id
   AND da1.demographic_answer_id = dr1.demographic_answer_id

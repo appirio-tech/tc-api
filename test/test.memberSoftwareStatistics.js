@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.1
- * @author Sky_, TCSASSEMBLER
+ * @author Sky_, Ghost_141
  * Changes in 1.1:
  * - add test for new parameter - track.
  */

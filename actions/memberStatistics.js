@@ -465,8 +465,6 @@ exports.getSoftwareStatistics = {
                 };
                 results.basics.forEach(function (track) {
                     var type = helper.getPhaseName(track.category_id);
-                    console.log('-----------------basic----------------------');
-                    console.log(type);
                     result.Tracks[type] = {
                         rating: track.rating,
                         reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
@@ -483,8 +481,6 @@ exports.getSoftwareStatistics = {
                 });
                 results.submissions.forEach(function (row) {
                     var data = result.Tracks[row.category_name];
-                    console.log('--------------submission-------------------');
-                    console.log(row.category_name);
                     _.extend(data, {
                         competitions: row.num_ratings,
                         submissions: row.submissions,
