@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.12
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141
+ * @version 1.13
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, kurtrips
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -29,6 +29,8 @@
  * - add invoice history api.
  * Changes in 1.12:
  * - added route for dev upload submission api
+ * Changes in 1.13:
+ * - added route for create billing api
  */
 
 /* ---------------------
@@ -154,6 +156,7 @@ exports.routes = {
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
-        { path: "/:apiVersion/auth", action: "generateJwt" }
+        { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/platform/billing", action: "createBilling" }
     ]
 };
