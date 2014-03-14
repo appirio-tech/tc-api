@@ -132,7 +132,7 @@ describe('Create new billing', function () {
             .expect('Content-Type', /json/)
             .expect(401);
 
-        req.send({ subscriptionNumber: 'billing_name_101', customerNumber: '101'})
+        req.send({ billingAccountName: 'billing_name_101', customerNumber: '101'})
             .end(function (err, resp) {
                 assertError(err, resp, "Authentication details missing or incorrect.", done);
             });
@@ -145,48 +145,48 @@ describe('Create new billing', function () {
     it('should return 403 error when user is not admin', function (done) {
         var req = getRequest('/v2/platform/billing', user124764, 403);
 
-        req.send({ subscriptionNumber: 'billing_name_102', customerNumber: '102'})
+        req.send({ billingAccountName: 'billing_name_102', customerNumber: '102'})
             .end(function (err, resp) {
                 assertError(err, resp, "Only admin members are allowed to create a new billing.", done);
             });
     });
 
     /**
-     * Test POST /v2/platform/billing when subscriptionNumber is empty after trimming
+     * Test POST /v2/platform/billing when billingAccountName is empty after trimming
      * should return 400 error
      */
-    it('should return 400 error when subscriptionNumber is empty', function (done) {
+    it('should return 400 error when billingAccountName is empty', function (done) {
         var req = getRequest('/v2/platform/billing', user124764, 400);
 
-        req.send({ subscriptionNumber: '         \t\t   \n\n ', customerNumber: '102'})
+        req.send({ billingAccountName: '         \t\t   \n\n ', customerNumber: '102'})
             .end(function (err, resp) {
-                assertError(err, resp, "subscriptionNumber cannot be empty.", done);
+                assertError(err, resp, "billingAccountName cannot be empty.", done);
             });
     });
 
     /**
-     * Test POST /v2/platform/billing when subscriptionNumber is too long
+     * Test POST /v2/platform/billing when billingAccountName is too long
      * should return 400 error
      */
-    it('should return 400 error when subscriptionNumber is too long', function (done) {
+    it('should return 400 error when billingAccountName is too long', function (done) {
         var req = getRequest('/v2/platform/billing', user124764, 400);
 
-        req.send({ subscriptionNumber: 'fkasdfkasjdhf;alksdf8;askjbkjsdbfkjnaskdbfanmsdbv,mabsndkjfhaskdfna,sdfsdfss', customerNumber: '102'})
+        req.send({ billingAccountName: 'fkasdfkasjdhf;alksdf8;askjbkjsdbfkjnaskdbfanmsdbv,mabsndkjfhaskdfna,sdfsdfss', customerNumber: '102'})
             .end(function (err, resp) {
-                assertError(err, resp, "subscriptionNumber is too long.", done);
+                assertError(err, resp, "billingAccountName is too long.", done);
             });
     });
 
     /**
-     * Test POST /v2/platform/billing when billing with subscriptionNumber already exists
+     * Test POST /v2/platform/billing when billing with billingAccountName already exists
      * should return 400 error
      */
-    it('should return 400 error when subscriptionNumber already exists', function (done) {
+    it('should return 400 error when billingAccountName already exists', function (done) {
         var req = getRequest('/v2/platform/billing', user132456, 400);
 
-        req.send({ subscriptionNumber: 'existingSubscriptionNumber', customerNumber: 'blaah233wq'})
+        req.send({ billingAccountName: 'existingBillingAccount', customerNumber: 'blaah233wq'})
             .end(function (err, resp) {
-                assertError(err, resp, "Billing with this subscription number already exists.", done);
+                assertError(err, resp, "Billing with this name already exists.", done);
             });
     });
 
@@ -197,7 +197,7 @@ describe('Create new billing', function () {
     it('should return 400 error when client with customerName does not exist', function (done) {
         var req = getRequest('/v2/platform/billing', user132456, 400);
 
-        req.send({ subscriptionNumber: 'blahijsmshhs', customerNumber: 'noSuchCustomerNumber'})
+        req.send({ billingAccountName: 'blahijsmshhs', customerNumber: 'noSuchCustomerNumber'})
             .end(function (err, resp) {
                 assertError(err, resp, "Client with this customer number must already exist but was not found.", done);
             });
@@ -212,7 +212,7 @@ describe('Create new billing', function () {
     it('should return 200 when billing created properly', function (done) {
         var req = getRequest('/v2/platform/billing', user132456, 200);
 
-        req.send({ subscriptionNumber: 'billingABC', customerNumber: 'customerNumberDEF'})
+        req.send({ billingAccountName: 'billingABC', customerNumber: 'customerNumberDEF'})
             .end(function (err, resp) {
                 if (err) {
                     done(err);
@@ -245,8 +245,7 @@ describe('Create new billing', function () {
                                 is_deleted: 0,
                                 creation_user: "132456",
                                 modification_user: "132456",
-                                is_manual_prize_setting: 1,
-                                subscription_number: 'billingABC'
+                                is_manual_prize_setting: 1
                             }, actual = _.omit(result[0], ['creation_date', 'modification_date', 'start_date', 'end_date']);
                             assert.deepEqual(actual, expected, 'Actual and Expected billing did not match.');
 
