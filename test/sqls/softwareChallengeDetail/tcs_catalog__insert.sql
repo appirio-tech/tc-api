@@ -120,7 +120,7 @@ values (30500008, 1, 3, 132456, CURRENT, 132456, CURRENT);
 insert into project_spec(project_spec_id, project_id, version)
 values (31500001, 30500000, 1);
 
-INSERT INTO event (event_id, event_type_id, event_desc) VALUES (3437, 4, "TCO");
+INSERT INTO event (event_id, event_type_id, event_desc, event_short_desc) VALUES (3437, 4, "TCO", "TCO short description");
 INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(31500001, 'TCO', 3437, CURRENT);
 INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 30500000, CURRENT);
 

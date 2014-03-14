@@ -58,6 +58,7 @@ SELECT
      , pi51.value AS submission_limit
      , nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0) as event_id
      , (SELECT event_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_description
+     , (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_short_desc
   FROM project p
      , project_status_lu pstatus
      , outer project_spec ps

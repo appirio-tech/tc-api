@@ -787,7 +787,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             challenge.platforms = mapPlatforms(results.platforms);
             challenge.phases = mapPhases(results.phases);
             if (data.event_id !== 0) {
-                challenge.event = {id: data.event_id, description: data.event_description};
+                challenge.event = {id: data.event_id, description: data.event_description, shortDescription: data.event_short_desc};
             }
             cb();
         }

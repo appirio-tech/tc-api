@@ -133,6 +133,7 @@
    ],
    "event": {
        "id": 3437,
-       "description": "TCO"
+       "description": "TCO",
+       "shortDescription": "TCO short description"
    }
 }
