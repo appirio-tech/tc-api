@@ -1,0 +1,13 @@
+DELETE FROM resource_info WHERE resource_id >= 88800 AND resource_id <= 88899;
+DELETE FROM project_download_audit WHERE upload_id >= 88800 AND upload_id <= 88899;
+DELETE FROM review WHERE submission_id >= 88800 AND submission_id <= 88899;
+DELETE FROM submission WHERE submission_id >= 88800 AND submission_id <= 88899;
+DELETE FROM upload WHERE project_id >= 88800 AND project_id <= 88899;
+DELETE FROM resource WHERE resource_id >= 88800 AND resource_id <= 88899;
+DELETE FROM phase_criteria WHERE project_phase_id >= 88800 AND project_phase_id <= 88899;
+DELETE FROM project_phase WHERE project_phase_id >= 88800 AND project_phase_id <= 88899;
+DELETE FROM project_info WHERE project_id >= 88800 AND project_id <= 88899;
+DELETE FROM comp_version_dates WHERE comp_vers_id  > 88800 AND comp_vers_id <= 88899;
+DELETE FROM comp_versions WHERE comp_vers_id  > 88800 AND comp_vers_id <= 88899;
+DELETE FROM comp_catalog WHERE component_id  > 88800 AND component_id <= 88899;
+DELETE FROM project WHERE project_id >= 88800 AND project_id <= 88899;

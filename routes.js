@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.16
+ * @version 1.17
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
@@ -27,9 +27,12 @@
  * - added routes for terms api
  * Changes in 1.11:
  * - add invoice history api.
+ * - added route for dev download submission api 
  * Changes in 1.12:
  * - added route for dev upload submission api
- * Changes in 1.13
+ * - added route for create customer
+ * Changes in 1.13:
+ * - added route for create billing api
  * - added register challenge for a given user api.
  * Changes in 1.14:
  * - added route for active billing accounts
@@ -40,6 +43,8 @@
  * - added routes for validate handle
  * changes in 1.16:
  * - Combine Challenge Registration API(BUGR-11058)
+ * changes in 1.17:
+ * - added routes for data platforms and technologies
  */
 
 /* ---------------------
@@ -119,6 +124,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
+        { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
 
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
@@ -141,6 +147,8 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
         { path: "/:apiVersion/data/srm/statistics/tops", action: "getSRMTops" },
         { path: "/:apiVersion/data/countries", action: "countries" },
+        { path: "/:apiVersion/data/platforms", action: "getPlatforms" },
+        { path: "/:apiVersion/data/technologies", action: "getTechnologies" },
 
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
@@ -172,6 +180,8 @@ exports.routes = {
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
-        { path: "/:apiVersion/auth", action: "generateJwt" }
+        { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/platform/billing", action: "createBilling" },
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
     ]
 };

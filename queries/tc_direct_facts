@@ -1,34 +1,20 @@
 SELECT
-    (SELECT count(*)
+    (SELECT count(unique p.project_id)
 FROM project p
    ,project_phase submpp
    ,project_phase regpp
-   ,categories cat
-   ,project_info pi_ci
-   ,project_info pidr
-   ,comp_catalog cc
-   ,comp_versions cv
-   , project_category_lu pcl
 WHERE regpp.project_id = p.project_id
 AND regpp.phase_type_id = 1
 AND submpp.project_id = p.project_id
 AND submpp.phase_type_id = 2
 and p.project_status_id = 1
 AND (submpp.phase_status_id = 2 or regpp.phase_status_id = 2)
-and cc.root_category_id = cat.category_id
-AND pi_ci.project_id = p.project_id
-AND pi_ci.project_info_type_id = 1
-and pidr.project_id = p.project_id
-  and pidr.project_info_type_id = 26
- AND cv.comp_vers_id = pi_ci.value
-and cv.component_id= cc.component_id
-and pcl.project_category_id = p.project_category_id
 AND NOT EXISTS (SELECT 'has_eligibility_constraints' FROM contest_eligibility ce
 WHERE ce.is_studio = 0 AND ce.contest_id = p.project_id)
  and regpp.scheduled_start_time <= CURRENT
 AND submpp.scheduled_end_time > CURRENT
 ) +
-( SELECT count(*)
+( SELECT count(unique r.round_id)
   FROM informixoltp:round_segment rs
      , informixoltp:round r
      , informixoltp:contest ct
@@ -47,35 +33,19 @@ AND submpp.scheduled_end_time > CURRENT
    AND r.round_type_id in (13,15,19,22,24,25)
    )  AS active_contests_count,
 
-    (select count (distinct ci.user_id)
+    (select count (unique u.user_id)
   from resource rur
   	 , resource_info ri
-     , comp_versions cv
      , project p
-     , project_phase pi
-     , comp_catalog c
-     , component_inquiry ci
-     , categories pcat
      , user u
-     , project_info pi_vi
  where 1 =  1
-  and ci.component_id = cv.component_id
-  and ci.user_id = u.user_id
-  and ci.version = cv.version
-  and ci.project_id = p.project_id
   and p.project_id = rur.project_id
   and rur.resource_id = ri.resource_id
   and rur.resource_role_id = 1
   and ri.resource_info_type_id = 1
-  and ci.user_id = ri.value
-  and p.project_id = pi_vi.project_id
-  and pi_vi.project_info_type_id = 2
-  and pi_vi.value = cv.component_id
-  and c.component_id = cv.component_id
-  and pcat.category_id = c.root_category_id
-  and pi.project_id = p.project_id
-  and pi.phase_type_id = 2
-  and p.project_status_id = 1) AS active_members_count,    
+  and ri.value = u.user_id
+  and p.project_status_id = 1) AS active_members_count, 
+  
 (SELECT COUNT(*) 
   FROM user u
  WHERE u.status = 'A') as member_count,
@@ -87,34 +57,24 @@ where exists (select project_id from project where tc_direct_project_id = dp.pro
       from tcs_catalog:tc_direct_project
     where project_status_id = 4) AS completed_projects_count,
 
-    NVL((SELECT sum((select round(nvl(pi16.value::decimal, 0)) from project_info pi16 where pi16.project_info_type_id = 16 and pi16.project_id = p.project_id))*1.5
- as prize_purse
+nvl((select sum(pr.prize_amount)
+
 
 FROM project p
    ,project_phase submpp
    ,project_phase regpp
-   ,categories cat
-   ,project_info pi_ci
-   ,project_info pidr
-   ,comp_catalog cc
-   ,comp_versions cv
    , project_category_lu pcl
+   , prize pr
 WHERE regpp.project_id = p.project_id
 AND regpp.phase_type_id = 1
 AND submpp.project_id = p.project_id
 AND submpp.phase_type_id = 2
+and pr.project_id = p.project_id
 and p.project_status_id = 1
 AND (submpp.phase_status_id = 2 or regpp.phase_status_id = 2)
-and cc.root_category_id = cat.category_id
-AND pi_ci.project_id = p.project_id
-AND pi_ci.project_info_type_id = 1
-and pidr.project_id = p.project_id
-  and pidr.project_info_type_id = 26
- AND cv.comp_vers_id = pi_ci.value
-and cv.component_id= cc.component_id
 and pcl.project_category_id = p.project_category_id
 AND NOT EXISTS (SELECT 'has_eligibility_constraints' FROM contest_eligibility ce
-WHERE ce.is_studio = 0 AND ce.contest_id = p.project_id)
+WHERE ce.contest_id = p.project_id)
  and regpp.scheduled_start_time <= CURRENT
 AND submpp.scheduled_end_time > CURRENT), 0) AS prize_purse
 FROM dual

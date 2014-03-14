@@ -37,7 +37,6 @@ SELECT
        WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
           AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
   END AS submission_count
-
 FROM review_auction ra
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=1
 INNER JOIN project p ON p.project_id=ra.project_id
@@ -49,7 +48,6 @@ INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_inf
 INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
 INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
 INNER JOIN default_project_payment dpp ON dpp.resource_role_id = rarrrx.resource_role_id AND p.project_category_id = dpp.project_category_id
-
 WHERE p.project_status_id=1
 AND pcl.project_type_id IN (1,2)
 AND pcl.project_category_id != 29
@@ -57,7 +55,7 @@ AND pcl.project_category_id != 37
 AND pp2.phase_status_id IN (2,3)
 AND pp4.phase_status_id IN (1,2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
-AND dpp.resource_role_id IN (2,4,5,6,7,8,9,14,18,19,20,21)
+AND dpp.resource_role_id IN (2,4,5,6,7,8,9)
 
 UNION ALL
 
@@ -91,7 +89,6 @@ SELECT
        WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
           AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
   END AS submission_count
-
 FROM review_auction ra
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=2
 INNER JOIN project p ON p.project_id=ra.project_id
@@ -103,7 +100,6 @@ INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_inf
 INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
 INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
 INNER JOIN default_project_payment dpp ON dpp.resource_role_id = rarrrx.resource_role_id AND p.project_category_id = dpp.project_category_id
-
 WHERE p.project_status_id = 1
 AND pcl.project_type_id IN (1,2)
 AND pcl.project_category_id != 29
@@ -111,7 +107,7 @@ AND pcl.project_category_id != 37
 AND pp13.phase_status_id IN (2,3)
 AND pp14.phase_status_id IN (1,2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
-AND dpp.resource_role_id IN (2,4,5,6,7,8,9,14,18,19,20,21)
+AND dpp.resource_role_id = 18
 
 UNION ALL
 
@@ -151,7 +147,6 @@ SELECT
        WHEN dpp.resource_role_id = 21 THEN (SELECT COUNT(*) FROM submission s, upload up WHERE s.upload_id = up.upload_id 
           AND s.submission_status_id IN (1,2,3,4,6,7) AND s.submission_type_id = 1 AND up.project_id = p.project_id AND up.upload_type_id = 1)
   END AS submission_count
-
 FROM review_auction ra
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=3
 INNER JOIN project p ON p.project_id=ra.project_id
@@ -164,7 +159,6 @@ INNER JOIN project_info pi6 ON p.project_id = pi6.project_id AND pi6.project_inf
 INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
 INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
 INNER JOIN default_project_payment dpp ON dpp.resource_role_id = rarrrx.resource_role_id AND p.project_category_id = dpp.project_category_id
-
 WHERE p.project_status_id = 1
 AND pcl.project_type_id IN (1,2)
 AND pcl.project_category_id != 29
@@ -172,7 +166,7 @@ AND pcl.project_category_id != 37
 AND pp2.phase_status_id IN (2,3)
 AND pp18.phase_status_id IN (1,2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
-AND dpp.resource_role_id IN (2,4,5,6,7,8,9,14,18,19,20,21)
+AND dpp.resource_role_id = 21
 )
 WHERE 1=1
 AND LOWER(review_type) = LOWER(DECODE('@reviewType@', '', review_type, '@reviewType@'))

@@ -64,6 +64,12 @@ describe('Test Challenges API', function () {
             "Invalid submissionEndDate");
         assert.ok(challenge.prize, "Invalid prize");
         assert.ok(challenge.prize.length, "Invalid prize.length");
+        assert.ok(challenge.eventId, "Invalid eventId");
+        assert.ok(challenge.eventName, "Invalid eventName");
+        assert.ok(challenge.platforms, "Invalid platforms");
+        assert.ok(challenge.platforms.length, "Invalid platforms.length");
+        assert.ok(challenge.technologies, "Invalid technologies");
+        assert.ok(challenge.technologies.length, "Invalid technologies.length");
     }
 
     /**
@@ -282,12 +288,25 @@ describe('Test Challenges API', function () {
         });
 
         describe("-- Search Design Challenges --", function () {
-
             /**
              * /v2/design/challenges?listType=active
              */
             it("should return results for ?listType=active", function (done) {
                 validateResult("listType=active", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&submissionEndFrom=2014-01-01
+             */
+            it('should return 2 challenges after filtering submissionEndDate', function(done) {
+                validateResult("listType=active&submissionEndFrom=2014-01-01", [1, 2], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&submissionEndTo=2014-01-01
+             */
+            it('should return 1 challenges after filtering submissionEndDate', function(done) {
+                validateResult("listType=active&submissionEndTo=2014-01-01", [4], "ACTIVE", 1, 1, 50, done);
             });
 
             /**

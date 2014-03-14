@@ -1,0 +1,5 @@
+{
+  "name" : "insert_project_download_audit",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "insert_project_download_audit"
+}

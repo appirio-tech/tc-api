@@ -67,7 +67,8 @@ var DEFAULT_SORT_COLUMN = "challengeName";
  */
 var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId'];
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId',
+    "submissionEndFrom", "submissionEndTo"];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -119,6 +120,19 @@ LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
  * This copilot posting project type id
  */
 var COPILOT_POSTING_PROJECT_TYPE = 29;
+
+/**
+ * Max and min date value for date parameter.
+ * @type {string}
+ */
+var MIN_DATE = '1900-1-1';
+var MAX_DATE = '9999-1-1';
+
+/**
+ * The date format for input date parameter startDate and enDate.
+ * Dates like 2014-01-29 and 2014-1-29 are valid
+ */
+var DATE_FORMAT = 'YYYY-M-D';
 
 /**
  * If the user is a copilot
@@ -193,6 +207,12 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
     if (_.isDefined(filter.prizeUpperBound)) {
         error = error || helper.checkNonNegativeNumber(Number(filter.prizeUpperBound), "prizeUpperBound");
     }
+    if (_.isDefined(filter.submissionEndFrom)) {
+        error = error || helper.validateDate(filter.submissionEndFrom, 'submissionEndFrom', DATE_FORMAT);
+    }
+    if (_.isDefined(filter.submissionEndTo)) {
+        error = error || helper.validateDate(filter.submissionEndTo, 'submissionEndTo', DATE_FORMAT);
+    }
     if (error) {
         callback(error);
         return;
@@ -216,6 +236,8 @@ function setFilter(filter, sqlParams) {
     sqlParams.priupper = MAX_INT;
     sqlParams.tcdirectid = 0;
     sqlParams.communityId = 0;
+    sqlParams.submissionEndFrom = MIN_DATE;
+    sqlParams.submissionEndTo = MAX_DATE;
 
     if (_.isDefined(filter.challengeType)) {
         sqlParams.categoryName = filter.challengeType.toLowerCase();
@@ -237,6 +259,12 @@ function setFilter(filter, sqlParams) {
     }
     if (_.isDefined(filter.communityId)) {
         sqlParams.communityId = filter.communityId;
+    }
+    if (_.isDefined(filter.submissionEndFrom)) {
+        sqlParams.submissionEndFrom = filter.submissionEndFrom;
+    }
+    if (_.isDefined(filter.submissionEndTo)) {
+        sqlParams.submissionEndTo = filter.submissionEndTo;
     }
 }
 
@@ -281,6 +309,10 @@ function transferResult(src, helper) {
             challengeId : row.challenge_id,
             projectId : row.project_id,
             forumId : row.forum_id,
+            eventId: row.event_id,
+            eventName: row.event_name,
+            platforms: _.isDefined(row.platforms) ? row.platforms.split(', ') : [],
+            technologies: _.isDefined(row.technology) ? row.technology.split(', ') : [],
             numSubmissions : row.num_submissions,
             numRegistrants : row.num_registrants,
             screeningScorecardId : row.screening_scorecard_id,
@@ -393,7 +425,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmcTaskId", 'communityId'],
+            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo"],
         sqlParams = {},
         filter = {},
         pageIndex,
