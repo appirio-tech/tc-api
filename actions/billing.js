@@ -51,14 +51,14 @@ var dummyAddress = {
 
 /*
  * Exports the function which will be used to create a new billing account
- * It expects subscriptionNumber and customerNumber as required parameters
+ * It expects customerNumber and billingAccountName as required parameters
  * It returns the generated projectId (called billingAccountId) in the response
  */
 exports.action = {
     name: "createBilling",
     description: "create new billing account",
     inputs: {
-        required: ["customerNumber", "subscriptionNumber"],
+        required: ["customerNumber", "billingAccountName"],
         optional: []
     },
     blockedConnectionTypes: [],
@@ -71,7 +71,7 @@ exports.action = {
         api.log("Execute createBilling#run", 'debug');
         var helper = api.helper,
             customerNumber = connection.params.customerNumber,
-            subscriptionNumber = connection.params.subscriptionNumber,
+            billingAccountName = connection.params.billingAccountName,
             dbConnectionMap = connection.dbConnectionMap,
             existingClientId;
 
@@ -86,15 +86,15 @@ exports.action = {
                 //However it does not check for empty strings with only whitespace and control characters. So we check it ourselves.
                 //But we only check those variables which will be used for inserting into DB (so customerNumber is not checked)
 
-                //Check subscription number is not empty
-                if (new S(subscriptionNumber).isEmpty()) {
-                    cb(new IllegalArgumentError("subscriptionNumber cannot be empty."));
+                //Check billingAccountName is not empty
+                if (new S(billingAccountName).isEmpty()) {
+                    cb(new IllegalArgumentError("billingAccountName cannot be empty."));
                     return;
                 }
 
-                //Check subscription number is not too long
-                if (subscriptionNumber.length > 64) {
-                    cb(new IllegalArgumentError("subscriptionNumber is too long."));
+                //Check billingAccountName is not too long
+                if (billingAccountName.length > 64) {
+                    cb(new IllegalArgumentError("billingAccountName is too long."));
                     return;
                 }
 
@@ -110,9 +110,9 @@ exports.action = {
                     return;
                 }
 
-                //Check for uniqueness of subscription number and existence of client with customer number
+                //Check for uniqueness of billingAccountName and existence of client with customer number
                 _.extend(newBilling, {
-                    subscriptionNumber: subscriptionNumber,
+                    billingAccountName: billingAccountName,
                     customerNumber: customerNumber
                 });
                 async.parallel({
@@ -128,7 +128,7 @@ exports.action = {
                         return;
                     }
                     if (data.billing.length > 0) {
-                        cb(new IllegalArgumentError("Billing with this subscription number already exists."));
+                        cb(new IllegalArgumentError("Billing with this name already exists."));
                         return;
                     }
                     if (data.client.length === 0) {

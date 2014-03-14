@@ -1,1 +1,1 @@
-SELECT 'x' FROM project WHERE subscription_number = '@subscriptionNumber@'
+SELECT 'x' FROM project WHERE name = '@billingAccountName@'
