@@ -1,0 +1,1 @@
+1 FROM user_terms_of_use_xref WHERE user_id = 132458 AND terms_of_use_id = 30006

@@ -1,0 +1,21 @@
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30001, 5, 'title 1', 1);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30002, 5, 'title 2', 2);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30003, 5, 'title 3', 3);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30004, 5, 'title 4', 3);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30005, 5, 'title 5', 3);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30006, 5, 'title 6', 3);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30007, 5, 'title 7', 3);
+INSERT INTO terms_of_use(terms_of_use_id, terms_of_use_type_id, title, terms_of_use_agreeability_type_id) VALUES (30008, 5, 'title 8', 3);
+
+INSERT INTO terms_of_use_dependency(dependency_terms_of_use_id, dependent_terms_of_use_id) VALUES(30004, 30006);
+INSERT INTO terms_of_use_dependency(dependency_terms_of_use_id, dependent_terms_of_use_id) VALUES(30005, 30006);
+INSERT INTO terms_of_use_dependency(dependency_terms_of_use_id, dependent_terms_of_use_id) VALUES(30008, 30006);
+INSERT INTO terms_of_use_dependency(dependency_terms_of_use_id, dependent_terms_of_use_id) VALUES(30003, 30007);
+
+INSERT INTO user_terms_of_use_ban_xref(user_id, terms_of_use_id) VALUES(132456, 30005);
+
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES(132456, 30003);
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES(132456, 30004);
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES(132458, 30004);
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES(132458, 30005);
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES(132458, 30008);

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.13
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi
+ * @version 1.14
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -33,6 +33,8 @@
  * refactor out the getChallengeTerms functionality into initializers/challengeHelper.js.
  * changes in 1.13:
  * add API for checkpoint results for software and studio
+ * changes in 1.14:
+ * move get terms of use API to terms.js
  */
 "use strict";
 
@@ -834,71 +836,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 };
 
 /**
- * Gets the term details given the term id. 
- * 
- * @param {Object} api The api object that is used to access the global infrastructure
- * @param {Object} connection The connection object for the current request
- * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Function<connection, render>} next The callback to be called after this function is done
- * @since 1.7
- */
-var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
-
-    //Check if the user is logged-in
-    if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
-            _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
-        api.helper.handleError(api, connection, new UnauthorizedError("Authentication details missing or incorrect."));
-        next(connection, true);
-        return;
-    }
-
-    var helper = api.helper,
-        sqlParams = {},
-        result = {},
-        termsOfUseId = Number(connection.params.termsOfUseId);
-
-    async.waterfall([
-        function (cb) {
-
-            //Simple validations of the incoming parameters
-            var error = helper.checkPositiveInteger(termsOfUseId, 'termsOfUseId') ||
-                helper.checkMaxNumber(termsOfUseId, MAX_INT, 'termsOfUseId');
-            if (error) {
-                cb(error);
-                return;
-            }
-
-            sqlParams.termsOfUseId = termsOfUseId;
-            api.dataAccess.executeQuery("get_terms_of_use", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            if (rows.length === 0) {
-                cb(new NotFoundError('No such terms of use exists.'));
-                return;
-            }
-
-            //We could just have result = rows[0]; but we need to change keys to camel case as per requirements
-            var camelCaseMap = {
-                'agreeability_type': 'agreeabilityType',
-                'terms_of_use_id': 'termsOfUseId'
-            };
-            _.each(rows[0], function (value, key) {
-                key = camelCaseMap[key] || key;
-                result[key] = value;
-            });
-
-            cb();
-        }
-    ], function (err) {
-        if (err) {
-            helper.handleError(api, connection, err);
-        } else {
-            connection.response = result;
-        }
-        next(connection, true);
-    });
-};
-
-/**
  * This is the function that handles user's submission for a develop challenge.
  * It handles both checkpoint and final submissions
  * @since 1.9 
@@ -1085,7 +1022,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 fileName: fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function (notUsed, cb) {
+        }, function (cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
@@ -1241,8 +1178,8 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
         }, function (res, cb) {
             var generalFeedback = "", hasGeneralFeedback = true;
             if (res.feedback.length === 0 ||
-                !_.isDefined(res.feedback[0].general_feedback) ||
-                res.feedback[0].general_feedback.trim().length === 0) {
+                    !_.isDefined(res.feedback[0].general_feedback) ||
+                    res.feedback[0].general_feedback.trim().length === 0) {
                 hasGeneralFeedback = false;
             } else {
                 generalFeedback = res.feedback[0].general_feedback || "";
@@ -1312,32 +1249,6 @@ exports.getChallengeTerms = {
         }
     }
 };
-
-/**
- * The API for getting terms of use by id
- */
-exports.getTermsOfUse = {
-    name: "getTermsOfUse",
-    description: "getTermsOfUse",
-    inputs: {
-        required: ["termsOfUseId"],
-        optional: []
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction : 'read', // this action is read-only
-    databases : ["common_oltp"],
-    run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
-            api.log("Execute getTermsOfUse#run", 'debug');
-            getTermsOfUse(api, connection, connection.dbConnectionMap, next);
-        } else {
-            api.helper.handleNoConnection(api, connection, next);
-        }
-    }
-};
-
 
 /**
  * This function gets the challenge results for both develop (software) and design (studio) contests.

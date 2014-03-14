@@ -1,0 +1,5 @@
+{
+    "name"    : "select_user_terms_of_use_xref",
+    "db"      : "common_oltp",
+    "sqlfile" : "select_user_terms_of_use_xref"
+}

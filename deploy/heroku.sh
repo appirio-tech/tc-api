@@ -89,6 +89,7 @@ then
 
     ### Export the parameters
     heroku config:set JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk"
+    heroku config:set TC_VM_IP=$TC_VM_IP
 fi
 
 #### Upload the code to heroku
