@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.9
+ * @version 1.10
  * @author Sky_, Ghost_141, muzehyun
  * changes in 1.1:
  * - implement marathon statistics
@@ -22,6 +22,9 @@
  * changes in 1.9
  * - update user basic profile to support private info
  * - remove badge related parts
+ * changes in 1.10:
+ * - update get software member statistics api to improve performance.
+ * - update checkUserExists and checkUserActivated so they can be executed in parallel.
  */
 "use strict";
 var async = require('async');
@@ -41,13 +44,13 @@ var NotFoundError = require('../errors/NotFoundError');
 function checkUserExists(handle, api, dbConnectionMap, callback) {
     api.dataAccess.executeQuery("check_coder_exist", { handle: handle }, dbConnectionMap, function (err, result) {
         if (err) {
-            callback(err);
+            callback(err, null);
             return;
         }
         if (result && result[0] && result[0].handle_exist !== 0) {
-            callback();
+            callback(err, null);
         } else {
-            callback(new NotFoundError("User does not exist."));
+            callback(err, new NotFoundError("User does not exist."));
         }
     });
 }
@@ -62,15 +65,51 @@ function checkUserExists(handle, api, dbConnectionMap, callback) {
 function checkUserActivated(handle, api, dbConnectionMap, callback) {
     api.dataAccess.executeQuery('check_coder_activated', { handle: handle }, dbConnectionMap, function (err, result) {
         if (err) {
-            callback(err);
+            callback(err, null);
             return;
         }
         if (result && result[0] && result[0].status === 'A') {
-            callback();
+            callback(err, null);
         } else {
-            callback(new BadRequestError('User is not activated.'));
+            callback(err, new BadRequestError('User is not activated.'));
         }
     });
+}
+
+/**
+ * Check if the user exist and activated.
+ * @param {String} handle - the user handle.
+ * @param {Object} api - the api object.
+ * @param {Object} dbConnectionMap - the database connection map object.
+ * @param {Function} callback - the callback function.
+ * @since 1.10
+ */
+function checkUserExistAndActivate(handle, api, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            // check user existence and activated status.
+            async.parallel({
+                exist: function (cb) {
+                    checkUserExists(handle, api, dbConnectionMap, cb);
+                },
+                activate: function (cb) {
+                    checkUserActivated(handle, api, dbConnectionMap, cb);
+                }
+            }, cb);
+        },
+        function (results, cb) {
+            // handle the error situation.
+            if (results.exist) {
+                cb(results.exist);
+                return;
+            }
+            if (results.activate) {
+                cb(results.activate);
+                return;
+            }
+            cb();
+        }
+    ], callback);
 }
 
 /**
@@ -91,9 +130,7 @@ function getBasicUserProfile(api, dbConnectionMap, connection, next) {
 
     async.waterfall([
         function (cb) {
-            checkUserExists(handle, api, dbConnectionMap, cb);
-        }, function (cb) {
-            checkUserActivated(handle, api, dbConnectionMap, cb);
+            checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
         }, function (cb) {
             var execQuery = function (name) {
                 return function (cbx) {
@@ -290,9 +327,7 @@ exports.getMarathonStatistics = {
         }
         async.waterfall([
             function (cb) {
-                checkUserExists(handle, api, dbConnectionMap, cb);
-            }, function (cb) {
-                checkUserActivated(handle, api, dbConnectionMap, cb);
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var executeQuery = function (sqlName, cbx) {
                     api.dataAccess.executeQuery(sqlName, sqlParams, dbConnectionMap, cbx);
@@ -361,7 +396,7 @@ exports.getSoftwareStatistics = {
     description: "getSoftwareStatistics",
     inputs: {
         required: ["handle"],
-        optional: []
+        optional: ['track']
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -372,6 +407,7 @@ exports.getSoftwareStatistics = {
         api.log("Execute getSoftwareStatistics#run", 'debug');
         var dbConnectionMap = connection.dbConnectionMap,
             handle = connection.params.handle,
+            track = connection.params.track,
             helper = api.helper,
             sqlParams = {
                 handle: handle
@@ -386,19 +422,38 @@ exports.getSoftwareStatistics = {
         }
         async.waterfall([
             function (cb) {
-                checkUserExists(handle, api, dbConnectionMap, cb);
+                // check track
+                if (_.isDefined(track)) {
+                    cb(helper.checkTrackName(track.toLowerCase(), false));
+                } else {
+                    cb();
+                }
             }, function (cb) {
-                checkUserActivated(handle, api, dbConnectionMap, cb);
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                     api.dataAccess.executeQuery(name,
                         sqlParams,
                         dbConnectionMap,
                         cbx);
-                };
+                }, phaseIds = _.isDefined(track) ?  [helper.getPhaseId(track)] :
+                        _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
+                    challengeTypes = _.map(phaseIds, function (item) {
+                        return item - 111;
+                    });
+
+                sqlParams.phaseIds = phaseIds;
+                sqlParams.challengeTypes = challengeTypes;
+
                 async.parallel({
-                    tracks: function (cbx) {
-                        execQuery("get_software_member_statistics_track", cbx);
+                    basics: function (cbx) {
+                        execQuery("get_software_member_statistics_track_basic", cbx);
+                    },
+                    submissions: function (cbx) {
+                        execQuery('get_software_member_statistics_track_submissions', cbx);
+                    },
+                    rating: function (cbx) {
+                        execQuery('get_software_member_statistics_track_rating', cbx);
                     },
                     copilotStats: function (cbx) {
                         execQuery("get_software_member_statistics_copilot", cbx);
@@ -408,8 +463,9 @@ exports.getSoftwareStatistics = {
                 var round2 = function (n) {
                     return Math.round(n * 100) / 100;
                 };
-                results.tracks.forEach(function (track) {
-                    result.Tracks[track.category_name] = {
+                results.basics.forEach(function (track) {
+                    var type = helper.getPhaseName(track.category_id);
+                    result.Tracks[type] = {
                         rating: track.rating,
                         reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
                         activePercentile: track.active_percentile.toFixed(2) + "%",
@@ -420,27 +476,39 @@ exports.getSoftwareStatistics = {
                         overallRank: track.overall_rank,
                         overallCountryRank: track.overall_country_rank,
                         overallSchoolRank: track.overall_school_rank,
-                        volatility: track.vol,
-                        competitions: track.num_ratings,
-                        maximumRating: track.max_rating,
-                        minimumRating: track.min_rating,
-                        inquiries: track.num_ratings,
-                        submissions: track.submissions,
-                        submissionRate: _.getPercent(track.submission_rate, 2),
-                        passedScreening: track.passed_screening,
-                        screeningSuccessRate: _.getPercent(track.screening_success_rate, 2),
-                        passedReview: track.passed_review,
-                        reviewSuccessRate: _.getPercent(track.review_success_rate, 2),
-                        appeals: track.appeals,
-                        appealSuccessRate: _.getPercent(track.appeal_success_rate, 2),
-                        maximumScore: round2(track.max_score),
-                        minimumScore: round2(track.min_score),
-                        averageScore: round2(track.avg_score),
-                        averagePlacement: round2(track.avg_placement),
-                        wins: track.wins,
-                        winPercentage: _.getPercent(track.win_percent, 2)
+                        volatility: track.vol
                     };
                 });
+                results.submissions.forEach(function (row) {
+                    var data = result.Tracks[row.category_name];
+                    _.extend(data, {
+                        competitions: row.num_ratings,
+                        submissions: row.submissions,
+                        submissionRate: _.getPercent(row.submission_rate, 2),
+                        inquiries: row.num_ratings,
+                        passedScreening: row.passed_screening,
+                        screeningSuccessRate: _.getPercent(row.screening_success_rate, 2),
+                        passedReview: row.passed_review,
+                        reviewSuccessRate: _.getPercent(row.review_success_rate, 2),
+                        appeals: row.appeals,
+                        appealSuccessRate: _.getPercent(row.appeal_success_rate, 2),
+                        maximumScore: round2(row.max_score),
+                        minimumScore: round2(row.min_score),
+                        averageScore: round2(row.avg_score),
+                        averagePlacement: round2(row.avg_placement),
+                        wins: row.wins,
+                        winPercentage: _.getPercent(row.win_percent, 2)
+                    });
+                });
+
+                results.rating.forEach(function (row) {
+                    var data = result.Tracks[row.category_name];
+                    _.extend(data, {
+                        maximumRating: row.max_rating,
+                        minimumRating: row.min_rating
+                    });
+                });
+
                 results.copilotStats.forEach(function (track) {
                     if (helper.checkNumber(track.reviewer_rating) && track.completed_contests === 0) {
                         return;
@@ -508,9 +576,7 @@ exports.getStudioStatistics = {
 
         async.waterfall([
             function (cb) {
-                checkUserExists(handle, api, dbConnectionMap, cb);
-            }, function (cb) {
-                checkUserActivated(handle, api, dbConnectionMap, cb);
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 api.dataAccess.executeQuery('get_studio_member_statistics_track', sqlParams, dbConnectionMap, cb);
             }, function (results, cb) {
@@ -578,9 +644,7 @@ exports.getAlgorithmStatistics = {
         }
         async.waterfall([
             function (cb) {
-                checkUserExists(handle, api, dbConnectionMap, cb);
-            }, function (cb) {
-                checkUserActivated(handle, api, dbConnectionMap, cb);
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name) {
                     return function (cbx) {

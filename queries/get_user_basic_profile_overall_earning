@@ -5,3 +5,4 @@ JOIN user_payment AS up ON p.payment_id = up.payment_id
 JOIN coder AS c ON c.coder_id = up.user_id
 WHERE p.show_in_profile_ind = 1
 AND handle_lower = LOWER('@handle@')
+AND c.status = 'A'

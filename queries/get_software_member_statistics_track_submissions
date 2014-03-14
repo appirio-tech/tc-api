@@ -1,0 +1,27 @@
+SELECT
+  p.phase_id - 111 AS category_id
+, p.phase_desc AS category_name
+, COUNT(*) AS num_ratings
+, NVL(SUM(submit_ind), 0) AS submissions
+, CASE WHEN COUNT(*) = 0 THEN 0::DECIMAL ELSE SUM(submit_ind) / COUNT(*) END AS submission_rate
+, NVL(SUM(CASE WHEN valid_submission_ind = 1 AND submit_ind = 1 THEN 1 ELSE 0 END), 0) AS passed_screening
+, NVL(CASE WHEN SUM(submit_ind) = 0 THEN 0 ELSE SUM(CASE WHEN valid_submission_ind = 1 AND submit_ind = 1 THEN 1 ELSE 0 END) / SUM(submit_ind) END,0) AS screening_success_rate
+, NVL(SUM(passed_review_ind), 0) AS passed_review
+, NVL(CASE WHEN SUM(submit_ind) = 0 THEN 0 ELSE SUM(passed_review_ind) / SUM(submit_ind) END, 0) AS review_success_rate
+, NVL(SUM(CASE WHEN num_successful_appeals is NULL THEN 0 ELSE num_appeals END), 0) AS appeals
+, NVL(CASE WHEN SUM(CASE WHEN num_successful_appeals is NULL THEN 0 ELSE num_appeals END) = 0 THEN 0 ELSE
+      SUM(num_successful_appeals) / SUM(CASE WHEN num_successful_appeals is NULL THEN 0 ELSE num_appeals END) END, 0) AS appeal_success_rate
+, NVL(max(pr.final_score), 0) AS max_score
+, NVL(min(pr.final_score), 0) AS min_score
+, NVL(CASE WHEN SUM(CASE WHEN pr.final_score > 0 THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN pr.final_score > 0 THEN pr.final_score ELSE 0 END) / SUM(CASE WHEN pr.final_score > 0 THEN 1 ELSE 0 END) END, 0) AS avg_score
+, NVL(CASE WHEN SUM(CASE WHEN placed > 0 THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN placed > 0 THEN placed ELSE 0 END) / SUM(CASE WHEN placed > 0 THEN 1 ELSE 0 END) END, 0) AS avg_placement
+, NVL(SUM(CASE WHEN placed = 1 AND passed_review_ind = 1 THEN 1 ELSE 0 END), 0) AS wins
+, NVL(CASE WHEN SUM(submit_ind) = 0 THEN 0 ELSE SUM(CASE WHEN placed = 1 AND passed_review_ind = 1 THEN 1 ELSE 0 END) / SUM(submit_ind) END, 0) AS win_percent
+FROM tcs_dw:project_result pr, tcs_dw:project p, coder cc
+WHERE pr.user_id = cc.coder_id
+AND p.project_id = pr.project_id
+AND p.status_id in (4,5,7,8)
+AND handle_lower = LOWER('@handle@')
+AND p.phase_id IN (@phaseIds@)
+AND cc.status = 'A'
+GROUP BY p.phase_id, p.phase_desc
