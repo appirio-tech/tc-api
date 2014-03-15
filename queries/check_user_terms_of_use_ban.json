@@ -1,0 +1,5 @@
+{
+    "name"    : "check_user_terms_of_use_ban",
+    "db"      : "common_oltp",
+    "sqlfile" : "check_user_terms_of_use_ban"
+}

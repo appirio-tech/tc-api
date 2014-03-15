@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_user_terms_of_use",
+    "db"      : "common_oltp",
+    "sqlfile" : "insert_user_terms_of_use"
+}

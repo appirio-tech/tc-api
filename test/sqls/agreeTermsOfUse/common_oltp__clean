@@ -1,0 +1,4 @@
+DELETE FROM terms_of_use_dependency;
+DELETE FROM user_terms_of_use_ban_xref;
+DELETE FROM user_terms_of_use_xref;
+DELETE FROM terms_of_use WHERE terms_of_use_id > 30000;

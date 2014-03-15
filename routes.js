@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.17
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
+ * @version 1.18
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -45,6 +45,8 @@
  * - Combine Challenge Registration API(BUGR-11058)
  * changes in 1.17:
  * - added routes for data platforms and technologies
+ * Changes in 1.18:
+ * - added route for agree term of use api.
  */
 
 /* ---------------------
@@ -177,6 +179,7 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
+        { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },

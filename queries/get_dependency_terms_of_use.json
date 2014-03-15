@@ -1,0 +1,5 @@
+{
+    "name"      :   "get_dependency_terms_of_use",
+    "db"        :   "common_oltp",
+    "sqlfile"   :   "get_dependency_terms_of_use"
+}

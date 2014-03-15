@@ -1,0 +1,1 @@
+SELECT 1 FROM user_terms_of_use_xref WHERE user_id = @userId@ AND terms_of_use_id = @termsOfUseId@
