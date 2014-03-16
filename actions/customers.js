@@ -64,7 +64,7 @@ exports.action = {
     version: 'v2',
     transaction : 'write',
     databases : ["time_oltp"],
-	cacheEnabled : false,
+    cacheEnabled : false,
     run: function (api, connection, next) {
         api.log("Execute createCustomer#run", 'debug');
         var helper = api.helper,
@@ -80,8 +80,8 @@ exports.action = {
         async.waterfall([
             function (cb) {
                 //NOTE: actionhero automatically takes care of null and empty checks. 
-				//However it does not check for empty strings with only whitespace and control characters.
-				//So we need to check that
+                //However it does not check for empty strings with only whitespace and control characters.
+                //So we need to check that
 
                 //Check name is not empty
                 if (new S(customerName).isEmpty()) {

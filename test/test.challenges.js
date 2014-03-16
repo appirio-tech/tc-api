@@ -298,14 +298,14 @@ describe('Test Challenges API', function () {
             /**
              * /v2/design/challenges?listType=active&submissionEndFrom=2014-01-01
              */
-            it('should return 2 challenges after filtering submissionEndDate', function(done) {
+            it('should return 2 challenges after filtering submissionEndDate', function (done) {
                 validateResult("listType=active&submissionEndFrom=2014-01-01", [1, 2], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&submissionEndTo=2014-01-01
              */
-            it('should return 1 challenges after filtering submissionEndDate', function(done) {
+            it('should return 1 challenges after filtering submissionEndDate', function (done) {
                 validateResult("listType=active&submissionEndTo=2014-01-01", [4], "ACTIVE", 1, 1, 50, done);
             });
 

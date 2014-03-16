@@ -104,7 +104,7 @@ describe('', function () {
     }
 
     describe('Test Platforms API', function () {
-        
+
         var expected = ["AWS",
                         "Beanstalk",
                         "Box",
@@ -147,7 +147,7 @@ describe('', function () {
     });
 
     describe('Test Technologies API', function () {
-        
+
         var expected = [".NET",
                         ".NET 2.0",
                         ".NET 3.0",

@@ -80,7 +80,7 @@ config.general = {
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
     reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
-    
+
     /**
      * The directory where uploaded files are stored.
      * It can be relative to the current directory or can be absolute 

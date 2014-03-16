@@ -365,7 +365,7 @@ var calculatePayment = function (reviewOpportunityInfo, adjustPayments) {
  */
 var getPaymentValues = function (reviewOpportunityInfo, adjustPayments, isAsc) {
     var payment = calculatePayment(reviewOpportunityInfo, adjustPayments);
-    return _.sortBy(payment, function (item) { return(isAsc ?  -item : item); });
+    return _.sortBy(payment, function (item) { return (isAsc ?  -item : item); });
 };
 
 /**
