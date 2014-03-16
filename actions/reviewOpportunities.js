@@ -1,24 +1,22 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author Sky_, Ghost_141
  * changes in 1.1
  * - Implement the studio review opportunities.
  * changes in 1.2
  * - Implement the general(software & studio) review opportunities.
  * - remove getStudioReviewOpportunities method.
+ * changes in 1.3:
+ * - Implement the getSoftwareReviewOpportunity api.
  */
 'use strict';
 var async = require('async');
 var _ = require('underscore');
 var NotFoundError = require('../errors/NotFoundError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
-
-/**
- * Sample result from specification for Review Opportunity Detail
- */
-var sampleReviewOpportunity;
+var ForbiddenError = require('../errors/ForbiddenError');
 
 /**
  * Sample result from specification for Review Opportunities for algorithms
@@ -29,12 +27,6 @@ var sampleAlgorithmsReviewOpportunities;
  * Sample result from specification for Review Opportunity Detail for algorithms
  */
 var sampleAlgorithmsReviewOpportunity;
-
-
-/**
- * The max value for Integer.
- */
-var MAX_INT = 2147483647;
 
 var ALLOWABLE_SORT_ORDER = ['asc', 'desc'];
 
@@ -112,7 +104,7 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+                helper.checkMaxInt(challengeId, 'challengeId');
 
             if (error) {
                 cb(error);
@@ -320,7 +312,7 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
  * @param {Object} reviewOpportunityInfo - the review opportunity information object. It contains the default payment
  * info and review opp info.
  * @param {Array} adjustPayments - the adjust payment information.
- * @returns {Array} a array payment information.
+ * @returns {Object} a payment information map.
  */
 var calculatePayment = function (reviewOpportunityInfo, adjustPayments) {
     // filter out the payment for other review opportunities first
@@ -360,7 +352,20 @@ var calculatePayment = function (reviewOpportunityInfo, adjustPayments) {
             payment[applicationRole] += Number(defPayment);
         }
     });
-    return _.chain(payment).values().sortBy(function (item) { return -item; }).value();
+    return payment;
+};
+
+/**
+ * Get the payment values array.
+ * @param {Object} reviewOpportunityInfo - the review opportunity information object. It contains the default payment
+ * info and review opp info.
+ * @param {Array} adjustPayments - the adjust payment information.
+ * @param {Boolean} isAsc - the boolean to represent the results sort on asc or not.
+ * @returns {Array} the payment values.
+ */
+var getPaymentValues = function (reviewOpportunityInfo, adjustPayments, isAsc) {
+    var payment = calculatePayment(reviewOpportunityInfo, adjustPayments);
+    return _.sortBy(payment, function (item) { return(isAsc ?  -item : item); });
 };
 
 /**
@@ -404,7 +409,8 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 reviewStartDateFirstDate: helper.formatDate(filter.reviewStartDate.firstDate, 'YYYY-MM-DD'),
                 reviewStartDateSecondDate: helper.formatDate(filter.reviewStartDate.secondDate, 'YYYY-MM-DD'),
                 reviewEndDateFirstDate: helper.formatDate(filter.reviewEndDate.firstDate, 'YYYY-MM-DD'),
-                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD')
+                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD'),
+                challengeId: 0
             };
 
             queryName = isStudio ? 'search_studio_review_opportunities' : 'search_software_review_opportunities_data';
@@ -443,7 +449,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 // Handle the software challenge here.
                 keys.forEach(function (key) {
                     var rows = reviewOpportunities[key],
-                        payment = calculatePayment(rows, adjustPayment);
+                        payment = getPaymentValues(rows, adjustPayment, true);
 
                     result.data.push({
                         primaryReviewerPayment: payment[0],
@@ -505,6 +511,146 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
 };
 
 /**
+ * Get the software review opportunity.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.3
+ */
+var getSoftwareReviewOpportunity = function (api, connection, next) {
+    var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, challengeId, sqlParams, result = {},
+        phases, positions, applications, basic, adjustPayment,
+        execQuery = function (name) {
+            return function (cb) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cb);
+            };
+        };
+
+    challengeId = Number(connection.params.challengeId);
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxInt(challengeId, 'challengeId') ||
+                helper.checkMember(connection, 'You don\'t have the authority to access this. Please login.');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            sqlParams = {
+                challengeId: challengeId,
+                user_id: connection.caller.userId
+            };
+
+            async.parallel({
+                privateCheck: execQuery('check_user_challenge_accessibility'),
+                reviewCheck: execQuery('check_challenge_review_opportunity')
+            }, cb);
+        },
+        function (result, cb) {
+            if (result.reviewCheck.length === 0) {
+                cb(new IllegalArgumentError('The challenge don\'t have review opportunities or is not a valid ' +
+                    'software challenge.'));
+                return;
+            }
+
+            if (result.privateCheck[0].is_private && !result.privateCheck[0].has_access) {
+                cb(new ForbiddenError('The user is not allowed to visit this challenge review opportunity detail.'));
+                return;
+            }
+
+            async.parallel({
+                basic: execQuery('get_review_opportunity_detail_basic'),
+                phases: execQuery('get_review_opportunity_detail_phases'),
+                positions: execQuery('get_review_opportunity_detail_positions'),
+                applications: execQuery('get_review_opportunity_detail_applications'),
+                adjustPayment: execQuery('search_software_review_opportunities_adjust_payment')
+            }, cb);
+        },
+        function (results, cb) {
+            phases = results.phases;
+            positions = results.positions;
+            applications = results.applications;
+            basic = results.basic[0];
+            adjustPayment = results.adjustPayment;
+
+            result.phases = [];
+            result.positions = [];
+            result.applications = [];
+
+            var numberOfReviewersRequired = basic.reviewers_required,
+                payment = calculatePayment(results.basic, adjustPayment);
+
+            phases.forEach(function (row) {
+                result.phases.push({
+                    type: row.type,
+                    status: row.status,
+                    scheduledStartTime: row.scheduled_start_time,
+                    actualStartTime: row.actual_start_time || null,
+                    scheduledEndTime: row.scheduled_end_time,
+                    actualEndTime: row.actual_end_time || null
+                });
+            });
+
+            positions.forEach(function (row) {
+                var positionOpen,
+                    approvedNumber = _.countBy(applications,
+                        function (item) {
+                            return item.review_application_role_id === row.review_application_role_id
+                                && item.status === 'Approved';
+                        })['true'] || 0;
+
+                if (approvedNumber === row.num_positions) {
+                    // There is no spaces for new reviewer on this role.
+                    return;
+                }
+
+                positionOpen = Math.min(numberOfReviewersRequired, row.num_positions);
+
+                if (positionOpen <= 0) {
+                    // No open positions for this role.
+                    numberOfReviewersRequired -= row.num_positions;
+                    return;
+                }
+                result.positions.push({
+                    role: row.role,
+                    numPositions: positionOpen,
+                    payment: payment[row.review_application_role_id]
+                });
+
+                numberOfReviewersRequired -= positionOpen;
+            });
+
+            applications.forEach(function (row) {
+                result.applications.push({
+                    handle: row.handle,
+                    role: row.role,
+                    reviewerRating: row.reviewer_rating || 'n/a',
+                    status: row.status,
+                    applicationDate: row.application_date
+                });
+            });
+
+            _.extend(result, {
+                challengeType: basic.challenge_type,
+                challengeName: basic.challenge_name,
+                challengeId: basic.challenge_id
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
  * The API for searching review opportunities
  */
 exports.searchReviewOpportunities = {
@@ -532,20 +678,25 @@ exports.searchReviewOpportunities = {
 /**
  * The API for getting review opportunity information
  */
-exports.getReviewOpportunity = {
-    name: 'getReviewOpportunity',
-    description: 'getReviewOpportunity',
+exports.getSoftwareReviewOpportunity = {
+    name: 'getSoftwareReviewOpportunity',
+    description: 'getSoftwareReviewOpportunity',
     inputs: {
-        required: [],
+        required: ['challengeId'],
         optional: []
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
     run: function (api, connection, next) {
-        api.log('Execute getReviewOpportunity#run', 'debug');
-        connection.response = sampleReviewOpportunity;
-        next(connection, true);
+        if (connection.dbConnectionMap) {
+            api.log('Execute getSoftwareReviewOpportunity#run', 'debug');
+            getSoftwareReviewOpportunity(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
 
@@ -637,50 +788,6 @@ exports.getAlgorithmsReviewOpportunity = {
         connection.response = sampleAlgorithmsReviewOpportunity;
         next(connection, true);
     }
-};
-
-sampleReviewOpportunity = {
-    "name": "PDS - Import and Persistence Update - Assembly Challenge",
-    "Phases": [
-        {
-            "name": "Submission",
-            "start": "10.25.2013 23:02 EDT",
-            "end": "10.29.2013 23:02 EDT",
-            "duration": "143 hours"
-        },
-        {
-            "name": "Screening",
-            "start": "10.29.2013 23:02 EDT",
-            "end": "10.30.2013 23:02 EDT",
-            "duration": "24 hours"
-        }
-    ],
-    "Positions": [
-        {
-            "role": "Primary Reviewer",
-            "positions": 1,
-            "payment": 500
-        },
-        {
-            "role": "Secondary Reviewer",
-            "positions": 2,
-            "payment": 400
-        }
-    ],
-    "Applications": [
-        {
-            "handle": "iRabbit",
-            "role": "Primary Reviewer",
-            "status": "Pending",
-            "applicationDate": "10.25.2013 23:02 EDT"
-        },
-        {
-            "handle": "iRabbit",
-            "role": "Secondary Reviewer",
-            "status": "Pending",
-            "applicationDate": "10.25.2013 23:02 EDT"
-        }
-    ]
 };
 
 sampleAlgorithmsReviewOpportunities = {

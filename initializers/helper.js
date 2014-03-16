@@ -44,6 +44,8 @@
  * changes in 1.13
  * - add method checkTrackName, getPhaseId.
  * - add phaseName2Id map.
+ * Changes in 1.14:
+ * - add method checkMember to check if the caller have at least member access leve.
  */
 "use strict";
 
@@ -987,6 +989,24 @@ helper.checkAdmin = function (connection) {
         return null;
     }
     return new ForbiddenError();
+};
+
+/**
+ * Check if the caller has at least member access level.
+ * @param {Object} connection - the connection object.
+ * @param {String} unauthorizedErrorMessage - the error message for unauthorized error.
+ * @returns {Error} if the caller don't have at least member access level. An error will be returned.
+ * @since 1.13
+ */
+helper.checkMember = function (connection, unauthorizedErrorMessage) {
+    var caller = connection.caller;
+    if (!_.isDefined(caller) || caller.accessLevel === 'anon') {
+        return new UnauthorizedError(unauthorizedErrorMessage);
+    }
+    if (helper.isMember(caller)) {
+        return null;
+    }
+    return new IllegalArgumentError('Wrong auth object');
 };
 
 /**
