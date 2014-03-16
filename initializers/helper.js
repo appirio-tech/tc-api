@@ -925,19 +925,24 @@ helper.getPhaseId = function (phaseName) {
  * @param {Number} rating - the rating.
  */
 helper.getColorStyle = function (rating) {
+
+	if (rating === null) {
+		 return "color: #000000";
+	}
+
     if (rating < 0) {
         return "color: #FF9900"; // orange
     }
-    if (rating > 0 && rating < 900) {
+    if (rating < 900) {
         return "color: #999999";// gray
     }
-    if (rating > 899 && rating < 1200) {
+    if (rating < 1200) {
         return "color: #00A900";// green
     }
-    if (rating > 1199 && rating < 1500) {
+    if (rating < 1500) {
         return "color: #6666FF";// blue
     }
-    if (rating > 1499 && rating < 2200) {
+    if (rating < 2200) {
         return "color: #DDCC00";// yellow
     }
     if (rating > 2199) {
@@ -945,6 +950,7 @@ helper.getColorStyle = function (rating) {
     }
     // return black otherwise.
     return "color: #000000";
+
 };
 
 
