@@ -1,0 +1,69 @@
+{
+    "phases": [
+        {
+            "type": "Submission",
+            "status": "Open",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Screening",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Appeals",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Aggregation",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Specification Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Final Fix",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Final Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Specification Submission",
+            "status": "Open",
+            "actualStartTime": null,
+            "actualEndTime": null
+        }
+    ],
+    "positions": [
+        {
+            "role": "Specification Reviewer",
+            "numPositions": 1,
+            "payment": 50
+        }
+    ],
+    "applications": [],
+    "challengeType": "Assembly Competition",
+    "challengeName": "Test Challenge 2010",
+    "challengeId": 2010
+}

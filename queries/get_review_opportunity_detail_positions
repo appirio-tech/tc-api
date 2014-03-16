@@ -1,0 +1,8 @@
+SELECT
+  rarl.name AS role
+, rarl.review_application_role_id
+, rarl.positions AS num_positions
+FROM review_auction ra
+INNER JOIN project p ON p.project_id = @challengeId@ AND ra.project_id = @challengeId@
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id = ra.review_auction_type_id
+INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id

@@ -72,7 +72,7 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
         },
         function (result, cb) {
             if (result.length === 0) {
-                userInfo['rating'] = 0;
+                userInfo.rating = 0;
             } else {
                 userInfo = result[0];
             }
@@ -281,7 +281,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                         },
                         function (result, cbk) {
                             if (result.length === 0) {
-                                cbk(new NotFoundError("user's hanlde not found"));
+                                cbk(new NotFoundError("user's handle not found"));
                                 return;
                             }
                             var handle = result[0].handle;
@@ -473,7 +473,7 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
                         },
                         function (result, cbk) {
                             if (result.length === 0) {
-                                cbk(new NotFoundError("user's hanlde not found"));
+                                cbk(new NotFoundError("user's handle not found"));
                                 return;
                             }
                             var handle = result[0].handle;
@@ -685,11 +685,11 @@ exports.registerChallenge = {
                     cb(error);
                 } else {
                     console.log("error11: " +  error);
-                    api.dataAccess.executeQuery('check_challenge_exists', {challengeId: challengeId}, connection.dbConnectionMap, cb)
+                    api.dataAccess.executeQuery('check_challenge_exists', {challengeId: challengeId}, connection.dbConnectionMap, cb);
                 }
-            }, function(result, cb) {
-                if(result.length > 0) {
-                    if(result[0].is_studio) {
+            }, function (result, cb) {
+                if (result.length > 0) {
+                    if (result[0].is_studio) {
                         registerStudioChallengeAction(api, connection, next);
                     } else {
                         registerSoftwareChallengeAction(api, connection, next);
@@ -698,7 +698,7 @@ exports.registerChallenge = {
                     cb();
                 }
             }
-        ], function(err){
+        ], function (err) {
             if (err) {
                 api.helper.handleError(api, connection, err);
                 next(connection, true);

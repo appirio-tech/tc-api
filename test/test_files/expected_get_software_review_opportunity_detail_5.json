@@ -1,0 +1,63 @@
+{
+    "phases": [
+        {
+            "type": "Submission",
+            "status": "Open",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Screening",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Appeals",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Iterative Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Aggregation",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Final Fix",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Final Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        }
+    ],
+    "positions": [
+        {
+            "role": "Iterative Reviewer",
+            "numPositions": 1,
+            "payment": 108
+        }
+    ],
+    "applications": [],
+    "challengeType": "First2Finish",
+    "challengeName": "Test Challenge 2011",
+    "challengeId": 2011
+}

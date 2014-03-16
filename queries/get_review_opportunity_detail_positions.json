@@ -1,0 +1,5 @@
+{
+    "name"    : "get_review_opportunity_detail_positions",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_review_opportunity_detail_positions"
+}

@@ -233,7 +233,7 @@ Platform APIs
             "completedProjectsCount": 500,
             "prizePurse": "$100000"
         }
-        
+
 ## Active Billing Accounts [/platform/activeBillingAccounts]
 ### Get Activity Summary [GET]
 
@@ -271,13 +271,13 @@ Platform APIs
 + Parameters
     + name (required, string, `custABCD`) ... The customer name
     + customerNumber (required, string, `custABCDNum`) ... The customer number
-    
+
 + Response 200 (application/json)
 
         {
              "clientId": "1000021"
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -316,7 +316,7 @@ Platform APIs
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }            
+        }
 
 
 
@@ -324,14 +324,14 @@ Platform APIs
 ### Create Billing [POST]
 + Parameters
     + subscriptionNumber (required, string, `snABCD`) ... The subscription number of the project to create
-    + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project 
-    
+    + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project
+
 + Response 200 (application/json)
 
         {
              "billingAccountId": "1000021"
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -370,21 +370,21 @@ Platform APIs
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }            
+        }
 
 
 ## Billing [/platform/billing]
 ### Create Billing [POST]
 + Parameters
     + billingAccountName (required, string, `snABCD`) ... The billingAccountName of the project to create
-    + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project 
-    
+    + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project
+
 + Response 200 (application/json)
 
         {
              "billingAccountId": "1000021"
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -423,7 +423,7 @@ Platform APIs
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }            
+        }
 
 
 # Group User Profile
@@ -908,7 +908,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Generate Reset Token  [/users/resetToken/{handle}]
 ### Generate Reset Token [GET]
 
@@ -944,20 +944,20 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Reset Password [/users/resetPassword/{handle}]
 ### Reset Password [POST]
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
     + token (required, string, `snABCD`) ... The reset password token
     + password (required, string, `cnDEFG`) ... The new password
-    
+
 + Response 200 (application/json)
 
         {
              "description": "Your password has been reset!"
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -996,7 +996,7 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        } 
+        }
 
 #Group Software Challenges
         
@@ -1114,59 +1114,71 @@ Register a new user.
         }
 
         
-## Get Review Opportunity Detail [/develop/reviewOpportunities/{id}]
+## Get Review Opportunity Detail [/develop/reviewOpportunities/{challengeId}]
 ### Get Review Opportunity Information [GET]
+
++ Request
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTQwODA3MTEsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzk0MDIwNzExfQ.xaaaElykyAq3woRRkcFQSUK0gvKnRCOhCD57x070GJ4
 
 + Parameters
 
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
         {
-            "name": "PDS - Import and Persistence Update - Assembly Contest",
-            "Phases":
+            "challengeName": "PDS - Import and Persistence Update - Assembly Contest",
+            "challengeType": "Assembly Competition",
+            "challengeId": 30005520,
+            "phases":
             [
                 {
-                    "name": "Submission",
-                    "start": "10.25.2013 23:02 EDT",
-                    "end": "10.29.2013 23:02 EDT",
-                    "duration": "143 hours"
+                    "type": "Submission",
+                    "status": "Scheduled",
+                    "scheduledStartTime": "2013-10-25T23:02:00.000Z",
+                    "actualStartTime": null,
+                    "scheduledEndTime": "2013-10-29T23:02:00.000Z",
+                    "actualEndTime": null
                 },
                 {
-                    "name": "Screening",
-                    "start": "10.29.2013 23:02 EDT",
-                    "end": "10.30.2013 23:02 EDT",
-                    "duration": "24 hours"
+                    "type": "Screening",
+                    "status": "Scheduled",
+                    "scheduledStartTime": "2013-10-29T23:02:00.000Z",
+                    "actualStartTime": null,
+                    "scheduledEndTime": "2013-10-30T23:02:00.000Z",
+                    "actualEndTime": null
                 }
             ],
-            "Positions":
+            "positions":
             [
                 {
                     "role": "Primary Reviewer",
-                    "positions": 1,
+                    "numPositions": 1,
                     "payment": 500
                 },
                 {
                     "role": "Secondary Reviewer",
-                    "positions": 2,
+                    "numPositions": 2,
                     "payment": 400
                 }        
             ],
-            "Applications":
+            "applications":
             [
                 {
                     "handle": "iRabbit",
                     "role": "Primary Reviewer",
+                    "reviewerRating": 100.01,
                     "status": "Pending",
-                    "applicationDate": "10.25.2013 23:02 EDT"
+                    "applicationDate": "2013-10-25T23:02:00.000Z"
                 },
                 {
                     "handle": "iRabbit",
                     "role": "Secondary Reviewer",
+                    "reviewerRating": 100.05,
                     "status": "Pending",
-                    "applicationDate": "10.25.2013 23:02 EDT"
-                },       
+                    "applicationDate": "2013-10-25T23:02:00.000Z"
+                }
             ]
         }
 
@@ -3201,7 +3213,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -3209,7 +3221,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3225,7 +3237,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Top Ranked Members [/design/statistics/tops/{challengeType}]
 ### Top Ranked Members [GET]
 
@@ -3307,7 +3319,7 @@ Register a new user.
             "count": 2,
             "platforms": [ "Heroku", "NodeJs" ]
         }
-        
+
 ## Technologies [/data/technologies]
 ### Technologies [GET]
 
@@ -4658,7 +4670,7 @@ Register a new user.
 + Response 200 (application/json)
 
     {
-      "message":"ok" 
+      "message":"ok"
     }
 
 + Response 400 (application/json)

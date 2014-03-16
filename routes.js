@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.18
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, TCSASSEMBLER
+ * @version 1.20
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -27,7 +27,7 @@
  * - added routes for terms api
  * Changes in 1.11:
  * - add invoice history api.
- * - added route for dev download submission api 
+ * - added route for dev download submission api
  * Changes in 1.12:
  * - added route for dev upload submission api
  * - added route for create customer
@@ -41,12 +41,15 @@
  * - added routes for getting studio and software checkpoints
  * Changes in 1.16:
  * - added routes for validate handle
- * changes in 1.16:
- * - Combine Challenge Registration API(BUGR-11058)
  * changes in 1.17:
+ * - Combine Challenge Registration API(BUGR-11058)
+ * changes in 1.18:
  * - added routes for data platforms and technologies
- * Changes in 1.18:
+ * Changes in 1.19:
  * - added route for agree term of use api.
+ * Changes in 1.20:
+ * - update get review opportunity api name to getSoftwareReviewOpportunity.
+ * - Update path to use challengeId which is more clear.
  */
 
 /* ---------------------
@@ -125,6 +128,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
+        { path: "/:apiVersion/develop/reviewOpportunities/:challengeId", action: "getSoftwareReviewOpportunity" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
         { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
 
@@ -171,7 +175,6 @@ exports.routes = {
         { path: "/:apiVersion/bugs", action: "bugs" },
 
         //Stubs APIs
-        { path: "/:apiVersion/software/reviewOpportunities/:id", action: "getReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },

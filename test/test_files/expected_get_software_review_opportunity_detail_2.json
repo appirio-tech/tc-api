@@ -1,0 +1,81 @@
+{
+    "phases": [
+        {
+            "type": "Submission",
+            "status": "Open",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Screening",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Appeals",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Final Review",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Aggregation",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        },
+        {
+            "type": "Final Fix",
+            "status": "Scheduled",
+            "actualStartTime": null,
+            "actualEndTime": null
+        }
+    ],
+    "positions": [
+        {
+            "role": "Primary Reviewer",
+            "numPositions": 1,
+            "payment": 442
+        },
+        {
+            "role": "Secondary Reviewer",
+            "numPositions": 1,
+            "payment": 324
+        }
+    ],
+    "applications": [
+        {
+            "handle": "super",
+            "role": "Primary Reviewer",
+            "reviewerRating": 89.6,
+            "status": "Pending"
+        },
+        {
+            "handle": "user",
+            "role": "Primary Reviewer",
+            "reviewerRating": 78.4,
+            "status": "Pending"
+        },
+        {
+            "handle": "Hung",
+            "role": "Secondary Reviewer",
+            "reviewerRating": "n/a",
+            "status": "Approved"
+        }
+    ],
+    "challengeType": "Assembly Competition",
+    "challengeName": "Test Challenge 2004",
+    "challengeId": 2004
+}

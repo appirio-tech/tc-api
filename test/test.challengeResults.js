@@ -122,7 +122,7 @@ describe('Get Challenge Results API', function () {
     /**
      * Utility function to check if the response of a not closed challenge.
      */
-    var notFinishedAssert = function (err, resp, done) {
+    function notFinishedAssert(err, resp, done) {
         if (err) {
             done(err);
             return;
@@ -131,6 +131,17 @@ describe('Get Challenge Results API', function () {
         done();
     }
 
+    /**
+     * Utility function to check the response of a not supported contest type
+     */
+    function notSupportedAssert(err, resp, done) {
+        if (err) {
+            done(err);
+            return;
+        }
+        assert.equal(resp.body.error.details, "Requested challenge type is not supported.");
+        done();
+    }
 
     /**
      * Test /v2/develop/challenges/result/:challengeId when challengeId is not a number
@@ -305,18 +316,6 @@ describe('Get Challenge Results API', function () {
             notSupportedAssert(err, resp, done);
         });
     });
-
-    /**
-     * Utility function to check the response of a not supported contest type
-     */
-    var notSupportedAssert = function (err, resp, done) {
-        if (err) {
-            done(err);
-            return;
-        }
-        assert.equal(resp.body.error.details, "Requested challenge type is not supported.");
-        done();
-    }
 
     /**
      * Test /v2/develop/challenges/result/:challengeId for success 

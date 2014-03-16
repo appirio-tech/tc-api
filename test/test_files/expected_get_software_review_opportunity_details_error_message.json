@@ -1,0 +1,11 @@
+{
+    "challengeId": {
+        "negative": "challengeId should be positive.",
+        "notInteger": "challengeId should be Integer.",
+        "notNumber": "challengeId should be number.",
+        "tooBig": "challengeId should be less or equal to 2147483647."
+    },
+    "unauthorized": "You don't have the authority to access this. Please login.",
+    "invalidChallenge": "The challenge don't have review opportunities or is not a valid software challenge.",
+    "privateChallenge": "The user is not allowed to visit this challenge review opportunity detail."
+}
