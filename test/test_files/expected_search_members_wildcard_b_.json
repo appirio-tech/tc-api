@@ -1,0 +1,23 @@
+{
+    "total": 4,
+    "pageIndex": 1,
+    "pageSize": 10,
+    "users": [
+        {
+            "handle": "ba",
+            "userId": 10000015
+        },
+        {
+            "handle": "bb",
+            "userId": 10000016
+        },
+        {
+            "handle": "BC",
+            "userId": 10000017
+        },
+        {
+            "handle": "BD",
+            "userId": 10000018
+        }
+    ]
+}

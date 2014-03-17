@@ -4938,3 +4938,85 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+# Group Members API
+
+## Search members by handle [/users/search?handle={handle}]
+### Search members by handle [GET]
+
++ Parameters
+    + handle (required, string, `heffan`) ... The handle string, it can contain "%" and "_".
+    + pageIndex (optional, number, `1`) ... The page index, default value is 1.
+    + pageSize (optional, number, `10`) ... The page size, default value is 10.
+    + caseSensitive (required, string, `true`) ... The case sensitive flag.
+
++ Response 200 (application/json)
+
+    {
+        "total": 2,
+        "pageIndex": 1,
+        "pageSize": 10,
+        "users":
+        [
+            {
+                "handle": "Hung",
+                "userId": 124764
+            },
+            {
+                "handle": "heffan",
+                "userId": 132456
+            }
+        ]
+    }
+
++ Response 400 (application/json)
+
+    {
+        "name":"Bad Request",
+        "value":"400",
+        "description":"This message will explain why the request is invalid or cannot be served."
+        "details:":"caseSensitive should be 'true' or 'false'."
+    }
+
++ Response 400 (application/json)
+
+    {
+        "name":"Bad Request",
+        "value":"400",
+        "description":"This message will explain why the request is invalid or cannot be served."
+        "details:":"pageIndex should be positive."
+    }
+
++ Response 400 (application/json)
+
+    {
+        "name":"Bad Request",
+        "value":"400",
+        "description":"This message will explain why the request is invalid or cannot be served."
+        "details:":"pageSize should be positive."
+    }
+
++ Response 400 (application/json)
+
+    {
+        "name":"Bad Request",
+        "value":"400",
+        "description":"This message will explain why the request is invalid or cannot be served."
+        "details:":"handle should be non-null and non-empty string."
+    }
+
++ Response 500 (application/json)
+
+    {
+        "name":"Internal Server Error",
+        "value":"500",
+        "description":"Unknown server error. Please contact support."
+    }
+
++ Response 503 (application/json)
+
+    {
+        "name":"Service Unavailable",
+        "value":"503",
+        "description":"Servers are up but overloaded. Try again later."
+    }
