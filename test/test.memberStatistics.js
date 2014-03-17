@@ -1,8 +1,11 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author muzehyun
+ * @version 1.1
+ * @author muzehyun, TCSASSEMBLER
+ * 
+ * changes in 1.1
+ * - Added tests for all functions which now make use of helper.checkUserExists function
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach, __dirname */
@@ -79,6 +82,89 @@ describe('Test Software Rating History And Distribution API (Success)', function
                 done(err);
             });
     }
+
+    var times = {};
+
+    /**
+     * Executes the specified action and expects it to succeed.
+     *
+     * @param url an URL referencing the action to run test for.
+     * @param handle a handle for user account to run test for.
+     * @param isFirstTime true if result user account is not expected to be cached yet.
+     * @param {Function<err>} done the callback.
+     */
+    function testAction(url, handle, isFirstTime, done) {
+        var t1 = process.hrtime();
+        request(API_ENDPOINT)
+            .get(url)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, result) {
+                if (err) {
+                    if (!isFirstTime) {
+                        done(err);
+                    } else {
+                        console.log("Unexpected error in testAction: " + err);
+                    }
+                    return;
+                }
+                var t2 = process.hrtime(t1)[1];
+                if (isFirstTime) {
+                    console.log('For non-cached result for user ' + handle + ' time taken is: '
+                        + t2 + " (nanoseconds)");
+                    times[handle] = t2;
+                } else {
+                    console.log('For cached result for user ' + handle + ' time taken is: ' + t2 + ' (nanoseconds)');
+                    assert.isTrue(t2 !== times[handle], 'The execution time is not decreased for user ' + handle + ": "
+                        + t2 + " vs " + times[handle]);
+                    done(err);
+                }
+            });
+    }
+
+    // Testing getBasicUserProfile function
+    it('Test basic profile', function (done) {
+        var handle = 'heffan';
+        testAction('/v2/users/' + handle, handle, true);
+        testAction('/v2/users/' + handle, handle, false, done);
+    });
+
+    // Testing getMarathonStatistics function
+    it('Test marathon stats', function (done) {
+        var handle = 'Hung';
+        testAction('/v2/users/' + handle + '/statistics/data/marathon', handle, true);
+        testAction('/v2/users/' + handle + '/statistics/data/marathon', handle, false, done);
+    });
+
+    // Testing getSoftwareStatistics function
+    it('Test software stats', function (done) {
+        var handle = 'sandking';
+        testAction('/v2/users/' + handle + '/statistics/data/develop', handle, true);
+        testAction('/v2/users/' + handle + '/statistics/data/develop', handle, false, done);
+    });
+
+    // Testing getStudioStatistics function
+    it('Test studio stats', function (done) {
+        var handle = 'annej9ny';
+        testAction('/v2/users/' + handle + '/statistics/data/design', handle, true);
+        testAction('/v2/users/' + handle + '/statistics/data/design', handle, false, done);
+    });
+
+    // Testing getAlgorithmStatistics function
+    it('Test algorithm stats', function (done) {
+        var handle = 'wyzmo';
+        testAction('/v2/users/' + handle + '/statistics/data/srm', handle, true);
+        testAction('/v2/users/' + handle + '/statistics/data/srm', handle, false, done);
+    });
+
+    // Testing getSoftwareRatingHistoryAndDistribution function
+    it('Test software rating history and distribution', function (done) {
+        var handle = '5Mk5D';
+        testAction('/v2/develop/statistics/' + handle + '/specification', handle, true);
+        testAction('/v2/develop/statistics/' + handle + '/specification', handle, false, done);
+    });
+
 
     it('test design challenge types', function (done) {
         testChallengeType('design', done);
