@@ -174,6 +174,8 @@ exports.routes = {
         { path: "/:apiVersion/bugs/:jiraProjectId", action: "bugs" },
         { path: "/:apiVersion/bugs", action: "bugs" },
 
+        { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
