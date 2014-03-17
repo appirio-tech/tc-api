@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_
- * @version 1.11
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
+ * @version 1.12
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -27,6 +27,8 @@
  * - add challengeCommunityLink and reviewAuctionDetailLink.
  * Changes in 1.11:
  * - add cachePrefix in config.general.
+ * changes in 1.12:
+ * - add defaultUserCacheLifetime property.
  */
 "use strict";
 
@@ -67,6 +69,7 @@ config.general = {
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 10, //30 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 30, //30 min default
+    defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
     cachePrefix: '',
     oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
     //auth0 secret is encoded in base64!

@@ -1,3 +1,18 @@
+INSERT INTO coder (coder_id, handle, status) VALUES (132456, 'heffan', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (132458, 'user', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (132457, 'super', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124764, 'Hung', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124766, 'twight', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124772, 'Partha', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124776, 'sandking', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124834, 'lightspeed', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124835, 'reassembler', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124836, 'annej9ny', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124852, 'plinehan', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124853, 'chelseasimon', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124856, 'wyzmo', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124857, 'cartajs', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124861, 'ksmith', 'A');
 INSERT INTO coder (coder_id, handle, status) VALUES (10001, 'CevyC', 'A');
 INSERT INTO coder (coder_id, handle, status) VALUES (10002, 'mxZUs', 'A');
 INSERT INTO coder (coder_id, handle, status) VALUES (10003, 'KhZgc', 'A');
@@ -499,3 +514,8 @@ INSERT INTO user_rating (user_id, rating, phase_id, num_ratings) VALUES (10041, 
 INSERT INTO user_rating (user_id, rating, phase_id, num_ratings) VALUES (10041, 1621, 137, 1);
 INSERT INTO user_rating (user_id, rating, phase_id, num_ratings) VALUES (10041, 2557, 130, 1);
 INSERT INTO user_rating (user_id, rating, phase_id, num_ratings) VALUES (10041, 2348, 135, 1);
+UPDATE coder SET handle_lower = LOWER(handle);
+INSERT INTO topcoder_dw:algo_rating_type_lu (algo_rating_type_id, algo_rating_type_desc) VALUES (1, 'SRM');
+INSERT INTO topcoder_dw:language_lu (language_id, language_name, status) VALUES (1, 'Java', 'A');
+INSERT INTO topcoder_dw:algo_rating (coder_id, algo_rating_type_id, rating, vol, highest_rating, lowest_rating, num_competitions) VALUES (124856, 1, 1230, 100, 1400, 1000, 5);
+UPDATE coder SET language_id = 1;

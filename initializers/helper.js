@@ -5,9 +5,9 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv
  * @version 1.13
- * changes in 1.1:
+ * changes in 1.15
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -46,6 +46,8 @@
  * - add phaseName2Id map.
  * Changes in 1.14:
  * - add method checkMember to check if the caller have at least member access leve.
+ * changes in 1.15
+ * - added checkUserExists function
  */
 "use strict";
 
@@ -1093,6 +1095,43 @@ helper.checkTrackName = function (track, isStudio) {
         validTrackName = _.map(_.values(validTrack), function (item) { return item.name.toLowerCase(); });
     return helper.checkContains(validTrackName, track, 'track');
 };
+
+/**
+ * Checks whether given user is registered or not. If user not exist then NotFoundError is returned to callback.
+ *
+ * @param {String} handle - the handle to check
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err>} callback - the callback function
+ */
+helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
+    // Check cache first
+    var cacheKey = handle;
+    api.helper.getCachedValue(cacheKey, function (err, exists) {
+        if (!exists) {
+            // If there is no hit in cache then query DB to check user account for existence and cache positive result 
+            // only
+            api.log("No hit in users cache for [" + handle + "]. Will query database.", "debug");
+            api.dataAccess.executeQuery("check_coder_exist", { handle: handle }, dbConnectionMap, function (err, result) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                if (result && result[0] && result[0].handle_exist !== 0) {
+                    var lifetime = api.config.general.defaultUserCacheLifetime;
+                    api.cache.save(cacheKey, true, lifetime); // storing primitive boolean "true" value as cache value
+                    callback(err, null);
+                } else {
+                    callback(err, new NotFoundError("User does not exist."));
+                }
+            });
+        } else {
+            api.log("There is a hit in users cache for [" + handle + "].", "debug");
+            callback(err, null);
+        }
+    });
+};
+
 
 /**
 * Expose the "helper" utility.
