@@ -187,6 +187,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
+        { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" }
     ]
