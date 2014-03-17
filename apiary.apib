@@ -51,6 +51,40 @@ Authorization APIs
             "description":"Servers are up but overloaded. Try again later."
         }            
 
+## Validate SSO Cookie [/validation/sso]
+### Validate SSO Cookie [GET]
++ Parameters
+    + Cookie (required, string, `tcsso=132456|4a6acc4d5327773989a7e8c23b04e8cd1c3da79a1256590973ed731ffa0f24a2`) ... The sso cookie
+    
++ Response 200 (application/json)
+
+        {
+             "UserId": 132456
+        }
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 # Group Reports
 Report APIs
