@@ -50,9 +50,9 @@ function checkUserExists(handle, api, dbConnectionMap, callback) {
             return;
         }
         if (result && result[0] && result[0].handle_exist !== 0) {
-            callback();
+            callback(err, null);
         } else {
-            callback(new NotFoundError("User does not exist."));
+            callback(err, new NotFoundError("User does not exist."));
         }
     });
 }
@@ -919,7 +919,11 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
         function (callback) {
             checkUserExists(sqlParams.handle, api, dbConnectionMap, callback);
         },
-        function (callback) {
+        function (err, callback) {
+            if (err) {
+                callback(err);
+                return;
+            }
             api.dataAccess.executeQuery("get_recent_winning_design_submissions", sqlParams, dbConnectionMap, callback);
         },
         function (res, callback) {
