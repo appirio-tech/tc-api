@@ -3253,32 +3253,33 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Studio Member Recent Winning Submissions [/users/{handle}/statistics/design?numberOfRecentWins]
+## Studio Member Recent Winning Submissions [/users/{handle}/statistics/design/recentWins]
 ### Studio Member Recent Winning Submissions [GET]
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
-    + numberOfRecentWins (optional, number, `7`) ... number of recent wins
+    + numberOfRecentWins (optional, number, `7`) ... number of recent wins.The default value will be 7.
 
 + Response 200 (application/json)
 
         {
-            size: 7,
+            size: 2,
             recentWinningSubmissions:
             [
                 {
                     contestName: "TC - CS Storyboard Redesign Lorem Ipsum Dolor sit Amet 2",
-                    rank: 1,
+                    rank: "1",
                     prize: 1300,
-                    submissionDate: "10.31.2013 at 07:58 EST",
+                    submissionDate: "2014-02-03T09:30:00.000Z",
+                    viewable: true
                     preview: "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=169728&sbt=small"
                 },
                 {
                     contestName: "TC Redesign Lorem Ipsum Dolor sit Amet 2",
-                    rank: 2,
+                    rank: "M",
                     prize: 600,
-                    submissionDate: "11.5.2013 at 06:40 EST",
-                    preview: "https://studio.topcoder.com/?module=DownloadSubmission&sbmid=169728&sbt=small"
+                    submissionDate: "2014-01-22T10:12:00.000Z",
+                    viewable: false
                 }
             ]
         }

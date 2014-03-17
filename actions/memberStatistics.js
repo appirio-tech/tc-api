@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
- * @author Sky_, Ghost_141, muzehyun
+ * @version 1.11
+ * @author Sky_, Ghost_141, muzehyun, hesibo
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -25,6 +25,8 @@
  * changes in 1.10:
  * - update get software member statistics api to improve performance.
  * - update checkUserExists and checkUserActivated so they can be executed in parallel.
+ * changes in 1.11:
+ * - add API for recent winning design submissions
  */
 "use strict";
 var async = require('async');
@@ -44,13 +46,13 @@ var NotFoundError = require('../errors/NotFoundError');
 function checkUserExists(handle, api, dbConnectionMap, callback) {
     api.dataAccess.executeQuery("check_coder_exist", { handle: handle }, dbConnectionMap, function (err, result) {
         if (err) {
-            callback(err, null);
+            callback(err);
             return;
         }
         if (result && result[0] && result[0].handle_exist !== 0) {
-            callback(err, null);
+            callback();
         } else {
-            callback(err, new NotFoundError("User does not exist."));
+            callback(new NotFoundError("User does not exist."));
         }
     });
 }
@@ -882,6 +884,95 @@ exports.getSoftwareRatingHistoryAndDistribution = {
             connection.rawConnection.responseHttpCode = 500;
             connection.response = {message: "No connection object."};
             next(connection, true);
+        }
+    }
+};
+
+/**
+ * Gets the recent wining design submissions
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap - The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ *
+ * @since 1.11
+ */
+var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionMap, next) {
+    var result = {},
+        sqlParams = {},
+        helper = api.helper,
+        numberOfRecentWins = Number(connection.params.numberOfRecentWins || 7);
+
+    async.waterfall([
+        function (callback) {
+            var error = helper.checkPositiveInteger(numberOfRecentWins, "numberOfRecentWins") ||
+                helper.checkMaxNumber(numberOfRecentWins, helper.MAX_INT, "numberOfRecentWins");
+            if (error) {
+                callback(error);
+            } else {
+                sqlParams.numberOfRecentWins = numberOfRecentWins;
+                sqlParams.handle = connection.params.handle;
+                callback();
+            }
+        },
+        function (callback) {
+            checkUserExists(sqlParams.handle, api, dbConnectionMap, callback);
+        },
+        function (callback) {
+            api.dataAccess.executeQuery("get_recent_winning_design_submissions", sqlParams, dbConnectionMap, callback);
+        },
+        function (res, callback) {
+            result.size = res.length;
+            result.recentWinningSubmissions = _.map(res, function (element) {
+                var winningSubmission = {
+                    contestName: element.contest_name,
+                    rank: element.rank,
+                    prize: element.prize,
+                    submissionDate: element.submission_date,
+                    viewable: element.viewable.toLowerCase() === "true",
+                    preview: api.config.designSubmissionLink + element.submission_id + "&sbt=small"
+                };
+                if (!winningSubmission.viewable) {
+                    delete winningSubmission.preview;
+                }
+                return winningSubmission;
+            });
+            callback();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * The API for getting recent winning design submissions.
+ *
+ * @since 1.11
+ */
+exports.getRecentWinningDesignSubmissions = {
+    name: "getRecentWinningDesignSubmissions",
+    description: "get recent winning design submissions",
+    inputs: {
+        required: ["handle"],
+        optional: ["numberOfRecentWins"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "topcoder_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getRecentWinningDesignSubmissions#run", 'debug');
+            getRecentWinningDesignSubmissions(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
         }
     }
 };

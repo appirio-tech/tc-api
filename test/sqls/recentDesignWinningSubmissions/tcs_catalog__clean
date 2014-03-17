@@ -1,0 +1,9 @@
+DELETE FROM resource_submission WHERE resource_id > 100000;
+DELETE FROM submission WHERE upload_id > 300000;
+DELETE FROM upload WHERE project_id > 32000000;
+DELETE FROM project_info WHERE project_id > 32000000;
+DELETE FROM resource_info WHERE resource_id > 100000;
+DELETE FROM resource WHERE resource_id > 100000;
+DELETE FROM prize WHERE project_id > 32000000;
+DELETE FROM project_phase WHERE project_id > 32000000;
+DELETE FROM project WHERE project_id > 32000000;
