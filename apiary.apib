@@ -986,11 +986,12 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Generate Reset Token  [/users/resetToken/{handle}]
+## Generate Reset Token  [/users/resetToken/?handle={handle}/email={email}]
 ### Generate Reset Token [GET]
 
 + Parameters
-    + handle (required, string, `iRabbit`) ... Member Handle
+    + handle (optional, string, `iRabbit`) ... Member Handle
+    + email (optional, string, `test@test.com`) ... Email Address
 
 + Response 200 (application/json)
 
