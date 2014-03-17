@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.14
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo
+ * @version 1.15
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -35,6 +35,9 @@
  * add API for checkpoint results for software and studio
  * changes in 1.14:
  * move get terms of use API to terms.js
+ * changes in 1.15:
+ * Change the open and active status filter behaviour. OPEN for only reg phase is open, ACTIVE for reg is closed and
+ * the challenge status is active.
  */
 "use strict";
 
@@ -108,6 +111,15 @@ LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.ACTIVE] = [2, 3];
 LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.OPEN] = [2];
 LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.UPCOMING] = [1];
 LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.PAST] = [3];
+
+/**
+ * The list type and registration phase status map.
+ */
+var LIST_TYPE_REGISTRATION_STATUS_MAP = {};
+LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.ACTIVE] = [3];
+LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.OPEN] = [2];
+LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.UPCOMING] = [1];
+LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.PAST] = [3];
 
 /**
  * The list type and project status map.
@@ -490,6 +502,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
             sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
+            sqlParams.registration_phase_status = LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
             sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
 
