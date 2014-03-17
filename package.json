@@ -45,7 +45,7 @@
  },
   "scripts": {
     "start": "node ./node_modules/.bin/actionhero start &",
-    "test": "node_modules/.bin/mocha --recursive ./test/test.memberStatistics.js",
+    "test": "node_modules/.bin/mocha --recursive ./test",
     "startCluster": "node ./node_modules/.bin/actionhero startCluster",
     "actionHero": "node ./node_modules/.bin/actionhero",
     "help": "node ./node_modules/.bin/actionhero help"
