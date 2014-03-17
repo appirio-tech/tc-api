@@ -58,7 +58,6 @@ SELECT count(*) AS total
    AND pstatus.project_status_id IN (@project_status_id@)
    AND pcl.project_type_id IN (@project_type_id@)
    AND pp1.phase_status_id IN (@registration_phase_status@)
-   AND pp2.phase_status_id IN (@submission_phase_status@)
    AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 
    AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')

@@ -104,15 +104,6 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
 var MAX_INT = 2147483647;
 
 /**
- * The list type and submission phase status map.
- */
-var LIST_TYPE_SUBMISSION_STATUS_MAP = {};
-LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.ACTIVE] = [2, 3];
-LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.OPEN] = [2];
-LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.UPCOMING] = [1];
-LIST_TYPE_SUBMISSION_STATUS_MAP[ListType.PAST] = [3];
-
-/**
  * The list type and registration phase status map.
  */
 var LIST_TYPE_REGISTRATION_STATUS_MAP = {};
@@ -501,7 +492,6 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Set the project type id
             sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
-            sqlParams.submission_phase_status = LIST_TYPE_SUBMISSION_STATUS_MAP[listType];
             sqlParams.registration_phase_status = LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
             sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
