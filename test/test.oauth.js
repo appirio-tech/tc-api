@@ -44,6 +44,7 @@ describe('Test Oauth', function () {
         userSubAD = "ad|400000",
         adminSubAD = "ad|400001",
         notFoundSub = "google-oauth|458965118758";
+    var jwtToken = "";
 
 
     /**
@@ -379,6 +380,7 @@ describe('Test Oauth', function () {
                     }
                     assert.ok(res.body);
                     assert.ok(res.body.token);
+                    jwtToken = res.body.token;
                     done();
                 });
         });
@@ -392,6 +394,42 @@ describe('Test Oauth', function () {
                 .send({username: "heffan", password: "xxx"})
                 .expect('Content-Type', /json/)
                 .expect(400)
+                .end(done);
+        });
+    });
+    
+    describe("Refresh Token api", function () {
+
+        /**
+         * /v2/reauth
+         */
+        it("should refresh token", function (done) {
+            request(API_ENDPOINT)
+                .post('/v2/reauth')
+                .set('Accept', 'application/json')
+                .send({token: jwtToken})
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    assert.ok(res.body);
+                    assert.ok(res.body.token);
+                    done();
+                });
+        });
+        /**
+         * /v2/reauth
+         */
+        it("should return error if the old token is invalid", function (done) {
+            request(API_ENDPOINT)
+                .post('/v2/reauth')
+                .set('Accept', 'application/json')
+                .send({token: "invalid_token"})
+                .expect('Content-Type', /json/)
+                .expect(500)
                 .end(done);
         });
     });
