@@ -1,0 +1,275 @@
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '7', '18', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+
+-- Specification Submission
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100001', '32000003', '13', '3', '2014-01-01 09:00:00.0', '2014-01-01 09:00:00.0', '2014-01-01 11:00:00.0', '2014-01-01 09:00:00.0', '2014-01-01 10:30:00.0', '5400000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 10:30:00.0');
+-- Specification Review
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100002', '32000003', '14', '3', '2014-01-01 11:00:00.0', '2014-01-01 11:00:00.0', '2014-01-01 13:00:00.0', '2014-01-01 10:30:00.0', '2014-01-01 11:00:00.0', '1800000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 11:00:00.0');
+-- Registration
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100003', '32000003', '1', '3', '2014-01-01 13:00:00.0', '2014-01-01 13:00:00.0', '2014-01-03 13:00:00.0', '2014-01-01 11:00:00.0', '2014-01-03 11:00:00.0', '172800000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-03 11:00:00.0');
+-- Checkpoint Submission
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100004', '32000003', '15', '3', '2014-01-01 13:00:00.0', '2014-01-01 13:00:00.0', '2014-01-04 13:00:00.0', '2014-01-01 11:00:00.0', '2014-01-04 11:00:00.0', '259200000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-04 11:00:00.0');
+-- Checkpoint Screening
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100005', '32000003', '16', '3', '2014-01-04 13:00:00.0', '2014-01-04 13:00:00.0', '2014-01-04 19:00:00.0',  '2014-01-04 11:00:00.0',  '2014-01-04 15:00:00.0', '10800000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-04 17:00:00.0');
+-- Checkpoint Review
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100006', '32000003', '17', '3', '2014-01-04 19:00:00.0', '2014-01-04 19:00:00.0', '2014-01-05 07:00:00.0',  '2014-01-04 15:00:00.0',  '2014-01-04 23:00:00.0', '28800000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-04 17:00:00.0');
+-- Submission
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100007', '32000003', '2', '3', '2014-01-01 13:00:00.0', '2014-01-01 13:00:00.0', '2014-01-07 01:00:00.0', '2014-01-01 11:00:00.0', '2014-01-07 11:00:00.0', '518400000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-07 11:00:00.0');
+-- Screening
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100008', '32000003', '3', '3', '2014-01-07 01:00:00.0', '2014-01-07 01:00:00.0', '2014-01-07 13:00:00.0', '2014-01-07 11:00:00.0', '2014-01-07 17:00:00.0', '21600000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-07 17:00:00.0');
+-- Review
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100009', '32000003', '4', '3', '2014-01-07 13:00:00.0', '2014-01-07 13:00:00.0', '2014-01-09 13:00:00.0', '2014-01-07 17:00:00.0', '2014-01-09 12:00:00.0', '154800000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-09 12:00:00.0');
+-- Appeals
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100010', '32000003', '5', '3', '2014-01-09 13:00:00.0', '2014-01-09 13:00:00.0', '2014-01-10 13:00:00.0', '2014-01-09 12:00:00.0', '2014-01-10 12:00:00.0', '86400000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-10 12:00:00.0');
+-- Appeals Response
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100011', '32000003', '6', '3', '2014-01-10 13:00:00.0', '2014-01-10 13:00:00.0', '2014-01-11 01:00:00.0', '2014-01-10 12:00:00.0', '2014-01-10 22:00:00.0', '72000000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-10 22:00:00.0');
+-- Aggregation
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100012', '32000003', '7', '3', '2014-01-11 01:00:00.0', '2014-01-11 01:00:00.0', '2014-01-11 13:00:00.0', '2014-01-10 22:00:00.0', '2014-01-11 00:00:00.0', '7200000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-11 00:00:00.0');
+-- Final Fix
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100013', '32000003', '9', '3', '2014-01-11 13:00:00.0', '2014-01-11 13:00:00.0', '2014-01-12 13:00:00.0', '2014-01-11 00:00:00.0', '2014-01-11 13:00:00.0', '46800000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-11 13:00:00.0');
+-- Final Review
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100014', '32000003', '10', '3', '2014-01-12 13:00:00.0', '2014-01-12 13:00:00.0', '2014-01-13 01:00:00.0', '2014-01-11 13:00:00.0', '2014-01-12 10:00:00.0', '68400000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-12 10:00:00.0');
+-- Approval
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('1100015', '32000003', '11', '3', '2014-01-13 01:00:00.0', '2014-01-13 01:00:00.0', '2014-01-18 01:00:00.0', '2014-01-12 10:00:00.0', '2014-01-17 10:00:00.0', '432000000', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-17 10:00:00.0');
+
+-- Contest Prizes & Checkpoint Prizes
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+VALUES('110001', '32000003', '1', '2000', '15', '1', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+VALUES('110002', '32000003', '2', '1000', '15', '1', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+VALUES('110003', '32000003', '1', '500', '14', '2', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+
+-- Manager
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110001', '13', '32000003', NULL, '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110001', '1', '132456', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110001', '2', 'heffan', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+
+-- Specification Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110002', '17', '32000003', '1100001', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110002', '1', '132456', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110002', '2', 'heffan', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+
+-- Checkpoint Screener
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110003', '19', '32000003', '1100005', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110003', '1', '132456', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110003', '2', 'heffan', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110003', '6', '01.01.2014 10:00 AM', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+
+-- Checkpoint Reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110004', '20', '32000003', '1100006', '132456', '2014-01-01 15:00:00.0', '132456', '2014-01-01 15:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110004', '1', '132456', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110004', '2', 'heffan', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110004', '6', '01.01.2014 10:00 AM', '132456', '2014-01-01 10:00:00.0', '132456', '2014-01-01 10:00:00.0');
+
+-- Primary Screener
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110005', '2', '32000003', '1100008', '132456', '2014-01-01 15:00:00.0', '132456', '2014-01-01 15:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110005', '1', '132456', '132456', '2014-01-02 08:30:00.0', '132456', '2014-01-02 08:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110005', '2', 'heffan', '132456', '2014-01-02 08:30:00.0', '132456', '2014-01-02 08:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110005', '6', '01.02.2014 08:30 AM', '132456', '2014-01-02 08:30:00.0', '132456', '2014-01-02 08:30:00.0');
+
+-- Reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110006', '4', '32000003', '1100009', '132456', '2014-01-01 15:00:00.0', '132456', '2014-01-01 15:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110006', '1', '132456', '132456', '2014-01-02 08:30:00.0', '132456', '2014-01-02 08:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110006', '2', 'heffan', '132456', '2014-01-02 08:30:00.0', '132456', '2014-01-02 08:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110006', '6', '01.02.2014 08:30 AM', '132456', '2014-01-02 08:30:00.0', '132456', '2014-01-02 08:30:00.0');
+
+-- Specification Reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110007', '18', '32000003', '1100002', '132457', '2014-01-01 10:40:00.0', '132457', '2014-01-01 10:40:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110007', '1', '132457', '132457', '2014-01-01 10:40:00.0', '132457', '2014-01-01 10:40:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110007', '2', 'super', '132457', '2014-01-01 10:40:00.0', '132457', '2014-01-01 10:40:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110007', '6', '01.01.2014 10:40 AM', '132457', '2014-01-01 10:40:00.0', '132457', '2014-01-01 10:40:00.0');
+
+-- Reviewer
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110008', '4', '32000003', '1100009', '132457', '2014-01-01 15:00:00.0', '132457', '2014-01-01 15:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110008', '1', '132457', '132457', '2014-01-02 18:30:00.0', '132457', '2014-01-02 18:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110008', '2', 'super', '132457', '2014-01-02 18:30:00.0', '132457', '2014-01-02 18:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110008', '6', '01.02.2014 06:30 PM', '132457', '2014-01-02 18:30:00.0', '132457', '2014-01-02 18:30:00.0');
+
+-- Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110009', '1', '32000003', NULL, '124764', '2014-01-01 09:00:00.0', '124764', '2014-01-01 09:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110009', '1', '124764', '124764', '2014-01-01 09:00:00.0', '124764', '2014-01-01 09:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110009', '2', 'Hung', '124764', '2014-01-01 09:00:00.0', '124764', '2014-01-01 09:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110009', '6', '01.01.2014 09:00 AM', '124764', '2014-01-01 09:00:00.0', '124764', '2014-01-01 09:00:00.0');
+
+-- Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110010', '1', '32000003', NULL, '124772', '2014-01-01 09:30:00.0', '124772', '2014-01-01 09:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110010', '1', '124772', '124772', '2014-01-01 09:30:00.0', '124772', '2014-01-01 09:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110010', '2', 'Partha', '124772', '2014-01-01 09:30:00.0', '124772', '2014-01-01 09:30:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110010', '6', '01.01.2014 09:30 AM', '124772', '2014-01-01 09:30:00.0', '124772', '2014-01-01 09:30:00.0');
+
+-- Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110011', '1', '32000003', NULL, '124766', '2014-01-02 00:00:00.0', '124766', '2014-01-02 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110011', '1', '124766', '124766', '2014-01-02 00:00:00.0', '124766', '2014-01-02 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110011', '2', 'twight', '124766', '2014-01-02 00:00:00.0', '124766', '2014-01-02 00:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110011', '6', '01.01.2014 12:00 PM', '124766', '2014-01-02 00:00:00.0', '124766', '2014-01-02 00:00:00.0');
+
+-- Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110012', '1', '32000003', NULL, '124836', '2014-01-02 10:00:00.0', '124764', '2014-01-02 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110012', '1', '124836', '124836', '2014-01-02 10:00:00.0', '124836', '2014-01-02 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110012', '2', 'annej9ny', '124836', '2014-01-02 10:00:00.0', '124836', '2014-01-02 10:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110012', '6', '01.02.2014 10:00 AM', '124836', '2014-01-02 10:00:00.0', '124836', '2014-01-02 10:00:00.0');
+
+-- Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110013', '1', '32000003', NULL, '124834', '2014-01-02 14:00:00.0', '124834', '2014-01-02 14:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110013', '1', '124834', '124834', '2014-01-02 14:00:00.0', '124834', '2014-01-02 14:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110013', '2', 'lightspeed', '124834', '2014-01-02 14:00:00.0', '124834', '2014-01-02 14:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110013', '6', '01.02.2014 02:00 PM', '124834', '2014-01-02 14:00:00.0', '124834', '2014-01-02 14:00:00.0');
+
+-- Submitter
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date)
+VALUES ('110014', '1', '32000003', NULL, '124856', '2014-01-02 20:00:00.0', '124856', '2014-01-02 20:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110014', '1', '124856', '124856', '2014-01-02 20:00:00.0', '124856', '2014-01-02 20:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110014', '2', 'wyzmo', '124856', '2014-01-02 20:00:00.0', '124856', '2014-01-02 20:00:00.0');
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('110014', '6', '01.02.2014 08:00 PM', '124856', '2014-01-02 20:00:00.0', '124856', '2014-01-02 20:00:00.0');
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '6', 'Test Wireframes 1', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '7', '1.0', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '9', 'On', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '10', 'On', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '11', 'On', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '12', 'Yes', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '13', 'Yes', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '14', 'Open', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '16', '2000.0', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '26', 'On', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '29', 'On', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '30', '900', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '38', '400', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '39', '500', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '41', 'true', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '43', 'true', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('32000003', '53', 'true', '132456', '2014-01-01 00:00:00.0', '132456', '2014-01-01 00:00:00.0');
+
+-- Specification Submission
+INSERT INTO upload(upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES('310001', '32000003', '1100001', '110002', '1', '1', '', '132456', '2014-01-01 10:30:00.0', '132456', '2014-01-01 10:30:00.0');
+INSERT INTO submission(submission_id, upload_id, submission_status_id, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+VALUES('110001', '310001', '1', '2', NULL, '132456', '2014-01-01 10:30:00.0', '132456', '2014-01-01 10:30:00.0');
+INSERT INTO resource_submission(resource_id, submission_id, create_user, create_date, modify_user, modify_date)
+VALUES('110002', '110001', '132456', '2014-01-01 10:30:00.0', '132456', '2014-01-01 10:30:00.0');
+
+-- Checkpoint Submission 1
+INSERT INTO upload(upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES('310002', '32000003', '1100004', '110009', '1', '1', '', '124764', '2014-01-02 15:30:00.0', '124764', '2014-01-02 15:30:00.0');
+INSERT INTO submission(submission_id, upload_id, submission_status_id, screening_score, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+VALUES('110002', '310002', '6', '50', '5', '3', NULL, '124764', '2014-01-02 15:30:00.0', '132457', '2014-01-04 17:00:00.0');
+INSERT INTO resource_submission(resource_id, submission_id, create_user, create_date, modify_user, modify_date)
+VALUES('110009', '110002', '124764', '2014-01-02 15:30:00.0', '124764', '2014-01-02 15:30:00.0');
+
+-- Checkpoint Submission 2
+INSERT INTO upload(upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES('310003', '32000003', '1100004', '110010', '1', '1', '', '124772', '2014-01-02 10:12:00.0', '124772', '2014-01-02 10:12:00.0');
+INSERT INTO submission(submission_id, upload_id, submission_status_id, screening_score, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+VALUES('110003', '310003', '1', '100', '2', '3', '110003', '124772', '2014-01-02 10:12:00.0', '124772', '2014-01-02 10:12:00.0');
+INSERT INTO resource_submission(resource_id, submission_id, create_user, create_date, modify_user, modify_date)
+VALUES('110010', '110003', '124772', '2014-01-02 10:12:00.0', '124772', '2014-01-02 10:12:00.0');
+
+-- Checkpoint Submission 3
+INSERT INTO upload(upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES('310004', '32000003', '1100004', '110011', '1', '1', '', '124766', '2014-01-03 05:12:00.0', '124766', '2014-01-02 05:12:00.0');
+INSERT INTO submission(submission_id, upload_id, submission_status_id, screening_score, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+VALUES('110004', '310004', '1', '100', '1', '3', '110003', '124766', '2014-01-03 05:12:00.0', '124766', '2014-01-02 05:12:00.0');
+INSERT INTO resource_submission(resource_id, submission_id, create_user, create_date, modify_user, modify_date)
+VALUES('110011', '110004', '124766', '2014-01-03 05:12:00.0', '124766', '2014-01-02 05:12:00.0');
+
+-- Contest Submission 1
+INSERT INTO upload(upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES('310005', '32000003', '1100004', '110012', '1', '1', '', '124772', '2014-01-03 09:30:00.0', '124772', '2014-01-03 09:30:00.0');
+INSERT INTO submission(submission_id, upload_id, submission_status_id, screening_score, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+VALUES('110005', '310005', '1', '100', '1', '1', '110001', '124772', '2014-01-03 09:30:00.0', '124772', '2014-01-03 09:30:00.0');
+INSERT INTO resource_submission(resource_id, submission_id, create_user, create_date, modify_user, modify_date)
+VALUES('110012', '110005', '124772', '2014-01-03 09:30:00.0', '124772', '2014-01-03 09:30:00.0');
+
+-- Contest Submission 2
+INSERT INTO upload(upload_id, project_id, project_phase_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES('310006', '32000003', '1100004', '110013', '1', '1', '', '124766', '2014-01-01 19:30:00.0', '124766', '2014-01-01 19:30:00.0');
+INSERT INTO submission(submission_id, upload_id, submission_status_id, screening_score, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+VALUES('110006', '310006', '1', '100', '2', '1', '110002', '124766', '2014-01-01 19:30:00.0', '124766', '2014-01-01 19:30:00.0');
+INSERT INTO resource_submission(resource_id, submission_id, create_user, create_date, modify_user, modify_date)
+VALUES('110013', '110006', '124766', '2014-01-01 19:30:00.0', '124766', '2014-01-01 19:30:00.0');

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.20
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
+ * @version 1.21
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -50,6 +50,8 @@
  * Changes in 1.20:
  * - update get review opportunity api name to getSoftwareReviewOpportunity.
  * - Update path to use challengeId which is more clear.
+ * changes in 1.21:
+ * - added route for recent winning design submissions api
  */
 
 /* ---------------------
@@ -141,6 +143,7 @@ exports.routes = {
 
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
+        { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },

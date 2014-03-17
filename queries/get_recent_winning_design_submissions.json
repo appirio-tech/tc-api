@@ -1,0 +1,5 @@
+{
+    "name"    : "get_recent_winning_design_submissions",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_recent_winning_design_submissions"
+}
