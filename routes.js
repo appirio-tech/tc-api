@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.21
+ * @version 1.22
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo
  * Changes in 1.1:
  * - add routes for search challenges
@@ -52,6 +52,8 @@
  * - Update path to use challengeId which is more clear.
  * changes in 1.21:
  * - added route for recent winning design submissions api
+ * changes in 1.22
+ * - added route for member search api
  */
 
 /* ---------------------
@@ -142,6 +144,7 @@ exports.routes = {
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
 
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
+        { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },

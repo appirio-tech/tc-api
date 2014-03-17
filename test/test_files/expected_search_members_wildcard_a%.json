@@ -1,0 +1,27 @@
+{
+    "total": 15,
+    "pageIndex": 2,
+    "pageSize": 5,
+    "users": [
+        {
+            "handle": "afa",
+            "userId": 10000006
+        },
+        {
+            "handle": "aga",
+            "userId": 10000007
+        },
+        {
+            "handle": "aha",
+            "userId": 10000008
+        },
+        {
+            "handle": "aia",
+            "userId": 10000009
+        },
+        {
+            "handle": "aja",
+            "userId": 10000010
+        }
+    ]
+}
