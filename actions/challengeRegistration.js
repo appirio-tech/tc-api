@@ -330,7 +330,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                 },
                 function (cb) {
                     //Registration time
-                    persistResourceInfo(api, resourceId, 6, moment().format(), userId, dbConnectionMap, cb);
+                    persistResourceInfo(api, resourceId, 6, moment().format('MM.DD.YYYY mm:ss A'), userId, dbConnectionMap, cb);
                 },
                 function (cb) {
                     //Appeals completed early flag.
