@@ -1,0 +1,5 @@
+{
+    "name"    : "search_users_count",
+    "db"      : "common_oltp",
+    "sqlfile" : "search_users_count"
+}

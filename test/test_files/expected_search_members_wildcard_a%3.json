@@ -1,0 +1,19 @@
+{
+    "total": 15,
+    "pageIndex": 3,
+    "pageSize": 6,
+    "users": [
+        {
+            "handle": "akd",
+            "userId": 10000013
+        },
+        {
+            "handle": "akf",
+            "userId": 10000014
+        },
+        {
+            "handle": "annej9ny",
+            "userId": 124836
+        }
+    ]
+}

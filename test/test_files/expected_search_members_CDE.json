@@ -1,0 +1,15 @@
+{
+    "total": 2,
+    "pageIndex": 1,
+    "pageSize": 10,
+    "users": [
+        {
+            "handle": "A_CDE",
+            "userId": 10000021
+        },
+        {
+            "handle": "B_CDE",
+            "userId": 10000022
+        }
+    ]
+}
