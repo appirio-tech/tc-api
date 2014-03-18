@@ -1,0 +1,9 @@
+select count(*) > 0 as found
+from group_member gm
+inner join customer_group g on gm.group_id = g.group_id
+inner join group_associated_direct_projects gadp on gadp.group_id = gm.group_id
+inner join project p ON gadp.tc_direct_project_id = p.tc_direct_project_id
+where gm.user_id = @userId@
+and gm.active = 1
+and g.archived = 0
+and p.project_id = @projectId@

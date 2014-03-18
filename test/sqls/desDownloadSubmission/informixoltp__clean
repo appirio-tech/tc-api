@@ -1,0 +1,2 @@
+delete from image where image_id > 654000 and image_id < 654999;
+delete from path where path_id > 654000 and path_id < 654999;

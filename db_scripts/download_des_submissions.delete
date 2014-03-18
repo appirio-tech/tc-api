@@ -1,0 +1,31 @@
+database tcs_catalog;
+DELETE FROM resource_info WHERE resource_id >= 654000 AND resource_id <= 654999;
+DELETE FROM project_download_audit WHERE upload_id >= 654000 AND upload_id <= 654999;
+DELETE FROM review WHERE submission_id >= 654000 AND submission_id <= 654999;
+DELETE FROM submission WHERE submission_id >= 654000 AND submission_id <= 654999;
+DELETE FROM upload WHERE project_id >= 654000 AND project_id <= 654999;
+DELETE FROM resource WHERE resource_id >= 654000 AND resource_id <= 654999;
+DELETE FROM phase_criteria WHERE project_phase_id >= 654000 AND project_phase_id <= 654999;
+DELETE FROM project_phase WHERE project_phase_id >= 654000 AND project_phase_id <= 654999;
+DELETE FROM project_info WHERE project_id >= 654000 AND project_id <= 654999;
+DELETE FROM comp_version_dates WHERE comp_vers_id  > 654000 AND comp_vers_id <= 654999;
+DELETE FROM comp_versions WHERE comp_vers_id  > 654000 AND comp_vers_id <= 654999;
+DELETE FROM comp_catalog WHERE component_id  > 654000 AND component_id <= 654999;
+DELETE FROM user_permission_grant WHERE resource_id = 654101;
+DELETE FROM customer_administrator WHERE client_id > 654000 AND client_id < 654999;
+DELETE FROM tt_client_project WHERE client_id > 654000 AND client_id < 654999;
+DELETE FROM tt_client WHERE client_id > 654000 AND client_id < 654999;
+DELETE FROM tt_project WHERE project_id > 654000 AND project_id < 654999;
+DELETE FROM group_member WHERE group_id > 654000 AND group_id < 654999;
+DELETE FROM group_associated_direct_projects WHERE group_id > 654000 AND group_id < 654999;
+DELETE FROM group_associated_billing_accounts WHERE group_id > 654000 AND group_id < 654999;
+DELETE FROM customer_group WHERE group_id > 654000 AND group_id < 654999;
+DELETE FROM project WHERE project_id >= 654000 AND project_id <= 654999;
+
+database informixoltp;
+delete from image where image_id > 654000 and image_id < 654999;
+delete from path where path_id > 654000 and path_id < 654999;
+
+database common_oltp;
+delete from user_role_xref where user_role_id = 654001;
+delete from user_social_login where user_id IN (124764, 124772, 124766, 124776, 124834, 132456, 124852, 124835, 124853, 124856, 124857, 124861, 124916);

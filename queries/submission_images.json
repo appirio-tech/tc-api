@@ -1,0 +1,5 @@
+{
+  "name"    : "submission_images",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "submission_images"
+}

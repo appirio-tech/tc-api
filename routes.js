@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.15
- * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, ecnu_haozi
+ * @version 1.16
+ * @author vangavroche, Sky_, TCSASSEMBLER, muzehyun, kurtrips, Ghost_141, ecnu_haozi, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -36,6 +36,8 @@
  * - added routes for terms api
  * Changes in 1.15:
  * - added routes for getting studio and software checkpoints
+ * Changes in 1.16:
+ * - added route for downloading design submissions
  */
 
 /* ---------------------
@@ -124,6 +126,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
+        { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
 
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design", action: "getStudioStatistics" },

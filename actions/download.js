@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * @version 1.1
+ * @author Sky_, TCSASSEMBLER
+ * Changes in 1.1:
+ * Added API for downloading design submission
  */
 "use strict";
 var async = require('async');
@@ -11,6 +13,7 @@ var fs = require('fs');
 var Mime = require('mime');
 var path = require('path');
 var NotFoundError = require('../errors/NotFoundError');
+var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
@@ -102,3 +105,423 @@ exports.action = {
         });
     }
 };
+
+/**
+ * Finds image from the given images which has the type targetImageTypeId and the given submissionFileIndex from the matching images
+ * @param images - The source images
+ * @param targetImageTypeId - The type of the images to filter
+ * @param submissionFileIndex - From the filtered images, the index to use (1-based)
+ * @return The image found or -1 if not found
+ */
+function findMatchingSubmissionImage(images, targetImageTypeId, submissionFileIndex) {
+    var matchingImages = _.where(images, {image_type_id: targetImageTypeId});
+    if (matchingImages.length < submissionFileIndex) {
+        return -1;
+    }
+    return matchingImages[submissionFileIndex - 1];
+}
+
+/**
+ * Scans the given directory from files starting with given prefix.
+ * Calls the given callback with the first file so found
+ * @param dir - The directory to scan
+ * @param prefix - The prefix of file to find
+ * @param cb - The callback to call when complete
+ */
+function findFileStartingWith(dir, prefix, cb) {
+    var x;
+    fs.readdir(dir, function (err, files) {
+        if (err) {
+            cb(err);
+            return;
+        }
+        for (x = 0; x < files.length; x = x + 1) {
+            if (files[x].startsWith(prefix)) {
+                cb(null, files[x]);
+                return;
+            }
+        }
+        cb(null, null);
+    });
+}
+
+/**
+ * Gets the design submission (or individual files) for the given submission id, and writes it to the response for downloading by client.
+ *
+ * The submissionType optional parameter defines which type of submission to download.
+ * Default is "preview", which will download the preview zip if it exists
+ * The value "original" can be used to download the original full submission (with the source) if caller has enough permissions
+ * The values "tiny", "small", "medium", "full", "thumb" are used to get image files of the given size.
+ *
+ * The submissionImageTypeId parameter can be used to download files of a particular image type (such as small, full, thumbnail etc)
+ *
+ * The submissionFileIndex parameter is used to get the file at the given index (1-based). Default value is 1.
+ *
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ * @since 1.1
+ */
+var downloadDesignSubmission = function (api, connection, dbConnectionMap, next) {
+
+    var helper = api.helper,
+        sqlParams = {},
+        loggedIn = connection.caller.accessLevel !== "anon",
+        submissionId = Number(connection.params.submissionId),
+        submissionType = connection.params.submissionType,
+        submissionFileIndex = Number(connection.params.submissionFileIndex),
+        submissionImageTypeId = Number(connection.params.submissionImageTypeId),
+        noRights = true,
+        basicInfo,
+        myResourceRoles,
+        myResourceRoleIds,
+        hasCockpitAccess = false,
+        submissionImages,
+        filePath,
+        targetFileName,
+        destFileName,
+        originalFileName,
+        fileTypes,
+        mimeTypes,
+        contentType = "application/zip",
+        previewFileRequested,
+        originalSubmissionRequested,
+        validSubmissionTypes = ["tiny", "small", "medium", "full", "thumb", "original", "preview"],
+        validImageTypeIds = [25, 26, 28, 29, 30, 31],
+        submissionTypeToImageType = {
+            "tiny": 25,
+            "thumb": 25,
+            "small": 29,
+            "medium": 30,
+            "full": 31,
+            "preview": 0
+        },
+        clientRoles = [12, 15],
+        managerRoles = [13, 14],
+        screenerRoles = [2, 19],
+        wireframeCategoryId = 18,
+        galleryFullTypeId = 28,
+        defaultFileIndex = 1;
+
+    async.waterfall([
+        function (cb) {
+
+            if (_.isUndefined(connection.params.submissionFileIndex)) {
+                submissionFileIndex = defaultFileIndex;
+            }
+
+            if (_.isUndefined(connection.params.submissionImageTypeId)) {
+                submissionImageTypeId = -1;
+            } else if (!_.contains(validImageTypeIds, submissionImageTypeId)) {
+                cb(new IllegalArgumentError("submissionImageTypeId is invalid."));
+                return;
+            }
+
+            if (_.isUndefined(submissionType)) {
+                submissionType = "preview";
+            } else if (!_.contains(validSubmissionTypes, submissionType)) {
+                cb(new IllegalArgumentError("submissionType is invalid."));
+                return;
+            }
+
+            //Simple validations of the incoming parameters
+            var error = helper.checkPositiveInteger(submissionId, 'submissionId') ||
+                helper.checkMaxInt(submissionId, 'submissionId') ||
+                helper.checkMaxInt(submissionImageTypeId, 'submissionImageTypeId') ||
+                helper.checkPositiveInteger(submissionFileIndex, 'submissionFileIndex') ||
+                helper.checkMaxInt(submissionFileIndex, 'submissionFileIndex');
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            //Now check if the user is logged-in
+            if (!loggedIn) {
+                cb(new UnauthorizedError("Authentication details missing or incorrect."));
+                return;
+            }
+
+            sqlParams.submissionId = submissionId;
+            sqlParams.userId = connection.caller.userId;
+
+            async.parallel({
+                basicInfo: function (cb) {
+                    api.dataAccess.executeQuery("download_design_submission_validations_and_info", sqlParams, dbConnectionMap, cb);
+                },
+                myResourceRoles: function (cb) {
+                    api.dataAccess.executeQuery("download_design_submission_my_resources", sqlParams, dbConnectionMap, cb);
+                }
+            }, cb);
+        }, function (data, cb) {
+            basicInfo = data.basicInfo;
+            myResourceRoles = data.myResourceRoles;
+            myResourceRoleIds = _.pluck(myResourceRoles, 'resource_role_id');
+
+            if (basicInfo.length === 0) {
+                cb(new NotFoundError('No such submission exists.'));
+                return;
+            }
+
+            if (!basicInfo[0].is_design_challenge) {
+                cb(new BadRequestError('Non-Design challenge submissions are not supported by this API.'));
+                return;
+            }
+
+            //Studio admins, submitters can download submission anytime
+            if (basicInfo[0].is_user_studio_admin || basicInfo[0].is_user_submitter) {
+                noRights = false;
+            }
+
+			//Screener can download submission if screening has started
+            if (_.intersection(myResourceRoleIds, screenerRoles).length > 0 && basicInfo[0].is_at_or_after_screening) {
+                noRights = false;
+            }
+
+            originalSubmissionRequested = submissionType === "original";
+            previewFileRequested = submissionType === "preview";
+
+            var isClient = _.intersection(myResourceRoleIds, clientRoles).length > 0,
+                isManager = _.intersection(myResourceRoleIds, managerRoles).length > 0;
+
+            if (noRights && isClient) {
+                //client can download previews and watermarked images anytime
+                if (!originalSubmissionRequested) {
+                    noRights = false;
+                }
+                //client can download full submissions only after review and if they have paid for it
+                if (originalSubmissionRequested && basicInfo[0].is_review_over && basicInfo[0].mark_for_purchase) {
+                    noRights = false;
+                }
+            }
+
+			//managers can download the submissions anytime
+            if (noRights && isManager) {
+				noRights = false;
+            }
+
+            //everyone - can download previews and watermarks after review and if submissions are viewable
+            if (noRights && !originalSubmissionRequested && basicInfo[0].is_review_over && basicInfo[0].viewable_submissions) {
+                noRights = false;
+            }
+
+            if (noRights) {
+                //All of this is to find if user has cockpit permissions
+                sqlParams.projectId = basicInfo[0].project_id;
+                async.waterfall([
+                    function (cb) {
+                        api.dataAccess.executeQuery("has_cockpit_permissions", sqlParams, dbConnectionMap, cb);
+                    }, function (data, cb) {
+                        hasCockpitAccess = hasCockpitAccess || data[0].found;
+                        if (hasCockpitAccess) {
+                            cb(null, {});
+                        } else {
+                            api.dataAccess.executeQuery("is_user_client_admin_for_project", sqlParams, dbConnectionMap, cb);
+                        }
+                    }, function (data, cb) {
+                        hasCockpitAccess = hasCockpitAccess || data[0].found;
+                        if (hasCockpitAccess) {
+                            cb(null, {});
+                        } else {
+                            api.dataAccess.executeQuery("has_access_to_project_as_directproject_member", sqlParams, dbConnectionMap, cb);
+                        }
+                    }, function (data, cb) {
+                        hasCockpitAccess = hasCockpitAccess || data[0].found;
+                        if (hasCockpitAccess) {
+                            cb(null, {});
+                        } else {
+                            api.dataAccess.executeQuery("has_access_to_project_as_billingaccount_member", sqlParams, dbConnectionMap, cb);
+                        }
+                    }, function (data, cb) {
+                        hasCockpitAccess = hasCockpitAccess || data[0].found;
+                        if (hasCockpitAccess) {
+                            cb(null, {});
+                        } else {
+                            api.dataAccess.executeQuery("has_access_to_project_as_autogrant_client", sqlParams, dbConnectionMap, cb);
+                        }
+                    }, function (data, cb) {
+                        hasCockpitAccess = hasCockpitAccess || data[0].found;
+                        cb();
+                    }
+                ], cb);
+            } else {
+                cb();
+            }
+        }, function (cb) {
+            //A user who is not directly configured as client but is actually a client as per cockpit rules
+            if (noRights && hasCockpitAccess) {
+                //client can download previews and watermarked images anytime
+                if (!originalSubmissionRequested) {
+                    noRights = false;
+                }
+                //client can download full submissions only after review and if they have paid for it
+                if (originalSubmissionRequested && basicInfo[0].is_review_over && basicInfo[0].mark_for_purchase) {
+                    noRights = false;
+                }
+            }
+
+           //All role checks are now done. If we still don't have rights, raise error
+            if (noRights) {
+                cb(new ForbiddenError("You are not allowed to download the submission."));
+                return;
+            }
+
+            filePath = api.config.designSubmissionsBasePath + "/" + basicInfo[0].project_id +
+                "/" + basicInfo[0].submitter_handle.toLowerCase() + "_" + basicInfo[0].submitter_id + "/";
+
+            //if this is not a original submission request, we need some more data
+            if (!originalSubmissionRequested) {
+                async.parallel({
+                    images: function (cb) {
+                        api.dataAccess.executeQuery("submission_images", sqlParams, dbConnectionMap, cb);
+                    },
+                    fileTypes: function (cb) {
+                        api.dataAccess.executeQuery("file_types", sqlParams, dbConnectionMap, cb);
+                    },
+                    mimeTypes: function (cb) {
+                        api.dataAccess.executeQuery("mime_types", sqlParams, dbConnectionMap, cb);
+                    }
+                }, cb);
+            } else {
+                cb(null, null);
+            }
+        }, function (data, cb) {
+            if (!_.isNull(data)) {
+                submissionImages = data.images;
+                fileTypes = data.fileTypes;
+                mimeTypes = data.mimeTypes;
+            }
+
+            if (!originalSubmissionRequested) {
+                var targetImageTypeId = submissionImageTypeId,
+                    matchingImage;
+
+                if (targetImageTypeId === -1) {
+                    targetImageTypeId = submissionTypeToImageType[submissionType];
+                }
+                //non-preview and non-wireframe
+                if (targetImageTypeId > 0 && basicInfo[0].project_category_id !== wireframeCategoryId) {
+                    matchingImage = findMatchingSubmissionImage(submissionImages, targetImageTypeId, submissionFileIndex);
+                    if (matchingImage === -1) {
+                        cb(new NotFoundError('The file that you requested was not found.'));
+                        return;
+                    }
+                    //The image has a non-default path
+                    if (!_.isUndefined(matchingImage.path)) {
+                        filePath = matchingImage.path;
+                    }
+                    findFileStartingWith(filePath, matchingImage.file_name, cb);
+                } else {
+                    //preview
+                    findFileStartingWith(filePath, submissionId + "_" + submissionType + ".", cb);
+                }
+            } else {
+                cb(null, null);
+            }
+        }, function (file, cb) {
+            //preview requested and file not found in above code
+            if (_.isNull(file) && previewFileRequested) {
+                //get the preview from the full gallery
+                var matchingImage = findMatchingSubmissionImage(submissionImages, galleryFullTypeId, defaultFileIndex);
+                if (matchingImage === -1) {
+                    cb(new NotFoundError('The file that you requested was not found.'));
+                    return;
+                }
+                //The image has a non-default path
+                if (!_.isUndefined(matchingImage.path)) {
+                    filePath = matchingImage.path;
+                }
+                findFileStartingWith(filePath, matchingImage.file_name, cb);
+            } else {
+                cb(null, file);
+            }
+        }, function (file, cb) {
+            if (!originalSubmissionRequested) {
+                //For situations where original submission is not requested, we have finally found the file name
+                targetFileName = filePath + file;
+                destFileName = file;
+
+                //Get the mime type using the extension (if possible)
+                var lastIndexOfDot = file.lastIndexOf('.'),
+                    extension,
+                    fileType,
+                    mimeType;
+                if (lastIndexOfDot > 0) {
+                    extension = file.substr(lastIndexOfDot + 1).toLowerCase();
+                    fileType = _.find(fileTypes, function (fileType) {
+                        return fileType.extension.toLowerCase() === extension;
+                    });
+                    if (!_.isUndefined(fileType)) {
+                        mimeType = _.findWhere(mimeTypes, {file_type_id: fileType.file_type_id});
+                        if (!_.isUndefined(mimeType)) {
+                            contentType = mimeType.mime_type_desc;
+                        }
+                    }
+                }
+
+                cb();
+            } else {
+                cb();
+            }
+        }, function (cb) {
+            //When original submission is requested, it is quite simple
+            if (originalSubmissionRequested) {
+                originalFileName = basicInfo[0].upload_parameter;
+                targetFileName = filePath + originalFileName;
+                destFileName = submissionId + originalFileName.substr(originalFileName.lastIndexOf('.'));
+            }
+
+            //Now we stat the file to get its size
+            fs.stat(targetFileName, cb);
+
+        }, function (stat, cb) {
+            //Now we will write the document to the response
+            var response = connection.rawConnection.res,
+                stream;
+            response.writeHead(200, {
+                'Content-Type': contentType,
+                'Content-Length': stat.size,
+                'Cache-Control': '',
+                'Content-Disposition': 'inline; filename=' + (basicInfo[0].is_user_submitter && originalSubmissionRequested ? originalFileName : destFileName)
+            });
+            stream = fs.createReadStream(targetFileName);
+            stream.on("end", cb);
+            stream.on("error", cb);
+            stream.pipe(response);
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+            next(connection, true);
+        } else {
+            next(connection, false);
+        }
+    });
+};
+
+/**
+ * The API for downloading design submissions
+ * @since 1.1
+ */
+exports.action = {
+    name: "downloadDesignSubmission",
+    description: "downloadDesignSubmission",
+    inputs: {
+        required: ["submissionId"],
+        optional: ["submissionType", "submissionImageTypeId", "submissionFileIndex"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute downloadDesignSubmission#run", 'debug');
+            downloadDesignSubmission(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+

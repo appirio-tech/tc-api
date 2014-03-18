@@ -1,0 +1,2 @@
+SELECT file_type_id, extension 
+FROM file_type_lu
