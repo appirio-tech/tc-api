@@ -25,6 +25,9 @@ function resetPassword(api, connection, next) {
             if (connection.params.handle == "nonValid") {
                 cb(new BadRequestError("The handle you entered is not valid"));
                 return;
+            } else if (connection.params.handle == "socialLogin") {
+                cb(new BadRequestError("The the user is created by social login, cannot reset password."));
+                return;
             } else if (connection.params.handle == "badLuck") {
                 cb(new Error("Unknown server error. Please contact support."));
                 return;
@@ -64,20 +67,16 @@ function generateResetToken(api, connection, next) {
             if (connection.params.handle == "nonValid" || connection.params.email == "nonValid@test.com") {
                 cb(new BadRequestError("The handle you entered is not valid"));
                 return;
+            } else if (connection.params.handle == "socialLogin" || connection.params.email == "socialLogin@test.com") {
+                cb(new BadRequestError("The the user is created by social login, cannot reset password."));
+                return;
             } else if (connection.params.handle == "badLuck" || connection.params.email == "badLuck@test.com") {
                 cb(new Error("Unknown server error. Please contact support."));
                 return;
             }
-
-            if (connection.params.handle == "googleSocial" || connection.params.email == "googleSocial@test.com") {
-                result = {
-                    "socialLogin": "Google"
-                };
-            } else {
-                result = {
-                    "token": "a3cbG"
-                };
-            }
+            result = {
+                "token": "a3cbG"
+            };
             cb();
         }
     ], function (err) {
