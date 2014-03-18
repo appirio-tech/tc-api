@@ -1,0 +1,5 @@
+{
+  "name"  	: "has_access_to_project_as_autogrant_client",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "has_access_to_project_as_autogrant_client"
+}

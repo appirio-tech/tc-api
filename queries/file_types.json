@@ -1,0 +1,5 @@
+{
+  "name"    : "file_types",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "file_types"
+}

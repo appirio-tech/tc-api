@@ -1,0 +1,5 @@
+{
+  "name"    : "mime_types",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "mime_types"
+}
