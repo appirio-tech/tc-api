@@ -5098,3 +5098,34 @@ Register a new user.
         "value":"503",
         "description":"Servers are up but overloaded. Try again later."
     }
+
+## Check Email Availability [/users/validateEmail?email={email}]
+### Check Email Availability [GET]
+
++ Parameters
+    + email (required, string, `abc@def.com`) ... The email string.
+
++ Response 200 (application/json)
+
+
+        {
+            "available":true
+        }
+
++ Response 500 (application/json)
+
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
