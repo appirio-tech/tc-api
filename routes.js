@@ -54,6 +54,8 @@
  * - added route for recent winning design submissions api
  * changes in 1.22
  * - added route for member search api
+ * changes in 1.23
+ * - added route for check email availability api
  */
 
 /* ---------------------
@@ -143,8 +145,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
 
-        { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
-
+        { path: "/:apiVersion/users/validateEmail", action: "emailValidation" },
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
@@ -192,9 +193,6 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        // Stub API
-        { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
-
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
