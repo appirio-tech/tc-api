@@ -26,7 +26,7 @@ WHERE r.project_id = p.project_id
   AND ri.resource_info_type_id = 2
   AND u.upload_status_id = 1
   AND u.upload_type_id = 1
-  AND s.submission_type_id in (1,3)
+  AND s.submission_type_id = 1
   AND s.submission_status_id <> 5
   AND LOWER(ri.value) = LOWER('@handle@')
   AND NOT s.placement IS NULL
