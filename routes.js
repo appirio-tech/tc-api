@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.22
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo
+ * @version 1.24
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -56,6 +56,8 @@
  * - added route for member search api
  * changes in 1.23
  * - added route for check email availability api
+ * changes in 1.24
+ * - added stub api for reset token and reset password
  */
 
 /* ---------------------
@@ -145,6 +147,8 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
 
+        { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
+
         { path: "/:apiVersion/users/validateEmail", action: "emailValidation" },
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/search", action: "searchUsers" },
@@ -193,6 +197,9 @@ exports.routes = {
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
+        // Stub API
+        { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
+
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
