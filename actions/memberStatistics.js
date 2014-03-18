@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.11
- * @author Sky_, Ghost_141, muzehyun, hesibo
+ * @version 1.12
+ * @author Sky_, Ghost_141, muzehyun, hesibo, isv
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -27,6 +27,10 @@
  * - update checkUserExists and checkUserActivated so they can be executed in parallel.
  * changes in 1.11:
  * - add API for recent winning design submissions
+ * changes in 1.12
+ * - moved checkUserExists function to /initializers/helper.js and replaced all calls to checkUserExists with
+ * -  call to api.helper.checkUserExists
+ * - removed unused import for IllegalArgumentError
  */
 "use strict";
 var async = require('async');
@@ -34,28 +38,6 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var NotFoundError = require('../errors/NotFoundError');
-
-/**
- * Check whether given user is registered.
- * If user not exist then NotFoundError is returned to callback.
- * @param {String} handle - the handle to check
- * @param {Object} api - the action hero api object
- * @param {Object} dbConnectionMap - the database connection map
- * @param {Function<err>} callback - the callback function
- */
-function checkUserExists(handle, api, dbConnectionMap, callback) {
-    api.dataAccess.executeQuery("check_coder_exist", { handle: handle }, dbConnectionMap, function (err, result) {
-        if (err) {
-            callback(err);
-            return;
-        }
-        if (result && result[0] && result[0].handle_exist !== 0) {
-            callback(err, null);
-        } else {
-            callback(err, new NotFoundError("User does not exist."));
-        }
-    });
-}
 
 /**
  * check whether given user is activated.
@@ -92,7 +74,7 @@ function checkUserExistAndActivate(handle, api, dbConnectionMap, callback) {
             // check user existence and activated status.
             async.parallel({
                 exist: function (cb) {
-                    checkUserExists(handle, api, dbConnectionMap, cb);
+                    api.helper.checkUserExists(handle, api, dbConnectionMap, cb);
                 },
                 activate: function (cb) {
                     checkUserActivated(handle, api, dbConnectionMap, cb);
@@ -820,10 +802,10 @@ var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConne
             phaseId = helper.softwareChallengeTypes[challengeType].phaseId;
             sqlParams.handle = handle;
             sqlParams.phaseId = phaseId;
-            api.dataAccess.executeQuery("get_software_rating_handle", sqlParams, dbConnectionMap, cb);
-        }, function (rows, cb) {
-            if (rows[0].handle_exist === 0) {
-                cb(new NotFoundError("Handle is not exist"));
+            api.helper.checkUserExists(handle, api, dbConnectionMap, cb);
+        }, function (notFoundError, cb) {
+            if (notFoundError) {
+                cb(notFoundError);
                 return;
             }
             api.dataAccess.executeQuery("get_software_rating_history", sqlParams, dbConnectionMap, cb);
@@ -874,7 +856,7 @@ exports.getSoftwareRatingHistoryAndDistribution = {
     outputExample: {},
     version: 'v2',
     transaction: 'read', // this action is read-only
-    databases: ['tcs_dw'],
+    databases: ['tcs_dw', 'topcoder_dw'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getSoftwareRatingHistoryAndDistribution#run", 'debug');
@@ -917,7 +899,7 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
             }
         },
         function (callback) {
-            checkUserExists(sqlParams.handle, api, dbConnectionMap, callback);
+            api.helper.checkUserExists(sqlParams.handle, api, dbConnectionMap, callback);
         },
         function (err, callback) {
             if (err) {

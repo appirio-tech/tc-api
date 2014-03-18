@@ -40,8 +40,9 @@
   "devDependencies": {
     "supertest": "0.8.1",
     "mocha": "1.13.0",
-    "chai": "1.8.1"
-  },
+    "chai": "1.8.1",
+    "should": ">= 3.0.0"
+ },
   "scripts": {
     "start": "node ./node_modules/.bin/actionhero start &",
     "test": "node_modules/.bin/mocha --recursive ./test",

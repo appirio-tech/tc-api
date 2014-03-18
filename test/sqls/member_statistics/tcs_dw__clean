@@ -1,4 +1,7 @@
-DELETE FROM coder;
-DELETE FROM user_rating;
-DELETE FROM project_result;
-DELETE FROM project;
+DELETE FROM topcoder_dw:algo_rating;
+DELETE FROM topcoder_dw:algo_rating_type_lu;
+DELETE FROM coder WHERE coder_id < 9000001;
+TRUNCATE user_rating;
+TRUNCATE project_result;
+TRUNCATE project;
+DELETE FROM topcoder_dw:language_lu;
