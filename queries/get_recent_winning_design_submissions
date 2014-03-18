@@ -12,22 +12,25 @@ FROM project p
   , upload u
   , submission s
   , prize pzz
+  , user
 WHERE r.project_id = p.project_id
   AND r.resource_id = ri.resource_id
   AND p.project_category_id = pcl.project_category_id
   AND u.project_id = p.project_id
   AND u.resource_id = r.resource_id
   AND u.upload_id = s.upload_id
-  AND s.prize_id = pzz.prize_id
+  AND s.prize_id = pzz.prize_id 
+  AND pzz.project_id = p.project_id
   AND pzz.prize_type_id in (14,15)
   AND pcl.project_type_id = 3
   AND p.project_status_id = 7
   AND r.resource_role_id = 1
-  AND ri.resource_info_type_id = 2
+  AND ri.resource_info_type_id = 1
   AND u.upload_status_id = 1
   AND u.upload_type_id = 1
   AND s.submission_type_id in (1,3)
   AND s.submission_status_id <> 5
-  AND LOWER(ri.value) = LOWER('@handle@')
+  AND ri.value = user.user_id
+  AND user.handle_lower = lower('@handle@')
   AND NOT s.placement IS NULL
 ORDER BY s.create_date desc
