@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.22
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo
+ * @version 1.24
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -56,6 +56,8 @@
  * - added route for member search api
  * changes in 1.23
  * - added route for check email availability api
+ * changes in 1.24
+ * - added stub api for reset token and reset password
  */
 
 /* ---------------------
