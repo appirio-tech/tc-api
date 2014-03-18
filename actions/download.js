@@ -27,7 +27,7 @@ var NO_DOWNLOAD_IN_PHASE = "You are not allowed to download the submission in th
 /**
  * The API for downloading documents
  */
-exports.action = {
+exports.downloadDocument = {
     name: "downloadDocument",
     description: "downloadDocument",
     inputs: {
@@ -380,7 +380,7 @@ var downloadDevSubmission = function (api, connection, dbConnectionMap, next) {
  * The API for downloading dev submissions
  * @since 1.1
  */
-exports.action = {
+exports.downloadDevSubmission = {
     name: "downloadDevSubmission",
     description: "downloadDevSubmission",
     inputs: {
