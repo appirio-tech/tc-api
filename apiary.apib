@@ -4946,12 +4946,12 @@ Register a new user.
 
 + Parameters
     + listType (optional, string, `Open`) ... The status of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
-    + challengeType (optional, string, `Assembly`) ... The type of challenges to search.
+    + challengeType (optional, string, `develop`) ... The type of challenges to search. It can only be 'develop', 'design' or 'data'.
 
 + Response 200 (application/json)
 
         {
-            "total": 30,
+            "total": 3,
             "data": [
                 {
                     "challengeType": "Web Design",
