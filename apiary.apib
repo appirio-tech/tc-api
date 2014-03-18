@@ -993,10 +993,18 @@ Register a new user.
     + handle (optional, string, `iRabbit`) ... Member Handle
     + email (optional, string, `test@test.com`) ... Email Address
 
+- return token for topcoder user
 + Response 200 (application/json)
 
         {
             "token":"a3cbG"
+        }
+
+- return social provider name for social login user
++ Response 200 (application/json)
+
+        {
+            "socialProvider":"Google"
         }
 
 + Response 400 (application/json)
