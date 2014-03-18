@@ -1,0 +1,5 @@
+{
+  "name"    : "check_email_exist",
+  "db"      : "common_oltp",
+  "sqlfile" : "check_email_exist"
+}

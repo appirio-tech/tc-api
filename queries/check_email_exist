@@ -1,0 +1,3 @@
+SELECT 1
+FROM email
+WHERE address = '@email@'
