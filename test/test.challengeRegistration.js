@@ -37,7 +37,8 @@ describe('Challenge Registration API', function () {
     * Users that we have setup.
     */
     var user11 = 'facebook|fb400011',
-        user12 = 'facebook|fb400012';
+        user12 = 'facebook|fb400012',
+        user13 = 'facebook|fb400013';
 
     /**
      * Return the authentication header to be used for the given user. 
@@ -284,6 +285,16 @@ describe('Challenge Registration API', function () {
             .set('Authorization', getAuthHeader(user12))
             .expect('Content-Type', /json/)
             .expect(400, done);
+    });
+
+    // Only agreed a part of terms of use.
+    it('User is from a banned country', function (done) {
+        supertest(API_ENDPOINT)
+            .post("/v2/challenges/40000002/register")
+            .set('Accept', 'application/json')
+            .set('Authorization', getAuthHeader(user13))
+            .expect('Content-Type', /json/)
+            .expect(403, done);
     });
 
 });

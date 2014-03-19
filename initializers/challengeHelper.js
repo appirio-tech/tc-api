@@ -95,8 +95,8 @@ exports.challengeHelper = function (api, next) {
                         return;
                     }
 
-                    if (rows[0].user_country_missing_or_banned) {
-                        cb(new ForbiddenError('You cannot participate in this challenge as your country information is either missing or is banned.'));
+                    if (rows[0].user_country_banned) {
+                        cb(new ForbiddenError('You cannot participate in this challenge as your country is banned.'));
                         return;
                     }
 
