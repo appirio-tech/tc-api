@@ -465,32 +465,42 @@ exports.getSoftwareStatistics = {
                 });
                 results.submissions.forEach(function (row) {
                     var data = result.Tracks[row.category_name];
-                    _.extend(data, {
-                        competitions: row.num_ratings,
-                        submissions: row.submissions,
-                        submissionRate: _.getPercent(row.submission_rate, 2),
-                        inquiries: row.num_ratings,
-                        passedScreening: row.passed_screening,
-                        screeningSuccessRate: _.getPercent(row.screening_success_rate, 2),
-                        passedReview: row.passed_review,
-                        reviewSuccessRate: _.getPercent(row.review_success_rate, 2),
-                        appeals: row.appeals,
-                        appealSuccessRate: _.getPercent(row.appeal_success_rate, 2),
-                        maximumScore: round2(row.max_score),
-                        minimumScore: round2(row.min_score),
-                        averageScore: round2(row.avg_score),
-                        averagePlacement: round2(row.avg_placement),
-                        wins: row.wins,
-                        winPercentage: _.getPercent(row.win_percent, 2)
-                    });
+                    // NOTE: there are currently submissions without track data
+                    if (data) {
+                        _.extend(data, {
+                            competitions: row.num_ratings,
+                            submissions: row.submissions,
+                            submissionRate: _.getPercent(row.submission_rate, 2),
+                            inquiries: row.num_ratings,
+                            passedScreening: row.passed_screening,
+                            screeningSuccessRate: _.getPercent(row.screening_success_rate, 2),
+                            passedReview: row.passed_review,
+                            reviewSuccessRate: _.getPercent(row.review_success_rate, 2),
+                            appeals: row.appeals,
+                            appealSuccessRate: _.getPercent(row.appeal_success_rate, 2),
+                            maximumScore: round2(row.max_score),
+                            minimumScore: round2(row.min_score),
+                            averageScore: round2(row.avg_score),
+                            averagePlacement: round2(row.avg_placement),
+                            wins: row.wins,
+                            winPercentage: _.getPercent(row.win_percent, 2)
+                        });
+                    } else {
+                        api.log("unable to update submission data. no track data for handle " + handle + " in category " + row.category_name, "warning");
+                    }
                 });
 
                 results.rating.forEach(function (row) {
                     var data = result.Tracks[row.category_name];
-                    _.extend(data, {
-                        maximumRating: row.max_rating,
-                        minimumRating: row.min_rating
-                    });
+                    // there may not be a track
+                    if (data) {
+                        _.extend(data, {
+                            maximumRating: row.max_rating,
+                            minimumRating: row.min_rating
+                        });
+                    } else {
+                        api.log("unable to update rating data. no track data for handle " + handle + " in category " + row.category_name, "warning");
+                    }
                 });
 
                 results.copilotStats.forEach(function (track) {
@@ -501,15 +511,19 @@ exports.getSoftwareStatistics = {
                         result.Tracks[track.category_name] = {};
                     }
                     var data = result.Tracks[track.category_name], copilotFulfillment;
-                    if (!helper.checkNumber(track.reviewer_rating)) {
-                        data.reviewerRating = track.reviewer_rating;
-                    }
-                    if (track.completed_contests !== 0) {
-                        data.copilotCompletedContests = track.completed_contests;
-                        data.copilotRepostedContests = track.reposted_contests;
-                        data.copilotFailedContests = track.failed_contests;
-                        copilotFulfillment = 1 - data.copilotFailedContests / data.copilotCompletedContests;
-                        data.copilotFulfillment = _.getPercent(copilotFulfillment, 0);
+                    if (data) {
+                        if (!helper.checkNumber(track.reviewer_rating)) {
+                            data.reviewerRating = track.reviewer_rating;
+                        }
+                        if (track.completed_contests !== 0) {
+                            data.copilotCompletedContests = track.completed_contests;
+                            data.copilotRepostedContests = track.reposted_contests;
+                            data.copilotFailedContests = track.failed_contests;
+                            copilotFulfillment = 1 - data.copilotFailedContests / data.copilotCompletedContests;
+                            data.copilotFulfillment = _.getPercent(copilotFulfillment, 0);
+                        }
+                    } else {
+                        api.log("unable to update copilot data. no track data for handle " + handle + " for track " + track, "warning");
                     }
                 });
                 cb();
