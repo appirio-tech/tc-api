@@ -6,7 +6,7 @@ select
 	(us.user_id IS NOT NULL) as user_suspended,
 	(ce.contest_eligibility_id IS NULL) as no_elgibility_req,
 	(ugx.login_id IS NOT NULL) as user_in_eligible_group,
- 	(uax.user_id IS NULL) as user_country_missing_or_banned,
+ 	(uax.user_id IS NOT NULL) as user_country_banned,
 	(cop.copilot_profile_id IS NOT NULL) as user_is_copilot,
 	(pctl.name) as copilot_type
 from project p
@@ -42,7 +42,7 @@ left outer join (
 		on a.country_code=c.country_code
 	)
 	on uax.address_id=a.address_id 
-	and c.country_name not in ( "Iran", "North Korea", "Cuba", "Sudan", "Syria" )
+	and c.country_name in ( "Iran", "North Korea", "Cuba", "Sudan", "Syria" )
 ) on uax.user_id = @userId@
 -- Get the copilot type
 left join (
