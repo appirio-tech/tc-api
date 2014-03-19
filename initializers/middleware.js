@@ -344,9 +344,9 @@ exports.middleware = function (api, next) {
     }
 
     api.actions.preProcessors.push(authorizationPreProcessor);
-    api.actions.preProcessors.push(preThrottleProcessor);
+    //api.actions.preProcessors.push(preThrottleProcessor);
     api.actions.preProcessors.push(preCacheProcessor);
     api.actions.postProcessors.push(postCacheProcessor);
-    api.actions.postProcessors.push(postThrottleProcessor);
+    //api.actions.postProcessors.push(postThrottleProcessor);
     next();
 };
