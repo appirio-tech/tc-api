@@ -11,6 +11,8 @@ VALUES(3002, 3002, 17, 3, current, current + 2 units day, current + 2 units day,
 
 INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3001, 20, 3001, 132456, current, 132456, current);
 INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(3002, 20, 3002, 132456, current, 132456, current);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (3001, 2, '132457', 132457, CURRENT, 132457, CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (3002, 2, '132456', 132456, CURRENT, 132456, CURRENT);
 
 INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(3001, 3001, 'General feedback for challenge 3001');
 INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(3002, 3002, 'General feedback for challenge 3002');

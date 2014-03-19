@@ -1,0 +1,10 @@
+select
+       COUNT (DISTINCT ri.value) AS total
+from upload u,
+     submission s,
+     resource_info ri
+where u.project_id = @challengeId@
+  and s.upload_id = u.upload_id
+  and s.submission_type_id = 3
+  and ri.resource_id = u.resource_id
+  and ri.resource_info_type_id = 2

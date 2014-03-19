@@ -1,25 +1,29 @@
 {
     "checkpointResults": [
         {
-            "feedback": "Checkpoint review for submission 3006",
-            "submissionId": 3006
+            "submissionId": 3006,
+            "feedback": "Checkpoint review for submission 3006"
         },
         {
-            "feedback": "Checkpoint review for submission 3007",
-            "submissionId": 3007
+            "submissionId": 3007,
+            "feedback": "Checkpoint review for submission 3007"
         },
         {
-            "feedback": "Checkpoint review for submission 3008",
-            "submissionId": 3008
+            "submissionId": 3008,
+            "feedback": "Checkpoint review for submission 3008"
         },
         {
-            "feedback": "Checkpoint review for submission 3009",
-            "submissionId": 3009
+            "submissionId": 3009,
+            "feedback": "Checkpoint review for submission 3009"
         },
         {
-            "feedback": "Checkpoint review for submission 3010",
-            "submissionId": 3010
+            "submissionId": 3010,
+            "feedback": "Checkpoint review for submission 3010"
         }
     ],
-    "generalFeedback": "general feedback for challenge 3002"
+    "generalFeedback": "general feedback for challenge 3002",
+    "numberOfSubmissions": 5,
+    "numberOfPassedScreeningSubmissions": 5,
+    "numberOfPassedScreeningUniqueSubmitters": 1,
+    "numberOfUniqueSubmitters": 1
 }
