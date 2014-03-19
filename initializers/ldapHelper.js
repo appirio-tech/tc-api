@@ -1,9 +1,12 @@
 /*jslint nomen: true */
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: TCSASSEMBLER
+ * Version: 1.1
+ * Author: TCSASSEMBLER, Ghost_141
+ *
+ * Changes in 1.1
+ * - add updateMemberPasswordLDAPEntry for update member password.
  */
 "use strict";
 
@@ -257,7 +260,7 @@ exports.ldapHelper = function (api, next) {
             }
             return next(null, true);
         },
-        
+
         /**
          * Main function of removeMemberProfileLDAPEntry
          *
@@ -282,7 +285,7 @@ exports.ldapHelper = function (api, next) {
                         removeClient(api, client, userId, callback);
                     }
                 ], function (err, result) {
-                    
+
                     if (err) {
                         api.log('removeMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
                         return next(err, null);
@@ -293,7 +296,7 @@ exports.ldapHelper = function (api, next) {
                 });
             } catch (err) {
                 console.log('CAUGHT: ' + err);
-                return next(error, null);
+                return next(err, null);
             }
             return next(null, true);
         },
@@ -340,6 +343,55 @@ exports.ldapHelper = function (api, next) {
                 api.log('Leave activateMemberProfileLDAPEntry', 'debug');
             });
             return next(null, true);
+        },
+
+        /**
+         * Main function of updateMemberPasswordLDAPEntry
+         *
+         * @param {Object} params require fields: userId, handle, newPassword, oldPassword
+         * @param {Function} next - callback function
+         * @since 1.1
+         */
+        updateMemberPasswordLDAPEntry: function (params, next) {
+            api.log('Enter updateMemberPasswordLDAPEntry', 'debug');
+
+            var client, error, index, requiredParams = ['userId', 'handle', 'newPassword', 'oldPassword'];
+
+            for (index = 0; index < requiredParams.length; index += 1) {
+                error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+                if (error) {
+                    api.log('updateMemberPasswordLDAPEntry: error occurred: ' + error + " " + (error.stack || ''), "error");
+                    next(error, null);
+                    return;
+                }
+            }
+            try {
+                async.series([
+                    function (callback) {
+                        client  = createClient();
+                        callback(null, 'create client');
+                    },
+                    function (callback) {
+                        bindClient(api, client, callback);
+                    },
+                    function (callback) {
+                        passwordModify(api, client, params, callback);
+                    }
+                ], function (err, result) {
+                    if (err) {
+                        error = result.pop();
+                        api.log('updateMemberPasswordLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
+                        next(error, null);
+                    } else {
+                        client.unbind();
+                        api.log('Leave updateMemberPasswordLDAPEntry', 'debug');
+                        next();
+                    }
+                });
+            } catch (err) {
+                console.log('CAUGHT: ' + err);
+                next(error, null);
+            }
         }
     };
     next();

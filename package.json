@@ -36,7 +36,8 @@
     "moment": "~2.5.1",
     "mime": "~1.2.11",
     "xtend": "2.1.2",
-    "validator": "~3.5.0"
+    "validator": "~3.5.0",
+    "redis": "0.10.1"
   },
   "devDependencies": {
     "supertest": "0.8.1",

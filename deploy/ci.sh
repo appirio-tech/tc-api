@@ -1,10 +1,12 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+# Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.0
-# Author: vangavroche, delemach
+# Version: 1.1
+# Author: vangavroche, delemach, Ghost_141
+# Changes in 1.1
+# - add REDIS_HOST and REDIS_PORT.
 #
 export CACHE_EXPIRY=-1
 
@@ -67,3 +69,7 @@ export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
 export ACTIONHERO_CONFIG=./config.js
+
+# Used in api cache.
+export REDIS_HOST=localhost
+export REDIS_PORT=6379

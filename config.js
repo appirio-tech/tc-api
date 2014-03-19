@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @version 1.13
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -30,6 +30,9 @@
  * - added designSubmissionsBasePath for design submissions 
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * Changes in 1.13:
+ * - add minPasswordLength and maxPasswordLength
+ * - add resetTokenSuffix
  */
 "use strict";
 
@@ -71,6 +74,9 @@ config.general = {
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
+    resetTokenSuffix: 'reset-token',
+    minPasswordLength: 8,
+    maxPasswordLength: 30,
     cachePrefix: '',
     oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
     //auth0 secret is encoded in base64!

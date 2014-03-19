@@ -1,12 +1,14 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+# Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.1
-# Author: vangavroche, TCSASSEMBLER
+# Version: 1.2
+# Author: vangavroche, Ghost_141
 # changes in 1.1:
 # - add JIRA_USERNAME and JIRA_PASSWORD
+# changes in 1.2:
+# - add REDIS_HOST and REDIS_PORT.
 #
 
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
@@ -66,5 +68,9 @@ export TIMEOUT=3000
 # Used in Jira soap service (Bugs API)
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
+
+# Used in api cache.
+export REDIS_HOST=localhost
+export REDIS_PORT=6379
 
 export ACTIONHERO_CONFIG=./config.js

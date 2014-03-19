@@ -2,9 +2,11 @@
 REM
 REM Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
 REM
-REM Version: 1.0
-REM Author: TrePe
+REM Version: 1.1
+REM Author: TrePe, Ghost_141
 REM
+REM Changes in 1.1
+REM - Add REDIS_PORT and REDIS_HOST.
 
 REM tests rely on caching being off. But set this to a real value (or remove) while coding.
 
@@ -66,3 +68,6 @@ set JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
 set ACTIONHERO_CONFIG=./config.js
 
+REM Used in API cache
+set REDIS_HOST=localhost
+set REDIS_PORT=6379

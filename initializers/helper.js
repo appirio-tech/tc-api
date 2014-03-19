@@ -6,8 +6,8 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv
- * @version 1.13
- * changes in 1.15
+ * @version 1.16
+ * changes in 1.1
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -48,6 +48,10 @@
  * - add method checkMember to check if the caller have at least member access leve.
  * changes in 1.15
  * - added checkUserExists function
+ * Changes in 1.16:
+ * - add validatePassword method.
+ * - introduce the stringUtils in this file.
+ * - add PASSWORD_HASH_KEY.
  */
 "use strict";
 
@@ -65,6 +69,7 @@ if (typeof String.prototype.startsWith !== 'function') {
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
+var stringUtils = require('../common/stringUtils');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -103,6 +108,13 @@ helper.both = {
  * The max value for integer.
  */
 helper.MAX_INT = 2147483647;
+
+/**
+ * HASH KEY For Password
+ *
+ * @since 1.16
+ */
+helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
 /**
  * The name in api response to database name map.
@@ -928,9 +940,9 @@ helper.getPhaseId = function (phaseName) {
  */
 helper.getColorStyle = function (rating) {
 
-	if (rating === null) {
-		 return "color: #000000";
-	}
+    if (rating === null) {
+        return "color: #000000";
+    }
 
     if (rating < 0) {
         return "color: #FF9900"; // orange
@@ -1132,6 +1144,35 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     });
 };
 
+/**
+ * Validate the given password value.
+ * @param {String} password - the password value.
+ * @returns {Object} - Return error if the given password is invalid.
+ * @since 1.16
+ */
+helper.validatePassword = function (password) {
+    var value = password.trim(),
+        configGeneral = helper.api.config.general,
+        i,
+        error;
+    error = helper.checkStringPopulated(password, 'password');
+    if (error) {
+        return error;
+    }
+    if (value.length > configGeneral.maxPasswordLength) {
+        return new IllegalArgumentError('password may contain at most ' + configGeneral.maxPasswordLength + ' characters.');
+    }
+    if (value.length < configGeneral.minPasswordLength) {
+        return new IllegalArgumentError('password must be at least ' + configGeneral.minPasswordLength + ' characters in length.');
+    }
+    for (i = 0; i < password.length; i += 1) {
+        if (!_.contains(stringUtils.PASSWORD_ALPHABET, password.charAt(i))) {
+            return new IllegalArgumentError('Your password may contain only letters, numbers and ' + stringUtils.PUNCTUATION);
+        }
+    }
+
+    return null;
+};
 
 /**
 * Expose the "helper" utility.

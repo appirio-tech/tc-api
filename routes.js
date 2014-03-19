@@ -200,8 +200,9 @@ exports.routes = {
     ].concat(testMethods.get),
     post: [
         // Stub API
-        { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
 
+
+        { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
