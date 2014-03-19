@@ -19,6 +19,10 @@ INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, cre
 INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4002, 20, 4002, 132456, current, 132456, current);
 INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4003, 20, 4003, 132456, current, 132456, current);
 INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES(4004, 20, 4004, 132456, current, 132456, current);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (4001, 2, '132457', 132457, CURRENT, 132457, CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (4002, 2, '132456', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (4003, 2, '132457', 132457, CURRENT, 132457, CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (4004, 2, '132456', 132456, CURRENT, 132456, CURRENT);
 
 INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(4003, 4003, 'General feedback for challenge 4003');
 INSERT INTO comp_milestone_feedback(comp_milestone_feedback_id, project_id, feedback) VALUES(4004, 4004, 'General feedback for challenge 4004');

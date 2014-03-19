@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.15
+ * @version 1.16
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -38,6 +38,8 @@
  * changes in 1.15:
  * Change the open and active status filter behaviour. OPEN for only reg phase is open, ACTIVE for reg is closed and
  * the challenge status is active.
+ * changes in 1.16:
+ * add studio checkpoint submissions and submitter count
  */
 "use strict";
 
@@ -1164,6 +1166,11 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
             challengeId: challengeId,
             user_id: connection.caller.userId || 0,
             projectCategory: isStudio ? helper.studio.category : helper.software.category
+        },
+        execQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
         };
     async.waterfall([
         function (cb) {
@@ -1171,12 +1178,8 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
             validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, cb);
         }, function (cb) {
             async.parallel({
-                detail: function (cbx) {
-                    api.dataAccess.executeQuery('get_checkpoint_detail', sqlParams, dbConnectionMap, cbx);
-                },
-                feedback: function (cbx) {
-                    api.dataAccess.executeQuery(feedbackQueryName, sqlParams, dbConnectionMap, cbx);
-                }
+                detail: execQuery('get_checkpoint_detail'),
+                feedback: execQuery(feedbackQueryName)
             }, cb);
         }, function (res, cb) {
             var generalFeedback = "", hasGeneralFeedback = true;
@@ -1198,6 +1201,24 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
                 };
             });
             result.generalFeedback = generalFeedback;
+
+            if (isStudio) {
+                async.parallel({
+                    numberOfSubmissions: execQuery("get_studio_challenge_checkpoints_submissions_count"),
+                    numberOfPassedScreeningSubmissions: execQuery("get_studio_challenge_checkpoints_passed_screening_submissions_count"),
+                    numberOfPassedScreeningUniqueSubmitters: execQuery('get_studio_challenge_checkpoints_passed_screening_submitters_count'),
+                    numberOfUniqueSubmitters: execQuery('get_studio_challenge_checkpoints_submitters_count')
+                }, cb);
+            } else {
+                cb(null, cb);
+            }
+        }, function (res, cb) {
+            if (isStudio) {
+                result.numberOfSubmissions = res.numberOfSubmissions[0].total;
+                result.numberOfPassedScreeningSubmissions = res.numberOfPassedScreeningSubmissions[0].total;
+                result.numberOfPassedScreeningUniqueSubmitters = res.numberOfPassedScreeningUniqueSubmitters[0].total;
+                result.numberOfUniqueSubmitters = res.numberOfUniqueSubmitters[0].total;
+            }
             cb();
         }
     ], function (err) {
