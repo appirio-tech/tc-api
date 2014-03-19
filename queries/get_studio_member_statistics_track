@@ -57,7 +57,6 @@ SELECT
 
 FROM project_category_lu pcl 
 , user u
-WHERE 1=1
-AND u.handle_lower = LOWER('@handle@')
+WHERE u.handle_lower = LOWER('@handle@')
 AND pcl.project_type_id = 3
-AND display = 't'
+AND pcl.display = 't'
