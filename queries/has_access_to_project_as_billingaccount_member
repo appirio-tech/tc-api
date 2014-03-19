@@ -1,0 +1,11 @@
+select count(*) > 0 as found
+from group_member gm
+inner join customer_group g on gm.group_id = g.group_id
+inner join group_associated_billing_accounts gaba on gaba.group_id = gm.group_id
+inner join tt_project ttp on gaba.billing_account_id = ttp.project_id
+inner join project_info pi3 on pi3.value = ttp.project_id and pi3.project_info_type_id = 32
+inner join project p ON pi3.project_id = p.project_id
+where gm.user_id = @userId@
+and gm.active = 1
+and g.archived = 0
+and p.project_id = @projectId@

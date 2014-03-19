@@ -1,0 +1,13 @@
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654201, 'tablet-01.png', 28);
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654202, 'tablet-02.png', 29);
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654203, 'tablet-03.png', 25);
+
+INSERT INTO path(path_id, path) VALUES(654201, 'test/tmp/design_submissions/some/weird/path/');
+INSERT INTO image(image_id, file_name, image_type_id, path_id) VALUES(654204, 'mail-01.png', 28, 654201);
+
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654205, 'globe-01.png', 28);
+
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654206, 'sample.gif', 26);
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654207, 'sample.jpg', 26);
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654208, 'sample.BMP', 26);
+INSERT INTO image(image_id, file_name, image_type_id) VALUES(654209, 'sample.ico', 26);

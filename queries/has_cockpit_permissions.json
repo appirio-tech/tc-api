@@ -1,0 +1,5 @@
+{
+  "name"  	: "has_cockpit_permissions",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "has_cockpit_permissions"
+}

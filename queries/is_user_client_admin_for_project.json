@@ -1,0 +1,5 @@
+{
+  "name"  	: "is_user_client_admin_for_project",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "is_user_client_admin_for_project"
+}

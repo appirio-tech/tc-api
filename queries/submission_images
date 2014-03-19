@@ -1,0 +1,12 @@
+SELECT 
+	i.image_id, 
+	i.file_name,
+	i.image_type_id,
+	i.original_file_name,
+	p.path
+FROM submission_image si
+INNER JOIN informixoltp:image i ON si.image_id = i.image_id
+LEFT JOIN informixoltp:path p ON i.path_id = p.path_id
+WHERE si.submission_id = @submissionId@
+ORDER BY si.sort_order
+;
