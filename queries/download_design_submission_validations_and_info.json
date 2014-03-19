@@ -1,0 +1,5 @@
+{
+  "name"    : "download_design_submission_validations_and_info",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "download_design_submission_validations_and_info"
+}

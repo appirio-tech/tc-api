@@ -41,6 +41,7 @@
  * - added routes for getting studio and software checkpoints
  * Changes in 1.16:
  * - added routes for validate handle
+ * - added route for downloading design submissions
  * changes in 1.17:
  * - Combine Challenge Registration API(BUGR-11058)
  * changes in 1.18:
@@ -146,6 +147,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
+        { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
 
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
 

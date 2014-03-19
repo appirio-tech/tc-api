@@ -27,6 +27,7 @@
  * - add challengeCommunityLink and reviewAuctionDetailLink.
  * Changes in 1.11:
  * - add cachePrefix in config.general.
+ * - added designSubmissionsBasePath for design submissions 
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
  */
@@ -279,6 +280,9 @@ config.thurgoodTimeout = 5000;
 //API KEY for testing
 //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
 config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
+
+//The base folder for design submission files
+config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
 
 //////////////////////////////////
 

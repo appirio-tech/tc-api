@@ -1,0 +1,5 @@
+{
+  "name"  	: "has_access_to_project_as_billingaccount_member",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "has_access_to_project_as_billingaccount_member"
+}

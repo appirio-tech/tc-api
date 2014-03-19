@@ -1,0 +1,6 @@
+SELECT COUNT(*) > 0 as found
+FROM user_permission_grant upg, project c
+WHERE c.project_id = @projectId@ 
+AND upg.resource_id = c.tc_direct_project_id
+AND upg.permission_type_id IN (1,2,3)
+AND upg.user_id = @userId@

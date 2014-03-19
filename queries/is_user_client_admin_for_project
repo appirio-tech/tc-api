@@ -1,0 +1,8 @@
+select count(*) > 0 as found
+ from project p
+  inner join project_info pi3 on p.project_id = pi3.project_id and pi3.project_info_type_id = 32
+  inner join tt_project ttp on pi3.value = ttp.project_id
+  inner join tt_client_project ttcp on ttp.project_id = ttcp.project_id
+  inner join tt_client ttc on ttcp.client_id = ttc.client_id
+  inner join customer_administrator ca on ca.client_id = ttc.client_id AND ca.user_id = @userId@
+ where p.project_id=@projectId@

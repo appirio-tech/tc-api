@@ -1,0 +1,34 @@
+SELECT 
+	p.project_id,
+	u.upload_id,
+	u.parameter as upload_parameter,
+	u.upload_status_id = 2 as is_upload_deleted,
+	u.upload_type_id = 1 as is_submission,
+	s.submission_type_id,
+	p.project_category_id,
+	pcl.project_type_id = 3 as is_design_challenge,
+	(ri.value::integer = @userId@) as is_user_submitter,
+	ri.value::integer as submitter_id,
+	rih.value as submitter_handle,
+	ppsc.phase_status_id IN (2,3) as is_at_or_after_screening,
+	ppre.phase_status_id = 3 as is_review_over,
+	(usa.user_id IS NOT NULL) as is_user_studio_admin,
+	pivs.value = 'true' as viewable_submissions,
+	s.mark_for_purchase
+FROM submission s
+INNER JOIN upload u ON s.upload_id = u.upload_id
+INNER JOIN project p ON u.project_id = p.project_id
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+INNER JOIN resource r ON u.resource_id = r.resource_id
+INNER JOIN resource_info ri ON r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1
+LEFT JOIN resource_info rih ON r.resource_id = rih.resource_id AND rih.resource_info_type_id = 2
+LEFT JOIN project_phase ppsc ON p.project_id = ppsc.project_id AND ppsc.phase_type_id = 3
+LEFT JOIN project_phase ppre ON p.project_id = ppre.project_id AND ppre.phase_type_id = 4
+LEFT JOIN project_info pivs ON p.project_id = pivs.project_id AND pivs.project_info_type_id = 53
+LEFT JOIN (
+	SELECT u.user_id FROM
+	common_oltp:user_role_xref x, common_oltp:user u
+	WHERE x.login_id = u.user_id AND
+	x.role_id = 2040
+) as usa ON usa.user_id = @userId@
+WHERE s.submission_id = @submissionId@
