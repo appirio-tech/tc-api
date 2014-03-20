@@ -86,16 +86,6 @@ var ALLOWABLE_SORT_COLUMN = [
 ];
 
 /**
- * Represents a ListType enum
- */
-var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
-
-/**
- * Represents a predefined list of valid list type.
- */
-var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.OPEN, ListType.UPCOMING, ListType.PAST];
-
-/**
  * Represents Percentage of Placement Points for digital run
  */
 var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.56, 0.2, 0.1, 0.08, 0.06]];
@@ -104,24 +94,6 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-
-/**
- * The list type and registration phase status map.
- */
-var LIST_TYPE_REGISTRATION_STATUS_MAP = {};
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.ACTIVE] = [2, 3];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.OPEN] = [2];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.UPCOMING] = [1];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.PAST] = [3];
-
-/**
- * The list type and project status map.
- */
-var LIST_TYPE_PROJECT_STATUS_MAP = {};
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * This copilot posting project type id
@@ -194,7 +166,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
             helper.checkPositiveInteger(pageSize, "pageSize") ||
             helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-            helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
+            helper.checkContains(helper.ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
     if (_.isDefined(query.communityId)) {
@@ -466,7 +438,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    listType = (query.listtype || ListType.OPEN).toUpperCase();
+    listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
 
@@ -494,8 +466,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Set the project type id
             sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
-            sqlParams.registration_phase_status = LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
-            sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
+            sqlParams.registration_phase_status = helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
+            sqlParams.project_status_id = helper.LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
 
             // Check the private challenge access

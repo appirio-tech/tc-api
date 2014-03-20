@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
+ * @version 1.25
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -59,6 +59,8 @@
  * - added route for check email availability api
  * changes in 1.24
  * - added stub api for reset token and reset password
+ * Changes in 1.25:
+ * - add route for challenge rss output api.
  */
 
 /* ---------------------
@@ -126,6 +128,7 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
+        { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },

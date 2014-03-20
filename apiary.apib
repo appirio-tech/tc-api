@@ -4994,17 +4994,17 @@ Register a new user.
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"challengeType should be an element of develop,design,data."
         }
-        
-+ Response 404 (application/json)
+
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"listType should be an element of ACTIVE,OPEN,UPCOMING,PAST."
         }
-        
+
 + Response 406 (application/json)
 
         {

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
+ * @version 1.13
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * - added designSubmissionsBasePath for design submissions 
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * Changes in 1.13:
+ * - add maxRSSLength.
  */
 "use strict";
 
@@ -89,7 +91,8 @@ config.general = {
      * The directory where uploaded files are stored.
      * It can be relative to the current directory or can be absolute 
      */
-    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission"
+    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission",
+    maxRSSLength: 1000
 };
 
 /////////////
