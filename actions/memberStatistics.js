@@ -438,9 +438,6 @@ exports.getSoftwareStatistics = {
                     },
                     rating: function (cbx) {
                         execQuery('get_software_member_statistics_track_rating', cbx);
-                    },
-                    copilotStats: function (cbx) {
-                        execQuery("get_software_member_statistics_copilot", cbx);
                     }
                 }, cb);
             }, function (results, cb) {
@@ -503,29 +500,6 @@ exports.getSoftwareStatistics = {
                     }
                 });
 
-                results.copilotStats.forEach(function (track) {
-                    if (helper.checkNumber(track.reviewer_rating) && track.completed_contests === 0) {
-                        return;
-                    }
-                    if (!result.Tracks[track.category_name]) {
-                        result.Tracks[track.category_name] = {};
-                    }
-                    var data = result.Tracks[track.category_name], copilotFulfillment;
-                    if (data) {
-                        if (!helper.checkNumber(track.reviewer_rating)) {
-                            data.reviewerRating = track.reviewer_rating;
-                        }
-                        if (track.completed_contests !== 0) {
-                            data.copilotCompletedContests = track.completed_contests;
-                            data.copilotRepostedContests = track.reposted_contests;
-                            data.copilotFailedContests = track.failed_contests;
-                            copilotFulfillment = 1 - data.copilotFailedContests / data.copilotCompletedContests;
-                            data.copilotFulfillment = _.getPercent(copilotFulfillment, 0);
-                        }
-                    } else {
-                        api.log("unable to update copilot data. no track data for handle " + handle + " for track " + track, "warning");
-                    }
-                });
                 cb();
             }
         ], function (err) {
