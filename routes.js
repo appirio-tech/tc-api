@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
+ * @version 1.25
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -59,6 +59,8 @@
  * - added route for check email availability api
  * changes in 1.24
  * - added stub api for reset token and reset password
+ * Changes in 1.25:
+ * - add route for apply develop review opportunities api.
  */
 
 /* ---------------------
@@ -204,6 +206,7 @@ exports.routes = {
         // Stub API
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
 
+        { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },

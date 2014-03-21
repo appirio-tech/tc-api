@@ -1338,6 +1338,165 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+
+## Apply Develop Review Opportunity Detail [/develop/reviewOpportunities/{challengeId}/apply]
+### Apply Develop Review Opportunity Information [POST]
+
++ Request
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTQwODA3MTEsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzk0MDIwNzExfQ.xaaaElykyAq3woRRkcFQSUK0gvKnRCOhCD57x070GJ4
+
++ Parameters
+
+    + challengeId (required, number, `30000000`) ... The challenge id.
+    + reviewApplicationRoleId (optional, number, `1`) ... The review application role id to apply.
+
++ Response 200 (application/json)
+
+        {
+            "message": "Your review application for this contest has been cancelled."
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "You have successfully applied to review this contest. The system will automatically select reviewers that best match the review positions for this contest on 03.26.2014 08:00. You will be notified by email what review role you were assigned to."
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "You have successfully applied to review this contest. The system will automatically decide whether you match the reviewer requirements for this contest now. You will be notified by email shortly."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"reviewApplicationRoleId should be an element of 1,2,3,4,5,6,7,8,9."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The challenge is not existed or don't have any review opportunities or review registration is not open."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You can't apply the review application role that do not belong to this challenge."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You are not a Review Board member."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You are already assigned as reviewer for the contest."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There are no open positions for this challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There is no open positions for selected review application role: Primary Reviewer."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You should agree with all terms of use."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Anonymous user don't have permission to access this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The user is not allowed to register this challenge review."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
         
 ## Challenge Reviewers Collection [/develop/reviewers/{contestType}]
 ### List reviewers of current challenge type [GET]

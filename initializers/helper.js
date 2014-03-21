@@ -5,9 +5,9 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv
- * @version 1.13
- * changes in 1.15
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, TCSASSEMBLER
+ * @version 1.16
+ * changes in 1.1
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -48,6 +48,8 @@
  * - add method checkMember to check if the caller have at least member access leve.
  * changes in 1.15
  * - added checkUserExists function
+ * Changes in 1.16:
+ * - add allTermsAgreed method.
  */
 "use strict";
 
@@ -928,9 +930,9 @@ helper.getPhaseId = function (phaseName) {
  */
 helper.getColorStyle = function (rating) {
 
-	if (rating === null) {
-		 return "color: #000000";
-	}
+    if (rating === null) {
+        return "color: #000000";
+    }
 
     if (rating < 0) {
         return "color: #FF9900"; // orange
@@ -1132,6 +1134,18 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     });
 };
 
+/**
+ * check if the every terms has been agreed
+ *
+ * @param {Array} terms - The terms.
+ * @returns {Boolean} true if all terms agreed otherwise false.
+ * @since 1.16
+ */
+helper.allTermsAgreed = function (terms) {
+    return _.every(terms, function (term) {
+        return term.agreed;
+    });
+};
 
 /**
 * Expose the "helper" utility.

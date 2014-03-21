@@ -1,0 +1,5 @@
+{
+    "name"    : "update_review_application",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "update_review_application"
+}
