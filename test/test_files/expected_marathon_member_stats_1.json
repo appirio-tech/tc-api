@@ -21,6 +21,7 @@
     "History": [
         {
             "challengeId": 15801,
+            "challengeName": "TCO13 Championship Round",
             "date": "2013.11.11",
             "rating": 1500,
             "placement": 6,
@@ -28,6 +29,7 @@
         },
         {
             "challengeId": 100004,
+            "challengeName": "Marathon Match 79",
             "date": "2013.11.11",
             "rating": 800,
             "placement": 2,
@@ -35,6 +37,7 @@
         },
         {
             "challengeId": 100001,
+            "challengeName": "Marathon Match 81",
             "date": "2013.11.11",
             "rating": 2183,
             "placement": 5,
@@ -42,6 +45,7 @@
         },
         {
             "challengeId": 100002,
+            "challengeName": "Marathon Match 80",
             "date": "2013.11.11",
             "rating": 1300,
             "placement": 4,
@@ -49,6 +53,7 @@
         },
         {
             "challengeId": 100005,
+            "challengeName": "2013 TCO Marathon Round 1",
             "date": "2013.11.11",
             "rating": 1200,
             "placement": 1,
@@ -56,6 +61,7 @@
         },
         {
             "challengeId": 100003,
+            "challengeName": "2013 TCO Marathon Round 2",
             "date": "2013.11.11",
             "rating": 2345,
             "placement": 3,
