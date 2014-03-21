@@ -1,6 +1,6 @@
 SELECT
   rr.round_id AS challenge_id
-, r.short_name
+, r.short_name AS challenge_name
 , to_char(cal.date, '%Y.%m.%d') AS date
 , NVL(rr.new_rating, rr.old_rating) AS rating
 , crh.rank AS placement
