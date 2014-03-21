@@ -60,6 +60,9 @@ describe('Challenge Registration API', function () {
             },
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "common_oltp__clean", "common_oltp", cb);
+            },
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "informixoltp__clean", "informixoltp", cb);
             }
         ], done);
     }
@@ -77,6 +80,9 @@ describe('Challenge Registration API', function () {
             },
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__insert_test_data", "tcs_catalog", cb);
+            },
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "informixoltp__insert_test_data", "informixoltp", cb);
             }
         ], done);
     });
