@@ -1,0 +1,18 @@
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124764', 124764, 1, 'user124764');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124772', 124772, 1, 'user124772');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124766', 124766, 1, 'user124766');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124776', 124776, 1, 'user124776');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124834', 124834, 1, 'user124834');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124852', 124852, 1, 'user124852');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124835', 124835, 1, 'user124835');
+
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124853', 124853, 1, 'user124853');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124856', 124856, 1, 'user124856');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124857', 124857, 1, 'user124857');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124861', 124861, 1, 'user124861');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124916', 124916, 1, 'user124916');
+
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb132456', 132456, 1, 'user132456');
+
+-- lightspeed is a studio admin
+INSERT INTO user_role_xref(user_role_id,login_id,role_id,create_user_id,security_status_id) VALUES (654001, 124834, 2040, 132458, 1);

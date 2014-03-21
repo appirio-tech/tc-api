@@ -1148,3 +1148,71 @@ exports.validateHandle = {
         }); 
     }
 }; // validateHandle
+
+/**
+ * The API for validate social.
+ */
+exports.validateSocial = {
+    name: "validateSocial",
+    description: "validateSocial",
+    inputs: {
+        required: ["socialProviderId", "socialUserId"],
+        optional: []
+    },
+    blockedConnectionTypes : [],
+    outputExample : {},
+    version : 'v2',
+    transaction : 'read',
+    databases : ["common_oltp"],
+    run: function (api, connection, next) {
+        var helper = api.helper,
+            socialProviderId = connection.params.socialProviderId,
+            socialUserId = connection.params.socialUserId,
+            dbConnectionMap = connection.dbConnectionMap,
+            result,
+            checkResult;
+
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+
+        async.waterfall([
+            function (cb) {
+                checkResult = validateSocialProviderId(socialProviderId);
+                if (checkResult !== null) {
+                    cb(new IllegalArgumentError(checkResult));
+                    return;
+                }
+                isSoicalProviderIdValid(socialProviderId, api, dbConnectionMap, function (err, result) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        if (result !== true) {
+                            cb(new BadRequestError("Social provider id is not valid."));
+                        } else {
+                            cb(null);
+                        }
+                    }
+                });
+            }, function(cb) {
+                checkResult = validateSocialUserId(socialUserId);
+                if (checkResult !== null) {
+                    cb(new IllegalArgumentError(checkResult));
+                    return;
+                }
+                isSoicalLoginExisted(socialProviderId, socialUserId, api, dbConnectionMap, function (err, existed) {
+                    result = { available: existed };
+                    cb(err);
+                });
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
+    }
+}; // validateSocial

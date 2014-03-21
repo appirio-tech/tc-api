@@ -153,6 +153,8 @@ exports.routes = {
 
         { path: "/:apiVersion/users/validateEmail", action: "emailValidation" },
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
+        { path: "/:apiVersion/users/validateSocial", action: "validateSocial" },
+
         { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },

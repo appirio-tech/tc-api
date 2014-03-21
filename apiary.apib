@@ -985,6 +985,43 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Validate Social [/users/validateSocial?socialProviderId={socialProviderId}&socialUserId={socialUserId}]
+### Validate Handle [GET]
+
++ Parameters
+    + socialProviderId (required, string, `1`) ... social provider id
+    + socialUserId (required, string, `fb124764`) ... social user id
+
++ Response 200 (application/json)
+
+        {
+            "available":true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description": "The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }        
 
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
