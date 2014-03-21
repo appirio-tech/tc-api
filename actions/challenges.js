@@ -1027,7 +1027,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 fileName: fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function (cb) {
+        }, function(notUsed, cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
