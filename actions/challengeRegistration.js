@@ -120,6 +120,7 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
     api.dataAccess.executeQuery("insert_resource", {
         resourceId: resourceId,
         projectId: challengeId,
+        userId: userId,
         createUser: '"' + userId + '"',
         modifyUser: '"' + userId + '"'
     },
@@ -566,9 +567,29 @@ var registerSoftwareChallengeAction = function (api, connection, next) {
         api.log("Execute registerSoftwareChallengeAction#run", 'debug');
 
         var challengeId = Number(connection.params.challengeId);
+        var sqlParams = {
+            challengeId: challengeId,
+            user_id: connection.caller.userId
+        };
+        var execQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, connection.dbConnectionMap, cbx);
+            };
+        };
         async.waterfall([
-
-            function (cb) {
+            function(cb) {
+                async.parallel({
+                    isCopilotPosting: execQuery('check_challenge_is_copilot_posting'),
+                    isCopilot: execQuery('check_is_copilot')
+                }, cb);
+            }, function(res, cb) {
+                if (res.isCopilotPosting.length > 0 && res.isCopilotPosting[0].challenge_is_copilot) {
+                    if (res.isCopilot.length === 0 || !res.isCopilot[0].user_is_copilot) {
+                        cb(new ForbiddenError('You should be a copilot before register a copilot posting.'));
+                    }
+                }
+                cb(null);
+            }, function (cb) {
                 api.challengeHelper.getChallengeTerms(
                     connection,
                     challengeId,

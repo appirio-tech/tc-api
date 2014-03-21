@@ -297,4 +297,33 @@ describe('Challenge Registration API', function () {
             .expect(403, done);
     });
 
+
+    // Only copilot can register copilot posting.
+    it('User is not copilot', function (done) {
+        supertest(API_ENDPOINT)
+            .post("/v2/challenges/40000003/register")
+            .set('Accept', 'application/json')
+            .set('Authorization', getAuthHeader(user12))
+            .expect('Content-Type', /json/)
+            .expect(403, done);
+    });
+
+    // Check if the data are in expected structure and data
+    // It's a copilot posting challenge.
+    it('User register a copilot posting challenge', function (done) {
+        supertest(API_ENDPOINT)
+            .post("/v2/challenges/40000003/register")
+            .set('Accept', 'application/json')
+            .set('Authorization', getAuthHeader(user11))
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, result) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                console.log('Registration completed. Now verify the database is the same as predicted data');
+                validateDatabaseForDevelop(done);
+            });
+    });
 });
