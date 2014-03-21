@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.12
- * @author Sky_, Ghost_141, muzehyun, hesibo, isv
+ * @version 1.13
+ * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -31,6 +31,8 @@
  * - moved checkUserExists function to /initializers/helper.js and replaced all calls to checkUserExists with
  * -  call to api.helper.checkUserExists
  * - removed unused import for IllegalArgumentError
+ * changes in 1.13
+ * - add getCopilotStatistics API.
  */
 "use strict";
 var async = require('async');
@@ -281,8 +283,8 @@ function mapDistribution(rows) {
 }
 
 /**
-* The API for getting marathon statistics
-*/
+ * The API for getting marathon statistics
+ */
 exports.getMarathonStatistics = {
     name: "getMarathonStatistics",
     description: "getMarathonStatistics",
@@ -948,5 +950,101 @@ exports.getRecentWinningDesignSubmissions = {
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
+    }
+};
+
+
+/**
+ * The API for getting copilot Statistics.
+ *
+ * @since 1.13
+ */
+exports.getCopilotStatistics = {
+    name: "getCopilotStatistics",
+    description: "getCopilotStatistics",
+    inputs: {
+        required: ["handle"],
+        optional: ["track"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "topcoder_dw"],
+    run: function (api, connection, next) {
+        api.log("Execute getCopilotStats#run", 'debug');
+        var dbConnectionMap = connection.dbConnectionMap,
+            handle = connection.params.handle,
+            track = connection.params.track,
+            helper = api.helper,
+            sqlParams = {
+                handle: handle
+            },
+            result = {
+                handle: handle,
+                Tracks: {}
+            };
+        if (!connection.dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+        async.waterfall([
+            function (cb) {
+                // check track
+                if (_.isDefined(track)) {
+                    cb(helper.checkTrackName(track.toLowerCase(), false));
+                } else {
+                    cb();
+                }
+            }, function (cb) {
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var execQuery = function (name, cbx) {
+                        api.dataAccess.executeQuery(name,
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    }, phaseIds = _.isDefined(track) ?  [helper.getPhaseId(track)] :
+                        _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
+                    challengeTypes = _.map(phaseIds, function (item) {
+                        return item - 111;
+                    });
+
+                sqlParams.phaseIds = phaseIds;
+                sqlParams.challengeTypes = challengeTypes;
+
+                execQuery("get_software_member_statistics_copilot", cb);
+            }, function (results, cb) {
+                results.forEach(function (track) {
+                    if (track.completed_contests === 0) {
+                        return;
+                    }
+                    if (!result.Tracks[track.category_name]) {
+                        result.Tracks[track.category_name] = {};
+                    }
+                    var data = result.Tracks[track.category_name], copilotFulfillment;
+                    if (data) {
+                        if (track.completed_contests !== 0) {
+                            data.copilotCompletedContests = track.completed_contests;
+                            data.copilotRepostedContests = track.reposted_contests;
+                            data.copilotFailedContests = track.failed_contests;
+                            copilotFulfillment = 1 - data.copilotFailedContests / data.copilotCompletedContests;
+                            data.copilotFulfillment = _.getPercent(copilotFulfillment, 0);
+                        }
+                    } else {
+                        api.log("unable to update copilot data. no track data for handle " + handle + " for track " + track, "warning");
+                    }
+                });
+
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
     }
 };

@@ -1,0 +1,95 @@
+{
+    "handle": "heffan",
+    "Tracks": {
+        "Design": {
+            "copilotCompletedContests": 2,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 1,
+            "copilotFulfillment": "50%"
+        },
+        "Development": {
+            "copilotCompletedContests": 5,
+            "copilotRepostedContests": 1,
+            "copilotFailedContests": 5,
+            "copilotFulfillment": "0%"
+        },
+        "Specification": {
+            "copilotCompletedContests": 5,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 5,
+            "copilotFulfillment": "0%"
+        },
+        "Bug Hunt": {
+            "copilotCompletedContests": 3,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 3,
+            "copilotFulfillment": "0%"
+        },
+        "Test Suites": {
+            "copilotCompletedContests": 2,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 2,
+            "copilotFulfillment": "0%"
+        },
+        "Assembly Competition": {
+            "copilotCompletedContests": 3,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 1,
+            "copilotFulfillment": "67%"
+        },
+        "UI Prototypes": {
+            "copilotCompletedContests": 8,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 7,
+            "copilotFulfillment": "13%"
+        },
+        "Conceptualization": {
+            "copilotCompletedContests": 1,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 1,
+            "copilotFulfillment": "0%"
+        },
+        "RIA Build": {
+            "copilotCompletedContests": 3,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 3,
+            "copilotFulfillment": "0%"
+        },
+        "RIA Component": {
+            "copilotCompletedContests": 1,
+            "copilotRepostedContests": 1,
+            "copilotFailedContests": 1,
+            "copilotFulfillment": "0%"
+        },
+        "Test Scenarios": {
+            "copilotCompletedContests": 5,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 4,
+            "copilotFulfillment": "20%"
+        },
+        "Copilot Posting": {
+            "copilotCompletedContests": 4,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 4,
+            "copilotFulfillment": "0%"
+        },
+        "Content Creation": {
+            "copilotCompletedContests": 3,
+            "copilotRepostedContests": 1,
+            "copilotFailedContests": 3,
+            "copilotFulfillment": "0%"
+        },
+        "Reporting": {
+            "copilotCompletedContests": 3,
+            "copilotRepostedContests": 1,
+            "copilotFailedContests": 3,
+            "copilotFulfillment": "0%"
+        },
+        "Code": {
+            "copilotCompletedContests": 2,
+            "copilotRepostedContests": 0,
+            "copilotFailedContests": 2,
+            "copilotFulfillment": "0%"
+        }
+    }
+}
