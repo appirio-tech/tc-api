@@ -38,9 +38,9 @@ var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'g
 var calculateCacheKey = function (api, connection) {
     var key = '', userId = connection.caller.userId || 0;
     if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-        key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+        key = "actions-" + connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
     } else {
-        key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+        key = "actions-" + connection.action + '-' + api.helper.createCacheKey(connection, false);
     }
     return key;
 };

@@ -1106,7 +1106,7 @@ helper.checkTrackName = function (track, isStudio) {
  */
 helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     // Check cache first
-    var cacheKey = handle;
+    var cacheKey = "users-" + handle;
     api.helper.getCachedValue(cacheKey, function (err, exists) {
         if (!exists) {
             // If there is no hit in cache then query DB to check user account for existence and cache positive result 
