@@ -53,7 +53,7 @@ config.general = {
     serverName : "TopCoder API",
     // id: "myActionHeroServer",                                    // id can be set here, or it will be generated dynamically.  Be sure that every server you run has a unique ID (which will happen when genrated dynamically)
     serverToken : "not-used",                                       // A unique token to your application that servers will use to authenticate to each other
-    welcomeMessage : "Hello! Welcome to the TopCoder API",          // The welcome message seen by TCP and webSocket clients upon connection
+    welcomeMessage : "Hello! Welcome to the [topcoder] API",          // The welcome message seen by TCP and webSocket clients upon connection
     flatFileNotFoundMessage : "Sorry, that file is not found :(",   // The body message to accompany 404 (file not found) errors regading flat files
     serverErrorMessage : "The server experienced an internal error",// The message to accompany 500 errors (internal server errors)
     defaultChatRoom : "default",                                // The chatRoom that TCP and webSocket clients are joined to when the connect
