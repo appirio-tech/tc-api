@@ -973,15 +973,6 @@ helper.checkDateFormat = function (date, format, objName) {
 };
 
 /**
- * Format the date to a specific pattern.
- * @param {String} date - the date value.
- * @param {String} format - the date format pattern.
- */
-helper.formatDate = function (date, format) {
-    return moment(date).format(format);
-};
-
-/**
  * Check whether given user is Admin or not
  * @param connection
  * @return {Error} if user is not admin
@@ -1080,7 +1071,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return moment(date).format(format);
+        return moment(date).utc().format(format);
     }
     return '';
 };
