@@ -1202,7 +1202,7 @@ exports.validateSocial = {
                     return;
                 }
                 isSoicalLoginExisted(socialProviderId, socialUserId, api, dbConnectionMap, function (err, existed) {
-                    result = { available: existed };
+                    result = { available: !existed };
                     cb(err);
                 });
             }
