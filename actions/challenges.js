@@ -1245,6 +1245,7 @@ exports.getChallengeTerms = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
+	cacheEnabled : false,
     databases : ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
