@@ -1,6 +1,5 @@
-SELECT 
-  temp_table.rating AS reviewer_rating
-, pc.project_category_id AS category_id
+SELECT
+  pc.project_category_id AS category_id
 , pc.name AS category_name
 , (SELECT 
   COUNT(*) 
@@ -29,28 +28,7 @@ SELECT
 ) AS reposted_contests
 FROM
 project_category_lu pc
-LEFT JOIN (
-  SELECT 
-  p.project_id, 
-  rr.rating, 
-  rr.review_date,
-  p.project_category_id,
-  u.user_id
-  FROM
-  reviewer_rating rr 
-  , project p 
-  , user u
-  WHERE
-  p.project_id = rr.project_id
-  AND rr.user_id = u.user_id
-  AND u.handle_lower = LOWER('@handle@')
-  AND p.project_category_id IN (@challengeTypes@)
-) temp_table ON temp_table.project_category_id = pc.project_category_id 
 JOIN user usr on usr.handle_lower = LOWER('@handle@')
-WHERE (temp_table.review_date = 
-       (SELECT max(rr1.review_date) FROM reviewer_rating rr1 INNER JOIN project p1 ON p1.project_id = rr1.project_id 
-        AND p1.project_category_id = pc.project_category_id AND p1.project_category_id IN (@challengeTypes@))
-       OR temp_table.review_date IS NULL)
 AND pc.project_type_id IN (1, 2) 
 AND pc.project_category_id IN (@challengeTypes@)
 AND display = 't'
