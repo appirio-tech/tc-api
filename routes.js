@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.17
+ * @version 1.19
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
@@ -41,10 +41,12 @@
  * - added routes for getting studio and software checkpoints
  * Changes in 1.16:
  * - added routes for validate handle
- * changes in 1.16:
- * - Combine Challenge Registration API(BUGR-11058)
  * changes in 1.17:
+ * - Combine Challenge Registration API(BUGR-11058)
+ * changes in 1.18:
  * - added routes for data platforms and technologies
+ * Changes in 1.19:
+ * - add route for register marathon match challenge api.
  */
 
 /* ---------------------
@@ -182,6 +184,7 @@ exports.routes = {
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
-        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" },
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" }
     ]
 };

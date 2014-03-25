@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
- * @version 1.12
+ * @version 1.13
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -41,6 +41,8 @@
  * - update method getSortColumnDBName to lowercase the column name when search it.
  * - update checkFilterDate to use checkDateFormat to check date value.
  * - add method formatDate.
+ * Changes in 1.13
+ * - add checkMember method to check if the user have at least member access level.
  */
 "use strict";
 
@@ -963,6 +965,21 @@ helper.checkAdmin = function (connection) {
         return null;
     }
     return new ForbiddenError();
+};
+
+/**
+ * Check if the caller of this connection is at least member access level.
+ * @param {Object} connection - the connection object.
+ * @param {String} unauthorizedErrorMessage - the unauthorized error message.
+ * @returns {Object} the unauthorized error if the caller is anonymous.
+ * @since 1.13
+ */
+helper.checkMember = function (connection, unauthorizedErrorMessage) {
+    var caller = connection.caller;
+    if (!helper.isMember(caller)) {
+        return new UnauthorizedError(unauthorizedErrorMessage);
+    }
+    return null;
 };
 
 /**

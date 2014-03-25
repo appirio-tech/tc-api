@@ -1,0 +1,1 @@
+INSERT INTO long_comp_result (round_id, coder_id, attended) values (@round_id@, @user_id@, '@attended@')

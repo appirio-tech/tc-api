@@ -1,0 +1,5 @@
+{
+    "name"    : "get_round_event_info",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_round_event_info"
+}
