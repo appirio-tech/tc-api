@@ -985,6 +985,43 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Validate Social [/users/validateSocial?socialProviderId={socialProviderId}&socialUserId={socialUserId}]
+### Validate Handle [GET]
+
++ Parameters
+    + socialProviderId (required, string, `1`) ... social provider id
+    + socialUserId (required, string, `fb124764`) ... social user id
+
++ Response 200 (application/json)
+
+        {
+            "available":true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description": "The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }        
 
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
@@ -1413,11 +1450,7 @@ Register a new user.
                     "averageScore": 95.64,
                     "averagePlacement": 3.19,
                     "wins": 21,
-                    "winPercentage": "58.33%",
-                    "copilotCompletedContests": 300,
-                    "copilotRepostedContests": 300,
-                    "copilotFailedContests": 300,
-                    "copilotFulfillment": "90%"
+                    "winPercentage": "58.33%"
                 ],
                 "Assembly":
                 [
@@ -1445,11 +1478,7 @@ Register a new user.
                     "averageScore": 95.64,
                     "averagePlacement": 3.19,
                     "wins": 21,
-                    "winPercentage": "58.33%",
-                    "copilotCompletedContests": 300,
-                    "copilotRepostedContests": 300,
-                    "copilotFailedContests": 300,
-                    "copilotFulfillment": "90%"
+                    "winPercentage": "58.33%"
                 ]
             }
         }
@@ -4030,6 +4059,147 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Register Marathon Match Challenge [/data/marathon/challenges/{roundId}/register]
+### Register Marathon Match Challenge [POST]
+
++ Parameters
+    + roundId (required, number, `30000000`) ... The challenge round id.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+        {
+            success: true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You are not eligible to participate in this competition."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Round doesn't exist 30005520."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"In order to participate in this competition, you must register for <font color=\"red\">Event 30005520</font>. Registration is available: <a href=\"www.topcoder.com\">here</a>. Please register at the provided URL first and then repeat registration at Marathon Match Active Contests page."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You are not eligible to participate in this competition."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You already registered for this challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Registration is not currently open."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You are not eligible to participate in this competition. Please contact support@topcoder.com if you have any questions."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Sorry, this round is by invitation only."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Sorry, you can not register for this round, you must compete in the version of this round that you were invited to."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There are no more spots available for the round."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorization information needed or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The user is forbidden to access this endpoint."
+        }
+
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 ## Algorithm Member Marathon Statistics [/users/{handle}/statistics/data/marathon]
 ### Algorithm Member Marathon Statistics [GET]
 
@@ -5097,19 +5267,19 @@ Register a new user.
 
 + Response 500 (application/json)
 
-    {
-        "name":"Internal Server Error",
-        "value":"500",
-        "description":"Unknown server error. Please contact support."
-    }
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
 
 + Response 503 (application/json)
 
-    {
-        "name":"Service Unavailable",
-        "value":"503",
-        "description":"Servers are up but overloaded. Try again later."
-    }
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## Check Email Availability [/users/validateEmail?email={email}]
 ### Check Email Availability [GET]
@@ -5135,6 +5305,68 @@ Register a new user.
 
 + Response 503 (application/json)
 
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Software Copilot Statistics [/copilots/{handle}/statistics/develop?track={track}]
+### Software Copilot Statistics [GET]
+
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+    + track (optional, string, 'development') ... The track name
+
++ Response 200 (application/json)
+
+        {
+            "handle": "iRabbit",
+            "Tracks":
+            {
+                "Development":
+                [
+                    "copilotCompletedContests": 300,
+                    "copilotRepostedContests": 300,
+                    "copilotFailedContests": 300,
+                    "copilotFulfillment": "90%"
+                ],
+                "Assembly":
+                [
+                    "copilotCompletedContests": 300,
+                    "copilotRepostedContests": 300,
+                    "copilotFailedContests": 300,
+                    "copilotFulfillment": "90%"
+                ]
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
 
         {
             "name":"Service Unavailable",

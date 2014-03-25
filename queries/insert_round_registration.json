@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_round_registration",
+    "db"      : "informixoltp",
+    "sqlfile" : "insert_round_registration"
+}

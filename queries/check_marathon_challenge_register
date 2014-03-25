@@ -1,0 +1,93 @@
+SELECT
+  (
+    SELECT 1
+    FROM user u
+    WHERE u.user_id = @user_id@
+    AND u.status = 'A'
+  ) AS is_activated -- Check if the user is a activated user.
+, (
+    SELECT 1
+    FROM round
+    WHERE round_id = @round_id@
+  ) AS is_round_exists -- Check if the round is existed.
+, (
+    SELECT 1
+    FROM round_event re
+    WHERE re.round_id= @round_id@
+  ) AS is_round_event_existed -- Check if there is an event for this round.
+, (
+    SELECT
+      eligible_ind
+    FROM event_registration re
+    INNER JOIN round_event e ON e.event_id = re.event_id
+    WHERE re.user_id = @user_id@
+    AND e.round_id = @round_id@
+  ) AS is_event_eligibility -- Check if the event for this round is eligibility.
+, (
+    SELECT 1
+    FROM round_registration
+    WHERE coder_id = @user_id@
+    AND round_id = @round_id@
+  ) AS is_round_registered -- Check if the caller is already registered this round.
+, (
+    SELECT 1
+    FROM round_segment rs
+    WHERE rs.segment_id = 1
+    AND rs.round_id = @round_id@
+    AND current BETWEEN rs.start_time AND rs.end_time
+  ) AS is_round_registration_open -- Check if the registration phase is still open for this round.
+, (SELECT 1
+   FROM user_address_xref uax
+   , address a
+   , country c
+   WHERE uax.user_id=@user_id@
+   AND uax.address_id=a.address_id
+   AND a.country_code=c.country_code
+   AND c.country_code IN (192, 364, 410, 736, 760)
+  ) AS is_country_not_eligible_1 -- Check if the user in the not eligible country query 1.
+, (SELECT 1
+   FROM informixoltp:coder cd
+   , country cc
+   WHERE cd.comp_country_code = cc.country_code
+   AND cd.coder_id = @user_id@
+   AND cc.country_code IN (192, 364, 410, 736, 760)
+  ) AS is_country_not_eligible_2 -- Check if the user in the not eligible country query 2.
+, (SELECT 1 FROM round WHERE invitational = 1 AND round_id = @round_id@) AS is_require_invitation -- Check if the round require inviation to register.
+, (SELECT 1 FROM invite_list WHERE round_id = @round_id@ AND coder_id = @user_id@) AS is_invited -- Check if the user is invited to register this round.
+, (
+    SELECT 1
+    FROM round r1
+    , round r2
+    , round_segment rs1
+    , round_segment rs2
+    , round_component rc1
+    , round_component rc2
+    , invite_list il
+    WHERE r1.round_type_id = 13
+    AND r1.round_id <> r2.round_id
+    AND r1.invitational <> 1
+    AND r2.invitational = 1
+    AND r2.round_type_id = 13
+    AND r1.round_id = rs1.round_id
+    AND r2.round_id = rs2.round_id
+    AND rs1.segment_id = 2
+    AND rs2.segment_id = 2
+    AND rs1.start_time = rs2.start_time
+    AND rs2.end_time = rs1.end_time
+    AND rc1.round_id = r1.round_id
+    AND rc2.round_id = r2.round_id
+    AND rc1.component_id = rc2.component_id
+    AND il.round_id = r2.round_id
+    AND il.coder_id = @user_id@
+    AND r1.round_id = @round_id@
+  ) AS is_parallel_round -- Check if this round is a parallel round.
+, (SELECT registration_limit FROM round WHERE round_id = @round_id@) AS round_registration_limit -- The limit of this round registration.
+, (SELECT COUNT(*) FROM round_registration WHERE round_id = @round_id@) AS current_registration_count -- The current count number for round registration.
+, (
+    SELECT
+      1
+    FROM algo_rating
+    WHERE coder_id = @user_id@
+    AND algo_rating_type_id = 1
+  ) AS is_rated -- Check if the user is rated or not. 
+FROM dual

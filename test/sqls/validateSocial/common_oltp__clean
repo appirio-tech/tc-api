@@ -1,0 +1,2 @@
+delete from user_role_xref where user_role_id = 654001;
+delete from user_social_login where user_id IN (124764, 124772, 124766, 124776, 124834, 132456, 124852, 124835, 124853, 124856, 124857, 124861, 124916);

@@ -1,0 +1,22 @@
+SELECT 
+  DISTINCT 1
+FROM user_role_xref x
+, security_perms p
+WHERE x.login_id = @user_id@
+and p.role_id = x.role_id
+and p.permission IN ('com.topcoder.web.codinginterface.longcontest.controller.request.ViewReg', 'com.topcoder.web.codinginterface.longcontest.controller.request.SubmitReg')
+and p.security_status_id = 1
+and x.security_status_id = 1
+UNION 
+SELECT 
+  DISTINCT 1
+FROM user_group_xref ugx
+, group_role_xref grx
+, security_perms p
+WHERE ugx.login_id = @user_id@
+AND ugx.group_id = grx.group_id
+and grx.role_id = p.role_id
+and p.security_status_id = 1
+and ugx.security_status_id = 1
+and grx.security_status_id = 1
+and p.permission IN ('com.topcoder.web.codinginterface.longcontest.controller.request.ViewReg', 'com.topcoder.web.codinginterface.longcontest.controller.request.SubmitReg')
