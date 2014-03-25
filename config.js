@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @version 1.13
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -27,9 +27,12 @@
  * - add challengeCommunityLink and reviewAuctionDetailLink.
  * Changes in 1.11:
  * - add cachePrefix in config.general.
- * - added designSubmissionsBasePath for design submissions 
+ * - added designSubmissionsBasePath for design submissions
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * changes in 1.13:
+ * - add jive in database mapping.
+ * - add grantForumAccess property.
  */
 "use strict";
 
@@ -80,6 +83,7 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
+    grantForumAccess : process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
     filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
@@ -240,7 +244,8 @@ config.databaseMapping = {
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW",
     "time_oltp": "TC_DB",
-    "corporate_oltp": "TC_DB"
+    "corporate_oltp": "TC_DB",
+    "jive": "TC_DB"
 };
 
 config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';

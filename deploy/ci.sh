@@ -66,4 +66,7 @@ export TIMEOUT=3000
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
+# Used in challenge registration API
+export GRANT_FORUM_ACCESS=false
+
 export ACTIONHERO_CONFIG=./config.js

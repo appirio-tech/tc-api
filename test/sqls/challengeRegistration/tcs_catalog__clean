@@ -10,6 +10,7 @@ delete from project_phase where project_id > 40000000 and project_id < 40000020;
 delete from component_inquiry where project_id > 40000000 and project_id < 40000020;
 delete from project where project_id > 40000000 and project_id < 40000020;
 delete from comp_version_dates_history where comp_vers_id > 40000000 and comp_vers_id < 40000020;
+delete from comp_jive_category_xref where jive_category_id >= 1001 and jive_category_id <= 1002;
 delete from comp_versions where component_id > 40000000 and component_id < 40000020;
 delete from comp_versions where comp_vers_id > 40000000 and comp_vers_id < 40000020;
 delete from comp_catalog where component_id > 40000000 and component_id < 40000020;

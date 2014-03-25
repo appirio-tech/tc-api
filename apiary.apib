@@ -985,7 +985,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Validate Social [/users/validateSocial?socialProviderId={socialProviderId}&socialUserId={socialUserId}]
 ### Validate Handle [GET]
 
@@ -1021,7 +1021,7 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
 
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
@@ -4975,6 +4975,24 @@ Register a new user.
             "description":"Unknown server error. Please contact support."
         }
 
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Failed to connect to forum"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Failed to grant user 124764 forum category 3 access"
+        }
+
 + Response 503 (application/json)
 
         {
@@ -5311,7 +5329,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Software Copilot Statistics [/copilots/{handle}/statistics/develop?track={track}]
 ### Software Copilot Statistics [GET]
 
@@ -5349,7 +5367,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5357,7 +5375,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
