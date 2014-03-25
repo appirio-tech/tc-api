@@ -1,0 +1,5 @@
+{
+    "name"    : "check_marathon_match_register_class_permission",
+    "db"      : "common_oltp",
+    "sqlfile" : "check_marathon_match_register_class_permission"
+}

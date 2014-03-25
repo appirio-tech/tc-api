@@ -6,8 +6,8 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv
- * @version 1.13
- * changes in 1.15
+ * @version 1.16
+ * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -48,6 +48,8 @@
  * - add method checkMember to check if the caller have at least member access leve.
  * changes in 1.15
  * - added checkUserExists function
+ * Changes in 1.16
+ * - add checkMember method to check if the user have at least member access level.
  */
 "use strict";
 
@@ -1011,10 +1013,10 @@ helper.checkMember = function (connection, unauthorizedErrorMessage) {
     if (!_.isDefined(caller) || caller.accessLevel === 'anon') {
         return new UnauthorizedError(unauthorizedErrorMessage);
     }
-    if (helper.isMember(caller)) {
-        return null;
+    if (!helper.isMember(caller)) {
+        return new UnauthorizedError(unauthorizedErrorMessage);
     }
-    return new IllegalArgumentError('Wrong auth object');
+    return null;
 };
 
 /**

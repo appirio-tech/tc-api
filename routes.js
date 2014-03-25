@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
+ * @version 1.25
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -59,6 +59,8 @@
  * - added route for check email availability api
  * changes in 1.24
  * - added stub api for reset token and reset password
+ * changes in 1.25
+ * - add route for register marathon match challenge api.
  */
 
 /* ---------------------
@@ -211,6 +213,7 @@ exports.routes = {
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
-        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" },
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" }
     ]
 };

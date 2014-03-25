@@ -1,0 +1,6 @@
+SELECT
+  re.event_id
+, re.event_name
+, re.registration_url
+FROM round_event re
+WHERE re.round_id= @round_id@

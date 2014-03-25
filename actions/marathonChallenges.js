@@ -1,19 +1,22 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author Sky_, TCSASSEMBLER, freegod
+ * @version 1.3
+ * @author Sky_, TCSASSEMBLER, freegod, Ghost_141
  * changes in 1.1:
  * - implement marathon API
  * changes in 1.2:
  * - Use empty result set instead of 404 error in get marathon challenges API.
+ * Changes in 1.3:
+ * - Implement the register marathon match challenge API.
  */
 "use strict";
 var async = require('async');
 var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
-
+var BadRequestError = require('../errors/BadRequestError');
+var ForbiddenError = require('../errors/ForbiddenError');
 
 /**
  * Represents a ListType enum
@@ -510,5 +513,167 @@ exports.getMarathonChallenge = {
             }
             next(connection, true);
         });
+    }
+};
+
+/**
+ * Register the marathon match challenge.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.3
+ */
+function registerMarathonMatchChallenge(api, connection, next) {
+    var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, roundId, sqlParams, isHighSchool,
+        execQuery = function (name) {
+            return function (cb) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cb);
+            };
+        }, caller = connection.caller;
+    roundId = Number(decodeURI(connection.params.roundId).trim());
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPositiveInteger(roundId, 'roundId') ||
+                helper.checkMaxInt(roundId, 'roundId') ||
+                helper.checkMember(connection, 'Authorization information needed or incorrect.');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                round_id: roundId,
+                user_id: caller.userId
+            };
+            // check
+            async.parallel({
+                checkResult: execQuery('check_marathon_challenge_register'),
+                eventInfo: execQuery('get_round_event_info'),
+                endPointAccessCheck: execQuery('check_marathon_match_register_class_permission')
+            }, cb);
+        },
+        function (results, cb) {
+            var checkResult = results.checkResult[0],
+                endPointAccessCheck = results.endPointAccessCheck,
+                eventInfo = results.eventInfo[0];
+            // If the user don't have the access to register end point.
+            if (endPointAccessCheck.length === 0) {
+                cb(new ForbiddenError('The user is forbidden to access this endpoint.'));
+                return;
+            }
+            // If the user is not an activated user in TopCoder system.
+            if (!checkResult.is_activated) {
+                cb(new BadRequestError('You are not eligible to participate in this competition.'));
+                return;
+            }
+            // If the roundId represent nothing.
+            if (!checkResult.is_round_exists) {
+                cb(new BadRequestError('Round doesn\'t exist ' + roundId + '.'));
+                return;
+            }
+            // If the round event existed. Dig further.
+            if (checkResult.is_round_event_existed) {
+                // if the you don't register this event.
+                if (!_.isDefined(checkResult.is_event_eligibility)) {
+                    // not register this round event.
+                    cb(new BadRequestError('In order to participate in this competition, you must register ' +
+                        'for <font color=\"red\">' + eventInfo.event_name + '</font>. Registration is available: <a ' +
+                        'href=\"' + eventInfo.registration_url + '\">here</a>. Please register at the provided URL ' +
+                        'first and then repeat registration at Marathon Match Active Contests page.'));
+                    return;
+                }
+                // If the registration of this event is not eligible.
+                if (checkResult.is_event_eligibility !== 1) {
+                    cb(new BadRequestError('You are not eligible to participate in this competition.'));
+                    return;
+                }
+            }
+            // If the caller has already reigstered for this challenge.
+            if (checkResult.is_round_registered) {
+                cb(new BadRequestError('You already registered for this challenge.'));
+                return;
+            }
+            // If the round registration is not open anymore.
+            if (!checkResult.is_round_registration_open) {
+                cb(new BadRequestError('Registration is not currently open.'));
+                return;
+            }
+            // If the caller in an uneligible country.
+            if (checkResult.is_country_not_eligible_1 || checkResult.is_country_not_eligible_2) {
+                cb(new BadRequestError('You are not eligible to participate in this competition. Please contact ' +
+                    'support@topcoder.com if you have any questions.'));
+                return;
+            }
+            // If the round require invitation and caller doesn't have one.
+            if (checkResult.is_require_invitation && !checkResult.is_invited) {
+                cb(new BadRequestError('Sorry, this round is by invitation only.'));
+                return;
+            }
+            // If the round is parallel round.
+            if (checkResult.is_parallel_round) {
+                cb(new BadRequestError('Sorry, you can not register for this round, you must compete in the ' +
+                    'version of this round that you were invited to.'));
+                return;
+            }
+            // If this challenge meets its registration limit.
+            if (checkResult.round_registration_limit <= checkResult.current_registration_count) {
+                cb(new BadRequestError('There are no more spots available for the round.'));
+                return;
+            }
+
+            _.extend(sqlParams, {
+                eligible: 1,
+                userId: caller.userId,
+                attended: 'N'
+            });
+            async.parallel({
+                roundRegistration: execQuery('insert_round_registration'),
+                roundTerms: execQuery('insert_round_terms_acceptance'),
+                algoRating: function (cbx) {
+                    if (!checkResult.is_rated) {
+                        api.dataAccess.executeQuery('add_algo_rating', sqlParams, dbConnectionMap, cbx);
+                        return;
+                    }
+                    cbx();
+                },
+                compResult: execQuery('insert_long_comp_result')
+            }, function (err) {
+                cb(err);
+            });
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = { success: true };
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The API for register marathon match challenge.
+ *
+ * @since 1.3
+ */
+exports.registerMarathonChallenge = {
+    name: 'registerMarathonChallenge',
+    description: 'register marathon match challenge',
+    inputs: {
+        required: ['roundId'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    cacheEnabled: false,
+    transaction: 'write',
+    databases: ['informixoltp', 'common_oltp'],
+    run: function (api, connection, next) {
+        if (!connection.dbConnectionMap) {
+            api.helper.handleNoConnection(api, connection, next);
+        } else {
+            api.log('Execute registerMarathonChallenge#run', 'debug');
+            registerMarathonMatchChallenge(api, connection, next);
+        }
     }
 };
