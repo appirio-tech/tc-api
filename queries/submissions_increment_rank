@@ -1,0 +1,9 @@
+UPDATE submission
+SET user_rank = user_rank + 1
+WHERE user_rank >= @minRank@
+AND upload_id IN (
+	SELECT upload_id 
+	FROM upload
+	WHERE project_id = @challengeId@
+	AND resource_id = @resourceId@
+)

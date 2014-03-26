@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.17
+ * @version 1.18
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi
  * Changes in 1.1:
  * - add routes for search challenges
@@ -45,6 +45,8 @@
  * - Combine Challenge Registration API(BUGR-11058)
  * changes in 1.17:
  * - added routes for data platforms and technologies
+ * changes in 1.18:
+ * - added route for handling design submission
  */
 
 /* ---------------------
@@ -179,6 +181,7 @@ exports.routes = {
     post: [
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },

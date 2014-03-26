@@ -1,0 +1,22 @@
+SELECT
+	pcl.project_category_id,
+	ppsub.project_phase_id as submission_phase_id,
+	ppchk.project_phase_id as checkpoint_submission_phase_id,
+	ppchk.phase_status_id = 2 as is_checkpoint_submission_open,
+	pcl.project_type_id = 3 as is_design_challenge,
+	p.project_status_id = 1 as is_active,
+	CASE WHEN ppreg.phase_status_id = 1 THEN ppreg.scheduled_start_time ELSE ppreg.actual_start_time END as start_time,
+	CASE WHEN ppsub.phase_status_id = 3 THEN ppsub.actual_end_time ELSE ppsub.scheduled_end_time END as end_time,
+	r.resource_id,
+	r.resource_id IS NOT NULL as is_user_submitter_for_challenge
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+LEFT JOIN project_phase ppsub ON ppsub.project_id = p.project_id AND ppsub.phase_type_id = 2
+LEFT JOIN project_phase ppreg ON ppreg.project_id = p.project_id AND ppreg.phase_type_id = 1
+LEFT JOIN project_phase ppchk ON ppchk.project_id = p.project_id AND ppchk.phase_type_id = 15
+LEFT JOIN (
+	resource r INNER JOIN resource_info ri 
+	ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1 AND ri.value = '@userId@'
+	AND r.resource_role_id = 1
+) ON r.project_id = p.project_id
+WHERE p.project_id = @challengeId@;

@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, TCSASSEMBLER, Ghost_141, muzehyun, kurtrips
- * @version 1.12
+ * @version 1.13
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -41,6 +41,8 @@
  * - update method getSortColumnDBName to lowercase the column name when search it.
  * - update checkFilterDate to use checkDateFormat to check date value.
  * - add method formatDate.
+ * changes in 1.13
+ * - added method to load all file types (and cache the result for further use)
  */
 "use strict";
 
@@ -1029,6 +1031,38 @@ helper.formatDate = function (date, format) {
         return moment(date).format(format);
     }
     return '';
+};
+
+/**
+ * Gets all file types and caches them.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err,fileTypes>} callback - the callback function - expects err as the first param and fileTypes as the second
+ * @since 1.13
+ */
+helper.getFileTypes = function (api, dbConnectionMap, callback) {
+    var cacheFileTypesKey = api.config.redis.cacheFileTypesKey,
+        cacheDefaultLifetime = api.config.redis.cacheDefaultLifetime;
+
+    //Load from cache and perform rolling timeout
+    api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {
+        if (!err && fileTypes !== null) {
+            //already exists in cache
+            callback(null, fileTypes);
+        } else {
+            //Either error was thrown in cache lookup or fileTypes were not found in cache. So we do the DB lookup
+            api.dataAccess.executeQuery("file_types", {}, dbConnectionMap, function (err, fileTypes) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                api.cache.save(cacheFileTypesKey, fileTypes, cacheDefaultLifetime, function (err) {
+                    //Even if there is error in saving to cache, we just ignore and call the main callback anyway
+                    callback(null, fileTypes);
+                });
+            });
+        }
+    });
 };
 
 /**

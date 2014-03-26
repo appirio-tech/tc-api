@@ -1,0 +1,5 @@
+{
+  "name" : "get_resource_submissions_max_rank",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_resource_submissions_max_rank"
+}

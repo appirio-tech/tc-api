@@ -1,0 +1,3 @@
+SELECT file_type_id, extension, image_file, bundled_file
+FROM file_type_lu
+ORDER BY sort
