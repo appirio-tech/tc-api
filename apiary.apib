@@ -2458,6 +2458,80 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Design Challenge Upload Submission [/design/challenges/{challlengeId}/submit]
+### Upload a submission [POST]
++ Request (application/json)
+
++ Parameters
+    + challlengeId (required, integer, 545464) ... The challenge id 
+    + submissionFile (required, string, `abcd.zip`) ... The submission zip 
+    + sourceFile (required, string, `efgh.zip`) ... The source zip
+	+ previewFile (required, string, `hijk.png`) ... The preview image file
+    + type (optional, string, `checkpoint`) ... The type of submission. Can be 'submission' or 'checkpoint'. If absent, 'submission' is assumed.
+	+ fonts (optional, string, `fs1||fs2||fs3`) ... Double pipe separated font sources
+	+ fontNames (optional, string, `fn1||fn2||fn3`) ... Double pipe separated font names
+	+ fontUrls (optional, string, `google.com||yahoo.com||grephouse.com`) ... Double pipe separated font urls
+	+ stockArtNames (optional, string, `sa1||sa2||sa3`) ... Double pipe separated stock art names
+	+ stockArtFileNumbers (optional, string, `fn1||fn2||fn3`) ... Double pipe separated stock art file numbers
+	+ stockArtUrls (optional, string, `google.com||yahoo.com||grephouse.com`) ... Double pipe separated font urls
+    + rank (optional, integer, 2) ... The rank of a submission
+    + comment (optional, string, `a comment`) ... optional comment
+	
++ Response 200 (application/json)
+
+        {
+            "submissionId": 10000164,
+            "uploadId": 10000163
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Top Ranked Members [/develop/statistics/tops/{contestType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked Members [GET]
 

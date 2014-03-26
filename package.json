@@ -37,7 +37,10 @@
     "moment": "~2.5.1",
     "mime": "~1.2.11",
     "xtend": "2.1.2",
-    "validator": "~3.5.0"
+    "validator": "~3.5.0",
+    "adm-zip": "0.4.4",
+    "mkdirp": "0.3.5",
+    "archiver": "~0.6.1"
   },
   "devDependencies": {
     "supertest": "0.8.1",

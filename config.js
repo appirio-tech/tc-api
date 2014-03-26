@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.13
+ * @version 1.14
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -33,6 +33,8 @@
  * changes in 1.13:
  * - add jive in database mapping.
  * - add grantForumAccess property.
+ * Changes in 1.14:
+ * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
  */
 "use strict";
 
@@ -156,7 +158,9 @@ config.redis = {
     port : process.env.REDIS_PORT || 6379,
     password : null,
     options : null,
-    DB : 0
+    DB : 0,
+    cacheFileTypesKey: "file_types",
+    cacheDefaultLifetime: 1000 * 60 * 60 * 24
 };
 
 //////////
@@ -286,8 +290,10 @@ config.thurgoodTimeout = 5000;
 //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
 config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 
-//The base folder for design submission files
-config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
+//The base directory for design submission files. This directory must exist.
+config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions/';
+//The temporary directory for creating unified zip file
+config.designSubmissionTmpPath = process.env.DESIGN_SUBMISSIONS_TMP_PATH || 'test/tmp/design_tmp_submissions/';
 
 //////////////////////////////////
 

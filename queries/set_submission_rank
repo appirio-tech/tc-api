@@ -1,0 +1,1 @@
+UPDATE submission SET user_rank = @userRank@ WHERE submission_id = @submissionId@
