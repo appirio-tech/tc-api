@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @version 1.14
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -27,9 +27,14 @@
  * - add challengeCommunityLink and reviewAuctionDetailLink.
  * Changes in 1.11:
  * - add cachePrefix in config.general.
- * - added designSubmissionsBasePath for design submissions 
+ * - added designSubmissionsBasePath for design submissions
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * changes in 1.13:
+ * - add jive in database mapping.
+ * - add grantForumAccess property.
+ * Changes in 1.14:
+ * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
  */
 "use strict";
 
@@ -50,7 +55,7 @@ config.general = {
     serverName : "TopCoder API",
     // id: "myActionHeroServer",                                    // id can be set here, or it will be generated dynamically.  Be sure that every server you run has a unique ID (which will happen when genrated dynamically)
     serverToken : "not-used",                                       // A unique token to your application that servers will use to authenticate to each other
-    welcomeMessage : "Hello! Welcome to the TopCoder API",          // The welcome message seen by TCP and webSocket clients upon connection
+    welcomeMessage : "Hello! Welcome to the [topcoder] API",          // The welcome message seen by TCP and webSocket clients upon connection
     flatFileNotFoundMessage : "Sorry, that file is not found :(",   // The body message to accompany 404 (file not found) errors regading flat files
     serverErrorMessage : "The server experienced an internal error",// The message to accompany 500 errors (internal server errors)
     defaultChatRoom : "default",                                // The chatRoom that TCP and webSocket clients are joined to when the connect
@@ -80,6 +85,8 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
+    grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
+    devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
@@ -152,7 +159,9 @@ config.redis = {
     port : process.env.REDIS_PORT || 6379,
     password : null,
     options : null,
-    DB : 0
+    DB : 0,
+    cacheFileTypesKey: "file_types",
+    cacheDefaultLifetime: 1000 * 60 * 60 * 24
 };
 
 //////////
@@ -240,7 +249,8 @@ config.databaseMapping = {
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW",
     "time_oltp": "TC_DB",
-    "corporate_oltp": "TC_DB"
+    "corporate_oltp": "TC_DB",
+    "jive": "TC_DB"
 };
 
 config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
@@ -281,8 +291,10 @@ config.thurgoodTimeout = 5000;
 //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
 config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 
-//The base folder for design submission files
-config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
+//The base directory for design submission files. This directory must exist.
+config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions/';
+//The temporary directory for creating unified zip file
+config.designSubmissionTmpPath = process.env.DESIGN_SUBMISSIONS_TMP_PATH || 'test/tmp/design_tmp_submissions/';
 
 //////////////////////////////////
 

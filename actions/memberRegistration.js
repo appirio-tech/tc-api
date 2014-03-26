@@ -105,12 +105,12 @@ var PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 /**
  * The activation email subject.
  */
-var activationEmailSubject = "Topcoder User Registration Activation";
+var activationEmailSubject = "[topcoder] User Registration Activation";
 
 /**
  * The activation email sender name.
  */
-var activationEmailSenderName = "Topcoder API";
+var activationEmailSenderName = "[topcoder] API";
 
 /**
  * this is the random int generator class

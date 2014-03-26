@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild
- * @version 1.17
+ * @version 1.18
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -51,6 +51,8 @@
  * Changes in 1.16
  * - add checkMember method to check if the user have at least member access level.
  * Changes in 1.17
+ * - added method to load all file types (and cache the result for further use)
+ * Changes in 1.18
  * - add checkRefresh method to check if the request is force refresh request.
  */
 "use strict";
@@ -1159,6 +1161,37 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     });
 };
 
+/**
+ * Gets all file types and caches them.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err,fileTypes>} callback - the callback function - expects err as the first param and fileTypes as the second
+ * @since 1.13
+ */
+helper.getFileTypes = function (api, dbConnectionMap, callback) {
+    var cacheFileTypesKey = api.config.redis.cacheFileTypesKey,
+        cacheDefaultLifetime = api.config.redis.cacheDefaultLifetime;
+
+    //Load from cache and perform rolling timeout
+    api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {
+        if (!err && fileTypes !== null) {
+            //already exists in cache
+            callback(null, fileTypes);
+        } else {
+            //Either error was thrown in cache lookup or fileTypes were not found in cache. So we do the DB lookup
+            api.dataAccess.executeQuery("file_types", {}, dbConnectionMap, function (err, fileTypes) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                api.cache.save(cacheFileTypesKey, fileTypes, cacheDefaultLifetime, function (err) {
+                    //Even if there is error in saving to cache, we just ignore and call the main callback anyway
+                    callback(null, fileTypes);
+                });
+            });
+        }
+    });
+};
 
 /**
 * Expose the "helper" utility.

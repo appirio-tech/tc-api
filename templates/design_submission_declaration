@@ -1,0 +1,19 @@
+Note:
+<%= comment %>
+
+Fonts:
+<%
+_.each(fontsExternalContent, function(font, index) {%>
+<%= index+1 %>. Font Name....:<%= font.name %>
+	Font URL.....:<%= font.url %><%
+});
+%>
+
+Stock Arts:
+<%
+_.each(sasExternalContent, function(stockArt, index) {%>
+<%= index+1 %>. Stock Art Name.........:<%= stockArt.name %>
+	Stock Art URL..........:<%= stockArt.url %>
+	Stock Art File Number..:<%= stockArt.fileNumber %><%
+});
+%>

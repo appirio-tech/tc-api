@@ -4,3 +4,6 @@ pids
 deploy/prod.sh
 node_modules
 test/tmp/submissions/*.zip
+test/tmp/design_submissions/*.zip
+test/tmp/design_tmp_submissions/*.zip
+
