@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author vangavroche, TCSASSEMBLER
  * changes in 1.1:
  * - add cache support (add preCacheProcessor and postCacheProcessor)
@@ -10,6 +10,8 @@
  * - new oauth authentication middleware
  * - remove authorize, oauthProcessor, getHeader
  * - add authorizationPreProcessor
+ * changes in 1.3:
+ * - add force refresh check for preCacheProcessor
  */
 "use strict";
 
@@ -287,7 +289,13 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key = calculateCacheKey(api, connection);
+        var key, forceRefresh;
+        forceRefresh = api.helper.checkRefresh(connection);
+        key = calculateCacheKey(api, connection);
+        if (forceRefresh) {
+            postThrottleProcessor(connection, actionTemplate, false, next);
+            next(connection, true);
+        }
 
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {
