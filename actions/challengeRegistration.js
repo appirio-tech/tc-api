@@ -601,7 +601,7 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
                 },
                 function (cb) {
                     //Registration time
-                    persistResourceInfo(api, resourceId, 6, moment().format("MM.dd.yyyy hh:mm aa"), userId, dbConnectionMap, cb);
+                    persistResourceInfo(api, resourceId, 6, moment().format("MM.DD.YYYY hh:mm A"), userId, dbConnectionMap, cb);
                 },
                 function (cb) {
                     //payments.
