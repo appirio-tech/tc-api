@@ -473,14 +473,14 @@ var getActiveForumCategoryId = function (api, componentInfo, challengeId, dbConn
  */
 var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
 
-    if (activeForumCategoryId === null) {
-        api.log('Could not find forum category ' + activeForumCategoryId, 'error');
-        next(new Error('Could not find forum category ' + activeForumCategoryId));
+    if (api.config.general.grantForumAccess !== true) {
+        next();
         return;
     }
 
-    if (api.config.general.grantForumAccess !== true) {
-        next();
+    if (activeForumCategoryId === null) {
+        api.log('Could not find forum category ' + activeForumCategoryId, 'error');
+        next(new Error('Could not find forum category ' + activeForumCategoryId));
         return;
     }
 
