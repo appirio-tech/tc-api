@@ -5,7 +5,8 @@
  * @author ecnu_haozi, TCSASSEMBLER
  *
  * changes in 1.1:
- * Add verification for integration the forums operation(Module Assembly - Integrating Forums Wrapper with Challenge Registration API)
+ * -- Add verification for integration the forums operation(Module Assembly - Integrating Forums Wrapper with Challenge Registration API)
+ * -- verify forum only if grantForumAccess is true
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -26,6 +27,7 @@ var TEST_FILE_DIR = "test/test_files/";
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
+var grantForumAccess = require('../config').config.general.grantForumAccess;
 /**
  * Objects and values required for generating the OAuth token
  */
@@ -59,6 +61,10 @@ describe('Challenge Registration API', function () {
     function clearDb(done) {
         async.waterfall([
             function (cb) {
+                if (grantForumAccess !== true) {
+                    cb();
+                    return;
+                }
                 testHelper.runSqlFile(SQL_DIR + "jive__clean", "jive", cb);
             },
             function (cb) {
@@ -82,6 +88,10 @@ describe('Challenge Registration API', function () {
         async.waterfall([
             clearDb,
             function (cb) {
+                if (grantForumAccess !== true) {
+                    cb();
+                    return;
+                }
                 testHelper.runSqlFile(SQL_DIR + "jive__insert_test_data", "jive", cb);
             },
             function (cb) {
@@ -171,6 +181,10 @@ describe('Challenge Registration API', function () {
                 );
             },
             function (callback) {
+                if (grantForumAccess !== true) {
+                    callback();
+                    return;
+                }
                 validateTable(
                     TEST_FILE_DIR + "expected_jivegroupuser.txt",
                     'utf8',
