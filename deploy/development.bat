@@ -66,6 +66,7 @@ set JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
 REM Used in challenge registration API
 set GRANT_FORUM_ACCESS=true
+set DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
 set ACTIONHERO_CONFIG=./config.js
 

@@ -36,7 +36,7 @@ var getForumWrapper = function (api, callback) {
         callback(null, forumWrapper);
     } else {
         try {
-            forumWrapper = new ForumWrapper();
+            forumWrapper = new ForumWrapper(api.config.general.devForumJNDI);
             callback(null, forumWrapper);
         } catch (ex) {
             api.log('Failed to connect to forum: ' + ex + " " + (ex.stack || ''), 'error');

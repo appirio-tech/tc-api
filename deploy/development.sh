@@ -69,5 +69,6 @@ export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
 # Used in challenge registration API
 export GRANT_FORUM_ACCESS=true
+export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
 export ACTIONHERO_CONFIG=./config.js
