@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv
- * @version 1.16
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild
+ * @version 1.17
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -50,6 +50,8 @@
  * - added checkUserExists function
  * Changes in 1.16
  * - add checkMember method to check if the user have at least member access level.
+ * Changes in 1.17
+ * - add checkRefresh method to check if the request is force refresh request.
  */
 "use strict";
 
@@ -858,6 +860,38 @@ helper.decodePassword = function (password, key) {
         result = decipher.update(password, "base64", "utf8");
     result += decipher.final("utf8");
     return result;
+};
+
+/**
+ * Represents the actions that allow force refresh.
+ *
+ * @type {string[]}
+ */
+var ALLOW_FORCE_REFRESH_ACTIONS = ["getSoftwareChallenge", "getStudioChallenge"];
+
+/**
+ * Check whether current request is a force refresh request.
+ *
+ * @param {Object} connection The connection object for the current request
+ * @returns {Boolean} whether this is a force refresh request
+ */
+helper.checkRefresh = function(connection) {
+    if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
+        return false;
+    }
+    var prop, val;
+    for (prop in connection.params) {
+        if (connection.params.hasOwnProperty(prop)) {
+            if (prop == "refresh") {
+                val = connection.params[prop];
+                if (_.isString(val) && "t" == val.toLowerCase()) {
+                    delete connection.params[prop];
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 };
 
 /**
