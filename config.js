@@ -86,7 +86,7 @@ config.general = {
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
     grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
-    devForumJNDI: process.env.DEV_FORUM_JNDI === "jnp://env.topcoder.com:1199",
+    devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
