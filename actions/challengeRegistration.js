@@ -646,6 +646,7 @@ var timelineNotification = function (api, userId, challengeId, dbConnectionMap, 
                     dbConnectionMap,
                     cb);
             }
+			cb(null);
         }
     ], next);
 };
