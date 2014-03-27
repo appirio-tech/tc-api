@@ -1459,7 +1459,7 @@ exports.getSoftwareChallenge = {
     description: "getSoftwareChallenge",
     inputs: {
         required: ["contestId"],
-        optional: []
+        optional: ["refresh"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -1484,7 +1484,7 @@ exports.getStudioChallenge = {
     description: "getStudioChallenge",
     inputs: {
         required: ["contestId"],
-        optional: []
+        optional: ["refresh"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
