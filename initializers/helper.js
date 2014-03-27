@@ -881,19 +881,7 @@ helper.checkRefresh = function(connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    var prop, val;
-    for (prop in connection.params) {
-        if (connection.params.hasOwnProperty(prop)) {
-            if (prop == "refresh") {
-                val = connection.params[prop];
-                if (_.isString(val) && "t" == val.toLowerCase()) {
-                    delete connection.params[prop];
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
+    return connection.params['refresh'] == 't';
 };
 
 /**

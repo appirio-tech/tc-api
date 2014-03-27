@@ -293,8 +293,10 @@ exports.middleware = function (api, next) {
         forceRefresh = api.helper.checkRefresh(connection);
         key = calculateCacheKey(api, connection);
         if (forceRefresh) {
+            api.log('Force refresh without cache', 'debug');
             postThrottleProcessor(connection, actionTemplate, false, next);
             next(connection, true);
+            return;
         }
 
         api.helper.getCachedValue(key, function (err, value) {
