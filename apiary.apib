@@ -637,23 +637,177 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Basic User Profile [/users/{handle}]
-### Basic User Profile [GET]
-- if no jwt passed, simply return the public info as current.
-- if jwt passed but not an admin and the same user as request, simply return the public info as current.
-- if jwt is present and the same user as request (viewing his own profile), return the public info as current plus the private info email, name, address, age, gender, and shirt_size.
-- if jwt is present and not the same user as request but an admin role, return the public info as current plus the private info email, name, address, age, gender, and shirt_size.
-- First 200 response: pivate result included
-- Second 200 responss: public result only<br>
-
+## Public Profile [/users/{handle}]
+### Public Profile [GET]
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
 
++ Response 200 (application/json)
+
+        {
+             "handle": "hohosky",
+             "country": "China",
+             "memberSince": "09.28.2005 15:47 EDT",
+             "overallEarning": 0,
+             "quote": "Focus is a matter of deciding what things you're not going to do.",
+             "ratingsSummary": [
+                  {
+                   "name": "Development",
+                   "rating": 1906,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Design",
+                   "rating": 1516,
+                   "colorStyle": "color: #DDCC00"
+                  },
+                  {
+                   "name": "Specification",
+                   "rating": 1747,
+                   "colorStyle": "color: #DDCC00"
+                  }
+             ],
+             "photoLink": "/i/m/hohosky_big.jpg",
+             "isCopilot": {
+                  "value": true,
+                  "software": false,
+                  "studio": false
+             },
+             "isPM": false,
+            "Achievements":
+            [
+                {
+                  "date": "03.17.2013 00:00 EDT",
+                  "description": "First Forum Post"
+                 },
+                 {
+                  "date": "02.19.2013 00:00 EST",
+                  "description": "One Hundred Forum Posts"
+                 },
+                 {
+                  "date": "10.03.2012 00:00 EDT",
+                  "description": "First Passing Submission"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Successful Challenge"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Rated Algorithm Competitions"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Five Successful Challenges"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "SRM Winner Div 2"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div1 Problem in SRM"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Rated Algorithm Competition"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Solved Hard Div2 Problem in SRM"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First SRM Room Win (Any Division)"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "Ten Solved Algorithm Problems"
+                 },
+                 {
+                  "date": "09.28.2012 00:00 EDT",
+                  "description": "First Solved Algorithm Problem"
+                 },
+                 {
+                  "date": "09.17.2012 00:00 EDT",
+                  "description": "Five Hundred Forum Posts"
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Win"
+                 },
+                 {
+                  "date": "08.27.2012 00:00 EDT",
+                  "description": "First Placement"
+                 },
+                 {
+                  "date": "08.20.2012 00:00 EDT",
+                  "description": "TopCoder Reviewer"
+                 },
+                 {
+                  "date": "04.10.2012 00:00 EDT",
+                  "description": "2012 TopCoder Open Mod Dash Champion"
+                 },
+                 {
+                  "date": "04.07.2012 00:00 EDT",
+                  "description": "One Thousand Forum Posts"
+                 },
+                 {
+                  "date": "09.28.2011 00:00 EDT",
+                  "description": "2011 TopCoder Open Mod Dash Finalists"
+                 },
+                 {
+                  "date": "10.14.2010 00:00 EDT",
+                  "description": "2010 TopCoder Open Mod Dash Finalist"
+                 },
+                 {
+                  "date": "10.21.2005 00:00 EDT",
+                  "description": "Twenty Five Placements"
+                 }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"User is not activated."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "details:":"User does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## My Profile [/user/profile]
+### My Profile [GET]
 + Request
-    
+
     + Headers
-        
+
             Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
 
 + Response 200 (application/json)
@@ -793,145 +947,22 @@ Register a new user.
             "shirt_size": "Medium"
         }
 
-+ Response 200 (application/json)
-
-        {
-             "handle": "hohosky",
-             "country": "China",
-             "memberSince": "09.28.2005 15:47 EDT",
-             "overallEarning": 0,
-             "quote": "Focus is a matter of deciding what things you're not going to do.",
-             "ratingsSummary": [
-                  {
-                   "name": "Development",
-                   "rating": 1906,
-                   "colorStyle": "color: #DDCC00"
-                  },
-                  {
-                   "name": "Design",
-                   "rating": 1516,
-                   "colorStyle": "color: #DDCC00"
-                  },
-                  {
-                   "name": "Specification",
-                   "rating": 1747,
-                   "colorStyle": "color: #DDCC00"
-                  }
-             ],
-             "photoLink": "/i/m/hohosky_big.jpg",
-             "isCopilot": {
-                  "value": true,
-                  "software": false,
-                  "studio": false
-             },
-             "isPM": false,
-            "Achievements":
-            [
-                {
-                  "date": "03.17.2013 00:00 EDT",
-                  "description": "First Forum Post"
-                 },
-                 {
-                  "date": "02.19.2013 00:00 EST",
-                  "description": "One Hundred Forum Posts"
-                 },
-                 {
-                  "date": "10.03.2012 00:00 EDT",
-                  "description": "First Passing Submission"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "First Successful Challenge"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "Five Rated Algorithm Competitions"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "Five Successful Challenges"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "SRM Winner Div 2"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "Solved Hard Div1 Problem in SRM"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "First Rated Algorithm Competition"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "Solved Hard Div2 Problem in SRM"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "First SRM Room Win (Any Division)"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "Ten Solved Algorithm Problems"
-                 },
-                 {
-                  "date": "09.28.2012 00:00 EDT",
-                  "description": "First Solved Algorithm Problem"
-                 },
-                 {
-                  "date": "09.17.2012 00:00 EDT",
-                  "description": "Five Hundred Forum Posts"
-                 },
-                 {
-                  "date": "08.27.2012 00:00 EDT",
-                  "description": "First Win"
-                 },
-                 {
-                  "date": "08.27.2012 00:00 EDT",
-                  "description": "First Placement"
-                 },
-                 {
-                  "date": "08.20.2012 00:00 EDT",
-                  "description": "TopCoder Reviewer"
-                 },
-                 {
-                  "date": "04.10.2012 00:00 EDT",
-                  "description": "2012 TopCoder Open Mod Dash Champion"
-                 },
-                 {
-                  "date": "04.07.2012 00:00 EDT",
-                  "description": "One Thousand Forum Posts"
-                 },
-                 {
-                  "date": "09.28.2011 00:00 EDT",
-                  "description": "2011 TopCoder Open Mod Dash Finalists"
-                 },
-                 {
-                  "date": "10.14.2010 00:00 EDT",
-                  "description": "2010 TopCoder Open Mod Dash Finalist"
-                 },
-                 {
-                  "date": "10.21.2005 00:00 EDT",
-                  "description": "Twenty Five Placements"
-                 }
-            ]
-        }
-
 + Response 400 (application/json)
 
         {
             "name":"Bad Request",
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"User is not activated."
         }
 
-+ Response 404 (application/json)
++ Response 401 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"Authentication credential was missing."
         }
 
 + Response 500 (application/json)

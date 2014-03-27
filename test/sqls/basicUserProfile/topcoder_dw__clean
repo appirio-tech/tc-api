@@ -5,6 +5,7 @@ DELETE FROM payment WHERE payment_id = 1000;
 DELETE FROM user_achievement WHERE coder_id = 132456;
 DELETE FROM coder WHERE coder_id = 132456;
 DELETE FROM coder WHERE coder_id = 132457;
+DELETE FROM coder WHERE coder_id = 124916;
 DELETE FROM coder WHERE coder_id = 1000;
 
 DELETE FROM coder WHERE coder_id = 132458;
