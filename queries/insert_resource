@@ -1,4 +1,4 @@
-˚INSERT INTO resource
+INSERT INTO resource
 	(	resource_id, 
 	 	resource_role_id,
 	 	project_id,
