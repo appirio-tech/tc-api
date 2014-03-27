@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.26
+ * @version 1.27
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -46,7 +46,6 @@
  * - Combine Challenge Registration API(BUGR-11058)
  * changes in 1.18:
  * - added routes for data platforms and technologies
-<<<<<<< HEAD
  * Changes in 1.19:
  * - added route for agree term of use api.
  * Changes in 1.20:
@@ -64,6 +63,8 @@
  * - add route for register marathon match challenge api.
  * changes in 1.26:
  * - added route for handling design submission
+ * changes in 1.27
+ * - separate basic user profile api into my profile api and public profile api
  */
 
 /* ---------------------
@@ -167,6 +168,7 @@ exports.routes = {
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
         { path: "/:apiVersion/users/:handle", action: "getBasicUserProfile" },
+        { path: "/:apiVersion/user/profile", action: "getMyProfile" },
 
         { path: "/:apiVersion/copilots/:handle/statistics/develop", action: "getCopilotStatistics" },
 

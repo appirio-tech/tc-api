@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild
- * @version 1.18
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
+ * @version 1.19
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -54,6 +54,8 @@
  * - added method to load all file types (and cache the result for further use)
  * Changes in 1.18
  * - add checkRefresh method to check if the request is force refresh request.
+ * changes in 1.19
+ * - updated softwareChallengeTypes
  */
 "use strict";
 
@@ -180,7 +182,7 @@ helper.softwareChallengeTypes = {
         phaseId: 124
     },
     assembly: {
-        name: "Assembly Competition",
+        name: "Assembly",
         phaseId: 125
     },
     ui_prototypes: {
@@ -877,16 +879,16 @@ var ALLOW_FORCE_REFRESH_ACTIONS = ["getSoftwareChallenge", "getStudioChallenge"]
  * @param {Object} connection The connection object for the current request
  * @returns {Boolean} whether this is a force refresh request
  */
-helper.checkRefresh = function(connection) {
+helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
     var prop, val;
     for (prop in connection.params) {
         if (connection.params.hasOwnProperty(prop)) {
-            if (prop == "refresh") {
+            if (prop === "refresh") {
                 val = connection.params[prop];
-                if (_.isString(val) && "t" == val.toLowerCase()) {
+                if (_.isString(val) && "t" === val.toLowerCase()) {
                     delete connection.params[prop];
                     return true;
                 }
@@ -966,9 +968,9 @@ helper.getPhaseId = function (phaseName) {
  */
 helper.getColorStyle = function (rating) {
 
-	if (rating === null) {
-		 return "color: #000000";
-	}
+    if (rating === null) {
+        return "color: #000000";
+    }
 
     if (rating < 0) {
         return "color: #FF9900"; // orange
