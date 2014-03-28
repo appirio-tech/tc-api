@@ -46,7 +46,7 @@ FIRST @pageSize@
 , technology_list(p.project_id) AS technology
 , platform_list(p.project_id) AS platforms
 FROM project p
-INNER JOIN (
+LEFT JOIN (
   SELECT
     project_id
   , MAX(CASE WHEN prize_type_id = 14 AND place = 1 THEN prize_amount ELSE NULL END) AS top_checkpoint_prize
@@ -113,6 +113,7 @@ LEFT OUTER JOIN (
 LEFT OUTER JOIN (
   SELECT
     scheduled_end_time
+  , actual_end_time
   , phase_type_id
   , project_id
   FROM project_phase
