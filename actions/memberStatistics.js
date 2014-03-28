@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.13
+ * @version 1.14
  * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild
  * changes in 1.1:
  * - implement marathon statistics
@@ -33,6 +33,9 @@
  * - removed unused import for IllegalArgumentError
  * changes in 1.13
  * - add getCopilotStatistics API.
+ * changes in 1.14
+ * - added my profile api
+ * - modified public profile api(basic user profile api), only return public information
  */
 "use strict";
 var async = require('async');
@@ -40,6 +43,7 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var NotFoundError = require('../errors/NotFoundError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 
 /**
  * check whether given user is activated.
@@ -101,29 +105,38 @@ function checkUserExistAndActivate(handle, api, dbConnectionMap, callback) {
 /**
  * Get the user basic profile information.
  * @param {Object} api - the api object.
+ * @param {String} handle - the handle parameter
+ * @param {Boolean} privateInfoEligibility - flag indicate whether private information is included in result
  * @param {Object} dbConnectionMap - the database connection map.
  * @param {Object} connection - the connection.
  * @param {Function} next - the callback function.
  */
-function getBasicUserProfile(api, dbConnectionMap, connection, next) {
-    var handle = connection.params.handle,
-        helper = api.helper,
+function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMap, connection, next) {
+    var helper = api.helper,
         sqlParams = {
             handle: handle
         },
-        result,
-        privateInfoEligibility = false;
+        result;
 
     async.waterfall([
         function (cb) {
-            checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            if (privateInfoEligibility) {
+                checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        cb(result);
+                    }
+                });
+            } else {
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            }
         }, function (cb) {
             var execQuery = function (name) {
                 return function (cbx) {
                     api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
                 };
             };
-            privateInfoEligibility = connection.caller.accessLevel === 'admin' || connection.caller.handle === handle;
             async.parallel({
                 basic: execQuery('basic'),
                 earning: execQuery('overall_earning'),
@@ -375,8 +388,8 @@ exports.getMarathonStatistics = {
 
 
 /**
-* The API for getting software statistics
-*/
+ * The API for getting software statistics
+ */
 exports.getSoftwareStatistics = {
     name: "getSoftwareStatistics",
     description: "getSoftwareStatistics",
@@ -418,12 +431,13 @@ exports.getSoftwareStatistics = {
                 checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
-                    api.dataAccess.executeQuery(name,
-                        sqlParams,
-                        dbConnectionMap,
-                        cbx);
-                }, phaseIds = _.isDefined(track) ?  [helper.getPhaseId(track)] :
-                        _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
+                        api.dataAccess.executeQuery(name,
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    },
+                    phaseIds = _.isDefined(track) ? [helper.getPhaseId(track)] :
+                            _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
                     challengeTypes = _.map(phaseIds, function (item) {
                         return item - 111;
                     });
@@ -517,8 +531,8 @@ exports.getSoftwareStatistics = {
 
 
 /**
-* The API for getting studio statistics
-*/
+ * The API for getting studio statistics
+ */
 exports.getStudioStatistics = {
     name: "getStudioStatistics",
     description: "getStudioStatistics",
@@ -588,8 +602,8 @@ exports.getStudioStatistics = {
 
 
 /**
-* The API for getting algorithm statistics
-*/
+ * The API for getting algorithm statistics
+ */
 exports.getAlgorithmStatistics = {
     name: "getAlgorithmStatistics",
     description: "getAlgorithmStatistics",
@@ -757,7 +771,7 @@ exports.getBasicUserProfile = {
             api.helper.handleNoConnection(api, connection, next);
         } else {
             api.log('Execute getBasicUserProfile#run', 'debug');
-            getBasicUserProfile(api, connection.dbConnectionMap, connection, next);
+            getBasicUserProfile(api, connection.params.handle, false, connection.dbConnectionMap, connection, next);
         }
     }
 };
@@ -833,8 +847,8 @@ var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConne
 };
 
 /**
-* The API for getting software rating history and distribution
-*/
+ * The API for getting software rating history and distribution
+ */
 exports.getSoftwareRatingHistoryAndDistribution = {
     name: "getSoftwareRatingHistoryAndDistribution",
     description: "getSoftwareRatingHistoryAndDistribution",
@@ -1004,8 +1018,9 @@ exports.getCopilotStatistics = {
                             sqlParams,
                             dbConnectionMap,
                             cbx);
-                    }, phaseIds = _.isDefined(track) ?  [helper.getPhaseId(track)] :
-                        _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
+                    },
+                    phaseIds = _.isDefined(track) ? [helper.getPhaseId(track)] :
+                            _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
                     challengeTypes = _.map(phaseIds, function (item) {
                         return item - 111;
                     });
@@ -1046,5 +1061,37 @@ exports.getCopilotStatistics = {
             }
             next(connection, true);
         });
+    }
+};
+
+/**
+ * The API for getting my profile.
+ *
+ * @since 1.14
+ */
+exports.getMyProfile = {
+    name: "getMyProfile",
+    description: "get my profile",
+    inputs: {
+        required: [],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["informixoltp", "topcoder_dw", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getMyProfile#run", "debug");
+            if (connection.caller.accessLevel === "anon") {
+                api.helper.handleError(api, connection, new UnauthorizedError("Authentication credential was missing."));
+                next(connection, true);
+            } else {
+                getBasicUserProfile(api, connection.caller.handle, true, connection.dbConnectionMap, connection, next);
+            }
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };

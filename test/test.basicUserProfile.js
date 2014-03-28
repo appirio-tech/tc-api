@@ -1,10 +1,13 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author muzehyun
+ * @version 1.2
+ * @author muzehyun, hesibo
  * changes in 1.1:
  * - add test for private info
+ * changes in 1.2:
+ * - remove test for private basic user profile
+ * - add test for my profile api
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -263,7 +266,7 @@ describe('Get Basic User Profile API', function () {
 
 });
 
-describe('Get Basic User Profile API (with private info)', function () {
+describe('My Profile API', function () {
     this.timeout(120000); // The api with testing remote db could be quit slow
 
     /*
@@ -271,7 +274,9 @@ describe('Get Basic User Profile API (with private info)', function () {
      */
     var userHeffan = "ad|132456",
         userSuper = "ad|132457",
-        userUser = "ad|132458";
+        userUser = "ad|132458",
+        userDokTester = "ad|20",
+        userYoshi = "ad|124916";
 
     /**
      * Clear database
@@ -325,14 +330,13 @@ describe('Get Basic User Profile API (with private info)', function () {
 
     /**
      * Create request and return it
-     * @param {String} user required user
      * @param {Number} statusCode the expected status code
      * @param {String} authHeader the Authorization header. Optional
      * @return {Object} request
      */
-    function createRequest(user, statusCode, authHeader) {
+    function createRequest(statusCode, authHeader) {
         var req = request(API_ENDPOINT)
-            .get('/v2/users/' + user)
+            .get('/v2/user/profile')
             .set('Accept', 'application/json');
         if (authHeader) {
             req = req.set('Authorization', authHeader);
@@ -347,8 +351,8 @@ describe('Get Basic User Profile API (with private info)', function () {
      * @param {String} authHeader the Authorization header. Optional
      * @param {Function<err>} done the callback
      */
-    function assertResponse(user, expectedResponse, authHeader, done) {
-        createRequest(user, 200, authHeader)
+    function assertResponse(expectedResponse, authHeader, done) {
+        createRequest(200, authHeader)
             .end(function (err, res) {
                 assert.ifError(err);
                 assert.ok(res.body);
@@ -364,121 +368,66 @@ describe('Get Basic User Profile API (with private info)', function () {
     }
 
     /**
-     * /v2/users/heffan without auth header
-     * Expecting public info.
+     * /v2/user/profile without auth header
+     * expect 401
      */
-    it('should return public info only for no auth header', function (done) {
-        var expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_public.json');
-        assertResponse('heffan', expectedResponse, null, done);
+    it('should return 401 when no auth header', function (done) {
+        createRequest(401, null).end(function (err, res) {
+            assert.ifError(err);
+            assert.equal(res.body.error.details, "Authentication credential was missing.", "Invalid error detail");
+            done();
+        });
     });
 
     /**
-     * /v2/users/heffan with auth header, not admin, not same user
-     * Expecting public info.
+     * /v2/user/profile with unactivated user's auth header
+     * expect 400
      */
-    it('should return public info only for auth header, not admin, not same user', function (done) {
-        var authHeader = generateAuthHeader({ sub: userUser}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_public.json');
-        assertResponse('heffan', expectedResponse, authHeader, done);
+    it('should return 400 when user is unactivated', function (done) {
+        createRequest(400, generateAuthHeader({ sub: userYoshi})).end(function (err, res) {
+            assert.ifError(err);
+            assert.equal(res.body.error.details, "User is not activated.", "Invalid error detail");
+            done();
+        });
     });
 
     /**
-     * /v2/users/super with auth header, admin, not same user
-     * Expecting private info.
+     * /v2/user/profile with heffan auth header
+     * expecting profile with private information
      */
-    it('should return private info for auth header, admin, not same user', function (done) {
+    it('should return private info for heffan', function (done) {
         var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_super_private.json');
-        assertResponse('super', expectedResponse, authHeader, done);
+            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_private.json');
+        assertResponse(expectedResponse, authHeader, done);
     });
 
     /**
-     * /v2/users/super with auth header, not admin, same user
-     * Expecting private info.
+     * /v2/user/profile with super auth header
+     * expecting profile with private information
      */
-    it('should return private info for auth header, not admin, same user', function (done) {
+    it('should return private info for super', function (done) {
         var authHeader = generateAuthHeader({ sub: userSuper}),
             expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_super_private.json');
-        assertResponse('super', expectedResponse, authHeader, done);
+        assertResponse(expectedResponse, authHeader, done);
     });
 
     /**
-     * /v2/users/heffan with auth header, admin
-     * Expecting all private info.
+     * /v2/user/profile with user auth header
+     * expecting profile with private information
      */
-    it('should return all private info (name, age, gender, shirt_size)', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_private.json');
-        assertResponse('heffan', expectedResponse, authHeader, done);
-    });
-
-    /**
-     * /v2/users/super with auth header, admin
-     * Expecting partial private info.
-     */
-    it('should return partial private info (gender, shirt_size missing)', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_super_private.json');
-        assertResponse('super', expectedResponse, authHeader, done);
-    });
-
-    /**
-     * /v2/users/super with auth header, admin
-     * Expecting full US address. (address1, address2, address3, city, state, zip, country)
-     */
-    it('should return private info with full US address', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_super_private.json');
-        assertResponse('super', expectedResponse, authHeader, done);
-    });
-
-    /**
-     * /v2/users/heffan with auth header, admin
-     * Expecting partial US address. (address2, address3 missing)
-     */
-    it('should return private info with partial US address', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_private.json');
-        assertResponse('heffan', expectedResponse, authHeader, done);
-    });
-
-    /**
-     * /v2/users/user with auth header, admin
-     * Expecting full Non-US address. (address1, address2, address3, city, province, zip, country)
-     */
-    it('should return private info with full Non-US address', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
+    it('should return private info for user', function (done) {
+        var authHeader = generateAuthHeader({ sub: userUser}),
             expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_user_private.json');
-        assertResponse('user', expectedResponse, authHeader, done);
+        assertResponse(expectedResponse, authHeader, done);
     });
 
     /**
-     * /v2/users/dok_tester with auth header, admin
-     * Expecting no address.
+     * /v2/user/profile with dok_tester auth header
+     * expecting profile with private information
      */
-    it('should return private info without address field', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
+    it('should return private info for dok_tester', function (done) {
+        var authHeader = generateAuthHeader({ sub: userDokTester}),
             expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_dok_tester_private.json');
-        assertResponse('dok_tester', expectedResponse, authHeader, done);
-    });
-
-    /**
-     * /v2/users/heffan with auth header, admin
-     * Expecting one email.
-     */
-    it('should return private info with one email address', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_private.json');
-        assertResponse('heffan', expectedResponse, authHeader, done);
-    });
-
-    /**
-     * /v2/users/super with auth header, admin
-     * Expecting multiple emails.
-     */
-    it('should return private info with multiple email addresses', function (done) {
-        var authHeader = generateAuthHeader({ sub: userHeffan}),
-            expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_super_private.json');
-        assertResponse('super', expectedResponse, authHeader, done);
+        assertResponse(expectedResponse, authHeader, done);
     });
 });
