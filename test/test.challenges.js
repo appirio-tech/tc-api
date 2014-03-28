@@ -39,7 +39,7 @@ var TCS_DW = 'tcs_dw';
 var CORPORATE_OLTP = 'corporate_oltp';
 var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
 var software_collection_length = {};
-software_collection_length[ListType.ACTIVE] = 4;
+software_collection_length[ListType.ACTIVE] = 3;
 software_collection_length[ListType.OPEN] = 1;
 software_collection_length[ListType.UPCOMING] = 2;
 software_collection_length[ListType.PAST] = 2;
@@ -239,7 +239,7 @@ describe('Test Challenges API', function () {
             /**
              * Test develop/challenges?listType=open
              */
-            it('should return 1 OPEN challenges', function (done) {
+            it('should return 4 OPEN challenges', function (done) {
                 assertCollection(ListType.OPEN,  done);
             });
 
@@ -261,8 +261,8 @@ describe('Test Challenges API', function () {
             /**
              * Test develop/challenges?listType=active&cmcTaskId=cmc
              */
-            it('should return 3 ACTIVE challenges with cmcTaskId=cmc', function (done) {
-                assertCMC("ACTIVE", 3, "cmc", done);
+            it('should return 2 ACTIVE challenges with cmcTaskId=cmc', function (done) {
+                assertCMC("ACTIVE", 2, "cmc", done);
             });
 
             /**
@@ -292,14 +292,14 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=active
              */
             it("should return results for ?listType=active", function (done) {
-                validateResult("listType=active", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&submissionEndFrom=2014-01-01
              */
-            it('should return 2 challenges after filtering submissionEndDate', function (done) {
-                validateResult("listType=active&submissionEndFrom=2014-01-01", [1, 2], "ACTIVE", 2, 1, 50, done);
+            it('should return 1 challenges after filtering submissionEndDate', function (done) {
+                validateResult("listType=active&submissionEndFrom=2014-01-01", [1], "ACTIVE", 1, 1, 50, done);
             });
 
             /**
@@ -313,175 +313,175 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=aCtiVe
              */
             it("should return results for ?listType=aCtiVe", function (done) {
-                validateResult("listType=aCtiVe", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=aCtiVe", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeName
              */
             it("should return results for ?listType=active&sortColumn=challengeName", function (done) {
-                validateResult("listType=active&sortColumn=challengeName", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeName", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=challengeName&sortOrder=desc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeName&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=dESc
              */
             it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=dESc", function (done) {
-                validateResult("listType=active&sortColumn=challengeName&sortOrder=dESc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeName&sortOrder=dESc", [4, 1], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeType
              */
             it("should return results for ?listType=active&sortColumn=challengeType", function (done) {
-                validateResult("listType=active&sortColumn=challengeType", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeType", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeType&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=challengeType&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=challengeType&sortOrder=desc", [2, 4, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeType&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=registrationEndDate
              */
             it("should return results for ?listType=active&sortColumn=registrationEndDate", function (done) {
-                validateResult("listType=active&sortColumn=registrationEndDate", [4, 1, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=registrationEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=registrationEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=registrationEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=registrationEndDate&sortOrder=desc", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=registrationEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=submissionEndDate
              */
             it("should return results for ?listType=active&sortColumn=submissionEndDate", function (done) {
-                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=submissionEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=submissionEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate
              */
             it("should return results for ?listType=active&sortColumn=finalFixEndDate", function (done) {
-                validateResult("listType=active&sortColumn=finalFixEndDate", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=finalFixEndDate", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=finalFixEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=finalFixEndDate&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=finalFixEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeId
              */
             it("should return results for ?listType=active&sortColumn=challengeId", function (done) {
-                validateResult("listType=active&sortColumn=challengeId", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeId", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeId&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=challengeId&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=challengeId&sortOrder=desc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeId&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=prize1
              */
             it("should return results for ?listType=active&sortColumn=prize1", function (done) {
-                validateResult("listType=active&sortColumn=prize1", [2, 4, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=prize1", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=prize1&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=prize1&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=prize1&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=prize1&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints
              */
             it("should return results for ?listType=active&sortColumn=digitalRunPoints", function (done) {
-                validateResult("listType=active&sortColumn=digitalRunPoints", [2, 4, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=digitalRunPoints", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=digitalRunPoints&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=digitalRunPoints&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=digitalRunPoints&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=cmcTaskId
              */
             it("should return results for ?listType=active&sortColumn=cmcTaskId", function (done) {
-                validateResult("listType=active&sortColumn=cmcTaskId", [2, 4, 1], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=cmcTaskId", [4, 1], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=cmcTaskId&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=cmcTaskId&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=cmcTaskId&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=cmcTaskId&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=currentStatus
              */
             it("should return results for ?listType=active&sortColumn=currentStatus", function (done) {
-                validateResult("listType=active&sortColumn=currentStatus", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=currentStatus", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=currentStatus&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=currentStatus&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=currentStatus&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&sortColumn=currentStatus&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&pageIndex=1&pageSize=1
              */
             it("should return results for ?listType=active&pageIndex=1&pageSize=1", function (done) {
-                validateResult("listType=active&pageIndex=1&pageSize=1", [1], "ACTIVE", 3, 1, 1, done);
+                validateResult("listType=active&pageIndex=1&pageSize=1", [1], "ACTIVE", 2, 1, 1, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&pageIndex=2&pageSize=1
              */
             it("should return results for ?listType=active&pageIndex=2&pageSize=1", function (done) {
-                validateResult("listType=active&pageIndex=2&pageSize=1", [2], "ACTIVE", 3, 2, 1, done);
+                validateResult("listType=active&pageIndex=2&pageSize=1", [4], "ACTIVE", 2, 2, 1, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&pageIndex=-1
              */
             it("should return results for ?listType=active&pageIndex=-1", function (done) {
-                validateResult("listType=active&pageIndex=-1", [1, 2, 4], "ACTIVE", 3, 1, 2147483647, done);
+                validateResult("listType=active&pageIndex=-1", [1, 4], "ACTIVE", 2, 1, 2147483647, done);
             });
 
             /**
@@ -533,7 +533,7 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=active&prizeUpperBound=1200
              */
             it("should return results for ?listType=active&prizeUpperBound=1200", function (done) {
-                validateResult("listType=active&prizeUpperBound=1200", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
+                validateResult("listType=active&prizeUpperBound=1200", [1, 4], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
@@ -693,7 +693,7 @@ describe('Test Challenges API', function () {
         });
 
         describe('-- Search Both Challenges --', function () {
-            it('should return 7 Active challenges', function (done) {
+            it('should return 5 Active challenges', function (done) {
                 request(API_ENDPOINT)
                     .get('/v2/challenges?listType=active')
                     .set('Accept', 'application/json')
@@ -701,10 +701,10 @@ describe('Test Challenges API', function () {
                     .expect(200)
                     .end(function (err, res) {
                         var body = res.body;
-                        assert.equal(body.total, 7, 'Invalid total number');
+                        assert.equal(body.total, 5, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
-                        assert.equal(body.data.length, 7, 'Invalid data length');
+                        assert.equal(body.data.length, 5, 'Invalid data length');
                         done();
                     });
             });
