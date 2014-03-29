@@ -535,6 +535,12 @@ var registerSoftwareChallenge = function (api, userId, challengeId, dbConnection
         },
 
         function (cb) {
+            timelineNotification(api, userId, challengeId, dbConnectionMap, function (err) {
+                cb(err);
+            });
+        },
+
+        function (cb) {
             getActiveForumCategoryId(api, componentInfo, challengeId, dbConnectionMap, cb);
         },
 
@@ -645,8 +651,10 @@ var timelineNotification = function (api, userId, challengeId, dbConnectionMap, 
                 },
                     dbConnectionMap,
                     cb);
+            } else {
+                //The notification is already set.
+                cb(null);
             }
-			cb(null);
         }
     ], next);
 };

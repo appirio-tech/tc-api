@@ -191,6 +191,14 @@ describe('Challenge Registration API', function () {
                     SQL_DIR2 + "jive__select_jivegroupuser.json",
                     callback
                 );
+            },
+            function (callback) {
+                validateTable(
+                    TEST_FILE_DIR + "expected_challenge_registration_software_notification.txt",
+                    'utf8',
+                    SQL_DIR2 + "tcs_catalog__select_software_notification.json",
+                    callback
+                );
             }
         ], done);
     }
@@ -245,7 +253,6 @@ describe('Challenge Registration API', function () {
     });
 
     // Reigster again the same user, the same challenge as above, should fail.
-    // Here the notification email will be sent. Modify user11's address and check it manually.
     it('Register again should fail', function (done) {
         supertest(API_ENDPOINT)
             .post("/v2/challenges/40000001/register")
@@ -273,6 +280,17 @@ describe('Challenge Registration API', function () {
                 validateDatabaseForDesign(done);
             });
     });
+
+    // Reigster again the same user, the same challenge as above, should fail.
+    it('Register studio challenge again should fail', function (done) {
+        supertest(API_ENDPOINT)
+            .post("/v2/challenges/40000002/register")
+            .set('Accept', 'application/json')
+            .set('Authorization', getAuthHeader(user11))
+            .expect('Content-Type', /json/)
+            .expect(403, done);
+    });
+
 
     // Only agreed a part of terms of use.
     it('Register software challenge with a part of terms of use agreed should fail', function (done) {
