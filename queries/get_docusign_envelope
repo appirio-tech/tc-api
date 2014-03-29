@@ -1,0 +1,4 @@
+SELECT *
+FROM docusign_envelope
+WHERE user_id = @userId@
+AND docusign_template_id = '@templateId@'

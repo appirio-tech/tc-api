@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.27
+ * @version 1.28
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -65,6 +65,8 @@
  * - added route for handling design submission
  * changes in 1.27
  * - separate basic user profile api into my profile api and public profile api
+ * changes in 1.28
+ * - added route for Dosusign get recipient view url
  */
 
 /* ---------------------
@@ -222,6 +224,7 @@ exports.routes = {
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
-        { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" }
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
     ]
 };
