@@ -1,8 +1,8 @@
 ﻿/*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author Sky_, muzehyun, Ghost_141, OlinaRuan
+ * @version 1.5
+ * @author Sky_, muzehyun, Ghost_141, OlinaRuan, TCSASSEMBLER
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
@@ -11,6 +11,8 @@
  * - add getAdminJwt and getMemberJwt
  * changes in 1.4
  * - add updateTextColumn method.
+ * Changes in 1.5:
+ * - add PASSWORD_HASH_KEY
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -18,11 +20,11 @@
 
 var async = require('async');
 var fs = require('fs');
-var util = require('util');
 var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
+var ldap = require('ldapjs');
 
 /**
  * The test helper
@@ -50,6 +52,21 @@ var DEFAULT_TIMEOUT = 30000; // 30s
  */
 var CLIENT_ID = configs.config.general.oauthClientId;
 var SECRET = configs.config.general.oauthClientSecret;
+
+/**
+ * The configuration for ldap server
+ */
+helper.ldap_host = process.env.TC_LDAP_HOST;
+helper.ldap_host_port = process.env.TC_LDAP_PORT;
+helper.ldap_password = process.env.TC_LDAP_PASSWORD;
+helper.ldap_host_bind_dn = process.env.TC_BIND_DN;
+helper.topcoder_member_base_dn = process.env.TC_LDAP_MEMBER_BASE_DN;
+
+/**
+ * The password hash key.
+ * @since 1.5
+ */
+helper.PASSWORD_HASH_KEY = configs.config.general.passwordHashKey || "default";
 
 /**
  * create connection for given database
@@ -398,6 +415,36 @@ helper.getAdminJwt = function () {
  */
 helper.getMemberJwt = function (userId) {
     return jwt.sign({sub: "ad|" + (userId || "132458")}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+};
+
+/**
+ * Function used to create a client
+ * @since 1.5
+ */
+helper.createClient = function () {
+    return ldap.createClient({
+        url: 'ldaps://' + helper.ldap_host + ':' + helper.ldap_host_port,
+        tlsOptions: {
+            rejectUnauthorized: false
+        }
+    });
+};
+
+/**
+ * Function used to bind a ldap server
+ *
+ * @param {Object} client - an object of current client of ldap server
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
+ * @since 1.5
+ */
+helper.bindClient = function (client, callback) {
+    client.bind(helper.ldap_host_bind_dn, helper.ldap_password, function (err) {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null);
+        }
+    });
 };
 
 module.exports = helper;

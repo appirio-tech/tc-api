@@ -1152,12 +1152,12 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Update Password [/users/updatePassword]
+## Update Password [/users/password]
 ### Update Password [POST]
 
 + Parameters
     + oldPassword (required, string, `snABCD`) ... The old password
-    + newPassword (required, string, `cnDEFG`) ... The new password
+    + newPassword (required, string, `cnDEFGhi`) ... The new password
 
 + Response 200 (application/json)
 
@@ -1170,7 +1170,23 @@ Register a new user.
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"password must be at least 8 characters in length."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"password may contain at most 30 characters."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Your password may contain only letters, numbers and -_.{}[]()"
         }
 
 + Response 401 (application/json)
@@ -1178,7 +1194,7 @@ Register a new user.
         {
             "name":"Unauthorized",
             "value":"401",
-            "description":"Authentication credentials were missing or incorrect."
+            "description":"Authorization information needed."
         }
 
 + Response 403 (application/json)
@@ -1186,7 +1202,15 @@ Register a new user.
         {
             "name":"Forbidden",
             "value":"403",
-            "description":"The request is understood, but it has been refused or access is not allowed."
+            "description":"The oldPassword is not correct."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"password is not updated successfully"
         }
 
 + Response 500 (application/json)

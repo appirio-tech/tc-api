@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.19
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, TCSASSEMBLER
+ * @version 1.20
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -56,6 +56,8 @@
  * - add checkRefresh method to check if the request is force refresh request.
  * changes in 1.19
  * - updated softwareChallengeTypes
+ * Changes in 1.20:
+ * - add method validatePassword.
  */
 "use strict";
 
@@ -73,6 +75,8 @@ if (typeof String.prototype.startsWith !== 'function') {
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
+var stringUtils = require('../common/stringUtils');
+var configs = require('../config');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -111,6 +115,13 @@ helper.both = {
  * The max value for integer.
  */
 helper.MAX_INT = 2147483647;
+
+/**
+ * HASH KEY For Password
+ *
+ * @since 1.20
+ */
+helper.PASSWORD_HASH_KEY = configs.config.general.passwordHashKey || 'default';
 
 /**
  * The name in api response to database name map.
@@ -883,7 +894,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1181,6 +1192,32 @@ helper.getFileTypes = function (api, dbConnectionMap, callback) {
             });
         }
     });
+};
+
+/**
+ * Validate the given password value.
+ * @param {String} password - the password value.
+ * @returns {Object} - Return error if the given password is invalid.
+ * @since 1.16
+ */
+helper.validatePassword = function (password) {
+    var value = password,
+        configGeneral = helper.api.config.general,
+        error;
+    error = helper.checkStringPopulated(password, 'password');
+    if (error) {
+        return error;
+    }
+    if (value.length > configGeneral.maxPasswordLength) {
+        return new IllegalArgumentError('password may contain at most ' + configGeneral.maxPasswordLength + ' characters.');
+    }
+    if (value.length < configGeneral.minPasswordLength) {
+        return new IllegalArgumentError('password must be at least ' + configGeneral.minPasswordLength + ' characters in length.');
+    }
+    if (!stringUtils.containsOnly(password, stringUtils.PASSWORD_ALPHABET)) {
+        return new IllegalArgumentError('Your password may contain only letters, numbers and ' + stringUtils.PUNCTUATION);
+    }
+    return null;
 };
 
 /**

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.28
+ * @version 1.29
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -67,6 +67,8 @@
  * - separate basic user profile api into my profile api and public profile api
  * changes in 1.28
  * - added route for Dosusign get recipient view url
+ * Changes in 1.29:
+ * - add route for update user password api.
  */
 
 /* ---------------------
@@ -215,6 +217,7 @@ exports.routes = {
         // Stub API
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
 
+        { path: "/:apiVersion/users/password", action: "updatePassword" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
