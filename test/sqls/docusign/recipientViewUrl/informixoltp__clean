@@ -1,0 +1,2 @@
+DELETE FROM docusign_envelope WHERE user_id = 124764;
+UPDATE email set address = 'foo@fooonyou.com' where user_id = 124764;

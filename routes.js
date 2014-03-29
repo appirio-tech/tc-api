@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
+ * @version 1.25
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -59,6 +59,8 @@
  * - added route for check email availability api
  * changes in 1.24
  * - added stub api for reset token and reset password
+ * changes in 1.25
+ * - added route for Dosusign get recipient view url
  */
 
 /* ---------------------
@@ -209,6 +211,7 @@ exports.routes = {
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
-        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" },
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
     ]
 };

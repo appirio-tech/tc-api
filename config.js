@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
+ * @version 1.13
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * - added designSubmissionsBasePath for design submissions 
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * changes in 1.13:
+ * - added configuration for Docusign integration.
  */
 "use strict";
 
@@ -284,6 +286,20 @@ config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 //The base folder for design submission files
 config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
 
-//////////////////////////////////
+//The configuration for the DocuSign integration
+config.docusign = {
+    username: process.env.DOCUSIGN_USERNAME || '3c484022-cfd1-4be8-b199-951933a1e81b',
+    password: process.env.DOCUSIGN_PASSWORD || 'dN1ofminimum',
+    integratorKey: process.env.DOCUSIGN_INTEGRATOR_KEY || 'TOPC-a02ca014-0677-4e7f-946b-3a03f803c937',
+    serverURL: process.env.DOCUSIGN_SERVER_URL || 'https://demo.docusign.net/restapi/v2/',
+    roleName: process.env.DOCUSIGN_ROLENAME || 'Member',
+    clientUserId: process.env.DOCUSIGN_CLIENT_USER_ID || 'Member',
+    returnURL: process.env.DOCUSIGN_RETURN_URL || 'http://localhost:8080/v2/terms/docusign/returnSigning&envelopeId=<%= envelopeId %>',
+    assignmentV2TemplateId: 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+	w9TemplateId: '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+	w8benTemplateId: 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+	appirioMutualNDATemplateId: '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
+	affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C'
+};
 
 exports.config = config;
