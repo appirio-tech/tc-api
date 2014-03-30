@@ -2475,8 +2475,7 @@ Register a new user.
 + Request (application/json)
 
 + Parameters
-    + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
-    + fileData (required, string, `SGVsbG8gV29ybGQ=`) ... The Base64 encoded content of the file being uploaded. The example value is 'Hello World' base64 encoded
+    + submissionFile (required, string, `abcd.zip`) ... The submission zip
     + type (optional, string, `checkpoint`) ... The type of submission. Can be 'final' or 'checkpoint'. If absent, 'final' is assumed.
 
 + Response 200 (application/json)
@@ -2548,7 +2547,7 @@ Register a new user.
 
 + Parameters
     + challlengeId (required, integer, 545464) ... The challenge id 
-    + submissionFile (required, string, `abcd.zip`) ... The submission zip 
+    + submissionFile (required, string, `abcd.zip`) ... The submission zip
     + sourceFile (required, string, `efgh.zip`) ... The source zip
     + previewFile (required, string, `hijk.png`) ... The preview image file
     + type (optional, string, `checkpoint`) ... The type of submission. Can be 'submission' or 'checkpoint'. If absent, 'submission' is assumed.

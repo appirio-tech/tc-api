@@ -70,13 +70,14 @@ describe('Submit for develop challenge', function () {
      * @param {Object} user the user to authenticate
      * @param {Number} expectedStatusCode the expected status code of the response
      */
-    function getRequest(url, user, expectedStatusCode) {
+    function getRequest(url, user, expectedStatusCode, file) {
         var req = request(API_ENDPOINT)
             .post(url)
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user))
             .expect('Content-Type', /json/)
-            .expect(expectedStatusCode);
+            .expect(expectedStatusCode)
+            .attach('submissionFile', file);
         return req;
     }
 
@@ -153,11 +154,9 @@ describe('Submit for develop challenge', function () {
      * the thurgood id must be set in submission table
      */
     it('should submit successfully', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 200);
-        var buffer = fs.readFileSync(sampleSubmissionPath);
+        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 200, sampleSubmissionPath);
 
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -227,11 +226,9 @@ describe('Submit for develop challenge', function () {
      * the thurgood id must NOT be set in submission table because it applies only to final submissions
      */
     it('should submit checkpoint successfully', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit?type=checkpoint', user124764, 200);
-        var buffer = fs.readFileSync(sampleSubmissionPath);
+        var req = getRequest('/v2/develop/challenges/77701/submit?type=checkpoint', user124764, 200, sampleSubmissionPath);
 
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -300,11 +297,9 @@ describe('Submit for develop challenge', function () {
      * the thurgood id in the submission table must be null
      */
     it('should submit successfully for project with no thurgood properties', function (done) {
-        var req = getRequest('/v2/develop/challenges/77707/submit', user124764, 200),
-            buffer = fs.readFileSync(sampleSubmissionPath);
+        var req = getRequest('/v2/develop/challenges/77707/submit', user124764, 200, sampleSubmissionPath);
 
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -340,37 +335,33 @@ describe('Submit for develop challenge', function () {
 
         async.series([
             function (cb) {
-                var req = getRequest('/v2/develop/challenges/77708/submit?type=checkpoint', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77708/submit?type=checkpoint', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         c1uid = resp.body.uploadId;
                         c1sid = resp.body.submissionId;
                         cb(err);
                     });
             }, function (cb) {
-                var req = getRequest('/v2/develop/challenges/77708/submit?type=checkpoint', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77708/submit?type=checkpoint', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         c2uid = resp.body.uploadId;
                         c2sid = resp.body.submissionId;
                         cb(err);
                     });
             }, function (cb) {
-                var req = getRequest('/v2/develop/challenges/77708/submit', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77708/submit', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         s1uid = resp.body.uploadId;
                         s1sid = resp.body.submissionId;
                         cb(err);
                     });
             }, function (cb) {
-                var req = getRequest('/v2/develop/challenges/77708/submit', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77708/submit', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         s2uid = resp.body.uploadId;
                         s2sid = resp.body.submissionId;
                         cb(err);
@@ -424,37 +415,33 @@ describe('Submit for develop challenge', function () {
 
         async.series([
             function (cb) {
-                var req = getRequest('/v2/develop/challenges/77709/submit?type=checkpoint', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77709/submit?type=checkpoint', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         c1uid = resp.body.uploadId;
                         c1sid = resp.body.submissionId;
                         cb(err);
                     });
             }, function (cb) {
-                var req = getRequest('/v2/develop/challenges/77709/submit?type=checkpoint', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77709/submit?type=checkpoint', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         c2uid = resp.body.uploadId;
                         c2sid = resp.body.submissionId;
                         cb(err);
                     });
             }, function (cb) {
-                var req = getRequest('/v2/develop/challenges/77709/submit', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77709/submit', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         s1uid = resp.body.uploadId;
                         s1sid = resp.body.submissionId;
                         cb(err);
                     });
             }, function (cb) {
-                var req = getRequest('/v2/develop/challenges/77709/submit', user124764, 200),
-                    buffer = fs.readFileSync(sampleSubmissionPath);
-                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-                    .end(function (err, resp) {
+                var req = getRequest('/v2/develop/challenges/77709/submit', user124764, 200, sampleSubmissionPath);
+
+                req.end(function (err, resp) {
                         s2uid = resp.body.uploadId;
                         s2sid = resp.body.submissionId;
                         cb(err);
@@ -496,14 +483,12 @@ describe('Submit for develop challenge', function () {
      * should return 401 error
      */
     it('should return 401 error when not logged-in', function (done) {
-        var req = request(API_ENDPOINT)
+        request(API_ENDPOINT)
             .post('/v2/develop/challenges/77701/submit')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(401);
-
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+            .expect(401)
+            .attach('submissionFile', sampleSubmissionPath)
             .end(done);
     });
 
@@ -512,11 +497,7 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error challenge id is not a number', function (done) {
-        var req = getRequest('/v2/develop/challenges/blah/submit', user124764, 400);
-
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(done);
+        getRequest('/v2/develop/challenges/blah/submit', user124764, 400, sampleSubmissionPath).end(done);
     });
 
     /**
@@ -524,34 +505,7 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error challenge id is too large', function (done) {
-        var req = getRequest('/v2/develop/challenges/2893473289749283749237489327498273497238947/submit', user124764, 400);
-
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(done);
-    });
-
-    /**
-     * Test /v2/develop/challenges/:challengeId/submit when file data is empty
-     * should return 400 error
-     */
-    it('should return 400 error when file data is empty', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 400);
-
-        req.send({ fileName: 'sample_submission.zip', fileData: '     ' })
-            .end(done);
-    });
-
-    /**
-     * Test /v2/develop/challenges/:challengeId/submit when file name is empty
-     * should return 400 error
-     */
-    it('should return 400 error when file name is empty', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 400);
-
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: '     ', fileData: buffer.toString('base64') })
-            .end(done);
+        getRequest('/v2/develop/challenges/2893473289749283749237489327498273497238947/submit', user124764, 400, sampleSubmissionPath).end(done);
     });
 
     /**
@@ -559,23 +513,7 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error when type is not allowed', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit?type=nono', user124764, 400);
-
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(done);
-    });
-
-    /**
-     * Test /v2/develop/challenges/:challengeId/submit when file name is more than 256 chars
-     * should return 400 error
-     */
-    it('should return 400 error when file name is more than 256 chars', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 400);
-
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'kdhbfkjdshfkjshdkfjhsdkjfhdskjfhksjdhfkjdshfkjdshfkjsdhfkjdshfkjdshfkjdshfkjhdskjfhsdkjfhkjsdhfkjsdhfkjsdhfkjshdkjfhsdkjfhskjdhfkjdshfkjshdkjfhskjdfhskjdfhkjsdhfkjsdhfkjdshfkjhsdkjfhkjsdhfkjdshfkjshdfkjhsdkjfhkjsdhfkjdshkjfhskjdfhkjsdhfkjsdhfkjhsdkjfhkjsdhfkjsdhkjdsjfkhskjdhfkjsdhfkjsh.txt', fileData: buffer.toString('base64') })
-            .end(done);
+        getRequest('/v2/develop/challenges/77701/submit?type=nono', user124764, 400, sampleSubmissionPath).end(done);
     });
 
     /**
@@ -583,11 +521,9 @@ describe('Submit for develop challenge', function () {
      * should return 404 error
      */
     it('should return 404 error when contest does not exist', function (done) {
-        var req = getRequest('/v2/develop/challenges/77799/submit', user124764, 404);
+        var req = getRequest('/v2/develop/challenges/77799/submit', user124764, 404, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -602,11 +538,9 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error when contest is not a develop challenge', function (done) {
-        var req = getRequest('/v2/develop/challenges/77702/submit', user124764, 400);
+        var req = getRequest('/v2/develop/challenges/77702/submit', user124764, 400, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -621,11 +555,9 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error when contest submission phase is not open', function (done) {
-        var req = getRequest('/v2/develop/challenges/77703/submit', user124764, 400);
+        var req = getRequest('/v2/develop/challenges/77703/submit', user124764, 400, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -640,11 +572,9 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error when type is checkpoint and checkpoint submission phase is not open', function (done) {
-        var req = getRequest('/v2/develop/challenges/77704/submit?type=checkpoint', user124764, 400);
+        var req = getRequest('/v2/develop/challenges/77704/submit?type=checkpoint', user124764, 400, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -659,11 +589,9 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error when contest type is MM', function (done) {
-        var req = getRequest('/v2/develop/challenges/77705/submit', user124764, 400);
+        var req = getRequest('/v2/develop/challenges/77705/submit', user124764, 400, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -678,11 +606,9 @@ describe('Submit for develop challenge', function () {
      * should return 400 error
      */
     it('should return 400 error when contest type is Spec Review', function (done) {
-        var req = getRequest('/v2/develop/challenges/77706/submit', user124764, 400);
+        var req = getRequest('/v2/develop/challenges/77706/submit', user124764, 400, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -697,11 +623,9 @@ describe('Submit for develop challenge', function () {
      * should return 403 error
      */
     it('should return 403 error when user does not have Submitter role', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit', user124834, 403);
+        var req = getRequest('/v2/develop/challenges/77701/submit', user124834, 403, sampleSubmissionPath);
 
-        var buffer = fs.readFileSync(sampleSubmissionPath);
-        req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;
@@ -716,11 +640,9 @@ describe('Submit for develop challenge', function () {
      * should return 413 error
      */
     it('should return 413 error user submits a file which is larger than what we have configured', function (done) {
-        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 413);
+        var req = getRequest('/v2/develop/challenges/77701/submit', user124764, 413, sampleSubmissionPathTooLarge);
 
-        var buffer = fs.readFileSync(sampleSubmissionPathTooLarge);
-        req.send({ fileName: 'sample_submission_too_large.zip', fileData: buffer.toString('base64') })
-            .end(function (err, resp) {
+        req.end(function (err, resp) {
                 if (err) {
                     done(err);
                     return;

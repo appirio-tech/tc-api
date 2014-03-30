@@ -862,8 +862,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         ret = {},
         userId = connection.caller.userId,
         challengeId = Number(connection.params.challengeId),
-        fileName = connection.params.fileName,
-        fileData = connection.params.fileData,
+        fileName,
         type = connection.params.type,
         error,
         resourceId,
@@ -878,7 +877,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.thurgoodApiKey,
         thurgoodJobId = null,
         multipleSubmissionPossible,
-        savedFilePath = null;
+        savedFilePath = null,
+        submissionFile = connection.params.submissionFile;
 
     async.waterfall([
         function (cb) {
@@ -891,9 +891,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
 
             //Simple validations of the incoming parameters
             error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId') ||
-                helper.checkStringPopulated(fileName, 'fileName') ||
-                helper.checkStringPopulated(fileData, 'fileData');
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
 
             if (error) {
                 cb(error);
@@ -911,7 +909,15 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 }
             }
 
+            //Simple validations of the incoming parameters
+            if (submissionFile.constructor.name !== 'File') {
+                cb(new IllegalArgumentError("submissionFile must be a File"));
+                return;
+            }
+
+
             //Validation for the size of the fileName parameter. It should be 256 chars as this is max length of parameter field in submission table.
+            fileName = submissionFile.name;
             if (fileName.length > 256) {
                 cb(new BadRequestError("The file name is too long. It must be 256 characters or less."));
                 return;
@@ -980,49 +986,37 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
             uploadId = generatedIds.uploadId;
             submissionId = generatedIds.submissionId;
 
-            var submissionPath,
-                filePathToSave,
-                decodedFileData;
+            var submissionPath;
 
             //The file output dir should be overwritable by environment variable
             submissionPath = api.config.submissionDir;
 
             //The path to save is the folder with the name as <base submission path>
             //The name of the file is the <generated upload id>_<original file name>
-            filePathToSave = submissionPath + "/" + uploadId + "_" + connection.params.fileName;
+            savedFilePath = submissionPath + "/" + uploadId + "_" + fileName;
 
-            //Decode the base64 encoded file data
-            decodedFileData = new Buffer(connection.params.fileData, 'base64');
+            //Check the max length of the submission file (if there is a limit)
+            if (api.config.submissionMaxSizeBytes > 0) {
+                fs.stat(submissionFile.path, function (err, stats) {
+                    if (err) {
+                        cb(err);
+                        return;
+                    }
 
-            //Write the submission to file
-            fs.writeFile(filePathToSave, decodedFileData, function (err) {
-                if (err) {
-                    cb(err);
-                    return;
-                }
-
-                //Check the max length of the submission file (if there is a limit)
-                if (api.config.submissionMaxSizeBytes > 0) {
-                    fs.stat(filePathToSave, function (err, stats) {
-                        if (err) {
-                            cb(err);
-                            return;
-                        }
-                        if (stats.size > api.config.submissionMaxSizeBytes) {
-                            cb(new RequestTooLargeError(
-                                "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
-                            ));
-                            return;
-                        }
-                        savedFilePath = filePathToSave;
-                        cb();
-                    });
-                } else {
-                    savedFilePath = filePathToSave;
+                    if (stats.size > api.config.submissionMaxSizeBytes) {
+                        cb(new RequestTooLargeError(
+                            "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
+                        ));
+                        return;
+                    }
                     cb();
-                }
-            });
+                });
+            } else {
+                cb();
+            }
         }, function (cb) {
+            fs.createReadStream(submissionFile.path).pipe(fs.createWriteStream(savedFilePath));
+
             //Now insert into upload table
             _.extend(sqlParams, {
                 uploadId: uploadId,
@@ -1609,7 +1603,7 @@ exports.submitForDevelopChallenge = {
     name: "submitForDevelopChallenge",
     description: "submitForDevelopChallenge",
     inputs: {
-        required: ["challengeId", "fileName", "fileData"],
+        required: ["challengeId", "submissionFile"],
         optional: ["type"]
     },
     blockedConnectionTypes: [],
