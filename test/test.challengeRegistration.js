@@ -371,14 +371,6 @@ describe('Challenge Registration API', function () {
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user11))
             .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function (err, result) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                console.log('Registration completed. Now verify the database is the same as predicted data');
-                validateDatabaseForDevelop(done);
-            });
+            .expect(200, done);
     });
 });
