@@ -756,7 +756,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             documentName: item.document_name,
-                            url: api.config.documentProvider + item.document_id
+                            url: api.config.documentProvider + item.document_id + '?challengeId=' + data.challenge_id
                         };
                     });
                 };
