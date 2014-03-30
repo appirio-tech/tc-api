@@ -254,15 +254,14 @@ config.databaseMapping = {
     "jive": "TC_DB"
 };
 
-config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+config.documentProvider = 'http://api.topcoder.com/v2/download/document/';
 
 /**
  * The default password to be used for social register
  */
 config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
-config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
-config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
-config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
+config.submissionLink = 'http://api.topcoder.com/v2/develop/download/';
+config.designSubmissionLink = 'http://api.topcoder.com/v2/design/download/';
 
 //The name of the folder where to store the submission files.
 //Please make sure the directory already exists
