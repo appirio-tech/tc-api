@@ -921,7 +921,7 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
                     prize: element.prize,
                     submissionDate: element.submission_date,
                     viewable: element.viewable.toLowerCase() === "true",
-                    preview: api.config.designSubmissionLink + element.submission_id + "&sbt=small"
+                    preview: api.config.designSubmissionLink + element.submission_id + "&submissionType=preview"
                 };
                 if (!winningSubmission.viewable) {
                     delete winningSubmission.preview;
