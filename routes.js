@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
+ * @version 1.25
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -59,6 +59,8 @@
  * - added route for check email availability api
  * changes in 1.24
  * - added stub api for reset token and reset password
+ * changes in 1.25
+ * - added route for activate user api
  */
 
 /* ---------------------
@@ -155,6 +157,7 @@ exports.routes = {
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/validateSocial", action: "validateSocial" },
 
+        { path: "/:apiVersion/users/activate", action: "activateUser" },
         { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },

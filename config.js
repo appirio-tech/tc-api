@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, muzehyun
+ * @version 1.13
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * - added designSubmissionsBasePath for design submissions 
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * changes in 1.13:
+ * - add welcome email property.
  */
 "use strict";
 
@@ -283,6 +285,13 @@ config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 
 //The base folder for design submission files
 config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
+
+config.welcomeEmail = {
+    template: 'welcome_email',
+    subject: 'Welcome to TopCoder',
+    fromAddress: process.env.TC_EMAIL_ACCOUNT,
+    senderName: 'Topcoder API'
+};
 
 //////////////////////////////////
 

@@ -1,0 +1,2 @@
+DELETE FROM user WHERE user_id >= 900000 AND user_id <= 999999;
+DELETE FROM email WHERE user_id >= 900000 AND user_id <= 999999;
