@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.28
+ * @version 1.29
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -67,6 +67,8 @@
  * - separate basic user profile api into my profile api and public profile api
  * changes in 1.28
  * - added route for Dosusign get recipient view url
+ * changes in 1.29
+ * - added route for activate user api
  */
 
 /* ---------------------
@@ -163,6 +165,7 @@ exports.routes = {
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/validateSocial", action: "validateSocial" },
 
+        { path: "/:apiVersion/users/activate", action: "activateUser" },
         { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },

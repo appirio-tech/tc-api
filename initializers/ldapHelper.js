@@ -2,8 +2,11 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: TCSASSEMBLER
+ * Version: 1.1
+ * Author: TCSASSEMBLER, muzehyun
+ * changes in 1.1
+ * - add retrieveMemberProfileLDAPEntry
+ * - fix bugs (returing too early without any result)
  */
 "use strict";
 
@@ -200,6 +203,46 @@ var modifyClient = function (api, client, params, callback) {
 };
 
 /**
+ * Function used to retrieve an entry in ldap server
+ * 
+ * @param {Object} api - object used to access infrastructure
+ * @param {Object} client - an object of current client of ldap server
+ * @param {Object} params - the parameters
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
+ */
+var retrieveClient = function (api, client, params, callback) {
+    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn;
+    client.search(dn, {}, function (err, res) {
+        if (err) {
+            client.unbind();
+            callback('cannot get client from ldap server', translateLdapError(err));
+        }
+
+        res.on('searchEntry', function(entry) {
+            api.log('Successfully retrieve from ldap server', 'info');
+            var result = {
+                userId: entry.object.uid,
+                handle: entry.object.handle,
+                status: entry.object.status
+            };
+            callback(null, result);
+        });
+
+        res.on('searchReference', function(referral) {
+            console.log('referral: ' + referral.uris.join());
+        });
+
+        res.on('error', function(err) {
+            console.error('error: ' + err.message);
+        });
+
+        res.on('end', function(result) {
+            console.log('status: ' + result.status);
+        });
+    });
+};
+
+/**
  * Expose the "ldapHelper" utility.
  *
  * @param {Object} api The api object that is used to access the infrastructure
@@ -245,17 +288,16 @@ exports.ldapHelper = function (api, next) {
                     if (err) {
                         error = result.pop();
                         api.log('addMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
-                        return next(err, null);
                     } else {
                         client.unbind();
                     }
                     api.log('Leave addMemberProfileLDAPEntry', 'debug');
+                    next(null, true);
                 });
             } catch (err) {
                 console.log('CAUGHT: ' + err);
                 return next(error, null);
             }
-            return next(null, true);
         },
         
         /**
@@ -285,17 +327,16 @@ exports.ldapHelper = function (api, next) {
                     
                     if (err) {
                         api.log('removeMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
-                        return next(err, null);
                     } else {
                         client.unbind();
                     }
                     api.log('Leave removeMemberProfileLDAPEntry', 'debug');
+                    next(err, true);
                 });
             } catch (err) {
                 console.log('CAUGHT: ' + err);
-                return next(error, null);
+                return next(err, null);
             }
-            return next(null, true);
         },
 
         /**
@@ -316,11 +357,9 @@ exports.ldapHelper = function (api, next) {
                 api.log("activateMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                 return next(error, true);
             }
-
             async.series([
                 function (callback) {
                     client = createClient();
-
                     callback(null, 'create client');
                 },
                 function (callback) {
@@ -333,13 +372,58 @@ exports.ldapHelper = function (api, next) {
                 if (err) {
                     error = result.pop();
                     api.log('activateMemberProfileLDAPEntry ' + err + ' ', 'error', error);
-                    return next(err, null);
                 } else {
                     client.unbind();
                 }
                 api.log('Leave activateMemberProfileLDAPEntry', 'debug');
+                next(err, true);
             });
-            return next(null, true);
+        },
+
+        /**
+         * Main function of retrieveMemberProfileLDAPEntry
+         *
+         * @param {Object} params require fields: userId
+         * @param {Function} next - callback function
+         */
+        retrieveMemberProfileLDAPEntry: function (params, next) {
+            api.log('Enter retrieveMemberProfileLDAPEntry', 'debug');
+
+            var client, error;
+
+            // pararms validation
+            error = api.helper.checkDefined(params['userId'], 'userId');
+            if (error) {
+                api.log("retrieveMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
+                return next(error, true);
+            }
+
+            async.series([
+                function (callback) {
+                    client = createClient();
+
+                    callback(null, 'create client');
+                },
+                function (callback) {
+                    bindClient(api, client, callback);
+                },
+                function (callback) {
+                    retrieveClient(api, client, params, callback);
+                }
+            ], function (err, result) {
+                var entry;
+                if (result.length >= 2) {
+                   entry = result[2];
+                }
+                if (err) {
+                    error = result.pop();
+                    api.log('retrieveMemberProfileLDAPEntry ' + err + ' ', 'error', error);
+                } else {
+                    client.unbind();
+                }
+                api.log('Leave retrieveMemberProfileLDAPEntry', 'debug');
+                next(err, entry);
+            });
         }
     };
     next();

@@ -2,7 +2,8 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.15
+ * @version 1.16
+ * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
  * - add badgeProperties.
@@ -36,6 +37,8 @@
  * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
  * Changes in 1.15:
  * - added configuration for Docusign integration.
+ * Changes in 1.16:
+ * - add welcome email property.
  */
 "use strict";
 
@@ -312,5 +315,13 @@ config.docusign = {
 	appirioMutualNDATemplateId: '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
 	affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C'
 };
+
+config.welcomeEmail = {
+    template: 'welcome_email',
+    subject: 'Welcome to TopCoder',
+    fromAddress: process.env.TC_EMAIL_ACCOUNT,
+    senderName: 'Topcoder API'
+};
+
 
 exports.config = config;

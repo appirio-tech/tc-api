@@ -1,0 +1,1 @@
+UPDATE email SET status_id = 1 WHERE user_id = @user_id@
