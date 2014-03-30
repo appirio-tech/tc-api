@@ -756,7 +756,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             documentName: item.document_name,
-                            url: api.config.documentProvider + '=' + item.document_id
+                            url: api.config.documentProvider + item.document_id + '?challengeId=' + data.challenge_id
                         };
                     });
                 };
@@ -1406,11 +1406,11 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 //Submission Links
                 if (isStudio) {
                     if (res.restrictions[0].show_submissions) {
-                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id;
-                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "&sbt=small";
+                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id + "?submissionType=original";
+                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "?submissionType=preview";
                     }
                 } else {
-                    resEl.submissionDownloadLink = api.config.submissionLink + el.upload_id;
+                    resEl.submissionDownloadLink = api.config.submissionLink + el.submission_id;
                 }
 
                 //Handle
@@ -1429,12 +1429,12 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             if (isStudio) {
                 if (res.restrictions[0].show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
-                        return api.config.designSubmissionLink + ff.submission_id;
+                        return api.config.designSubmissionLink + ff.submission_id + "?submissionType=original";
                     });
                 }
             } else {
                 result.finalFixes = _.map(res.finalFixes, function (ff) {
-                    return api.config.finalFixLink + ff.upload_id;
+                    return api.config.submissionLink + ff.submission_id;
                 });
             }
 
