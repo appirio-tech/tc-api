@@ -1406,8 +1406,8 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 //Submission Links
                 if (isStudio) {
                     if (res.restrictions[0].show_submissions) {
-                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id + "&submissionType=original";
-                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "&submissionType=preview";
+                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id + "?submissionType=original";
+                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "?submissionType=preview";
                     }
                 } else {
                     resEl.submissionDownloadLink = api.config.submissionLink + el.submission_id;
@@ -1429,7 +1429,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             if (isStudio) {
                 if (res.restrictions[0].show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
-                        return api.config.designSubmissionLink + ff.submission_id + "&submissionType=original";
+                        return api.config.designSubmissionLink + ff.submission_id + "?submissionType=original";
                     });
                 }
             } else {
