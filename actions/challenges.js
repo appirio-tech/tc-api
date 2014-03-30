@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.17
+ * @version 1.18
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -42,6 +42,8 @@
  * add studio checkpoint submissions and submitter count
  * changes in 1.17:
  * add API for submitting to design challenge
+ * changes in 1.18:
+ * add clientSelection flag in studio results
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -754,7 +756,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             documentName: item.document_name,
-                            url: api.config.documentProvider + '=' + item.document_id
+                            url: api.config.documentProvider + item.document_id
                         };
                     });
                 };
@@ -1388,6 +1390,10 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                         screeningScore: el.screening_score,
                         initialScore: el.initial_score
                     });
+                } else {
+                    _.extend(resEl, {
+                        clientSelection: el.mark_for_purchase
+                    });
                 }
 
 
@@ -1400,11 +1406,11 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 //Submission Links
                 if (isStudio) {
                     if (res.restrictions[0].show_submissions) {
-                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id;
-                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "&sbt=small";
+                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id + "&submissionType=original";
+                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "&submissionType=preview";
                     }
                 } else {
-                    resEl.submissionDownloadLink = api.config.submissionLink + el.upload_id;
+                    resEl.submissionDownloadLink = api.config.submissionLink + el.submission_id;
                 }
 
                 //Handle
@@ -1423,12 +1429,12 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             if (isStudio) {
                 if (res.restrictions[0].show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
-                        return api.config.designSubmissionLink + ff.submission_id;
+                        return api.config.designSubmissionLink + ff.submission_id + "&submissionType=original";
                     });
                 }
             } else {
                 result.finalFixes = _.map(res.finalFixes, function (ff) {
-                    return api.config.finalFixLink + ff.upload_id;
+                    return api.config.submissionLink + ff.submission_id;
                 });
             }
 
