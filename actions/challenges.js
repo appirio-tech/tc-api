@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.17
+ * @version 1.18
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -42,6 +42,8 @@
  * add studio checkpoint submissions and submitter count
  * changes in 1.17:
  * add API for submitting to design challenge
+ * changes in 1.18:
+ * add clientSelection flag in studio results
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -1387,6 +1389,10 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                         finalScore: el.final_score,
                         screeningScore: el.screening_score,
                         initialScore: el.initial_score
+                    });
+                } else {
+                    _.extend(resEl, {
+                        clientSelection: el.mark_for_purchase
                     });
                 }
 
