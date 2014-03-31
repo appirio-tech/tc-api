@@ -318,9 +318,9 @@ config.docusign = {
 
 config.welcomeEmail = {
     template: 'welcome_email',
-    subject: 'Welcome to TopCoder',
-    fromAddress: process.env.TC_EMAIL_ACCOUNT,
-    senderName: 'Topcoder API'
+    subject: 'Welcome to [topcoder]',
+    fromAddress: process.env.TC_EMAIL_FROM,
+    senderName: '[topcoder] API'
 };
 
 
