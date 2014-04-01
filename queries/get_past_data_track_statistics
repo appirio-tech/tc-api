@@ -1,0 +1,22 @@
+SELECT
+  COUNT(*) as total_count
+FROM
+  round r
+, contest c
+, long_comp_result lcr
+, coder co
+WHERE r.contest_id = c.contest_id
+AND r.round_type_id IN (10,13,15,19,22,24,25,27)
+AND r.failed = 0
+AND r.round_id = lcr.round_id
+AND co.coder_id = lcr.coder_id
+AND lcr.attended = 'Y'
+AND lcr.placed = 1
+
+UNION ALL
+
+SELECT COUNT(*) AS total_count
+FROM contest AS c
+JOIN round r ON c.contest_id = r.contest_id AND r.failed = 0 AND r.status='A'
+JOIN calendar AS cal ON cal.calendar_id = r.calendar_id
+WHERE r.round_type_id IN (1,2,10)

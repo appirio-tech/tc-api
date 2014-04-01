@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.29
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
+ * @version 1.30
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -69,6 +69,8 @@
  * - added route for Dosusign get recipient view url
  * changes in 1.29
  * - added route for activate user api
+ * Changes in 1.30:
+ * - add route for track statistics API.
  */
 
 /* ---------------------
@@ -199,6 +201,7 @@ exports.routes = {
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+        { path: "/:apiVersion/reports/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },

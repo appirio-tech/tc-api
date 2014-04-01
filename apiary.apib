@@ -387,15 +387,31 @@ Report APIs
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"startDate is not a valid date."
         }
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"endDate is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"startDate should be earlier than endDate or at same date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"track should be an element of develop,design,data."
         }
 
 + Response 500 (application/json)

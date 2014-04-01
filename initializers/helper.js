@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.20
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, TCSASSEMBLER
+ * @version 1.21
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -58,6 +58,8 @@
  * - updated softwareChallengeTypes
  * changes in 1.20
  * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
+ * - add method transferDBResults2Response.
  */
 "use strict";
 
@@ -75,6 +77,7 @@ if (typeof String.prototype.startsWith !== 'function') {
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
+var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -887,7 +890,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1120,6 +1123,17 @@ helper.checkTrackName = function (track, isStudio) {
 };
 
 /**
+ * Transfer db results to camelize response object.
+ * @param {Object} results - the results from database.
+ * @since 1.21
+ */
+helper.transferDBResults2Response = function (results) {
+    return _.map(results, function (row) {
+        return _.object(_.chain(row).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(row));
+    });
+};
+
+/**
  * Checks whether given user is registered or not. If user not exist then NotFoundError is returned to callback.
  *
  * @param {String} handle - the handle to check
@@ -1204,8 +1218,8 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-    
+    };
+
     return cr;
 }
 
