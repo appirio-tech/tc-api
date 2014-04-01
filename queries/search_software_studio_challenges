@@ -25,7 +25,7 @@ FIRST @pageSize@
 , pr.prize6
 , pr.prize7
 , pr.prize8
-, NVL(pp.registration_actual_end_time, pp.registration_scheduled_end_time) AS posting_date
+, NVL(pp.registration_actual_start_time, pp.registration_scheduled_start_time) AS posting_date
 , NVL(pp.registration_actual_end_time, pp.registration_scheduled_end_time) AS registration_end_date
 , NVL(pp.checkpoint_actual_end_time , pp.checkpoint_scheduled_end_time) AS checkpoint_submission_end_date
 , NVL(pp.submission_actual_end_time, pp.submission_scheduled_end_time) AS submission_end_date
@@ -68,6 +68,8 @@ INNER JOIN (
     project_id
   , MAX(DECODE(phase_type_id, 1, actual_end_time, NULL)) AS registration_actual_end_time
   , MAX(DECODE(phase_type_id, 1, scheduled_end_time, NULL)) AS registration_scheduled_end_time
+  , MAX(DECODE(phase_type_id, 1, scheduled_start_time, NULL)) AS registration_scheduled_start_time
+  , MAX(DECODE(phase_type_id, 1, actual_start_time, NULL)) AS registration_actual_start_time
   , MAX(DECODE(phase_type_id, 2, actual_end_time, NULL)) AS submission_actual_end_time
   , MAX(DECODE(phase_type_id, 2, scheduled_end_time, NULL)) AS submission_scheduled_end_time
   , MAX(DECODE(phase_type_id, 6, scheduled_end_time, NULL)) AS appeals_scheduled_end_time
