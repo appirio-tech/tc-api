@@ -347,6 +347,9 @@ function transferResult(src, helper) {
         if (row.final_fix_end_date) {
             challenge.finalFixEndDate = formatDate(row.final_fix_end_date);
         }
+        if (!_.isDefined(row.checkpoint_submission_end_date)) {
+            delete challenge.checkpointSubmissionEndDate;
+        }
 
         //use xtend to preserve ordering of attributes
         challenge = extend(challenge, {
@@ -1029,7 +1032,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 fileName: fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function(notUsed, cb) {
+        }, function (notUsed, cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
@@ -1247,7 +1250,7 @@ exports.getChallengeTerms = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-	cacheEnabled : false,
+    cacheEnabled : false,
     databases : ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -1876,7 +1879,7 @@ var SOURCE_DIR = 'source/';
 /**
  * The directory in the unified zip that contains the submission files
  */
-var SUBMISSION_DIR = 'submission/'
+var SUBMISSION_DIR = 'submission/';
 
 /**
  * Generates a unified submission zip for design submissions using the 3 files that submitters submit
