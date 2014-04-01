@@ -347,9 +347,6 @@ function transferResult(src, helper) {
         if (row.final_fix_end_date) {
             challenge.finalFixEndDate = formatDate(row.final_fix_end_date);
         }
-        if (!_.isDefined(row.checkpoint_submission_end_date)) {
-            delete challenge.checkpointSubmissionEndDate;
-        }
 
         //use xtend to preserve ordering of attributes
         challenge = extend(challenge, {
