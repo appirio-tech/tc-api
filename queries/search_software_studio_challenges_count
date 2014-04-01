@@ -70,9 +70,10 @@ LEFT OUTER JOIN (
     scheduled_end_time
   , actual_end_time
   , phase_type_id
-  , project_id
-  FROM project_phase
-  WHERE project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase pp WHERE pp.project_id = project_id AND pp.phase_status_id = 2 AND pp.phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
+  , pp.project_id
+  FROM project p
+  LEFT OUTER JOIN project_phase pp ON pp.project_id = p.project_id
+  WHERE project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase pp WHERE pp.project_id = p.project_id AND pp.phase_status_id = 2 AND pp.phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
 ) nd_phase ON nd_phase.project_id = p.project_id
 INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1
 INNER JOIN project_status_lu pstatus ON p.project_status_id = pstatus.project_status_id
