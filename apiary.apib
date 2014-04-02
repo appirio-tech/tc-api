@@ -1383,8 +1383,8 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## User Preference [/users/preference/{handle}]
-### User Preference [GET]
+## User Settings [/users/settings/{handle}]
+### User Settings [GET]
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
 
@@ -1408,6 +1408,23 @@ Register a new user.
                     "topCoderNewsAndEvents": "Yes",
                     "topCoderDesignStudioNewsletter": "No"
                 }
+             },
+             "demographic": {
+                "nonEnglishName": "name1",
+                "jobTitle": "Lorem ipsum",
+                "age": "18 - 25",
+                "gender": "Male",
+                "ethnicBackground": "Asian or Pacific Islander",
+                "primaryInterest": "Creative Competition",
+                "shirtSize": "Small",
+                "collegeMajor": "Computer Science",
+                "collegeMajorDescription": "Software Design",
+                "degreeProgram": "Bachelors",
+                "graduationDate": "21/02/2011",
+                "clubsOrOrganizations": "None",
+                "school": "Harvard University",
+                "gpa": 3.5,
+                "gpaScale": 5
              }
         }
 
