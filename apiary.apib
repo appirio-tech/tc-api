@@ -1382,6 +1382,74 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## User Preference [/users/preference/{handle}]
+### User Preference [GET]
++ Parameters
+    + handle (required, string, `iRabbit`) ... Member Handle
+
++ Response 200 (application/json)
+
+        {
+             "privacy": {
+                "showMySchool": "Yes",
+                "showMyEarnings": "No",
+                "receiveMessages": "Yes",
+                "messageBlackList": ["handleA", "handleB"]
+             },
+             "emailNotification": {
+                "competitionAnnouncements": {
+                    "algorithmCompetitions": "No",
+                    "softwareDevelopmentOpportunities": "Yes",
+                    "topCoderStudioCompetitions": "No"
+                },
+                "others": {
+                    "employmentOpportunities": "Yes",
+                    "topCoderNewsAndEvents": "Yes",
+                    "topCoderDesignStudioNewsletter": "No"
+                }
+             }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 #Group Software Challenges
         
