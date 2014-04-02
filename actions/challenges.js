@@ -1026,7 +1026,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 challengeId: challengeId,
                 projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
                 resourceId: resourceId,
-                fileName: fileName
+                fileName: uploadId + "_" + fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
         }, function (notUsed, cb) {
