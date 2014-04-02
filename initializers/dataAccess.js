@@ -261,12 +261,16 @@ exports.dataAccess = function (api, next) {
                     // the connection might have been closed due to other errors, so this check must be done
                     if (connection.isConnected()) {
                         // Run the query
+                        var t1;
                         connection.query(sql, cb, {
                             start: function (q) {
-                                api.log('Start to execute ' + q, 'debug');
+                                api.log('Starting to execute ' + q, 'debug');
+                                t1 = new Date().getTime();
                             },
                             finish: function (f) {
-                                api.log('Finish executing ' + f, 'debug');
+                                var t2 = new Date().getTime();
+                                api.log('Finished executing ' + queryName + ' in ' + (t2-t1) + 'ms. Results = ' + f,
+                                    'debug');
                             }
                         }).execute();
                     }
