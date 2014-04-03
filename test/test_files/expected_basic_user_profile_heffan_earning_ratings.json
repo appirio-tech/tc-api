@@ -2,6 +2,7 @@
     "handle": "heffan",
     "country": "United States",
     "memberSince": "2001-05-09T01:04:42.000Z",
+    "overallEarning": 1000,
     "quote": "Acknowledge and move on.",
     "photoLink": "/i/m/test_image.png",
     "ratingSummary": [
@@ -144,26 +145,6 @@
             "name": "Marathon Match",
             "rating": 2000,
             "colorStyle": "color: #DDCC00"
-        }
-    ],
-    "Achievements": [
-        {
-            "description": "Algorithm Coder of the Month"
-        },
-        {
-            "description": "First Forum Post"
-        },
-        {
-            "description": "One Hundred Forum Posts"
-        },
-        {
-            "description": "First Passing Submission"
-        },
-        {
-            "description": "First Milestone Prize"
-        },
-        {
-            "description": "First Placement"
         }
     ]
 }
