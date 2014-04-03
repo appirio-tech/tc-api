@@ -193,7 +193,7 @@ config.tasks = {
   //  ['high,low'] is one worker working 2 queues
     queues: ['default'],
   // how long to sleep between jobs / scheduler checks
-    timeout: 500000,
+    timeout: process.env.TASK_TIMEOUT || 5000,
   // What redis server should we connect to for tasks / delayed jobs?
     redis: config.redis
 };
