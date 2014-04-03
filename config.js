@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.12
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
+ * @version 1.13
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * - added designSubmissionsBasePath for design submissions 
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
+ * changes in 1.13:
+ * - added the docusign object
  */
 "use strict";
 
@@ -284,6 +286,17 @@ config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 //The base folder for design submission files
 config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
 
-//////////////////////////////////
+config.docusign = {
+    w9TemplateId: '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+    w8benTemplateId: 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+    assignmentTemplateId: 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+    mutualNDATemplateId: '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
+    affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C',
+    assignmentDocTermsOfUseId: 20753,
+    callbackFailedEmailSubject: 'Processing DocuSign document failed',
+    callbackConnectKey: 'ABCDED-12435-EDFADSEC',
+    supportEmailAddress: 'arahant7@yahoo.com',
+    fromEmailAddress: 'do-not-reply@topcoder.com'
+};
 
 exports.config = config;
