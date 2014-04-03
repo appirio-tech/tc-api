@@ -1,0 +1,106 @@
+SELECT 
+  pn.value AS challenge_name
+, p.project_id AS challenge_id
+, NVL(tdp.name, '') AS project_name
+, pcl.name AS challenge_type
+, NVL(c.name, '') AS client
+, NVL(copilot.handle, '') AS copilot
+, NVL(architect.handle, '') AS architect
+, psl.name AS challenge_status
+, (SELECT NVL(name, '') FROM phase_type_lu WHERE phase_type_id = currentPhase.phase_type_id) AS current_phase
+, (SELECT COUNT(resource_id) FROM resource WHERE resource_role_id = 1 AND project_id = p.project_id) AS number_of_registrants
+, NVL(unregister.count, 0) AS number_of_unregistered
+, (SELECT NVL(SUM(TO_NUMBER(ri.value)), 0) FROM resource r INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 5 WHERE r.resource_role_id = 1 AND r.project_id = p.project_id) AS estimated_number_of_submissions
+, (SELECT
+   COUNT(DISTINCT ri.value)
+   FROM submission sub
+   , upload up
+   , resource r
+   , resource_info ri
+   WHERE up.project_id = p.project_id
+   AND up.resource_id = r.resource_id
+   AND up.upload_id = sub.upload_id
+   AND ri.resource_id = r.resource_id
+   AND ri.resource_info_type_id = 1
+   AND sub.submission_type_id = 1
+   AND sub.submission_status_id <> 5) AS current_number_of_submissions
+, TO_CHAR(NVL(reg.actual_start_time, reg.scheduled_start_time), '%Y-%m-%d') AS open_registration_date
+, (SELECT NVL(MIN(actual_start_time), MIN(scheduled_start_time)) FROM project_phase WHERE project_id = p.project_id) AS start_date
+, (SELECT COUNT(DISTINCT threadid) FROM jive:jivemessage WHERE forumid = pi4.value) AS forum_posts
+, pr.first_place_prize
+, pr.second_place_prize
+, NVL(rating.green, 0) || '/' || NVL(rating.blue, 0) || '/' || NVL(rating.yellow, 0) AS rating
+FROM project p
+INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6
+LEFT JOIN project_info pi4 ON pi4.project_id = p.project_id AND pi4.project_info_type_id = 4
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+LEFT JOIN (
+    SELECT
+      u.handle 
+    , r.project_id
+    FROM resource r
+    INNER JOIN resource_info ri ON r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1
+    INNER JOIN user u ON u.user_id = ri.value
+    WHERE r.resource_role_id = 14
+) copilot ON copilot.project_id = p.project_id
+LEFT JOIN (
+    SELECT
+      u.handle 
+    , r.project_id
+    FROM resource r
+    INNER JOIN resource_info ri ON r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1
+    INNER JOIN user u ON u.user_id = ri.value
+    WHERE r.resource_role_id = 11
+) architect ON architect.project_id = p.project_id
+LEFT JOIN (
+    SELECT
+      cli.name
+    , cli_pro.project_id
+    FROM time_oltp:client cli
+    INNER JOIN time_oltp:client_project cli_pro ON cli.client_id = cli_pro.client_id
+) c ON c.project_id = p.project_id
+INNER JOIN (
+    SELECT
+      project_id
+    , MAX(DECODE(place, 1, prize_amount, 0)) AS first_place_prize
+    , MAX(DECODE(place, 2, prize_amount, 0)) AS second_place_prize
+    FROM prize
+    WHERE prize_type_id = 15
+    GROUP BY project_id
+) pr ON pr.project_id = p.project_id
+LEFT JOIN (
+    SELECT
+      NVL(SUM(CASE WHEN NVL(rating, 0) BETWEEN 0000 AND 1199 THEN 1 ELSE 0 END), 0) AS green
+    , NVL(SUM(CASE WHEN rating BETWEEN 1200 AND 1499 THEN 1 ELSE 0 END), 0) AS blue
+    , NVL(SUM(CASE WHEN rating >= 1500 THEN 1 ELSE 0 END), 0) AS yellow
+    , p.project_id
+    FROM user_rating ur
+    INNER JOIN project p ON ur.phase_id = p.project_category_id + 111
+    INNER JOIN resource reg ON reg.project_id = p.project_id AND reg.resource_role_id = 1
+    INNER JOIN resource_info ri ON ri.resource_id = reg.resource_id AND ri.value = ur.user_id AND ri.resource_info_type_id = 1
+    GROUP BY p.project_id
+)rating ON rating.project_id = p.project_id
+LEFT JOIN (
+    SELECT
+      COUNT(DISTINCT pua.resource_user_id) AS count
+    , pua.project_id
+    FROM project_user_audit pua
+    WHERE pua.resource_role_id = 1
+    GROUP BY pua.project_id
+    HAVING MIN(CASE WHEN pua.audit_action_type_id = 1 THEN pua.action_date else extend(mdy(12, 31, 3000), year to fraction) end) <= MAX(CASE WHEN pua.audit_action_type_id = 2 THEN pua.action_date else extend(mdy(01, 01, 1900), year to fraction) end)
+) unregister ON unregister.project_id = p.project_id
+INNER JOIN project_status_lu psl ON psl.project_status_id = p.project_status_id
+LEFT JOIN project_phase currentPhase ON currentPhase.project_id = p.project_id AND currentPhase.project_phase_id = (SELECT MIN(project_phase_id) FROM project_phase WHERE phase_status_id = 2 AND project_id = p.project_id)
+INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+LEFT JOIN tc_direct_project tdp ON tdp.project_id = p.tc_direct_project_id
+WHERE 1=1
+AND p.project_status_id = 1
+AND reg.phase_status_id IN (2, 3)
+
+-- filter
+AND NVL(reg.actual_start_time, reg.scheduled_start_time) BETWEEN TO_DATE('@open_registration_date_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@open_registration_date_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
+AND LOWER(pn.value) LIKE ('@challenge_name@')
+AND pr.first_place_prize >= @prize_lower@
+AND pr.first_place_prize <= @prize_upper@
+AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)

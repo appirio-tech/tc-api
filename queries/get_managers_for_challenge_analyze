@@ -1,0 +1,27 @@
+SELECT 
+  handle
+, p.project_id AS challenge_id
+FROM direct_project_metadata dpm
+INNER JOIN user u ON u.user_id = dpm.metadata_value
+INNER JOIN project p ON p.tc_direct_project_id = dpm.tc_direct_project_id
+INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+INNER JOIN (
+    SELECT
+      project_id
+    , MAX(DECODE(place, 1, prize_amount, 0)) AS first_place_prize
+    , MAX(DECODE(place, 2, prize_amount, 0)) AS second_place_prize
+    FROM prize
+    WHERE prize_type_id = 15
+    GROUP BY project_id
+) pr ON pr.project_id = p.project_id
+INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+WHERE dpm.project_metadata_key_id = @metadata_key@
+AND p.project_status_id = 1
+AND reg.phase_status_id IN (2, 3)
+AND NVL(reg.actual_start_time, reg.scheduled_start_time) BETWEEN TO_DATE('@open_registration_date_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@open_registration_date_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
+AND LOWER(pn.value) LIKE ('@challenge_name@')
+AND pr.first_place_prize >= @prize_lower@
+AND pr.first_place_prize <= @prize_upper@
+AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)

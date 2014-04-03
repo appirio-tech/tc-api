@@ -1,0 +1,5 @@
+{
+    "name"		:	"get_managers_for_challenge_analyze",
+    "db"		:	"tcs_catalog",
+    "sqlfile"	:	"get_managers_for_challenge_analyze"
+}

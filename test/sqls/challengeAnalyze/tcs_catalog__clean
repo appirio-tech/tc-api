@@ -1,0 +1,10 @@
+DELETE FROM linked_project_xref;
+DELETE FROM user_rating;
+DELETE FROM project_user_audit WHERE project_id >= 2001;
+DELETE FROM direct_project_metadata WHERE tc_direct_project_id >= 2001;
+DELETE FROM resource_info WHERE resource_id >= 2001;
+DELETE FROM resource WHERE project_id >= 2001;
+DELETE FROM prize WHERE project_id >= 2001;
+DELETE FROM project_phase WHERE project_id >= 2001;
+DELETE FROM project_info WHERE project_id >= 2001;
+DELETE FROM project WHERE project_id >= 2001;

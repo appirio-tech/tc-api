@@ -1,0 +1,18 @@
+INSERT INTO jivecategory(categoryid, name, description, creationdate, modificationdate, lft, rgt) VALUES(2002, 'test', 'test', 1396866745344, 1396866745344, 1, 1);
+
+INSERT INTO jiveforum(forumid, name , nntpname, moddefaultthreadval, moddefaultmsgval, creationdate, modificationdate, categoryid, categoryindex, forumindexcounter)
+VALUES(2002, 'test', 'test', 1, 1, 1396866745344, 1396866745344, 2002, 1, 1);
+
+INSERT INTO jivethread(threadid, forumid, rootmessageid, modvalue, rewardpoints, creationdate, modificationdate)
+VALUES(1, 2002, 1, 1, 1, 1396866745344, 1396866745344);
+INSERT INTO jivethread(threadid, forumid, rootmessageid, modvalue, rewardpoints, creationdate, modificationdate)
+VALUES(2, 2002, 1, 1, 1, 1396866745344, 1396866745344);
+
+INSERT INTO jivemessage(messageid, parentmessageid, threadid, forumid, forumindex, userid, modvalue, rewardpoints, creationdate, modificationdate)
+VALUES(1, 1, 1, 2002, 1, 132456, 1, 1, 1396866745344, 1396866745344);
+INSERT INTO jivemessage(messageid, parentmessageid, threadid, forumid, forumindex, userid, modvalue, rewardpoints, creationdate, modificationdate)
+VALUES(2, 2, 2, 2002, 1, 132456, 1, 1, 1396866745344, 1396866748344);
+INSERT INTO jivemessage(messageid, parentmessageid, threadid, forumid, forumindex, userid, modvalue, rewardpoints, creationdate, modificationdate)
+VALUES(3, 1, 1, 2002, 1, 132456, 1, 1, 1396866745344, 1396866835344);
+INSERT INTO jivemessage(messageid, parentmessageid, threadid, forumid, forumindex, userid, modvalue, rewardpoints, creationdate, modificationdate)
+VALUES(4, 1, 1, 2002, 1, 124764, 1, 1, 1396866745344, 1396876835344);

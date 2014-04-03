@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.20
+ * @version 1.21
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -58,6 +58,8 @@
  * - updated softwareChallengeTypes
  * changes in 1.20
  * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
+ * - Update method checkAdmin to receive two more input parameters.
  */
 "use strict";
 
@@ -887,7 +889,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1005,15 +1007,17 @@ helper.checkDateFormat = function (date, format, objName) {
 /**
  * Check whether given user is Admin or not
  * @param connection
+ * @param {String} unauthorizedErrMsg - the error message for unauthorized error.
+ * @param {String} forbiddenErrMsg - the error message for forbidden error.
  * @return {Error} if user is not admin
  */
-helper.checkAdmin = function (connection) {
+helper.checkAdmin = function (connection, unauthorizedErrMsg, forbiddenErrMsg) {
     if (!connection.caller || connection.caller.accessLevel === "anon") {
-        return new UnauthorizedError();
+        return new UnauthorizedError(unauthorizedErrMsg);
     }
 
     if (connection.caller.accessLevel === "member") {
-        return new ForbiddenError();
+        return new ForbiddenError(forbiddenErrMsg);
     }
 
     if (connection.caller.accessLevel === "admin") {
@@ -1204,54 +1208,61 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-    
+    };
+
     return cr;
 }
 
+/* jslint bitwise: false */
 /**
  * get the code string by coderId
  * @param coderId  the coder id of long type.
  * @return the coder id generated hash string.
  */
 function generateActivationCode(coderId) {
-    var r = codeRandom(coderId);
-    var nextBytes = function (bytes) {
-        for (var i = 0, len = bytes.length; i < len;)
-            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
-                var val = rnd & 0xff;
-                if (val > 127) {
-                    val = val - 256;
+    var r = codeRandom(coderId),
+        nextBytes = function (bytes) {
+            var i, len, rnd, n, val;
+            for (i = 0, len = bytes.length; i < len; i) {
+                for (rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
+                    val = rnd & 0xff;
+                    if (val > 127) {
+                        val = val - 256;
+                    }
+                    bytes[i] = val;
+                    i += 1;
                 }
-                bytes[i++] = val;
             }
-    };
-    var randomBits = function(numBits) {
-        if (numBits < 0)
-            throw new Error("numBits must be non-negative");
-        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
-        var randomBits = new Int8Array(numBytes);
+        },
+        randomBits = function (numBits) {
+            if (numBits < 0) {
+                throw new Error("numBits must be non-negative");
+            }
+            var numBytes = Math.floor((numBits + 7) / 8), // avoid overflow
+                randomBits = new Int8Array(numBytes),
+                excessBits;
 
-        // Generate random bytes and mask out any excess bits
-        if (numBytes > 0) {
-            nextBytes(randomBits);
-            var excessBits = 8 * numBytes - numBits;
-            randomBits[0] &= (1 << (8 - excessBits)) - 1;
-        }
-        return randomBits;
-    }
-    var id = coderId + "";
-    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
-    var len = coderId.toString(2).length;
-    var arr = randomBits(len);
-    var bb = bignum.fromBuffer(new Buffer(arr));
-    var hash = bb.add(baseHash).toString();
+            // Generate random bytes and mask out any excess bits
+            if (numBytes > 0) {
+                nextBytes(randomBits);
+                excessBits = 8 * numBytes - numBits;
+                randomBits[0] &= (1 << (8 - excessBits)) - 1;
+            }
+            return randomBits;
+        },
+        id = coderId.toString(),
+        baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36)),
+        len = coderId.toString(2).length,
+        arr = randomBits(len),
+        bb = bignum.fromBuffer(new Buffer(arr)),
+        hash = bb.add(baseHash).toString(),
+        result;
     while (hash.length < id.length) {
         hash = "0" + hash;
     }
     hash = hash.substring(hash.length - id.length);
 
-    var result = new bigdecimal.BigInteger(id + hash);
+    result = new bigdecimal.BigInteger(id + hash);
     result = result.toString(36).toUpperCase();
     return result;
 }
@@ -1276,7 +1287,7 @@ var getCoderIdFromActivationCode = function (activationCode) {
     coderId = idhash.substring(0, idhash.length / 2);
 
     return coderId;
-}
+};
 
 helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
 helper.generateActivationCode = generateActivationCode;

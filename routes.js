@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.29
+ * @version 1.30
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -69,6 +69,8 @@
  * - added route for Dosusign get recipient view url
  * changes in 1.29
  * - added route for activate user api
+ * Changes in 1.30:
+ * - add route for challenge analyze api.
  */
 
 /* ---------------------
@@ -198,6 +200,7 @@ exports.routes = {
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
+        { path: "/:apiVersion/reports/analyze", action: "getChallengeAnalyze" },
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 

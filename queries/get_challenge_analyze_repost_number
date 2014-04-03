@@ -1,0 +1,5 @@
+SELECT
+  source_project_id AS source
+, dest_project_id AS target
+FROM linked_project_xref l
+WHERE l.link_type_id = 5

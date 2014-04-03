@@ -1,0 +1,1 @@
+DELETE FROM tc_direct_project WHERE project_id >= 2001;
