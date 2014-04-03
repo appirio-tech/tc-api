@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
  * @version 1.16
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -32,6 +32,7 @@
  * - add defaultUserCacheLifetime property.
  * changes in 1.13:
  * - add jive in database mapping.
+ * - added the docusign object
  * - add grantForumAccess property.
  * Changes in 1.14:
  * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
@@ -322,5 +323,17 @@ config.welcomeEmail = {
     senderName: '[topcoder] API'
 };
 
+config.docusign = {
+    w9TemplateId: '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+    w8benTemplateId: 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+    assignmentTemplateId: 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+    mutualNDATemplateId: '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
+    affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C',
+    assignmentDocTermsOfUseId: 20753,
+    callbackFailedEmailSubject: 'Processing DocuSign document failed',
+    callbackConnectKey: 'ABCDED-12435-EDFADSEC',
+    supportEmailAddress: 'arahant7@yahoo.com',
+    fromEmailAddress: 'do-not-reply@topcoder.com'
+};
 
 exports.config = config;

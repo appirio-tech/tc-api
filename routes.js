@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.29
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -61,6 +61,7 @@
  * - added stub api for reset token and reset password
  * changes in 1.25
  * - add route for register marathon match challenge api.
+ * - added api for docusign callback
  * changes in 1.26:
  * - added route for handling design submission
  * changes in 1.27
@@ -72,7 +73,7 @@
  */
 
 /* ---------------------
-routes.js 
+routes.js
 
 For web clients (http and https) you can define an optional RESTful mapping to help route requests to actions.
 If the client doesn't specify and action in a param, and the base route isn't a named action,
@@ -80,7 +81,7 @@ the action will attempt to be discerned from this routes.js file.
 
 - routes remain optional
 - actions defiend in params directly `action=theAction` or hitting the named URL for an action `/api/theAction`
-    will always override RESTful routing 
+    will always override RESTful routing
 - you can mix explicitly defined params with route-defined params. If there is an overlap, the route-defined params win
   - IE: /api/user/123?userId=456 => `connection.userId = 123`
   - this is a change from previous versions
@@ -217,7 +218,7 @@ exports.routes = {
     post: [
         // Stub API
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
-
+        { path: "/:apiVersion/terms/docusignCallback", action: "docusignCallback" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
