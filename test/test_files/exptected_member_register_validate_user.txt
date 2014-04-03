@@ -3,5 +3,8 @@
     "first_name": "foo",
     "handle": "testHandleFoo",
     "status": "U",
-    "last_name": "bar"
+    "last_name": "bar",
+    "utm_source": "some source", 
+    "utm_medium": "some medium",
+    "utm_campaign": "some campaign"
 }
