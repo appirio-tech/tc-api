@@ -303,7 +303,7 @@ exports.generateDocusignViewURL = {
         api.log("Executing getDocusignViewURL#run", 'debug');
         async.waterfall([
             function (cb) {
-                var x, spl, u;
+                var x, spl;
 
                 //Check if the templateId is valid
                 if (!templateId.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)) {
@@ -337,11 +337,11 @@ exports.generateDocusignViewURL = {
                 //Perform login to docusign
                 options = initializeRequest(api, api.config.docusign.serverURL + "login_information", 'GET', '');
                 request(options, function (err, res, body) {
-                    var resp; 
+                    var resp;
                     try {
                         resp = JSON.parse(body);
                     } catch (e) {
-                        err = 'Invalid JSON received from server. Most likely the server url is incorrect.'
+                        err = 'Invalid JSON received from server. Most likely the server url is incorrect.';
                     }
                     if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
                         //In case of system integration failure, we log the error (if we have one)...
@@ -401,11 +401,11 @@ exports.generateDocusignViewURL = {
                     url  = baseURL + "/envelopes";
                     options = initializeRequest(api, url, 'POST', JSON.stringify(reqParams));
                     request(options, function (err, res, body) {
-                        var resp; 
+                        var resp;
                         try {
                             resp = JSON.parse(body);
                         } catch (e) {
-                            err = 'Invalid JSON received from server. Most likely the server url is incorrect.'
+                            err = 'Invalid JSON received from server. Most likely the server url is incorrect.';
                         }
                         if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
                             //This is client's fault that they sent in a wrong template id
@@ -424,14 +424,13 @@ exports.generateDocusignViewURL = {
                         //persist the new envelope to database
                         sqlParams.envelopeId = resp.envelopeId;
                         sqlParams.complete = 0;
-                        api.dataAccess.executeQuery(
-                            'insert_docusign_envelope', sqlParams, dbConnectionMap, function (err) {
-                                if (err) {
-                                    cb(err);
-                                    return;
-                                }
-                                cb(null, resp.envelopeId);
-                            });
+                        api.dataAccess.executeQuery('insert_docusign_envelope', sqlParams, dbConnectionMap, function (err) {
+                            if (err) {
+                                cb(err);
+                                return;
+                            }
+                            cb(null, resp.envelopeId);
+                        });
                     });
                 } else {
                     //The envelope already exists
@@ -455,11 +454,11 @@ exports.generateDocusignViewURL = {
                 };
                 options = initializeRequest(api, url, 'POST', JSON.stringify(reqParams));
                 request(options, function (err, res, body) {
-                    var resp; 
+                    var resp;
                     try {
                         resp = JSON.parse(body);
                     } catch (e) {
-                        err = 'Invalid JSON received from server. Most likely the server url is incorrect.'
+                        err = 'Invalid JSON received from server. Most likely the server url is incorrect.';
                     }
                     if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
                         //In case of system integration failure, we log error, but we only show generic message to user

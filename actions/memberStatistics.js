@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.14
- * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild
+ * @version 1.15
+ * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -36,6 +36,8 @@
  * changes in 1.14
  * - added my profile api
  * - modified public profile api(basic user profile api), only return public information
+ * changes in 1.15
+ * - enabled granular data access in getBasicUserProfile via optional query param
  */
 "use strict";
 var async = require('async');
@@ -118,6 +120,24 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
         },
         result;
 
+    var loadData;
+    // check for an optional data query string param than enables loading a subset of data
+    var requestedData = connection.rawConnection.parsedURL.query.data;
+    if (_.isDefined(requestedData)) {
+        // NOTE: an empty value is acceptable and indicates only basic data is returned
+        loadData = {};
+        if (requestedData) {
+            // data is comma delimited string of requested data
+            var parts = requestedData.split(',');
+            _.each(parts, function (part) {
+                loadData[part] = true;
+            });
+        }
+        api.log("Requested data param found: " + requestedData, "debug");
+    } else {
+        loadData = {earnings:true, ratings:true, achievements:true, address:true, email:true}; // load all data by default
+    }
+
     async.waterfall([
         function (cb) {
             if (privateInfoEligibility) {
@@ -139,103 +159,95 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
             };
             async.parallel({
                 basic: execQuery('basic'),
-                earning: execQuery('overall_earning'),
-                ratingSummary: execQuery('rating_summary'),
-                achievements: execQuery('achievements'),
-                privateInfo: privateInfoEligibility ? execQuery('private') : function (cbx) { cbx(); },
-                emails: privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
+                earning: loadData.earnings ? execQuery('overall_earning') : function(cbx) { cbx(); },
+                ratingSummary: loadData.ratings ? execQuery('rating_summary') : function(cbx) { cbx(); },
+                achievements: loadData.achievements ? execQuery('achievements') : function(cbx) { cbx(); },
+                privateInfo: loadData.address && privateInfoEligibility ? execQuery('private') : function (cbx) { cbx(); },
+                emails: loadData.email && privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
             }, cb);
         }, function (results, cb) {
-            var basic = results.basic[0], earning = results.earning[0], ratingSummary = results.ratingSummary,
-                achievements = results.achievements, privateInfo,
-                mapRatingSummary = function (ratings) {
-                    var ret = [];
-                    ratings.forEach(function (item) {
-                        ret.push({
-                            name: helper.getPhaseName(item.phase_id),
-                            rating: item.rating,
-                            colorStyle: helper.getColorStyle(item.rating)
-                        });
+            var basic = results.basic[0];
+
+            result = {
+                handle: basic.handle,
+                country: basic.country,
+                memberSince: basic.member_since,
+                quote: basic.quote,
+                photoLink: basic.photo_link || ''
+            };
+
+            if (loadData.earnings && _.isDefined(basic.show_earnings) && basic.show_earnings !== 'hide') {
+                result.overallEarning = results.earning[0].overall_earning;
+            }
+
+            if (loadData.ratings) {
+                var ratingSummary = [];
+                results.ratingSummary.forEach(function (item) {
+                    ratingSummary.push({
+                        name: helper.getPhaseName(item.phase_id),
+                        rating: item.rating,
+                        colorStyle: helper.getColorStyle(item.rating)
                     });
-                    return ret;
-                },
-                mapAchievements = function (achievements) {
-                    var ret = [], achieveItem;
-                    achievements.forEach(function (item) {
-                        achieveItem = {
-                            date: item.achievement_date,
-                            description: item.description
-                        };
-                        ret.push(achieveItem);
+                });
+                result.ratingSummary = ratingSummary;
+            }
+
+            if (loadData.achievements) {
+                var achievements = [];
+                results.achievements.forEach(function (item) {
+                    achievements.push({
+                        date: item.achievement_date,
+                        description: item.description
                     });
-                    return ret;
-                },
-                mapEmails = function (emails) {
-                    var ret = [];
-                    emails.forEach(function (item) {
-                        ret.push({
-                            email: item.email,
-                            type: item.type,
-                            status: item.status
-                        });
+                });
+                // TODO: why is this capitalized?
+                result.Achievements = achievements;
+            }
+
+            if (privateInfoEligibility && loadData.email) {
+                var emails = [];
+                results.emails.forEach(function (item) {
+                    emails.push({
+                        email: item.email,
+                        type: item.type,
+                        status: item.status
                     });
-                    return ret;
-                },
-                appendIfNotEmpty = function (str) {
+                });
+                result.emails = emails;
+            }
+
+            if (privateInfoEligibility && loadData.address && results.privateInfo && results.privateInfo[0]) {
+                var appendIfNotEmpty = function (str) {
                     var ret = '';
                     if (str && str.length > 0) {
                         ret += ', ' + str;
                     }
                     return ret;
-                },
-                getAddressString = function (privateInfo) {
-                    var address = privateInfo.address1;
-                    if (!address) { return undefined; }  // if address1 is undefined, there is no address.
+                };
 
+                var privateInfo = results.privateInfo[0];
+
+                result.name = privateInfo.first_name + ' ' + privateInfo.last_name;
+                result.age = privateInfo.age;
+                result.gender = privateInfo.gender;
+                result.shirtSize = privateInfo.shirt_size;
+
+                var address = privateInfo.address1;
+                // if address1 is undefined, there is no address.
+                if (address) {
                     address += appendIfNotEmpty(privateInfo.address2);
                     address += appendIfNotEmpty(privateInfo.address3);
                     address += ', ' + privateInfo.city;
                     address += appendIfNotEmpty(privateInfo.state);
                     address += ', ' + privateInfo.zip + ', ' + privateInfo.country;
-                    return address;
-                };
-            result = {
-                handle: basic.handle,
-                country: basic.country,
-                memberSince: basic.member_since,
-                overallEarning: earning.overall_earning,
-                quote: basic.quote,
-                photoLink: basic.photo_link || '',
-                isCopilot: {
-                    value: basic.is_copilot,
-                    software: basic.is_software_copilot,
-                    studio: basic.is_studio_copilot
-                },
-                isPM: basic.is_pm,
-
-                ratingSummary: mapRatingSummary(ratingSummary),
-                Achievements: mapAchievements(achievements)
-            };
-
-            if (!_.isDefined(basic.show_earnings) || basic.show_earnings === 'hide') {
-                delete result.overallEarning;
+                    result.address = address;
+                }
             }
 
             if (result.isPM) {
                 delete result.ratingSummary;
             }
 
-            if (privateInfoEligibility) {
-                result.emails = mapEmails(results.emails);
-                if (results.privateInfo && results.privateInfo[0]) {
-                    privateInfo = results.privateInfo[0];
-                    result.name = privateInfo.first_name + ' ' + privateInfo.last_name;
-                    result.address = getAddressString(privateInfo);
-                    result.age = privateInfo.age;
-                    result.gender = privateInfo.gender;
-                    result.shirtSize = privateInfo.shirt_size;
-                }
-            }
             cb();
         }
     ], function (err) {

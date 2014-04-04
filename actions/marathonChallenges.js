@@ -1,14 +1,17 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, TCSASSEMBLER, freegod, Ghost_141
+ * @version 1.4
+ * @author Sky_, TCSASSEMBLER, freegod, Ghost_141, hesibo
  * changes in 1.1:
  * - implement marathon API
  * changes in 1.2:
  * - Use empty result set instead of 404 error in get marathon challenges API.
  * Changes in 1.3:
  * - Implement the register marathon match challenge API.
+ * changes in 1.4:
+ * - Implement the get marathon match challenge register info API
+ * - refactor register marathon match challenge API
  */
 "use strict";
 var async = require('async');
@@ -104,8 +107,8 @@ function setDateToParams(helper, sqlParams, dateInterval, inputCodePrefix) {
 }
 
 /**
-* The API for searching Marathon challenges
-*/
+ * The API for searching Marathon challenges
+ */
 exports.searchMarathonChallenges = {
     name: "searchMarathonChallenges",
     description: "searchMarathonChallenges",
@@ -294,7 +297,7 @@ exports.searchMarathonChallenges = {
 
 /**
  * Compute progressResources field for challenge details
- * 
+ *
  * @param {Array<Object>} submissions - the submissions. Result of detail_progress_XXX query.
  * @param {Array<Object>} registrants - the registrants. Result of detail_progress_XXX_registrants query.
  * @param {Array<Object>} competitors - the competitors. Result of detail_progress_competitors query.
@@ -398,8 +401,8 @@ function computeProgressResources(submissions, registrants, competitors, interva
 }
 
 /**
-* The API for getting Marathon challenge
-*/
+ * The API for getting Marathon challenge
+ */
 exports.getMarathonChallenge = {
     name: "getMarathonChallenge",
     description: "getMarathonChallenge",
@@ -515,35 +518,36 @@ exports.getMarathonChallenge = {
         });
     }
 };
-
 /**
- * Register the marathon match challenge.
- * @param {Object} api - the api object.
- * @param {Object} connection - the connection object.
- * @param {Function} next - the callback function.
- * @since 1.3
+ * perform checking before register marathon or view register info
+ *
+ * @param {Object} api - the api object
+ * @param {Boolean} isRegister - it is register marathon or not
+ * @param {Object} connection - the connection object
+ * @param {Object} sqlParams - the sql parameters object
+ * @param {Function} callback - the callback function
+ *
+ * @since 1.4
  */
-function registerMarathonMatchChallenge(api, connection, next) {
-    var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, roundId, sqlParams, isHighSchool,
+function preRegisterMarathonCheck(api, isRegister, connection, sqlParams, callback) {
+    var dbConnectionMap = connection.dbConnectionMap,
+        roundId = Number(decodeURI(connection.params.roundId).trim()),
         execQuery = function (name) {
             return function (cb) {
                 api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cb);
             };
-        }, caller = connection.caller;
-    roundId = Number(decodeURI(connection.params.roundId).trim());
+        };
     async.waterfall([
         function (cb) {
-            var error = helper.checkPositiveInteger(roundId, 'roundId') ||
-                helper.checkMaxInt(roundId, 'roundId') ||
-                helper.checkMember(connection, 'Authorization information needed or incorrect.');
+            var error = api.helper.checkPositiveInteger(roundId, 'roundId') ||
+                api.helper.checkMaxInt(roundId, 'roundId') ||
+                api.helper.checkMember(connection, 'Authorization information needed or incorrect.');
             if (error) {
                 cb(error);
                 return;
             }
-            sqlParams = {
-                round_id: roundId,
-                user_id: caller.userId
-            };
+            sqlParams.round_id = roundId;
+            sqlParams.user_id = connection.caller.userId;
             // check
             async.parallel({
                 checkResult: execQuery('check_marathon_challenge_register'),
@@ -588,7 +592,7 @@ function registerMarathonMatchChallenge(api, connection, next) {
                 }
             }
             // If the caller has already reigstered for this challenge.
-            if (checkResult.is_round_registered) {
+            if (isRegister && checkResult.is_round_registered) {
                 cb(new BadRequestError('You already registered for this challenge.'));
                 return;
             }
@@ -619,10 +623,39 @@ function registerMarathonMatchChallenge(api, connection, next) {
                 cb(new BadRequestError('There are no more spots available for the round.'));
                 return;
             }
+            cb(null, checkResult);
+        }
+    ], function (err, checkResult) {
+        if (isRegister) {
+            callback(err, checkResult);
+        } else {
+            callback(err);
+        }
+    });
+}
 
+/**
+ * Register the marathon match challenge.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.3
+ */
+function registerMarathonMatchChallenge(api, connection, next) {
+    var sqlParams = {},
+        execQuery = function (name) {
+            return function (cb) {
+                api.dataAccess.executeQuery(name, sqlParams, connection.dbConnectionMap, cb);
+            };
+        };
+    async.waterfall([
+        function (cb) {
+            preRegisterMarathonCheck(api, true, connection, sqlParams, cb);
+        },
+        function (checkResult, cb) {
             _.extend(sqlParams, {
                 eligible: 1,
-                userId: caller.userId,
+                userId: connection.caller.userId,
                 attended: 'N'
             });
             async.parallel({
@@ -630,7 +663,7 @@ function registerMarathonMatchChallenge(api, connection, next) {
                 roundTerms: execQuery('insert_round_terms_acceptance'),
                 algoRating: function (cbx) {
                     if (!checkResult.is_rated) {
-                        api.dataAccess.executeQuery('add_algo_rating', sqlParams, dbConnectionMap, cbx);
+                        api.dataAccess.executeQuery('add_algo_rating', sqlParams, connection.dbConnectionMap, cbx);
                         return;
                     }
                     cbx();
@@ -642,7 +675,7 @@ function registerMarathonMatchChallenge(api, connection, next) {
         }
     ], function (err) {
         if (err) {
-            helper.handleError(api, connection, err);
+            api.helper.handleError(api, connection, err);
         } else {
             connection.response = { success: true };
         }
@@ -674,6 +707,106 @@ exports.registerMarathonChallenge = {
         } else {
             api.log('Execute registerMarathonChallenge#run', 'debug');
             registerMarathonMatchChallenge(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Get marathon match challenge register information.
+ *
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ *
+ * @since 1.4
+ */
+function getMarathonChallengeRegInfo(api, connection, next) {
+    var sqlParams = {}, result = {}, questionIdMapping = {}, index = 0;
+    async.waterfall([
+        function (cb) {
+            preRegisterMarathonCheck(api, false, connection, sqlParams, cb);
+        },
+        function (cb) {
+            api.dataAccess.executeQuery('get_marathon_round_term', sqlParams, connection.dbConnectionMap, cb);
+        },
+        function (term, cb) {
+            if (term.length === 0) {
+                cb(new NotFoundError('Could not find specified round terms.'));
+                return;
+            }
+            result.term = {
+                contestName: term[0].contest_name,
+                roundName: term[0].round_name,
+                termsContent: term[0].terms_content || ''
+            };
+            api.dataAccess.executeQuery('get_marathon_round_questions', sqlParams, connection.dbConnectionMap, cb);
+        },
+        function (questions, cb) {
+            sqlParams.question_ids = [];
+            result.questions = _.map(questions, function (question) {
+                sqlParams.question_ids.push(question.question_id);
+                questionIdMapping[question.question_id] = index;
+                index = index + 1;
+                return {
+                    id: question.question_id,
+                    style: question.style,
+                    type: question.type,
+                    text: question.text,
+                    answers: []
+                };
+            });
+            if (!_.isEmpty(sqlParams.question_ids)) {
+                api.dataAccess.executeQuery('get_marathon_round_question_answers', sqlParams, connection.dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        },
+        function (answers, cb) {
+            if (!_.isEmpty(sqlParams.question_ids)) {
+                answers.forEach(function (answer) {
+                    result.questions[questionIdMapping[answer.question_id]].answers.push({
+                        id: answer.answer_id,
+                        text: answer.text,
+                        sortOrder: answer.sort_order || -1,
+                        correct: answer.correct === 0 ? false : true
+                    });
+                });
+            }
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            api.helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The API for get marathon match challenge register information.
+ *
+ * @since 1.4
+ */
+exports.getMarathonChallengeRegInfo = {
+    name: 'getMarathonChallengeRegInfo',
+    description: 'get marathon match challenge register information',
+    inputs: {
+        required: ['roundId'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ['informixoltp', 'common_oltp'],
+    run: function (api, connection, next) {
+        if (!connection.dbConnectionMap) {
+            api.helper.handleNoConnection(api, connection, next);
+        } else {
+            api.log('Execute getMarathonChallengeRegInfo#run', 'debug');
+            getMarathonChallengeRegInfo(api, connection, next);
         }
     }
 };

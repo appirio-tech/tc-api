@@ -104,9 +104,11 @@ describe('Get Basic User Profile API', function () {
                 var body = res.body, expected = require(name);
                 delete body.serverInformation;
                 delete body.requesterInformation;
-                body.Achievements.forEach(function (item) {
-                    delete item.date;
-                });
+                if (body.Achievements) {
+                    body.Achievements.forEach(function (item) {
+                        delete item.date;
+                    });
+                }
                 assert.deepEqual(body, expected);
                 cb();
             });
@@ -121,6 +123,51 @@ describe('Get Basic User Profile API', function () {
     });
 
     /**
+     * Test /v2/users/heffan?data=
+     * Should return success results for heffan without earnings, ratings and achievements.
+     */
+    it('should return success results for heffan without earning, ratings and achievements', function (done) {
+        assertBasicUserProfile('/v2/users/heffan?data=', './test_files/expected_basic_user_profile_heffan_no_data', done);
+    });
+
+    /**
+     * Test /v2/users/heffan?data=achievements
+     * Should return success results for heffan with just achievements
+     */
+    it('should return success results for heffan with just achievements', function (done) {
+        assertBasicUserProfile('/v2/users/heffan?data=achievements', './test_files/expected_basic_user_profile_heffan_ach', done);
+    });
+
+    /**
+     * Test /v2/users/heffan?data=rating
+     * Should return success results for heffan with just rating summary
+     */
+    it('should return success results for heffan with just ratings', function (done) {
+        assertBasicUserProfile('/v2/users/heffan?data=ratings', './test_files/expected_basic_user_profile_heffan_ratings', done);
+    });
+
+    /**
+     * Test /v2/users/heffan?data=earnings,rating
+     * should show overallEarning and rating fields in the response.
+     */
+    it('should show earnings and rating', function (done) {
+        async.waterfall([
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + 'informixoltp__update_show_earning', 'informixoltp', cb);
+            },
+            function (cb) {
+                assertBasicUserProfile('/v2/users/heffan?data=earnings,ratings', './test_files/expected_basic_user_profile_heffan_earning_ratings', cb);
+            }
+        ], function (err) {
+            if (err) {
+                done(err);
+                return;
+            }
+            done();
+        });
+    });
+
+    /**
      * Test /v2/users/super.
      * Should return success results for super.
      */
@@ -132,6 +179,7 @@ describe('Get Basic User Profile API', function () {
      * Test /v2/users/heffan.
      * The heffan is now be upgraded to software copilot. The isCopilot.software should be true now.
      */
+    /* isCopilot removed
     it('should be a software copilot', function (done) {
         async.waterfall([
             function (cb) {
@@ -161,11 +209,13 @@ describe('Get Basic User Profile API', function () {
             done();
         });
     });
+    */
 
     /**
      * Test /v2/users/heffan.
      * heffan has been upgraded to studio copilot. The isCopilot.studio should be true now.
      */
+    /* isCopilot removed
     it('should be a studio copilot', function (done) {
         async.waterfall([
             function (cb) {
@@ -195,11 +245,13 @@ describe('Get Basic User Profile API', function () {
             done();
         });
     });
+    */
 
     /**
      * Test /v2/users/heffan.
      * heffan is PM now. So the rating summary data should not be showed.
      */
+    /* isPM removed
     it('should show no rating summary data', function (done) {
         async.waterfall([
             function (cb) {
@@ -216,6 +268,8 @@ describe('Get Basic User Profile API', function () {
             done();
         });
     });
+    */
+
 
     /**
      * Test /v2/users/heffan
