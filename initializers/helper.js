@@ -1101,7 +1101,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return moment(date).utc().format(format);
+        return date.substring(0, format.length);
     }
     return '';
 };
