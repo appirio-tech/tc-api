@@ -153,7 +153,11 @@ var apiName2dbNameMap = {
     numberofsubmissions: 'number_of_submissions',
     numberofreviewpositionsavailable: 'number_of_review_positions_available',
     round2scheduledstartdate: 'round_2_scheduled_start_date',
-    round1scheduledstartdate: 'round_1_scheduled_start_date'
+    round1scheduledstartdate: 'round_1_scheduled_start_date',
+    postingdate: 'posting_date',
+    numsubmissions: 'num_submissions',
+    numregistrants: 'num_registrants',
+    currentphaseremainingtime: 'current_phase_remaining_time'     
 };
 
 /**
