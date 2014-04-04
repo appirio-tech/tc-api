@@ -1,0 +1,1 @@
+delete from user_social_login where user_id = 124764;

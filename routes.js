@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.25
+ * @version 1.31
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -59,7 +59,19 @@
  * - added route for check email availability api
  * changes in 1.24
  * - added stub api for reset token and reset password
- * Changes in 1.25:
+ * changes in 1.25
+ * - add route for register marathon match challenge api.
+ * changes in 1.26:
+ * - added route for handling design submission
+ * changes in 1.27
+ * - separate basic user profile api into my profile api and public profile api
+ * changes in 1.28
+ * - added route for Dosusign get recipient view url
+ * changes in 1.29
+ * - added route for activate user api
+ * changes in 1.30
+ * - added route for getting marathon match challenge register info api
+ * Changes in 1.31:
  * - add route for challenge rss output api.
  */
 
@@ -156,6 +168,9 @@ exports.routes = {
 
         { path: "/:apiVersion/users/validateEmail", action: "emailValidation" },
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
+        { path: "/:apiVersion/users/validateSocial", action: "validateSocial" },
+
+        { path: "/:apiVersion/users/activate", action: "activateUser" },
         { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },
@@ -163,9 +178,13 @@ exports.routes = {
         { path: "/:apiVersion/users/:handle/statistics/data/marathon", action: "getMarathonStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/data/srm", action: "getAlgorithmStatistics" },
         { path: "/:apiVersion/users/:handle", action: "getBasicUserProfile" },
+        { path: "/:apiVersion/user/profile", action: "getMyProfile" },
+
+        { path: "/:apiVersion/copilots/:handle/statistics/develop", action: "getCopilotStatistics" },
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
@@ -208,10 +227,13 @@ exports.routes = {
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
-        { path: "/:apiVersion/platform/customer", action: "createCustomer" }
+        { path: "/:apiVersion/platform/customer", action: "createCustomer" },
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
     ]
 };

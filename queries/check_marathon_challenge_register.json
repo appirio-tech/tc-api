@@ -1,0 +1,5 @@
+{
+    "name"    : "check_marathon_challenge_register",
+    "db"      : "informixoltp",
+    "sqlfile" : "check_marathon_challenge_register"
+}

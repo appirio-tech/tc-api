@@ -1,0 +1,5 @@
+{
+    "groupid" : 101,
+    "userid" : 400011,
+    "administrator" : 0
+}

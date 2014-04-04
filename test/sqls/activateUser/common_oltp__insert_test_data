@@ -1,0 +1,20 @@
+INSERT INTO user (user_id, handle, status, activation_code)
+VALUES (901001, 'newuser1', 'A', 'BHWX0OQX');	-- already activated
+INSERT INTO email (user_id, email_id, status_id)
+VALUES (901001, 902001, 2);
+
+INSERT INTO user (user_id, handle, status, activation_code)
+VALUES (901002, 'newuser2', 'U', 'BHWXM4CV');	-- no email exist
+
+INSERT INTO user (user_id, handle, status, activation_code)
+VALUES (901003, 'newuser3', 'U', 'BHWY7JZ6');	-- email is already activated
+INSERT INTO email (user_id, email_id, status_id)
+VALUES (901003, 902003, 1);
+
+INSERT INTO user (user_id, handle, status, activation_code)
+VALUES (901004, 'newuser4', 'U', 'BHWYSZK2');	-- activation code not match
+
+INSERT INTO user (user_id, handle, status, activation_code)
+VALUES (901005, 'newuser5', 'U', 'BHWZEF6D');	-- valid
+INSERT INTO email (user_id, email_id, status_id, address)
+VALUES (901005, 902005, 2, 'tc.ldap.test.1@gmail.com');

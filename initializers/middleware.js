@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author vangavroche, TCSASSEMBLER
  * changes in 1.1:
  * - add cache support (add preCacheProcessor and postCacheProcessor)
@@ -10,6 +10,8 @@
  * - new oauth authentication middleware
  * - remove authorize, oauthProcessor, getHeader
  * - add authorizationPreProcessor
+ * changes in 1.3:
+ * - add force refresh check for preCacheProcessor
  */
 "use strict";
 
@@ -27,7 +29,7 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
  * TODO: This is just a temporary implement.
  */
 var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'getChallengeCosts',
-        'getChallengeTerms', 'getBasicUserProfile'];
+        'getChallengeTerms', 'getBasicUserProfile', 'getMyProfile'];
 
 /**
  * calculate the key for cache.
@@ -38,9 +40,9 @@ var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'g
 var calculateCacheKey = function (api, connection) {
     var key = '', userId = connection.caller.userId || 0;
     if (PRIVATE_ACTIONS.indexOf(connection.action) >= 0) {
-        key = connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
+        key = "actions-" + connection.action + '-' + userId + '-' + api.helper.createCacheKey(connection, true);
     } else {
-        key = connection.action + '-' + api.helper.createCacheKey(connection, false);
+        key = "actions-" + connection.action + '-' + api.helper.createCacheKey(connection, false);
     }
     return key;
 };
@@ -287,7 +289,14 @@ exports.middleware = function (api, next) {
             return;
         }
 
-        var key = calculateCacheKey(api, connection);
+        var key, forceRefresh;
+        forceRefresh = api.helper.checkRefresh(connection);
+        key = calculateCacheKey(api, connection);
+        if (forceRefresh) {
+            api.log('Force refresh without cache', 'debug');
+            postThrottleProcessor(connection, actionTemplate, true, next);
+            return;
+        }
 
         api.helper.getCachedValue(key, function (err, value) {
             if (value) {

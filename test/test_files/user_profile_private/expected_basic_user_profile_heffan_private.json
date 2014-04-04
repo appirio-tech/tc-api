@@ -4,12 +4,6 @@
   "memberSince": "2001-05-09T01:04:42.000Z",
   "quote": "Acknowledge and move on.",
   "photoLink": "",
-  "isCopilot": {
-    "value": false,
-    "software": false,
-    "studio": false
-  },
-  "isPM": false,
   "ratingSummary": [
       {
           "name": "Algorithm",

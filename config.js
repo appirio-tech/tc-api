@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
- * @version 1.13
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
+ * @version 1.17
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -27,10 +27,19 @@
  * - add challengeCommunityLink and reviewAuctionDetailLink.
  * Changes in 1.11:
  * - add cachePrefix in config.general.
- * - added designSubmissionsBasePath for design submissions 
+ * - added designSubmissionsBasePath for design submissions
  * changes in 1.12:
  * - add defaultUserCacheLifetime property.
- * Changes in 1.13:
+ * changes in 1.13:
+ * - add jive in database mapping.
+ * - add grantForumAccess property.
+ * Changes in 1.14:
+ * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
+ * Changes in 1.15:
+ * - added configuration for Docusign integration.
+ * Changes in 1.16:
+ * - add welcome email property.
+ * Changes in 1.17:
  * - add maxRSSLength.
  */
 "use strict";
@@ -52,7 +61,7 @@ config.general = {
     serverName : "TopCoder API",
     // id: "myActionHeroServer",                                    // id can be set here, or it will be generated dynamically.  Be sure that every server you run has a unique ID (which will happen when genrated dynamically)
     serverToken : "not-used",                                       // A unique token to your application that servers will use to authenticate to each other
-    welcomeMessage : "Hello! Welcome to the TopCoder API",          // The welcome message seen by TCP and webSocket clients upon connection
+    welcomeMessage : "Hello! Welcome to the [topcoder] API",          // The welcome message seen by TCP and webSocket clients upon connection
     flatFileNotFoundMessage : "Sorry, that file is not found :(",   // The body message to accompany 404 (file not found) errors regading flat files
     serverErrorMessage : "The server experienced an internal error",// The message to accompany 500 errors (internal server errors)
     defaultChatRoom : "default",                                // The chatRoom that TCP and webSocket clients are joined to when the connect
@@ -82,6 +91,8 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
+    grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
+    devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
@@ -155,7 +166,9 @@ config.redis = {
     port : process.env.REDIS_PORT || 6379,
     password : null,
     options : null,
-    DB : 0
+    DB : 0,
+    cacheFileTypesKey: "file_types",
+    cacheDefaultLifetime: 1000 * 60 * 60 * 24
 };
 
 //////////
@@ -183,7 +196,7 @@ config.tasks = {
   //  ['high,low'] is one worker working 2 queues
     queues: ['default'],
   // how long to sleep between jobs / scheduler checks
-    timeout: 5000,
+    timeout: process.env.TASK_TIMEOUT || 5000,
   // What redis server should we connect to for tasks / delayed jobs?
     redis: config.redis
 };
@@ -243,7 +256,8 @@ config.databaseMapping = {
     "topcoder_dw" : "TC_DW",
     "tcs_dw" : "TC_DW",
     "time_oltp": "TC_DB",
-    "corporate_oltp": "TC_DB"
+    "corporate_oltp": "TC_DB",
+    "jive": "TC_DB"
 };
 
 config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
@@ -266,9 +280,8 @@ config.submissionDir = process.env.SUBMISSION_DIR || 'test/tmp/submissions';
 config.thurgoodDownloadUsername = process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood";
 config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret";
 
-//Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
-//Set to 0 or negative for no size limit.
-config.submissionMaxSizeBytes = 2048;
+//Max size of a submission. Currently set to 10M for now. 
+config.submissionMaxSizeBytes = 10485760;
 
 //////Thurgood configurables///////
 config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
@@ -284,9 +297,33 @@ config.thurgoodTimeout = 5000;
 //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
 config.thurgoodApiKey = process.env.THURGOOD_API_KEY || 'mock_api_key';
 
-//The base folder for design submission files
-config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions';
+//The base directory for design submission files. This directory must exist.
+config.designSubmissionsBasePath = process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions/';
+//The temporary directory for creating unified zip file
+config.designSubmissionTmpPath = process.env.DESIGN_SUBMISSIONS_TMP_PATH || 'test/tmp/design_tmp_submissions/';
 
-//////////////////////////////////
+//The configuration for the DocuSign integration
+config.docusign = {
+    username: process.env.DOCUSIGN_USERNAME || '3c484022-cfd1-4be8-b199-951933a1e81b',
+    password: process.env.DOCUSIGN_PASSWORD || 'dN1ofminimum',
+    integratorKey: process.env.DOCUSIGN_INTEGRATOR_KEY || 'TOPC-a02ca014-0677-4e7f-946b-3a03f803c937',
+    serverURL: process.env.DOCUSIGN_SERVER_URL || 'https://demo.docusign.net/restapi/v2/',
+    roleName: process.env.DOCUSIGN_ROLENAME || 'Member',
+    clientUserId: process.env.DOCUSIGN_CLIENT_USER_ID || 'Member',
+    returnURL: process.env.DOCUSIGN_RETURN_URL || 'http://localhost:8080/v2/terms/docusign/returnSigning&envelopeId=<%= envelopeId %>',
+    assignmentV2TemplateId: 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+    w9TemplateId: '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+    w8benTemplateId: 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+    appirioMutualNDATemplateId: process.env.DOCUSIGN_NDA_TEMPLATE_ID || '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
+    affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C'
+};
+
+config.welcomeEmail = {
+    template: 'welcome_email',
+    subject: 'Welcome to [topcoder]',
+    fromAddress: process.env.TC_EMAIL_FROM,
+    senderName: '[topcoder] API'
+};
+
 
 exports.config = config;

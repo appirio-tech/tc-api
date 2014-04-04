@@ -5,9 +5,9 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv
- * @version 1.16
- * changes in 1.1
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
+ * @version 1.21
+ * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
  * - add getPercent to underscore mixin
@@ -48,7 +48,17 @@
  * - add method checkMember to check if the caller have at least member access leve.
  * changes in 1.15
  * - added checkUserExists function
- * Changes in 1.16:
+ * Changes in 1.16
+ * - add checkMember method to check if the user have at least member access level.
+ * Changes in 1.17
+ * - added method to load all file types (and cache the result for further use)
+ * Changes in 1.18
+ * - add checkRefresh method to check if the request is force refresh request.
+ * changes in 1.19
+ * - updated softwareChallengeTypes
+ * changes in 1.20
+ * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
  * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
  */
 "use strict";
@@ -75,6 +85,8 @@ var ForbiddenError = require('../errors/ForbiddenError');
 var RequestTooLargeError = require('../errors/RequestTooLargeError');
 var helper = {};
 var crypto = require("crypto");
+var bigdecimal = require('bigdecimal');
+var bignum = require('bignum');
 
 /**
  * software type.
@@ -176,7 +188,7 @@ helper.softwareChallengeTypes = {
         phaseId: 124
     },
     assembly: {
-        name: "Assembly Competition",
+        name: "Assembly",
         phaseId: 125
     },
     ui_prototypes: {
@@ -297,16 +309,19 @@ var phaseName2Id = _.object(_.values(_.extend(helper.studioChallengeTypes, helpe
 
 /**
  * Represents a ListType enum
+ * @since 1.21
  */
 helper.ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
 
 /**
  * valid value for listType.
+ * @since 1.21
  */
 helper.VALID_LIST_TYPE = [helper.ListType.ACTIVE, helper.ListType.OPEN, helper.ListType.UPCOMING, helper.ListType.PAST];
 
 /**
  * The list type and registration phase status map.
+ * @since 1.21
  */
 helper.LIST_TYPE_REGISTRATION_STATUS_MAP = {};
 helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.ACTIVE] = [2, 3];
@@ -316,6 +331,7 @@ helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.PAST] = [3];
 
 /**
  * The list type and project status map.
+ * @since 1.21
  */
 helper.LIST_TYPE_PROJECT_STATUS_MAP = {};
 helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.ACTIVE] = [1];
@@ -889,6 +905,26 @@ helper.decodePassword = function (password, key) {
 };
 
 /**
+ * Represents the actions that allow force refresh.
+ *
+ * @type {string[]}
+ */
+var ALLOW_FORCE_REFRESH_ACTIONS = ["getSoftwareChallenge", "getStudioChallenge"];
+
+/**
+ * Check whether current request is a force refresh request.
+ *
+ * @param {Object} connection The connection object for the current request
+ * @returns {Boolean} whether this is a force refresh request
+ */
+helper.checkRefresh = function (connection) {
+    if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
+        return false;
+    }
+    return connection.params.refresh === 't';
+};
+
+/**
  * Create unique cache key for given connection.
  * Key depends on action name and query parameters (connection.params).
  *
@@ -1001,15 +1037,6 @@ helper.checkDateFormat = function (date, format, objName) {
 };
 
 /**
- * Format the date to a specific pattern.
- * @param {String} date - the date value.
- * @param {String} format - the date format pattern.
- */
-helper.formatDate = function (date, format) {
-    return moment(date).format(format);
-};
-
-/**
  * Check whether given user is Admin or not
  * @param connection
  * @return {Error} if user is not admin
@@ -1041,10 +1068,10 @@ helper.checkMember = function (connection, unauthorizedErrorMessage) {
     if (!_.isDefined(caller) || caller.accessLevel === 'anon') {
         return new UnauthorizedError(unauthorizedErrorMessage);
     }
-    if (helper.isMember(caller)) {
-        return null;
+    if (!helper.isMember(caller)) {
+        return new UnauthorizedError(unauthorizedErrorMessage);
     }
-    return new IllegalArgumentError('Wrong auth object');
+    return null;
 };
 
 /**
@@ -1108,7 +1135,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return moment(date).format(format);
+        return date.substring(0, format.length);
     }
     return '';
 };
@@ -1136,7 +1163,7 @@ helper.checkTrackName = function (track, isStudio) {
  */
 helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     // Check cache first
-    var cacheKey = handle;
+    var cacheKey = "users-" + handle;
     api.helper.getCachedValue(cacheKey, function (err, exists) {
         if (!exists) {
             // If there is no hit in cache then query DB to check user account for existence and cache positive result 
@@ -1162,6 +1189,131 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     });
 };
 
+/**
+ * Gets all file types and caches them.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err,fileTypes>} callback - the callback function - expects err as the first param and fileTypes as the second
+ * @since 1.13
+ */
+helper.getFileTypes = function (api, dbConnectionMap, callback) {
+    var cacheFileTypesKey = api.config.redis.cacheFileTypesKey,
+        cacheDefaultLifetime = api.config.redis.cacheDefaultLifetime;
+
+    //Load from cache and perform rolling timeout
+    api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {
+        if (!err && fileTypes !== null) {
+            //already exists in cache
+            callback(null, fileTypes);
+        } else {
+            //Either error was thrown in cache lookup or fileTypes were not found in cache. So we do the DB lookup
+            api.dataAccess.executeQuery("file_types", {}, dbConnectionMap, function (err, fileTypes) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                api.cache.save(cacheFileTypesKey, fileTypes, cacheDefaultLifetime, function (err) {
+                    //Even if there is error in saving to cache, we just ignore and call the main callback anyway
+                    callback(null, fileTypes);
+                });
+            });
+        }
+    });
+};
+
+/*
+ * this is the random int generator class
+ */
+function codeRandom(coderId) {
+    var cr = {},
+        multiplier = 0x5DEECE66D,
+        addend = 0xB,
+        mask = 281474976710655;
+    cr.seed = bignum(coderId).xor(multiplier).and(mask);
+    cr.nextInt = function () {
+        var oldseed = cr.seed,
+            nextseed;
+        do {
+            nextseed = oldseed.mul(multiplier).add(addend).and(mask);
+        } while (oldseed.toNumber() === nextseed.toNumber());
+        cr.seed = nextseed;
+        return nextseed.shiftRight(16).toNumber();
+    };
+
+    return cr;
+}
+
+/**
+ * get the code string by coderId
+ * @param coderId  the coder id of long type.
+ * @return the coder id generated hash string.
+ */
+function generateActivationCode(coderId) {
+    var r = codeRandom(coderId);
+    var nextBytes = function (bytes) {
+        for (var i = 0, len = bytes.length; i < len;)
+            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
+                var val = rnd & 0xff;
+                if (val > 127) {
+                    val = val - 256;
+                }
+                bytes[i++] = val;
+            }
+    };
+    var randomBits = function(numBits) {
+        if (numBits < 0)
+            throw new Error("numBits must be non-negative");
+        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
+        var randomBits = new Int8Array(numBytes);
+
+        // Generate random bytes and mask out any excess bits
+        if (numBytes > 0) {
+            nextBytes(randomBits);
+            var excessBits = 8 * numBytes - numBits;
+            randomBits[0] &= (1 << (8 - excessBits)) - 1;
+        }
+        return randomBits;
+    }
+    var id = coderId + "";
+    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
+    var len = coderId.toString(2).length;
+    var arr = randomBits(len);
+    var bb = bignum.fromBuffer(new Buffer(arr));
+    var hash = bb.add(baseHash).toString();
+    while (hash.length < id.length) {
+        hash = "0" + hash;
+    }
+    hash = hash.substring(hash.length - id.length);
+
+    var result = new bigdecimal.BigInteger(id + hash);
+    result = result.toString(36).toUpperCase();
+    return result;
+}
+
+/**
+ * get the coder id string by activation code
+ * @param activationCode the activation code string.
+ * @return the coder id.
+ */
+var getCoderIdFromActivationCode = function (activationCode) {
+    var idhash, coderId;
+
+    try {
+        idhash = bignum(new bigdecimal.BigInteger(activationCode, 36)).toString();
+    } catch (err) {
+        return 0;
+    }
+
+    if (idhash.length % 2 !== 0) {
+        return 0;
+    }
+    coderId = idhash.substring(0, idhash.length / 2);
+
+    return coderId;
+};
+
+helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
+helper.generateActivationCode = generateActivationCode;
 
 /**
 * Expose the "helper" utility.

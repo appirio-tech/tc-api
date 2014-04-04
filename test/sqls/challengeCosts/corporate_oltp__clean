@@ -1,1 +1,1 @@
-DELETE FROM tc_direct_project WHERE project_id IN (10001, 10002);
+DELETE FROM tc_direct_project WHERE 10001 <= project_id AND project_id <= 10024;

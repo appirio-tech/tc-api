@@ -1,0 +1,5 @@
+SELECT NVL(MAX(s.user_rank), 0) as max_rank
+FROM submission s
+INNER JOIN upload u ON s.upload_id = u.upload_id
+WHERE u.project_id = @challengeId@
+AND u.resource_id = @resourceId@

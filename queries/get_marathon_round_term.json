@@ -1,0 +1,5 @@
+{
+    "name"    : "get_marathon_round_term",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_marathon_round_term"
+}
