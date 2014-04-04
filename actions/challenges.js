@@ -93,7 +93,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var ALLOWABLE_SORT_COLUMN = [
     "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
     "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints",
-    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName"
+    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "registrationOpen"
 ];
 
 /**
@@ -360,7 +360,8 @@ function transferResult(src, helper) {
             digitalRunPoints: row.digital_run_points,
             prize: [],
             reliabilityBonus: helper.getReliabilityBonus(row.prize1),
-            challengeCommunity: row.is_studio ? 'design' : 'develop'
+            challengeCommunity: row.is_studio ? 'design' : 'develop',
+            registrationOpen: row.registration_open
         });
 
         for (i = 1; i < 10; i = i + 1) {

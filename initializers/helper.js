@@ -158,7 +158,8 @@ var apiName2dbNameMap = {
     numsubmissions: 'num_submissions',
     numregistrants: 'num_registrants',
     currentphaseremainingtime: 'current_phase_remaining_time',
-    currentphasename: 'current_phase_name'
+    currentphasename: 'current_phase_name',
+    registrationopen: 'registration_open'
 };
 
 /**
