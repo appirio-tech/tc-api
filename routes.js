@@ -138,7 +138,7 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
-        { path: "/:apiVersion/challenges/:contestId", action: "getChallenge" },
+        { path: "/:apiVersion/challenges/:challengeId", action: "getChallenge" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },

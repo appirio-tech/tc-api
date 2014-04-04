@@ -788,7 +788,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
-            if (connection.action == "getChallenge") {
+            if (connection.action === "getChallenge") {
                 challenge.type = isStudio ? 'design' : 'develop';
             }
 
@@ -1023,7 +1023,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                         console.log('-------------------------------------------');
                         console.log(stats.size + '\t' + api.config.submissionMaxSizeBytes);
                         console.log('-------------------------------------------');
-                        
+
                         if (stats.size > api.config.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
                                 "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
@@ -1049,7 +1049,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 fileName: uploadId + "_" + fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function(notUsed, cb) {
+        }, function (notUsed, cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
@@ -1530,7 +1530,7 @@ exports.getChallenge = {
     name: "getChallenge",
     description: "getStudioChallenge",
     inputs: {
-        required: ["contestId"],
+        required: ["challengeId"],
         optional: ["refresh"]
     },
     blockedConnectionTypes: [],
@@ -1541,11 +1541,11 @@ exports.getChallenge = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
-            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.contestId}, connection.dbConnectionMap, function(err, result) {
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.contestId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
                     next(connection, true);
-                } else if (result.length == 0) {
+                } else if (result.length === 0) {
                     api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
                     next(connection, true);
                 } else {
