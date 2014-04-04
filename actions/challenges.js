@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.18
+ * @version 1.19
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -44,6 +44,8 @@
  * add API for submitting to design challenge
  * changes in 1.18:
  * add clientSelection flag in studio results
+ * changes in 1.19:
+ * add new allowed sort columns.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -90,7 +92,8 @@ var ALLOWABLE_QUERY_PARAMETER = [
  */
 var ALLOWABLE_SORT_COLUMN = [
     "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
-    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints"
+    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints",
+    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "registrationOpen"
 ];
 
 /**
@@ -357,7 +360,8 @@ function transferResult(src, helper) {
             digitalRunPoints: row.digital_run_points,
             prize: [],
             reliabilityBonus: helper.getReliabilityBonus(row.prize1),
-            challengeCommunity: row.is_studio ? 'design' : 'develop'
+            challengeCommunity: row.is_studio ? 'design' : 'develop',
+            registrationOpen: row.registration_open
         });
 
         for (i = 1; i < 10; i = i + 1) {
