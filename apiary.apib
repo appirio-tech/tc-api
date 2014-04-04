@@ -2698,7 +2698,8 @@ Register a new user.
 + Request (application/json)
 
 + Parameters
-    + submissionFile (required, string, `abcd.zip`) ... The submission zip
+    + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
+    + fileData (required, string, `SGVsbG8gV29ybGQ=`) ... The Base64 encoded content of the file being uploaded. The example value is 'Hello World' base64 encoded
     + type (optional, string, `checkpoint`) ... The type of submission. Can be 'final' or 'checkpoint'. If absent, 'final' is assumed.
 
 + Response 200 (application/json)
