@@ -45,7 +45,7 @@
  * changes in 1.18:
  * add clientSelection flag in studio results
  * changes in 1.19:
- * add new allowed sort columns : postingDate, numSubmissions, numRegistrants, currentPhaseRemainingTime
+ * add new allowed sort columns.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -93,7 +93,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var ALLOWABLE_SORT_COLUMN = [
     "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
     "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints",
-    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime"
+    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName"
 ];
 
 /**
