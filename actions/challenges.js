@@ -179,7 +179,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
             helper.checkPositiveInteger(pageSize, "pageSize") ||
             helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-            helper.checkContains(helper.ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
+            helper.checkContains(helper.VALID_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
     if (_.isDefined(query.communityId)) {
