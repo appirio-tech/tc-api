@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.19
+ * @version 1.20
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -46,6 +46,8 @@
  * add clientSelection flag in studio results
  * changes in 1.19:
  * add new allowed sort columns.
+ * changes in 1.20:
+ * add get challenge detail api for both design and develop challenge.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -786,6 +788,10 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
+            if (connection.action == "getChallenge") {
+                challenge.type = isStudio ? 'design' : 'develop';
+            }
+
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
                 challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
             }
@@ -1509,6 +1515,44 @@ exports.getStudioChallenge = {
         if (connection.dbConnectionMap) {
             api.log("Execute getStudioChallenge#run", 'debug');
             getChallenge(api, connection, connection.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for getting challenge details.
+ *
+ * @since 1.19
+ */
+exports.getChallenge = {
+    name: "getChallenge",
+    description: "getStudioChallenge",
+    inputs: {
+        required: ["contestId"],
+        optional: ["refresh"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getChallenge#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.contestId}, connection.dbConnectionMap, function(err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length == 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getChallenge(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
