@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.29
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
+ * @version 1.30
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -69,6 +69,8 @@
  * - added route for Dosusign get recipient view url
  * changes in 1.29
  * - added route for activate user api
+ * Changes in 1.30:
+ * - add route for upload member photo API.
  */
 
 /* ---------------------
@@ -219,6 +221,7 @@ exports.routes = {
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
 
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
+        { path: "/:apiVersion/users/photo", action: "uploadMemberPhoto" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },

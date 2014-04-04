@@ -1,0 +1,6 @@
+SELECT 
+  i.image_id
+FROM coder_image_xref cix
+INNER JOIN image i ON cix.image_id = i.image_id
+WHERE cix.coder_id = @user_id@
+AND i.image_type_id = 1
