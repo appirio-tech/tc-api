@@ -1,0 +1,61 @@
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (10000, 'Marathon Match 90', 'A', -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (10001, 'Marathon Match 91', 'A', -1);
+
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2001, 10000, 'Round 2001', 'A', 13, 'Test Round 2001', 0, 10);
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2002, 1000, 'Test Round 2002', 'A', 13, 'Test Round 2002', 0, 10);
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2003, 1000, 'Test Round 2003', 'A', 13, 'Test Round 2003', 1, 10);
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2004, 1000, 'Test Round 2004', 'A', 13, 'Test Round 2004', 0, 10);
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2005, 1000, 'Test Round 2005', 'A', 13, 'Test Round 2005', 1, 10);
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2006, 10001, 'Test Round 2006', 'A', 13, 'Test Round 2006', 0, 10);
+INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2007, 10001, 'Test Round 2007', 'A', 13, 'Test Round 2007', 0, 10);
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 1, current - 50 units day, current + 30 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2001, 2, current - 50 units day, current + 30 units day, 'P');
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2002, 1, current - 50 units day, current - 1 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2002, 2, current - 50 units day, current - 1 units day, 'P');
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2003, 1, current - 50 units day, current + 30 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2003, 2, current - 50 units day, current + 30 units day, 'P');
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2004, 1, current - 50 units day, current + 30 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2004, 2, current - 50 units day, current + 60 units day, 'P');
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2005, 1, current - 50 units day, current + 30 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2005, 2, current - 50 units day, current + 60 units day, 'P');
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2006, 1, current - 50 units day, current + 30 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2006, 2, current - 50 units day, current + 30 units day, 'P');
+
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2007, 1, current - 50 units day, current + 30 units day, 'P');
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(2007, 2, current - 50 units day, current + 30 units day, 'P');
+
+INSERT INTO round_component(round_id, component_id, division_id) VALUES(2004, 2021, 1);
+INSERT INTO round_component(round_id, component_id, division_id) VALUES(2005, 2021, 1);
+
+INSERT INTO invite_list(coder_id, round_id) VALUES(124772, 2005);
+
+INSERT INTO round_event(round_id, event_id, event_name, registration_url) VALUES(2001, 2001, 'Test Event 2001', 'https://foo.com');
+INSERT INTO round_event(round_id, event_id, event_name, registration_url) VALUES(2006, 2001, 'Test Event 2006', 'https://foo.com');
+INSERT INTO round_event(round_id, event_id, event_name, registration_url) VALUES(2007, 2001, 'Test Event 2007', 'https://foo.com');
+
+INSERT INTO round_registration(round_id, coder_id, timestamp, eligible, team_id)
+VALUES(2001, 124766, current, 1, null);
+INSERT INTO team_coder_xref(team_id, coder_id, create_date) VALUES(36024, 132456, current);
+
+INSERT INTO round_terms(round_id) VALUES(2001);
+INSERT INTO round_terms(round_id) VALUES(2006);
+
+INSERT INTO question(question_id, question_text, status_id, question_type_id, question_style_id) VALUES (1000, 'question 1000', 1, 2, 2);
+INSERT INTO question(question_id, question_text, status_id, question_type_id, question_style_id) VALUES (1001, 'question 1001', 1, 3, 4);
+INSERT INTO question(question_id, question_text, status_id, question_type_id, question_style_id) VALUES (1002, 'question 1002', 1, 2, 1);
+
+INSERT INTO round_question(round_id, question_id) VALUES (2001, 1000);
+INSERT INTO round_question(round_id, question_id) VALUES (2001, 1001);
+INSERT INTO round_question(round_id, question_id) VALUES (2001, 1002);
+
+INSERT INTO answer(answer_id, question_id, answer_text, sort_order, correct) VALUES (1001, 1000, 'answer text 2', 2, 0);
+INSERT INTO answer(answer_id, question_id, answer_text, sort_order, correct) VALUES (1002, 1000, 'answer text 1', 1, 1);
+INSERT INTO answer(answer_id, question_id, answer_text, sort_order, correct) VALUES (1003, 1000, 'answer text 3', 3, NULL);
+INSERT INTO answer(answer_id, question_id, answer_text, sort_order, correct) VALUES (1004, 1002, 'answer text 4', NULL, 0);
+INSERT INTO answer(answer_id, question_id, answer_text, sort_order, correct) VALUES (1005, 1002, 'answer text 5', 1, 1);
