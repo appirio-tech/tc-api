@@ -11,6 +11,7 @@ var _ = require("underscore");
 var async = require("async");
 var S = require("string");
 var config = require("../config").config;
+var request = require('request');
 
 var NotFoundError = require('../errors/NotFoundError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
@@ -99,13 +100,13 @@ var templates = [{
     handlers: []
 }, {
     name: 'TopCoder Assignment v2.0',
-    templateId: config.docusign.assignmentTemplateId,
+    templateId: config.docusign.assignmentV2TemplateId,
     handlers: [
         new TermsOfUseHandler(config.docusign.assignmentDocTermsOfUseId)
     ]
 }, {
     name: 'Appirio Mutual NDA',
-    templateId: config.docusign.mutualNDATemplateId,
+    templateId: config.docusign.appirioMutualNDATemplateId,
     handlers: []
 }, {
     name: 'Affidavit',
@@ -137,7 +138,7 @@ var CONNECT_KEY_MISSING = 'Connect Key is missing or invalid.';
  * The Docusign Callback Action which accepts JSON. 
  * Performs the logic common to all Docusign documents.
  */
-exports.action = {
+exports.docusignCallback = {
     name: 'docusignCallback',
     description: 'docusignCallback',
     blockedConnectionTypes: [],
@@ -270,7 +271,7 @@ function initializeRequest(api, url, method, body) {
 /**
  * The method that exposes the Get Docusign Recipient View URL API.
  */
-exports.action = {
+exports.generateDocusignViewURL = {
     name: 'generateDocusignViewURL',
     description: 'generateDocusignViewURL',
     blockedConnectionTypes: [],
@@ -336,7 +337,12 @@ exports.action = {
                 //Perform login to docusign
                 options = initializeRequest(api, api.config.docusign.serverURL + "login_information", 'GET', '');
                 request(options, function (err, res, body) {
-                    var resp = JSON.parse(body);
+                    var resp; 
+                    try {
+                        resp = JSON.parse(body);
+                    } catch (e) {
+                        err = 'Invalid JSON received from server. Most likely the server url is incorrect.'
+                    }
                     if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
                         //In case of system integration failure, we log the error (if we have one)...
                         //but we only show generic message to end user
@@ -395,7 +401,12 @@ exports.action = {
                     url  = baseURL + "/envelopes";
                     options = initializeRequest(api, url, 'POST', JSON.stringify(reqParams));
                     request(options, function (err, res, body) {
-                        var resp = JSON.parse(body);
+                        var resp; 
+                        try {
+                            resp = JSON.parse(body);
+                        } catch (e) {
+                            err = 'Invalid JSON received from server. Most likely the server url is incorrect.'
+                        }
                         if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
                             //This is client's fault that they sent in a wrong template id
                             if (resp && resp.errorCode && resp.errorCode === 'TEMPLATE_ID_INVALID') {
@@ -444,7 +455,12 @@ exports.action = {
                 };
                 options = initializeRequest(api, url, 'POST', JSON.stringify(reqParams));
                 request(options, function (err, res, body) {
-                    var resp = JSON.parse(body);
+                    var resp; 
+                    try {
+                        resp = JSON.parse(body);
+                    } catch (e) {
+                        err = 'Invalid JSON received from server. Most likely the server url is incorrect.'
+                    }
                     if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
                         //In case of system integration failure, we log error, but we only show generic message to user
                         if (resp && resp.message) {

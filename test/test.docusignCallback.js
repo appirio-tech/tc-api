@@ -2,7 +2,7 @@
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.0
- * @author TCSASSEMBLER
+ * @author kurtrips
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
