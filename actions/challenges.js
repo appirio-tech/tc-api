@@ -1502,7 +1502,7 @@ exports.getChallenge = {
     name: "getChallenge",
     description: "getStudioChallenge",
     inputs: {
-        required: ["contestId"],
+        required: ["challengeId"],
         optional: ["refresh"]
     },
     blockedConnectionTypes: [],
