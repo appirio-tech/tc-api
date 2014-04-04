@@ -118,24 +118,26 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
         sqlParams = {
             handle: handle
         },
-        result;
+        result,
+        loadData,
+        requestedData,
+        parts;
 
-    var loadData;
     // check for an optional data query string param than enables loading a subset of data
-    var requestedData = connection.rawConnection.parsedURL.query.data;
+    requestedData = connection.rawConnection.parsedURL.query.data;
     if (_.isDefined(requestedData)) {
         // NOTE: an empty value is acceptable and indicates only basic data is returned
         loadData = {};
         if (requestedData) {
             // data is comma delimited string of requested data
-            var parts = requestedData.split(',');
+            parts = requestedData.split(',');
             _.each(parts, function (part) {
                 loadData[part] = true;
             });
         }
         api.log("Requested data param found: " + requestedData, "debug");
     } else {
-        loadData = {earnings:true, ratings:true, achievements:true, address:true, email:true}; // load all data by default
+        loadData = {earnings: true, ratings: true, achievements: true, address: true, email: true}; // load all data by default
     }
 
     async.waterfall([
@@ -159,14 +161,20 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
             };
             async.parallel({
                 basic: execQuery('basic'),
-                earning: loadData.earnings ? execQuery('overall_earning') : function(cbx) { cbx(); },
-                ratingSummary: loadData.ratings ? execQuery('rating_summary') : function(cbx) { cbx(); },
-                achievements: loadData.achievements ? execQuery('achievements') : function(cbx) { cbx(); },
+                earning: loadData.earnings ? execQuery('overall_earning') : function (cbx) { cbx(); },
+                ratingSummary: loadData.ratings ? execQuery('rating_summary') : function (cbx) { cbx(); },
+                achievements: loadData.achievements ? execQuery('achievements') : function (cbx) { cbx(); },
                 privateInfo: loadData.address && privateInfoEligibility ? execQuery('private') : function (cbx) { cbx(); },
                 emails: loadData.email && privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
             }, cb);
         }, function (results, cb) {
-            var basic = results.basic[0];
+            var basic = results.basic[0],
+                ratingSummary,
+                achievements,
+                emails,
+                appendIfNotEmpty,
+                privateInfo,
+                address;
 
             result = {
                 handle: basic.handle,
@@ -181,7 +189,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
             }
 
             if (loadData.ratings) {
-                var ratingSummary = [];
+                ratingSummary = [];
                 results.ratingSummary.forEach(function (item) {
                     ratingSummary.push({
                         name: helper.getPhaseName(item.phase_id),
@@ -193,7 +201,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
             }
 
             if (loadData.achievements) {
-                var achievements = [];
+                achievements = [];
                 results.achievements.forEach(function (item) {
                     achievements.push({
                         date: item.achievement_date,
@@ -205,7 +213,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
             }
 
             if (privateInfoEligibility && loadData.email) {
-                var emails = [];
+                emails = [];
                 results.emails.forEach(function (item) {
                     emails.push({
                         email: item.email,
@@ -217,7 +225,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
             }
 
             if (privateInfoEligibility && loadData.address && results.privateInfo && results.privateInfo[0]) {
-                var appendIfNotEmpty = function (str) {
+                appendIfNotEmpty = function (str) {
                     var ret = '';
                     if (str && str.length > 0) {
                         ret += ', ' + str;
@@ -225,14 +233,14 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                     return ret;
                 };
 
-                var privateInfo = results.privateInfo[0];
+                privateInfo = results.privateInfo[0];
 
                 result.name = privateInfo.first_name + ' ' + privateInfo.last_name;
                 result.age = privateInfo.age;
                 result.gender = privateInfo.gender;
                 result.shirtSize = privateInfo.shirt_size;
 
-                var address = privateInfo.address1;
+                address = privateInfo.address1;
                 // if address1 is undefined, there is no address.
                 if (address) {
                     address += appendIfNotEmpty(privateInfo.address2);

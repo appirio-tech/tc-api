@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.20
+ * @version 1.21
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -58,6 +58,8 @@
  * - updated softwareChallengeTypes
  * changes in 1.20
  * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
+ * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
  */
 "use strict";
 
@@ -310,6 +312,38 @@ var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helpe
 var phaseName2Id = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.name.toLowerCase(), item.phaseId];
 }));
+
+/**
+ * Represents a ListType enum
+ * @since 1.21
+ */
+helper.ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
+
+/**
+ * valid value for listType.
+ * @since 1.21
+ */
+helper.VALID_LIST_TYPE = [helper.ListType.ACTIVE, helper.ListType.OPEN, helper.ListType.UPCOMING, helper.ListType.PAST];
+
+/**
+ * The list type and registration phase status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP = {};
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.ACTIVE] = [2, 3];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.OPEN] = [2];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.UPCOMING] = [1];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.PAST] = [3];
+
+/**
+ * The list type and project status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_PROJECT_STATUS_MAP = {};
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.ACTIVE] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.OPEN] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.UPCOMING] = [2];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * Checks whether given object is defined.
@@ -893,7 +927,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1210,8 +1244,8 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-    
+    };
+
     return cr;
 }
 
@@ -1282,7 +1316,7 @@ var getCoderIdFromActivationCode = function (activationCode) {
     coderId = idhash.substring(0, idhash.length / 2);
 
     return coderId;
-}
+};
 
 helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
 helper.generateActivationCode = generateActivationCode;

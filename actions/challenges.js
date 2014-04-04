@@ -99,16 +99,6 @@ var ALLOWABLE_SORT_COLUMN = [
 ];
 
 /**
- * Represents a ListType enum
- */
-var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
-
-/**
- * Represents a predefined list of valid list type.
- */
-var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.OPEN, ListType.UPCOMING, ListType.PAST];
-
-/**
  * Represents Percentage of Placement Points for digital run
  */
 var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.56, 0.2, 0.1, 0.08, 0.06]];
@@ -117,24 +107,6 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-
-/**
- * The list type and registration phase status map.
- */
-var LIST_TYPE_REGISTRATION_STATUS_MAP = {};
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.ACTIVE] = [2, 3];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.OPEN] = [2];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.UPCOMING] = [1];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.PAST] = [3];
-
-/**
- * The list type and project status map.
- */
-var LIST_TYPE_PROJECT_STATUS_MAP = {};
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * This copilot posting project type id
@@ -207,7 +179,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
             helper.checkPositiveInteger(pageSize, "pageSize") ||
             helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-            helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
+            helper.checkContains(helper.ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
     if (_.isDefined(query.communityId)) {
@@ -480,7 +452,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    listType = (query.listtype || ListType.OPEN).toUpperCase();
+    listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
 
@@ -508,8 +480,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Set the project type id
             sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
-            sqlParams.registration_phase_status = LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
-            sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
+            sqlParams.registration_phase_status = helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
+            sqlParams.project_status_id = helper.LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
 
             // Check the private challenge access
@@ -788,7 +760,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
-            if (connection.action == "getChallenge") {
+            if (connection.action === "getChallenge") {
                 challenge.type = isStudio ? 'design' : 'develop';
             }
 
@@ -1023,7 +995,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                         console.log('-------------------------------------------');
                         console.log(stats.size + '\t' + api.config.submissionMaxSizeBytes);
                         console.log('-------------------------------------------');
-                        
+
                         if (stats.size > api.config.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
                                 "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
@@ -1049,7 +1021,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 fileName: uploadId + "_" + fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function(notUsed, cb) {
+        }, function (notUsed, cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
@@ -1541,11 +1513,11 @@ exports.getChallenge = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
-            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.contestId}, connection.dbConnectionMap, function(err, result) {
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.contestId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
                     next(connection, true);
-                } else if (result.length == 0) {
+                } else if (result.length === 0) {
                     api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
                     next(connection, true);
                 } else {
@@ -1771,7 +1743,7 @@ var DEFAULT_FONT_URL = 'community.topcoder.com/studio/the-process/font-policy/';
  * Gets the file type based on the file name extension. Return null if not found.
  * @since 1.14
  *
- * @param {Object} file - The file name
+ * @param {Object} fileName - The file name
  * @param {Object} fileTypes - The file types from which to read
  */
 var getFileType = function (fileName, fileTypes) {

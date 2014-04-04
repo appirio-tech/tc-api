@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.30
+ * @version 1.31
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -71,6 +71,8 @@
  * - added route for activate user api
  * changes in 1.30
  * - added route for getting marathon match challenge register info api
+ * Changes in 1.31:
+ * - add route for challenge rss output api.
  */
 
 /* ---------------------
@@ -138,6 +140,7 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
+        { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
         { path: "/:apiVersion/challenges/:contestId", action: "getChallenge" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
