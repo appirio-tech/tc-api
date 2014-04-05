@@ -1220,17 +1220,17 @@ Register a new user.
 
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
-- return token for topcoder user
+- return "successful" flag set to true
 - return social provider name for social login user
 
 + Parameters
-    + handle (optional, string, `iRabbit`) ... Member Handle
-    + email (optional, string, `test@test.com`) ... Email Address
+    + handle (optional, string, `iRabbit`) ... Member Handle or Social Login Username
+    + email (optional, string, `test@test.com`) ... Member Email (mutually exclusive with handle parameter)
 
 + Response 200 (application/json)
 
         {
-            "token":"a3cbG"
+            "successful":"true"
         }
 
 + Response 200 (application/json)
@@ -1244,7 +1244,31 @@ Register a new user.
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"The handle you entered is not valid"
+            "description":"Either handle or email must be specified"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Both handle and email are specified"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You have already requested the reset token, please find it in your email inbox. If it's not there. Please contact support@topcoder.com."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"User does not exist"
         }
 
 + Response 500 (application/json)
@@ -1262,6 +1286,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
 
 ## Reset Password [/users/resetPassword/{handle}]
 ### Reset Password [POST]
