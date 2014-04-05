@@ -557,14 +557,14 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
         caller = connection.caller;
     async.waterfall([
         function (cb) {
-            error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
-                helper.checkMaxNumber(Number(connection.params.contestId), MAX_INT, 'contestId');
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
             if (error) {
                 cb(error);
                 return;
             }
             sqlParams = {
-                challengeId: connection.params.contestId,
+                challengeId: connection.params.challengeId,
                 project_type_id: challengeType.category,
                 user_id: caller.userId || 0
             };
@@ -1450,7 +1450,7 @@ exports.getSoftwareChallenge = {
     name: "getSoftwareChallenge",
     description: "getSoftwareChallenge",
     inputs: {
-        required: ["contestId"],
+        required: ["challengeId"],
         optional: ["refresh"]
     },
     blockedConnectionTypes: [],
@@ -1475,7 +1475,7 @@ exports.getStudioChallenge = {
     name: "getStudioChallenge",
     description: "getStudioChallenge",
     inputs: {
-        required: ["contestId"],
+        required: ["challengeId"],
         optional: ["refresh"]
     },
     blockedConnectionTypes: [],
@@ -1513,7 +1513,7 @@ exports.getChallenge = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
-            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.contestId}, connection.dbConnectionMap, function (err, result) {
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
                     next(connection, true);

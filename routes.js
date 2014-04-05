@@ -149,7 +149,7 @@ exports.routes = {
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
-        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
+        { path: "/:apiVersion/develop/challenges/:challengeId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
@@ -160,7 +160,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
-        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
