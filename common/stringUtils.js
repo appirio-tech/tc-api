@@ -1,8 +1,11 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.0
- * Author: TCSASSEMBLER
+ * Version: 1.1
+ * Author: isv
+ * 
+ * changes in 1.1:
+ * - add generateRandomString function.
  */
 
 "use strict";
@@ -37,6 +40,23 @@ exports.containsOnly = function (string, alphabet) {
     }
 
     return true;
+};
+
+/**
+ * Generates random string of specified length using the symbols from the specified alphabet.
+ * 
+ * @param {String} alphabet - alphabet to use for string generation.
+ * @param {Number} length - the length for the string to be generated.
+ * @since 1.1
+ */
+exports.generateRandomString = function (alphabet, length) {
+    var text = '', i, index;
+    for (i = 0; i < length; i = i + 1) {
+        index = Math.random() * alphabet.length;
+        text += alphabet.charAt(index);
+    }
+
+    return text;
 };
 
 exports.ALPHABET_ALPHA_UPPER_EN = ALPHABET_ALPHA_UPPER_EN;
