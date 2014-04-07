@@ -246,6 +246,7 @@ exports.docusignCallback = {
 /**
  * Creates the options object used for making an HTTP request.
  * Sets the HTTP method, url, body and the Docusign Authorization header
+ * @param <Object> api The api object from which to read configuration
  * @param <String> url The url to set for the HTTP request
  * @param <String> method The verb to set for the HTTP request
  * @param <String> body The body to set for the HTTP request in case method is POST. It must be a String not an Object.
