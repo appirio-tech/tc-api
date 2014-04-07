@@ -1,0 +1,23 @@
+SELECT u.handle, NVL(slp.name, '') AS social_login_provider_name, e.address AS email_address
+FROM (
+    SELECT u.user_id, 0 
+    FROM user u
+    WHERE '' <> '@handle@'
+    AND   u.handle_lower = LOWER('@handle@')
+    UNION ALL
+    SELECT e.user_id, 1 
+    FROM email e
+    WHERE '' <> '@email@'
+    AND   LOWER(e.address) = LOWER('@email@')
+    UNION ALL
+    SELECT s.user_id, 2 
+    FROM user_social_login s
+    WHERE '' <> '@handle@' AND LOWER(s.social_user_name) = LOWER('@handle@')
+    OR 
+    '' <> '@email@' AND LOWER(s.social_email) = LOWER('@email@')
+    ORDER BY 2
+) tmp
+INNER JOIN user u ON u.user_id = tmp.user_id
+LEFT JOIN email e ON e.user_id = tmp.user_id
+LEFT JOIN user_social_login usl ON usl.user_id = tmp.user_id
+LEFT JOIN social_login_provider slp ON slp.social_login_provider_id = usl.social_login_provider_id 
