@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.30
+ * @version 1.31
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
@@ -72,6 +72,8 @@
  * - added route for activate user api
  * changes in 1.30
  * - added route for getting marathon match challenge register info api
+ * Changes in 1.31:
+ * - add route for challenge rss output api.
  */
 
 /* ---------------------
@@ -139,6 +141,8 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
+        { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
+        { path: "/:apiVersion/challenges/:challengeId", action: "getChallenge" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
@@ -146,7 +150,7 @@ exports.routes = {
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
-        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
+        { path: "/:apiVersion/develop/challenges/:challengeId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
@@ -157,7 +161,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
-        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
