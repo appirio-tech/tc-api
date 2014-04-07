@@ -246,7 +246,6 @@ exports.docusignCallback = {
 /**
  * Creates the options object used for making an HTTP request.
  * Sets the HTTP method, url, body and the Docusign Authorization header
- * @param <Object> api The infrastructure api object from which we read the configuration
  * @param <String> url The url to set for the HTTP request
  * @param <String> method The verb to set for the HTTP request
  * @param <String> body The body to set for the HTTP request in case method is POST. It must be a String not an Object.
@@ -335,7 +334,7 @@ exports.generateDocusignViewURL = {
 
 
                 //Perform login to docusign
-                options = initializeRequest(api, api.config.docusign.serverURL + "login_information", 'GET', '');
+                options = initializeRequest(api, config.docusign.serverURL + "login_information", 'GET', '');
                 request(options, function (err, res, body) {
                     var resp;
                     try {
