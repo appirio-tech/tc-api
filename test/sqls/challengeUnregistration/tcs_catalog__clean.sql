@@ -1,0 +1,21 @@
+delete from resource_info where resource_id in (select resource_id from resource where project_id > 40000000 and project_id < 40000020);
+delete from component_inquiry where component_inquiry_id > 80000001 and component_inquiry_id < 80000020;
+delete from project_result where user_id = 400011;
+delete from resource where project_id > 40000000 and project_id < 40000020;
+delete from project_result where project_id > 40000000 and project_id < 40000020;
+delete from project_user_audit where project_id > 40000000 and project_id < 40000020;
+delete from component_inquiry where project_id > 40000000 and project_id < 40000020;
+
+delete from project_info where project_id > 40000000 and project_id < 40000020; 
+delete from project_phase where project_id > 40000000 and project_id < 40000020; 
+delete from component_inquiry where project_id > 40000000 and project_id < 40000020;
+delete from project where project_id > 40000000 and project_id < 40000020;
+delete from comp_version_dates_history where comp_vers_id > 40000000 and comp_vers_id < 40000020;
+delete from comp_jive_category_xref where jive_category_id >= 1001 and jive_category_id <= 1003;
+delete from comp_versions where component_id > 40000000 and component_id < 40000020;
+delete from comp_versions where comp_vers_id > 40000000 and comp_vers_id < 40000020;
+delete from comp_catalog where component_id > 40000000 and component_id < 40000020;
+delete from user_rating where user_id = 400011;
+delete from user_reliability where user_id = 400011;
+delete from project_studio_specification where project_studio_spec_id = 1001;
+delete from copilot_profile where copilot_profile_id = 400011;

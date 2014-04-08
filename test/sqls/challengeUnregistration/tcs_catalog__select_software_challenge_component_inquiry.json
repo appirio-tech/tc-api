@@ -1,0 +1,5 @@
+{
+  "name"    : "tcs_catalog__select_software_challenge_component_inquiry",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "tcs_catalog__select_software_challenge_component_inquiry"
+}
