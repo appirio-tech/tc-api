@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
  * @version 1.19
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
@@ -32,6 +32,7 @@
  * - add defaultUserCacheLifetime property.
  * changes in 1.13:
  * - add jive in database mapping.
+ * - added the docusign object
  * - add grantForumAccess property.
  * Changes in 1.14:
  * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
@@ -316,11 +317,16 @@ config.docusign = {
     roleName: process.env.DOCUSIGN_ROLENAME || 'Member',
     clientUserId: process.env.DOCUSIGN_CLIENT_USER_ID || 'Member',
     returnURL: process.env.DOCUSIGN_RETURN_URL || 'http://localhost:8080/v2/terms/docusign/returnSigning&envelopeId=<%= envelopeId %>',
-    assignmentV2TemplateId: 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
-    w9TemplateId: '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
-    w8benTemplateId: 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+    assignmentV2TemplateId: process.env.DOCUSIGN_ASSIGNMENT_V2_TEMPLATE_ID || 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+    w9TemplateId: process.env.DOCUSIGN_W9TEMPLATE_ID || '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+    w8benTemplateId: process.env.DOCUSIGN_W8BEN_TEMPLATE_ID || 'CD415871-17F5-4A1E-A007-FE416B030FFB',
     appirioMutualNDATemplateId: process.env.DOCUSIGN_NDA_TEMPLATE_ID || '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
-    affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C'
+    affidavitTemplateId: process.env.DOCUSIGN_AFFIDAVIT_TEMPLATE_ID || '9103DC77-D8F1-4D7B-BED1-6116604EE98C',
+    assignmentDocTermsOfUseId: process.env.ASSIGNMENT_TERMS_OF_USE_ID || 20753,
+    callbackFailedEmailSubject: process.env.DOCUSIGN_CALLBACK_FAILED_EMAIL_SUBJECT || 'Processing DocuSign document failed',
+    callbackConnectKey: process.env.DOCUSIGN_CALLBACK_CONNECT_KEY || 'ABCDED-12435-EDFADSEC',
+    supportEmailAddress: process.env.DOCUSIGN_CALLBACK_FAILED_SUPPORT_EMAIL_ADDRESS || 'arahant7@yahoo.com',
+    fromEmailAddress: process.env.DOCUSIGN_CALLBACK_FAILED_FROM_EMAIL_ADDRESS || 'do-not-reply@topcoder.com'
 };
 
 config.welcomeEmail = {
@@ -329,6 +335,5 @@ config.welcomeEmail = {
     fromAddress: process.env.TC_EMAIL_FROM,
     senderName: '[topcoder] API'
 };
-
 
 exports.config = config;

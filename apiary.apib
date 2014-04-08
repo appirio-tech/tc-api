@@ -6369,3 +6369,49 @@ Payments APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+## Docusign Callback [/terms/docusignCallback]
+### Docusign Callback [POST]
+
++ Parameters
+    + envelopeStatus (required, String, `Complete`) ... The status of the envelope
+    + envelopeId (required, UUID, `9103DC77-D8F1-4D7B-BED1-6116604EE98C`) ... The envelope to process
+    + tabs (required, Array, [{tabLabel: 'Handle', tabValue: 'anix'}, {...}]) ... The tab values. Can be empty
+    + connectKey (required, String, 'ABCDED-12435-EDFADSEC') The conenct key
+
++ Response 200 (application/json)
+        {
+             "message": "some message"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }

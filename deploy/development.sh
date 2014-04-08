@@ -17,7 +17,7 @@
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
-VM_IP=informix.cloud.topcoder.com
+VM_IP=informix.cloud.topcoder.com 
 if [ -n "$TC_VM_IP" ]
 then
 VM_IP=$TC_VM_IP

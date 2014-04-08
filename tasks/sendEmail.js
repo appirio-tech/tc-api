@@ -2,9 +2,11 @@
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
  * Version: 1.1
- * Author: TCSASSEMBLER, ecnu_haozi
+ * Author: TCSASSEMBLER, ecnu_haozi, TCSASSEMBLER
  * changes in 1.1
  * - Remove the required fields check to make this email-sending logic more general and flexible.
+ * changes in 1.2
+ * - The From address can now be passed in params and if not present falls back to the configureation value 
  */
 "use strict";
 
@@ -80,7 +82,7 @@ var sendEmail = {
 
                 // build email message
                 message = {
-                    from: tc_email_from,
+                    from: params.fromAddress || tc_email_from,
                     to: params.toAddress,
                     subject: params.subject,
                     html: html,
