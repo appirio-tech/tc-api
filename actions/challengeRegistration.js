@@ -652,7 +652,6 @@ var timelineNotification = function (api, userId, challengeId, dbConnectionMap, 
                     dbConnectionMap,
                     cb);
             } else {
-                //The notification is already set.
                 cb(null);
             }
         }
@@ -692,23 +691,23 @@ var registerSoftwareChallengeAction = function (api, connection, next) {
     if (connection.dbConnectionMap) {
         api.log("Execute registerSoftwareChallengeAction#run", 'debug');
 
-        var challengeId = Number(connection.params.challengeId);
-        var sqlParams = {
-            challengeId: challengeId,
-            user_id: connection.caller.userId
-        };
-        var execQuery = function (name) {
-            return function (cbx) {
-                api.dataAccess.executeQuery(name, sqlParams, connection.dbConnectionMap, cbx);
+        var challengeId = Number(connection.params.challengeId),
+            sqlParams = {
+                challengeId: challengeId,
+                user_id: connection.caller.userId
+            },
+            execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, connection.dbConnectionMap, cbx);
+                };
             };
-        };
         async.waterfall([
-            function(cb) {
+            function (cb) {
                 async.parallel({
                     isCopilotPosting: execQuery('check_challenge_is_copilot_posting'),
                     isCopilot: execQuery('check_is_copilot')
                 }, cb);
-            }, function(res, cb) {
+            }, function (res, cb) {
                 if (res.isCopilotPosting.length > 0 && res.isCopilotPosting[0].challenge_is_copilot) {
                     if (res.isCopilot.length === 0 || !res.isCopilot[0].user_is_copilot) {
                         cb(new ForbiddenError('You should be a copilot before register a copilot posting.'));

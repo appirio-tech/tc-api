@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.28
+ * @version 1.31
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -67,6 +67,12 @@
  * - separate basic user profile api into my profile api and public profile api
  * changes in 1.28
  * - added route for Dosusign get recipient view url
+ * changes in 1.29
+ * - added route for activate user api
+ * changes in 1.30
+ * - added route for getting marathon match challenge register info api
+ * Changes in 1.31:
+ * - add route for challenge rss output api.
  */
 
 /* ---------------------
@@ -134,6 +140,8 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
+        { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
+        { path: "/:apiVersion/challenges/:challengeId", action: "getChallenge" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
@@ -141,7 +149,7 @@ exports.routes = {
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
-        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
+        { path: "/:apiVersion/develop/challenges/:challengeId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
@@ -152,7 +160,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
-        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
@@ -163,6 +171,7 @@ exports.routes = {
         { path: "/:apiVersion/users/validate/:handle", action: "validateHandle" },
         { path: "/:apiVersion/users/validateSocial", action: "validateSocial" },
 
+        { path: "/:apiVersion/users/activate", action: "activateUser" },
         { path: "/:apiVersion/users/search", action: "searchUsers" },
         { path: "/:apiVersion/users/:handle/statistics/develop", action: "getSoftwareStatistics" },
         { path: "/:apiVersion/users/:handle/statistics/design/recentWins", action: "getRecentWinningDesignSubmissions" },
@@ -176,6 +185,7 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },

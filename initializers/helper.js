@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.19
+ * @version 1.21
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -56,6 +56,10 @@
  * - add checkRefresh method to check if the request is force refresh request.
  * changes in 1.19
  * - updated softwareChallengeTypes
+ * changes in 1.20
+ * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
+ * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
  */
 "use strict";
 
@@ -81,6 +85,8 @@ var ForbiddenError = require('../errors/ForbiddenError');
 var RequestTooLargeError = require('../errors/RequestTooLargeError');
 var helper = {};
 var crypto = require("crypto");
+var bigdecimal = require('bigdecimal');
+var bignum = require('bignum');
 
 /**
  * software type.
@@ -149,7 +155,13 @@ var apiName2dbNameMap = {
     numberofsubmissions: 'number_of_submissions',
     numberofreviewpositionsavailable: 'number_of_review_positions_available',
     round2scheduledstartdate: 'round_2_scheduled_start_date',
-    round1scheduledstartdate: 'round_1_scheduled_start_date'
+    round1scheduledstartdate: 'round_1_scheduled_start_date',
+    postingdate: 'posting_date',
+    numsubmissions: 'num_submissions',
+    numregistrants: 'num_registrants',
+    currentphaseremainingtime: 'current_phase_remaining_time',
+    currentphasename: 'current_phase_name',
+    registrationopen: 'registration_open'
 };
 
 /**
@@ -300,6 +312,38 @@ var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helpe
 var phaseName2Id = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.name.toLowerCase(), item.phaseId];
 }));
+
+/**
+ * Represents a ListType enum
+ * @since 1.21
+ */
+helper.ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
+
+/**
+ * valid value for listType.
+ * @since 1.21
+ */
+helper.VALID_LIST_TYPE = [helper.ListType.ACTIVE, helper.ListType.OPEN, helper.ListType.UPCOMING, helper.ListType.PAST];
+
+/**
+ * The list type and registration phase status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP = {};
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.ACTIVE] = [2, 3];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.OPEN] = [2];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.UPCOMING] = [1];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.PAST] = [3];
+
+/**
+ * The list type and project status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_PROJECT_STATUS_MAP = {};
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.ACTIVE] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.OPEN] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.UPCOMING] = [2];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * Checks whether given object is defined.
@@ -883,7 +927,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1097,7 +1141,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return moment(date).utc().format(format);
+        return date.substring(0, format.length);
     }
     return '';
 };
@@ -1182,6 +1226,100 @@ helper.getFileTypes = function (api, dbConnectionMap, callback) {
         }
     });
 };
+
+/*
+ * this is the random int generator class
+ */
+function codeRandom(coderId) {
+    var cr = {},
+        multiplier = 0x5DEECE66D,
+        addend = 0xB,
+        mask = 281474976710655;
+    cr.seed = bignum(coderId).xor(multiplier).and(mask);
+    cr.nextInt = function () {
+        var oldseed = cr.seed,
+            nextseed;
+        do {
+            nextseed = oldseed.mul(multiplier).add(addend).and(mask);
+        } while (oldseed.toNumber() === nextseed.toNumber());
+        cr.seed = nextseed;
+        return nextseed.shiftRight(16).toNumber();
+    };
+
+    return cr;
+}
+
+/**
+ * get the code string by coderId
+ * @param coderId  the coder id of long type.
+ * @return the coder id generated hash string.
+ */
+function generateActivationCode(coderId) {
+    var r = codeRandom(coderId);
+    var nextBytes = function (bytes) {
+        for (var i = 0, len = bytes.length; i < len;)
+            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
+                var val = rnd & 0xff;
+                if (val > 127) {
+                    val = val - 256;
+                }
+                bytes[i++] = val;
+            }
+    };
+    var randomBits = function(numBits) {
+        if (numBits < 0)
+            throw new Error("numBits must be non-negative");
+        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
+        var randomBits = new Int8Array(numBytes);
+
+        // Generate random bytes and mask out any excess bits
+        if (numBytes > 0) {
+            nextBytes(randomBits);
+            var excessBits = 8 * numBytes - numBits;
+            randomBits[0] &= (1 << (8 - excessBits)) - 1;
+        }
+        return randomBits;
+    }
+    var id = coderId + "";
+    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
+    var len = coderId.toString(2).length;
+    var arr = randomBits(len);
+    var bb = bignum.fromBuffer(new Buffer(arr));
+    var hash = bb.add(baseHash).toString();
+    while (hash.length < id.length) {
+        hash = "0" + hash;
+    }
+    hash = hash.substring(hash.length - id.length);
+
+    var result = new bigdecimal.BigInteger(id + hash);
+    result = result.toString(36).toUpperCase();
+    return result;
+}
+
+/**
+ * get the coder id string by activation code
+ * @param activationCode the activation code string.
+ * @return the coder id.
+ */
+var getCoderIdFromActivationCode = function (activationCode) {
+    var idhash, coderId;
+
+    try {
+        idhash = bignum(new bigdecimal.BigInteger(activationCode, 36)).toString();
+    } catch (err) {
+        return 0;
+    }
+
+    if (idhash.length % 2 !== 0) {
+        return 0;
+    }
+    coderId = idhash.substring(0, idhash.length / 2);
+
+    return coderId;
+};
+
+helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
+helper.generateActivationCode = generateActivationCode;
 
 /**
 * Expose the "helper" utility.

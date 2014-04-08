@@ -1,0 +1,19 @@
+SELECT
+FIRST @page_size@
+  pcl.name AS challenge_type
+, pi.value AS challenge_name
+, p.project_id AS challenge_id
+, p.tc_direct_project_id AS project_id
+, ps.detailed_requirements_text AS software_detailed_requirements
+, sps.contest_description_text AS studio_detailed_requirements
+FROM project p
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+INNER JOIN project_info pi ON pi.project_info_type_id = 6 AND p.project_id = pi.project_id
+INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1
+LEFT JOIN project_spec ps ON ps.project_id = p.project_id
+LEFT JOIN project_studio_specification sps ON sps.project_studio_spec_id = p.project_studio_spec_id
+WHERE 1=1
+AND p.project_status_id IN (@project_status_id@)
+AND pcl.project_type_id IN (@project_type_id@)
+AND pp1.phase_status_id IN (@registration_phase_status@)
+AND p.project_category_id NOT IN (27, 37)

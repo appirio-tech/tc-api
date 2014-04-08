@@ -74,7 +74,7 @@ exports.action = {
         api.log("Executing getDocusignViewURL#run", 'debug');
         async.waterfall([
             function (cb) {
-                var x, spl, u;
+                var x, spl;
 
                 //Check if the templateId is valid
                 if (!templateId.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)) {
@@ -185,8 +185,8 @@ exports.action = {
                         //persist the new envelope to database
                         sqlParams.envelopeId = resp.envelopeId;
                         sqlParams.complete = 0;
-                        api.dataAccess.executeQuery(
-                            'insert_docusign_envelope', sqlParams, dbConnectionMap, function (err) {
+                        api.dataAccess.executeQuery('insert_docusign_envelope', sqlParams, dbConnectionMap,
+                            function (err) {
                                 if (err) {
                                     cb(err);
                                     return;

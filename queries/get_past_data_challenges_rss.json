@@ -1,0 +1,5 @@
+{
+    "name"    : "get_past_data_challenges_rss",
+    "db"      : "topcoder_dw",
+    "sqlfile" : "get_past_data_challenges_rss"
+}
