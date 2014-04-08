@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.31
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, TCSASSEMBLER
+ * @version 1.32
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -74,6 +74,8 @@
  * - added route for getting marathon match challenge register info api
  * Changes in 1.31:
  * - add route for challenge rss output api.
+ * changes in 1.32:
+ * - added route for Challenge Unregistration API
  */
 
 /* ---------------------
@@ -231,6 +233,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
+        { path: "/:apiVersion/challenges/:challengeId/unregister", action: "unregisterChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },

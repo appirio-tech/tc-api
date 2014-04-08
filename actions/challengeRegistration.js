@@ -3,14 +3,17 @@
  *
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
- * @version 1.2
- * @author ecnu_haozi, xjtufreeman, TCSASSEMBLER
+ * @version 1.3
+ * @author ecnu_haozi, xjtufreeman, bugbuka
  *
  * changes in 1.1:
  * Combine Challenge Registration API(BUGR-11058)
  *
  * changes in 1.2:
  * Integrate the forums operation(Module Assembly - Integrating Forums Wrapper with Challenge Registration API)
+ *
+ * changes in 1.3:
+ * move common function getForumWrapper, aduitResourceAddition to challengeHelper.js
  */
 "use strict";
 
@@ -25,25 +28,6 @@ var ForbiddenError = require('../errors/ForbiddenError');
  * The forum wrapper instance
  */
 var forumWrapper = null;
-
-/**
- * Get forum wrapper. It is initialized only once.
- * @param {Object} api The api object that is used to access the infrastructure.
- * @param {Function<err, forumWrapper>} callback the callback function
- */
-var getForumWrapper = function (api, callback) {
-    if (forumWrapper) {
-        callback(null, forumWrapper);
-    } else {
-        try {
-            forumWrapper = new ForumWrapper(api.config.general.devForumJNDI);
-            callback(null, forumWrapper);
-        } catch (ex) {
-            api.log('Failed to connect to forum: ' + ex + " " + (ex.stack || ''), 'error');
-            callback(new Error('Failed to connect to forum'));
-        }
-    }
-};
 
 //constants
 var DESIGN_PROJECT_TYPE = 1,
@@ -163,27 +147,6 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
 };
 
 /**
- * Audit the challenge registration on table 'tcs_catalog.project_user_audit'.
- *
- * @param {Object} api The api object that is used to access the infrastructure.
- * @param {Number} userId The current logged-in user's id.
- * @param {Number} challengeId The id of the challenge to register.
- * @param {Object} dbConnectionMap The database connection map for the current request.
- * @param {Function<err, data>} next The callback to be called after this function is done.
- */
-var aduitResourceAddition = function (api, userId, challengeId, dbConnectionMap, next) {
-    api.dataAccess.executeQuery("audit_challenge_registration", {
-        projectId: challengeId,
-        resourceUserId: userId,
-        resourceRoleId: SUBMITTER_RESOURCE_ROLE_ID,
-        auditActionTypeId: PROJECT_USER_AUDIT_CREATE_TYPE,
-        actionUserId: userId
-    },
-        dbConnectionMap,
-        next);
-};
-
-/**
  * Check if the rating suit for software category contests. 
  * The code logic is duplicated from server-side java code.
  *
@@ -282,7 +245,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
         function (resourceId, callback) {
             async.parallel([
                 function (cb) {
-                    aduitResourceAddition(api, userId, challengeId, dbConnectionMap, cb);
+                    api.challengeHelper.aduitResourceAddition(api, userId, challengeId, SUBMITTER_RESOURCE_ROLE_ID, PROJECT_USER_AUDIT_CREATE_TYPE, dbConnectionMap, cb);
                 },
                 function (cb) {
                     prepareProjectResult(
@@ -487,7 +450,7 @@ var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
     api.log('start to grant user ' + userId + ' forum category ' +  activeForumCategoryId + ' access.');
     async.waterfall([
         function (cb) {
-            getForumWrapper(api, cb);
+            api.challengeHelper.getForumWrapper(api, cb);
         }, function (forumWrapper, cb) {
             forumWrapper.assignRole(userId, "Software_Users_" + activeForumCategoryId, function (err) {
                 if (err) {

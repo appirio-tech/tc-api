@@ -1,0 +1,84 @@
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000001, 1, 2, 132456, CURRENT, 132456, CURRENT, 40000011, null);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000001, 6, 'Java Throttle 1.0', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000001, 2, '40000001', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000001, 4, '1001', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind) VALUES ('40000001', '1', 'Coolest component ever', 'Component 4', 'Coolest component ever', 'Component', CURRENT, '1', '5801776', CURRENT, '0');
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind) VALUES ('40000001', '40000001', '1', '1.0', CURRENT, '113', '1976-05-04 00:00:00.0', '1000.00', 'Cool', CURRENT, '0');
+
+INSERT INTO comp_jive_category_xref	(comp_vers_id, jive_category_id) VALUES ('40000001', 1001);
+
+INSERT INTO comp_version_dates_history (comp_version_dates_history_id, comp_vers_id,  phase_id , initial_submission_date) VALUES (40000001, 40000001, 113, CURRENT);
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (40000001, 1, 40000001, 400011, current, 400011, current);
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000001, 1, 400011, 400011, current, 400011, current);
+
+INSERT INTO tcs_catalog:component_inquiry (component_inquiry_id, component_id, user_id, comment, agreed_to_terms, rating, phase, tc_user_id, version, create_time, project_id) VALUES (80000001, 40000001, 400011, 'Cool', 1, 0, 113, 400011, 1, current, 40000001);
+
+INSERT INTO tcs_catalog:project_result (user_id, project_id, old_rating, new_rating, raw_score, final_score, payment, placed, rating_ind, valid_submission_ind, create_date, modify_date, passed_review_ind, point_adjustment, rating_order) VALUES	(400011, 40000001, 0, 1, 80, 90, 1, 0, 0, 0, current, current, 1, 1, 1);
+
+INSERT INTO project_studio_specification(project_studio_spec_id,contest_description,create_user,create_date,modify_user,modify_date) VALUES (1001,'Description of Studio Contest 40000002.','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000001, 40000001, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000002, 1, 20, 132456, CURRENT, 132456, CURRENT, 40000012, 1001);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000002, 6, 'Hestia Business Information', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000002, 2, '40000002', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000002, 4, '1001', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind) VALUES ('40000002', '1', 'Coolest component ever', 'Component 4', 'Coolest component ever', 'Component', CURRENT, '1', '5801776', CURRENT, '0');
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind) VALUES ('40000002', '40000002', '1', '1.0', CURRENT, '131', '1976-05-04 00:00:00.0', '1000.00', 'Cool', CURRENT, '0');
+
+INSERT INTO comp_jive_category_xref	(comp_vers_id, jive_category_id) VALUES ('40000002', 1002);
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (40000002, 1, 40000002, 400011, current, 400011, current);
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000002, 1, 400011, 400011, current, 400011, current);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000002, 40000002, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO user_rating (user_id, rating, phase_id, last_rated_project_id) values (400011, 0, 113, null);
+
+INSERT INTO user_reliability (user_id, rating, phase_id) values (400011, null, 113);
+
+INSERT INTO user_rating (user_id, rating, phase_id, last_rated_project_id) values (400011, 3000, 131, 40000003);
+
+INSERT INTO user_reliability (user_id, rating, phase_id) values (400011, 1.00, 131);
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (40000003, 1, 29, 132456, CURRENT, 132456, CURRENT, 40000011, null);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000003, 6, 'Java Throttle 1.0', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000003, 2, '40000003', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000003, 4, '1001', 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind) VALUES ('40000003', '1', 'Coolest component ever', 'Component 4', 'Coolest component ever', 'Component', CURRENT, '1', '5801776', CURRENT, '0');
+
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind) VALUES ('40000003', '40000003', '1', '1.0', CURRENT, '113', '1976-05-04 00:00:00.0', '1000.00', 'Cool', CURRENT, '0');
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (40000003, 1, 40000003, 400011, current, 400011, current);
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (40000003, 1, 400011, 400011, current, 400011, current);
+
+INSERT INTO component_inquiry (component_inquiry_id, component_id, user_id, comment, agreed_to_terms, rating, phase, tc_user_id, version, create_time, project_id) VALUES (80000003, 40000003, 400011, 'Cool3', 1, 0, 113, 400011, 1, current, 40000003);
+
+INSERT INTO project_result (user_id, project_id, old_rating, new_rating, raw_score, final_score, payment, placed, rating_ind, valid_submission_ind, create_date, modify_date, passed_review_ind, point_adjustment, rating_order) VALUES (400011, 40000003, 0, 1, 80, 90, 1, 0, 0, 0, current, current, 1, 1, 1);
+
+INSERT INTO comp_jive_category_xref	(comp_vers_id, jive_category_id) VALUES ('40000003', 1003);
+
+INSERT INTO comp_version_dates_history (comp_version_dates_history_id, comp_vers_id,  phase_id , initial_submission_date) VALUES (40000003, 40000003, 113, CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000003, 40000003, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO copilot_profile(copilot_profile_id, user_id, copilot_profile_status_id, suspension_count, reliability, create_user, create_date, update_user, update_date)
+VALUES(400011, 400011, 1, 1, 50, 132456, CURRENT, 132456, CURRENT);
