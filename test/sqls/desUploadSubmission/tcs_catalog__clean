@@ -1,0 +1,13 @@
+DELETE FROM resource_submission WHERE resource_id >= 432000 AND resource_id <= 432999;
+DELETE FROM resource_info WHERE resource_id >= 432000 AND resource_id <= 432999;
+DELETE FROM submission WHERE submission_id >= 4000000 AND submission_id <= 5000000;
+DELETE FROM upload WHERE project_id >= 432000 AND project_id <= 432999;
+DELETE FROM resource WHERE resource_id >= 432000 AND resource_id <= 432999;
+DELETE FROM phase_criteria WHERE project_phase_id >= 432000 AND project_phase_id <= 432999;
+DELETE FROM project_phase WHERE project_phase_id >= 432000 AND project_phase_id <= 432999;
+DELETE FROM project_info WHERE project_id >= 432000 AND project_id <= 432999;
+DELETE FROM comp_version_dates WHERE comp_vers_id  > 432000 AND comp_vers_id <= 432999;
+DELETE FROM comp_versions WHERE comp_vers_id  > 432000 AND comp_vers_id <= 432999;
+DELETE FROM comp_catalog WHERE component_id  > 432000 AND component_id <= 432999;
+DELETE FROM contest_eligibility WHERE contest_id >= 432000 AND contest_id <= 432999;
+DELETE FROM project WHERE project_id >= 432000 AND project_id <= 432999;

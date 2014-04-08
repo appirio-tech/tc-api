@@ -2,7 +2,7 @@ select
 	p.project_id,
 	p.project_category_id,
 	(pp_reg_open.project_id IS NOT NULL) as reg_open,
-	(ci.project_id IS NOT NULL) as user_registered,
+	(r.project_id IS NOT NULL) as user_registered,
 	(us.user_id IS NOT NULL) as user_suspended,
 	(ce.contest_eligibility_id IS NULL) as no_elgibility_req,
 	(ugx.login_id IS NOT NULL) as user_in_eligible_group,
@@ -18,8 +18,8 @@ left join
 	and pp_reg_open.phase_status_id = 2
 -- Check if user is already registered
 left join
-	component_inquiry ci
-	on p.project_id = ci.project_id
+	resource r
+	on r.project_id = p.project_id and r.resource_role_id = 1
 	and user_id = @userId@
 -- Check if user is suspended
 left join

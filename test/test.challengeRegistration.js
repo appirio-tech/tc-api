@@ -1,8 +1,12 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author ecnu_haozi
+ * @version 1.1
+ * @author ecnu_haozi, TCSASSEMBLER
+ *
+ * changes in 1.1:
+ * -- Add verification for integration the forums operation(Module Assembly - Integrating Forums Wrapper with Challenge Registration API)
+ * -- verify forum only if grantForumAccess is true
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -23,6 +27,7 @@ var TEST_FILE_DIR = "test/test_files/";
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
+var grantForumAccess = require('../config').config.general.grantForumAccess;
 /**
  * Objects and values required for generating the OAuth token
  */
@@ -56,6 +61,13 @@ describe('Challenge Registration API', function () {
     function clearDb(done) {
         async.waterfall([
             function (cb) {
+                if (grantForumAccess !== true) {
+                    cb();
+                    return;
+                }
+                testHelper.runSqlFile(SQL_DIR + "jive__clean", "jive", cb);
+            },
+            function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean", "tcs_catalog", cb);
             },
             function (cb) {
@@ -75,6 +87,13 @@ describe('Challenge Registration API', function () {
     before(function (done) {
         async.waterfall([
             clearDb,
+            function (cb) {
+                if (grantForumAccess !== true) {
+                    cb();
+                    return;
+                }
+                testHelper.runSqlFile(SQL_DIR + "jive__insert_test_data", "jive", cb);
+            },
             function (cb) {
                 testHelper.runSqlFile(SQL_DIR + "common_oltp__insert_test_data", "common_oltp", cb);
             },
@@ -158,6 +177,18 @@ describe('Challenge Registration API', function () {
                     TEST_FILE_DIR + "expected_challenge_registration_software_resource_info.txt",
                     'utf8',
                     SQL_DIR2 + "tcs_catalog__select_software_challenge_resource_info.json",
+                    callback
+                );
+            },
+            function (callback) {
+                if (grantForumAccess !== true) {
+                    callback();
+                    return;
+                }
+                validateTable(
+                    TEST_FILE_DIR + "expected_jivegroupuser.txt",
+                    'utf8',
+                    SQL_DIR2 + "jive__select_jivegroupuser.json",
                     callback
                 );
             }

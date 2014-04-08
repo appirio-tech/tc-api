@@ -1,0 +1,5 @@
+{
+  "name"    : "jive__select_jiveuserperm",
+  "db"      : "jive",
+  "sqlfile" : "jive__select_jiveuserperm"
+}

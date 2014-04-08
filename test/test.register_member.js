@@ -253,7 +253,7 @@ describe('Test Register Member API', function () {
     it('should register successfully', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2 })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2, utm_source: "some source", utm_medium: "some medium", utm_campaign: "some campaign"})
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {

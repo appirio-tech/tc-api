@@ -1,9 +1,143 @@
+
 INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
 VALUES(10001, 10001, 6, 53, 1, 1);
 INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
-VALUES(10001, 132456, 10001, current, current);
+VALUES(10001, 132456, 10001, '2014-03-25 00:00:00', current);
+
 
 INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
 VALUES(10002, 10002, 6, 53, 1, 1);
 INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
-VALUES(10002, 132456, 10002, current - 1 units year, current);
+VALUES(10002, 132456, 10002, '2014-03-25 01:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10003, 10003, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10003, 132456, 10003, '2014-03-25 02:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10004, 10004, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10004, 132456, 10004, '2014-03-25 03:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10005, 10005, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10005, 132456, 10005, '2014-03-25 04:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10006, 10006, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10006, 132456, 10006, '2014-03-25 05:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10007, 10007, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10007, 132456, 10007, '2014-03-25 06:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10008, 10008, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10008, 132456, 10008, '2014-03-25 07:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10009, 10009, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10009, 132456, 10009, '2014-03-25 08:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10010, 10010, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10010, 132456, 10010, '2014-03-25 09:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10011, 10011, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10011, 132456, 10011, '2014-03-25 10:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10012, 10012, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10012, 132456, 10012, '2014-03-25 11:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10013, 10013, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10013, 132456, 10013, '2014-03-25 12:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10014, 10014, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10014, 132456, 10014, '2014-03-25 13:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10015, 10015, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10015, 132456, 10015, '2014-03-25 14:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10016, 10016, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10016, 132456, 10016, '2014-03-25 15:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10017, 10017, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10017, 132456, 10017, '2014-03-25 16:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10018, 10018, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10018, 132456, 10018, '2014-03-25 17:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10019, 10019, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10019, 132456, 10019, '2014-03-25 18:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10020, 10020, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10020, 132456, 10020, '2014-03-25 19:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10021, 10021, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10021, 132456, 10021, '2014-03-25 20:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10022, 10022, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10022, 132456, 10022, '2014-03-25 21:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10023, 10023, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10023, 132456, 10023, '2014-03-25 22:00:00', current);
+
+
+INSERT INTO payment_detail(payment_detail_id, component_project_id, payment_type_id, payment_status_id, installment_number, charity_ind)
+VALUES(10024, 10024, 6, 53, 1, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date, modify_date)
+VALUES(10024, 132456, 10024, '2014-03-25 23:00:00', current);

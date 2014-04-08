@@ -1,2 +1,2 @@
-DELETE FROM payment WHERE payment_id IN (10001, 10002);
-DELETE FROM payment_detail WHERE payment_detail_id IN (10001, 10002);
+DELETE FROM payment WHERE  10001 <= payment_id AND payment_id <= 10024;
+DELETE FROM payment_detail WHERE 10001 <= payment_detail_id AND payment_detail_id <= 10024;

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.12
- * @author Sky_, Ghost_141, muzehyun, hesibo, isv
+ * @version 1.15
+ * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -31,6 +31,13 @@
  * - moved checkUserExists function to /initializers/helper.js and replaced all calls to checkUserExists with
  * -  call to api.helper.checkUserExists
  * - removed unused import for IllegalArgumentError
+ * changes in 1.13
+ * - add getCopilotStatistics API.
+ * changes in 1.14
+ * - added my profile api
+ * - modified public profile api(basic user profile api), only return public information
+ * changes in 1.15
+ * - enabled granular data access in getBasicUserProfile via optional query param
  */
 "use strict";
 var async = require('async');
@@ -38,6 +45,7 @@ var _ = require('underscore');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var NotFoundError = require('../errors/NotFoundError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
 
 /**
  * check whether given user is activated.
@@ -99,128 +107,155 @@ function checkUserExistAndActivate(handle, api, dbConnectionMap, callback) {
 /**
  * Get the user basic profile information.
  * @param {Object} api - the api object.
+ * @param {String} handle - the handle parameter
+ * @param {Boolean} privateInfoEligibility - flag indicate whether private information is included in result
  * @param {Object} dbConnectionMap - the database connection map.
  * @param {Object} connection - the connection.
  * @param {Function} next - the callback function.
  */
-function getBasicUserProfile(api, dbConnectionMap, connection, next) {
-    var handle = connection.params.handle,
-        helper = api.helper,
+function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMap, connection, next) {
+    var helper = api.helper,
         sqlParams = {
             handle: handle
         },
         result,
-        privateInfoEligibility = false;
+        loadData,
+        requestedData,
+        parts;
+
+    // check for an optional data query string param than enables loading a subset of data
+    requestedData = connection.rawConnection.parsedURL.query.data;
+    if (_.isDefined(requestedData)) {
+        // NOTE: an empty value is acceptable and indicates only basic data is returned
+        loadData = {};
+        if (requestedData) {
+            // data is comma delimited string of requested data
+            parts = requestedData.split(',');
+            _.each(parts, function (part) {
+                loadData[part] = true;
+            });
+        }
+        api.log("Requested data param found: " + requestedData, "debug");
+    } else {
+        loadData = {earnings: true, ratings: true, achievements: true, address: true, email: true}; // load all data by default
+    }
 
     async.waterfall([
         function (cb) {
-            checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            if (privateInfoEligibility) {
+                checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        cb(result);
+                    }
+                });
+            } else {
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            }
         }, function (cb) {
             var execQuery = function (name) {
                 return function (cbx) {
                     api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
                 };
             };
-            privateInfoEligibility = connection.caller.accessLevel === 'admin' || connection.caller.handle === handle;
             async.parallel({
                 basic: execQuery('basic'),
-                earning: execQuery('overall_earning'),
-                ratingSummary: execQuery('rating_summary'),
-                achievements: execQuery('achievements'),
-                privateInfo: privateInfoEligibility ? execQuery('private') : function (cbx) { cbx(); },
-                emails: privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
+                earning: loadData.earnings ? execQuery('overall_earning') : function (cbx) { cbx(); },
+                ratingSummary: loadData.ratings ? execQuery('rating_summary') : function (cbx) { cbx(); },
+                achievements: loadData.achievements ? execQuery('achievements') : function (cbx) { cbx(); },
+                privateInfo: loadData.address && privateInfoEligibility ? execQuery('private') : function (cbx) { cbx(); },
+                emails: loadData.email && privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
             }, cb);
         }, function (results, cb) {
-            var basic = results.basic[0], earning = results.earning[0], ratingSummary = results.ratingSummary,
-                achievements = results.achievements, privateInfo,
-                mapRatingSummary = function (ratings) {
-                    var ret = [];
-                    ratings.forEach(function (item) {
-                        ret.push({
-                            name: helper.getPhaseName(item.phase_id),
-                            rating: item.rating,
-                            colorStyle: helper.getColorStyle(item.rating)
-                        });
+            var basic = results.basic[0],
+                ratingSummary,
+                achievements,
+                emails,
+                appendIfNotEmpty,
+                privateInfo,
+                address;
+
+            result = {
+                handle: basic.handle,
+                country: basic.country,
+                memberSince: basic.member_since,
+                quote: basic.quote,
+                photoLink: basic.photo_link || ''
+            };
+
+            if (loadData.earnings && _.isDefined(basic.show_earnings) && basic.show_earnings !== 'hide') {
+                result.overallEarning = results.earning[0].overall_earning;
+            }
+
+            if (loadData.ratings) {
+                ratingSummary = [];
+                results.ratingSummary.forEach(function (item) {
+                    ratingSummary.push({
+                        name: helper.getPhaseName(item.phase_id),
+                        rating: item.rating,
+                        colorStyle: helper.getColorStyle(item.rating)
                     });
-                    return ret;
-                },
-                mapAchievements = function (achievements) {
-                    var ret = [], achieveItem;
-                    achievements.forEach(function (item) {
-                        achieveItem = {
-                            date: item.achievement_date,
-                            description: item.description
-                        };
-                        ret.push(achieveItem);
+                });
+                result.ratingSummary = ratingSummary;
+            }
+
+            if (loadData.achievements) {
+                achievements = [];
+                results.achievements.forEach(function (item) {
+                    achievements.push({
+                        date: item.achievement_date,
+                        description: item.description
                     });
-                    return ret;
-                },
-                mapEmails = function (emails) {
-                    var ret = [];
-                    emails.forEach(function (item) {
-                        ret.push({
-                            email: item.email,
-                            type: item.type,
-                            status: item.status
-                        });
+                });
+                // TODO: why is this capitalized?
+                result.Achievements = achievements;
+            }
+
+            if (privateInfoEligibility && loadData.email) {
+                emails = [];
+                results.emails.forEach(function (item) {
+                    emails.push({
+                        email: item.email,
+                        type: item.type,
+                        status: item.status
                     });
-                    return ret;
-                },
+                });
+                result.emails = emails;
+            }
+
+            if (privateInfoEligibility && loadData.address && results.privateInfo && results.privateInfo[0]) {
                 appendIfNotEmpty = function (str) {
                     var ret = '';
                     if (str && str.length > 0) {
                         ret += ', ' + str;
                     }
                     return ret;
-                },
-                getAddressString = function (privateInfo) {
-                    var address = privateInfo.address1;
-                    if (!address) { return undefined; }  // if address1 is undefined, there is no address.
+                };
 
+                privateInfo = results.privateInfo[0];
+
+                result.name = privateInfo.first_name + ' ' + privateInfo.last_name;
+                result.age = privateInfo.age;
+                result.gender = privateInfo.gender;
+                result.shirtSize = privateInfo.shirt_size;
+
+                address = privateInfo.address1;
+                // if address1 is undefined, there is no address.
+                if (address) {
                     address += appendIfNotEmpty(privateInfo.address2);
                     address += appendIfNotEmpty(privateInfo.address3);
                     address += ', ' + privateInfo.city;
                     address += appendIfNotEmpty(privateInfo.state);
                     address += ', ' + privateInfo.zip + ', ' + privateInfo.country;
-                    return address;
-                };
-            result = {
-                handle: basic.handle,
-                country: basic.country,
-                memberSince: basic.member_since,
-                overallEarning: earning.overall_earning,
-                quote: basic.quote,
-                photoLink: basic.photo_link || '',
-                isCopilot: {
-                    value: basic.is_copilot,
-                    software: basic.is_software_copilot,
-                    studio: basic.is_studio_copilot
-                },
-                isPM: basic.is_pm,
-
-                ratingSummary: mapRatingSummary(ratingSummary),
-                Achievements: mapAchievements(achievements)
-            };
-
-            if (!_.isDefined(basic.show_earnings) || basic.show_earnings === 'hide') {
-                delete result.overallEarning;
+                    result.address = address;
+                }
             }
 
             if (result.isPM) {
                 delete result.ratingSummary;
             }
 
-            if (privateInfoEligibility) {
-                result.emails = mapEmails(results.emails);
-                if (results.privateInfo && results.privateInfo[0]) {
-                    privateInfo = results.privateInfo[0];
-                    result.name = privateInfo.first_name + ' ' + privateInfo.last_name;
-                    result.address = getAddressString(privateInfo);
-                    result.age = privateInfo.age;
-                    result.gender = privateInfo.gender;
-                    result.shirtSize = privateInfo.shirt_size;
-                }
-            }
             cb();
         }
     ], function (err) {
@@ -281,8 +316,8 @@ function mapDistribution(rows) {
 }
 
 /**
-* The API for getting marathon statistics
-*/
+ * The API for getting marathon statistics
+ */
 exports.getMarathonStatistics = {
     name: "getMarathonStatistics",
     description: "getMarathonStatistics",
@@ -373,8 +408,8 @@ exports.getMarathonStatistics = {
 
 
 /**
-* The API for getting software statistics
-*/
+ * The API for getting software statistics
+ */
 exports.getSoftwareStatistics = {
     name: "getSoftwareStatistics",
     description: "getSoftwareStatistics",
@@ -416,12 +451,13 @@ exports.getSoftwareStatistics = {
                 checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
-                    api.dataAccess.executeQuery(name,
-                        sqlParams,
-                        dbConnectionMap,
-                        cbx);
-                }, phaseIds = _.isDefined(track) ?  [helper.getPhaseId(track)] :
-                        _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
+                        api.dataAccess.executeQuery(name,
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    },
+                    phaseIds = _.isDefined(track) ? [helper.getPhaseId(track)] :
+                            _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
                     challengeTypes = _.map(phaseIds, function (item) {
                         return item - 111;
                     });
@@ -515,8 +551,8 @@ exports.getSoftwareStatistics = {
 
 
 /**
-* The API for getting studio statistics
-*/
+ * The API for getting studio statistics
+ */
 exports.getStudioStatistics = {
     name: "getStudioStatistics",
     description: "getStudioStatistics",
@@ -586,8 +622,8 @@ exports.getStudioStatistics = {
 
 
 /**
-* The API for getting algorithm statistics
-*/
+ * The API for getting algorithm statistics
+ */
 exports.getAlgorithmStatistics = {
     name: "getAlgorithmStatistics",
     description: "getAlgorithmStatistics",
@@ -755,7 +791,7 @@ exports.getBasicUserProfile = {
             api.helper.handleNoConnection(api, connection, next);
         } else {
             api.log('Execute getBasicUserProfile#run', 'debug');
-            getBasicUserProfile(api, connection.dbConnectionMap, connection, next);
+            getBasicUserProfile(api, connection.params.handle, false, connection.dbConnectionMap, connection, next);
         }
     }
 };
@@ -831,8 +867,8 @@ var getSoftwareRatingHistoryAndDistribution = function (api, connection, dbConne
 };
 
 /**
-* The API for getting software rating history and distribution
-*/
+ * The API for getting software rating history and distribution
+ */
 exports.getSoftwareRatingHistoryAndDistribution = {
     name: "getSoftwareRatingHistoryAndDistribution",
     description: "getSoftwareRatingHistoryAndDistribution",
@@ -945,6 +981,135 @@ exports.getRecentWinningDesignSubmissions = {
         if (connection.dbConnectionMap) {
             api.log("Execute getRecentWinningDesignSubmissions#run", 'debug');
             getRecentWinningDesignSubmissions(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+
+/**
+ * The API for getting copilot Statistics.
+ *
+ * @since 1.13
+ */
+exports.getCopilotStatistics = {
+    name: "getCopilotStatistics",
+    description: "getCopilotStatistics",
+    inputs: {
+        required: ["handle"],
+        optional: ["track"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "topcoder_dw"],
+    run: function (api, connection, next) {
+        api.log("Execute getCopilotStats#run", 'debug');
+        var dbConnectionMap = connection.dbConnectionMap,
+            handle = connection.params.handle,
+            track = connection.params.track,
+            helper = api.helper,
+            sqlParams = {
+                handle: handle
+            },
+            result = {
+                handle: handle,
+                Tracks: {}
+            };
+        if (!connection.dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+        async.waterfall([
+            function (cb) {
+                // check track
+                if (_.isDefined(track)) {
+                    cb(helper.checkTrackName(track.toLowerCase(), false));
+                } else {
+                    cb();
+                }
+            }, function (cb) {
+                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            }, function (cb) {
+                var execQuery = function (name, cbx) {
+                        api.dataAccess.executeQuery(name,
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    },
+                    phaseIds = _.isDefined(track) ? [helper.getPhaseId(track)] :
+                            _(helper.softwareChallengeTypes).values().map(function (item) { return item.phaseId; }),
+                    challengeTypes = _.map(phaseIds, function (item) {
+                        return item - 111;
+                    });
+
+                sqlParams.phaseIds = phaseIds;
+                sqlParams.challengeTypes = challengeTypes;
+
+                execQuery("get_software_member_statistics_copilot", cb);
+            }, function (results, cb) {
+                results.forEach(function (track) {
+                    if (track.completed_contests === 0) {
+                        return;
+                    }
+                    if (!result.Tracks[track.category_name]) {
+                        result.Tracks[track.category_name] = {};
+                    }
+                    var data = result.Tracks[track.category_name], copilotFulfillment;
+                    if (data) {
+                        if (track.completed_contests !== 0) {
+                            data.copilotCompletedContests = track.completed_contests;
+                            data.copilotRepostedContests = track.reposted_contests;
+                            data.copilotFailedContests = track.failed_contests;
+                            copilotFulfillment = 1 - data.copilotFailedContests / data.copilotCompletedContests;
+                            data.copilotFulfillment = _.getPercent(copilotFulfillment, 0);
+                        }
+                    } else {
+                        api.log("unable to update copilot data. no track data for handle " + handle + " for track " + track, "warning");
+                    }
+                });
+
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
+    }
+};
+
+/**
+ * The API for getting my profile.
+ *
+ * @since 1.14
+ */
+exports.getMyProfile = {
+    name: "getMyProfile",
+    description: "get my profile",
+    inputs: {
+        required: [],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["informixoltp", "topcoder_dw", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getMyProfile#run", "debug");
+            if (connection.caller.accessLevel === "anon") {
+                api.helper.handleError(api, connection, new UnauthorizedError("Authentication credential was missing."));
+                next(connection, true);
+            } else {
+                getBasicUserProfile(api, connection.caller.handle, true, connection.dbConnectionMap, connection, next);
+            }
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

@@ -1,10 +1,13 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author ecnu_haozi, Ghost_141
+ * @version 1.2
+ * @author ecnu_haozi, bugbuka, Ghost_141
  * Refactor common code out from challenge.js.
- * Changes in 1.1
+ *
+ * changes in 1.1:
+ * add common function getForumWrapper, aduitResourceAddition
+ * Changes in 1.2:
  * - Add new parameter in getChallengeTerms.
  */
 "use strict";
@@ -16,11 +19,17 @@ var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
+var ForumWrapper = require("forum-connector").ForumWrapper;
 
 /**
  * This copilot posting project type id
  */
 var COPILOT_POSTING_PROJECT_TYPE = 29;
+
+/**
+ * The forum wrapper instance
+ */
+var forumWrapper = null;
 
 /**
  * Expose the "idGenerator" utility.
@@ -30,6 +39,50 @@ var COPILOT_POSTING_PROJECT_TYPE = 29;
  */
 exports.challengeHelper = function (api, next) {
     api.challengeHelper = {
+
+        /**
+         * Get forum wrapper. It is initialized only once.
+         * @param {Object} api The api object that is used to access the infrastructure.
+         * @param {Function<err, forumWrapper>} callback the callback function
+         * @since 1.1
+         */
+        getForumWrapper : function (api, callback) {
+            if (forumWrapper) {
+                callback(null, forumWrapper);
+            } else {
+                try {
+                    forumWrapper = new ForumWrapper(api.config.general.devForumJNDI);
+                    callback(null, forumWrapper);
+                } catch (ex) {
+                    api.log('Failed to connect to forum: ' + ex + " " + (ex.stack || ''), 'error');
+                    callback(new Error('Failed to connect to forum'));
+                }
+            }
+        },
+
+        /**
+         * Audit the challenge registration on table 'tcs_catalog.project_user_audit'.
+         *
+         * @param {Object} api The api object that is used to access the infrastructure.
+         * @param {Number} userId The current logged-in user's id.
+         * @param {Number} challengeId The id of the challenge to register.
+         * @param {Number} submitterResourceRoleId The id of the submitter resource role.
+         * @param {Number} auditActionTypeId The id of the audit action type.
+         * @param {Object} dbConnectionMap The database connection map for the current request.
+         * @param {Function<err, data>} next The callback to be called after this function is done.
+         * @since 1.1
+         */
+        aduitResourceAddition : function (api, userId, challengeId, submitterResourceRoleId, auditActionTypeId, dbConnectionMap, next) {
+            api.dataAccess.executeQuery("audit_challenge_registration", {
+                projectId: challengeId,
+                resourceUserId: userId,
+                resourceRoleId: submitterResourceRoleId,
+                auditActionTypeId: auditActionTypeId,
+                actionUserId: userId
+            },
+                dbConnectionMap,
+                next);
+        },
 
         /**
          * Gets the challenge terms for the current user given the challenge id and an optional role.

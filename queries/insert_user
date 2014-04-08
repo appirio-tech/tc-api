@@ -1,2 +1,2 @@
-INSERT INTO user(user_id, first_name, last_name, handle, status, activation_code, reg_source) 
-VALUES (@userId@, '@firstName@', '@lastName@', '@handle@', '@status@', '@activationCode@', '@regSource@')
+INSERT INTO user(user_id, first_name, last_name, handle, status, activation_code, reg_source, utm_source, utm_medium, utm_campaign) 
+VALUES (@userId@, '@firstName@', '@lastName@', '@handle@', '@status@', '@activationCode@', '@regSource@', '@utm_source@', '@utm_medium@', '@utm_campaign@')

@@ -1,0 +1,16 @@
+SELECT
+FIRST @page_size@
+  r.round_id AS challenge_id
+, ct.name AS challenge_name
+, ct.name AS detailed_requirements
+, 'marathon' AS challenge_type
+FROM
+  round_segment rs
+, round r
+, contest ct
+WHERE rs.round_id = r.round_id
+AND ct.contest_id = r.contest_id
+AND rs.segment_id = 2
+AND r.round_type_id IN (13,15,19,22,24,25,27)
+AND CURRENT < rs.end_time
+AND CURRENT >= rs.start_time

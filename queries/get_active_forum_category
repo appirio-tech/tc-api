@@ -1,0 +1,5 @@
+SELECT jive_category_id
+FROM comp_versions cv
+INNER JOIN comp_catalog cc on cv.component_id = cc.component_id
+INNER JOIN comp_jive_category_xref cjcx on cjcx.comp_vers_id = cv.comp_vers_id
+where cc.component_id = @componentId@

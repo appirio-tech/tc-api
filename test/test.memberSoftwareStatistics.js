@@ -192,6 +192,23 @@ describe('Get Member Software Statistics API', function () {
             .expect(400)
             .end(done);
     });
+
+    /**
+     * Test /v2/copilots/heffan/statistics/develop
+     */
+    it("should return correct copilots statistics for heffan", function (done) {
+        request(API_ENDPOINT)
+            .get('/v2/copilots/heffan/statistics/develop')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, res) {
+                testHelper.assertResponse(err,
+                    res,
+                    "test_files/expected_copilot_stats.json",
+                    done);
+            });
+    });
 });
 
 

@@ -1,0 +1,1 @@
+* FROM component_inquiry WHERE project_id = 40000001;

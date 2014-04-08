@@ -1,0 +1,1 @@
+INSERT INTO round_registration(round_id, coder_id, timestamp, eligible) VALUES(@round_id@, @user_id@, current, @eligible@)

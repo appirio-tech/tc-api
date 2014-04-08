@@ -1,4 +1,3 @@
-
 SELECT
 SKIP @firstRowIndex@
 FIRST @pageSize@

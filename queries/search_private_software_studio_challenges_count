@@ -1,4 +1,3 @@
-
 SELECT count(*) AS total
   FROM project p
      , project_status_lu pstatus

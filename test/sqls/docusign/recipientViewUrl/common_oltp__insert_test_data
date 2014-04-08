@@ -1,0 +1,1 @@
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb124764', 124764, 1, 'user124764');

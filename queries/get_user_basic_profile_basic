@@ -3,33 +3,18 @@ SELECT
 , c.country_name AS country
 , co.member_since
 , co.quote
-, (CASE WHEN r.rating  < 0
-    THEN 't'
-    ELSE 'f'
-    END)::boolean AS is_pm
-, (CASE WHEN cp.user_id>0
-    THEN 't'
-    ELSE 'f'
-    END)::boolean AS is_copilot
-, NVL(cp.is_software_copilot, 'f') AS is_software_copilot
-, NVL(cp.is_studio_copilot, 'f') AS is_studio_copilot
 , p.path || i.file_name AS photo_link
 , up.value AS show_earnings
 FROM user u
 , coder co
-, OUTER algo_rating r
 , OUTER country c
-, OUTER tcs_catalog:copilot_profile AS cp
 , OUTER(coder_image_xref cix
     , image i
     , path p)
 , OUTER user_preference up
 WHERE u.handle_lower = LOWER('@handle@')
 AND u.status = 'A'
-AND u.user_id = cp.user_id
 AND u.user_id = co.coder_id
-AND u.user_id = r.coder_id
-AND r.algo_rating_type_id = 1
 AND u.user_id = cix.coder_id
 AND c.country_code = co.comp_country_code
 AND cix.display_flag = 1
