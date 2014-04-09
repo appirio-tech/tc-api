@@ -129,8 +129,7 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-
+    };
     return cr;
 }
 
@@ -190,7 +189,10 @@ function getCode(coderId) {
  * @param {Function} next - The callback function
  */
 var registerUser = function (user, api, dbConnectionMap, next) {
-    var activationCode;
+    var activationCode,
+        utm_source = user.utm_source || '',
+        utm_medium = user.utm_medium || '',
+        utm_campaign = user.utm_campaign || '';
     // Get the next user id
     api.idGenerator.getNextID("USER_SEQ", dbConnectionMap, function (err, result) {
         if (err) {
@@ -205,7 +207,18 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
-                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : regSource}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_user", {
+                            userId : user.id,
+                            firstName : user.firstName,
+                            lastName : user.lastName,
+                            handle : user.handle,
+                            status : status,
+                            activationCode : activationCode,
+                            regSource : regSource,
+                            utm_source : utm_source,
+                            utm_medium : utm_medium,
+                            utm_campaign : utm_campaign},
+                        dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -955,7 +968,7 @@ exports.memberRegister = {
     description: "Register a new member",
     inputs: {
         required: ["firstName", "lastName", "handle", "country", "email"],
-        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource", "socialUserId"]
+        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource", "socialUserId", "utm_source", "utm_medium", "utm_campaign"]
     },
     blockedConnectionTypes : [],
     outputExample : {},

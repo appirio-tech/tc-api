@@ -1,0 +1,2 @@
+INSERT INTO 'informixoltp':coder(coder_id, quote, coder_type_id, comp_country_code, display_quote, quote_location, quote_color, display_banner, banner_style)
+VALUES(400013, '', 2, '192',  1, 'md', '#000000', 1, 'bannerStyle1');

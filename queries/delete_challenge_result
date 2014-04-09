@@ -1,0 +1,2 @@
+delete from project_result where project_id = @challengeId@ and user_id = @userId@;
+delete from component_inquiry where project_id = @challengeId@ and user_id = @userId@;

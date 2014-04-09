@@ -7,8 +7,6 @@
 'use strict';
 var async = require('async');
 var _ = require('underscore');
-var bigdecimal = require('bigdecimal');
-var bignum = require('bignum');
 var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var UnauthorizedError = require('../errors/UnauthorizedError');

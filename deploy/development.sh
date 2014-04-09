@@ -1,18 +1,23 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+# Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.1
-# Author: vangavroche, TCSASSEMBLER
+# Version: 1.2
+# Author: vangavroche, isv
 # changes in 1.1:
 # - add JIRA_USERNAME and JIRA_PASSWORD
+# changes in 1.2:
+# - added RESET_PASSWORD_TOKEN_CACHE_EXPIRY environment variable
+# - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
+# - added REDIS_HOST environment variable
+# - added REDIS_PORT environment variable
 #
 
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
-VM_IP=informix.cloud.topcoder.com
+VM_IP=informix.cloud.topcoder.com 
 if [ -n "$TC_VM_IP" ]
 then
 VM_IP=$TC_VM_IP
@@ -72,3 +77,10 @@ export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
 export ACTIONHERO_CONFIG=./config.js
+
+## The period for expiring the generated tokens for password resetting
+export RESET_PASSWORD_TOKEN_CACHE_EXPIRY=1800000
+export RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
+
+export REDIS_HOST=localhost
+export REDIS_PORT=6379

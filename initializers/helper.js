@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.20
+ * @version 1.22
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -58,6 +58,10 @@
  * - updated softwareChallengeTypes
  * changes in 1.20
  * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
+ * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
+ * Changes in 1.22:
+ * - add allTermsAgreed method.
  */
 "use strict";
 
@@ -153,7 +157,13 @@ var apiName2dbNameMap = {
     numberofsubmissions: 'number_of_submissions',
     numberofreviewpositionsavailable: 'number_of_review_positions_available',
     round2scheduledstartdate: 'round_2_scheduled_start_date',
-    round1scheduledstartdate: 'round_1_scheduled_start_date'
+    round1scheduledstartdate: 'round_1_scheduled_start_date',
+    postingdate: 'posting_date',
+    numsubmissions: 'num_submissions',
+    numregistrants: 'num_registrants',
+    currentphaseremainingtime: 'current_phase_remaining_time',
+    currentphasename: 'current_phase_name',
+    registrationopen: 'registration_open'
 };
 
 /**
@@ -304,6 +314,38 @@ var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helpe
 var phaseName2Id = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.name.toLowerCase(), item.phaseId];
 }));
+
+/**
+ * Represents a ListType enum
+ * @since 1.21
+ */
+helper.ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
+
+/**
+ * valid value for listType.
+ * @since 1.21
+ */
+helper.VALID_LIST_TYPE = [helper.ListType.ACTIVE, helper.ListType.OPEN, helper.ListType.UPCOMING, helper.ListType.PAST];
+
+/**
+ * The list type and registration phase status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP = {};
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.ACTIVE] = [2, 3];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.OPEN] = [2];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.UPCOMING] = [1];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.PAST] = [3];
+
+/**
+ * The list type and project status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_PROJECT_STATUS_MAP = {};
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.ACTIVE] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.OPEN] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.UPCOMING] = [2];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * Checks whether given object is defined.
@@ -887,7 +929,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1101,7 +1143,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return moment(date).utc().format(format);
+        return date.substring(0, format.length);
     }
     return '';
 };
@@ -1156,6 +1198,19 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 };
 
 /**
+ * check if the every terms has been agreed
+ *
+ * @param {Array} terms - The terms.
+ * @returns {Boolean} true if all terms agreed otherwise false.
+ * @since 1.16
+ */
+helper.allTermsAgreed = function (terms) {
+    return _.every(terms, function (term) {
+        return term.agreed;
+    });
+};
+
+/**
  * Gets all file types and caches them.
  * @param {Object} api - the action hero api object
  * @param {Object} dbConnectionMap - the database connection map
@@ -1204,8 +1259,8 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-    
+    };
+
     return cr;
 }
 
@@ -1276,7 +1331,7 @@ var getCoderIdFromActivationCode = function (activationCode) {
     coderId = idhash.substring(0, idhash.length / 2);
 
     return coderId;
-}
+};
 
 helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
 helper.generateActivationCode = generateActivationCode;

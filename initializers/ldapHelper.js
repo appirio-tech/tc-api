@@ -218,7 +218,7 @@ var retrieveClient = function (api, client, params, callback) {
             callback('cannot get client from ldap server', translateLdapError(err));
         }
 
-        res.on('searchEntry', function(entry) {
+        res.on('searchEntry', function (entry) {
             api.log('Successfully retrieve from ldap server', 'info');
             var result = {
                 userId: entry.object.uid,
@@ -228,15 +228,15 @@ var retrieveClient = function (api, client, params, callback) {
             callback(null, result);
         });
 
-        res.on('searchReference', function(referral) {
+        res.on('searchReference', function (referral) {
             console.log('referral: ' + referral.uris.join());
         });
 
-        res.on('error', function(err) {
+        res.on('error', function (err) {
             console.error('error: ' + err.message);
         });
 
-        res.on('end', function(result) {
+        res.on('end', function (result) {
             console.log('status: ' + result.status);
         });
     });
@@ -299,7 +299,7 @@ exports.ldapHelper = function (api, next) {
                 return next(error, null);
             }
         },
-        
+
         /**
          * Main function of removeMemberProfileLDAPEntry
          *
@@ -323,8 +323,8 @@ exports.ldapHelper = function (api, next) {
                     function (callback) {
                         removeClient(api, client, userId, callback);
                     }
-                ], function (err, result) {
-                    
+                ], function (err) {
+
                     if (err) {
                         api.log('removeMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
                     } else {
@@ -352,7 +352,7 @@ exports.ldapHelper = function (api, next) {
 
             // pararms validation
 
-            error = api.helper.checkDefined(params['userId'], 'userId');
+            error = api.helper.checkDefined(params.userId, 'userId');
             if (error) {
                 api.log("activateMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                 return next(error, true);
@@ -392,7 +392,7 @@ exports.ldapHelper = function (api, next) {
             var client, error;
 
             // pararms validation
-            error = api.helper.checkDefined(params['userId'], 'userId');
+            error = api.helper.checkDefined(params.userId, 'userId');
             if (error) {
                 api.log("retrieveMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                 return next(error, true);

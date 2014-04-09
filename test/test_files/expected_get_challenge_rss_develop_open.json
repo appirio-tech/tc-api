@@ -1,0 +1,145 @@
+{
+    "data": [
+        {
+            "challengeType": "Development",
+            "challengeName": "OPEN Software Challenge 2021",
+            "challengeId": 2021,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2021
+        },
+        {
+            "challengeType": "RIA Component",
+            "challengeName": "OPEN Software Challenge 2022",
+            "challengeId": 2022,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2022
+        },
+        {
+            "challengeType": "Content Creation",
+            "challengeName": "OPEN Software Challenge 2023",
+            "challengeId": 2023,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2023
+        },
+        {
+            "challengeType": "Test Suites",
+            "challengeName": "OPEN Software Challenge 2024",
+            "challengeId": 2024,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2024
+        },
+        {
+            "challengeType": "Architecture",
+            "challengeName": "OPEN Software Challenge 2025",
+            "challengeId": 2025,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2025
+        },
+        {
+            "challengeType": "RIA Component",
+            "challengeName": "OPEN Software Challenge 2026",
+            "challengeId": 2026,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2026
+        },
+        {
+            "challengeType": "Code",
+            "challengeName": "OPEN Software Challenge 2027",
+            "challengeId": 2027,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2027
+        },
+        {
+            "challengeType": "Conceptualization",
+            "challengeName": "OPEN Software Challenge 2028",
+            "challengeId": 2028,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2028
+        },
+        {
+            "challengeType": "Reporting",
+            "challengeName": "OPEN Software Challenge 2029",
+            "challengeId": 2029,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2029
+        },
+        {
+            "challengeType": "RIA Component",
+            "challengeName": "OPEN Software Challenge 2030",
+            "challengeId": 2030,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2030
+        },
+        {
+            "challengeType": "Architecture",
+            "challengeName": "OPEN Software Challenge 2031",
+            "challengeId": 2031,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2031
+        },
+        {
+            "challengeType": "RIA Component",
+            "challengeName": "OPEN Software Challenge 2032",
+            "challengeId": 2032,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2032
+        },
+        {
+            "challengeType": "First2Finish",
+            "challengeName": "OPEN Software Challenge 2033",
+            "challengeId": 2033,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2033
+        },
+        {
+            "challengeType": "Reporting",
+            "challengeName": "OPEN Software Challenge 2034",
+            "challengeId": 2034,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2034
+        },
+        {
+            "challengeType": "RIA Component",
+            "challengeName": "OPEN Software Challenge 2035",
+            "challengeId": 2035,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2035
+        },
+        {
+            "challengeType": "Test Suites",
+            "challengeName": "OPEN Software Challenge 2036",
+            "challengeId": 2036,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2036
+        },
+        {
+            "challengeType": "RIA Build",
+            "challengeName": "OPEN Software Challenge 2037",
+            "challengeId": 2037,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2037
+        },
+        {
+            "challengeType": "Development",
+            "challengeName": "OPEN Software Challenge 2038",
+            "challengeId": 2038,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2038
+        },
+        {
+            "challengeType": "RIA Build",
+            "challengeName": "OPEN Software Challenge 2039",
+            "challengeId": 2039,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2039
+        },
+        {
+            "challengeType": "Test Scenarios",
+            "challengeName": "OPEN Software Challenge 2040",
+            "challengeId": 2040,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2040
+        }
+    ],
+    "total": 20
+}

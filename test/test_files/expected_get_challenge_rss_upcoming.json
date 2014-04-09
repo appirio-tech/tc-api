@@ -1,0 +1,285 @@
+{
+    "data": [
+        {
+            "challengeType": "Application Front-End Design",
+            "challengeName": "UPCOMING Studio Challenge 2121",
+            "challengeId": 2121,
+            "detailedRequirements": "",
+            "projectId": 2121
+        },
+        {
+            "challengeType": "Print/Presentation",
+            "challengeName": "UPCOMING Studio Challenge 2122",
+            "challengeId": 2122,
+            "detailedRequirements": "",
+            "projectId": 2122
+        },
+        {
+            "challengeType": "Logo Design",
+            "challengeName": "UPCOMING Studio Challenge 2123",
+            "challengeId": 2123,
+            "detailedRequirements": "",
+            "projectId": 2123
+        },
+        {
+            "challengeType": "Application Front-End Design",
+            "challengeName": "UPCOMING Studio Challenge 2124",
+            "challengeId": 2124,
+            "detailedRequirements": "",
+            "projectId": 2124
+        },
+        {
+            "challengeType": "Logo Design",
+            "challengeName": "UPCOMING Studio Challenge 2125",
+            "challengeId": 2125,
+            "detailedRequirements": "",
+            "projectId": 2125
+        },
+        {
+            "challengeType": "Web Design",
+            "challengeName": "UPCOMING Studio Challenge 2126",
+            "challengeId": 2126,
+            "detailedRequirements": "",
+            "projectId": 2126
+        },
+        {
+            "challengeType": "Widget or Mobile Screen Design",
+            "challengeName": "UPCOMING Studio Challenge 2127",
+            "challengeId": 2127,
+            "detailedRequirements": "",
+            "projectId": 2127
+        },
+        {
+            "challengeType": "Idea Generation",
+            "challengeName": "UPCOMING Studio Challenge 2128",
+            "challengeId": 2128,
+            "detailedRequirements": "",
+            "projectId": 2128
+        },
+        {
+            "challengeType": "Wireframes",
+            "challengeName": "UPCOMING Studio Challenge 2129",
+            "challengeId": 2129,
+            "detailedRequirements": "",
+            "projectId": 2129
+        },
+        {
+            "challengeType": "Other",
+            "challengeName": "UPCOMING Studio Challenge 2130",
+            "challengeId": 2130,
+            "detailedRequirements": "",
+            "projectId": 2130
+        },
+        {
+            "challengeType": "Web Design",
+            "challengeName": "UPCOMING Studio Challenge 2131",
+            "challengeId": 2131,
+            "detailedRequirements": "",
+            "projectId": 2131
+        },
+        {
+            "challengeType": "Widget or Mobile Screen Design",
+            "challengeName": "UPCOMING Studio Challenge 2132",
+            "challengeId": 2132,
+            "detailedRequirements": "",
+            "projectId": 2132
+        },
+        {
+            "challengeType": "Widget or Mobile Screen Design",
+            "challengeName": "UPCOMING Studio Challenge 2133",
+            "challengeId": 2133,
+            "detailedRequirements": "",
+            "projectId": 2133
+        },
+        {
+            "challengeType": "Widget or Mobile Screen Design",
+            "challengeName": "UPCOMING Studio Challenge 2134",
+            "challengeId": 2134,
+            "detailedRequirements": "",
+            "projectId": 2134
+        },
+        {
+            "challengeType": "Other",
+            "challengeName": "UPCOMING Studio Challenge 2135",
+            "challengeId": 2135,
+            "detailedRequirements": "",
+            "projectId": 2135
+        },
+        {
+            "challengeType": "Wireframes",
+            "challengeName": "UPCOMING Studio Challenge 2136",
+            "challengeId": 2136,
+            "detailedRequirements": "",
+            "projectId": 2136
+        },
+        {
+            "challengeType": "Other",
+            "challengeName": "UPCOMING Studio Challenge 2137",
+            "challengeId": 2137,
+            "detailedRequirements": "",
+            "projectId": 2137
+        },
+        {
+            "challengeType": "Print/Presentation",
+            "challengeName": "UPCOMING Studio Challenge 2138",
+            "challengeId": 2138,
+            "detailedRequirements": "",
+            "projectId": 2138
+        },
+        {
+            "challengeType": "Wireframes",
+            "challengeName": "UPCOMING Studio Challenge 2139",
+            "challengeId": 2139,
+            "detailedRequirements": "",
+            "projectId": 2139
+        },
+        {
+            "challengeType": "Banners/Icons",
+            "challengeName": "UPCOMING Studio Challenge 2140",
+            "challengeId": 2140,
+            "detailedRequirements": "",
+            "projectId": 2140
+        },
+        {
+            "challengeType": "RIA Component",
+            "challengeName": "UPCOMING Software Challenge 2041",
+            "challengeId": 2041,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2041
+        },
+        {
+            "challengeType": "UI Prototypes",
+            "challengeName": "UPCOMING Software Challenge 2042",
+            "challengeId": 2042,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2042
+        },
+        {
+            "challengeType": "UI Prototypes",
+            "challengeName": "UPCOMING Software Challenge 2043",
+            "challengeId": 2043,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2043
+        },
+        {
+            "challengeType": "Design",
+            "challengeName": "UPCOMING Software Challenge 2044",
+            "challengeId": 2044,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2044
+        },
+        {
+            "challengeType": "Development",
+            "challengeName": "UPCOMING Software Challenge 2045",
+            "challengeId": 2045,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2045
+        },
+        {
+            "challengeType": "RIA Build",
+            "challengeName": "UPCOMING Software Challenge 2046",
+            "challengeId": 2046,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2046
+        },
+        {
+            "challengeType": "Assembly Competition",
+            "challengeName": "UPCOMING Software Challenge 2047",
+            "challengeId": 2047,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2047
+        },
+        {
+            "challengeType": "Test Suites",
+            "challengeName": "UPCOMING Software Challenge 2048",
+            "challengeId": 2048,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2048
+        },
+        {
+            "challengeType": "Code",
+            "challengeName": "UPCOMING Software Challenge 2049",
+            "challengeId": 2049,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2049
+        },
+        {
+            "challengeType": "UI Prototypes",
+            "challengeName": "UPCOMING Software Challenge 2050",
+            "challengeId": 2050,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2050
+        },
+        {
+            "challengeType": "Bug Hunt",
+            "challengeName": "UPCOMING Software Challenge 2051",
+            "challengeId": 2051,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2051
+        },
+        {
+            "challengeType": "Bug Hunt",
+            "challengeName": "UPCOMING Software Challenge 2052",
+            "challengeId": 2052,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2052
+        },
+        {
+            "challengeType": "Reporting",
+            "challengeName": "UPCOMING Software Challenge 2053",
+            "challengeId": 2053,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2053
+        },
+        {
+            "challengeType": "Specification",
+            "challengeName": "UPCOMING Software Challenge 2054",
+            "challengeId": 2054,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2054
+        },
+        {
+            "challengeType": "Development",
+            "challengeName": "UPCOMING Software Challenge 2055",
+            "challengeId": 2055,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2055
+        },
+        {
+            "challengeType": "Specification",
+            "challengeName": "UPCOMING Software Challenge 2056",
+            "challengeId": 2056,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2056
+        },
+        {
+            "challengeType": "Development",
+            "challengeName": "UPCOMING Software Challenge 2057",
+            "challengeId": 2057,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2057
+        },
+        {
+            "challengeType": "Test Scenarios",
+            "challengeName": "UPCOMING Software Challenge 2058",
+            "challengeId": 2058,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2058
+        },
+        {
+            "challengeType": "Assembly Competition",
+            "challengeName": "UPCOMING Software Challenge 2059",
+            "challengeId": 2059,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2059
+        },
+        {
+            "challengeType": "UI Prototypes",
+            "challengeName": "UPCOMING Software Challenge 2060",
+            "challengeId": 2060,
+            "detailedRequirements": "software detail requirement",
+            "projectId": 2060
+        }
+    ],
+    "total": 40
+}

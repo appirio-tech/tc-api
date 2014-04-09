@@ -635,7 +635,10 @@ Register a new user.
             "country" : "UK",
             "email" : "name@domain.com",
             "password" : "HashedPassword",
-            "regSource": "http://registration.source.domain.com"
+            "regSource": "http://registration.source.domain.com",
+            "utm_source": "a",
+            "utm_medium": "b",
+            "utm_campaign": "c"
         }
 
 ### Create a new user [POST]
@@ -1063,7 +1066,49 @@ Register a new user.
             "address": "address1, city, Maine, 04043, United States",
             "age": "25 - 34",
             "gender": "Male",
-            "shirt_size": "Medium"
+            "shirt_size": "Medium",
+            "privacy": {
+                "showMySchool": "Yes",
+                "showMyEarnings": "No",
+                "receiveMessages": "Yes",
+                "messageBlackList": ["handleA", "handleB"]
+             },
+             "emailNotification": {
+                "competitionAnnouncements": {
+                    "algorithmCompetitions": "No",
+                    "softwareDevelopmentOpportunities": "Yes",
+                    "topCoderStudioCompetitions": "No"
+                },
+                "others": {
+                    "employmentOpportunities": "Yes",
+                    "topCoderNewsAndEvents": "Yes",
+                    "topCoderDesignStudioNewsletter": "No"
+                }
+             },
+             "demographic": {
+                "nonEnglishName": "name1",
+                "jobTitle": "Lorem ipsum",
+                "company": "company1",
+                "country": "Indonesia",
+                "representedCountry": "Indonesia",
+                "phone": "555555",
+                "timeZone": "US/Central",
+                "age": "18 - 25",
+                "gender": "Male",
+                "ethnicBackground": "Asian or Pacific Islander",
+                "primaryInterest": "Creative Competition",
+                "shirtSize": "Small",
+                "collegeMajor": "Computer Science",
+                "collegeMajorDescription": "Software Design",
+                "degreeProgram": "Bachelors",
+                "graduationDate": "21/02/2011",
+                "clubsOrOrganizations": "None",
+                "school": "Harvard University",
+                "gpa": 3.5,
+                "gpaScale": 5,
+                "isStudent": "Yes",
+                "isProfessional": "No"
+             }
         }
 
 + Response 400 (application/json)
@@ -1175,17 +1220,17 @@ Register a new user.
 
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
-- return token for topcoder user
+- return "successful" flag set to true
 - return social provider name for social login user
 
 + Parameters
-    + handle (optional, string, `iRabbit`) ... Member Handle
-    + email (optional, string, `test@test.com`) ... Email Address
+    + handle (optional, string, `iRabbit`) ... Member Handle or Social Login Username
+    + email (optional, string, `test@test.com`) ... Member Email (mutually exclusive with handle parameter)
 
 + Response 200 (application/json)
 
         {
-            "token":"a3cbG"
+            "successful":"true"
         }
 
 + Response 200 (application/json)
@@ -1199,7 +1244,31 @@ Register a new user.
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"The handle you entered is not valid"
+            "description":"Either handle or email must be specified"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Both handle and email are specified"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You have already requested the reset token, please find it in your email inbox. If it's not there. Please contact support@topcoder.com."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"User does not exist"
         }
 
 + Response 500 (application/json)
@@ -1217,6 +1286,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
 
 ## Reset Password [/users/resetPassword/{handle}]
 ### Reset Password [POST]
@@ -1365,74 +1435,6 @@ Register a new user.
             "name":"Bad Request",
             "value":"400",
             "description":"Email has been activated"
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-        
-## User Preference [/users/preference/{handle}]
-### User Preference [GET]
-+ Parameters
-    + handle (required, string, `iRabbit`) ... Member Handle
-
-+ Response 200 (application/json)
-
-        {
-             "privacy": {
-                "showMySchool": "Yes",
-                "showMyEarnings": "No",
-                "receiveMessages": "Yes",
-                "messageBlackList": ["handleA", "handleB"]
-             },
-             "emailNotification": {
-                "competitionAnnouncements": {
-                    "algorithmCompetitions": "No",
-                    "softwareDevelopmentOpportunities": "Yes",
-                    "topCoderStudioCompetitions": "No"
-                },
-                "others": {
-                    "employmentOpportunities": "Yes",
-                    "topCoderNewsAndEvents": "Yes",
-                    "topCoderDesignStudioNewsletter": "No"
-                }
-             }
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-
-+ Response 401 (application/json)
-
-        {
-            "name":"Unauthorized",
-            "value":"401",
-            "description":"Authentication credentials were missing or incorrect."
-        }
-
-+ Response 403 (application/json)
-
-        {
-            "name":"Forbidden",
-            "value":"403",
-            "description":"The request is understood, but it has been refused or access is not allowed."
         }
 
 + Response 500 (application/json)
@@ -1652,6 +1654,165 @@ Register a new user.
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
         
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Apply Develop Review Opportunity Detail [/develop/reviewOpportunities/{challengeId}/apply]
+### Apply Develop Review Opportunity Information [POST]
+
++ Request
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTQwODA3MTEsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzk0MDIwNzExfQ.xaaaElykyAq3woRRkcFQSUK0gvKnRCOhCD57x070GJ4
+
++ Parameters
+
+    + challengeId (required, number, `30000000`) ... The challenge id.
+    + reviewApplicationRoleId (optional, number, `1`) ... The review application role id to apply.
+
++ Response 200 (application/json)
+
+        {
+            "message": "Your review application for this contest has been cancelled."
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "You have successfully applied to review this contest. The system will automatically select reviewers that best match the review positions for this contest on 03.26.2014 08:00. You will be notified by email what review role you were assigned to."
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "You have successfully applied to review this contest. The system will automatically decide whether you match the reviewer requirements for this contest now. You will be notified by email shortly."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"reviewApplicationRoleId should be an element of 1,2,3,4,5,6,7,8,9."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The challenge is not existed or don't have any review opportunities or review registration is not open."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You can't apply the review application role that do not belong to this challenge."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You are not a Review Board member."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You are already assigned as reviewer for the contest."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There are no open positions for this challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There is no open positions for selected review application role: Primary Reviewer."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You should agree with all terms of use."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Anonymous user don't have permission to access this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The user is not allowed to register this challenge review."
+        }
+
 + Response 500 (application/json)
 
         {
@@ -2127,11 +2288,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Software Challenge Detail [/develop/challenges/{id}]
+## Get Software Challenge Detail [/develop/challenges/{challengeId}]
 ### Get Software Challenge Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
         
@@ -2721,7 +2882,8 @@ Register a new user.
 + Request (application/json)
 
 + Parameters
-    + submissionFile (required, string, `abcd.zip`) ... The submission zip
+    + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
+    + fileData (required, string, `SGVsbG8gV29ybGQ=`) ... The Base64 encoded content of the file being uploaded. The example value is 'Hello World' base64 encoded
     + type (optional, string, `checkpoint`) ... The type of submission. Can be 'final' or 'checkpoint'. If absent, 'final' is assumed.
 
 + Response 200 (application/json)
@@ -3063,11 +3225,11 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Studio Challenge Detail [/design/challenges/{id}]
+## Get Studio Challenge Detail [/design/challenges/{challengeId}]
 ### Get Studio Challenge Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -4462,6 +4624,199 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get Marathon Match Challenge Reg Info [/data/marathon/challenges/{roundId}/regInfo]
+### Get Marathon Match Challenge Reg Info [GET]
+
++ Parameters
+    + roundId (required, number, `30000000`) ... The challenge round id.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+        {
+            "term": {
+                "contestName": "Marathon Match 90",
+                "roundName": "Round 2001",
+                "termsContent": "Marathon Match terms content"
+            },
+            "questions": [
+                {
+                    "id": 1000,
+                    "style": "Multiple Choice",
+                    "type": "Eligible",
+                    "text": "question 1000",
+                    "answers": [
+                        {
+                            "id": 1002,
+                            "text": "answer text 1",
+                            "sortOrder": 1,
+                            "correct": true
+                        },
+                        {
+                            "id": 1001,
+                            "text": "answer text 2",
+                            "sortOrder": 2,
+                            "correct": false
+                        },
+                        {
+                            "id": 1003,
+                            "text": "answer text 3",
+                            "sortOrder": 3,
+                            "correct": false
+                        }
+                    ]
+                },
+                {
+                    "id": 1001,
+                    "style": "Short Answer",
+                    "type": "Personal",
+                    "text": "question 1001",
+                    "answers": []
+                },
+                {
+                    "id": 1002,
+                    "style": "Single Choice",
+                    "type": "Eligible",
+                    "text": "question 1002",
+                    "answers": [
+                        {
+                            "id": 1004,
+                            "text": "answer text 4",
+                            "sortOrder": -1,
+                            "correct": false
+                        },
+                        {
+                            "id": 1005,
+                            "text": "answer text 5",
+                            "sortOrder": 1,
+                            "correct": true
+                        }
+                    ]
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"You are not eligible to participate in this competition."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"Round doesn't exist 30005520."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"In order to participate in this competition, you must register for <font color=\"red\">Event 30005520</font>. Registration is available: <a href=\"www.topcoder.com\">here</a>. Please register at the provided URL first and then repeat registration at Marathon Match Active Contests page."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Registration is not currently open."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"You are not eligible to participate in this competition. Please contact support@topcoder.com if you have any questions."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Sorry, this round is by invitation only."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Sorry, you can not register for this round, you must compete in the version of this round that you were invited to."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"There are no more spots available for the round."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Authorization information needed or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"The user is forbidden to access this endpoint."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Could not find specified round terms."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 ## Register Marathon Match Challenge [/data/marathon/challenges/{roundId}/register]
 ### Register Marathon Match Challenge [POST]
 
@@ -5451,6 +5806,134 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Unregister for a software/studio challenge [/challenges/{challengeId}/unregister]
+### Unregister for a software/studio challenge [POST]
+
++ Parameters
+    + challengeId (required, number, `1234567`) ... The challenge for which to Unregister
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTM3MDM1NzEsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkzNjQzNTcxfQ.F2iohKp2nwjQeGqrBD1wn42GJUD0r28aGjhDle7KujA
+
++ Response 200 (application/json)
+
+        {
+          "message":"ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"You don\'t have the authority to access this. Please login."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You cannot unregister since registration phase is closed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You are not registered for this challenge."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"No such challenge exists."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Failed to connect to forum"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Could not find user challenge resource"
+        }
+
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Could not find user challenge forum"
+        }
+
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Could not find forum category 3"
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 # Group Terms Of Use API
 ## View terms of use [/terms/detail/{termsOfUseId}]
 ### View terms of use by id [GET]
@@ -6027,6 +6510,173 @@ Register a new user.
             "name":"Unauthorized",
             "value":"401",
             "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+# Group Payments API
+Payments APIs
+
+## Payment Preference [/payments/preference]
+### Payment Preference [GET]
+    
++ Response 200 (application/json)
+
+        {
+             "paymentAccrualAmount": 50,
+             "paymentMethod": "WesternUnion",
+             "paypalAccountEmail": "test@paypal.com"
+        }
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeType should be an element of develop,design,data."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"listType should be an element of ACTIVE,OPEN,UPCOMING,PAST."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Payment List [/payments?type={type}&status={status}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Payment List [GET]
+
++ Parameters
+    + status (optional, string, `Paid`) ... Payment Status: Paid, Owed, Cancelled, Entered into payment system
+    + type (optional, string, `Contest Payment`) ... Payment Type: Contest Payment, Review Payment, Copilot Payment, etc..
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `description`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    
++ Response 200 (application/json)
+
+        {
+            "total": 21,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "payments": [
+                {
+                    "description": "[TCCC-4789] - Cockpit Instant Search Task",
+                    "type": "Contest Payment",
+                    "createDate": "12/13/2012",
+                    "releaseDate": "13/01/1012",
+                    "status": "Paid",
+                    "amount": 250
+                },
+                {
+                    "description": "(Application, v1.0) TC API - Studio Challenge Result API Update - First2Finish review board",
+                    "type": "Review Board Payment",
+                    "createDate": "12/13/2012",
+                    "releaseDate": "13/01/1012",
+                    "status": "Paid",
+                    "amount": 3
+                }
+            ],
+            "summary": {
+                "paid": 10000.0,
+                "owed": 1234.0,
+                "cancelled": 100.0,
+                "enteredIntoPaymentSystem": 50.0
+            }
+        }
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Docusign Callback [/terms/docusignCallback]
+### Docusign Callback [POST]
+
++ Parameters
+    + envelopeStatus (required, String, `Complete`) ... The status of the envelope
+    + envelopeId (required, UUID, `9103DC77-D8F1-4D7B-BED1-6116604EE98C`) ... The envelope to process
+    + tabs (required, Array, [{tabLabel: 'Handle', tabValue: 'anix'}, {...}]) ... The tab values. Can be empty
+    + connectKey (required, String, 'ABCDED-12435-EDFADSEC') The conenct key
+
++ Response 200 (application/json)
+        {
+             "message": "some message"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
         }
 
 + Response 404 (application/json)

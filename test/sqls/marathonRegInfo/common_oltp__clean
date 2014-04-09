@@ -1,0 +1,7 @@
+DELETE FROM user_address_xref WHERE user_id = 300003;
+DELETE FROM address WHERE address_id = 2001;
+DELETE FROM event_registration WHERE event_id = 2001;
+DELETE FROM event WHERE event_id = 2001;
+DELETE FROM user_role_xref WHERE login_id IN (300002, 300003);
+DELETE FROM security_user WHERE login_id IN (300002, 300003);
+DELETE FROM user WHERE user_id IN (300001, 300002, 300003);

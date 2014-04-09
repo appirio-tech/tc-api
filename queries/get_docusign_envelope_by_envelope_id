@@ -1,0 +1,3 @@
+SELECT *
+FROM docusign_envelope
+WHERE LOWER(docusign_envelope_id) = '@envelopeId@' OR UPPER(docusign_envelope_id) = '@envelopeId@';
