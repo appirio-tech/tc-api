@@ -2,7 +2,6 @@
 SELECT
   ra.review_auction_id
 , 1 - (SELECT COUNT(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id = 18) AS positions_left
-, 1 AS reviewers_count
 , rarl.name AS role_name
 , rarl.review_application_role_id
 , rarl.positions
@@ -31,7 +30,6 @@ UNION ALL
 SELECT
   ra.review_auction_id
 , pc.parameter::int - (SELECT COUNT(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id IN (4,5,6,7)) AS positions_left
-, pc.parameter::int AS reviewers_count
 , rarl.name AS role_name
 , rarl.review_application_role_id
 , rarl.positions
@@ -61,7 +59,6 @@ UNION ALL
 SELECT
   ra.review_auction_id
 , pc.parameter::int - (SELECT COUNT(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id = 21) AS positions_left
-, pc.parameter::int AS reviewers_count
 , rarl.name AS role_name
 , rarl.review_application_role_id
 , rarl.positions
@@ -85,3 +82,5 @@ AND p.project_status_id = 1
 AND pp2.phase_status_id IN (2, 3)
 AND pp18.phase_status_id IN (1, 2)
 AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
+
+ORDER BY rarl.order_index ASC
