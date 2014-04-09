@@ -676,6 +676,7 @@ var registerSoftwareChallengeAction = function (api, connection, next) {
                     connection,
                     challengeId,
                     "Submitter", //optional value. Here we don't need to provide such value.
+                    true,
                     connection.dbConnectionMap,
                     cb
                 );
@@ -726,6 +727,7 @@ var registerStudioChallengeAction = function (api, connection, next) {
                     connection,
                     challengeId,
                     "Submitter",
+                    true,
                     connection.dbConnectionMap,
                     cb
                 );

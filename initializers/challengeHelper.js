@@ -1,12 +1,14 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author ecnu_haozi, bugbuka
+ * @version 1.2
+ * @author ecnu_haozi, bugbuka, Ghost_141
  * Refactor common code out from challenge.js.
  *
  * changes in 1.1:
  * add common function getForumWrapper, aduitResourceAddition
+ * Changes in 1.2:
+ * - Add new parameter in getChallengeTerms.
  */
 "use strict";
 
@@ -88,10 +90,11 @@ exports.challengeHelper = function (api, next) {
          * @param {Object} connection The connection object for the current request
          * @param {Number} challengeId The challenge id.
          * @param {String} role The user's role name, this is optional.
+         * @param {Boolean} requireRegOpen - the flag that indicate need the challenge has open registration phase or not.
          * @param {Object} dbConnectionMap The database connection map for the current request
          * @param {Function<err, terms_array>} next The callback to be called after this function is done
          */
-        getChallengeTerms : function (connection, challengeId, role, dbConnectionMap, next) {
+        getChallengeTerms : function (connection, challengeId, role, requireRegOpen, dbConnectionMap, next) {
 
             //Check if the user is logged-in
             if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
@@ -133,7 +136,8 @@ exports.challengeHelper = function (api, next) {
                         return;
                     }
 
-                    if (!rows[0].reg_open) {
+                    // Update check to use flag.
+                    if (requireRegOpen && !rows[0].reg_open) {
                         cb(new ForbiddenError('Registration Phase of this challenge is not open.'));
                         return;
                     }

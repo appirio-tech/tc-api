@@ -76,6 +76,8 @@
  * - add route for challenge rss output api.
  * changes in 1.32:
  * - added route for Challenge Unregistration API
+ * Changes in 1.33:
+ * - add route for apply develop review opportunities api.
  */
 
 /* ---------------------
@@ -227,6 +229,8 @@ exports.routes = {
     post: [
         // Stub API
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
+
+        { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
         { path: "/:apiVersion/terms/docusignCallback", action: "docusignCallback" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
         { path: "/:apiVersion/users", action: "memberRegister" },

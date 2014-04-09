@@ -1,0 +1,5 @@
+{
+    "name"    : "get_next_sequence_tcs_catalog",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_next_sequence_tcs_catalog"
+}

@@ -1251,6 +1251,7 @@ exports.getChallengeTerms = {
                         connection,
                         challengeId,
                         role,
+                        true,
                         connection.dbConnectionMap,
                         cb
                     );

@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.21
+ * @version 1.22
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -60,6 +60,8 @@
  * - added activation code generation function (copied from memberRegistration.js)
  * Changes in 1.21:
  * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
+ * Changes in 1.22:
+ * - add allTermsAgreed method.
  */
 "use strict";
 
@@ -1192,6 +1194,19 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
             api.log("There is a hit in users cache for [" + handle + "].", "debug");
             callback(err, null);
         }
+    });
+};
+
+/**
+ * check if the every terms has been agreed
+ *
+ * @param {Array} terms - The terms.
+ * @returns {Boolean} true if all terms agreed otherwise false.
+ * @since 1.16
+ */
+helper.allTermsAgreed = function (terms) {
+    return _.every(terms, function (term) {
+        return term.agreed;
     });
 };
 
