@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.4
- * @author Sky_, Ghost_141, TCSASSEMBLER
+ * @author Sky_, Ghost_141
  * changes in 1.1
  * - Implement the studio review opportunities.
  * changes in 1.2
@@ -555,7 +555,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
  */
 var getSoftwareReviewOpportunity = function (api, connection, next) {
     var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, challengeId, sqlParams, result = {},
-        phases, positions, applications, basic, adjustPayment,
+        phases, positions, applications, basic, adjustPayment, assignedResource,
         execQuery = function (name) {
             return function (cb) {
                 api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cb);
@@ -576,6 +576,7 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             }
 
             sqlParams = {
+                challenge_id: challengeId,
                 challengeId: challengeId,
                 user_id: connection.caller.userId
             };
@@ -602,6 +603,7 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                 phases: execQuery('get_review_opportunity_detail_phases'),
                 positions: execQuery('get_review_opportunity_detail_positions'),
                 applications: execQuery('get_review_opportunity_detail_applications'),
+                resource: execQuery('get_assigned_review_resource_role'),
                 adjustPayment: execQuery('search_software_review_opportunities_adjust_payment')
             }, cb);
         },
@@ -609,6 +611,7 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             phases = results.phases;
             positions = results.positions;
             applications = results.applications;
+            assignedResource = results.resource;
             basic = results.basic[0];
             adjustPayment = results.adjustPayment;
 
@@ -630,16 +633,21 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                 });
             });
 
+            // Iterative each positions that this challenge have.
             positions.forEach(function (row) {
                 var positionOpen,
-                    approvedNumber = _.countBy(applications,
-                        function (item) {
-                            return item.review_application_role_id === row.review_application_role_id
-                                && item.status === 'Approved';
-                        })['true'] || 0;
+                    isClosed = false,
+                    i,
+                    reviewApplicationRole = _.filter(results.basic, function (item) { return item.review_application_role_id === row.review_application_role_id; });
 
-                if (approvedNumber === row.num_positions) {
-                    // There is no spaces for new reviewer on this role.
+                for (i = 0; i < reviewApplicationRole.length; i += 1) {
+                    if (!isClosed && reviewApplicationRole[i].is_unique && assignedResource.indexOf(reviewApplicationRole[i].resource_role_id) >= 0) {
+                        isClosed = true;
+                    }
+                }
+
+                if (isClosed) {
+                    // Review application role is closed.
                     return;
                 }
 
@@ -762,7 +770,6 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
                     .value(),
                 privateCheck = res.privateCheck[0],
                 positionsLeft,
-                reviewersCount,
                 assignedResourceRoles = res.resourceRoles,
                 currentUserResourceRole = _.filter(assignedResourceRoles, function (item) { return item.user_id === caller.userId; });
 
@@ -776,8 +783,6 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
             // Initialize it after the definition check.
             // The total review positions left for this challenge.
             positionsLeft = details[0].positions_left;
-            // The needed reviewer count.
-            reviewersCount = details[0].reviewers_count;
             // The reviewer assignment date.
             reviewAssignmentDate = details[0].assignment_date;
             // The review auction id. This will bed used when insert new review application.
@@ -833,12 +838,12 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
                 }
 
                 for (i = 0; i < reviewApplicationRole.length; i += 1) {
-                    if (reviewApplicationRole[i].is_unique && assignedRoles.indexOf(reviewApplicationRole[i].resource_role_id) >= 0) {
+                    if (!isClosed && reviewApplicationRole[i].is_unique && assignedRoles.indexOf(reviewApplicationRole[i].resource_role_id) >= 0) {
                         isClosed = true;
                     }
                 }
-                console.log('isClosed: ' + isClosed);
 
+                // The review application role is closed so no need to calculate the positions left(we already did in query).
                 if (isClosed) {
                     cb(new BadRequestError('There is no open positions for selected review application role: ' + reviewApplicationRole[0].role_name + '.'));
                     return;

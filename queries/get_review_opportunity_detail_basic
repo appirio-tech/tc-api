@@ -7,6 +7,7 @@ SELECT
 , 1 - (SELECT count(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id = 18) AS reviewers_required
 , rarl.review_application_role_id
 , dpp.resource_role_id
+, rarrrx.unique_role AS is_unique
 , dpp.fixed_amount
 , dpp.base_coefficient
 , dpp.incremental_coefficient
@@ -24,7 +25,7 @@ SELECT
   END AS submission_count
 FROM review_auction ra
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=2
-INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = @challengeId@
+INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = @challenge_id@
 INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
 INNER JOIN project_info pi ON pi.project_id = p.project_id AND pi.project_info_type_id = 6
 INNER JOIN project_phase pp13 ON pp13.project_id=p.project_id AND pp13.phase_type_id=13 AND not exists (SELECT 1 FROM phase_dependency WHERE dependent_phase_id=pp13.project_phase_id)
@@ -45,6 +46,7 @@ SELECT
 , pc.parameter::int - (SELECT count(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id IN (4,5,6,7)) AS reviewers_required
 , rarl.review_application_role_id
 , dpp.resource_role_id
+, rarrrx.unique_role AS is_unique
 , dpp.fixed_amount
 , dpp.base_coefficient
 , dpp.incremental_coefficient
@@ -62,7 +64,7 @@ SELECT
   END AS submission_count
 FROM review_auction ra
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=1
-INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = @challengeId@
+INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = @challenge_id@
 INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
 INNER JOIN project_info pi ON pi.project_id = p.project_id AND pi.project_info_type_id = 6
 INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
@@ -83,6 +85,7 @@ SELECT
 , pc.parameter::int - (SELECT count(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id = 21) AS reviewers_required
 , rarl.review_application_role_id
 , dpp.resource_role_id
+, rarrrx.unique_role AS is_unique
 , dpp.fixed_amount
 , dpp.base_coefficient
 , dpp.incremental_coefficient
@@ -100,7 +103,7 @@ SELECT
   END AS submission_count
 FROM review_auction ra
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=3
-INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = @challengeId@
+INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = @challenge_id@
 INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
 INNER JOIN project_info pi ON pi.project_id = p.project_id AND pi.project_info_type_id = 6
 INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
