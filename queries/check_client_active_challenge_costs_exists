@@ -1,0 +1,7 @@
+SELECT
+      1 as exists
+FROM tt_project b
+LEFT JOIN tt_client_project c ON c.project_id = b.project_id
+LEFT JOIN tt_client a ON a.client_id = c.client_id
+WHERE c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
+AND a.cmc_account_id = DECODE('@cmc_account_id@', '', a.cmc_account_id, '@cmc_account_id@')
