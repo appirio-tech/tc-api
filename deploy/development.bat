@@ -56,7 +56,6 @@ set TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 set TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 set TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
-set TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 
 set PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 REM JDBC connection pool environment variables - set for all databases
@@ -70,7 +69,9 @@ REM Used in Jira soap service (Bugs API)
 set JIRA_USERNAME=api_test
 set JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
-REM Used in challenge registration API
+REM Forum settings
+set TC_FORUMS_SERVER_NAME="http://forums.topcoder.com/"
+set STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 set GRANT_FORUM_ACCESS=false
 set DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 

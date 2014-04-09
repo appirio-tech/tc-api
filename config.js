@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, TCSASSEMBLER
- * @version 1.19
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka
+ * @version 1.20
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -45,6 +45,9 @@
  * changes in 1.19:
  * - add defaultResetPasswordTokenCacheLifetime property.
  * - add resetPasswordTokenEmailSubject property.
+ * changes in 1.20:
+ * - add tcForumsServer property.
+ * - add studioForumsServer property.
  */
 "use strict";
 
@@ -97,6 +100,8 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
+    tcForumsServer: process.env.TC_FORUMS_SERVER_NAME || "http://forums.topcoder.com/",
+    studioForumsServer: process.env.STUDIO_FORUMS_SERVER_NAME || "http://studio.topcoder.com/forums",
     grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
     devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     filteredParams: ['password'],

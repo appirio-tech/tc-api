@@ -3,7 +3,7 @@
  *
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
- * @version 1.3
+ * @version 1.4
  * @author ecnu_haozi, xjtufreeman, bugbuka
  *
  * changes in 1.1:
@@ -14,6 +14,9 @@
  *
  * changes in 1.3:
  * move common function getForumWrapper, aduitResourceAddition to challengeHelper.js
+ *
+ * changes in 1.4:
+ * send email notification for design(studio) challenges registration
  */
 "use strict";
 
@@ -37,7 +40,14 @@ var DESIGN_PROJECT_TYPE = 1,
     COMPONENT_TESTING_PROJECT_TYPE = 5,
     APPEALS_COMPLETE_EARLY_PROPERTY_ID = 13,
     NO_VALUE = 'NO',
-    TIMELINE_NOTIFICATION_ID = 1;// See java field ORNotification.TIMELINE_NOTIFICATION_ID. 
+    TIMELINE_NOTIFICATION_ID = 1,// See java field ORNotification.TIMELINE_NOTIFICATION_ID.
+    TC_FORUMS_URL_PREFIX = require('../config').config.general.tcForumsServer + '?module=Category&categoryID=',
+    STUDIO_FORUMS_URL_PREFIX = require('../config').config.general.studioForumsServer + '?module=ThreadList&forumID=';
+
+var CHALLENGE_TYPE = {
+    DEVELOP: 'develop',
+    DESIGN: 'design'
+};
 
 /**
  * Check if the user agreed all terms of use.
@@ -340,10 +350,11 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
  * @param {Object} componentInfo The component info object generated from method <code>registerComponentInquiry</code>.
  * @param {Number} userId The current logged-in user's id.
  * @param {Number} activeForumCategoryId The active forum category id.
+ * @param {Object} challengeType The challenge type, design or develop.
  * @param {Object} dbConnectionMap The database connection map for the current request.
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
-var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, dbConnectionMap, next) {
+var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, challengeType, dbConnectionMap, next) {
     async.waterfall([
         function (cb) {
             api.dataAccess.executeQuery("get_user_email_and_handle", {
@@ -373,9 +384,12 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                     "http://www.topcoder.com/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
             }
 
-            //NOTE : forumURL is out of scope, here use a mock value instead. See http://apps.topcoder.com/forums/?module=Thread&threadID=811696&start=0
-            activeForumCategoryId = 210123;
-            forumURL = 'http://' + process.env.TC_FORUMS_SERVER_NAME + '/?module=Category&categoryID=' + activeForumCategoryId;
+            if (challengeType === CHALLENGE_TYPE.DEVELOP) {
+                forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
+            } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
+                forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
+            }
+
 
             api.tasks.enqueue("sendEmail", {
                 subject : projectName,
@@ -390,7 +404,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 toAddress : user.email,
                 senderName : "TC API"
             }, 'default');
-            cb(null, null);
+            cb();
         }
     ], next);
 };
@@ -470,15 +484,16 @@ var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
 };
 
 /**
- * Register a development (software) challenge for the current logged-in user.
+ * Register a challenge for the current logged-in user.
  *
  * @param {Object} api The api object that is used to access the infrastructure.
  * @param {Number} userId The current logged-in user's id.
  * @param {Number} challengeId The id of the challenge to register.
+ * @param {Object} challengeType The challenge type, design or develop.
  * @param {Object} dbConnectionMap The database connection map for the current request.
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
-var registerSoftwareChallenge = function (api, userId, challengeId, dbConnectionMap, next) {
+var registerChallenge = function (api, userId, challengeId, challengeType, dbConnectionMap, next) {
 
     var componentInfo;
 
@@ -492,9 +507,14 @@ var registerSoftwareChallenge = function (api, userId, challengeId, dbConnection
                 return;
             }
             componentInfo = result;
-            projectTrack(api, userId, challengeId, componentInfo, dbConnectionMap, function (err) {
-                cb(err);
-            });
+
+            if (challengeType === CHALLENGE_TYPE.DEVELOP) {
+                projectTrack(api, userId, challengeId, componentInfo, dbConnectionMap, function (err) {
+                    cb(err);
+                });
+            } else {
+                cb();
+            }
         },
 
         function (cb) {
@@ -504,12 +524,17 @@ var registerSoftwareChallenge = function (api, userId, challengeId, dbConnection
         function (activeForumCategoryId, cb) {
             async.waterfall([
                 function (cbx) {
-                    // Grant forum access
-                    grantForumAccess(api, userId, activeForumCategoryId, cbx);
+
+                    if (challengeType === CHALLENGE_TYPE.DEVELOP) {
+                        // Grant forum access
+                        grantForumAccess(api, userId, activeForumCategoryId, cbx);
+                    } else {
+                        cbx();
+                    }
                 },
                 function (cbx) {
                     // Send notification mail
-                    sendNotificationEmail(api, componentInfo, userId, activeForumCategoryId, dbConnectionMap, cbx);
+                    sendNotificationEmail(api, componentInfo, userId, activeForumCategoryId, challengeType, dbConnectionMap, cbx);
                 }
             ], cb);
         }
@@ -631,6 +656,16 @@ var registerStudioChallenge = function (api, userId, challengeId, dbConnectionMa
             });
         },
         function (cb) {
+            registerChallenge(
+                api,
+                userId,
+                challengeId,
+                CHALLENGE_TYPE.DESIGN,
+                dbConnectionMap,
+                cb
+            );
+        },
+        function (cb) {
             timelineNotification(api, userId, challengeId, dbConnectionMap, cb);
         }
     ], next);
@@ -683,10 +718,11 @@ var registerSoftwareChallengeAction = function (api, connection, next) {
             },
             function (terms, cb) {
                 if (allTermsAgreed(terms)) {
-                    registerSoftwareChallenge(
+                    registerChallenge(
                         api,
                         connection.caller.userId,
                         challengeId,
+                        CHALLENGE_TYPE.DEVELOP,
                         connection.dbConnectionMap,
                         cb
                     );

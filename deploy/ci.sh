@@ -56,7 +56,6 @@ export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 export TC_SOFTWARE_SERVER_NAME="https://www.topcoder.com"
-export TC_FORUMS_SERVER_NAME="https://www.topcoder.com"
 
 #export DISABLE_CONSOLE_LOG=true
 
@@ -72,7 +71,9 @@ export TIMEOUT=3000
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
-# Used in challenge registration API
+# Forum settings
+export TC_FORUMS_SERVER_NAME="http://forums.topcoder.com/"
+export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
