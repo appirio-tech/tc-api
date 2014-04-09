@@ -144,6 +144,7 @@ exports.resetPassword = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+	cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute resetPassword#run", 'debug');
         resetPassword(api, connection, next);
