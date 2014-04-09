@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.32
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka
+ * @version 1.34
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -78,6 +78,8 @@
  * - added route for Challenge Unregistration API
  * Changes in 1.33:
  * - add route for apply develop review opportunities api.
+ * changes in 1.34:
+ * - added route for client active challenge costs
  */
 
 /* ---------------------
@@ -211,6 +213,7 @@ exports.routes = {
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+        { path: "/:apiVersion/reports/client/activeCosts", action: "getClientActiveChallengeCosts" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
