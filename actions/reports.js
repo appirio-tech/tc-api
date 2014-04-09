@@ -302,6 +302,7 @@ exports.getActiveBillingAccounts = {
     version: 'v2',
     transaction: 'read',
     databases: ["time_oltp"],
+	cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute getActiveBillingAccounts#run", 'debug');
         var dbConnectionMap = connection.dbConnectionMap,
@@ -358,7 +359,7 @@ exports.getClientActiveChallengeCosts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
-    cacheEnabled: true,
+    cacheEnabled: false,
     databases: ["tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getClientActiveChallengeCosts#run", 'debug');
