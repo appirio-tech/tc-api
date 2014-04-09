@@ -48,7 +48,7 @@ var sendEmail = {
      */
     run: function (api, params, next) {
         api.log('Enter sendEmail task#run', 'info');
-        var index, transport, message, err;
+        var transport, message;
 
         // build email from templates
         emailTemplates(templatesDir, function (err, template) {

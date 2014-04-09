@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.4
  * @author mekanizumu, Sky_, xjtufreeman, muzehyun
@@ -24,8 +24,6 @@
  */
 var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
-var bigdecimal = require("bigdecimal");
-var bignum = require("bignum");
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 
@@ -113,73 +111,6 @@ var activationEmailSubject = "[topcoder] User Registration Activation";
 var activationEmailSenderName = "[topcoder] API";
 
 /**
- * this is the random int generator class
- */
-function codeRandom(coderId) {
-    var cr = {},
-        multiplier = 0x5DEECE66D,
-        addend = 0xB,
-        mask = 281474976710655;
-    cr.seed = bignum(coderId).xor(multiplier).and(mask);
-    cr.nextInt = function () {
-        var oldseed = cr.seed,
-            nextseed;
-        do {
-            nextseed = oldseed.mul(multiplier).add(addend).and(mask);
-        } while (oldseed.toNumber() === nextseed.toNumber());
-        cr.seed = nextseed;
-        return nextseed.shiftRight(16).toNumber();
-    };
-    return cr;
-}
-
-/**
- * get the code string by coderId
- * @param coderId  the coder id of long type.
- * @return the coder id generated hash string.
- */
-function getCode(coderId) {
-    var r = codeRandom(coderId);
-    var nextBytes = function (bytes) {
-        for (var i = 0, len = bytes.length; i < len;)
-            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
-                var val = rnd & 0xff;
-                if (val > 127) {
-                    val = val - 256;
-                }
-                bytes[i++] = val;
-            }
-    };
-    var randomBits = function(numBits) {
-        if (numBits < 0)
-            throw new Error("numBits must be non-negative");
-        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
-        var randomBits = new Int8Array(numBytes);
-
-        // Generate random bytes and mask out any excess bits
-        if (numBytes > 0) {
-            nextBytes(randomBits);
-            var excessBits = 8 * numBytes - numBits;
-            randomBits[0] &= (1 << (8 - excessBits)) - 1;
-        }
-        return randomBits;
-    }
-    var id = coderId + "";
-    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
-    var len = coderId.toString(2).length;
-    var arr = randomBits(len);
-    var bb = bignum.fromBuffer(new Buffer(arr));
-    var hash = bb.add(baseHash).toString();
-    while (hash.length < id.length) {
-        hash = "0" + hash;
-    }
-    hash = hash.substring(hash.length - id.length);
-    var result = new bigdecimal.BigInteger(id + hash);
-    result = result.toString(36).toUpperCase();
-    return result;
-}
-
-/**
  * Register a new user.
  * The result will be passed to the "next" callback.
  *
@@ -203,33 +134,34 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             // perform a series of insert
             async.series([
                 function (callback) {
-                    var status = 'U';
-                    var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
+                    var status = 'U',
+                        regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';
                     // use user id as activation code for now
-                    activationCode = getCode(user.id);
+                    activationCode = api.helper.generateActivationCode(user.id);
                     api.dataAccess.executeQuery("insert_user", {
-                            userId : user.id,
-                            firstName : user.firstName,
-                            lastName : user.lastName,
-                            handle : user.handle,
-                            status : status,
-                            activationCode : activationCode,
-                            regSource : regSource,
-                            utm_source : utm_source,
-                            utm_medium : utm_medium,
-                            utm_campaign : utm_campaign},
+                        userId : user.id,
+                        firstName : user.firstName,
+                        lastName : user.lastName,
+                        handle : user.handle,
+                        status : status,
+                        activationCode : activationCode,
+                        regSource : regSource,
+                        utm_source : utm_source,
+                        utm_medium : utm_medium,
+                        utm_campaign : utm_campaign
+                    },
                         dbConnectionMap, function (err, result) {
-                        callback(err, result);
-                    });
+                            callback(err, result);
+                        });
                 },
                 function (callback) {
-                    var url, task;
+                    var suid;
                     // if social data is present, insert social data
                     if (user.socialProviderId !== null && user.socialProviderId !== undefined) {
-						var suid = null;
-						if (user.socialUserId !== null && user.socialUserId !== undefined) {
-							suid = user.socialUserId;
-						}
+                        suid = null;
+                        if (user.socialUserId !== null && user.socialUserId !== undefined) {
+                            suid = user.socialUserId;
+                        }
                         api.dataAccess.executeQuery("insert_social_account", {userId : user.id, socialLoginProviderId : user.socialProviderId, socialUserName : user.socialUserName, socialEmail : user.socialEmail, socialEmailVerified : user.socialEmailVerified, socialUserId : suid}, dbConnectionMap, function (err, result) {
                             callback(err, result);
                         });
@@ -243,7 +175,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     });
                 },
                 function (callback) {
-                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : password}, function (err, result) {                       
+                    api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : password}, function (err) {
                         if (err) {
                             next(err);
                         } else {
@@ -361,15 +293,14 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                         callback(err, result);
                     });
                 },
-				function (callback) {
+                function (callback) {
                     var url;
                     url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
                     api.log("Activation url: " + url, "debug");
 
                     api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url, userHandle : user.handle}, 'default');
-                        
+
                     callback(null, null);
-                    
                 }
             ],
                 // This is called when all above operations are done or any error occurs
@@ -521,18 +452,18 @@ var isSoicalProviderIdValid = function (socialProviderId, api, dbConnectionMap, 
 var isSoicalLoginExisted = function (socialProviderId, socialUserId, api, dbConnectionMap, next) {
     api.dataAccess.executeQuery("get_user_by_social_login", {social_user_id: socialUserId, provider_id: socialProviderId},
         dbConnectionMap, function (err, result) {
-        api.log("Execute result returned", "debug");
-        if (err) {
-            api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
-            next(err);
-        } else {
-            if (result.length) {
-                next(null, true);
+            api.log("Execute result returned", "debug");
+            if (err) {
+                api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
+                next(err);
             } else {
-                next(null, false);
+                if (result.length) {
+                    next(null, true);
+                } else {
+                    next(null, false);
+                }
             }
-        }
-    });
+        });
 };
 
 /**
@@ -704,7 +635,7 @@ var checkInvalidHandle = function (api, handle, dbConnectionMap, next) {
                 }
             }
         }
-    ], function (err, result) {
+    ], function (err) {
         if (err) {
             next(err);
         }
@@ -766,18 +697,18 @@ var validateHandle = function (api, handle, dbConnectionMap, next) {
                     // check if the handle already exists
                     userHandleExist(handle, api, dbConnectionMap, function (err, result) {
                         if (err) {
-                            next(err);
+                            callback(err);
                         } else {
                             if (result === true) {
-                                next(err, "Handle " + handle + " has already been taken");
+                                callback(err, "Handle " + handle + " has already been taken");
                             } else {
-                                next(err, null);
+                                callback(err, null);
                             }
                         }
                     });
                 }
             ], function (err, result) {
-                next(err);
+                next(err, result);
             });
         }
     }
@@ -931,14 +862,14 @@ var validateSocialEmail = function (email) {
 /**
  * Validate the social email
  *
- * @param {String} email The social email to check
+ * @param {String} socialUserId The social user id to check
  * @return {String} the error message or null if the social email is valid.
  */
 var validateSocialUserId = function (socialUserId) {
-   
-	if (socialUserId === null || socialUserId === undefined) {
-		return "Social User Id is required";
-	}
+
+    if (socialUserId === null || socialUserId === undefined) {
+        return "Social User Id is required";
+    }
     return null;
 };
 
@@ -988,17 +919,17 @@ exports.memberRegister = {
 
             if (connection.params.socialProviderId !== null && connection.params.socialProviderId !== undefined) {
                 api.log("social provider id: " + connection.params.socialProviderId, "debug");
-				messages.push(validateSocialUserId(connection.params.socialUserId));
+                messages.push(validateSocialUserId(connection.params.socialUserId));
                 messages.push(validateSocialUserName(connection.params.socialUserName));
                 messages.push(validateSocialEmail(connection.params.socialEmail));
                 messages.push(validateSocialEmailVerified(connection.params.socialEmailVerified));
-				
+
             }
 
             // validate parameters that require database access
             async.series({
                 validatePassword: function (callback) {
-                    if ((connection.params.socialProviderId == null || connection.params.socialProviderId == undefined) && (connection.params.password == null || connection.params.password == undefined)) {                   
+                    if ((connection.params.socialProviderId === null || connection.params.socialProviderId === undefined) && (connection.params.password === null || connection.params.password === undefined)) {
                         callback(null, "Password is a required parameter if the registering is not through social login.");
                     } else {
                         callback(null, null);
@@ -1049,9 +980,9 @@ exports.memberRegister = {
                         callback(null, null);
                     }
                 },
-                validateSocialLogin: function(callback) {
+                validateSocialLogin: function (callback) {
                     if (connection.params.socialProviderId !== null && connection.params.socialProviderId !== undefined
-                        && connection.params.socialUserId !== null && connection.params.socialUserId !== undefined) {
+                            && connection.params.socialUserId !== null && connection.params.socialUserId !== undefined) {
 
                         isSoicalLoginExisted(connection.params.socialProviderId, connection.params.socialUserId, api, dbConnectionMap, function (err, result) {
                             if (result) {
@@ -1132,7 +1063,6 @@ exports.validateHandle = {
     databases : ["common_oltp"],
     run: function (api, connection, next) {
         var helper = api.helper,
-            handle = connection.params.handle,
             dbConnectionMap = connection.dbConnectionMap,
             result;
         if (!dbConnectionMap) {
@@ -1146,9 +1076,8 @@ exports.validateHandle = {
                 if (results) {
                     cb(new BadRequestError(results));
                     return;
-                } else {
-                    result = { valid: true };
                 }
+                result = { valid: true };
                 cb();
             }
         ], function (err) {
@@ -1158,7 +1087,7 @@ exports.validateHandle = {
                 connection.response = result;
             }
             next(connection, true);
-        }); 
+        });
     }
 }; // validateHandle
 
@@ -1208,7 +1137,7 @@ exports.validateSocial = {
                         }
                     }
                 });
-            }, function(cb) {
+            }, function (cb) {
                 checkResult = validateSocialUserId(socialUserId);
                 if (checkResult !== null) {
                     cb(new IllegalArgumentError(checkResult));

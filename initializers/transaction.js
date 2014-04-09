@@ -13,7 +13,7 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
     var connectionClosedCount = 0;
     actionTemplate.databases.forEach(function (databaseName) {
         var callback;
-        callback = function (err, result) {
+        callback = function (err) {
             connection.dbConnectionMap[databaseName].disconnect();
             api.log("Connection is closed", "debug");
             if (err) {
@@ -70,7 +70,7 @@ exports.transaction = function (api, next) {
             });
 
             actionTemplate.databases.forEach(function (databaseName) {
-                callback = function (err, result) {
+                callback = function (err) {
                     connection.dbConnectionMap = dbConnectionMap;
                     if (err) {
                         handleConnectionFailure(api, connection, actionTemplate, err, next);
@@ -131,7 +131,7 @@ exports.transaction = function (api, next) {
         if (connection.dbConnectionMap !== null && connection.dbConnectionMap !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
             actionTemplate.databases.forEach(function (databaseName) {
                 var callback;
-                callback = function (err, result) {
+                callback = function (err) {
                     connection.dbConnectionMap[databaseName].disconnect();
                     api.log("Connection is closed", "debug");
                     if (err) {

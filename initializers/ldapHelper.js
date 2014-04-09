@@ -6,7 +6,7 @@
  * Author: TCSASSEMBLER, muzehyun
  * changes in 1.1
  * - add retrieveMemberProfileLDAPEntry
- * - fix bugs (returing too early without any result)
+ * - fix bugs (returning too early without any result)
  */
 "use strict";
 
@@ -164,7 +164,7 @@ var passwordModify = function (api, client, params, callback) {
     writer.writeString(np, LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW);
     writer.endSequence();
 
-    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err, result) {
+    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err) {
         if (err) {
             client.unbind();
             callback('cannot modify password for user', translateLdapError(err));
@@ -413,7 +413,7 @@ exports.ldapHelper = function (api, next) {
             ], function (err, result) {
                 var entry;
                 if (result.length >= 2) {
-                   entry = result[2];
+                    entry = result[2];
                 }
                 if (err) {
                     error = result.pop();

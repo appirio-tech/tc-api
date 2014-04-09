@@ -20,14 +20,8 @@
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
-var ForumWrapper = require("forum-connector").ForumWrapper;
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
-
-/**
- * The forum wrapper instance
- */
-var forumWrapper = null;
 
 //constants
 var DESIGN_PROJECT_TYPE = 1,
