@@ -354,7 +354,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
  * @param {Object} dbConnectionMap The database connection map for the current request.
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
-var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, challengeType, dbConnectionMap, next) {
+var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, challengeType, challengeId, dbConnectionMap, next) {
     async.waterfall([
         function (cb) {
             api.dataAccess.executeQuery("get_user_email_and_handle", {
@@ -386,8 +386,10 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
+				submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
+				submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
 
@@ -534,7 +536,7 @@ var registerChallenge = function (api, userId, challengeId, challengeType, dbCon
                 },
                 function (cbx) {
                     // Send notification mail
-                    sendNotificationEmail(api, componentInfo, userId, activeForumCategoryId, challengeType, dbConnectionMap, cbx);
+                    sendNotificationEmail(api, componentInfo, userId, activeForumCategoryId, challengeType, challengeId, dbConnectionMap, cbx);
                 }
             ], cb);
         }
