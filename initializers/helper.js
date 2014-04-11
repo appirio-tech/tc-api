@@ -128,7 +128,7 @@ helper.MAX_INT = 2147483647;
 /**
  * HASH KEY For Password
  *
- * @since 1.16
+ * @since 1.23
  */
 helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
@@ -1213,7 +1213,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
  * Validate the given password value.
  * @param {String} password - the password value.
  * @returns {Object} - Return error if the given password is invalid.
- * @since 1.16
+ * @since 1.23
  */
 helper.validatePassword = function (password) {
     var value = password.trim(),
@@ -1244,7 +1244,7 @@ helper.validatePassword = function (password) {
  *
  * @param {Array} terms - The terms.
  * @returns {Boolean} true if all terms agreed otherwise false.
- * @since 1.16
+ * @since 1.22
  */
 helper.allTermsAgreed = function (terms) {
     return _.every(terms, function (term) {
