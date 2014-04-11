@@ -1,0 +1,5 @@
+{
+  "name" : "set_submission_rank",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "set_submission_rank"
+}

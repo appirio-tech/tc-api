@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_long_comp_result",
+    "db"      : "informixoltp",
+    "sqlfile" : "insert_long_comp_result"
+}

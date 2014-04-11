@@ -1,0 +1,150 @@
+{
+    "handle": "heffan",
+    "country": "United States",
+    "memberSince": "2001-05-09T01:04:42.000Z",
+    "overallEarning": 1000,
+    "quote": "Acknowledge and move on.",
+    "photoLink": "/i/m/test_image.png",
+    "ratingSummary": [
+        {
+            "name": "Design",
+            "rating": 801,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Development",
+            "rating": 159,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Specification",
+            "rating": 3486,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Architecture",
+            "rating": 197,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Bug Hunt",
+            "rating": 4295,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Test Suites",
+            "rating": 1923,
+            "colorStyle": "color: #DDCC00"
+        },
+        {
+            "name": "Assembly",
+            "rating": 2472,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Banners/Icons",
+            "rating": 315,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Web Design",
+            "rating": 1596,
+            "colorStyle": "color: #DDCC00"
+        },
+        {
+            "name": "Wireframes",
+            "rating": 1281,
+            "colorStyle": "color: #6666FF"
+        },
+        {
+            "name": "UI Prototypes",
+            "rating": 1259,
+            "colorStyle": "color: #6666FF"
+        },
+        {
+            "name": "Logo Design",
+            "rating": 261,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Print/Presentation",
+            "rating": 3456,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Idea Generation",
+            "rating": 59,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Conceptualization",
+            "rating": 3209,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "RIA Build",
+            "rating": 1241,
+            "colorStyle": "color: #6666FF"
+        },
+        {
+            "name": "RIA Component",
+            "rating": 3778,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Test Scenarios",
+            "rating": 2977,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Widget or Mobile Screen Design",
+            "rating": 664,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Front-End Flash",
+            "rating": 68,
+            "colorStyle": "color: #999999"
+        },
+        {
+            "name": "Application Front-End Design",
+            "rating": 1535,
+            "colorStyle": "color: #DDCC00"
+        },
+        {
+            "name": "Other",
+            "rating": 2456,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Content Creation",
+            "rating": 3995,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Reporting",
+            "rating": 1158,
+            "colorStyle": "color: #00A900"
+        },
+        {
+            "name": "First2Finish",
+            "rating": 2151,
+            "colorStyle": "color: #DDCC00"
+        },
+        {
+            "name": "Code",
+            "rating": 3416,
+            "colorStyle": "color: #EE0000"
+        },
+        {
+            "name": "Algorithm",
+            "rating": 1000,
+            "colorStyle": "color: #00A900"
+        },
+        {
+            "name": "Marathon Match",
+            "rating": 2000,
+            "colorStyle": "color: #DDCC00"
+        }
+    ]
+}

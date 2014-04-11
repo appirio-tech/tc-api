@@ -1,0 +1,5 @@
+{
+  "name"    : "activate_email",
+  "db"      : "common_oltp",
+  "sqlfile" : "activate_email"
+}

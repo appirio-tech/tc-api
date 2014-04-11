@@ -1,4 +1,71 @@
 INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
 VALUES(10001, 'Test Project 10001.', 1, 132456, current);
+
 INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
 VALUES(10002, 'Test Project 10002.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10003, 'Test Project 10003.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10004, 'Test Project 10004.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10005, 'Test Project 10005.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10006, 'Test Project 10006.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10007, 'Test Project 10007.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10008, 'Test Project 10008.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10009, 'Test Project 10009.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10010, 'Test Project 10010.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10011, 'Test Project 10011.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10012, 'Test Project 10012.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10013, 'Test Project 10013.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10014, 'Test Project 10014.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10015, 'Test Project 10015.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10016, 'Test Project 10016.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10017, 'Test Project 10017.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10018, 'Test Project 10018.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10019, 'Test Project 10019.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10020, 'Test Project 10020.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10021, 'Test Project 10021.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10022, 'Test Project 10022.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10023, 'Test Project 10023.', 1, 132456, current);
+
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date)
+VALUES(10024, 'Test Project 10024.', 1, 132456, current);

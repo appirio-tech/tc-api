@@ -1,0 +1,23 @@
+{
+    "roundId": {
+        "notNumber": "roundId should be number.",
+        "notPositive": "roundId should be positive.",
+        "notInteger": "roundId should be Integer.",
+        "tooBig": "roundId should be less or equal to 2147483647."
+    },
+    "forbidden": "The user is forbidden to access this endpoint.",
+    "unauthorized": "Authorization information needed or incorrect.",
+    "notActivated": "You are not eligible to participate in this competition.",
+    "userNotExisted": "user not found with id=1234567890",
+    "roundNotExisted": "Round doesn't exist 3001.",
+    "roundEvent": {
+        "notRegister": "In order to participate in this competition, you must register for <font color=\"red\">Test Event 2001</font>. Registration is available: <a href=\"https://foo.com\">here</a>. Please register at the provided URL first and then repeat registration at Marathon Match Active Contests page.",
+        "notEligible": "You are not eligible to participate in this competition."
+    },
+    "alreadyRegister": "You already registered for this challenge.",
+    "registerNotOpen": "Registration is not currently open.",
+    "countryNotEligible": "You are not eligible to participate in this competition. Please contact support@topcoder.com if you have any questions.",
+    "notInvited": "Sorry, this round is by invitation only.",
+    "parallelRound": "Sorry, you can not register for this round, you must compete in the version of this round that you were invited to.",
+    "noPositions": "There are no more spots available for the round."
+}

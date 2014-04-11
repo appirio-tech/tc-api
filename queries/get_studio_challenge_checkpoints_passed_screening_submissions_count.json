@@ -1,0 +1,5 @@
+{
+    "name"    : "get_studio_challenge_checkpoints_passed_screening_submissions_count",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_studio_challenge_checkpoints_passed_screening_submissions_count"
+}

@@ -1,0 +1,1 @@
+INSERT INTO round_terms_acceptance(user_id, round_id, timestamp) VALUES (@user_id@, @round_id@, current)

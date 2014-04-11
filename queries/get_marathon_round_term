@@ -1,0 +1,11 @@
+SELECT
+  terms_content,
+  ct.name AS contest_name,
+  rd.name AS round_name
+FROM
+  round_terms rt,
+  round rd,
+  contest ct
+WHERE  rt.round_id = @round_id@
+  AND  rt.round_id = rd.round_id
+  AND  rd.contest_id = ct.contest_id

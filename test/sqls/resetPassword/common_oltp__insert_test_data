@@ -1,0 +1,154 @@
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400011, 'normal_user_11', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400011, 'normal_user_11', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400011);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id) 
+       VALUES (400011, 400011, 1, 'normal_user_11@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province) 
+       VALUES (40000001, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id,address_id) VALUES (400011, 40000001);
+
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400012, 'normal_user_12', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400012, 'normal_user_12', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400012);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400012, 400012, 1, 'normal_user_12@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000002, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400012, 40000002);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name)
+       VALUES ('fb40002', 400012, 1, 'user2');
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400013, 'normal_user_13', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400013, 'normal_user_13', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400013);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400013, 400013, 1, 'normal_user_13@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000003, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400013, 40000003);
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400014, 'normal_user_14', 'U', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400014, 'normal_user_14', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400014);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400014, 400014, 1, 'normal_user_14@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000004, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400014, 40000004);
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400015, 'normal_user_15', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400015, 'normal_user_15', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400015);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id) 
+       VALUES (400015, 400015, 1, 'normal_user_15@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province) 
+       VALUES (40000005, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id,address_id) VALUES (400015, 40000005);
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400016, 'admin_user_16', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400016, 'admin_user_16', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400016);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id) 
+       VALUES (400016, 400016, 1, 'admin_user_16@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province) 
+       VALUES (40000006, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id,address_id) VALUES (400016, 40000006);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name)
+       VALUES ('fb40006', 400016, 1, 'admin6');
+INSERT INTO user_role_xref (user_role_id, login_id, role_id, create_user_id, security_status_id) VALUES (400016, 400016, 2087, 400016, 1);
+       
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400017, 'normal_user_17', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400017, 'normal_user_17', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400017);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400017, 400017, 1, 'normal_user_17@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000007, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400017, 40000007);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name)
+       VALUES ('fb40007', 400017, 1, 'common_handle');
+       
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400018, 'common_handle', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400018, 'common_handle', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400018);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400018, 400018, 1, 'normal_user_18@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000008, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400018, 40000008);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name)
+       VALUES ('gg40008', 400018, 2, 'user8');
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400019, 'normal_user_19', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400019, 'normal_user_19', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400019);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400019, 400019, 1, 'normal_user_19@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000009, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400019, 40000009);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name)
+       VALUES ('fb40009', 400019, 1, 'common_handle2');
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400020, 'common_handle2', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400020, 'common_handle2', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400020);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400020, 400020, 1, 'normal_user_20@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000010, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400020, 40000010);
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400021, 'normal_user_21', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400021, 'normal_user_21', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400021);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400021, 400021, 1, 'normal_user_21@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000011, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400021, 40000011);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name, social_email)
+       VALUES ('tw40010', 400021, 3, 'user21', 'social.email21@test.com');
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400022, 'normal_user_22', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400022, 'normal_user_22', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400022);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400022, 400022, 1, 'normal_user_22@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000012, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400022, 40000012);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name, social_email)
+       VALUES ('fb40011', 400022, 1, 'user22', 'common_email@test.com');
+       
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400023, 'normal_user_23', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400023, 'normal_user_23', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400023);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400023, 400023, 1, 'common_email@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000013, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400023, 40000013);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name)
+       VALUES ('gg40012', 400023, 2, 'user23');
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400024, 'normal_user_24', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400024, 'normal_user_24', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400024);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400024, 400024, 1, 'normal_user_24@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000014, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400024, 40000014);
+INSERT INTO user_social_login (social_user_id, user_id, social_login_provider_id, social_user_name, social_email)
+       VALUES ('fb40013', 400024, 1, 'user24', 'common_email2@test.com');
+
+INSERT INTO user (user_id, handle, status, timezone_id) VALUES (400025, 'normal_user_25', 'A', 143);
+INSERT INTO security_user (login_id, user_id, password, create_user_id) VALUES (400025, 'normal_user_25', '4EjPjy6o+/C+dqNPnxIy9A==', NULL);
+INSERT INTO informixoltp:coder (coder_id) VALUES (400025);
+INSERT INTO email (user_id, email_id, email_type_id, address, create_date, modify_date, primary_ind, status_id)
+       VALUES (400025, 400025, 1, 'common_email2@test.com', CURRENT, CURRENT, 1, 1);
+INSERT INTO address(address_id, address_type_id, address1, address2, city, state_code, zip, country_code, create_date, modify_date, address3, province)
+       VALUES (40000015, 2, 'address1', NULL, 'city', 'ME', '04043', '840', '2008-08-01 16:37:48.000', '2008-08-01 16:37:48.000', NULL, NULL);
+INSERT INTO user_address_xref(user_id, address_id) VALUES (400025, 40000015);

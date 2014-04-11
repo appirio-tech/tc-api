@@ -1,0 +1,2 @@
+SELECT u.activation_code, u.status AS user_status, e.status_id AS email_status_id, u.handle, e.address AS email
+FROM user AS u JOIN email AS e ON u.user_id = e.user_id WHERE u.user_id = @user_id@

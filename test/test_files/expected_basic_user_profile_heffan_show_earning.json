@@ -5,12 +5,6 @@
     "overallEarning": 1000,
     "quote": "Acknowledge and move on.",
     "photoLink": "/i/m/test_image.png",
-    "isCopilot": {
-        "value": true,
-        "software": false,
-        "studio": false
-    },
-    "isPM": false,
     "ratingSummary": [
         {
             "name": "Design",
@@ -155,10 +149,10 @@
     ],
     "Achievements": [
         {
-            "description": "First Forum Post"
+            "description": "Algorithm Coder of the Month"
         },
         {
-            "description": "Algorithm Coder of the Month"
+            "description": "First Forum Post"
         },
         {
             "description": "One Hundred Forum Posts"

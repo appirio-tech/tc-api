@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.15
+ * @version 1.20
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -38,8 +38,19 @@
  * changes in 1.15:
  * Change the open and active status filter behaviour. OPEN for only reg phase is open, ACTIVE for reg is closed and
  * the challenge status is active.
+ * changes in 1.16:
+ * add studio checkpoint submissions and submitter count
+ * changes in 1.17:
+ * add API for submitting to design challenge
+ * changes in 1.18:
+ * add clientSelection flag in studio results
+ * changes in 1.19:
+ * add new allowed sort columns.
+ * changes in 1.20:
+ * add get challenge detail api for both design and develop challenge.
  */
 "use strict";
+/*jslint stupid: true, unparam: true, continue: true */
 
 require('datejs');
 var fs = require('fs');
@@ -48,6 +59,9 @@ var S = require('string');
 var _ = require('underscore');
 var extend = require('xtend');
 var request = require('request');
+var AdmZip = require('adm-zip');
+var archiver = require('archiver');
+var mkdirp = require('mkdirp');
 
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -80,18 +94,9 @@ var ALLOWABLE_QUERY_PARAMETER = [
  */
 var ALLOWABLE_SORT_COLUMN = [
     "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
-    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints"
+    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints",
+    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "registrationOpen"
 ];
-
-/**
- * Represents a ListType enum
- */
-var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
-
-/**
- * Represents a predefined list of valid list type.
- */
-var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.OPEN, ListType.UPCOMING, ListType.PAST];
 
 /**
  * Represents Percentage of Placement Points for digital run
@@ -102,24 +107,6 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
  * Max value for integer
  */
 var MAX_INT = 2147483647;
-
-/**
- * The list type and registration phase status map.
- */
-var LIST_TYPE_REGISTRATION_STATUS_MAP = {};
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.ACTIVE] = [2, 3];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.OPEN] = [2];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.UPCOMING] = [1];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.PAST] = [3];
-
-/**
- * The list type and project status map.
- */
-var LIST_TYPE_PROJECT_STATUS_MAP = {};
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * This copilot posting project type id
@@ -192,7 +179,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
             helper.checkPositiveInteger(pageSize, "pageSize") ||
             helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-            helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
+            helper.checkContains(helper.VALID_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
     if (_.isDefined(query.communityId)) {
@@ -347,7 +334,8 @@ function transferResult(src, helper) {
             digitalRunPoints: row.digital_run_points,
             prize: [],
             reliabilityBonus: helper.getReliabilityBonus(row.prize1),
-            challengeCommunity: row.is_studio ? 'design' : 'develop'
+            challengeCommunity: row.is_studio ? 'design' : 'develop',
+            registrationOpen: row.registration_open
         });
 
         for (i = 1; i < 10; i = i + 1) {
@@ -464,7 +452,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    listType = (query.listtype || ListType.OPEN).toUpperCase();
+    listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
 
@@ -492,8 +480,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Set the project type id
             sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
-            sqlParams.registration_phase_status = LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
-            sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
+            sqlParams.registration_phase_status = helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
+            sqlParams.project_status_id = helper.LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
 
             // Check the private challenge access
@@ -557,7 +545,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
 /**
  * This is the function that gets challenge details
- * 
+ *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
@@ -569,14 +557,14 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
         caller = connection.caller;
     async.waterfall([
         function (cb) {
-            error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
-                helper.checkMaxNumber(Number(connection.params.contestId), MAX_INT, 'contestId');
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
             if (error) {
                 cb(error);
                 return;
             }
             sqlParams = {
-                challengeId: connection.params.contestId,
+                challengeId: connection.params.challengeId,
                 project_type_id: challengeType.category,
                 user_id: caller.userId || 0
             };
@@ -772,6 +760,10 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
+            if (connection.action === "getChallenge") {
+                challenge.type = isStudio ? 'design' : 'develop';
+            }
+
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
                 challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
             }
@@ -841,7 +833,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 /**
  * This is the function that handles user's submission for a develop challenge.
  * It handles both checkpoint and final submissions
- * @since 1.9 
+ * @since 1.9
  *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
@@ -941,7 +933,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 return;
             }
 
-            //Note 1 - this will also cover the case where user is not registered, 
+            //Note 1 - this will also cover the case where user is not registered,
             //as the corresponding resource with role = Submitter will be absent in DB.
             //Note 2 - this will also cover the case of private challenges
             //User will have role Submitter only if the user belongs to group of private challenge and is registered.
@@ -1000,6 +992,10 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                             cb(err);
                             return;
                         }
+                        console.log('-------------------------------------------');
+                        console.log(stats.size + '\t' + api.config.submissionMaxSizeBytes);
+                        console.log('-------------------------------------------');
+
                         if (stats.size > api.config.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
                                 "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
@@ -1022,10 +1018,10 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 challengeId: challengeId,
                 projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
                 resourceId: resourceId,
-                fileName: fileName
+                fileName: uploadId + "_" + fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function (cb) {
+        }, function (notUsed, cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
@@ -1089,8 +1085,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 cb();
             }
         }, function (cb) {
-            //Now we are ready to 
-            //1) Insert into submission table 
+            //Now we are ready to
+            //1) Insert into submission table
             //2) Insert into resource_submission table
             //3) Possibly delete older submissions and uploads by the user, if multiple submissions are not allowed
             _.extend(sqlParams, {
@@ -1164,6 +1160,11 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
             challengeId: challengeId,
             user_id: connection.caller.userId || 0,
             projectCategory: isStudio ? helper.studio.category : helper.software.category
+        },
+        execQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
         };
     async.waterfall([
         function (cb) {
@@ -1171,12 +1172,8 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
             validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, cb);
         }, function (cb) {
             async.parallel({
-                detail: function (cbx) {
-                    api.dataAccess.executeQuery('get_checkpoint_detail', sqlParams, dbConnectionMap, cbx);
-                },
-                feedback: function (cbx) {
-                    api.dataAccess.executeQuery(feedbackQueryName, sqlParams, dbConnectionMap, cbx);
-                }
+                detail: execQuery('get_checkpoint_detail'),
+                feedback: execQuery(feedbackQueryName)
             }, cb);
         }, function (res, cb) {
             var generalFeedback = "", hasGeneralFeedback = true;
@@ -1198,6 +1195,24 @@ var getCheckpoint = function (api, connection, dbConnectionMap, isStudio, next) 
                 };
             });
             result.generalFeedback = generalFeedback;
+
+            if (isStudio) {
+                async.parallel({
+                    numberOfSubmissions: execQuery("get_studio_challenge_checkpoints_submissions_count"),
+                    numberOfPassedScreeningSubmissions: execQuery("get_studio_challenge_checkpoints_passed_screening_submissions_count"),
+                    numberOfPassedScreeningUniqueSubmitters: execQuery('get_studio_challenge_checkpoints_passed_screening_submitters_count'),
+                    numberOfUniqueSubmitters: execQuery('get_studio_challenge_checkpoints_submitters_count')
+                }, cb);
+            } else {
+                cb(null, cb);
+            }
+        }, function (res, cb) {
+            if (isStudio) {
+                result.numberOfSubmissions = res.numberOfSubmissions[0].total;
+                result.numberOfPassedScreeningSubmissions = res.numberOfPassedScreeningSubmissions[0].total;
+                result.numberOfPassedScreeningUniqueSubmitters = res.numberOfPassedScreeningUniqueSubmitters[0].total;
+                result.numberOfUniqueSubmitters = res.numberOfUniqueSubmitters[0].total;
+            }
             cb();
         }
     ], function (err) {
@@ -1224,6 +1239,7 @@ exports.getChallengeTerms = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
+    cacheEnabled : false,
     databases : ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -1235,6 +1251,7 @@ exports.getChallengeTerms = {
                         connection,
                         challengeId,
                         role,
+                        true,
                         connection.dbConnectionMap,
                         cb
                     );
@@ -1255,11 +1272,11 @@ exports.getChallengeTerms = {
 
 /**
  * This function gets the challenge results for both develop (software) and design (studio) contests.
- * 
+ *
  * @param {Object} api The api object that is used to access the global infrastructure
  * @param {Object} connection The connection object for the current request
  * @param {Object} dbConnectionMap The database connection map for the current request
- * @param {Boolean} isStudio Whether this is studio challenge (true) or software challenge (false) 
+ * @param {Boolean} isStudio Whether this is studio challenge (true) or software challenge (false)
  * @param {Function<connection, render>} next The callback to be called after this function is done
  */
 var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, next) {
@@ -1366,6 +1383,10 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                         screeningScore: el.screening_score,
                         initialScore: el.initial_score
                     });
+                } else {
+                    _.extend(resEl, {
+                        clientSelection: el.mark_for_purchase
+                    });
                 }
 
 
@@ -1430,8 +1451,8 @@ exports.getSoftwareChallenge = {
     name: "getSoftwareChallenge",
     description: "getSoftwareChallenge",
     inputs: {
-        required: ["contestId"],
-        optional: []
+        required: ["challengeId"],
+        optional: ["refresh"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -1455,8 +1476,8 @@ exports.getStudioChallenge = {
     name: "getStudioChallenge",
     description: "getStudioChallenge",
     inputs: {
-        required: ["contestId"],
-        optional: []
+        required: ["challengeId"],
+        optional: ["refresh"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -1467,6 +1488,44 @@ exports.getStudioChallenge = {
         if (connection.dbConnectionMap) {
             api.log("Execute getStudioChallenge#run", 'debug');
             getChallenge(api, connection, connection.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for getting challenge details.
+ *
+ * @since 1.19
+ */
+exports.getChallenge = {
+    name: "getChallenge",
+    description: "getStudioChallenge",
+    inputs: {
+        required: ["challengeId"],
+        optional: ["refresh"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getChallenge#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length === 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getChallenge(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -1573,7 +1632,7 @@ exports.getSoftwareChallengeResults = {
     }
 };
 
-/**           
+/**
  * The API for posting submission to software challenge
  * @since 1.10
  */
@@ -1674,3 +1733,583 @@ exports.getStudioCheckpoint = {
         }
     }
 };
+
+/**
+ * The URL to use when the font source is the standard topcoder font list
+ * @since 1.14
+ */
+var DEFAULT_FONT_URL = 'community.topcoder.com/studio/the-process/font-policy/';
+
+/**
+ * Gets the file type based on the file name extension. Return null if not found.
+ * @since 1.14
+ *
+ * @param {Object} fileName - The file name
+ * @param {Object} fileTypes - The file types from which to read
+ */
+var getFileType = function (fileName, fileTypes) {
+    var lastIndexOfDot = fileName.lastIndexOf('.'),
+        extension,
+        fileType;
+    if (lastIndexOfDot > 0) {
+        extension = fileName.substr(lastIndexOfDot + 1).toLowerCase();
+        fileType = _.find(fileTypes, function (fileType) {
+            return fileType.extension.toLowerCase() === extension;
+        });
+        if (!_.isUndefined(fileType)) {
+            return fileType;
+        }
+    }
+    return null;
+};
+
+/**
+ * Performs basic submission file validation. Returns non-null value if error exists
+ * @since 1.14
+ *
+ * @param {Object} file - The file to validate
+ * @param {Object} fileTypes - The file types from which to read
+ * @param {Object} submissionFormat - 'zip' or 'image' based on the file to validate
+ */
+var basicSubmissionValidation = function (file, fileTypes, submissionFormat) {
+    var err = null,
+        fileType;
+    if (_.isNull(file.type) || new S(file.type).isEmpty()) {
+        err = 'File Content Type is not included.'; //actually actionhero automatically throws error in such case
+    }
+    if (!err && file.size === 0) {
+        err = 'File is empty.'; //actually actionhero automatically throws error in such case
+    }
+    fileType = getFileType(file.name, fileTypes);
+    if (!err && fileType === null) {
+        err = 'Unknown file type submitted.';
+    }
+    if (!err && submissionFormat === 'zip' && !fileType.bundled_file) {
+        err = 'Invalid file type submitted.';
+    }
+    if (!err && submissionFormat === 'image' && !fileType.image_file) {
+        err = 'Invalid file type submitted.';
+    }
+    if (!err && submissionFormat === 'zip' && new AdmZip(file.path).getEntries().length === 0) {
+        err = 'Empty zip file provided.';
+    }
+    return err;
+};
+
+/**
+ * Processes and validates font parameters and returns the result
+ * @since 1.14
+ *
+ * @param {Object} fonts - The font sources
+ * @param {Object} fontNames - The font names
+ * @param {Object} fontUrls - The font urls
+ */
+var processFontData = function (fonts, fontNames, fontUrls) {
+    var ret = {
+        error: null,
+        fontsExternalContent: []
+    }, f, fn, fu, x;
+
+    if (fonts.length !== fontNames.length || fonts.length !== fontUrls.length) {
+        ret.error = 'font parameters are not all of same length.';
+        return ret;
+    }
+
+    for (x = 0; x < fonts.length; x = x + 1) {
+        f = new S(fonts[x]);
+        fn = new S(fontNames[x]);
+        fu = new S(fontUrls[x]);
+        if (f.isEmpty() && fn.isEmpty() && fu.isEmpty()) {
+            continue;
+        }
+        if (f.isEmpty()) {
+            ret.error = 'Missing Font Source for index: ' + x;
+        } else if (fn.isEmpty()) {
+            ret.error = 'Missing Font Name for index: ' + x;
+        } else if (!f.isEmpty() && f.toString() !== 'Studio Standard Fonts list' && fu.isEmpty()) {
+            ret.error = 'Missing Font URL for index: ' + x;
+        }
+
+        if (ret.error) {
+            return ret;
+        }
+
+        if (fu.isEmpty()) {
+            fu = new S(DEFAULT_FONT_URL);
+        } else if (!fu.startsWith('http://')) {
+            fu = new S('http://' + fu.toString());
+        }
+
+        ret.fontsExternalContent.push({
+            name: fn.toString() + " (" + f.toString() + ")",
+            url: fu.toString()
+        });
+    }
+    return ret;
+};
+
+/**
+ * Processes and validates stock art parameters and returns the result
+ * @since 1.14
+ *
+ * @param {Object} saNames - The stock art names
+ * @param {Object} saUrls - The stock art url
+ * @param {Object} saFileNumbers - The stock art file numbers
+ */
+var processStockArtData = function (saNames, saUrls, saFileNumbers) {
+    var ret = {
+        error: null,
+        sasExternalContent: []
+    }, san, sau, safn, x;
+
+    if (saNames.length !== saUrls.length || saUrls.length !== saFileNumbers.length) {
+        ret.error = 'stockArt parameters are not all of same length.';
+        return ret;
+    }
+
+    for (x = 0; x < saNames.length; x = x + 1) {
+        san = new S(saNames[x]);
+        sau = new S(saUrls[x]);
+        safn = new S(saFileNumbers[x]);
+        if (san.isEmpty() && sau.isEmpty() && safn.isEmpty()) {
+            continue;
+        }
+        if (san.isEmpty()) {
+            ret.error = 'Missing Stock Art name for index: ' + x;
+        } else if (sau.isEmpty()) {
+            ret.error = 'Missing Stock Art url for index: ' + x;
+        } else if (safn.isEmpty()) {
+            ret.error = 'Missing Stock Art file number for index: ' + x;
+        }
+
+        if (ret.error) {
+            return ret;
+        }
+
+        if (!sau.startsWith('http://')) {
+            sau = new S('http://' + sau.toString());
+        }
+
+        ret.sasExternalContent.push({
+            name: san.toString(),
+            url: sau.toString(),
+            fileNumber: safn.toString()
+        });
+    }
+    return ret;
+};
+
+/**
+ * The directory in the unified zip that contains the source files
+ */
+var SOURCE_DIR = 'source/';
+
+/**
+ * The directory in the unified zip that contains the submission files
+ */
+var SUBMISSION_DIR = 'submission/';
+
+/**
+ * Generates a unified submission zip for design submissions using the 3 files that submitters submit
+ * @since 1.14
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} submissionFile - The submission file that submitter submits
+ * @param {Object} previewFile - The preview file that submitter submits
+ * @param {Object} sourceFile - The source file that submitter submits
+ * @param {String} declaration - The generated declaration based on the submitter's comments, fonts and stockArts
+ * @param {Integer} userId - The user making the submission
+ * @param {Function<err, data>} done - The function to call when done
+ */
+var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, sourceFile, declaration, userId, done) {
+    var unifiedZipPath = api.config.designSubmissionTmpPath + 'generated_' + new Date().getTime() + '_' + userId + '_unifiedSubmission.zip',
+        unifiedZip = fs.createWriteStream(unifiedZipPath),
+        submissionOutputPath = api.config.designSubmissionTmpPath + new Date().getTime() + ".zip",
+        submissionOutputZip = fs.createWriteStream(submissionOutputPath),
+        archive = archiver('zip'),
+        submissionArchive = archiver('zip'),
+        submissionZip,
+        doneCalled = false;
+
+    archive.pipe(unifiedZip);
+    submissionArchive.pipe(submissionOutputZip);
+
+    //Go through the submission zip, flatten out the files and put them into the new submission archive
+    submissionZip = new AdmZip(submissionFile.path);
+    submissionZip.getEntries().forEach(function (zipEntry) {
+        if (!zipEntry.isDirectory) {
+            //Extract the file to tmp location
+            submissionZip.extractEntryTo(zipEntry, api.config.designSubmissionTmpPath, false, true);
+
+            //Read file from tmp location and add to unified zip
+            var tmpFileBuf = fs.readFileSync(api.config.designSubmissionTmpPath + zipEntry.name);
+            submissionArchive.append(tmpFileBuf, {name: zipEntry.name});
+
+            //Remove the temporary file
+            fs.unlinkSync(api.config.designSubmissionTmpPath + zipEntry.name);
+        }
+    });
+
+    //Write the declaration file to the new submission archive
+    submissionArchive.append(declaration, {name: 'declaration.txt'});
+
+    //new submission archive is now done
+    submissionArchive.finalize();
+
+    submissionOutputZip.on('finish', function () {
+        //Now add the new submission archive, the source file and the preview file to the unified zip
+        archive.append(fs.createReadStream(sourceFile.path), {name: SOURCE_DIR + sourceFile.name});
+        archive.append(fs.createReadStream(previewFile.path), {name: SUBMISSION_DIR + previewFile.name});
+        archive.append(fs.createReadStream(submissionOutputPath), {name: SUBMISSION_DIR + submissionFile.name});
+
+        //The unified zip is now done
+        archive.finalize();
+    });
+
+    unifiedZip.on('finish', function () {
+        if (!doneCalled) {
+            doneCalled = true;
+            done(null, unifiedZipPath);
+        }
+    });
+
+    archive.on('error', function (err) {
+        if (!doneCalled) {
+            doneCalled = true;
+            done(err);
+        }
+    });
+
+    submissionArchive.on('error', function (err) {
+        if (!doneCalled) {
+            doneCalled = true;
+            done(err);
+        }
+    });
+};
+
+/**
+ * This is the function that handles user's submission for a design challenge.
+ * It handles both normal submissions and final fix submissions
+ * @since 1.14
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var submitForDesignChallenge = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        ret = {},
+        userId = connection.caller.userId,
+        userHandle = connection.caller.handle,
+        challengeId = Number(connection.params.challengeId),
+        submissionFile = connection.params.submissionFile,
+        previewFile = connection.params.previewFile,
+        sourceFile = connection.params.sourceFile,
+        rank = Number(connection.params.rank),
+        comment = connection.params.comment,
+        fonts = connection.params.fonts,
+        fontNames = connection.params.fontNames,
+        fontUrls = connection.params.fontUrls,
+        fontInfo,
+        type = connection.params.type,
+        saNames = connection.params.stockArtNames,
+        saUrls = connection.params.stockArtUrls,
+        saFileNumbers = connection.params.stockArtFileNumbers,
+        saInfo,
+        basicInfo,
+        fontsExternalContent = [],
+        sasExternalContent = [],
+        fileTypes,
+        filePath,
+        systemFileName,
+        ids,
+        unifiedZipPath,
+        error;
+
+    async.waterfall([
+        function (cb) {
+
+            //Check if the user is logged-in
+            if (connection.caller.accessLevel === 'anon') {
+                cb(new UnauthorizedError("Authentication details missing or incorrect."));
+                return;
+            }
+
+            if (_.isUndefined(comment)) {
+                comment = '';
+            }
+
+            //Simple validations of the incoming parameters
+            if (submissionFile.constructor.name !== 'File') {
+                cb(new IllegalArgumentError("submissionFile must be a File"));
+                return;
+            }
+            if (previewFile.constructor.name !== 'File') {
+                cb(new IllegalArgumentError("previewFile must be a File"));
+                return;
+            }
+            if (sourceFile.constructor.name !== 'File') {
+                cb(new IllegalArgumentError("sourceFile must be a File"));
+                return;
+            }
+
+            error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxInt(challengeId, 'challengeId');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            if (!_.isUndefined(connection.params.rank)) {
+                error = helper.checkMaxInt(rank, 'rank'); //technically it can be 0 or less
+            }
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            //Validation for the type parameter
+            if (_.isUndefined(type)) {
+                type = 'submission';
+            } else {
+                type = type.toLowerCase();
+                if (type !== 'submission' && type !== 'checkpoint') {
+                    cb(new BadRequestError("type can either be submission or checkpoint"));
+                    return;
+                }
+            }
+
+            //Check if the backend validations for submitting to the challenge are passed
+            sqlParams.userId = userId;
+            sqlParams.challengeId = challengeId;
+            api.dataAccess.executeQuery("design_submission_validations_and_info", sqlParams, dbConnectionMap, cb);
+
+        }, function (rows, cb) {
+            basicInfo = rows;
+
+            if (basicInfo.length === 0) {
+                cb(new NotFoundError('No such challenge exists.'));
+                return;
+            }
+
+            if (!basicInfo[0].is_design_challenge) {
+                cb(new BadRequestError('Non-design challenges are not supported.'));
+                return;
+            }
+
+            var now = new Date();
+            if (!basicInfo[0].is_active || now < new Date(basicInfo[0].start_time) || now > new Date(basicInfo[0].end_time)) {
+                cb(new BadRequestError('Challenge is not currently open for submission.'));
+                return;
+            }
+
+            if (type === 'checkpoint' && !basicInfo[0].is_checkpoint_submission_open) {
+                cb(new BadRequestError('Challenge is not currently open for checkpoint submission.'));
+                return;
+            }
+
+            if (!basicInfo[0].is_user_submitter_for_challenge) {
+                cb(new ForbiddenError('You are not authorized to submit for this challenge.'));
+                return;
+            }
+
+            //Process the fonts.
+            //actionhero is unable to parse array values in multipart requests.
+            //Hence these weird double pipe delimited values which are then split to array.
+            fonts = _.isUndefined(fonts) ? [] : fonts.split('||');
+            fontNames = _.isUndefined(fontNames) ? [] : fontNames.split('||');
+            fontUrls = _.isUndefined(fontUrls) ? [] : fontUrls.split('||');
+            if (fonts.length > 0) {
+                fontInfo = processFontData(fonts, fontNames, fontUrls);
+                if (fontInfo.error) {
+                    cb(new BadRequestError(fontInfo.error));
+                    return;
+                }
+                fontsExternalContent = fontInfo.fontsExternalContent;
+            } else {
+                fontsExternalContent.push({
+                    name: "I did not introduce any new fonts",
+                    url: DEFAULT_FONT_URL
+                });
+            }
+
+            //Process the stock art.
+            saNames = _.isUndefined(saNames) ? [] : saNames.split('||');
+            saUrls = _.isUndefined(saUrls) ? [] : saUrls.split('||');
+            saFileNumbers = _.isUndefined(saFileNumbers) ? [] : saFileNumbers.split('||');
+            saInfo = processStockArtData(saNames, saUrls, saFileNumbers);
+            if (saInfo.error) {
+                cb(new BadRequestError(saInfo.error));
+                return;
+            }
+            sasExternalContent = saInfo.sasExternalContent;
+
+            //Get file types used for validation of the zip files
+            helper.getFileTypes(api, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            fileTypes = rows;
+
+            //Perform basic validation of submission, source and preview files
+            error = basicSubmissionValidation(sourceFile, fileTypes, 'zip');
+            if (error) {
+                cb(new BadRequestError(error));
+                return;
+            }
+
+            error = basicSubmissionValidation(submissionFile, fileTypes, 'zip');
+            if (error) {
+                cb(new BadRequestError(error));
+                return;
+            }
+
+            error = basicSubmissionValidation(previewFile, fileTypes, 'image');
+            if (error) {
+                cb(new BadRequestError(error));
+                return;
+            }
+
+            //1. Create the directories (if needed) where the submisison will be stored
+            //2. Load the template for the declaration file
+            async.parallel({
+                mkdirRes: function (cbx) {
+                    filePath = api.config.designSubmissionsBasePath + challengeId + "/" + userHandle.toLowerCase() + "_" + userId + "/";
+                    mkdirp(filePath, cbx);
+                },
+                declarationTemplate: function (cbx) {
+                    fs.readFile('templates/design_submission_declaration', 'utf8', cbx);
+                }
+            }, cb);
+        }, function (res, cb) {
+            var compiledDeclarationTemplate = _.template(res.declarationTemplate),
+                declaration;
+
+            //Generate the declaration file now
+            declaration = compiledDeclarationTemplate({
+                fontsExternalContent: fontsExternalContent,
+                sasExternalContent: sasExternalContent,
+                comment: comment
+            });
+
+            //Generate the unified submission file (in temp folder) (No need to validate it more as that would be redundant)
+            generateUnifiedSubmissionFile(api, submissionFile, previewFile, sourceFile, declaration, userId, cb);
+        }, function (path, cb) {
+            unifiedZipPath = path;
+            systemFileName = new Date().getTime() + ".zip";
+
+            //Generate the new ids for the upload and submission
+            async.parallel({
+                submissionId: function (cb) {
+                    api.idGenerator.getNextID("SUBMISSION_SEQ", dbConnectionMap, cb);
+                },
+                uploadId: function (cb) {
+                    api.idGenerator.getNextID("UPLOAD_SEQ", dbConnectionMap, cb);
+                }
+            }, cb);
+        }, function (rows, cb) {
+            ids = rows;
+
+            //Now we save to database
+            _.extend(sqlParams, {
+                uploadId: ids.uploadId,
+                projectPhaseId: type === 'submission' ? basicInfo[0].submission_phase_id : basicInfo[0].checkpoint_submission_phase_id,
+                resourceId: basicInfo[0].resource_id,
+                fileName: systemFileName,
+                submissionId: ids.submissionId,
+                thurgoodJobId: null,
+                submissionTypeId: type === 'submission' ? 1 : 3
+            });
+            async.waterfall([
+                function (cbx) {
+                    //Save to upload
+                    api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cbx);
+                },
+                function (notUsed, cbx) {
+                    //Save to submission
+                    api.dataAccess.executeQuery("insert_submission", sqlParams, dbConnectionMap, cbx);
+                },
+                function (notUsed, cbx) {
+                    //Save to resource submission
+                    api.dataAccess.executeQuery("insert_resource_submission", sqlParams, dbConnectionMap, cbx);
+                },
+                function (notUsed, cbx) {
+                    //Set rank if needed
+                    if (!_.isUndefined(connection.params.rank)) {
+                        var maxRank;
+                        async.waterfall([
+                            function (cby) {
+                                //Get user's submissions max rank
+                                api.dataAccess.executeQuery("get_resource_submissions_max_rank", sqlParams, dbConnectionMap, cby);
+                            },
+                            function (rows, cby) {
+                                maxRank = rows[0].max_rank;
+                                if (rank < 1) {
+                                    rank = 1;
+                                } else if (rank > maxRank) {
+                                    rank = maxRank + 1;
+                                }
+                                //Update the other submissions' rank
+                                sqlParams.minRank = rank;
+                                api.dataAccess.executeQuery("submissions_increment_rank", sqlParams, dbConnectionMap, cby);
+                            },
+                            function (notUsed, cby) {
+                                //Se this submission's rank
+                                sqlParams.userRank = rank;
+                                api.dataAccess.executeQuery("set_submission_rank", sqlParams, dbConnectionMap, cby);
+                            }
+                        ], cbx);
+                    } else {
+                        cbx(null, null);
+                    }
+                }
+            ], cb);
+        }, function (notUsed, cb) {
+            //Copy the unified zip from the temp folder into the actual folder
+            fs.createReadStream(unifiedZipPath).pipe(fs.createWriteStream(filePath + systemFileName));
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            ret = {
+                submissionId: ids.submissionId,
+                uploadId: ids.uploadId
+            };
+            connection.response = ret;
+        }
+        next(connection, true);
+    });
+
+};
+
+
+/**
+ * The API for posting submission to design challenge
+ * @since 1.14
+ */
+exports.submitForDesignChallenge = {
+    name: "submitForDesignChallenge",
+    description: "submitForDesignChallenge",
+    inputs: {
+        required: ["challengeId", "submissionFile", "previewFile", "sourceFile"],
+        optional: ["type", "fonts", "fontNames", "fontUrls", "stockArtNames", "stockArtUrls", "stockArtFileNumbers", "rank", "comment"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    cacheEnabled : false,
+    databases: ["tcs_catalog", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute submitForDesignChallenge#run", 'debug');
+            submitForDesignChallenge(api, connection, connection.dbConnectionMap, next);
+        }
+    }
+};
+

@@ -1,0 +1,5 @@
+{
+    "name" : "delete_challenge_resources",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "delete_challenge_resources"
+}

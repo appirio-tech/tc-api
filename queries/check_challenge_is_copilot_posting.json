@@ -1,0 +1,5 @@
+{
+  "name"    : "check_challenge_is_copilot_posting",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "check_challenge_is_copilot_posting"
+}

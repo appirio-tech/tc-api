@@ -1,0 +1,5 @@
+SELECT
+  (project_id IS NOT NULL) as challenge_is_copilot
+FROM project p
+WHERE p.project_id = @challengeId@
+AND p.project_category_id = 29

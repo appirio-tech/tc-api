@@ -1,0 +1,8 @@
+{
+    "challengeType": {
+        "invalid": "challengeType should be an element of develop,design,data."
+    },
+    "listType": {
+        "invalid": "listType should be an element of ACTIVE,OPEN,UPCOMING,PAST."
+    }
+}

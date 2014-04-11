@@ -1,0 +1,5 @@
+{
+  "name"    : "jive__clean",
+  "db"      : "jive",
+  "sqlfile" : "jive__clean"
+}

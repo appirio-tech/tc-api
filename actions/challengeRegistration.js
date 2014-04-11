@@ -3,19 +3,34 @@
  *
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
- * @version 1.1
- * @author ecnu_haozi, xjtufreeman
+ * @version 1.4
+ * @author ecnu_haozi, xjtufreeman, bugbuka
  *
  * changes in 1.1:
  * Combine Challenge Registration API(BUGR-11058)
+ *
+ * changes in 1.2:
+ * Integrate the forums operation(Module Assembly - Integrating Forums Wrapper with Challenge Registration API)
+ *
+ * changes in 1.3:
+ * move common function getForumWrapper, aduitResourceAddition to challengeHelper.js
+ *
+ * changes in 1.4:
+ * send email notification for design(studio) challenges registration
  */
 "use strict";
 
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
+var ForumWrapper = require("forum-connector").ForumWrapper;
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
+
+/**
+ * The forum wrapper instance
+ */
+var forumWrapper = null;
 
 //constants
 var DESIGN_PROJECT_TYPE = 1,
@@ -25,7 +40,14 @@ var DESIGN_PROJECT_TYPE = 1,
     COMPONENT_TESTING_PROJECT_TYPE = 5,
     APPEALS_COMPLETE_EARLY_PROPERTY_ID = 13,
     NO_VALUE = 'NO',
-    TIMELINE_NOTIFICATION_ID = 1;// See java field ORNotification.TIMELINE_NOTIFICATION_ID. 
+    TIMELINE_NOTIFICATION_ID = 1,// See java field ORNotification.TIMELINE_NOTIFICATION_ID.
+    TC_FORUMS_URL_PREFIX = require('../config').config.general.tcForumsServer + '?module=Category&categoryID=',
+    STUDIO_FORUMS_URL_PREFIX = require('../config').config.general.studioForumsServer + '?module=ThreadList&forumID=';
+
+var CHALLENGE_TYPE = {
+    DEVELOP: 'develop',
+    DESIGN: 'design'
+};
 
 /**
  * Check if the user agreed all terms of use.
@@ -120,39 +142,18 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
     api.dataAccess.executeQuery("insert_resource", {
         resourceId: resourceId,
         projectId: challengeId,
+        userId: userId,
         createUser: '"' + userId + '"',
         modifyUser: '"' + userId + '"'
     },
         dbConnectionMap,
-        function (err, result) {
+        function (err) {
             if (err) {
                 next(err);
             } else {
                 next(null, resourceId);
             }
         });
-};
-
-/**
- * Audit the challenge registration on table 'tcs_catalog.project_user_audit'.
- *
- * @param {Object} api The api object that is used to access the infrastructure.
- * @param {Number} resourceId The resource id.
- * @param {Number} userId The current logged-in user's id.
- * @param {Number} challengeId The id of the challenge to register.
- * @param {Object} dbConnectionMap The database connection map for the current request.
- * @param {Function<err, data>} next The callback to be called after this function is done.
- */
-var aduitResourceAddition = function (api, userId, challengeId, dbConnectionMap, next) {
-    api.dataAccess.executeQuery("audit_challenge_registration", {
-        projectId: challengeId,
-        resourceUserId: userId,
-        resourceRoleId: SUBMITTER_RESOURCE_ROLE_ID,
-        auditActionTypeId: PROJECT_USER_AUDIT_CREATE_TYPE,
-        actionUserId: userId
-    },
-        dbConnectionMap,
-        next);
 };
 
 /**
@@ -211,8 +212,9 @@ var prepareProjectResult = function (api, rating, userId, challengeId, phaseId, 
  *
  * @param {Object} api The api object that is used to access the infrastructure.
  * @param {Number} resourceId The resource id.
- * @param {Number} userId The current logged-in user's id.
- * @param {Number} challengeId The id of the challenge to register.
+ * @param {Number} propertyId The property id.
+ * @param {String} propertyValue The property value.
+ * @param {Number} userId The user id.
  * @param {Object} dbConnectionMap The database connection map for the current request.
  * @param {Function<err, data>} next The callback to be called after this function is done..
  */
@@ -253,7 +255,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
         function (resourceId, callback) {
             async.parallel([
                 function (cb) {
-                    aduitResourceAddition(api, userId, challengeId, dbConnectionMap, cb);
+                    api.challengeHelper.aduitResourceAddition(api, userId, challengeId, SUBMITTER_RESOURCE_ROLE_ID, PROJECT_USER_AUDIT_CREATE_TYPE, dbConnectionMap, cb);
                 },
                 function (cb) {
                     prepareProjectResult(
@@ -345,12 +347,14 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
  * Send email to notify the user registration succeeded.
  *
  * @param {Object} api The api object that is used to access the infrastructure.
- * @param {Number} userId The current logged-in user's id.
  * @param {Object} componentInfo The component info object generated from method <code>registerComponentInquiry</code>.
+ * @param {Number} userId The current logged-in user's id.
+ * @param {Number} activeForumCategoryId The active forum category id.
+ * @param {Object} challengeType The challenge type, design or develop.
  * @param {Object} dbConnectionMap The database connection map for the current request.
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
-var sendNotificationEmail = function (api, componentInfo, userId, dbConnectionMap, next) {
+var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, challengeType, dbConnectionMap, next) {
     async.waterfall([
         function (cb) {
             api.dataAccess.executeQuery("get_user_email_and_handle", {
@@ -362,7 +366,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, dbConnectionMa
                 cb(new NotFoundError("user's email and handle not found"));
                 return;
             }
-            var user, projectName, documentationDetails, submitURL, activeForumCategoryId, forumURL, umlToolInfo;
+            var user, projectName, documentationDetails, submitURL, forumURL, umlToolInfo;
 
             user = result[0];
             projectName = componentInfo.project_name + api.helper.getPhaseName(componentInfo.phase_id) + ' Contest';
@@ -377,12 +381,15 @@ var sendNotificationEmail = function (api, componentInfo, userId, dbConnectionMa
 
             if (componentInfo.phase_id === 112 || componentInfo.phase_id === 113) {
                 umlToolInfo = "You can read more about our UML tool and download it at\n" +
-                        "http://www.topcoder.com/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
+                    "http://www.topcoder.com/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
             }
 
-            //NOTE : forumURL is out of scope, here use a mock value instead. See http://apps.topcoder.com/forums/?module=Thread&threadID=811696&start=0
-            activeForumCategoryId = 210123;
-            forumURL = 'http://' + process.env.TC_FORUMS_SERVER_NAME + '/?module=Category&categoryID=' + activeForumCategoryId;
+            if (challengeType === CHALLENGE_TYPE.DEVELOP) {
+                forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
+            } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
+                forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
+            }
+
 
             api.tasks.enqueue("sendEmail", {
                 subject : projectName,
@@ -397,21 +404,96 @@ var sendNotificationEmail = function (api, componentInfo, userId, dbConnectionMa
                 toAddress : user.email,
                 senderName : "TC API"
             }, 'default');
-            cb(null, null);
+            cb();
         }
     ], next);
 };
 
+/*
+ * Get the active forum category id of the specified challenge.
+ *
+ * @param {Object} api The api object that is used to access the infrastructure.
+ * @param {Object} componentInfo The component info object generated from method <code>registerComponentInquiry</code>.
+ * @param {Number} challengeId The challenge id.
+ * @param {Object} dbConnectionMap The database connection map for the current request.
+ * @param {Function<err, data>} next The callback to be called after this function is done.
+ */
+var getActiveForumCategoryId = function (api, componentInfo, challengeId, dbConnectionMap, next) {
+    async.waterfall([
+        function (cb) {
+            if (componentInfo.component_id === null) {
+                api.log('Could not find component for challenge ' + challengeId, 'error');
+                next(new Error('Could not find component for challenge ' + challengeId));
+                return;
+            }
+            api.dataAccess.executeQuery("get_active_forum_category", {componentId: componentInfo.component_id}, dbConnectionMap, cb);
+        },
+        function (result, cb) {
+            if (result.length === 0) {
+                api.log('Could not find forum for challenge ' + challengeId, 'debug');
+                cb(null, null);
+                return;
+            }
+
+            cb(null, result[0].jive_category_id);
+        }
+    ], next);
+};
+
+/*
+ * Grant user forum access
+ *
+ * @param {Object} api The api object that is used to access the infrastructure.
+ * @param {Number} userId The current logged-in user's id.
+ * @param {Number} challengeId The challenge id.
+ * @param {Function<err, data>} next The callback to be called after this function is done.
+ */
+var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
+
+    if (api.config.general.grantForumAccess !== true) {
+        next();
+        return;
+    }
+
+    if (activeForumCategoryId === null) {
+        api.log('Could not find forum category ' + activeForumCategoryId, 'error');
+        next(new Error('Could not find forum category ' + activeForumCategoryId));
+        return;
+    }
+
+    api.log('start to grant user ' + userId + ' forum category ' +  activeForumCategoryId + ' access.');
+    async.waterfall([
+        function (cb) {
+            api.challengeHelper.getForumWrapper(api, cb);
+        }, function (forumWrapper, cb) {
+            forumWrapper.assignRole(userId, "Software_Users_" + activeForumCategoryId, function (err) {
+                if (err) {
+                    api.log('Failed to grant user ' + userId + ' forum category ' +  activeForumCategoryId + ' access:' + err + " " + (err.stack || ''), 'error');
+                    cb(new Error('Failed to grant user ' + userId + ' forum category ' +  activeForumCategoryId + ' access'));
+                }
+                cb();
+            });
+        }
+    ], function (err) {
+        if (err) {
+            next(err);
+            return;
+        }
+        next();
+    });
+};
+
 /**
- * Register a development (software) challenge for the current logged-in user.
+ * Register a challenge for the current logged-in user.
  *
  * @param {Object} api The api object that is used to access the infrastructure.
  * @param {Number} userId The current logged-in user's id.
  * @param {Number} challengeId The id of the challenge to register.
+ * @param {Object} challengeType The challenge type, design or develop.
  * @param {Object} dbConnectionMap The database connection map for the current request.
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
-var registerSoftwareChallenge = function (api, userId, challengeId, dbConnectionMap, next) {
+var registerChallenge = function (api, userId, challengeId, challengeType, dbConnectionMap, next) {
 
     var componentInfo;
 
@@ -425,14 +507,38 @@ var registerSoftwareChallenge = function (api, userId, challengeId, dbConnection
                 return;
             }
             componentInfo = result;
-            projectTrack(api, userId, challengeId, componentInfo, dbConnectionMap, function (err) {
-                cb(err);
-            });
+
+            if (challengeType === CHALLENGE_TYPE.DEVELOP) {
+                projectTrack(api, userId, challengeId, componentInfo, dbConnectionMap, function (err) {
+                    cb(err);
+                });
+            } else {
+                cb();
+            }
         },
+
         function (cb) {
-            //Send notification mail
-            sendNotificationEmail(api, componentInfo, userId, dbConnectionMap, cb);
+            getActiveForumCategoryId(api, componentInfo, challengeId, dbConnectionMap, cb);
+        },
+
+        function (activeForumCategoryId, cb) {
+            async.waterfall([
+                function (cbx) {
+
+                    if (challengeType === CHALLENGE_TYPE.DEVELOP) {
+                        // Grant forum access
+                        grantForumAccess(api, userId, activeForumCategoryId, cbx);
+                    } else {
+                        cbx();
+                    }
+                },
+                function (cbx) {
+                    // Send notification mail
+                    sendNotificationEmail(api, componentInfo, userId, activeForumCategoryId, challengeType, dbConnectionMap, cbx);
+                }
+            ], cb);
         }
+
     ], next);
 };
 
@@ -483,7 +589,7 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
                 },
                 function (cb) {
                     //Registration time
-                    persistResourceInfo(api, resourceId, 6, moment().format("MM.dd.yyyy hh:mm aa"), userId, dbConnectionMap, cb);
+                    persistResourceInfo(api, resourceId, 6, moment().format("MM.DD.YYYY hh:mm A"), userId, dbConnectionMap, cb);
                 },
                 function (cb) {
                     //payments.
@@ -527,6 +633,8 @@ var timelineNotification = function (api, userId, challengeId, dbConnectionMap, 
                 },
                     dbConnectionMap,
                     cb);
+            } else {
+                cb(null);
             }
         }
     ], next);
@@ -548,6 +656,16 @@ var registerStudioChallenge = function (api, userId, challengeId, dbConnectionMa
             });
         },
         function (cb) {
+            registerChallenge(
+                api,
+                userId,
+                challengeId,
+                CHALLENGE_TYPE.DESIGN,
+                dbConnectionMap,
+                cb
+            );
+        },
+        function (cb) {
             timelineNotification(api, userId, challengeId, dbConnectionMap, cb);
         }
     ], next);
@@ -565,24 +683,46 @@ var registerSoftwareChallengeAction = function (api, connection, next) {
     if (connection.dbConnectionMap) {
         api.log("Execute registerSoftwareChallengeAction#run", 'debug');
 
-        var challengeId = Number(connection.params.challengeId);
+        var challengeId = Number(connection.params.challengeId),
+            sqlParams = {
+                challengeId: challengeId,
+                user_id: connection.caller.userId
+            },
+            execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, connection.dbConnectionMap, cbx);
+                };
+            };
         async.waterfall([
-
             function (cb) {
+                async.parallel({
+                    isCopilotPosting: execQuery('check_challenge_is_copilot_posting'),
+                    isCopilot: execQuery('check_is_copilot')
+                }, cb);
+            }, function (res, cb) {
+                if (res.isCopilotPosting.length > 0 && res.isCopilotPosting[0].challenge_is_copilot) {
+                    if (res.isCopilot.length === 0 || !res.isCopilot[0].user_is_copilot) {
+                        cb(new ForbiddenError('You should be a copilot before register a copilot posting.'));
+                    }
+                }
+                cb(null);
+            }, function (cb) {
                 api.challengeHelper.getChallengeTerms(
                     connection,
                     challengeId,
                     "Submitter", //optional value. Here we don't need to provide such value.
+                    true,
                     connection.dbConnectionMap,
                     cb
                 );
             },
             function (terms, cb) {
                 if (allTermsAgreed(terms)) {
-                    registerSoftwareChallenge(
+                    registerChallenge(
                         api,
                         connection.caller.userId,
                         challengeId,
+                        CHALLENGE_TYPE.DEVELOP,
                         connection.dbConnectionMap,
                         cb
                     );
@@ -623,6 +763,7 @@ var registerStudioChallengeAction = function (api, connection, next) {
                     connection,
                     challengeId,
                     "Submitter",
+                    true,
                     connection.dbConnectionMap,
                     cb
                 );

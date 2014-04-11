@@ -1,0 +1,2 @@
+DELETE FROM direct_project_account WHERE project_id BETWEEN 9000001 AND 9009999;
+DELETE FROM tc_direct_project WHERE project_id BETWEEN 9000001 AND 9009999;

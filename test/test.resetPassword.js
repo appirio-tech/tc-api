@@ -25,9 +25,9 @@ describe('Reset Password API', function () {
 
     var errorObject = require('../test/test_files/expected_reset_password_error_message'),
         configGeneral = configs.config.general,
-        heffan = configGeneral.cachePrefix + 'heffan' + '-' + configGeneral.resetTokenSuffix,
-        user = configGeneral.cachePrefix + 'user' + '-' + configGeneral.resetTokenSuffix,
-        superUser = configGeneral.cachePrefix + 'super' + '-' + configGeneral.resetTokenSuffix;
+        heffan = configGeneral.cachePrefix + configGeneral.resetTokenPrefix + 'heffan' + configGeneral.resetTokenSuffix,
+        user = configGeneral.cachePrefix + configGeneral.resetTokenPrefix + 'user' + configGeneral.resetTokenSuffix,
+        superUser = configGeneral.cachePrefix + configGeneral.resetTokenPrefix + 'super' + configGeneral.resetTokenSuffix;
 
     /**
      * Clear database
@@ -63,7 +63,7 @@ describe('Reset Password API', function () {
                         testHelper.addCacheValue(heffan,
                             {
                                 value: 'abcde',
-                                expireTimestamp: new Date('2015-1-1').getTime(),
+                                expireTimestamp: new Date('2016-1-1').getTime(),
                                 createdAt: new Date().getTime(),
                                 readAt: null
                             }, cbx);
@@ -213,6 +213,16 @@ describe('Reset Password API', function () {
     it('should return success results. The user handle is in upper case.', function (done) {
         var newPassword = 'abcdefghijk';
         async.waterfall([
+            function (cb) {
+                // Insert again.
+                testHelper.addCacheValue(heffan,
+                    {
+                        value: 'abcde',
+                        expireTimestamp: new Date('2016-1-1').getTime(),
+                        createdAt: new Date().getTime(),
+                        readAt: null
+                    }, cb);
+            },
             function (cb) {
                 createRequest('HEFFAN', 200, { token: 'abcde', password: newPassword }, function (err) {
                     cb(err);

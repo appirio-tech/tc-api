@@ -1,0 +1,8 @@
+DELETE FROM round_segment;
+DELETE FROM round_registration;
+DELETE FROM room;
+DELETE FROM round_component;
+DELETE FROM round_room_assignment;
+DELETE FROM round_terms;
+DELETE FROM round;
+DELETE FROM contest;

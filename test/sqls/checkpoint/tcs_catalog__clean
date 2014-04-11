@@ -5,6 +5,7 @@ DELETE FROM review WHERE submission_id >= 2001 AND submission_id <= 5000;
 DELETE FROM submission WHERE submission_id >= 2001 AND submission_id <= 5000;
 DELETE FROM prize WHERE prize_id >= 2001 AND prize_id <= 5000;
 DELETE FROM upload WHERE project_id >= 2001 AND project_id <= 5000;
+DELETE FROM resource_info WHERE resource_id >= 2001 AND resource_id <= 5000;
 DELETE FROM resource WHERE project_id >= 2001 AND project_id <= 5000;
 DELETE FROM project_phase WHERE project_id >= 2001 AND project_id <= 5000;
 DELETE FROM project WHERE project_id >= 2001 AND project_id <= 5000;

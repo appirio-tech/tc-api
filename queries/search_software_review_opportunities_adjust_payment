@@ -8,7 +8,7 @@ DISTINCT
 FROM project_payment_adjustment ppa
 INNER JOIN review_auction ra ON ra.project_id = ppa.project_id
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=2
-INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = DECODE(@challengeId@, 0, p.project_id, @challengeId@)
+INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
 INNER JOIN project_phase pp13 ON pp13.project_id=p.project_id AND pp13.phase_type_id=13 AND not exists (SELECT 1 FROM phase_dependency WHERE dependent_phase_id=pp13.project_phase_id)
 INNER JOIN phase_dependency pd ON pd.dependency_phase_id=pp13.project_phase_id
 INNER JOIN project_phase pp14 ON pp14.project_id=p.project_id AND pp14.phase_type_id=14 AND pp14.project_phase_id=pd.dependent_phase_id
@@ -27,7 +27,7 @@ DISTINCT
 FROM project_payment_adjustment ppa
 INNER JOIN review_auction ra ON ra.project_id = ppa.project_id
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=1
-INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = DECODE(@challengeId@, 0, p.project_id, @challengeId@)
+INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
 INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
 INNER JOIN project_phase pp4 ON pp4.project_id=p.project_id AND pp4.phase_type_id=4
 INNER JOIN phase_criteria pc ON pc.project_phase_id=pp4.project_phase_id AND pc.phase_criteria_type_id=6
@@ -46,7 +46,7 @@ DISTINCT
 FROM project_payment_adjustment ppa
 INNER JOIN review_auction ra ON ra.project_id = ppa.project_id
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=3
-INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = DECODE(@challengeId@, 0, p.project_id, @challengeId@)
+INNER JOIN project p ON p.project_id=ra.project_id AND p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
 INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
 INNER JOIN project_phase pp18 ON pp18.project_id=p.project_id AND pp18.phase_type_id=18
 INNER JOIN phase_dependency pd ON pd.dependent_phase_id=pp18.project_phase_id AND pd.dependent_start=1 AND pd.dependency_phase_id=pp2.project_phase_id AND pd.dependency_start=1

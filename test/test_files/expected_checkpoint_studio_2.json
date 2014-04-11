@@ -5,5 +5,9 @@
             "submissionId": 4006
         }
     ],
-    "generalFeedback": ""
+    "generalFeedback": "",
+    "numberOfSubmissions": 1,
+    "numberOfPassedScreeningSubmissions": 1,
+    "numberOfPassedScreeningUniqueSubmitters": 1,
+    "numberOfUniqueSubmitters": 1
 }

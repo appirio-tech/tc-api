@@ -1,0 +1,1 @@
+UPDATE review_application SET review_application_status_id = @status@, modify_date = current WHERE review_application_id = @review_application_id@
