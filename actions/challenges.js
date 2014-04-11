@@ -554,7 +554,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
  */
 var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
     var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software,
-        caller = connection.caller;
+        caller = connection.caller,
+        isRelated = false; // This variable represent if the caller is related with challenge.
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -570,11 +571,16 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             };
 
             // Do the private check.
-            api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
         }, function (result, cb) {
             if (result[0].is_private && !result[0].has_access) {
                 cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
                 return;
+            }
+
+            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
+            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+                isRelated = true;
             }
 
             var execQuery = function (name) {
@@ -764,6 +770,10 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 challenge.type = isStudio ? 'design' : 'develop';
             }
 
+            if (isStudio) {
+                challenge.allowStockArt = data.allow_stock_art;
+            }
+
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
                 challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
             }
@@ -791,9 +801,13 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 registrants: mapRegistrants(results.registrants),
                 checkpoints: mapCheckPoints(results.checkpoints),
                 submissions: mapSubmissions(results),
-                winners: mapWinners(results.winners),
-                Documents: mapDocuments(results.documents)
+                winners: mapWinners(results.winners)
             });
+
+            // Only show the documents to relevant user.
+            if (isRelated) {
+                challenge.Documents = mapDocuments(results.documents);
+            }
 
             if (isStudio) {
                 delete challenge.finalSubmissionGuidelines;
