@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka
- * @version 1.20
+ * @version 1.21
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -48,6 +48,9 @@
  * changes in 1.20:
  * - add tcForumsServer property.
  * - add studioForumsServer property.
+ * Changes in 1.21:
+ * - add minPasswordLength and maxPasswordLength
+ * - add resetTokenSuffix
  */
 "use strict";
 
@@ -89,6 +92,10 @@ config.general = {
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
+    resetTokenPrefix: 'tokens-',
+    resetTokenSuffix: '-reset-token',
+    minPasswordLength: 8,
+    maxPasswordLength: 30,
     defaultResetPasswordTokenCacheLifetime: process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY ? parseInt(process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY, 10) : 1000 * 60 * 30, //30 min
     resetPasswordTokenEmailSubject: process.env.RESET_PASSWORD_TOKEN_EMAIL_SUBJECT || "TopCoder Account Password Reset",
     cachePrefix: '',

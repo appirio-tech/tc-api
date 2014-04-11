@@ -1,10 +1,11 @@
 /*
- * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.1
- * Author: isv
- * 
- * changes in 1.1:
+ * Version: 1.2
+ * Author: TCSASSEMBLER, Ghost_141, isv
+ * Changes in 1.1:
+ * - add PUNCTUATION and PASSWORD_ALPHABET.
+ * Changes in 1.2:
  * - add generateRandomString function.
  */
 
@@ -20,6 +21,18 @@ var ALPHABET_ALPHA_LOWER_EN = "abcdefghijklmnopqrstuvwxyz";
 var ALPHABET_ALPHA_EN = ALPHABET_ALPHA_LOWER_EN + ALPHABET_ALPHA_UPPER_EN;
 
 var ALPHABET_DIGITS_EN = "0123456789";
+
+/**
+ * The valid characters for punctuation.
+ * @since 1.1
+ */
+var PUNCTUATION = "-_.{}[]()";
+
+/**
+ * The valid characters for password.
+ * @since 1.1
+ */
+var PASSWORD_ALPHABET = ALPHABET_ALPHA_EN + ALPHABET_DIGITS_EN + PUNCTUATION;
 
 /**
  * Checks if string has all its characters in alphabet given.
@@ -63,3 +76,5 @@ exports.ALPHABET_ALPHA_UPPER_EN = ALPHABET_ALPHA_UPPER_EN;
 exports.ALPHABET_ALPHA_LOWER_EN = ALPHABET_ALPHA_LOWER_EN;
 exports.ALPHABET_ALPHA_EN = ALPHABET_ALPHA_EN;
 exports.ALPHABET_DIGITS_EN = ALPHABET_DIGITS_EN;
+exports.PUNCTUATION = PUNCTUATION;
+exports.PASSWORD_ALPHABET = PASSWORD_ALPHABET;

@@ -1,0 +1,5 @@
+{
+    "name"		:	"get_user_information",
+    "db"		:	"common_oltp",
+    "sqlfile"	:	"get_user_information"
+}

@@ -80,8 +80,9 @@ export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 export ACTIONHERO_CONFIG=./config.js
 
 ## The period for expiring the generated tokens for password resetting
-export RESET_PASSWORD_TOKEN_CACHE_EXPIRY=1800000
 export RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
+# Set this to 180000 which is 3 mins. This will help saving time for test.
+export RESET_PASSWORD_TOKEN_CACHE_EXPIRY=180000
 
 export REDIS_HOST=localhost
 export REDIS_PORT=6379

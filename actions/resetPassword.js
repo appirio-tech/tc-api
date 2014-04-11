@@ -1,20 +1,24 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author LazyChild, isv
+ * @version 1.2
+ * @author LazyChild, isv, Ghost_141
  * 
  * changes in 1.1
  * - implemented generateResetToken function
+ * Changes in 1.2:
+ * - Implement the Reset Password API
  */
 "use strict";
 
 var async = require('async');
 var stringUtils = require("../common/stringUtils.js");
 var moment = require('moment-timezone');
+var _ = require('underscore');
 
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
+var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var TOKEN_ALPHABET = stringUtils.ALPHABET_ALPHA_EN + stringUtils.ALPHABET_DIGITS_EN;
@@ -46,30 +50,82 @@ var resolveUserByHandleOrEmail = function (handle, email, api, dbConnectionMap, 
 };
 
 /**
- * This is the function that stub reset password
+ * Reset Password.
  *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
 function resetPassword(api, connection, next) {
-    var result, helper = api.helper;
+    var result, helper = api.helper, sqlParams, userId, ldapEntryParams, oldPassword,
+        dbConnectionMap = connection.dbConnectionMap,
+        token = connection.params.token,
+        handle = decodeURI(connection.params.handle).toLowerCase(),
+        newPassword = connection.params.password,
+        tokenKey = api.config.general.resetTokenPrefix + handle + api.config.general.resetTokenSuffix;
+
     async.waterfall([
         function (cb) {
-            if (connection.params.handle === "nonValid") {
-                cb(new BadRequestError("The handle you entered is not valid"));
-            } else if (connection.params.handle === "badLuck") {
-                cb(new Error("Unknown server error. Please contact support."));
-            } else if (connection.params.token === "unauthorized_token") {
-                cb(new UnauthorizedError("Authentication credentials were missing or incorrect."));
-            } else if (connection.params.token === "forbidden_token") {
-                cb(new ForbiddenError("The request is understood, but it has been refused or access is not allowed."));
-            } else {
-                result = {
-                    "description": "Your password has been reset!"
-                };
-                cb();
+            var error = helper.checkStringPopulated(token, 'token') ||
+                helper.checkStringPopulated(handle, 'handle') ||
+                helper.validatePassword(newPassword);
+            if (error) {
+                cb(error);
+                return;
             }
+            sqlParams = {
+                handle: handle
+            };
+            api.dataAccess.executeQuery('get_user_information', sqlParams, dbConnectionMap, cb);
+        },
+        function (result, cb) {
+            if (result.length === 0) {
+                cb(new NotFoundError('The user is not exist.'));
+                return;
+            }
+            userId = result[0].user_id;
+            oldPassword = helper.decodePassword(result[0].old_password, helper.PASSWORD_HASH_KEY);
+            sqlParams.handle = result[0].handle;
+            helper.getCachedValue(tokenKey, cb);
+        },
+        function (cache, cb) {
+            if (!_.isDefined(cache)) {
+                // The token is either not assigned or is expired.
+                cb(new BadRequestError('The token is expired or not existed. Please apply a new one.'));
+                return;
+            }
+            if (cache !== token) {
+                // The token don't match
+                cb(new IllegalArgumentError('The token is incorrect.'));
+                return;
+            }
+            sqlParams.password = helper.encodePassword(newPassword, helper.PASSWORD_HASH_KEY);
+            api.dataAccess.executeQuery('update_password', sqlParams, dbConnectionMap, cb);
+        },
+        function (count, cb) {
+            if (count !== 1) {
+                cb(new Error('password is not updated successfully'));
+                return;
+            }
+            ldapEntryParams = {
+                userId: userId,
+                handle: sqlParams.handle,
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            };
+            api.ldapHelper.updateMemberPasswordLDAPEntry(ldapEntryParams, cb);
+        },
+        function (cb) {
+            // Delete the token from cache system.
+            api.cache.destroy(tokenKey, function (err) {
+                cb(err);
+            });
+        },
+        function (cb) {
+            result = {
+                description: 'Your password has been reset!'
+            };
+            cb();
         }
     ], function (err) {
         if (err) {
@@ -93,7 +149,7 @@ function resetPassword(api, connection, next) {
  * @param {Function<err>} callback - the callback function.
  */
 var generateResetToken = function (userHandle, userEmailAddress, api, callback) {
-    var tokenCacheKey = 'tokens-' + userHandle + '-reset-token',
+    var tokenCacheKey = api.config.general.resetTokenPrefix + userHandle + api.config.general.resetTokenSuffix,
         current,
         expireDate,
         expireDateString,
@@ -144,10 +200,16 @@ exports.resetPassword = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-	cacheEnabled: false,
+    transaction: 'write',
+    cacheEnabled: false,
+    databases: ["common_oltp"],
     run: function (api, connection, next) {
-        api.log("Execute resetPassword#run", 'debug');
-        resetPassword(api, connection, next);
+        if (connection.dbConnectionMap) {
+            api.log("Execute resetPassword#run", 'debug');
+            resetPassword(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
 

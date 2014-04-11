@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.22
+ * @version 1.23
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -62,6 +62,10 @@
  * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
  * Changes in 1.22:
  * - add allTermsAgreed method.
+ * Changes in 1.23:
+ * - add validatePassword method.
+ * - introduce the stringUtils in this file.
+ * - add PASSWORD_HASH_KEY.
  */
 "use strict";
 
@@ -79,6 +83,7 @@ if (typeof String.prototype.startsWith !== 'function') {
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
+var stringUtils = require('../common/stringUtils');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -119,6 +124,13 @@ helper.both = {
  * The max value for integer.
  */
 helper.MAX_INT = 2147483647;
+
+/**
+ * HASH KEY For Password
+ *
+ * @since 1.23
+ */
+helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
 /**
  * The name in api response to database name map.
@@ -1198,11 +1210,41 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 };
 
 /**
+ * Validate the given password value.
+ * @param {String} password - the password value.
+ * @returns {Object} - Return error if the given password is invalid.
+ * @since 1.23
+ */
+helper.validatePassword = function (password) {
+    var value = password.trim(),
+        configGeneral = helper.api.config.general,
+        i,
+        error;
+    error = helper.checkStringPopulated(password, 'password');
+    if (error) {
+        return error;
+    }
+    if (value.length > configGeneral.maxPasswordLength) {
+        return new IllegalArgumentError('password may contain at most ' + configGeneral.maxPasswordLength + ' characters.');
+    }
+    if (value.length < configGeneral.minPasswordLength) {
+        return new IllegalArgumentError('password must be at least ' + configGeneral.minPasswordLength + ' characters in length.');
+    }
+    for (i = 0; i < password.length; i += 1) {
+        if (!_.contains(stringUtils.PASSWORD_ALPHABET, password.charAt(i))) {
+            return new IllegalArgumentError('Your password may contain only letters, numbers and ' + stringUtils.PUNCTUATION);
+        }
+    }
+
+    return null;
+};
+
+/**
  * check if the every terms has been agreed
  *
  * @param {Array} terms - The terms.
  * @returns {Boolean} true if all terms agreed otherwise false.
- * @since 1.16
+ * @since 1.22
  */
 helper.allTermsAgreed = function (terms) {
     return _.every(terms, function (term) {

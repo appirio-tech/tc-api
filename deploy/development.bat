@@ -11,7 +11,6 @@ REM - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
 REM - added REDIS_HOST environment variable
 REM - added REDIS_PORT environment variable
 
-
 REM tests rely on caching being off. But set this to a real value (or remove) while coding.
 
 set VM_IP=%TC_VM_IP%
@@ -78,8 +77,8 @@ set DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 set ACTIONHERO_CONFIG=./config.js
 
 REM The period for expiring the generated tokens for password resetting (in milliseconds)
-set RESET_PASSWORD_TOKEN_CACHE_EXPIRY=15000
 set RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
+set RESET_PASSWORD_TOKEN_CACHE_EXPIRY=180000
 
 rem set REDIS_HOST=localhost
 rem set REDIS_PORT=6379
