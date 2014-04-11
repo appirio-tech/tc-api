@@ -1270,43 +1270,49 @@ function codeRandom(coderId) {
  * @return the coder id generated hash string.
  */
 function generateActivationCode(coderId) {
-    var r = codeRandom(coderId);
-    var nextBytes = function (bytes) {
-        for (var i = 0, len = bytes.length; i < len;)
-            for (var rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
-                var val = rnd & 0xff;
-                if (val > 127) {
-                    val = val - 256;
+    var r = codeRandom(coderId),
+        i,
+        nextBytes = function (bytes) {
+            var len, rnd, n, val;
+            for (i = 0, len = bytes.length; i < len; 1) {
+                for (rnd = r.nextInt(), n = Math.min(len - i, 4); n-- > 0; rnd >>= 8) {
+                    val = rnd & 0xff;
+                    if (val > 127) {
+                        val = val - 256;
+                    }
+                    bytes[i++] = val;
                 }
-                bytes[i++] = val;
             }
-    };
-    var randomBits = function(numBits) {
-        if (numBits < 0)
-            throw new Error("numBits must be non-negative");
-        var numBytes = Math.floor((numBits + 7) / 8); // avoid overflow
-        var randomBits = new Int8Array(numBytes);
+        },
+        randomBits = function (numBits) {
+            if (numBits < 0) {
+                throw new Error("numBits must be non-negative");
+            }
+            var numBytes = Math.floor((numBits + 7) / 8), // avoid overflow
+                randomBits = new Int8Array(numBytes),
+                excessBits;
 
-        // Generate random bytes and mask out any excess bits
-        if (numBytes > 0) {
-            nextBytes(randomBits);
-            var excessBits = 8 * numBytes - numBits;
-            randomBits[0] &= (1 << (8 - excessBits)) - 1;
-        }
-        return randomBits;
-    }
-    var id = coderId + "";
-    var baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36));
-    var len = coderId.toString(2).length;
-    var arr = randomBits(len);
-    var bb = bignum.fromBuffer(new Buffer(arr));
-    var hash = bb.add(baseHash).toString();
+            // Generate random bytes and mask out any excess bits
+            if (numBytes > 0) {
+                nextBytes(randomBits);
+                excessBits = 8 * numBytes - numBits;
+                randomBits[0] &= (1 << (8 - excessBits)) - 1;
+            }
+            return randomBits;
+        },
+        id = coderId.toString(),
+        baseHash = bignum(new bigdecimal.BigInteger("TopCoder", 36)),
+        len = coderId.toString(2).length,
+        arr = randomBits(len),
+        bb = bignum.fromBuffer(new Buffer(arr)),
+        hash = bb.add(baseHash).toString(),
+        result;
     while (hash.length < id.length) {
         hash = "0" + hash;
     }
     hash = hash.substring(hash.length - id.length);
 
-    var result = new bigdecimal.BigInteger(id + hash);
+    result = new bigdecimal.BigInteger(id + hash);
     result = result.toString(36).toUpperCase();
     return result;
 }
