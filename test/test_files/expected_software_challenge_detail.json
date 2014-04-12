@@ -41,20 +41,6 @@
             "submissionStatus": "Active"
         }
     ],
-    "Documents": [
-        {
-            "documentName": "document 1",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400000"
-        },
-        {
-            "documentName": "document 2",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400001"
-        },
-        {
-            "documentName": "document 3",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400002"
-        }
-    ],
     "numberOfSubmissions": 1,
     "platforms": [
         "AWS",
