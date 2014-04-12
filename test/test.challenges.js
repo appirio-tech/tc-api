@@ -181,773 +181,773 @@ describe('Test Challenges API', function () {
             });
     }
 
-//    describe('', function () {
-//
-//        /**
-//         * Clear database
-//         * @param {Function<err>} done the callback
-//         */
-//        function clearDb(done) {
-//            async.waterfall([
-//                function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__clean', TCS_CATALOG, cb);
-//                }, function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'tcs_dw__clean', TCS_DW, cb);
-//                }
-//            ], done);
-//        }
-//
-//        /**
-//         * This function is run before all tests.
-//         * Generate tests data.
-//         * @param {Function<err>} done the callback
-//         */
-//        before(function (done) {
-//            async.waterfall([
-//                clearDb,
-//                function (cb) {
-//                    var files = testHelper.generatePartPaths(SQL_DIR + "tcs_catalog__insert_test_data", "", 2);
-//                    testHelper.runSqlFiles(files, TCS_CATALOG, cb);
-//                }, function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'tcs_dw__insert_test_data', TCS_DW, cb);
-//                }
-//            ], done);
-//
-//        });
-//
-//        /**
-//         * This function is run after all tests.
-//         * Clean up all data.
-//         * @param {Function<err>} done the callback
-//         */
-//        after(function (done) {
-//            clearDb(done);
-//        });
-//
-//        /**
-//         * Tests for software challenges
-//         */
-//        describe('-- Search Software Challenges --', function () {
-//
-//            /**
-//             * Test develop/challenges?listType=active
-//             */
-//            it('should return 4 ACTIVE challenges', function (done) {
-//                assertCollection(ListType.ACTIVE, done);
-//            });
-//
-//            /**
-//             * Test develop/challenges?listType=open
-//             */
-//            it('should return 4 OPEN challenges', function (done) {
-//                assertCollection(ListType.OPEN,  done);
-//            });
-//
-//            /**
-//             * Test develop/challenges?listType=past
-//             */
-//            it('should return 2 PAST challenges', function (done) {
-//                assertCollection(ListType.PAST, done);
-//            });
-//
-//            /**
-//             * Test develop/challenges?listType=upcoming
-//             */
-//            it('should return 2 UPCOMING challenges', function (done) {
-//                assertCollection(ListType.UPCOMING, done);
-//            });
-//
-//
-//            /**
-//             * Test develop/challenges?listType=active&cmcTaskId=cmc
-//             */
-//            it('should return 2 ACTIVE challenges with cmcTaskId=cmc', function (done) {
-//                assertCMC("ACTIVE", 2, "cmc", done);
-//            });
-//
-//            /**
-//             * Test develop/challenges?listType=open&cmcTaskId=cmc
-//             */
-//            it('should return 1 OPEN challenges with cmcTaskId=cmc', function (done) {
-//                assertCMC("OPEN", 1, "cmc", done);
-//            });
-//
-//            /**
-//             * Test develop/challenges?listType=past&cmcTaskId=cmc
-//             */
-//            it('should return 2 PAST challenges with cmcTaskId=cmc', function (done) {
-//                assertCMC("PAST", 2, "cmc", done);
-//            });
-//
-//            /**
-//             * Test develop/challenges?listType=upcoming&cmcTaskId=cmc
-//             */
-//            it('should return 2 UPCOMING challenges with cmcTaskId=cmc', function (done) {
-//                assertCMC("UPCOMING", 1, "cmc", done);
-//            });
-//        });
-//
-//        describe("-- Search Design Challenges --", function () {
-//            /**
-//             * /v2/design/challenges?listType=active
-//             */
-//            it("should return results for ?listType=active", function (done) {
-//                validateResult("listType=active", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&submissionEndFrom=2014-01-01
-//             */
-//            it('should return 1 challenges after filtering submissionEndDate', function (done) {
-//                validateResult("listType=active&submissionEndFrom=2014-01-01", [1], "ACTIVE", 1, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&submissionEndTo=2014-01-01
-//             */
-//            it('should return 1 challenges after filtering submissionEndDate', function (done) {
-//                validateResult("listType=active&submissionEndTo=2014-01-01", [4], "ACTIVE", 1, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=aCtiVe
-//             */
-//            it("should return results for ?listType=aCtiVe", function (done) {
-//                validateResult("listType=aCtiVe", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeName
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeName", function (done) {
-//                validateResult("listType=active&sortColumn=challengeName", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=challengeName&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=dESc
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=dESc", function (done) {
-//                validateResult("listType=active&sortColumn=challengeName&sortOrder=dESc", [4, 1], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeType
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeType", function (done) {
-//                validateResult("listType=active&sortColumn=challengeType", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeType&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeType&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=challengeType&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=registrationEndDate
-//             */
-//            it("should return results for ?listType=active&sortColumn=registrationEndDate", function (done) {
-//                validateResult("listType=active&sortColumn=registrationEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=registrationEndDate&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=registrationEndDate&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=registrationEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=submissionEndDate
-//             */
-//            it("should return results for ?listType=active&sortColumn=submissionEndDate", function (done) {
-//                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=submissionEndDate&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=submissionEndDate&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate
-//             */
-//            it("should return results for ?listType=active&sortColumn=finalFixEndDate", function (done) {
-//                validateResult("listType=active&sortColumn=finalFixEndDate", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=finalFixEndDate&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=finalFixEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeId
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeId", function (done) {
-//                validateResult("listType=active&sortColumn=challengeId", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=challengeId&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=challengeId&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=challengeId&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=prize1
-//             */
-//            it("should return results for ?listType=active&sortColumn=prize1", function (done) {
-//                validateResult("listType=active&sortColumn=prize1", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=prize1&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=prize1&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=prize1&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints
-//             */
-//            it("should return results for ?listType=active&sortColumn=digitalRunPoints", function (done) {
-//                validateResult("listType=active&sortColumn=digitalRunPoints", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=digitalRunPoints&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=digitalRunPoints&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=cmcTaskId
-//             */
-//            it("should return results for ?listType=active&sortColumn=cmcTaskId", function (done) {
-//                validateResult("listType=active&sortColumn=cmcTaskId", [4, 1], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=cmcTaskId&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=cmcTaskId&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=cmcTaskId&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=currentStatus
-//             */
-//            it("should return results for ?listType=active&sortColumn=currentStatus", function (done) {
-//                validateResult("listType=active&sortColumn=currentStatus", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&sortColumn=currentStatus&sortOrder=desc
-//             */
-//            it("should return results for ?listType=active&sortColumn=currentStatus&sortOrder=desc", function (done) {
-//                validateResult("listType=active&sortColumn=currentStatus&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&pageIndex=1&pageSize=1
-//             */
-//            it("should return results for ?listType=active&pageIndex=1&pageSize=1", function (done) {
-//                validateResult("listType=active&pageIndex=1&pageSize=1", [1], "ACTIVE", 2, 1, 1, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&pageIndex=2&pageSize=1
-//             */
-//            it("should return results for ?listType=active&pageIndex=2&pageSize=1", function (done) {
-//                validateResult("listType=active&pageIndex=2&pageSize=1", [4], "ACTIVE", 2, 2, 1, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&pageIndex=-1
-//             */
-//            it("should return results for ?listType=active&pageIndex=-1", function (done) {
-//                validateResult("listType=active&pageIndex=-1", [1, 4], "ACTIVE", 2, 1, 2147483647, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=OPEN
-//             */
-//            it("should return results for ?listType=OPEN", function (done) {
-//                validateResult("listType=OPEN", [2], "OPEN", 1, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=PAST
-//             */
-//            it("should return results for ?listType=PAST", function (done) {
-//                validateResult("listType=PAST", [5], "PAST", 1, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=UPCOMING
-//             */
-//            it("should return results for ?listType=UPCOMING", function (done) {
-//                validateResult("listType=UPCOMING", [3], "UPCOMING", 1, 1, 50, done);
-//            });
-//
-//
-//            /**
-//             * /v2/design/challenges?listType=active&challengeType=Banners/icons
-//             */
-//            it("should return results for ?listType=active&challengeType=Banners/icons", function (done) {
-//                validateResult("listType=active&challengeType=Banners/icons", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//
-//            /**
-//             * /v2/design/challenges?listType=active&challengeName=contest 1
-//             */
-//            it("should return results for ?listType=active&challengeName=contest 1", function (done) {
-//                validateResult("listType=active&challengeName=contest 1", [1], "ACTIVE", 1, 1, 50, done);
-//            });
-//
-//
-//            /**
-//             * /v2/design/challenges?listType=active&prizeLowerBound=1000
-//             */
-//            it("should return results for ?listType=active&prizeLowerBound=1000", function (done) {
-//                validateResult("listType=active&prizeLowerBound=1000", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&prizeUpperBound=1200
-//             */
-//            it("should return results for ?listType=active&prizeUpperBound=1200", function (done) {
-//                validateResult("listType=active&prizeUpperBound=1200", [1, 4], "ACTIVE", 2, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=active&cmcTaskId=cmc
-//             */
-//            it("should return results for ?listType=active&cmcTaskId=cmc", function (done) {
-//                validateResult("listType=active&cmcTaskId=cmc", [1], "ACTIVE", 1, 1, 50, done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?listType=open&cmcTaskId=cmc
-//             */
-//            it("should return results for ?listType=open&cmcTaskId=cmc", function (done) {
-//                validateResult("listType=open&cmcTaskId=cmc", [], "OPEN", 0, 1, 50, done);
-//            });
-//
-//
-//            /**
-//             * /v2/design/challenges?listType=open&prizeLowerBound=800
-//             */
-//            it("should return results for ?listType=open&prizeLowerBound=800", function (done) {
-//                validateResult("listType=open&prizeLowerBound=800", [2], "OPEN", 1, 1, 50, done);
-//            });
-//
-//
-//            /**
-//             * /v2/design/challenges?listType=xyz
-//             */
-//            it("should return error 400 when listType is not valid value", function (done) {
-//                assert400("listType=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageSize=xyz
-//             */
-//            it("should return error 400 when pageSize is not number", function (done) {
-//                assert400("pageSize=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageSize=0
-//             */
-//            it("should return error 400 when pageSize is 0", function (done) {
-//                assert400("pageSize=0", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageSize=-1
-//             */
-//            it("should return error 400 when pageSize is -1", function (done) {
-//                assert400("pageSize=-1", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageSize=100000000000000000000
-//             */
-//            it("should return error 400 when pageSize is too big number", function (done) {
-//                assert400("pageSize=100000000000000000000", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageSize=1.123
-//             */
-//            it("should return error 400 when pageSize is float number", function (done) {
-//                assert400("pageSize=1.123", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageIndex=xyz
-//             */
-//            it("should return error 400 when pageIndex is not number", function (done) {
-//                assert400("pageIndex=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageIndex=0
-//             */
-//            it("should return error 400 when pageIndex is 0", function (done) {
-//                assert400("pageIndex=0", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageIndex=-2
-//             */
-//            it("should return error 400 when pageIndex is -2", function (done) {
-//                assert400("pageIndex=-2", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageIndex=100000000000000000000
-//             */
-//            it("should return error 400 when pageIndex is too big number", function (done) {
-//                assert400("pageIndex=100000000000000000000", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageIndex=1.123
-//             */
-//            it("should return error 400 when pageIndex is float number", function (done) {
-//                assert400("pageIndex=1.123", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?sortColumn=xyz
-//             */
-//            it("should return error 400 when sortColumn is invalid", function (done) {
-//                assert400("sortColumn=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?sortOrder=xyz
-//             */
-//            it("should return error 400 when sortOrder is invalid", function (done) {
-//                assert400("sortOrder=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?prizeLowerBound=xyz
-//             */
-//            it("should return error 400 when prizeLowerBound is not valid value", function (done) {
-//                assert400("prizeLowerBound=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?prizeUpperBound=xyz
-//             */
-//            it("should return error 400 when prizeUpperBound is not valid value", function (done) {
-//                assert400("prizeUpperBound=xyz", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?prizeLowerBound=-1
-//             */
-//            it("should return error 400 when prizeLowerBound is -1", function (done) {
-//                assert400("prizeLowerBound=-1", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?prizeUpperBound=-1
-//             */
-//            it("should return error 400 when prizeUpperBound is -1", function (done) {
-//                assert400("prizeUpperBound=-1", done);
-//            });
-//
-//            /**
-//             * /v2/design/challenges?pageIndex=100&pageSize=100
-//             */
-//            it("should return empty result when no results returned", function (done) {
-//                request(API_ENDPOINT)
-//                    .get('/v2/design/challenges?pageIndex=100&pageSize=100')
-//                    .set('Accept', 'application/json')
-//                    .expect('Content-Type', /json/)
-//                    .expect(200)
-//                    .end(done);
-//            });
-//
-//        });
-//
-//        describe('-- Search Both Challenges --', function () {
-//            it('should return 5 Active challenges', function (done) {
-//                request(API_ENDPOINT)
-//                    .get('/v2/challenges?listType=active')
-//                    .set('Accept', 'application/json')
-//                    .expect('Content-Type', /json/)
-//                    .expect(200)
-//                    .end(function (err, res) {
-//                        var body = res.body;
-//                        assert.equal(body.total, 5, 'Invalid total number');
-//                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
-//                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
-//                        assert.equal(body.data.length, 5, 'Invalid data length');
-//                        done();
-//                    });
-//            });
-//            it('should return 6 Open challenges', function (done) {
-//                request(API_ENDPOINT)
-//                    .get('/v2/challenges?listType=open')
-//                    .set('Accept', 'application/json')
-//                    .expect('Content-Type', /json/)
-//                    .expect(200)
-//                    .end(function (err, res) {
-//                        var body = res.body;
-//                        assert.equal(body.total, 2, 'Invalid total number');
-//                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
-//                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
-//                        assert.equal(body.data.length, 2, 'Invalid data length');
-//                        done();
-//                    });
-//            });
-//            it('should return 3 Upcoming challenges', function (done) {
-//                request(API_ENDPOINT)
-//                    .get('/v2/challenges?listType=upcoming')
-//                    .set('Accept', 'application/json')
-//                    .expect('Content-Type', /json/)
-//                    .expect(200)
-//                    .end(function (err, res) {
-//                        var body = res.body;
-//                        assert.equal(body.total, 3, 'Invalid total number');
-//                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
-//                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
-//                        assert.equal(body.data.length, 3, 'Invalid data length');
-//                        done();
-//                    });
-//            });
-//
-//            it('should return 3 Past challenges', function (done) {
-//                request(API_ENDPOINT)
-//                    .get('/v2/challenges?listType=past')
-//                    .set('Accept', 'application/json')
-//                    .expect('Content-Type', /json/)
-//                    .expect(200)
-//                    .end(function (err, res) {
-//                        var body = res.body;
-//                        assert.equal(body.total, 3, 'Invalid total number');
-//                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
-//                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
-//                        assert.equal(body.data.length, 3, 'Invalid data length');
-//                        done();
-//                    });
-//            });
-//        });
-//    });
-//
-//    /**
-//     * Tests when there is a caller in request.
-//     */
-//    describe('--Search private challenges --', function () {
-//
-//        var SQL_DIR = __dirname + '/sqls/privateChallenges/',
-//            heffan = "ad|132456",
-//            userSuper = "ad|132457",
-//            user = 'ad|132458',
-//            heffanAuthHeader = testHelper.generateAuthHeader({ sub: heffan }),
-//            superAuthHeader = testHelper.generateAuthHeader({ sub: userSuper }),
-//            userAuthHeader = testHelper.generateAuthHeader({ sub: user });
-//
-//        function clearDb(done) {
-//            async.waterfall([
-//                function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__clean', TCS_CATALOG, cb);
-//                },
-//                function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'corporate_oltp__clean', CORPORATE_OLTP, cb);
-//                }
-//            ], function (err) {
-//                if (err) {
-//                    done(err);
-//                    return;
-//                }
-//                done();
-//            });
-//        }
-//
-//        before(function (done) {
-//            async.waterfall([
-//                clearDb,
-//                function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'corporate_oltp__insert_test_data', CORPORATE_OLTP, cb);
-//                },
-//                function (cb) {
-//                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__insert_test_data', TCS_CATALOG, cb);
-//                }
-//            ], done);
-//        });
-//
-//        after(function (done) {
-//            clearDb(done);
-//        });
-//
-//        /**
-//         * Create a http request and test it.
-//         * @param {String} url - the request url.
-//         * @param {Number} expectStatus - the expected request response status.
-//         * @param {Object} authHeader - the auth header for request.
-//         * @param {Function} cb - the call back function.
-//         */
-//        function createRequest(url, expectStatus, authHeader, cb) {
-//            var req = request(API_ENDPOINT)
-//                .get(url)
-//                .set('Accept', 'application/json');
-//            if (authHeader) {
-//                req.set('Authorization', authHeader);
-//            }
-//            req.expect('Content-Type', /json/)
-//                .expect(expectStatus)
-//                .end(cb);
-//        }
-//
-//        /**
-//         * Get challenge id from giving response.
-//         * @param results the giving response.
-//         */
-//        function getChallengeIds(results) {
-//            return _.map(results, function (item) {
-//                return item.challengeId;
-//            });
-//        }
-//
-//        /**
-//         * Should return private challenges for user 'heffan' and public challenges.
-//         */
-//        it('should return success results. The results should include private challenge that heffan can access and ' +
-//            'public challenges.', function (done) {
-//                createRequest('/v2/develop/challenges', 200, heffanAuthHeader, function (err, result) {
-//                    if (err) {
-//                        done(err);
-//                        return;
-//                    }
-//                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
-//                    challengeIds = getChallengeIds(actual.data);
-//                    assert.sameMembers([2001, 2002, 2004], challengeIds, 'invalid response');
-//                    done();
-//                });
-//            });
-//
-//        /**
-//         * Should return private challenges for user 'super' and public challenges.
-//         */
-//        it('should return success results. The results should include private challenge that super can access and ' +
-//            'public challenges.', function (done) {
-//                createRequest('/v2/develop/challenges', 200, superAuthHeader, function (err, result) {
-//                    if (err) {
-//                        done(err);
-//                        return;
-//                    }
-//                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
-//                    challengeIds = getChallengeIds(actual.data);
-//                    assert.sameMembers([2002, 2004], challengeIds, 'invalid response');
-//                    done();
-//                });
-//            });
-//
-//        /**
-//         * Should return private challenge for user 'user' and public chllenges.
-//         */
-//        it('should return success results. The results should only include public challenges since user can only ' +
-//            'access public challenges.', function (done) {
-//                createRequest('/v2/develop/challenges', 200, userAuthHeader, function (err, result) {
-//                    if (err) {
-//                        done(err);
-//                        return;
-//                    }
-//                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
-//                    challengeIds = getChallengeIds(actual.data);
-//                    assert.sameMembers([2004], challengeIds, 'invalid response');
-//                    done();
-//                });
-//            });
-//
-//        /**
-//         * Test when communityId is set. and the caller is in that group.
-//         */
-//        it('should return success results. The results should only include the challenges in group A.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=2001', 200, heffanAuthHeader, function (err, result) {
-//                if (err) {
-//                    done(err);
-//                    return;
-//                }
-//                var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
-//                challengeIds = getChallengeIds(actual.data);
-//                assert.sameMembers([2001], challengeIds, 'invalid response');
-//                done();
-//            });
-//        });
-//
-//        /**
-//         * Test when user is not in specific group.
-//         */
-//        it('should return unauthorized error. The user is not belong to group B.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=2001', 401, superAuthHeader, done);
-//        });
-//
-//        /**
-//         * Test when the communityId is set but the caller is not passed.
-//         */
-//        it('should return 400 bad request error. The caller should be passed when communityId is set.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=2001', 400, null, done);
-//        });
-//
-//        /**
-//         * Test when the caller is not in group.
-//         */
-//        it('should return 401 unauthorized error. The caller is not in the group.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=2001', 401, userAuthHeader, done);
-//        });
-//
-//        /**
-//         * Test /v2/develop/challenges?communityId=abc
-//         */
-//        it('should return 400 bad request. The communityId is not number.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=abc', 400, heffanAuthHeader, done);
-//        });
-//
-//        /**
-//         * Test /v2/develop/challenges?communityId=1.234
-//         */
-//        it('should return 400 bad request. The communityId is not integer.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=1.234', 400, heffanAuthHeader, done);
-//        });
-//
-//        /**
-//         * Test /v2/develop/challenges?communityId=-1
-//         */
-//        it('should return 400 bad request. The communityId is not positive.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=-1', 400, heffanAuthHeader, done);
-//        });
-//
-//        /**
-//         * Test /v2/develop/challenges?communityId=2147483648
-//         */
-//        it('should return 400 bad request. The communityId is too big.', function (done) {
-//            createRequest('/v2/develop/challenges?communityId=2147483648', 400, heffanAuthHeader, done);
-//        });
-//    });
+    describe('', function () {
+
+        /**
+         * Clear database
+         * @param {Function<err>} done the callback
+         */
+        function clearDb(done) {
+            async.waterfall([
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__clean', TCS_CATALOG, cb);
+                }, function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_dw__clean', TCS_DW, cb);
+                }
+            ], done);
+        }
+
+        /**
+         * This function is run before all tests.
+         * Generate tests data.
+         * @param {Function<err>} done the callback
+         */
+        before(function (done) {
+            async.waterfall([
+                clearDb,
+                function (cb) {
+                    var files = testHelper.generatePartPaths(SQL_DIR + "tcs_catalog__insert_test_data", "", 2);
+                    testHelper.runSqlFiles(files, TCS_CATALOG, cb);
+                }, function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_dw__insert_test_data', TCS_DW, cb);
+                }
+            ], done);
+
+        });
+
+        /**
+         * This function is run after all tests.
+         * Clean up all data.
+         * @param {Function<err>} done the callback
+         */
+        after(function (done) {
+            clearDb(done);
+        });
+
+        /**
+         * Tests for software challenges
+         */
+        describe('-- Search Software Challenges --', function () {
+
+            /**
+             * Test develop/challenges?listType=active
+             */
+            it('should return 4 ACTIVE challenges', function (done) {
+                assertCollection(ListType.ACTIVE, done);
+            });
+
+            /**
+             * Test develop/challenges?listType=open
+             */
+            it('should return 4 OPEN challenges', function (done) {
+                assertCollection(ListType.OPEN,  done);
+            });
+
+            /**
+             * Test develop/challenges?listType=past
+             */
+            it('should return 2 PAST challenges', function (done) {
+                assertCollection(ListType.PAST, done);
+            });
+
+            /**
+             * Test develop/challenges?listType=upcoming
+             */
+            it('should return 2 UPCOMING challenges', function (done) {
+                assertCollection(ListType.UPCOMING, done);
+            });
+
+
+            /**
+             * Test develop/challenges?listType=active&cmcTaskId=cmc
+             */
+            it('should return 2 ACTIVE challenges with cmcTaskId=cmc', function (done) {
+                assertCMC("ACTIVE", 2, "cmc", done);
+            });
+
+            /**
+             * Test develop/challenges?listType=open&cmcTaskId=cmc
+             */
+            it('should return 1 OPEN challenges with cmcTaskId=cmc', function (done) {
+                assertCMC("OPEN", 1, "cmc", done);
+            });
+
+            /**
+             * Test develop/challenges?listType=past&cmcTaskId=cmc
+             */
+            it('should return 2 PAST challenges with cmcTaskId=cmc', function (done) {
+                assertCMC("PAST", 2, "cmc", done);
+            });
+
+            /**
+             * Test develop/challenges?listType=upcoming&cmcTaskId=cmc
+             */
+            it('should return 2 UPCOMING challenges with cmcTaskId=cmc', function (done) {
+                assertCMC("UPCOMING", 1, "cmc", done);
+            });
+        });
+
+        describe("-- Search Design Challenges --", function () {
+            /**
+             * /v2/design/challenges?listType=active
+             */
+            it("should return results for ?listType=active", function (done) {
+                validateResult("listType=active", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&submissionEndFrom=2014-01-01
+             */
+            it('should return 1 challenges after filtering submissionEndDate', function (done) {
+                validateResult("listType=active&submissionEndFrom=2014-01-01", [1], "ACTIVE", 1, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&submissionEndTo=2014-01-01
+             */
+            it('should return 1 challenges after filtering submissionEndDate', function (done) {
+                validateResult("listType=active&submissionEndTo=2014-01-01", [4], "ACTIVE", 1, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=aCtiVe
+             */
+            it("should return results for ?listType=aCtiVe", function (done) {
+                validateResult("listType=aCtiVe", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeName
+             */
+            it("should return results for ?listType=active&sortColumn=challengeName", function (done) {
+                validateResult("listType=active&sortColumn=challengeName", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=challengeName&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=dESc
+             */
+            it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=dESc", function (done) {
+                validateResult("listType=active&sortColumn=challengeName&sortOrder=dESc", [4, 1], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeType
+             */
+            it("should return results for ?listType=active&sortColumn=challengeType", function (done) {
+                validateResult("listType=active&sortColumn=challengeType", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeType&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=challengeType&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=challengeType&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=registrationEndDate
+             */
+            it("should return results for ?listType=active&sortColumn=registrationEndDate", function (done) {
+                validateResult("listType=active&sortColumn=registrationEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=registrationEndDate&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=registrationEndDate&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=registrationEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=submissionEndDate
+             */
+            it("should return results for ?listType=active&sortColumn=submissionEndDate", function (done) {
+                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=submissionEndDate&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=submissionEndDate&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate
+             */
+            it("should return results for ?listType=active&sortColumn=finalFixEndDate", function (done) {
+                validateResult("listType=active&sortColumn=finalFixEndDate", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=finalFixEndDate&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=finalFixEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeId
+             */
+            it("should return results for ?listType=active&sortColumn=challengeId", function (done) {
+                validateResult("listType=active&sortColumn=challengeId", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=challengeId&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=challengeId&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=challengeId&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=prize1
+             */
+            it("should return results for ?listType=active&sortColumn=prize1", function (done) {
+                validateResult("listType=active&sortColumn=prize1", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=prize1&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=prize1&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=prize1&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints
+             */
+            it("should return results for ?listType=active&sortColumn=digitalRunPoints", function (done) {
+                validateResult("listType=active&sortColumn=digitalRunPoints", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=digitalRunPoints&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=digitalRunPoints&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=cmcTaskId
+             */
+            it("should return results for ?listType=active&sortColumn=cmcTaskId", function (done) {
+                validateResult("listType=active&sortColumn=cmcTaskId", [4, 1], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=cmcTaskId&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=cmcTaskId&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=cmcTaskId&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=currentStatus
+             */
+            it("should return results for ?listType=active&sortColumn=currentStatus", function (done) {
+                validateResult("listType=active&sortColumn=currentStatus", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&sortColumn=currentStatus&sortOrder=desc
+             */
+            it("should return results for ?listType=active&sortColumn=currentStatus&sortOrder=desc", function (done) {
+                validateResult("listType=active&sortColumn=currentStatus&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&pageIndex=1&pageSize=1
+             */
+            it("should return results for ?listType=active&pageIndex=1&pageSize=1", function (done) {
+                validateResult("listType=active&pageIndex=1&pageSize=1", [1], "ACTIVE", 2, 1, 1, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&pageIndex=2&pageSize=1
+             */
+            it("should return results for ?listType=active&pageIndex=2&pageSize=1", function (done) {
+                validateResult("listType=active&pageIndex=2&pageSize=1", [4], "ACTIVE", 2, 2, 1, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&pageIndex=-1
+             */
+            it("should return results for ?listType=active&pageIndex=-1", function (done) {
+                validateResult("listType=active&pageIndex=-1", [1, 4], "ACTIVE", 2, 1, 2147483647, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=OPEN
+             */
+            it("should return results for ?listType=OPEN", function (done) {
+                validateResult("listType=OPEN", [2], "OPEN", 1, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=PAST
+             */
+            it("should return results for ?listType=PAST", function (done) {
+                validateResult("listType=PAST", [5], "PAST", 1, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=UPCOMING
+             */
+            it("should return results for ?listType=UPCOMING", function (done) {
+                validateResult("listType=UPCOMING", [3], "UPCOMING", 1, 1, 50, done);
+            });
+
+
+            /**
+             * /v2/design/challenges?listType=active&challengeType=Banners/icons
+             */
+            it("should return results for ?listType=active&challengeType=Banners/icons", function (done) {
+                validateResult("listType=active&challengeType=Banners/icons", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+
+            /**
+             * /v2/design/challenges?listType=active&challengeName=contest 1
+             */
+            it("should return results for ?listType=active&challengeName=contest 1", function (done) {
+                validateResult("listType=active&challengeName=contest 1", [1], "ACTIVE", 1, 1, 50, done);
+            });
+
+
+            /**
+             * /v2/design/challenges?listType=active&prizeLowerBound=1000
+             */
+            it("should return results for ?listType=active&prizeLowerBound=1000", function (done) {
+                validateResult("listType=active&prizeLowerBound=1000", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&prizeUpperBound=1200
+             */
+            it("should return results for ?listType=active&prizeUpperBound=1200", function (done) {
+                validateResult("listType=active&prizeUpperBound=1200", [1, 4], "ACTIVE", 2, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=active&cmcTaskId=cmc
+             */
+            it("should return results for ?listType=active&cmcTaskId=cmc", function (done) {
+                validateResult("listType=active&cmcTaskId=cmc", [1], "ACTIVE", 1, 1, 50, done);
+            });
+
+            /**
+             * /v2/design/challenges?listType=open&cmcTaskId=cmc
+             */
+            it("should return results for ?listType=open&cmcTaskId=cmc", function (done) {
+                validateResult("listType=open&cmcTaskId=cmc", [], "OPEN", 0, 1, 50, done);
+            });
+
+
+            /**
+             * /v2/design/challenges?listType=open&prizeLowerBound=800
+             */
+            it("should return results for ?listType=open&prizeLowerBound=800", function (done) {
+                validateResult("listType=open&prizeLowerBound=800", [2], "OPEN", 1, 1, 50, done);
+            });
+
+
+            /**
+             * /v2/design/challenges?listType=xyz
+             */
+            it("should return error 400 when listType is not valid value", function (done) {
+                assert400("listType=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageSize=xyz
+             */
+            it("should return error 400 when pageSize is not number", function (done) {
+                assert400("pageSize=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageSize=0
+             */
+            it("should return error 400 when pageSize is 0", function (done) {
+                assert400("pageSize=0", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageSize=-1
+             */
+            it("should return error 400 when pageSize is -1", function (done) {
+                assert400("pageSize=-1", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageSize=100000000000000000000
+             */
+            it("should return error 400 when pageSize is too big number", function (done) {
+                assert400("pageSize=100000000000000000000", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageSize=1.123
+             */
+            it("should return error 400 when pageSize is float number", function (done) {
+                assert400("pageSize=1.123", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageIndex=xyz
+             */
+            it("should return error 400 when pageIndex is not number", function (done) {
+                assert400("pageIndex=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageIndex=0
+             */
+            it("should return error 400 when pageIndex is 0", function (done) {
+                assert400("pageIndex=0", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageIndex=-2
+             */
+            it("should return error 400 when pageIndex is -2", function (done) {
+                assert400("pageIndex=-2", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageIndex=100000000000000000000
+             */
+            it("should return error 400 when pageIndex is too big number", function (done) {
+                assert400("pageIndex=100000000000000000000", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageIndex=1.123
+             */
+            it("should return error 400 when pageIndex is float number", function (done) {
+                assert400("pageIndex=1.123", done);
+            });
+
+            /**
+             * /v2/design/challenges?sortColumn=xyz
+             */
+            it("should return error 400 when sortColumn is invalid", function (done) {
+                assert400("sortColumn=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?sortOrder=xyz
+             */
+            it("should return error 400 when sortOrder is invalid", function (done) {
+                assert400("sortOrder=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?prizeLowerBound=xyz
+             */
+            it("should return error 400 when prizeLowerBound is not valid value", function (done) {
+                assert400("prizeLowerBound=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?prizeUpperBound=xyz
+             */
+            it("should return error 400 when prizeUpperBound is not valid value", function (done) {
+                assert400("prizeUpperBound=xyz", done);
+            });
+
+            /**
+             * /v2/design/challenges?prizeLowerBound=-1
+             */
+            it("should return error 400 when prizeLowerBound is -1", function (done) {
+                assert400("prizeLowerBound=-1", done);
+            });
+
+            /**
+             * /v2/design/challenges?prizeUpperBound=-1
+             */
+            it("should return error 400 when prizeUpperBound is -1", function (done) {
+                assert400("prizeUpperBound=-1", done);
+            });
+
+            /**
+             * /v2/design/challenges?pageIndex=100&pageSize=100
+             */
+            it("should return empty result when no results returned", function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/design/challenges?pageIndex=100&pageSize=100')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(done);
+            });
+
+        });
+
+        describe('-- Search Both Challenges --', function () {
+            it('should return 5 Active challenges', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/challenges?listType=active')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        var body = res.body;
+                        assert.equal(body.total, 5, 'Invalid total number');
+                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
+                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
+                        assert.equal(body.data.length, 5, 'Invalid data length');
+                        done();
+                    });
+            });
+            it('should return 6 Open challenges', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/challenges?listType=open')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        var body = res.body;
+                        assert.equal(body.total, 2, 'Invalid total number');
+                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
+                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
+                        assert.equal(body.data.length, 2, 'Invalid data length');
+                        done();
+                    });
+            });
+            it('should return 3 Upcoming challenges', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/challenges?listType=upcoming')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        var body = res.body;
+                        assert.equal(body.total, 3, 'Invalid total number');
+                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
+                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
+                        assert.equal(body.data.length, 3, 'Invalid data length');
+                        done();
+                    });
+            });
+
+            it('should return 3 Past challenges', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/challenges?listType=past')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        var body = res.body;
+                        assert.equal(body.total, 3, 'Invalid total number');
+                        assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
+                        assert.equal(body.pageSize, 50, 'Invalid pageSize');
+                        assert.equal(body.data.length, 3, 'Invalid data length');
+                        done();
+                    });
+            });
+        });
+    });
+
+    /**
+     * Tests when there is a caller in request.
+     */
+    describe('--Search private challenges --', function () {
+
+        var SQL_DIR = __dirname + '/sqls/privateChallenges/',
+            heffan = "ad|132456",
+            userSuper = "ad|132457",
+            user = 'ad|132458',
+            heffanAuthHeader = testHelper.generateAuthHeader({ sub: heffan }),
+            superAuthHeader = testHelper.generateAuthHeader({ sub: userSuper }),
+            userAuthHeader = testHelper.generateAuthHeader({ sub: user });
+
+        function clearDb(done) {
+            async.waterfall([
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__clean', TCS_CATALOG, cb);
+                },
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'corporate_oltp__clean', CORPORATE_OLTP, cb);
+                }
+            ], function (err) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                done();
+            });
+        }
+
+        before(function (done) {
+            async.waterfall([
+                clearDb,
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'corporate_oltp__insert_test_data', CORPORATE_OLTP, cb);
+                },
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'tcs_catalog__insert_test_data', TCS_CATALOG, cb);
+                }
+            ], done);
+        });
+
+        after(function (done) {
+            clearDb(done);
+        });
+
+        /**
+         * Create a http request and test it.
+         * @param {String} url - the request url.
+         * @param {Number} expectStatus - the expected request response status.
+         * @param {Object} authHeader - the auth header for request.
+         * @param {Function} cb - the call back function.
+         */
+        function createRequest(url, expectStatus, authHeader, cb) {
+            var req = request(API_ENDPOINT)
+                .get(url)
+                .set('Accept', 'application/json');
+            if (authHeader) {
+                req.set('Authorization', authHeader);
+            }
+            req.expect('Content-Type', /json/)
+                .expect(expectStatus)
+                .end(cb);
+        }
+
+        /**
+         * Get challenge id from giving response.
+         * @param results the giving response.
+         */
+        function getChallengeIds(results) {
+            return _.map(results, function (item) {
+                return item.challengeId;
+            });
+        }
+
+        /**
+         * Should return private challenges for user 'heffan' and public challenges.
+         */
+        it('should return success results. The results should include private challenge that heffan can access and ' +
+            'public challenges.', function (done) {
+                createRequest('/v2/develop/challenges', 200, heffanAuthHeader, function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                    challengeIds = getChallengeIds(actual.data);
+                    assert.sameMembers([2001, 2002, 2004], challengeIds, 'invalid response');
+                    done();
+                });
+            });
+
+        /**
+         * Should return private challenges for user 'super' and public challenges.
+         */
+        it('should return success results. The results should include private challenge that super can access and ' +
+            'public challenges.', function (done) {
+                createRequest('/v2/develop/challenges', 200, superAuthHeader, function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                    challengeIds = getChallengeIds(actual.data);
+                    assert.sameMembers([2002, 2004], challengeIds, 'invalid response');
+                    done();
+                });
+            });
+
+        /**
+         * Should return private challenge for user 'user' and public chllenges.
+         */
+        it('should return success results. The results should only include public challenges since user can only ' +
+            'access public challenges.', function (done) {
+                createRequest('/v2/develop/challenges', 200, userAuthHeader, function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                    challengeIds = getChallengeIds(actual.data);
+                    assert.sameMembers([2004], challengeIds, 'invalid response');
+                    done();
+                });
+            });
+
+        /**
+         * Test when communityId is set. and the caller is in that group.
+         */
+        it('should return success results. The results should only include the challenges in group A.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 200, heffanAuthHeader, function (err, result) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                var actual = testHelper.getTrimmedData(result.res.text), challengeIds;
+                challengeIds = getChallengeIds(actual.data);
+                assert.sameMembers([2001], challengeIds, 'invalid response');
+                done();
+            });
+        });
+
+        /**
+         * Test when user is not in specific group.
+         */
+        it('should return unauthorized error. The user is not belong to group B.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 401, superAuthHeader, done);
+        });
+
+        /**
+         * Test when the communityId is set but the caller is not passed.
+         */
+        it('should return 400 bad request error. The caller should be passed when communityId is set.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 400, null, done);
+        });
+
+        /**
+         * Test when the caller is not in group.
+         */
+        it('should return 401 unauthorized error. The caller is not in the group.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2001', 401, userAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=abc
+         */
+        it('should return 400 bad request. The communityId is not number.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=abc', 400, heffanAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=1.234
+         */
+        it('should return 400 bad request. The communityId is not integer.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=1.234', 400, heffanAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=-1
+         */
+        it('should return 400 bad request. The communityId is not positive.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=-1', 400, heffanAuthHeader, done);
+        });
+
+        /**
+         * Test /v2/develop/challenges?communityId=2147483648
+         */
+        it('should return 400 bad request. The communityId is too big.', function (done) {
+            createRequest('/v2/develop/challenges?communityId=2147483648', 400, heffanAuthHeader, done);
+        });
+    });
 
     describe('', function () {
         /**
