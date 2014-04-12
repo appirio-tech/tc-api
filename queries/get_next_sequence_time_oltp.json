@@ -1,5 +1,0 @@
-{
-  "name"    : "get_next_sequence_time_oltp",
-  "db"      : "time_oltp",
-  "sqlfile" : "get_next_sequence_time_oltp"
-}
