@@ -520,6 +520,12 @@ var registerChallenge = function (api, userId, challengeId, challengeType, dbCon
         },
 
         function (cb) {
+            timelineNotification(api, userId, challengeId, dbConnectionMap, function (err) {
+                cb(err);
+            });
+        },
+
+        function (cb) {
             getActiveForumCategoryId(api, componentInfo, challengeId, dbConnectionMap, cb);
         },
 
