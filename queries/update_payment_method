@@ -1,0 +1,1 @@
+update 'informix'.user_payment_method set payment_method_id = @value@ where user_id = @userId@

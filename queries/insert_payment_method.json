@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_payment_method",
+  "db"      : "informixoltp",
+  "sqlfile" : "insert_payment_method"
+}
