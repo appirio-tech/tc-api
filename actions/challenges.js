@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.20
+ * @version 1.21
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -48,6 +48,11 @@
  * add new allowed sort columns.
  * changes in 1.20:
  * add get challenge detail api for both design and develop challenge.
+ * Changes in 1.21:
+ * - Implement the getActiveChallenges, getOpenChallenges, getUpcomingChallenges, getPastChallenges API.
+ * - add transferResultV2, checkQueryParameterAndSortColumnV2, validateInputParameterV2 and setFilterV2 method.
+ * - add SPLIT_API_ALLOWABLE_QUERY_PARAMETER and SPLIT_API_ALLOWABLE_SORT_COLUMN.
+ * - add getChallenges method.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -90,6 +95,15 @@ var ALLOWABLE_QUERY_PARAMETER = [
     "submissionEndFrom", "submissionEndTo"];
 
 /**
+ * Represents a list of valid query parameter for split challenges api.
+ * @since 1.21
+ */
+var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
+    "challengeType", "challengeName", "projectId", SORT_COLUMN,
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId',
+    "submissionEndFrom", "submissionEndTo"];
+
+/**
  * Represents a predefined list of valid sort column for active challenge.
  */
 var ALLOWABLE_SORT_COLUMN = [
@@ -97,6 +111,31 @@ var ALLOWABLE_SORT_COLUMN = [
     "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints",
     "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "registrationOpen"
 ];
+
+/**
+ * The valid sort column for active challenge.
+ * @since 1.21
+ */
+var SPLIT_API_ALLOWABLE_SORT_COLUMN = {
+    'ACTIVE': [
+        "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
+        "submissionEndDate", "firstPlacePrize", "currentStatus", "digitalRunPoints",
+        "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName"
+    ],
+    'OPEN': [
+        "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
+        "submissionEndDate", "firstPlacePrize", "currentStatus", "digitalRunPoints",
+        "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName"
+    ],
+    'UPCOMING': [
+        "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
+        "submissionEndDate", "firstPlacePrize", "digitalRunPoints", "numSubmissions", "numRegistrants"
+    ],
+    'PAST': [
+        "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
+        "submissionEndDate", "firstPlacePrize", "digitalRunPoints", "numSubmissions", "numRegistrants"
+    ]
+};
 
 /**
  * Represents Percentage of Placement Points for digital run
@@ -130,6 +169,53 @@ var DATE_FORMAT = 'YYYY-M-D';
  * If the user is a copilot
  */
 var isCopilot = false;
+
+/**
+ * The query object for challenges api.
+ */
+var CHALLENGES_QUERY = {
+    ACTIVE : {
+        publicQ: {
+            data: 'get_active_open_challenges',
+            count: 'get_active_open_challenges_count'
+        },
+        privateQ: {
+            data: 'get_active_open_private_challenges',
+            count: 'get_active_open_private_challenges_count'
+        }
+    },
+    OPEN: {
+        publicQ: {
+            data: 'get_active_open_challenges',
+            count: 'get_active_open_challenges_count'
+        },
+        privateQ: {
+            data: 'get_active_open_private_challenges',
+            count: 'get_active_open_private_challenges_count'
+        }
+    },
+    UPCOMING: {
+        publicQ: {
+            data: 'get_upcoming_challenges',
+            count: 'get_upcoming_challenges_count'
+        },
+        privateQ: {
+            data: 'get_upcoming_private_challenges',
+            count: 'get_upcoming_private_challenges_count'
+        }
+    },
+    PAST: {
+        publicQ: {
+            data: 'get_past_challenges',
+            count: 'get_past_challenges_count'
+        },
+        privateQ: {
+            data: 'get_past_private_challenges',
+            count: 'get_past_private_challenges_count'
+        }
+    }
+};
+
 /**
  * This method will used to check the query parameter and sort column of the request.
  *
@@ -260,6 +346,140 @@ function setFilter(filter, sqlParams) {
     }
 }
 
+
+/**
+ * This method will used to check the query parameter and sort column of the request.
+ * The v2 version of checkQueryParameterAndSortColumn method.
+ * @param {Object} helper - the helper.
+ * @param {String} type - the challenge type.
+ * @param {Object} queryString - the query string object
+ * @param {String} sortColumn - the sort column from the request.
+ * @since 1.21
+ */
+function checkQueryParameterAndSortColumnV2(helper, type, queryString, sortColumn) {
+    var allowedQuery = helper.getLowerCaseList(SPLIT_API_ALLOWABLE_QUERY_PARAMETER),
+        allowedSort = helper.getLowerCaseList(SPLIT_API_ALLOWABLE_SORT_COLUMN[type]),
+        currentQuery = helper.getLowerCaseList(Object.keys(queryString)),
+        error;
+    currentQuery.forEach(function (n) {
+        if (allowedQuery.indexOf(n) === -1) {
+            error = error ||
+                new IllegalArgumentError("The query string contains invalid parameter '" + n + "'.");
+        }
+    });
+    if (allowedSort.indexOf(sortColumn.toLowerCase()) === -1) {
+        error = error || new IllegalArgumentError("The sort column '" + sortColumn +
+            "' is invalid for challenge type '" + type + "'.");
+    }
+    return error;
+}
+
+/**
+ * This method is used to validate input parameter of the request.
+ * The v2 version of validateInputParameter method.
+ * @param {Object} helper - the helper.
+ * @param {Object} caller - the caller object.
+ * @param {Object} challengeType - the challenge type object.
+ * @param {Object} query - the query string.
+ * @param {Object} filter - the filter.
+ * @param {Number} pageIndex - the page index.
+ * @param {Number} pageSize - the page size.
+ * @param {String} sortColumn - the sort column.
+ * @param {String} sortOrder - the sort order.
+ * @param {String} type - the type of challenge.
+ * @param {Object} dbConnectionMap - the database connection map.
+ * @param {Function} callback - the callback function.
+ * @since 1.21
+ */
+function validateInputParameterV2(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
+    var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
+        helper.checkPageIndex(pageIndex, "pageIndex") ||
+        helper.checkPositiveInteger(pageSize, "pageSize") ||
+        helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+        helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
+        checkQueryParameterAndSortColumnV2(helper, type, query, sortColumn);
+
+    if (!_.isUndefined(query.communityId)) {
+        if (_.isUndefined(caller.userId)) {
+            error = error || new BadRequestError('The caller is not passed.');
+        }
+        error = error || helper.checkPositiveInteger(Number(filter.communityId), 'communityId') ||
+            helper.checkMaxNumber(Number(filter.communityId), MAX_INT, 'communityId');
+    }
+
+    if (!_.isUndefined(filter.projectId)) {
+        error = error || helper.checkPositiveInteger(Number(filter.projectId), "projectId");
+    }
+    if (!_.isUndefined(filter.prizeLowerBound)) {
+        error = error || helper.checkNonNegativeNumber(Number(filter.prizeLowerBound), "prizeLowerBound");
+    }
+    if (!_.isUndefined(filter.prizeUpperBound)) {
+        error = error || helper.checkNonNegativeNumber(Number(filter.prizeUpperBound), "prizeUpperBound");
+    }
+    if (!_.isUndefined(filter.submissionEndFrom)) {
+        error = error || helper.validateDate(filter.submissionEndFrom, 'submissionEndFrom', DATE_FORMAT);
+    }
+    if (!_.isUndefined(filter.submissionEndTo)) {
+        error = error || helper.validateDate(filter.submissionEndTo, 'submissionEndTo', DATE_FORMAT);
+    }
+    if (error) {
+        callback(error);
+        return;
+    }
+    if (!_.isUndefined(query.challengeType)) {
+        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, challengeType, callback);
+    } else {
+        callback();
+    }
+}
+
+/**
+ * This method will set up filter for sql query.
+ * The v2 version of setFilter. This will be used in split challenges api.
+ * @param {Object} filter - the filter from http request.
+ * @param {Object} sqlParams - the parameters for sql query.
+ * @since 1.21
+ */
+function setFilterV2(filter, sqlParams) {
+    sqlParams.challenge_name = "%";
+    sqlParams.prize_lower_bound = 0;
+    sqlParams.prize_upper_bound = MAX_INT;
+    sqlParams.project_id = 0;
+    sqlParams.community_id = 0;
+    sqlParams.communityId = 0;
+    sqlParams.submission_end_from = MIN_DATE;
+    sqlParams.submission_end_to = MAX_DATE;
+
+    if (!_.isUndefined(filter.challengeType)) {
+        sqlParams.challenge_type = filter.challengeType.toLowerCase();
+    }
+    if (!_.isUndefined(filter.challengeName)) {
+        sqlParams.challenge_name = "%" + filter.challengeName.toLowerCase() + "%";
+    }
+    if (!_.isUndefined(filter.prizeLowerBound)) {
+        sqlParams.prize_lower_bound = filter.prizeLowerBound.toLowerCase();
+    }
+    if (!_.isUndefined(filter.prizeUpperBound)) {
+        sqlParams.prize_upper_bound = filter.prizeUpperBound.toLowerCase();
+    }
+    if (!_.isUndefined(filter.projectId)) {
+        sqlParams.project_id = filter.projectId;
+    }
+    if (!_.isUndefined(filter.cmcTaskId)) {
+        sqlParams.cmc = filter.cmcTaskId;
+    }
+    if (!_.isUndefined(filter.communityId)) {
+        sqlParams.community_id = filter.communityId;
+        sqlParams.communityId = filter.communityId;
+    }
+    if (!_.isUndefined(filter.submissionEndFrom)) {
+        sqlParams.submission_end_from = filter.submissionEndFrom;
+    }
+    if (!_.isUndefined(filter.submissionEndTo)) {
+        sqlParams.submission_end_to = filter.submissionEndTo;
+    }
+}
+
 /**
  * Convert null string or if string is equal to "null"
  * @param {String} str - the string to convert.
@@ -348,6 +568,37 @@ function transferResult(src, helper) {
         ret.push(challenge);
     });
     return ret;
+}
+
+/**
+ * Transfer the database results to api response.
+ * @param {Array} src - the database results.
+ * @param {Object} helper - the helper object.
+ * @returns {Array} - the api response array.
+ * @since 1.21
+ */
+function transferResultV2(src, helper) {
+    return _.map(src, function (row) {
+        var challenge = _.object(_.chain(row).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(row));
+
+        challenge.platforms = _.isUndefined(row.platforms) ? [] : row.platforms.split(', ');
+        challenge.technologies = _.isUndefined(row.technologies) ? [] : row.technologies.split(', ');
+
+        if (!_.isUndefined(challenge.forumId)) {
+            challenge.forumId = Number(challenge.forumId);
+        }
+        if (!_.isUndefined(challenge.screeningScorecardId)) {
+            challenge.screeningScorecardId = Number(challenge.screeningScorecardId);
+        }
+        if (!_.isUndefined(challenge.reviewScorecardId)) {
+            challenge.reviewScorecardId = Number(challenge.reviewScorecardId);
+        }
+        challenge.checkpointSubmissionEndDate = formatDate(row.checkpoint_submission_end_date);
+        challenge.reliabilityBonus = helper.getReliabilityBonus(row.first_place_prize);
+        challenge.challengeCommunity = row.is_studio ? 'design' : 'develop';
+        delete challenge.isStudio;
+        return challenge;
+    });
 }
 
 /**
@@ -2327,3 +2578,338 @@ exports.submitForDesignChallenge = {
     }
 };
 
+/**
+ * Handle get active challenges api.
+ *
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Boolean} isDesign - the flag that represents search design challenges or not.
+ * @param {Object} listType - which type of challenges to get.
+ * @param {Function} next - the callback function.
+ * @since 1.21
+ */
+var getChallenges = function (api, connection, isDesign, listType, next) {
+    var helper = api.helper,
+        query = connection.rawConnection.parsedURL.query,
+        caller = connection.caller,
+        copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
+            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo"],
+        dbConnectionMap = connection.dbConnectionMap,
+        sqlParams = {},
+        filter = {},
+        pageIndex,
+        pageSize,
+        sortColumn,
+        sortOrder,
+        prop,
+        result = {},
+        total,
+        challengeType,
+        queryName,
+        challenges;
+    for (prop in query) {
+        if (query.hasOwnProperty(prop)) {
+            query[prop.toLowerCase()] = query[prop];
+        }
+    }
+
+    challengeType = isDesign ? helper.studio : helper.software;
+
+    sortOrder = query.sortorder || "asc";
+    sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
+    pageIndex = Number(query.pageindex || 1);
+    pageSize = Number(query.pagesize || 50);
+
+    copyToFilter.forEach(function (p) {
+        if (query.hasOwnProperty(p.toLowerCase())) {
+            filter[p] = query[p.toLowerCase()];
+        }
+    });
+
+    async.waterfall([
+        function (cb) {
+            validateInputParameterV2(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
+        }, function (cb) {
+            if (pageIndex === -1) {
+                pageIndex = 1;
+                pageSize = MAX_INT;
+            }
+
+            setFilterV2(filter, sqlParams);
+            sqlParams = _.extend(sqlParams, {
+                first_row_index: (pageIndex - 1) * pageSize,
+                page_size: pageSize,
+                sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
+                sort_order: sortOrder.toLowerCase(),
+                // Set the project type id
+                project_type_id: challengeType.category,
+                // Set the submission phase status id.
+                registration_phase_status: helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType],
+                project_status_id: helper.LIST_TYPE_PROJECT_STATUS_MAP[listType],
+                user_id: caller.userId || 0,
+                userId: caller.userId || 0
+            });
+
+            // Check the private challenge access
+            api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            if (results.length === 0) {
+                // Return error if the user is not allowed to a specific group(communityId is set)
+                // or any group(communityId is not set).
+                cb(new UnauthorizedError('You don\'t belong to this group.'));
+                return;
+            }
+
+            if (!_.isUndefined(query.communityId)) {
+                // Private challenge only query name.
+                queryName = {
+                    count: CHALLENGES_QUERY[listType].privateQ.count,
+                    data: CHALLENGES_QUERY[listType].privateQ.data
+                };
+            } else {
+                // Public & Private challenge query name.
+                queryName = {
+                    count: CHALLENGES_QUERY[listType].publicQ.count,
+                    data: CHALLENGES_QUERY[listType].publicQ.data
+                };
+            }
+
+            async.parallel({
+                count: function (cbx) {
+                    api.dataAccess.executeQuery(queryName.count, sqlParams, dbConnectionMap, cbx);
+                },
+                data: function (cbx) {
+                    api.dataAccess.executeQuery(queryName.data, sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
+        }, function (results, cb) {
+            total = results.count[0].total;
+            challenges = results.data;
+            if (challenges.length === 0) {
+                result.data = [];
+            } else {
+                result.data = transferResultV2(challenges, helper);
+
+            }
+            result.total = total;
+            result.pageIndex = pageIndex;
+            result.pageSize = pageIndex === -1 ? total : pageSize;
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * The API for get active design challenges.
+ * @since 1.21
+ */
+exports.getActiveDesignChallenges = {
+    name: "getActiveDesignChallenges",
+    description: "get active design challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getActiveDesignChallenges#run", 'debug');
+            getChallenges(api, connection, true, api.helper.ListType.ACTIVE, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get open design challenges.
+ * @since 1.21
+ */
+exports.getOpenDesignChallenges = {
+    name: "getOpenDesignChallenges",
+    description: "get open design challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getOpenDesignChallenges#run", 'debug');
+            getChallenges(api, connection, true, api.helper.ListType.OPEN, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get upcoming design challenges.
+ * @since 1.21
+ */
+exports.getUpcomingDesignChallenges = {
+    name: "getUpcomingDesignChallenges",
+    description: "get upcoming design challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getUpcomingDesignChallenges#run", 'debug');
+            getChallenges(api, connection, true, api.helper.ListType.UPCOMING, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get past design challenges.
+ * @since 1.21
+ */
+exports.getPastDesignChallenges = {
+    name: "getPastDesignChallenges",
+    description: "get past design challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getPastDesignChallenges#run", 'debug');
+            getChallenges(api, connection, true, api.helper.ListType.PAST, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get active develop challenges.
+ * @since 1.21
+ */
+exports.getActiveDevelopChallenges = {
+    name: "getActiveDevelopChallenges",
+    description: "get active develop challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getActiveDevelopChallenges#run", 'debug');
+            getChallenges(api, connection, false, api.helper.ListType.ACTIVE, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get open develop challenges.
+ * @since 1.21
+ */
+exports.getOpenDevelopChallenges = {
+    name: "getOpenDevelopChallenges",
+    description: "get open develop challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getOpenDevelopChallenges#run", 'debug');
+            getChallenges(api, connection, false, api.helper.ListType.OPEN, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get upcoming develop challenges.
+ * @since 1.21
+ */
+exports.getUpcomingDevelopChallenges = {
+    name: "getUpcomingDevelopChallenges",
+    description: "get upcoming develop challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getUpcomingDevelopChallenges#run", 'debug');
+            getChallenges(api, connection, false, api.helper.ListType.UPCOMING, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get past develop challenges.
+ * @since 1.21
+ */
+exports.getPastDevelopChallenges = {
+    name: "getPastDevelopChallenges",
+    description: "get past develop challenges api",
+    inputs: {
+        required: [],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getPastDevelopChallenges#run", 'debug');
+            getChallenges(api, connection, false, api.helper.ListType.PAST, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
