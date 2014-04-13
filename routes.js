@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.31
+ * @version 1.32
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
  * Changes in 1.1:
  * - add routes for search challenges
@@ -73,10 +73,12 @@
  * - added route for getting marathon match challenge register info api
  * Changes in 1.31:
  * - add route for challenge rss output api.
+ * Changes in 1.32:
+ * - add routes for payment preference api.
  */
 
 /* ---------------------
-routes.js 
+routes.js
 
 For web clients (http and https) you can define an optional RESTful mapping to help route requests to actions.
 If the client doesn't specify and action in a param, and the base route isn't a named action,
@@ -84,7 +86,7 @@ the action will attempt to be discerned from this routes.js file.
 
 - routes remain optional
 - actions defiend in params directly `action=theAction` or hitting the named URL for an action `/api/theAction`
-    will always override RESTful routing 
+    will always override RESTful routing
 - you can mix explicitly defined params with route-defined params. If there is an overlap, the route-defined params win
   - IE: /api/user/123?userId=456 => `connection.userId = 123`
   - this is a change from previous versions
@@ -214,6 +216,8 @@ exports.routes = {
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
 
+        { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
@@ -235,6 +239,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
-        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
+        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" }
     ]
 };
