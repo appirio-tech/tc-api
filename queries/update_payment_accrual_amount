@@ -1,0 +1,1 @@
+update 'informix'.user_accrual set accrual_amount = @value@ where user_id = @userId@

@@ -1,0 +1,1 @@
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (@userId@, @value@);

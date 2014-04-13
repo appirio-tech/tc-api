@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.34
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv
+ * @version 1.35
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -80,6 +80,8 @@
  * - add route for apply develop review opportunities api.
  * changes in 1.34:
  * - added route for client active challenge costs
+ * Changes in 1.35:
+ * - add routes for payment preference api.
  */
 
 /* ---------------------
@@ -222,6 +224,8 @@ exports.routes = {
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
 
+        { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
@@ -246,6 +250,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
-        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
+        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" }
     ]
 };

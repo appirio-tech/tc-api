@@ -1,0 +1,1 @@
+SELECT payment_method_id, payment_method_desc FROM payment_method_lu WHERE active = 't' ORDER BY payment_method_list_order, 2;
