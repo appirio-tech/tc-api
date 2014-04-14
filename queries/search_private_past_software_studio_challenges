@@ -123,9 +123,9 @@ AND p.project_id IN (SELECT
                     WHERE ce.contest_eligibility_id = gce.contest_eligibility_id
                     AND gce.group_id = @communityId@)
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
-AND p.project_status_id IN (@project_status_id@)
+AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND pcl.project_type_id IN (@project_type_id@)
-AND pp1.phase_status_id IN (@registration_phase_status@)
+AND pp1.phase_status_id = 3
 AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
 
 AND NVL(pp.submission_actual_end_time, pp.submission_scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
