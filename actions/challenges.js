@@ -500,12 +500,24 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
                     count: 'search_private_software_studio_challenges_count',
                     challenges: 'search_private_software_studio_challenges'
                 };
+                if (listType === helper.ListType.PAST) {
+                    queryName = {
+                        count: 'search_private_past_software_studio_challenges_count',
+                        challenges: 'search_private_past_software_studio_challenges'
+                    };
+                }
             } else {
                 // Public & Private challenge query name.
                 queryName = {
                     count: 'search_software_studio_challenges_count',
                     challenges: 'search_software_studio_challenges'
                 };
+                if (listType === helper.ListType.PAST) {
+                    queryName = {
+                        count: 'search_past_software_studio_challenges_count',
+                        challenges: 'search_past_software_studio_challenges'
+                    };
+                }
             }
 
             async.parallel({
