@@ -72,5 +72,6 @@ AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p
   OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
                 WHERE x.login_id = @userId@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
                 AND ce.contest_id = p.project_id))
+and pp.actual_end_time > '2012-01-01 00:00:00'
 
-ORDER BY p.project_id  desc, @sortColumn@ @sortOrder@
+--ORDER BY p.project_id  desc, @sortColumn@ @sortOrder@
