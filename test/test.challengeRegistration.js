@@ -7,6 +7,9 @@
  * changes in 1.1:
  * -- Add verification for integration the forums operation(Module Assembly - Integrating Forums Wrapper with Challenge Registration API)
  * -- verify forum only if grantForumAccess is true
+ *
+ * changes in 1.2:
+ * -- Add test for 401, without auth header
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -262,7 +265,14 @@ describe('Challenge Registration API', function () {
             .expect(403, done);
     });
 
-
+    // when no auth header, should fail, expect 401.
+    it('Register again should fail', function (done) {
+        supertest(API_ENDPOINT)
+            .post("/v2/challenges/40000001/register")
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(401, done);
+    });
 
     /// Check if the data are in expected structure and data
     it('Register studio challenge with all of terms of use agreed should success', function (done) {
