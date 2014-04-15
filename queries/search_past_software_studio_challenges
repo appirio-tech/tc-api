@@ -36,10 +36,10 @@ FIRST @pageSize@
           where appeal.project_id = p.project_id and appeal.phase_type_id =6) AS appeals_end_date
 , (select max(NVL(ff.actual_end_time , ff.scheduled_end_time)) from project_phase ff 
           where ff.project_id = p.project_id and ff.phase_type_id =9) AS final_fix_end_date
-, 'null' AS current_phase_end_date
+, '' AS current_phase_end_date
 , 0 AS current_phase_remaining_time
-, 'null' AS current_status
-, 'null' current_phase_name
+, '' AS current_status
+, '' current_phase_name
 , (select nvl(pi30.value, 0) from project_info pi30, project_info pi26 where pi30.project_id = p.project_id and pi26.project_id = p.project_id
        and pi30.project_info_type_id = 30 and pi26.project_info_type_id = 26 and pi26.value = 'On') AS digital_run_points
 , NVL((SELECT max(event_id) FROM contest_project_xref x, contest c WHERE project_id = p.project_id AND c.contest_id = x.contest_id), 0) AS event_id
