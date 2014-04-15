@@ -1,0 +1,31 @@
+{
+    "total": 5,
+    "pageIndex": 2,
+    "pageSize": 3,
+    "payments": [
+        {
+            "description": "contest 3 1st place",
+            "type": "Contest Payment",
+            "createDate": "02/28/2014",
+            "releaseDate": "03/30/2014",
+            "paidDate": "04/08/2014",
+            "status": "Paid",
+            "amount": 200
+        },
+        {
+            "description": "contest 4 2nd place",
+            "type": "Contest Payment",
+            "createDate": "02/28/2014",
+            "releaseDate": "04/04/2014",
+            "paidDate": "04/08/2014",
+            "status": "Paid",
+            "amount": 500
+        }
+    ],
+    "summary": {
+        "paid": 1900,
+        "owed": 800,
+        "enteredIntoPaymentSystem": 455.39,
+        "accruing": 275
+    }
+}

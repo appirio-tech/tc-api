@@ -1,0 +1,11 @@
+SELECT
+  count(*) AS total
+FROM payment p,
+  payment_detail pd,
+  payment_type_lu pt
+WHERE p.most_recent_detail_id = pd.payment_detail_id
+  AND pd.payment_type_id NOT IN (3, 5)
+  AND pd.payment_type_id = pt.payment_type_id
+  AND p.user_id = @userId@
+  AND LOWER(pt.payment_type_desc) = LOWER('@type@')
+  AND pd.payment_status_id IN (@paymentStatusIds@)

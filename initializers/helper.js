@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.23
+ * @version 1.24
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -66,6 +66,10 @@
  * - add validatePassword method.
  * - introduce the stringUtils in this file.
  * - add PASSWORD_HASH_KEY.
+ * changes in 1.24
+ * - add PAYMENT_STATUS
+ * - add checkSortColumn function
+ * - update formatDate function
  */
 "use strict";
 
@@ -118,6 +122,19 @@ helper.studio = {
 helper.both = {
     community: 'both',
     category: [1, 2, 3]
+};
+
+/**
+ * payment status
+ */
+helper.PAYMENT_STATUS = {
+    53 : 'Paid',
+    55 : 'On Hold',
+    56 : 'Owed',
+    65 : 'Cancelled',
+    68 : 'Expired',
+    70 : 'Entered into payment system',
+    71 : 'Accruing'
 };
 
 /**
@@ -1155,7 +1172,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return date.substring(0, format.length);
+        return moment(date).format(format);
     }
     return '';
 };
@@ -1282,6 +1299,26 @@ helper.getFileTypes = function (api, dbConnectionMap, callback) {
             });
         }
     });
+};
+
+/**
+ * Check sort column.
+ *
+ * @param {Array} sortColumns - the valid sort columns list.
+ * @param {Object} sortColumn - the sort column to check.
+ * @return {Error} if input not valid.
+ *
+ * @since 1.24
+ */
+helper.checkSortColumn = function (sortColumns, sortColumn) {
+    var error = helper.checkArray(sortColumns, "sortColumns");
+    if (error) {
+        return error;
+    }
+    if (helper.getLowerCaseList(sortColumns).indexOf(sortColumn) === -1) {
+        return new IllegalArgumentError("The sort column '" + sortColumn + "' is invalid, it should be element of " + sortColumns + ".");
+    }
+    return null;
 };
 
 /*
