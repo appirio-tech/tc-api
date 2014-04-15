@@ -1,0 +1,12 @@
+SELECT
+  ps.payment_status_desc AS status,
+  SUM(pd.net_amount) AS sum
+FROM payment p,
+  payment_detail pd,
+  payment_status_lu ps
+WHERE p.most_recent_detail_id = pd.payment_detail_id
+  AND pd.payment_status_id = ps.payment_status_id
+  AND pd.payment_type_id NOT IN (3, 5)
+  AND ps.payment_status_id <> 69
+  AND p.user_id = @userId@
+GROUP BY 1
