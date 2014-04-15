@@ -6,9 +6,9 @@ FIRST @pageSize@
 , pcl.description AS challenge_type
 , challenge_name.value as challenge_name
 , p.tc_direct_project_id AS project_id
-, (select pc3.parameter FROM project_phase pp3, phase_criteria pc3 where p.project_id = pp3.project_id and pp3.project_phase_id = pc3.project_phase_id and  pp3.phase_type_id = 3
+, (select max(pc3.parameter) FROM project_phase pp3, phase_criteria pc3 where p.project_id = pp3.project_id and pp3.project_phase_id = pc3.project_phase_id and  pp3.phase_type_id = 3
 			AND pc3.phase_criteria_type_id = 1) AS screening_scorecard_id
-, (select pc4.parameter FROM project_phase pp4, phase_criteria pc4 where p.project_id = pp4.project_id and pp4.project_phase_id = pc4.project_phase_id and  pp4.phase_type_id = 4
+, (select max(pc4.parameter) FROM project_phase pp4, phase_criteria pc4 where p.project_id = pp4.project_id and pp4.project_phase_id = pc4.project_phase_id and  pp4.phase_type_id = 4
 			AND pc4.phase_criteria_type_id = 1) AS review_scorecard_id 
 , cmc_task_id.value as cmc_task_id
 , (select value from project_info forum where forum.project_id = p.project_id and forum.project_info_type_id = 4) as forum_id
@@ -73,4 +73,4 @@ AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p
                 WHERE x.login_id = @userId@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
                 AND ce.contest_id = p.project_id))
 
-ORDER BY @sortColumn@ @sortOrder@
+ORDER BY p.project_id  desc, @sortColumn@ @sortOrder@
