@@ -14,7 +14,7 @@ WHERE  (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id 
                 AND ce.contest_id = p.project_id))
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
 AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
-AND pcl.project_type_id = (@project_type_id@)
+AND pcl.project_type_id in (@project_type_id@)
 AND NVL(pp.actual_end_time, pp.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
 AND LOWER(challenge_name.value) LIKE ('@challengeName@')
