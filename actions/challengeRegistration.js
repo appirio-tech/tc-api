@@ -17,6 +17,9 @@
  *
  * changes in 1.4:
  * send email notification for design(studio) challenges registration
+ *
+ * changes in 1.5:
+ * check if there is a jwt (logged in user).
  */
 "use strict";
 
@@ -828,7 +831,8 @@ exports.registerChallenge = {
             function (cb) {
                 //Simple validations of the incoming parameters
                 var error = api.helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                    api.helper.checkMaxInt(challengeId, 'challengeId');
+                    api.helper.checkMaxInt(challengeId, 'challengeId') ||
+                    api.helper.checkMember(connection, 'You don\'t have the authority to do this. Please login.');
                 if (error) {
                     console.log("error: " +  error);
                     cb(error);
