@@ -448,7 +448,7 @@ exports.getClientActiveChallengeCosts = {
                         "reliability": item.reliability,
 						"challengeCreator": item.challenge_creator,
 						"challengeInitiator": item.challenge_initiator,
-						"challengeManagers": item.challenge_managers
+						"challengeManager": item.challenge_manager
                     };
                 });
 

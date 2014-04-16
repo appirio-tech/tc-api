@@ -94,20 +94,14 @@ SELECT
        WHERE chk_pp.project_id = p.project_id
        AND   chk_pp.phase_type_id = 15
       ) AS checkpoint_end_date,
-      REPLACE(
-                REPLACE(
-                    REPLACE(
-                        REPLACE(
-                            MULTISET(
-                                SELECT  ITEM ptl.name
-                                FROM project_phase all_pp
-                                INNER JOIN phase_type_lu ptl ON ptl.phase_type_id = all_pp.phase_type_id
-                                WHERE all_pp.project_id = p.project_id AND all_pp.phase_status_id = 2)::lvarchar,
-                            'MULTISET{'''
-                        ), '''}'
-                    ),''''
-                ),'MULTISET{}'
-             ) AS current_phase, 
+     (
+        SELECT   ptl.name
+		FROM project_phase all_pp
+		INNER JOIN phase_type_lu ptl ON ptl.phase_type_id = all_pp.phase_type_id
+		      WHERE all_pp.project_id = p.project_id AND all_pp.phase_status_id = 2
+		      and all_pp.project_phase_id = (select max(project_phase_id) from project_phase ph where ph.project_id = p.project_id and ph.phase_status_id = 2)
+                           
+      ) AS current_phase, 
       NVL((SELECT prize_amount 
        FROM prize prz 
        WHERE prz.project_id = p.project_id 
@@ -139,20 +133,17 @@ SELECT
        AND   ri.resource_info_type_id = 5), 0) AS reliability, 
        (select handle from user u where u.user_id = p.create_user) as challenge_creator,
        (select handle from user u, project_info pi58 where pi58.project_id = p.project_id and pi58.project_info_type_id = 58 and pi58.value=u.user_id) as challenge_initiator,
-	    REPLACE(
-                REPLACE(
-                    REPLACE(
-                        REPLACE(
-                            MULTISET(
-                                SELECT  ITEM handle
-                                FROM resource r, resource_info ri, user  u
-                                WHERE r.project_id = p.project_id and r.resource_id = ri.resource_id 
-                                       and ri.resource_info_type_id = 1 and r.resource_role_id = 13 and ri.value=u.user_id)::lvarchar,
-                            'MULTISET{'''
-                        ), '''}'
-                    ),''''
-                ),'MULTISET{}'
-             ) AS challenge_managers
+
+       (SELECT handle
+                FROM resource r, resource_info ri, user  u
+                    WHERE r.project_id = p.project_id and r.resource_id = ri.resource_id 
+                        and ri.resource_info_type_id = 1 and r.resource_role_id = 13 and ri.value=u.user_id
+                        and r.resource_id =
+                            (select min(r2.resource_id) from resource_info ri2, resource r2 
+                                 where  r2.project_id = p.project_id and r2.resource_id = ri2.resource_id 
+                                       and ri2.resource_info_type_id = 1 and r2.resource_role_id = 13
+									   and ri2.value not in (22770213,22719217)))::lvarchar
+         AS challenge_manager
 FROM project p
 INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
 INNER JOIN project_status_lu psl ON psl.project_status_id = p.project_status_id
