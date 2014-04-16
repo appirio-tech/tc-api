@@ -7898,3 +7898,104 @@ Payments APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+## Auth0 Callback API [/auth0/callback]
+### Auth0 Callback API [GET]
+
++ Parameters
+    + code (required, string, `drztXEojbzIYF5mg`) ... The access code.
+    + state (optional, string, `http%3A%2F%2Ftc.cloud.topcoder.com`) ... The redirect url.
+
++ Response 200 (application/json)
+
+        {
+                "code": "kHmqAt0e99pSfAKx",
+                "state": "http://tc.cloud.topcoder.com",
+                "handle": "heffan",
+                "userId": 132456,
+                "password": "4EjPjy6o+/C+dqNPnxIy9A==",
+                "result": "login",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "socialAccount": {
+                  "name": "tc123bk",
+                  "email": "",
+                  "givenName": "",
+                  "familyName": "",
+                  "emailVerified": false,
+                  "providerId": 4,
+                  "enterpriseLogin": false,
+                  "socialUserId": 5644427,
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "STjDXB7tfK2sFgQWIgKuuVUVv0ubZB9k3JBnuCKvkpIl5H4fhOSabOScMxAnhaeW"
+
+        }
+
++ Response 200 (application/json)
+
+        {
+                "code": "GE4U7TEzsB4NMe7e",
+                "state": "http://tc.cloud.topcoder.com",
+                "regUrl": "http://www.topcoder.com/?action=callback#access_token=wu9tZmWRnLJQ8pq0jVjxTEo3PSxnFGOEVyyWjMvudepwxRL1R5yILKSWmuvWX2J6&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3RjLTEyMy1iay5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDYzNTIyMDEwODcwMTQ1NzgwMTgiLCJhdWQiOiIzRXhqOXZGeGpja1NRN09NRW1VWnYzQWl5a0UwSzVPYSIsImV4cCI6MTM5Njg3ODc1OCwiaWF0IjoxMzk2ODQyNzU4LCJjbGllbnRJRCI6IjNFeGo5dkZ4amNrU1E3T01FbVVadjNBaXlrRTBLNU9hIiwiY3JlYXRlZF9hdCI6IjIwMTQtMDQtMDRUMDg6MTU6NTUuMzY0WiIsImVtYWlsIjoiZmx5dG9qMmVlQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmYW1pbHlfbmFtZSI6IlplbmciLCJnZW5kZXIiOiJtYWxlIiwiZ2l2ZW5fbmFtZSI6IkVyaWMiLCJpZGVudGl0aWVzIjpbeyJhY2Nlc3NfdG9rZW4iOiJ5YTI5LjEuQUFEdE5fV2VTdF9UMmp2aTdMYV9DTUlGMXBpX1JDS3BkbVRTajBpQU9kM01MZno0M0ItaE5SRHRYZGhOZ0liZV9RIiwicHJvdmlkZXIiOiJnb29nbGUtb2F1dGgyIiwiZXhwaXJlc19pbiI6MzYwMCwidXNlcl9pZCI6IjEwNjM1MjIwMTA4NzAxNDU3ODAxOCIsImNvbm5lY3Rpb24iOiJnb29nbGUtb2F1dGgyIiwiaXNTb2NpYWwiOnRydWV9XSwibG9jYWxlIjoiemgtQ04iLCJuYW1lIjoiRXJpYyBaZW5nIiwibmlja25hbWUiOiJmbHl0b2oyZWUiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1YZFVJcWRNa0NXQS9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS80MjUycnNjYnY1TS9waG90by5qcGciLCJ1c2VyX2lkIjoiZ29vZ2xlLW9hdXRoMnwxMDYzNTIyMDEwODcwMTQ1NzgwMTgifQ.0p9nsPLaFtJsnW5W7_Rd7MqH5EEAiALxXwxup4mRxdQ&token_type=bearer&state=http%3A%2F%2Fwww.topcoder.com",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "result": "register",
+                "socialAccount": {
+                  "name": "",
+                  "email": "email@gmail.com",
+                  "givenName": "name",
+                  "familyName": "name",
+                  "emailVerified": true,
+                  "providerId": 2,
+                  "enterpriseLogin": false,
+                  "socialUserId": "106352201087014578018",
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "wu9tZmWRnLJQ8pq0jVjxTEo3PSxnFGOEVyyWjMvudepwxRL1R5yILKSWmuvWX2J6"
+                }
+        }
+
++ Response 200 (application/json)
+
+        {
+                "code": "STSYzhWDjVBqjAIN",
+                "state": "http://tc.cloud.topcoder.com",
+                "handle": "heffan",
+                "userId": 132456,
+                "password": "4EjPjy6o+/C+dqNPnxIy9A==",
+                "result": "login",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "socialAccount": {
+                  "name": "heffan",
+                  "email": "",
+                  "givenName": "",
+                  "familyName": "",
+                  "emailVerified": false,
+                  "providerId": 50,
+                  "enterpriseLogin": true,
+                  "socialUserId": "132456",
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "C6Ayl5Hy2MeMvTIzK7fvsu5I8xhT943UGn9aJRfTPFvikQbPWowVcZW5krwcuDDc"
+                }
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"The social account should have at least one valid email or one valid username."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Fails to get access token from auth0."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Fails to get user info from auth0."
+        }
