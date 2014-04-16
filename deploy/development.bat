@@ -2,9 +2,14 @@
 REM
 REM Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
 REM
-REM Version: 1.0
-REM Author: TrePe
+REM Version: 1.1
+REM Author: TrePe, isv
 REM
+REM Changes in 1.1
+REM - added RESET_PASSWORD_TOKEN_CACHE_EXPIRY environment variable
+REM - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
+REM - added REDIS_HOST environment variable
+REM - added REDIS_PORT environment variable
 
 REM tests rely on caching being off. But set this to a real value (or remove) while coding.
 
@@ -50,7 +55,6 @@ set TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 set TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 set TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
-set TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 
 set PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 REM JDBC connection pool environment variables - set for all databases
@@ -64,9 +68,17 @@ REM Used in Jira soap service (Bugs API)
 set JIRA_USERNAME=api_test
 set JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
-REM Used in challenge registration API
+REM Forum settings
+set TC_FORUMS_SERVER_NAME="http://forums.topcoder.com/"
+set STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 set GRANT_FORUM_ACCESS=false
 set DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
 set ACTIONHERO_CONFIG=./config.js
 
+REM The period for expiring the generated tokens for password resetting (in milliseconds)
+set RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
+set RESET_PASSWORD_TOKEN_CACHE_EXPIRY=180000
+
+rem set REDIS_HOST=localhost
+rem set REDIS_PORT=6379

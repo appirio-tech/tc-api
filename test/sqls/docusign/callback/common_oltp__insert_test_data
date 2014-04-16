@@ -1,0 +1,2 @@
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id, create_date, modify_date) VALUES(132456, 20753, '2013-12-12 00:00:00', '2013-12-12 00:00:00');
+INSERT INTO user_terms_of_use_ban_xref(user_id, terms_of_use_id) VALUES(124772, 20753);

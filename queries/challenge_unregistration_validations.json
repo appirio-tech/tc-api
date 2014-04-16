@@ -1,0 +1,5 @@
+{
+    "name"    : "challenge_unregistration_validations",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "challenge_unregistration_validations"
+}

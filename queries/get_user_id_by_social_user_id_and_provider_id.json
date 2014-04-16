@@ -1,0 +1,5 @@
+{
+  "name"    : "get_user_id_by_social_user_id_and_provider_id",
+  "db"      : "common_oltp",
+  "sqlfile" : "get_user_id_by_social_user_id_and_provider_id"
+}

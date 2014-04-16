@@ -1,5 +1,5 @@
 INSERT INTO resource
-	(	resource_id, 
+	(	resource_id,
 	 	resource_role_id,
 	 	project_id,
 	 	user_id,

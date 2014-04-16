@@ -1,0 +1,5 @@
+{
+    "name"    : "get_user_review_applications",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_user_review_applications"
+}

@@ -1,0 +1,15 @@
+INSERT INTO jivegroup(groupid, name, description, creationdate, modificationdate) VALUES (101, 'Software_Users_1001', 'contest for autotest 1', 1395226951776, 1395226951776);
+INSERT INTO jivegroup(groupid, name, description, creationdate, modificationdate) VALUES (102, 'Software_Moderators_1001', 'contest for autotest 1', 1395226951776, 1395226951776);
+INSERT INTO jivegroup(groupid, name, description, creationdate, modificationdate) VALUES (103, 'Software_Users_1002', 'contest for autotest 2', 1395226951776, 1395226951776);
+INSERT INTO jivegroup(groupid, name, description, creationdate, modificationdate) VALUES (104, 'Software_Moderators_1002', 'contest for autotest 2', 1395226951776, 1395226951776);
+
+INSERT INTO jivegroupuser (groupid, userid, administrator) VALUES	(1001,400011, 0);
+
+INSERT INTO jivecategory (categoryid, name, description, creationdate, modificationdate, lft, rgt) VALUES (1001, 'test_1001', 'test_1001', 1396014756004, 1396014756004, 1001, 1003);
+
+INSERT INTO jiveuserperm (objecttype, objectid, userid, permissiontype, permission) VALUES (14, 1001, 400011, 1, 0);
+INSERT INTO jiveuserperm (objecttype, objectid, userid, permissiontype, permission) VALUES (14, 1001, 400011, 1, 2);
+INSERT INTO jiveuserperm (objecttype, objectid, userid, permissiontype, permission) VALUES (14, 1001, 400011, 1, 1);
+INSERT INTO jiveuserperm (objecttype, objectid, userid, permissiontype, permission) VALUES (14, 1001, 400011, 1, 6);
+INSERT INTO jiveuserperm (objecttype, objectid, userid, permissiontype, permission) VALUES (14, 1001, 400011, 1, 4);
+INSERT INTO jiveuserperm (objecttype, objectid, userid, permissiontype, permission) VALUES (14, 1001, 400011, 1, 10);

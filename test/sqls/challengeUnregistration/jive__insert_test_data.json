@@ -1,0 +1,5 @@
+{
+  "name"    : "jive__insert_test_data",
+  "db"      : "jive",
+  "sqlfile" : "jive__insert_test_data"
+}

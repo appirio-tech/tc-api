@@ -1,12 +1,14 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author Ghost_141, Sky_, muzehyun
+ * @version 1.3
+ * @author Ghost_141, Sky_, muzehyun, isv
  * Changes in 1.1
  * - add invoice history (challenge costs) api.
  * Changes in 1.2
  * - add active billing account api.
+ * Changes in 1.3
+ * - added getClientActiveChallengeCosts function
  */
 'use strict';
 
@@ -300,6 +302,7 @@ exports.getActiveBillingAccounts = {
     version: 'v2',
     transaction: 'read',
     databases: ["time_oltp"],
+	cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute getActiveBillingAccounts#run", 'debug');
         var dbConnectionMap = connection.dbConnectionMap,
@@ -340,3 +343,122 @@ exports.getActiveBillingAccounts = {
         });
     }
 }; // getActiveBillingAccounts
+
+
+/**
+ * The API for getting active client challenge costs
+ */
+exports.getClientActiveChallengeCosts = {
+    name: "getClientActiveChallengeCosts",
+    description: "getClientActiveChallengeCosts",
+    inputs: {
+        required: [],
+        optional: ["clientId", "sfdcAccountId", 'customerNumber']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    cacheEnabled: false,
+    databases: ["tcs_catalog"],
+    run: function (api, connection, next) {
+        api.log("Execute getClientActiveChallengeCosts#run", 'debug');
+        var dbConnectionMap = connection.dbConnectionMap,
+            helper = api.helper,
+            clientId = 0,
+            cmc = connection.params.sfdcAccountId || "",
+            customerNumber = connection.params.customerNumber || "",
+            sqlParameters,
+            costs;
+
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+        async.waterfall([
+            function (cb) {
+                //Admin only
+                cb(helper.checkAdmin(connection));
+            },
+            function (cb) {
+                var error;
+                if (_.isDefined(connection.params.clientId)) {
+                    clientId = Number(connection.params.clientId);
+                    error = error || helper.checkPositiveInteger(clientId, "clientId");
+                    //don't check maxInt, because clientId is DECIMAL in database, not integer
+                }
+                cb(error);
+            }, function (cb) {
+                sqlParameters = {
+                    clientid: clientId,
+                    cmc_account_id: cmc,
+                    customer_number: customerNumber
+                };
+                if (_.isDefined(connection.params.clientId) || _.isDefined(connection.params.sfdcAccountId)) {
+                    api.dataAccess.executeQuery("check_client_active_challenge_costs_exists", sqlParameters,
+                        dbConnectionMap, cb);
+                } else {
+                    cb(null, ["dummy"]);
+                }
+            }, function (results, cb) {
+                if (!results.length) {
+                    cb(new NotFoundError('Client not found'));
+                    return;
+                }
+                api.dataAccess.executeQuery("get_client_active_challenge_costs", sqlParameters, dbConnectionMap, cb);
+            }, function (results, cb) {
+                costs = _.map(results, function (item) {
+                    var duration = parseFloat(item.challenge_duration.toFixed(1)),
+                        currentPhaseText = item.current_phase,
+                        currentPhaseArray = [];
+
+                    if (currentPhaseText) {
+                        currentPhaseArray = currentPhaseText.split(',');
+                    }
+
+                    return {
+                        "customerName": item.customer_name,
+                        "customerNumber": item.customer_number,
+                        "customerId": item.customer_id,
+                        "billingAccountId": item.billing_account_id,
+                        "billingAccountName": item.billing_account_name,
+                        "projectName": item.project_name,
+                        "challengeName": item.challenge_name,
+                        "challengeId": item.challenge_id,
+                        "challengeType": item.challenge_type,
+                        "challengeStatus": item.challenge_status,
+                        "postingDate": moment(item.posting_date).format("YYYY-MM-DD"),
+                        "completionDate": moment(item.completion_date).format("YYYY-MM-DD"),
+                        "challengeMemberCost": item.challenge_member_cost,
+                        "challengeFee": item.challenge_fee,
+                        "challengeTotalCost": item.challenge_member_cost + item.challenge_fee,
+                        "challengeDuration": duration,
+                        "lastModificationDate": moment(item.last_modification_date).format("YYYY-MM-DD"),
+                        "registrationEndDate": moment(item.registration_end_date).format("YYYY-MM-DD"),
+                        "submissionEndDate": moment(item.submission_end_date).format("YYYY-MM-DD"),
+                        "checkpointEndDate": moment(item.checkpoint_end_date).format("YYYY-MM-DD"),
+                        "currentPhase": currentPhaseArray,
+                        "firstPrize": item.first_prize,
+                        "totalPrize": item.total_prize,
+                        "checkpointPrize": item.checkpoint_prize,
+                        "registrantsCount": item.registrants_count,
+                        "submissionsCount": item.submissions_count,
+                        "checkpointSubmissionsCount": item.checkpoint_submissions_count,
+                        "challengeScheduledEndDate": moment(item.challenge_scheduled_end_date).format("YYYY-MM-DD"),
+                        "reliability": item.reliability
+                    };
+                });
+
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = {"active": costs};
+            }
+            next(connection, true);
+        });
+    }
+};
+

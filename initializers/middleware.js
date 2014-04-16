@@ -29,7 +29,7 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
  * TODO: This is just a temporary implement.
  */
 var PRIVATE_ACTIONS = ['getActiveBillingAccounts', 'getClientChallengeCosts', 'getChallengeCosts',
-        'getChallengeTerms', 'getBasicUserProfile'];
+        'getChallengeTerms', 'getBasicUserProfile', 'getMyProfile', 'getClientActiveChallengeCosts'];
 
 /**
  * calculate the key for cache.

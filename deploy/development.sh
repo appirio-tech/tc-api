@@ -1,18 +1,23 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+# Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.1
-# Author: vangavroche, TCSASSEMBLER
+# Version: 1.2
+# Author: vangavroche, isv
 # changes in 1.1:
 # - add JIRA_USERNAME and JIRA_PASSWORD
+# changes in 1.2:
+# - added RESET_PASSWORD_TOKEN_CACHE_EXPIRY environment variable
+# - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
+# - added REDIS_HOST environment variable
+# - added REDIS_PORT environment variable
 #
 
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
-VM_IP=informix.cloud.topcoder.com
+VM_IP=informix.cloud.topcoder.com 
 if [ -n "$TC_VM_IP" ]
 then
 VM_IP=$TC_VM_IP
@@ -46,14 +51,13 @@ export TC_BIND_DN="cn=Manager,dc=topcoder,dc=com"
 export TC_EMAIL_HOST=smtp.gmail.com
 export TC_EMAIL_HOST_PORT=465
 export TC_EMAIL_SECURED=true
-export TC_EMAIL_ACCOUNT=tc.ldap.test@gmail.com
+export TC_EMAIL_ACCOUNT=tc.ldap.test.1@gmail.com
 export TC_EMAIL_PASSWORD=tc_public_email
-export TC_EMAIL_FROM=tc.ldap.test@gmail.com
+export TC_EMAIL_FROM=tc.ldap.test.1@gmail.com
 export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 export TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
-export TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 
 export PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 ## JDBC connection pool environment variables - set for all databases
@@ -67,8 +71,18 @@ export TIMEOUT=3000
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
-# Used in challenge registration API
+# Forum settings
+export TC_FORUMS_SERVER_NAME="http://forums.topcoder.com/"
+export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
 export ACTIONHERO_CONFIG=./config.js
+
+## The period for expiring the generated tokens for password resetting
+export RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
+# Set this to 180000 which is 3 mins. This will help saving time for test.
+export RESET_PASSWORD_TOKEN_CACHE_EXPIRY=180000
+
+export REDIS_HOST=localhost
+export REDIS_PORT=6379

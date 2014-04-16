@@ -1,146 +1,120 @@
 SELECT
 SKIP @firstRowIndex@
 FIRST @pageSize@
-  CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
-, p.project_id AS challenge_id
-, pcl.description AS challenge_type
-, pi.challenge_name
-, p.tc_direct_project_id AS project_id
-, screening.parameter AS screening_scorecard_id
-, review.parameter AS review_scorecard_id
-, pi.cmc_task_id
-, pi.forum_id
-, (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
-    WHERE u1.project_id = p.project_id
-    AND s1.submission_type_id IN (1, 3)
-    AND s1.submission_status_id <> 5) AS num_submissions
-, (SELECT COUNT(*) FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 1) AS num_registrants
-, NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
-, pr.top_checkpoint_prize
-, pr.prize1
-, pr.prize2
-, pr.prize3
-, pr.prize4
-, pr.prize5
-, pr.prize6
-, pr.prize7
-, pr.prize8
-, NVL(pp.registration_actual_end_time, pp.registration_scheduled_end_time) AS registration_end_date
-, NVL(pp.checkpoint_actual_end_time , pp.checkpoint_scheduled_end_time) AS checkpoint_submission_end_date
-, NVL(pp.submission_actual_end_time, pp.submission_scheduled_end_time) AS submission_end_date
-, NVL(pp.appeals_scheduled_end_time, review.scheduled_end_time) AS appeals_end_date
-, NVL(pp.final_fix_actual_end_time, pp.final_fix_scheduled_end_time) AS final_fix_end_date
-, NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
-, (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS current_phase_remaining_time
-, pstatus.name AS current_status
-, CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
-      (SELECT phase_type_lu.description FROM phase_type_lu
-        WHERE phase_type_id = nd_phase.phase_type_id)
-       ELSE NULL
-       END AS current_phase_name
-, CASE WHEN pi.digital_run_flag = 'On' THEN NVL(pi.digital_run_points, pi.payments)
-       ELSE NULL
-       END AS digital_run_points
-, NVL((SELECT max(event_id) FROM contest_project_xref x, contest c WHERE project_id = p.project_id AND c.contest_id = x.contest_id), 0) AS event_id
-, (SELECT event_short_desc FROM event e WHERE e.event_id = nvl((SELECT max(event_id) FROM contest_project_xref x, contest c WHERE project_id = p.project_id AND c.contest_id = x.contest_id), 0)) AS event_name
-, technology_list(p.project_id) AS technology
-, platform_list(p.project_id) AS platforms
-FROM project p
-LEFT JOIN (
-  SELECT
-    project_id
-  , MAX(CASE WHEN prize_type_id = 14 AND place = 1 THEN prize_amount ELSE NULL END) AS top_checkpoint_prize
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 1 THEN prize_amount ELSE NULL END) AS prize1
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 2 THEN prize_amount ELSE NULL END) AS prize2
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 3 THEN prize_amount ELSE NULL END) AS prize3
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 4 THEN prize_amount ELSE NULL END) AS prize4
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 5 THEN prize_amount ELSE NULL END) AS prize5
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 6 THEN prize_amount ELSE NULL END) AS prize6
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 7 THEN prize_amount ELSE NULL END) AS prize7
-  , MAX(CASE WHEN prize_type_id = 15 AND place = 8 THEN prize_amount ELSE NULL END) AS prize8
-  FROM prize
-  WHERE prize_type_id IN (14, 15)
-  GROUP BY project_id
-) pr ON pr.project_id = p.project_id
-INNER JOIN (
-  SELECT
-    project_id
-  , MAX(DECODE(phase_type_id, 1, actual_end_time, NULL)) AS registration_actual_end_time
-  , MAX(DECODE(phase_type_id, 1, scheduled_end_time, NULL)) AS registration_scheduled_end_time
-  , MAX(DECODE(phase_type_id, 2, actual_end_time, NULL)) AS submission_actual_end_time
-  , MAX(DECODE(phase_type_id, 2, scheduled_end_time, NULL)) AS submission_scheduled_end_time
-  , MAX(DECODE(phase_type_id, 6, scheduled_end_time, NULL)) AS appeals_scheduled_end_time
-  , MAX(DECODE(phase_type_id, 9, actual_end_time, NULL)) AS final_fix_actual_end_time
-  , MAX(DECODE(phase_type_id, 9, scheduled_end_time, NULL)) AS final_fix_scheduled_end_time
-  , MAX(DECODE(phase_type_id, 15, actual_end_time, NULL)) AS checkpoint_actual_end_time
-  , MAX(DECODE(phase_type_id, 15, scheduled_end_time, NULL)) AS checkpoint_scheduled_end_time
-  FROM project_phase
-  WHERE phase_type_id IN (1,2,6,9,15)
-  GROUP BY project_id
-) pp ON pp.project_id = p.project_id
-INNER JOIN (
-  SELECT
-    project_id
-  , MAX(DECODE(project_info_type_id, 4, value, '')) AS forum_id
-  , MAX(DECODE(project_info_type_id, 16, value, '')) AS payments
-  , MAX(DECODE(project_info_type_id, 26, value, '')) AS digital_run_flag
-  , MAX(DECODE(project_info_type_id, 30, value, '')) AS digital_run_points
-  , MAX(DECODE(project_info_type_id, 70, value, '')) AS cmc_task_id
-  , MAX(DECODE(project_info_type_id, 6, value, '')) AS challenge_name
-  FROM project_info
-  WHERE project_info_type_id IN (70, 30, 16, 26, 4, 6)
-  GROUP BY project_id
-) pi ON pi.project_id = p.project_id
-LEFT OUTER JOIN (
-  SELECT
-    pp3.project_id
-  , pc3.parameter
-  FROM project_phase pp3
-  LEFT OUTER JOIN phase_criteria pc3 ON pp3.project_phase_id = pc3.project_phase_id
-  WHERE pp3.phase_type_id = 3
-  AND pc3.phase_criteria_type_id = 1
-) screening ON screening.project_id = p.project_id
-LEFT OUTER JOIN (
-  SELECT
-    pp4.project_id
-  , pc4.parameter
-  , pp4.scheduled_end_time
-  FROM project_phase pp4
-  LEFT OUTER JOIN phase_criteria pc4 ON pp4.project_phase_id = pc4.project_phase_id
-  WHERE pp4.phase_type_id = 4
-  AND pc4.phase_criteria_type_id = 1
-) review ON review.project_id = p.project_id
-LEFT OUTER JOIN (
-  SELECT
-    scheduled_end_time
-  , actual_end_time
-  , phase_type_id
-  , project_id
-  FROM project_phase
-  WHERE project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase pp WHERE pp.project_id = project_id AND pp.phase_status_id = 2 AND pp.phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
-) nd_phase ON nd_phase.project_id = p.project_id
-INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1
-INNER JOIN project_status_lu pstatus ON p.project_status_id = pstatus.project_status_id
-, project_category_lu pcl
-WHERE 1=1
-AND p.project_category_id = pcl.project_category_id
--- Filter the private challenge
-AND p.project_id IN (SELECT
-                      contest_id
-                    FROM contest_eligibility ce
-                    , group_contest_eligibility gce
-                    WHERE ce.contest_eligibility_id = gce.contest_eligibility_id
-                    AND gce.group_id = @communityId@)
-AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
-AND p.project_status_id IN (@project_status_id@)
-AND pcl.project_type_id IN (@project_type_id@)
-AND pp1.phase_status_id IN (@registration_phase_status@)
-AND NVL(pp.submission_actual_end_time, pp.submission_scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+       CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
+     , pcl.description AS challenge_type
+     , pn.value AS challenge_name
+     , p.project_id AS challenge_id
+     , p.tc_direct_project_id AS project_id
+     , p.project_category_id AS project_type
+     , pc3.parameter AS screening_scorecard_id
+     , pc4.parameter AS review_scorecard_id
+     , (select value from project_info pi70 where pi70.project_id = p.project_id and project_info_type_id = 70) AS cmc_task_id
+     , pi4.value AS forum_id
+     , (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
+           WHERE u1.project_id = p.project_id
+               AND s1.submission_type_id IN (1, 3)
+               AND s1.submission_status_id <> 5) AS num_submissions
+     , (SELECT COUNT(*) FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 1) AS num_registrants
+     , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14 AND pr.place = 1)::DECIMAL(10,2) AS top_checkpoint_prize
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1)::DECIMAL(10,2) AS prize1
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 2)::DECIMAL(10,2) AS prize2
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 3)::DECIMAL(10,2) AS prize3
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 4)::DECIMAL(10,2) AS prize4
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 5)::DECIMAL(10,2) AS prize5
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 6)::DECIMAL(10,2) AS prize6
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 7)::DECIMAL(10,2) AS prize7
+     , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 8)::DECIMAL(10,2) AS prize8
+     , (SELECT NVL(NVL(ppd.actual_start_time, psd.actual_start_time), ppd.scheduled_start_time)
+          FROM project proj
+             , OUTER project_phase psd
+             , OUTER project_phase ppd
+         WHERE psd.project_id = proj.project_id
+           AND psd.phase_type_id = 2
+           AND ppd.project_id = proj.project_id
+           AND proj.project_id = p.project_id
+           AND ppd.phase_type_id = 1) AS posting_date
+     , NVL(NVL(pp1.actual_end_time, pp1.scheduled_end_time), NVL(pp2.actual_end_time, pp2.scheduled_end_time)) AS registration_end_date
+     , NVL(pp15.actual_end_time , pp15.scheduled_end_time) AS checkpoint_submission_end_date
+     , NVL(pp2.actual_end_time, pp2.scheduled_end_time) AS submission_end_date
+     , NVL(NVL(pp6.actual_end_time, pp6.scheduled_end_time), NVL(pp4.actual_end_time, pp4.scheduled_end_time)) AS appeals_end_date
+     , NVL(pp9.actual_end_time, pp9.scheduled_end_time) AS final_fix_end_date
+     , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
+     , (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS current_phase_remaining_time
+     , pstatus.name AS current_status
+     , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
+                (SELECT phase_type_lu.description FROM phase_type_lu
+                WHERE phase_type_id = nd_phase.phase_type_id)
+            ELSE NULL
+            END AS current_phase_name
+     , CASE WHEN pidr.value = 'On' THEN
+       NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
+       ELSE NULL END AS digital_run_points
+  FROM project p
+     , project_status_lu pstatus
+     , project_phase pp1 --registration phase
+     , project_phase pp2 --submission phase
+     , outer project_phase pp6 --appeals phase
+     , outer project_phase pp15 --checkpoint submission phase
+     , outer project_phase pp9 --final fix phase
+     , outer ( project_phase pp3  --screening phase
+     , outer phase_criteria pc3 ) --screening phase scorecard
+     , outer ( project_phase pp4 --review phase
+     , outer phase_criteria pc4)  --review phase scorecard
+     , project_info pn
+     , outer project_info pidr
+     , outer project_phase nd_phase
+     , project_category_lu pcl
+     , outer project_info pi4 --forum id
+ WHERE 1=1
+   AND p.project_status_id = pstatus.project_status_id
+   AND p.project_id = pn.project_id
+   AND pn.project_info_type_id = 6
+   AND pp1.project_id = p.project_id
+   AND pp1.phase_type_id = 1  --registration phase
+   AND pp2.project_id = p.project_id
+   AND pp2.phase_type_id = 2  --submission phase
+   AND pp6.project_id = p.project_id
+   AND pp6.phase_type_id = 6  --appeals phase
+   AND pp15.project_id = p.project_id
+   AND pp15.phase_type_id = 15 --checkpoint submission phase
+   AND pp9.project_id = p.project_id
+   AND pp9.phase_type_id = 9  --final fix phase
+   AND pp9.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_type_id = 9) --last final fix only
+   AND pp3.project_id = p.project_id
+   AND pp3.phase_type_id = 3  --screening phase
+   AND pp3.project_phase_id = pc3.project_phase_id
+   AND pc3.phase_criteria_type_id = 1 -- scorecardid type
+   AND pp4.project_id = p.project_id
+   AND pp4.phase_type_id = 4  --review phase
+   AND pp4.project_phase_id = pc4.project_phase_id
+   AND pc4.phase_criteria_type_id = 1 -- scorecardid type
+   AND pidr.project_id = p.project_id
+   AND pidr.project_info_type_id = 26  --digital run
+   AND pi4.project_id = p.project_id
+   AND pi4.project_info_type_id = 4  --forum id
+   AND p.project_Id = nd_phase.project_id
+   AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
+   AND p.project_category_id = pcl.project_category_id
+   -- Filter the private challenge
+   AND p.project_id IN (SELECT
+                          contest_id
+                        FROM contest_eligibility ce
+                        , group_contest_eligibility gce
+                        WHERE ce.contest_eligibility_id = gce.contest_eligibility_id
+                        AND gce.group_id = @communityId@)
+   AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
+   -- start of parameters
+   AND pstatus.project_status_id IN (@project_status_id@)
+   AND pcl.project_type_id IN (@project_type_id@)
+   AND pp1.phase_status_id IN (@registration_phase_status@)
+   AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 
-AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
-AND LOWER(pi.challenge_name) LIKE ('@challengeName@')
-AND NVL(pr.prize1, 0) >= @prilower@
-AND NVL(pr.prize1, 0) <= @priupper@
-AND p.tc_direct_project_id = DECODE(@tcdirectid@, 0, p.tc_direct_project_id, @tcdirectid@)
-AND NVL(LOWER(pi.cmc_task_id), '') = DECODE('@cmc@', '', NVL(LOWER(pi.cmc_task_id), ''), '@cmc@')
+   AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
+   AND LOWER(pn.value) LIKE ('@challengeName@')
+   AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prilower@
+   AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @priupper@
+   AND p.tc_direct_project_id = DECODE(@tcdirectid@, 0, p.tc_direct_project_id, @tcdirectid@)
+   AND NVL(LOWER((select value from project_info pi70 where pi70.project_id = p.project_id and project_info_type_id = 70)), '') = DECODE('@cmc@', '', NVL(LOWER((select value from project_info pi70 where pi70.project_id = p.project_id and project_info_type_id = 70)), ''), '@cmc@')
 ORDER BY @sortColumn@ @sortOrder@

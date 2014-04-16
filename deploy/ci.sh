@@ -1,10 +1,16 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+# Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.0
-# Author: vangavroche, delemach
+# Version: 1.1
+# Author: vangavroche, delemach, isv
+#
+# changes in 1.1:
+# - added RESET_PASSWORD_TOKEN_CACHE_EXPIRY environment variable
+# - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
+# - added REDIS_HOST environment variable
+# - added REDIS_PORT environment variable
 #
 export CACHE_EXPIRY=-1
 
@@ -50,7 +56,6 @@ export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 export TC_SOFTWARE_SERVER_NAME="https://www.topcoder.com"
-export TC_FORUMS_SERVER_NAME="https://www.topcoder.com"
 
 #export DISABLE_CONSOLE_LOG=true
 
@@ -66,8 +71,17 @@ export TIMEOUT=3000
 export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
-# Used in challenge registration API
+# Forum settings
+export TC_FORUMS_SERVER_NAME="http://forums.topcoder.com/"
+export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
 export ACTIONHERO_CONFIG=./config.js
+
+## The period for expiring the generated tokens for password resetting
+export RESET_PASSWORD_TOKEN_CACHE_EXPIRY=1800000
+export RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
+
+export REDIS_HOST=localhost
+export REDIS_PORT=6379

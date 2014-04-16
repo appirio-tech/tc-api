@@ -295,6 +295,241 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Client Active Challenge Costs [/reports/client/activeCosts/?clientid={clientId}&sfdcAccountId={cmc}&customerNumber={customerNumber}]
+### Client Active Challenge Costs [GET]
+
++ Parameters
+    + clientId (optional, number, `4310`) ... Client Id
+    + sfdcAccountId (optional, string, `4310`) ... CMC account ID
+    + customerNumber (optional, string, `4310`) ... Customer number
+
++ Response 200 (application/json)
+
+{
+    "active": [
+        {
+            "customerName": "Client 9000001",
+            "customerNumber": "900000100",
+            "customerId": 9000001,
+            "billingAccountId": 9000001,
+            "billingAccountName": "Client 9000001 Billing Account 1",
+            "projectName": "Client 9000001 Billing Account 1 Project 2",
+            "challengeName": "Logo Design Contest 2",
+            "challengeId": 9000002,
+            "challengeType": "Logo Design",
+            "challengeStatus": "Active",
+            "postingDate": "2014-03-27",
+            "completionDate": "2014-03-29",
+            "challengeMemberCost": 0,
+            "challengeFee": 375,
+            "challengeTotalCost": 375,
+            "challengeDuration": 1.8,
+            "lastModificationDate": "2014-03-29",
+            "registrationEndDate": "2014-03-29",
+            "submissionEndDate": "2014-04-03",
+            "checkpointEndDate": "2014-03-30",
+            "currentPhase": "Checkpoint Screening",
+            "firstPrize": 1700,
+            "totalPrize": 1870,
+            "checkpointPrize": 170,
+            "registrantsCount": 2,
+            "submissionsCount": 0,
+            "checkpointSubmissionsCount": 2,
+            "challengeScheduledEndDate": "2014-04-08",
+            "reliability": 4
+        },
+        {
+            "customerName": "Client 9000001",
+            "customerNumber": "900000100",
+            "customerId": 9000001,
+            "billingAccountId": 9000002,
+            "billingAccountName": "Client 9000001 Billing Account 2",
+            "projectName": "Client 9000001 Billing Account 2 Project 1",
+            "challengeName": "Conceptualization Contest 3",
+            "challengeId": 9000003,
+            "challengeType": "Conceptualization",
+            "challengeStatus": "Active",
+            "postingDate": "2014-03-25",
+            "completionDate": "2014-03-29",
+            "challengeMemberCost": 0,
+            "challengeFee": 6001,
+            "challengeTotalCost": 6001,
+            "challengeDuration": 4.3,
+            "lastModificationDate": "2014-03-29",
+            "registrationEndDate": "2014-03-27",
+            "submissionEndDate": "2014-03-30",
+            "checkpointEndDate": "2014-03-28",
+            "currentPhase": "Submission",
+            "firstPrize": 1000,
+            "totalPrize": 1088,
+            "checkpointPrize": 88,
+            "registrantsCount": 3,
+            "submissionsCount": 0,
+            "checkpointSubmissionsCount": 3,
+            "challengeScheduledEndDate": "2014-04-10",
+            "reliability": 227
+        }
+    ]
+}
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"Client not found"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Challenge Analyze [/reports/analyze]
+### Challenge Analyze [GET]
+
++ Response 200 (application/json)
+
+        {
+             "results":
+             [
+                {
+                    "challengeName": "TC-API Analzye API",
+                    "projectName": "TC-API",
+                    "challengeType": "Assembly",
+                    "client": "Topcoder",
+                    "copilot": "iRabbit",
+                    "csm": "3",
+                    "architect": "none",
+                    "pm": "nlouie",
+                    "challengeStatus": "active",
+                    "currentPhase": "registration",
+                    "numberOfRegistrants": 15,
+                    "numberOfUnregistered": 5,
+                    "estimatedNumberOfSubmissions": 3,
+                    "currentNumberOfSubmissions": 1,
+                    "openRegistrationDate": "2014-04-01",
+                    "forumPosts": "11/25",
+                    "numberOfUnansweredThread": 3,
+                    "1stPlacePrize": "1600/50",
+                    "2ndPlacePrize": "750/25",
+                    "numberOfDaysLive": "13.5/0.5",
+                    "rating": "3/5/10",
+                    "numberOfRepost": 0,
+                    "comments": "good resgirations" 
+                }
+             ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Track Statistics [/reports/{track}?startDate={startDate}&endDate={endDate}]
+### Track Statistics [GET]
+
++ Parameters
+    + track (required, string, `design`) ... Track Name. Only allow "Design", "Develop" and "Data"
+    + startDate (optional, string, `2013-01-01`) ... timespan start date
+    + endDate (optional, string, `2014-01-01`) ... timespan end date
+
++ Response 200 (application/json)
+
+        {
+            "numberOfRunningChallenges": 10,
+            "totalPrizeOfRunningChallenges": 13500,
+            "totalPrizeInGivenTime": 120000,
+            "numberOfChallengesInGivenTime": 100,
+            "numberOfRegisteredUsers": 90,
+            "numberOfActiveUsers": 50
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 # Group Platform
 Platform APIs
 
@@ -516,7 +751,10 @@ Register a new user.
             "country" : "UK",
             "email" : "name@domain.com",
             "password" : "HashedPassword",
-            "regSource": "http://registration.source.domain.com"
+            "regSource": "http://registration.source.domain.com",
+            "utm_source": "a",
+            "utm_medium": "b",
+            "utm_campaign": "c"
         }
 
 ### Create a new user [POST]
@@ -944,7 +1182,49 @@ Register a new user.
             "address": "address1, city, Maine, 04043, United States",
             "age": "25 - 34",
             "gender": "Male",
-            "shirt_size": "Medium"
+            "shirt_size": "Medium",
+            "privacy": {
+                "showMySchool": "Yes",
+                "showMyEarnings": "No",
+                "receiveMessages": "Yes",
+                "messageBlackList": ["handleA", "handleB"]
+             },
+             "emailNotification": {
+                "competitionAnnouncements": {
+                    "algorithmCompetitions": "No",
+                    "softwareDevelopmentOpportunities": "Yes",
+                    "topCoderStudioCompetitions": "No"
+                },
+                "others": {
+                    "employmentOpportunities": "Yes",
+                    "topCoderNewsAndEvents": "Yes",
+                    "topCoderDesignStudioNewsletter": "No"
+                }
+             },
+             "demographic": {
+                "nonEnglishName": "name1",
+                "jobTitle": "Lorem ipsum",
+                "company": "company1",
+                "country": "Indonesia",
+                "representedCountry": "Indonesia",
+                "phone": "555555",
+                "timeZone": "US/Central",
+                "age": "18 - 25",
+                "gender": "Male",
+                "ethnicBackground": "Asian or Pacific Islander",
+                "primaryInterest": "Creative Competition",
+                "shirtSize": "Small",
+                "collegeMajor": "Computer Science",
+                "collegeMajorDescription": "Software Design",
+                "degreeProgram": "Bachelors",
+                "graduationDate": "21/02/2011",
+                "clubsOrOrganizations": "None",
+                "school": "Harvard University",
+                "gpa": 3.5,
+                "gpaScale": 5,
+                "isStudent": "Yes",
+                "isProfessional": "No"
+             }
         }
 
 + Response 400 (application/json)
@@ -1056,17 +1336,17 @@ Register a new user.
 
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
-- return token for topcoder user
+- return "successful" flag set to true
 - return social provider name for social login user
 
 + Parameters
-    + handle (optional, string, `iRabbit`) ... Member Handle
-    + email (optional, string, `test@test.com`) ... Email Address
+    + handle (optional, string, `iRabbit`) ... Member Handle or Social Login Username
+    + email (optional, string, `test@test.com`) ... Member Email (mutually exclusive with handle parameter)
 
 + Response 200 (application/json)
 
         {
-            "token":"a3cbG"
+            "successful":"true"
         }
 
 + Response 200 (application/json)
@@ -1080,7 +1360,31 @@ Register a new user.
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"The handle you entered is not valid"
+            "description":"Either handle or email must be specified"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Both handle and email are specified"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You have already requested the reset token, please find it in your email inbox. If it's not there. Please contact support@topcoder.com."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"User does not exist"
         }
 
 + Response 500 (application/json)
@@ -1098,6 +1402,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
 
 ## Reset Password [/users/resetPassword/{handle}]
 ### Reset Password [POST]
@@ -1211,6 +1516,65 @@ Register a new user.
             "name":"Internal Server Error",
             "value":"500",
             "description":"password is not updated successfully"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Activate User [/users/activate?code={code}]
+### Activate User [GET]
++ Parameters
+    + code (required, string, `BHWXAG3R`) ... The activation code
+
++ Response 200 (application/json)
+
+        {
+             "success": true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Empty activation code"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid activation code"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"User has been activated"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Email has been activated"
         }
 
 + Response 500 (application/json)
@@ -1446,6 +1810,165 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+
+## Apply Develop Review Opportunity Detail [/develop/reviewOpportunities/{challengeId}/apply]
+### Apply Develop Review Opportunity Information [POST]
+
++ Request
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTQwODA3MTEsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzk0MDIwNzExfQ.xaaaElykyAq3woRRkcFQSUK0gvKnRCOhCD57x070GJ4
+
++ Parameters
+
+    + challengeId (required, number, `30000000`) ... The challenge id.
+    + reviewApplicationRoleId (optional, number, `1`) ... The review application role id to apply.
+
++ Response 200 (application/json)
+
+        {
+            "message": "Your review application for this contest has been cancelled."
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "You have successfully applied to review this contest. The system will automatically select reviewers that best match the review positions for this contest on 03.26.2014 08:00. You will be notified by email what review role you were assigned to."
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "You have successfully applied to review this contest. The system will automatically decide whether you match the reviewer requirements for this contest now. You will be notified by email shortly."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"reviewApplicationRoleId should be an element of 1,2,3,4,5,6,7,8,9."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The challenge is not existed or don't have any review opportunities or review registration is not open."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You can't apply the review application role that do not belong to this challenge."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You are not a Review Board member."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"You are already assigned as reviewer for the contest."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There are no open positions for this challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"There is no open positions for selected review application role: Primary Reviewer."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You should agree with all terms of use."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Anonymous user don't have permission to access this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The user is not allowed to register this challenge review."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
         
 ## Challenge Reviewers Collection [/develop/reviewers/{contestType}]
 ### List reviewers of current challenge type [GET]
@@ -1524,7 +2047,7 @@ Register a new user.
 
 + Parameters
     + handle (required, string, `iRabbit`) ... Member Handle
-    + track (optional, string, 'development') ... The track name
+    + track (optional, string, `development`) ... The track name
 
 + Response 200 (application/json)
 
@@ -1744,7 +2267,6 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-
         
 ## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Software Challenges [GET]
@@ -1904,12 +2426,617 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Active Software Challenges [GET]
 
-## Get Software Challenge Detail [/develop/challenges/{id}]
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
+                    "projectId": 6484,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 660,
+                    "digitalRunPoints": 990,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
+                    "projectId": 6778,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 360,
+                    "digitalRunPoints": 0,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Open Software Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
+                    "projectId": 6484,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 660,
+                    "digitalRunPoints": 990,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
+                    "projectId": 6778,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 360,
+                    "digitalRunPoints": 0,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Past Software Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
+                    "projectId": 6484,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 660,
+                    "digitalRunPoints": 990,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
+                    "projectId": 6778,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 360,
+                    "digitalRunPoints": 0,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Upcoming Software Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
+                    "projectId": 6484,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 660,
+                    "digitalRunPoints": 990,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
+                    "projectId": 6778,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 360,
+                    "digitalRunPoints": 0,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Get Software Challenge Detail [/develop/challenges/{challengeId}]
 ### Get Software Challenge Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
         
@@ -2572,7 +3699,7 @@ Register a new user.
 
 + Parameters
     + challlengeId (required, integer, 545464) ... The challenge id 
-    + submissionFile (required, string, `abcd.zip`) ... The submission zip 
+    + submissionFile (required, string, `abcd.zip`) ... The submission zip
     + sourceFile (required, string, `efgh.zip`) ... The source zip
     + previewFile (required, string, `hijk.png`) ... The preview image file
     + type (optional, string, `checkpoint`) ... The type of submission. Can be 'submission' or 'checkpoint'. If absent, 'submission' is assumed.
@@ -2842,11 +3969,487 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
-## Get Studio Challenge Detail [/design/challenges/{id}]
+## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Active Studio Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    
++ Response 200 (application/json)
+        
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "data": 
+            [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Search Open Studio Challenges [/design/challenges/open?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Open Studio Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    
++ Response 200 (application/json)
+        
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "data": 
+            [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Search Past Studio Challenges [/design/challenges/past?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Past Studio Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    
++ Response 200 (application/json)
+        
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "data": 
+            [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Upcoming Studio Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    
++ Response 200 (application/json)
+        
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "data": 
+            [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+        
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+        
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Get Studio Challenge Detail [/design/challenges/{challengeId}]
 ### Get Studio Challenge Information [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -4241,6 +5844,199 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get Marathon Match Challenge Reg Info [/data/marathon/challenges/{roundId}/regInfo]
+### Get Marathon Match Challenge Reg Info [GET]
+
++ Parameters
+    + roundId (required, number, `30000000`) ... The challenge round id.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+        {
+            "term": {
+                "contestName": "Marathon Match 90",
+                "roundName": "Round 2001",
+                "termsContent": "Marathon Match terms content"
+            },
+            "questions": [
+                {
+                    "id": 1000,
+                    "style": "Multiple Choice",
+                    "type": "Eligible",
+                    "text": "question 1000",
+                    "answers": [
+                        {
+                            "id": 1002,
+                            "text": "answer text 1",
+                            "sortOrder": 1,
+                            "correct": true
+                        },
+                        {
+                            "id": 1001,
+                            "text": "answer text 2",
+                            "sortOrder": 2,
+                            "correct": false
+                        },
+                        {
+                            "id": 1003,
+                            "text": "answer text 3",
+                            "sortOrder": 3,
+                            "correct": false
+                        }
+                    ]
+                },
+                {
+                    "id": 1001,
+                    "style": "Short Answer",
+                    "type": "Personal",
+                    "text": "question 1001",
+                    "answers": []
+                },
+                {
+                    "id": 1002,
+                    "style": "Single Choice",
+                    "type": "Eligible",
+                    "text": "question 1002",
+                    "answers": [
+                        {
+                            "id": 1004,
+                            "text": "answer text 4",
+                            "sortOrder": -1,
+                            "correct": false
+                        },
+                        {
+                            "id": 1005,
+                            "text": "answer text 5",
+                            "sortOrder": 1,
+                            "correct": true
+                        }
+                    ]
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"You are not eligible to participate in this competition."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"Round doesn't exist 30005520."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"In order to participate in this competition, you must register for <font color=\"red\">Event 30005520</font>. Registration is available: <a href=\"www.topcoder.com\">here</a>. Please register at the provided URL first and then repeat registration at Marathon Match Active Contests page."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Registration is not currently open."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"You are not eligible to participate in this competition. Please contact support@topcoder.com if you have any questions."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Sorry, this round is by invitation only."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Sorry, you can not register for this round, you must compete in the version of this round that you were invited to."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"There are no more spots available for the round."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Authorization information needed or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"The user is forbidden to access this endpoint."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details":"Could not find specified round terms."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 ## Register Marathon Match Challenge [/data/marathon/challenges/{roundId}/register]
 ### Register Marathon Match Challenge [POST]
 
@@ -5230,6 +7026,134 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Unregister for a software/studio challenge [/challenges/{challengeId}/unregister]
+### Unregister for a software/studio challenge [POST]
+
++ Parameters
+    + challengeId (required, number, `1234567`) ... The challenge for which to Unregister
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTM3MDM1NzEsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkzNjQzNTcxfQ.F2iohKp2nwjQeGqrBD1wn42GJUD0r28aGjhDle7KujA
+
++ Response 200 (application/json)
+
+        {
+          "message":"ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"You don\'t have the authority to access this. Please login."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You cannot unregister since registration phase is closed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You are not registered for this challenge."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"No such challenge exists."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Failed to connect to forum"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Could not find user challenge resource"
+        }
+
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Could not find user challenge forum"
+        }
+
+
++ Response 500 (application/json)
+
+        {
+            "name": "Internal Server Error",
+            "value": 500,
+            "description": "Something is broken. Please contact support.",
+            "details": "Could not find forum category 3"
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 # Group Terms Of Use API
 ## View terms of use [/terms/detail/{termsOfUseId}]
 ### View terms of use by id [GET]
@@ -5682,4 +7606,420 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
+        }
+        
+# Group Download API
+
+## Download Documents API [/download/document/{docid}?challengeId={challengeId}]
+### Download Documents API [GET]
+
++ Parameters
+    + docid (required, number, `123456`) ... The document id.
+    + challengeId (required, number, `12345678`) ... The challenge id.
+
++ Response 200 (application/octet-stream)
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Download Design Submissions API [/design/download/{submissionId}?submissionType={submissionType}]
+### Download Design Submissions API [GET]
+
++ Parameters
+    + submission (required, number, `123456`) ... The submission id.
+    + submissionType (required, string, `preview`) ... The submission type should be preview or original
+
++ Response 200 (application/octet-stream)
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Download Develop Submissions API [/develop/download/{submissionId}]
+### Download Develop Submissions API [GET]
+
++ Parameters
+    + submission (required, number, `123456`) ... The submission id.
+
++ Response 200 (application/octet-stream)
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+# Group Payments API
+Payments APIs
+
+## Payment Preference [/payments/preference]
+### Payment Preference [GET]
+    
++ Response 200 (application/json)
+
+        {
+             "paymentAccrualAmount": 50,
+             "paymentMethod": "WesternUnion",
+             "paypalAccountEmail": "test@paypal.com"
+        }
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeType should be an element of develop,design,data."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"listType should be an element of ACTIVE,OPEN,UPCOMING,PAST."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Payment List [/payments?type={type}&status={status}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Payment List [GET]
+
++ Parameters
+    + status (optional, string, `Paid`) ... Payment Status: Paid, Owed, Cancelled, Entered into payment system
+    + type (optional, string, `Contest Payment`) ... Payment Type: Contest Payment, Review Payment, Copilot Payment, etc..
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `description`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    
++ Response 200 (application/json)
+
+        {
+            "total": 21,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "payments": [
+                {
+                    "description": "[TCCC-4789] - Cockpit Instant Search Task",
+                    "type": "Contest Payment",
+                    "createDate": "12/13/2012",
+                    "releaseDate": "13/01/1012",
+                    "status": "Paid",
+                    "amount": 250
+                },
+                {
+                    "description": "(Application, v1.0) TC API - Studio Challenge Result API Update - First2Finish review board",
+                    "type": "Review Board Payment",
+                    "createDate": "12/13/2012",
+                    "releaseDate": "13/01/1012",
+                    "status": "Paid",
+                    "amount": 3
+                }
+            ],
+            "summary": {
+                "paid": 10000.0,
+                "owed": 1234.0,
+                "cancelled": 100.0,
+                "enteredIntoPaymentSystem": 50.0
+            }
+        }
+ 
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Docusign Callback [/terms/docusignCallback]
+### Docusign Callback [POST]
+
++ Parameters
+    + envelopeStatus (required, String, `Complete`) ... The status of the envelope
+    + envelopeId (required, UUID, `9103DC77-D8F1-4D7B-BED1-6116604EE98C`) ... The envelope to process
+    + tabs (required, Array, [{tabLabel: 'Handle', tabValue: 'anix'}, {...}]) ... The tab values. Can be empty
+    + connectKey (required, String, 'ABCDED-12435-EDFADSEC') The conenct key
+
++ Response 200 (application/json)
+        {
+             "message": "some message"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Auth0 Callback API [/auth0/callback]
+### Auth0 Callback API [GET]
+
++ Parameters
+    + code (required, string, `drztXEojbzIYF5mg`) ... The access code.
+    + state (optional, string, `http%3A%2F%2Ftc.cloud.topcoder.com`) ... The redirect url.
+
++ Response 200 (application/json)
+
+        {
+                "code": "kHmqAt0e99pSfAKx",
+                "state": "http://tc.cloud.topcoder.com",
+                "handle": "heffan",
+                "userId": 132456,
+                "password": "4EjPjy6o+/C+dqNPnxIy9A==",
+                "result": "login",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "socialAccount": {
+                  "name": "tc123bk",
+                  "email": "",
+                  "givenName": "",
+                  "familyName": "",
+                  "emailVerified": false,
+                  "providerId": 4,
+                  "enterpriseLogin": false,
+                  "socialUserId": 5644427,
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "STjDXB7tfK2sFgQWIgKuuVUVv0ubZB9k3JBnuCKvkpIl5H4fhOSabOScMxAnhaeW"
+
+        }
+
++ Response 200 (application/json)
+
+        {
+                "code": "GE4U7TEzsB4NMe7e",
+                "state": "http://tc.cloud.topcoder.com",
+                "regUrl": "http://www.topcoder.com/?action=callback#access_token=wu9tZmWRnLJQ8pq0jVjxTEo3PSxnFGOEVyyWjMvudepwxRL1R5yILKSWmuvWX2J6&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3RjLTEyMy1iay5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDYzNTIyMDEwODcwMTQ1NzgwMTgiLCJhdWQiOiIzRXhqOXZGeGpja1NRN09NRW1VWnYzQWl5a0UwSzVPYSIsImV4cCI6MTM5Njg3ODc1OCwiaWF0IjoxMzk2ODQyNzU4LCJjbGllbnRJRCI6IjNFeGo5dkZ4amNrU1E3T01FbVVadjNBaXlrRTBLNU9hIiwiY3JlYXRlZF9hdCI6IjIwMTQtMDQtMDRUMDg6MTU6NTUuMzY0WiIsImVtYWlsIjoiZmx5dG9qMmVlQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmYW1pbHlfbmFtZSI6IlplbmciLCJnZW5kZXIiOiJtYWxlIiwiZ2l2ZW5fbmFtZSI6IkVyaWMiLCJpZGVudGl0aWVzIjpbeyJhY2Nlc3NfdG9rZW4iOiJ5YTI5LjEuQUFEdE5fV2VTdF9UMmp2aTdMYV9DTUlGMXBpX1JDS3BkbVRTajBpQU9kM01MZno0M0ItaE5SRHRYZGhOZ0liZV9RIiwicHJvdmlkZXIiOiJnb29nbGUtb2F1dGgyIiwiZXhwaXJlc19pbiI6MzYwMCwidXNlcl9pZCI6IjEwNjM1MjIwMTA4NzAxNDU3ODAxOCIsImNvbm5lY3Rpb24iOiJnb29nbGUtb2F1dGgyIiwiaXNTb2NpYWwiOnRydWV9XSwibG9jYWxlIjoiemgtQ04iLCJuYW1lIjoiRXJpYyBaZW5nIiwibmlja25hbWUiOiJmbHl0b2oyZWUiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1YZFVJcWRNa0NXQS9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS80MjUycnNjYnY1TS9waG90by5qcGciLCJ1c2VyX2lkIjoiZ29vZ2xlLW9hdXRoMnwxMDYzNTIyMDEwODcwMTQ1NzgwMTgifQ.0p9nsPLaFtJsnW5W7_Rd7MqH5EEAiALxXwxup4mRxdQ&token_type=bearer&state=http%3A%2F%2Fwww.topcoder.com",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "result": "register",
+                "socialAccount": {
+                  "name": "",
+                  "email": "email@gmail.com",
+                  "givenName": "name",
+                  "familyName": "name",
+                  "emailVerified": true,
+                  "providerId": 2,
+                  "enterpriseLogin": false,
+                  "socialUserId": "106352201087014578018",
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "wu9tZmWRnLJQ8pq0jVjxTEo3PSxnFGOEVyyWjMvudepwxRL1R5yILKSWmuvWX2J6"
+                }
+        }
+
++ Response 200 (application/json)
+
+        {
+                "code": "STSYzhWDjVBqjAIN",
+                "state": "http://tc.cloud.topcoder.com",
+                "handle": "heffan",
+                "userId": 132456,
+                "password": "4EjPjy6o+/C+dqNPnxIy9A==",
+                "result": "login",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "socialAccount": {
+                  "name": "heffan",
+                  "email": "",
+                  "givenName": "",
+                  "familyName": "",
+                  "emailVerified": false,
+                  "providerId": 50,
+                  "enterpriseLogin": true,
+                  "socialUserId": "132456",
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "C6Ayl5Hy2MeMvTIzK7fvsu5I8xhT943UGn9aJRfTPFvikQbPWowVcZW5krwcuDDc"
+                }
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"The social account should have at least one valid email or one valid username."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Fails to get access token from auth0."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Fails to get user info from auth0."
         }

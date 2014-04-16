@@ -1,10 +1,12 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.1
- * Author: TCSASSEMBLER
+ * Version: 1.2
+ * Author: TCSASSEMBLER, Ghost_141, isv
  * Changes in 1.1:
  * - add PUNCTUATION and PASSWORD_ALPHABET.
+ * Changes in 1.2:
+ * - add generateRandomString function.
  */
 
 "use strict";
@@ -51,6 +53,23 @@ exports.containsOnly = function (string, alphabet) {
     }
 
     return true;
+};
+
+/**
+ * Generates random string of specified length using the symbols from the specified alphabet.
+ * 
+ * @param {String} alphabet - alphabet to use for string generation.
+ * @param {Number} length - the length for the string to be generated.
+ * @since 1.1
+ */
+exports.generateRandomString = function (alphabet, length) {
+    var text = '', i, index;
+    for (i = 0; i < length; i = i + 1) {
+        index = Math.random() * alphabet.length;
+        text += alphabet.charAt(index);
+    }
+
+    return text;
 };
 
 exports.ALPHABET_ALPHA_UPPER_EN = ALPHABET_ALPHA_UPPER_EN;

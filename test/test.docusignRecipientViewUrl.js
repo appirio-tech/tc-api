@@ -199,25 +199,6 @@ describe('Test Docusign Get Recipient View Url', function () {
     });
 
     /**
-     * Test getDocumentViewURL when login to Docusign fails
-     * should return 500
-     */
-    it('should return 500 error when login to Docusign fails', function (done) {
-        var correctPassword = config.docusign.password;
-        config.docusign.password = 'wrong_password';
-        var req = getRequest('/v2/terms/docusign/viewURL', user124764, 500);
-
-        req.send({ templateId: config.docusign.affidavitTemplateId})
-            .end(function (err, resp) {
-                assertError(err, resp, 'Login to DocuSign server failed.', function () {
-                    //make sure we restore the correct password for further tests
-                    config.docusign.password = correctPassword;
-                    done();
-                });
-            });
-    });
-
-    /**
      * Test getDocumentViewURL when user passes non-existent template id
      * should return 404
      */
@@ -262,25 +243,6 @@ describe('Test Docusign Get Recipient View Url', function () {
                 });
             }
         ], done);
-    });
-
-    /**
-     * Test getDocumentViewURL when requesting recipient view fails
-     * should return 500
-     */
-    it('should return 500 error when requesting recipient view fails', function (done) {
-        var roleName = config.docusign.roleName;
-        config.docusign.roleName = '';
-        var req = getRequest('/v2/terms/docusign/viewURL', user124764, 500);
-
-        req.send({ templateId: config.docusign.affidavitTemplateId})
-            .end(function (err, resp) {
-                assertError(err, resp, 'Requesting recipient view failed.', function () {
-                    //make sure we restore the correct roleName for further tests
-                    config.docusign.roleName = roleName;
-                    done();
-                });
-            });
     });
 
     /**
@@ -338,18 +300,17 @@ describe('Test Docusign Get Recipient View Url', function () {
     /**
      * Test getDocumentViewURL for success using affidavit template
      * Tests when the envelope_id already exists for given user and template, in DB (because of previous test)
-     * A new record must not be created again in DB.
+     * A new record must be created again in DB.
      * should return 200
      */
-    it('should return 200 for success when eneveope info already exists in DB', function (done) {
+    it('should return 200 for success when envelope info already exists in DB', function (done) {
         var req = getRequest('/v2/terms/docusign/viewURL', user124764, 200);
 
         req.send({ templateId: config.docusign.affidavitTemplateId })
             .end(function (err, resp) {
                 testHelper.runSqlSelectQuery("* from docusign_envelope where user_id = 124764 and docusign_template_id = '" + config.docusign.affidavitTemplateId + "'",
                     "informixoltp", function (err, result) {
-                        assert.equal(result.length, 1, 'A new record must NOT be created in docusign_envelope table. Record count must still be 1.');
-                        assert.equal(result[0].docusign_envelope_id, resp.body.envelopeId, 'The same envelopeId must be used.');
+                        assert.equal(result.length, 2, 'A new record must be created in docusign_envelope table. Record count must be 2 now.');
                         done();
                     });
             });

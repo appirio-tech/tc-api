@@ -1,0 +1,5 @@
+DELETE FROM long_comp_result WHERE round_id >= 2001;
+DELETE FROM round WHERE round_id >= 2001;
+DELETE FROM contest;
+DELETE FROM round_type_lu;
+DELETE FROM algo_rating_type_lu;

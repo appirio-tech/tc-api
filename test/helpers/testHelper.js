@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.5
- * @author Sky_, muzehyun, Ghost_141, OlinaRuan, TCSASSEMBLER
+ * @author Sky_, muzehyun, Ghost_141, OlinaRuan
  * changes in 1.1:
  * - add getTrimmedData method
  * changes in 1.2:
@@ -12,7 +12,9 @@
  * changes in 1.4
  * - add updateTextColumn method.
  * Changes in 1.5:
+ * - add deleteCachedKey, addCacheValue and getCachedValue method.
  * - add PASSWORD_HASH_KEY
+ * - remove unused dependency.
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true */
@@ -25,6 +27,7 @@ var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
 var ldap = require('ldapjs');
+var redis = require('redis');
 
 /**
  * The test helper
@@ -444,6 +447,51 @@ helper.bindClient = function (client, callback) {
         } else {
             callback(null);
         }
+    });
+};
+
+/**
+ * Get cached value from redis server.
+ * @param {String} key - the key value.
+ * @param {Function} cb - the callback function.
+ * @since 1.5
+ */
+helper.getCachedValue = function (key, cb) {
+    var client = redis.createClient();
+    client.get(key, function (err, value) {
+        cb(err, JSON.parse(value));
+    });
+    // Quit the client.
+    client.quit();
+};
+
+/**
+ * Delete the key from redis server.
+ *
+ * @param {String} key - the key value.
+ * @param {Function} cb - the callback function.
+ * @since 1.5
+ */
+helper.deleteCachedKey = function (key, cb) {
+    var client = redis.createClient();
+    client.del(key, function (err) {
+        cb(err);
+        client.quit();
+    });
+};
+
+/**
+ * Add cache to redis server.
+ * @param {String} key - the key for cache value.
+ * @param {Object} value - the value to cache.
+ * @param {Function} cb - the callback function.
+ * @since 1.5
+ */
+helper.addCacheValue = function (key, value, cb) {
+    var client = redis.createClient();
+    client.set(key, JSON.stringify(value), function (err) {
+        cb(err);
+        client.quit();
     });
 };
 

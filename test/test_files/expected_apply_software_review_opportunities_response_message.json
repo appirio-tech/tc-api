@@ -1,0 +1,26 @@
+{
+    "challengeId" : {
+        "notNumber": "challengeId should be number.",
+        "notPositive": "challengeId should be positive.",
+        "notInteger": "challengeId should be Integer.",
+        "tooBig": "challengeId should be less or equal to 2147483647."
+    },
+    "unauthorized": "Anonymous user don't have permission to access this api.",
+    "invalidReviewApplicationRole": "reviewApplicationRoleId should be an element of 1,2,3,4,5,6,7,8,9.",
+    "invalidReviewApplicationId": "You can't apply the review application role that do not belong to this challenge.",
+    "notSupportedReviewApplicationRoleId": "You can't apply the review application role that do not belong to this challenge.",
+    "notReviewer": "You are not a Review Board member.",
+    "forbidden": "The user is not allowed to register this challenge review.",
+    "alreadyAReviewer": "You are already assigned as reviewer for the contest.",
+    "noOpenPositions": "There are no open positions for this challenge.",
+    "noPositionsForPrimaryReviewer": "There is no open positions for selected review application role: Primary Reviewer.",
+    "noPositionsForSecondaryReviewer": "There is no open positions for selected review application role: Secondary Reviewer.",
+    "invalidChallenge": "The challenge is not existed or don't have any review opportunities or review registration is not open.",
+    "notAgreedTerms": "You should agree with all terms of use.",
+    "success": {
+        "afterAssignment": "You have successfully applied to review this contest. The system will automatically decide whether you match the reviewer requirements for this contest now. You will be notified by email shortly.",
+        "beforeAssignmentPrefix": "You have successfully applied to review this contest. The system will automatically select reviewers that best match the review positions for this contest on ",
+        "beforeAssignmentSuffix": ". You will be notified by email what review role you were assigned to.",
+        "cancelled": "Your review application for this contest has been cancelled."
+    }
+}

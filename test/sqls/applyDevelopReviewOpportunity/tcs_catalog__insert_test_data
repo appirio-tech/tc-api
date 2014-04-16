@@ -1,0 +1,187 @@
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2001, 2001, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 2001, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 2001, 2, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 2001, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 2001, 4, 1, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 6, 3, 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2003, 2003, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2005, 2003, 1, 3, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2006, 2003, 2, 3, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2007, 2003, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2008, 2003, 4, 3, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2008, 6, 3, 132456, current, 132456, current);
+
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 1, 13, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2004, 2004, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2009, 2004, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2010, 2004, 2, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2011, 2004, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2012, 2004, 4, 2, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2012, 6, 3, 132456, current, 132456, current);
+
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2005, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2005, 2005, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2013, 2005, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2014, 2005, 2, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2015, 2005, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2016, 2005, 4, 1, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2016, 6, 3, 132456, current, 132456, current);
+
+INSERT INTO contest_eligibility(contest_eligibility_id, contest_id, is_studio) VALUES(2001, 2005, 0);
+INSERT INTO group_contest_eligibility(contest_eligibility_id, group_id) VALUES(2001, 208);
+
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2006, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2006, 2006, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2017, 2006, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2018, 2006, 2, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2019, 2006, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2020, 2006, 4, 1, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2020, 6, 3, 132456, current, 132456, current);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES(2001, 4, 2006, 2020, 132456, 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES(2002, 4, 2006, 2020, 132458, 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES(2003, 4, 2006, 2020, 124764, 132456, current, 132456, current);
+
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2007, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2007, 2007, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2021, 2007, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2022, 2007, 2, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2023, 2007, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2024, 2007, 4, 1, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2024, 6, 3, 132456, current, 132456, current);
+
+INSERT INTO review_application(review_application_id, user_id, review_auction_id, review_application_role_id, review_application_status_id, create_date, modify_date)
+VALUES(2002, 132456, 2007, 1, 3, current, current);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) 
+VALUES(2004, 2, 2007, 132456, current, 132456, current);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2004, 1, '132456', 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) 
+VALUES(2005, 4, 2007, 132456, current, 132456, current);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2005, 1, '132456', 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) 
+VALUES(2006, 8, 2007, 132456, current, 132456, current);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2006, 1, '132456', 132456, current, 132456, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) 
+VALUES(2007, 9, 2007, 132456, current, 132456, current);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2007, 1, '132456', 132456, current, 132456, current);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2008, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2008, 2008, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2025, 2008, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2026, 2008, 2, 2, current, current + 3 units month, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2027, 2008, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2028, 2008, 4, 1, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2028, 6, 3, 132456, current, 132456, current);
+
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES(2009, 1, 14, 132456, current, 132456, current);
+
+INSERT INTO review_auction(review_auction_id, project_id, review_auction_type_id) VALUES(2009, 2009, 1);
+
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2029, 2009, 1, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2030, 2009, 2, 2, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2031, 2009, 3, 1, current, current, 86400000, 132456, current, 132456, current);
+INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES(2032, 2009, 4, 1, current, current, 86400000, 132456, current, 132456, current);
+
+INSERT INTO phase_criteria(project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+VALUES(2032, 6, 3, 132456, current, 132456, current);
+
+INSERT INTO review_application(review_application_id, user_id, review_auction_id, review_application_role_id, review_application_status_id, create_date, modify_date)
+VALUES(2003, 124766, 2009, 2, 3, current, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) 
+VALUES(2008, 4, 2009, 132456, current, 132456, current);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2008, 1, '124766', 132456, current, 132456, current);
+
+INSERT INTO review_application(review_application_id, user_id, review_auction_id, review_application_role_id, review_application_status_id, create_date, modify_date)
+VALUES(2004, 124764, 2009, 2, 3, current, current);
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) 
+VALUES(2009, 4, 2009, 132456, current, 132456, current);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(2009, 1, '124764', 132456, current, 132456, current);

@@ -1,0 +1,11 @@
+SELECT 
+  DISTINCT 
+  r.resource_role_id 
+, u.user_id
+FROM resource r
+INNER JOIN resource_info ri ON r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1
+INNER JOIN user u ON u.user_id = ri.value
+INNER JOIN review_auction ra ON ra.project_id = r.project_id
+INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
+INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id AND rarrrx.resource_role_id = r.resource_role_id
+WHERE r.project_id = @challenge_id@

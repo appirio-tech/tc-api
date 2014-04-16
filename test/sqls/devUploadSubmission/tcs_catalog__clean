@@ -1,6 +1,6 @@
-DELETE FROM resource_submission WHERE resource_id >= 77700 AND resource_id <= 77799;
-DELETE FROM resource_info WHERE resource_id >= 77700 AND resource_id <= 77799;
-DELETE FROM submission WHERE submission_id >= 10000000 AND submission_id <= 20000000;
+DELETE FROM resource_submission WHERE resource_id >= 1 AND resource_id <= 77799;
+DELETE FROM resource_info WHERE resource_id >= 1 AND resource_id <= 77799;
+DELETE FROM submission WHERE submission_id >= 1 AND submission_id <= 20000000;
 DELETE FROM upload WHERE project_id >= 77700 AND project_id <= 77799;
 DELETE FROM resource WHERE resource_id >= 77700 AND resource_id <= 77799;
 DELETE FROM phase_criteria WHERE project_phase_id >= 77700 AND project_phase_id <= 77799;

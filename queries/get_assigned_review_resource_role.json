@@ -1,0 +1,5 @@
+{
+    "name"    : "get_assigned_review_resource_role",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_assigned_review_resource_role"
+}

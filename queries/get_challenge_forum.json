@@ -1,0 +1,5 @@
+{
+    "name"		:	"get_challenge_forum",
+    "db"		:	"tcs_catalog",
+    "sqlfile"	:	"get_challenge_forum"
+}
