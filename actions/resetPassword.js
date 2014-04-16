@@ -101,8 +101,31 @@ function resetPassword(api, connection, next) {
                 cb(new IllegalArgumentError('The token is incorrect.'));
                 return;
             }
+            sqlParams.password = helper.encodePassword(newPassword, helper.PASSWORD_HASH_KEY);
+            api.dataAccess.executeQuery('update_password', sqlParams, dbConnectionMap, cb);
+        },
+        function (count, cb) {
+            if (count !== 1) {
+                cb(new Error('password is not updated successfully'));
+                return;
+            }
+            ldapEntryParams = {
+                userId: userId,
+                handle: sqlParams.handle,
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            };
+            api.ldapHelper.updateMemberPasswordLDAPEntry(ldapEntryParams, cb);
+        },
+        function (cb) {
+            // Delete the token from cache system.
+            api.cache.destroy(tokenKey, function (err) {
+                cb(err);
+            });
+        },
+        function (cb) {
             result = {
-                "description": "Your password has been reset!"
+                description: 'Your password has been reset!'
             };
             cb();
         }

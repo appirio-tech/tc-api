@@ -26,14 +26,8 @@
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
-var ForumWrapper = require("forum-connector").ForumWrapper;
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
-
-/**
- * The forum wrapper instance
- */
-var forumWrapper = null;
 
 //constants
 var DESIGN_PROJECT_TYPE = 1,
@@ -389,10 +383,10 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
-				submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
+                submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
-				submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
+                submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
 
@@ -486,6 +480,47 @@ var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
         }
         next();
     });
+};
+
+/**
+ * Set the timeline notification if it's disable before.
+ *
+ * @param {Object} api The api object that is used to access the infrastructure.
+ * @param {Number} userId The current logged-in user's id.
+ * @param {Number} challengeId The id of the challenge to register.
+ * @param {Object} dbConnectionMap The database connection map for the current request.
+ * @param {Function<err, data>} next The callback to be called after this function is done.
+ */
+var timelineNotification = function (api, userId, challengeId, dbConnectionMap, next) {
+    async.waterfall([
+        function (cb) {
+            api.dataAccess.executeQuery("get_challenge_notification_count", {
+                challengeId: challengeId,
+                userId: userId,
+                notificationTypeId : TIMELINE_NOTIFICATION_ID
+            },
+                dbConnectionMap,
+                cb);
+        },
+        function (result, cb) {
+            if (result.length === 0 || !_.has(result[0], 'total_count')) {
+                cb(new NotFoundError("Notification not found."));
+            }
+            if (result[0].total_count === 0) {
+                api.dataAccess.executeQuery("insert_challenge_notification", {
+                    challengeId: challengeId,
+                    userId: userId,
+                    notificationTypeId : 1, // See java field ORNotification.TIMELINE_NOTIFICATION_ID.
+                    createUser : '"' + userId + '"',
+                    modifyUser : '"' + userId + '"'
+                },
+                    dbConnectionMap,
+                    cb);
+            } else {
+                cb(null);
+            }
+        }
+    ], next);
 };
 
 /**
@@ -610,46 +645,7 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
         }
     ], next);
 };
-/**
- * Set the timeline notification if it's disable before.
- *
- * @param {Object} api The api object that is used to access the infrastructure.
- * @param {Number} userId The current logged-in user's id.
- * @param {Number} challengeId The id of the challenge to register.
- * @param {Object} dbConnectionMap The database connection map for the current request.
- * @param {Function<err, data>} next The callback to be called after this function is done.
- */
-var timelineNotification = function (api, userId, challengeId, dbConnectionMap, next) {
-    async.waterfall([
-        function (cb) {
-            api.dataAccess.executeQuery("get_challenge_notification_count", {
-                challengeId: challengeId,
-                userId: userId,
-                notificationTypeId : TIMELINE_NOTIFICATION_ID
-            },
-                dbConnectionMap,
-                cb);
-        },
-        function (result, cb) {
-            if (result.length === 0 || !_.has(result[0], 'total_count')) {
-                cb(new NotFoundError("Notification not found."));
-            }
-            if (result[0].total_count === 0) {
-                api.dataAccess.executeQuery("insert_challenge_notification", {
-                    challengeId: challengeId,
-                    userId: userId,
-                    notificationTypeId : 1, // See java field ORNotification.TIMELINE_NOTIFICATION_ID. 
-                    createUser : '"' + userId + '"',
-                    modifyUser : '"' + userId + '"'
-                },
-                    dbConnectionMap,
-                    cb);
-            } else {
-                cb(null);
-            }
-        }
-    ], next);
-};
+
 /**
  * Register a design challenge (studio) for the current logged-in user.
  *
