@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka
- * @version 1.21
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
+ * @version 1.22
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -51,6 +51,8 @@
  * Changes in 1.21:
  * - add minPasswordLength and maxPasswordLength
  * - add resetTokenSuffix
+ * Changes in 1.22:
+ * - add auth0 configuration.
  */
 "use strict";
 
@@ -346,6 +348,12 @@ config.welcomeEmail = {
     subject: 'Welcome to [topcoder]',
     fromAddress: process.env.TC_EMAIL_FROM,
     senderName: '[topcoder] API'
+};
+
+config.auth0 = {
+    serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
+    clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
+    redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
 };
 
 exports.config = config;

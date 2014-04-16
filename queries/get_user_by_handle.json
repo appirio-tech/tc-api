@@ -1,0 +1,5 @@
+{
+  "name"    : "get_user_by_handle",
+  "db"      : "common_oltp",
+  "sqlfile" : "get_user_by_handle"
+}
