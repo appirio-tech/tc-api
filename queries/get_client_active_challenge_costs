@@ -5,11 +5,11 @@ SELECT
       tdp.name AS project_name,
       pcl.name AS challenge_type,
       pit_6.value AS challenge_name,
-      (
+      ((
       SELECT MAX(NVL(actual_end_time, scheduled_end_time)) - MIN(NVL(actual_start_time,scheduled_start_time))
       FROM project_phase all_pp
       WHERE all_pp.project_id = p.project_id
-      )::INTERVAL SECOND(9) TO SECOND::CHAR(20)::INT / 3600 / 24 AS challenge_duration,
+      )::INTERVAL SECOND(9) TO SECOND::CHAR(20)::INT / 3600 / 24)::decimal(10,2) AS challenge_duration,
       NVL(reg_pp.actual_start_time, sub_pp.actual_start_time) AS posting_date,
       (
        SELECT MAX(NVL(actual_end_time, scheduled_end_time))
@@ -136,7 +136,23 @@ SELECT
        INNER JOIN resource r ON ri.resource_id = r.resource_id
        WHERE r.project_id = p.project_id
        AND   r.resource_role_id = 1
-       AND   ri.resource_info_type_id = 5), 0) AS reliability
+       AND   ri.resource_info_type_id = 5), 0) AS reliability, 
+       (select handle from user u where u.user_id = p.create_user) as challenge_creator,
+       (select handle from user u, project_info pi58 where pi58.project_id = p.project_id and pi58.project_info_type_id = 58 and pi58.value=u.user_id) as challenge_initiator,
+	    REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            MULTISET(
+                                SELECT  ITEM handle
+                                FROM resource r, resource_info ri, user  u
+                                WHERE r.project_id = p.project_id and r.resource_id = ri.resource_id 
+                                       and ri.resource_info_type_id = 1 and r.resource_role_id = 13 and ri.value=u.user_id)::lvarchar,
+                            'MULTISET{'''
+                        ), '''}'
+                    ),''''
+                ),'MULTISET{}'
+             ) AS challenge_managers
 FROM project p
 INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
 INNER JOIN project_status_lu psl ON psl.project_status_id = p.project_status_id

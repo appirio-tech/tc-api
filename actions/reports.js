@@ -445,7 +445,10 @@ exports.getClientActiveChallengeCosts = {
                         "submissionsCount": item.submissions_count,
                         "checkpointSubmissionsCount": item.checkpoint_submissions_count,
                         "challengeScheduledEndDate": moment(item.challenge_scheduled_end_date).format("YYYY-MM-DD"),
-                        "reliability": item.reliability
+                        "reliability": item.reliability,
+						"challengeCreator": item.challenge_creator,
+						"challengeInitiator": item.challenge_initiator,
+						"challengeManagers": item.challenge_managers
                     };
                 });
 
