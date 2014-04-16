@@ -603,21 +603,15 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             if (isStudio) {
                 async.parallel({
                     details: execQuery('challenge_details'),
-                    registrants: execQuery('challenge_registrants'),
                     checkpoints: execQuery("get_studio_challenge_detail_checkpoints"),
-                    submissions: execQuery("get_studio_challenge_detail_submissions"),
                     winners: execQuery("get_studio_challenge_detail_winners"),
                     platforms: execQuery('challenge_platforms'),
-                    phases: execQuery('challenge_phases'),
                     documents: execQuery('challenge_documents')
                 }, cb);
             } else {
                 async.parallel({
                     details: execQuery('challenge_details'),
-                    registrants: execQuery('challenge_registrants'),
-                    submissions: execQuery('challenge_submissions'),
                     platforms: execQuery('challenge_platforms'),
-                    phases: execQuery('challenge_phases'),
                     documents: execQuery('challenge_documents'),
                     copilot: execQuery('check_is_copilot')
                 }, cb);
@@ -631,42 +625,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 isCopilot = results.copilot[0].user_is_copilot;
             }
             var data = results.details[0], i = 0, prize = 0,
-                mapSubmissions = function (results) {
-                    var submissions = [], passedReview = 0, drTable, submission = {};
-                    if (isStudio) {
-                        submissions = _.map(results.submissions, function (item) {
-                            return {
-                                submissionId: item.submission_id,
-                                submitter: item.handle,
-                                submissionTime: formatDate(item.create_date)
-                            };
-                        });
-                    } else {
-                        results.submissions.forEach(function (item) {
-                            if (item.placement) {
-                                passedReview = passedReview + 1;
-                            }
-                        });
-                        drTable = DR_POINT[Math.min(passedReview - 1, 4)];
-                        submissions = _.map(results.submissions, function (item) {
-                            submission = {
-                                handle: item.handle,
-                                placement: item.placement || "",
-                                screeningScore: item.screening_score,
-                                initialScore: item.initial_score,
-                                finalScore: item.final_score,
-                                points: 0,
-                                submissionStatus: item.submission_status,
-                                submissionDate: formatDate(item.submission_date)
-                            };
-                            if (submission.placement && drTable.length >= submission.placement) {
-                                submission.points = drTable[submission.placement - 1] * results.details[0].digital_run_points;
-                            }
-                            return submission;
-                        });
-                    }
-                    return submissions;
-                },
                 mapPlatforms = function (results) {
                     if (!_.isDefined(results)) {
                         return [];
@@ -676,38 +634,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         platforms.push(item.name);
                     });
                     return platforms;
-                },
-                mapPhases = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (item) {
-                        return {
-                            type: item.type,
-                            status: item.status,
-                            scheduledStartTime: item.scheduled_start_time,
-                            actualStartTime: item.actual_start_time,
-                            scheduledEndTime: item.scheduled_end_time,
-                            actualendTime: item.actual_end_time
-                        };
-                    });
-                },
-                mapRegistrants = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (item) {
-                        var registrant = {
-                            handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date)
-                        };
-                        if (!isStudio) {
-                            registrant.rating = item.rating;
-                            registrant.colorStyle = helper.getColorStyle(item.rating);
-                        }
-                        return registrant;
-                    });
                 },
                 mapPrize = function (results) {
                     var prizes = [];
@@ -810,9 +736,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 technology: data.technology.split(', '),
                 prize: mapPrize(data),
                 numberOfRegistrants: results.registrants.length,
-                registrants: mapRegistrants(results.registrants),
                 checkpoints: mapCheckPoints(results.checkpoints),
-                submissions: mapSubmissions(results),
                 winners: mapWinners(results.winners)
             });
 
@@ -840,7 +764,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.submissionLimit;
             }
             challenge.platforms = mapPlatforms(results.platforms);
-            challenge.phases = mapPhases(results.phases);
             if (data.event_id !== 0) {
                 challenge.event = {id: data.event_id, description: data.event_description, shortDescription: data.event_short_desc};
             }
