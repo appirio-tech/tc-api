@@ -74,4 +74,4 @@ AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p
                 AND ce.contest_id = p.project_id))
 and pp.actual_end_time > '2012-01-01 00:00:00'
 
-ORDER BY submission_end_date  desc, @sortColumn@ @sortOrder@
+ORDER BY @sortColumn@ @sortOrder@
