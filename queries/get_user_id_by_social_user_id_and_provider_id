@@ -1,0 +1,1 @@
+SELECT user_id FROM user_social_login WHERE social_user_id = '@socialUserId@' AND social_login_provider_id = @providerId@

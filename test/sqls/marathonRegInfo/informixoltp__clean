@@ -1,0 +1,19 @@
+DELETE FROM answer WHERE question_id IN (1000, 1001, 1002);
+DELETE FROM round_question WHERE round_id = 2001;
+DELETE FROM question WHERE question_id IN (1000, 1001, 1002);
+
+DELETE FROM round_terms WHERE round_id IN (2001, 2006);
+
+DELETE FROM round_registration WHERE round_id >= 2001;
+DELETE FROM round_terms_acceptance WHERE round_id >= 2001;
+DELETE FROM algo_rating WHERE coder_id IN (132456);
+DELETE FROM long_comp_result WHERE round_id >= 2001;
+
+DELETE FROM round_event WHERE round_id IN (2001, 2006, 2007);
+DELETE FROM round_segment WHERE round_id IN (2001, 2002, 2003, 2004, 2005, 2006, 2007);
+DELETE FROM round_component WHERE round_id IN (2004, 2005);
+DELETE FROM invite_list WHERE round_id = 2005;
+DELETE FROM round WHERE round_id IN (2001, 2002, 2003, 2004, 2005, 2006, 2007);
+DELETE FROM team_coder_xref WHERE coder_id IN (132456);
+
+DELETE FROM contest WHERE contest_id IN (10000, 10001);

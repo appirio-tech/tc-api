@@ -1,0 +1,12 @@
+SELECT
+  rarl.name AS role
+, rarl.review_application_role_id AS role_id
+, ra.review_application_id
+, rasl.name AS status
+FROM review_application ra
+INNER JOIN user u ON u.user_id = ra.user_id
+INNER JOIN review_auction rauc ON rauc.review_auction_id = ra.review_auction_id AND rauc.project_id = @challenge_id@
+INNER JOIN review_application_role_lu rarl ON rarl.review_application_role_id = ra.review_application_role_id
+INNER JOIN review_application_status_lu rasl ON rasl.review_application_status_id = ra.review_application_status_id
+WHERE u.user_id = @user_id@
+ORDER BY ra.create_date ASC

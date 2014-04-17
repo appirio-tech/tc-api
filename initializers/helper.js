@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.20
+ * @version 1.25
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -58,6 +58,20 @@
  * - updated softwareChallengeTypes
  * changes in 1.20
  * - added activation code generation function (copied from memberRegistration.js)
+ * Changes in 1.21:
+ * - add LIST_TYPE_REGISTRATION_STATUS_MAP and VALID_LIST_TYPE.
+ * Changes in 1.22:
+ * - add allTermsAgreed method.
+ * Changes in 1.23:
+ * - add validatePassword method.
+ * - introduce the stringUtils in this file.
+ * - add PASSWORD_HASH_KEY.
+ * changes in 1.24
+ * - add PAYMENT_STATUS
+ * - add checkSortColumn function
+ * - update formatDate function
+ * Changes in 1.25:
+ * - add method transferDBResults2Response.
  */
 "use strict";
 
@@ -75,6 +89,8 @@ if (typeof String.prototype.startsWith !== 'function') {
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
+var stringUtils = require('../common/stringUtils');
+var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -112,9 +128,29 @@ helper.both = {
 };
 
 /**
+ * payment status
+ */
+helper.PAYMENT_STATUS = {
+    53 : 'Paid',
+    55 : 'On Hold',
+    56 : 'Owed',
+    65 : 'Cancelled',
+    68 : 'Expired',
+    70 : 'Entered into payment system',
+    71 : 'Accruing'
+};
+
+/**
  * The max value for integer.
  */
 helper.MAX_INT = 2147483647;
+
+/**
+ * HASH KEY For Password
+ *
+ * @since 1.23
+ */
+helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
 /**
  * The name in api response to database name map.
@@ -153,7 +189,13 @@ var apiName2dbNameMap = {
     numberofsubmissions: 'number_of_submissions',
     numberofreviewpositionsavailable: 'number_of_review_positions_available',
     round2scheduledstartdate: 'round_2_scheduled_start_date',
-    round1scheduledstartdate: 'round_1_scheduled_start_date'
+    round1scheduledstartdate: 'round_1_scheduled_start_date',
+    postingdate: 'posting_date',
+    numsubmissions: 'num_submissions',
+    numregistrants: 'num_registrants',
+    currentphaseremainingtime: 'current_phase_remaining_time',
+    currentphasename: 'current_phase_name',
+    registrationopen: 'registration_open'
 };
 
 /**
@@ -304,6 +346,38 @@ var phaseId2Name = _.object(_.values(_.extend(helper.studioChallengeTypes, helpe
 var phaseName2Id = _.object(_.values(_.extend(helper.studioChallengeTypes, helper.softwareChallengeTypes)).map(function (item) {
     return [item.name.toLowerCase(), item.phaseId];
 }));
+
+/**
+ * Represents a ListType enum
+ * @since 1.21
+ */
+helper.ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
+
+/**
+ * valid value for listType.
+ * @since 1.21
+ */
+helper.VALID_LIST_TYPE = [helper.ListType.ACTIVE, helper.ListType.OPEN, helper.ListType.UPCOMING, helper.ListType.PAST];
+
+/**
+ * The list type and registration phase status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP = {};
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.ACTIVE] = [2, 3];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.OPEN] = [2];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.UPCOMING] = [1];
+helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.PAST] = [3];
+
+/**
+ * The list type and project status map.
+ * @since 1.21
+ */
+helper.LIST_TYPE_PROJECT_STATUS_MAP = {};
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.ACTIVE] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.OPEN] = [1];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.UPCOMING] = [2];
+helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
  * Checks whether given object is defined.
@@ -887,7 +961,7 @@ helper.checkRefresh = function (connection) {
     if (!_.contains(ALLOW_FORCE_REFRESH_ACTIONS, connection.action)) {
         return false;
     }
-    return connection.params['refresh'] == 't';
+    return connection.params.refresh === 't';
 };
 
 /**
@@ -1101,7 +1175,7 @@ helper.checkDates = function (startDate, endDate) {
  */
 helper.formatDate = function (date, format) {
     if (date) {
-        return moment(date).utc().format(format);
+        return moment(date).format(format);
     }
     return '';
 };
@@ -1117,6 +1191,17 @@ helper.checkTrackName = function (track, isStudio) {
     var validTrack = isStudio ? helper.studioChallengeTypes : helper.softwareChallengeTypes,
         validTrackName = _.map(_.values(validTrack), function (item) { return item.name.toLowerCase(); });
     return helper.checkContains(validTrackName, track, 'track');
+};
+
+/**
+ * Transfer db results to camelize response object.
+ * @param {Object} results - the results from database.
+ * @since 1.25
+ */
+helper.transferDBResults2Response = function (results) {
+    return _.map(results, function (row) {
+        return _.object(_.chain(row).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(row));
+    });
 };
 
 /**
@@ -1156,6 +1241,49 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 };
 
 /**
+ * Validate the given password value.
+ * @param {String} password - the password value.
+ * @returns {Object} - Return error if the given password is invalid.
+ * @since 1.23
+ */
+helper.validatePassword = function (password) {
+    var value = password.trim(),
+        configGeneral = helper.api.config.general,
+        i,
+        error;
+    error = helper.checkStringPopulated(password, 'password');
+    if (error) {
+        return error;
+    }
+    if (value.length > configGeneral.maxPasswordLength) {
+        return new IllegalArgumentError('password may contain at most ' + configGeneral.maxPasswordLength + ' characters.');
+    }
+    if (value.length < configGeneral.minPasswordLength) {
+        return new IllegalArgumentError('password must be at least ' + configGeneral.minPasswordLength + ' characters in length.');
+    }
+    for (i = 0; i < password.length; i += 1) {
+        if (!_.contains(stringUtils.PASSWORD_ALPHABET, password.charAt(i))) {
+            return new IllegalArgumentError('Your password may contain only letters, numbers and ' + stringUtils.PUNCTUATION);
+        }
+    }
+
+    return null;
+};
+
+/**
+ * check if the every terms has been agreed
+ *
+ * @param {Array} terms - The terms.
+ * @returns {Boolean} true if all terms agreed otherwise false.
+ * @since 1.22
+ */
+helper.allTermsAgreed = function (terms) {
+    return _.every(terms, function (term) {
+        return term.agreed;
+    });
+};
+
+/**
  * Gets all file types and caches them.
  * @param {Object} api - the action hero api object
  * @param {Object} dbConnectionMap - the database connection map
@@ -1187,6 +1315,26 @@ helper.getFileTypes = function (api, dbConnectionMap, callback) {
     });
 };
 
+/**
+ * Check sort column.
+ *
+ * @param {Array} sortColumns - the valid sort columns list.
+ * @param {Object} sortColumn - the sort column to check.
+ * @return {Error} if input not valid.
+ *
+ * @since 1.24
+ */
+helper.checkSortColumn = function (sortColumns, sortColumn) {
+    var error = helper.checkArray(sortColumns, "sortColumns");
+    if (error) {
+        return error;
+    }
+    if (helper.getLowerCaseList(sortColumns).indexOf(sortColumn) === -1) {
+        return new IllegalArgumentError("The sort column '" + sortColumn + "' is invalid, it should be element of " + sortColumns + ".");
+    }
+    return null;
+};
+
 /*
  * this is the random int generator class
  */
@@ -1204,8 +1352,8 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-    
+    };
+
     return cr;
 }
 
@@ -1276,7 +1424,7 @@ var getCoderIdFromActivationCode = function (activationCode) {
     coderId = idhash.substring(0, idhash.length / 2);
 
     return coderId;
-}
+};
 
 helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
 helper.generateActivationCode = generateActivationCode;

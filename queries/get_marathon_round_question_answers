@@ -1,0 +1,9 @@
+SELECT
+  answer_id,
+  question_id,
+  answer_text AS text,
+  sort_order,
+  NVL(correct, 0) AS correct
+FROM answer
+WHERE question_id IN (@question_ids@)
+ORDER BY sort_order

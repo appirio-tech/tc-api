@@ -1,12 +1,14 @@
 /*jslint nomen: true */
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.1
- * Author: TCSASSEMBLER, muzehyun
+ * Version: 1.2
+ * Author: TCSASSEMBLER, muzehyun, Ghost_141
  * changes in 1.1
  * - add retrieveMemberProfileLDAPEntry
  * - fix bugs (returing too early without any result)
+ * Changes in 1.2:
+ * - updateMemberPasswordLDAPEntry for update member password.
  */
 "use strict";
 
@@ -218,7 +220,7 @@ var retrieveClient = function (api, client, params, callback) {
             callback('cannot get client from ldap server', translateLdapError(err));
         }
 
-        res.on('searchEntry', function(entry) {
+        res.on('searchEntry', function (entry) {
             api.log('Successfully retrieve from ldap server', 'info');
             var result = {
                 userId: entry.object.uid,
@@ -228,15 +230,15 @@ var retrieveClient = function (api, client, params, callback) {
             callback(null, result);
         });
 
-        res.on('searchReference', function(referral) {
+        res.on('searchReference', function (referral) {
             console.log('referral: ' + referral.uris.join());
         });
 
-        res.on('error', function(err) {
+        res.on('error', function (err) {
             console.error('error: ' + err.message);
         });
 
-        res.on('end', function(result) {
+        res.on('end', function (result) {
             console.log('status: ' + result.status);
         });
     });
@@ -253,7 +255,6 @@ exports.ldapHelper = function (api, next) {
          /**
          * Main function of addMemberProfileLDAPEntry
          *
-         * @param {Object} api - object used to access infrastructure
          * @param {Object} params require fields: userId, handle, password
          * @param {Function} next - callback function
          */
@@ -299,11 +300,10 @@ exports.ldapHelper = function (api, next) {
                 return next(error, null);
             }
         },
-        
+
         /**
          * Main function of removeMemberProfileLDAPEntry
          *
-         * @param {Object} api - object used to access infrastructure
          * @param {Object} userId - the user id
          * @param {Function} next - callback function
          */
@@ -323,8 +323,8 @@ exports.ldapHelper = function (api, next) {
                     function (callback) {
                         removeClient(api, client, userId, callback);
                     }
-                ], function (err, result) {
-                    
+                ], function (err) {
+
                     if (err) {
                         api.log('removeMemberProfileLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
                     } else {
@@ -352,7 +352,7 @@ exports.ldapHelper = function (api, next) {
 
             // pararms validation
 
-            error = api.helper.checkDefined(params['userId'], 'userId');
+            error = api.helper.checkDefined(params.userId, 'userId');
             if (error) {
                 api.log("activateMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                 return next(error, true);
@@ -392,7 +392,7 @@ exports.ldapHelper = function (api, next) {
             var client, error;
 
             // pararms validation
-            error = api.helper.checkDefined(params['userId'], 'userId');
+            error = api.helper.checkDefined(params.userId, 'userId');
             if (error) {
                 api.log("retrieveMemberProfileLDAPEntry: error occurred: " + error + " " + (error.stack || ''), "error");
                 return next(error, true);
@@ -413,7 +413,7 @@ exports.ldapHelper = function (api, next) {
             ], function (err, result) {
                 var entry;
                 if (result.length >= 2) {
-                   entry = result[2];
+                    entry = result[2];
                 }
                 if (err) {
                     error = result.pop();
@@ -424,6 +424,56 @@ exports.ldapHelper = function (api, next) {
                 api.log('Leave retrieveMemberProfileLDAPEntry', 'debug');
                 next(err, entry);
             });
+            return next(null, true);
+        },
+
+        /**
+         * Main function of updateMemberPasswordLDAPEntry
+         *
+         * @param {Object} params require fields: userId, handle, newPassword, oldPassword
+         * @param {Function} next - callback function
+         * @since 1.1
+         */
+        updateMemberPasswordLDAPEntry: function (params, next) {
+            api.log('Enter updateMemberPasswordLDAPEntry', 'debug');
+
+            var client, error, index, requiredParams = ['userId', 'handle', 'newPassword', 'oldPassword'];
+
+            for (index = 0; index < requiredParams.length; index += 1) {
+                error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+                if (error) {
+                    api.log('updateMemberPasswordLDAPEntry: error occurred: ' + error + " " + (error.stack || ''), "error");
+                    next(error, null);
+                    return;
+                }
+            }
+            try {
+                async.series([
+                    function (callback) {
+                        client  = createClient();
+                        callback(null, 'create client');
+                    },
+                    function (callback) {
+                        bindClient(api, client, callback);
+                    },
+                    function (callback) {
+                        passwordModify(api, client, params, callback);
+                    }
+                ], function (err, result) {
+                    if (err) {
+                        error = result.pop();
+                        api.log('updateMemberPasswordLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
+                        next(error, null);
+                    } else {
+                        client.unbind();
+                        api.log('Leave updateMemberPasswordLDAPEntry', 'debug');
+                        next();
+                    }
+                });
+            } catch (err) {
+                console.log('CAUGHT: ' + err);
+                next(error, null);
+            }
         }
     };
     next();

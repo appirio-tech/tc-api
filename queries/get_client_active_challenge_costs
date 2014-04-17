@@ -1,0 +1,165 @@
+SELECT
+      a.client_id AS customer_id,
+      a.name AS customer_name,
+      p.project_id AS challenge_id,
+      tdp.name AS project_name,
+      pcl.name AS challenge_type,
+      pit_6.value AS challenge_name,
+      ((
+      SELECT MAX(NVL(actual_end_time, scheduled_end_time)) - MIN(NVL(actual_start_time,scheduled_start_time))
+      FROM project_phase all_pp
+      WHERE all_pp.project_id = p.project_id
+      )::INTERVAL SECOND(9) TO SECOND::CHAR(20)::INT / 3600 / 24)::decimal(10,2) AS challenge_duration,
+      NVL(reg_pp.actual_start_time, sub_pp.actual_start_time) AS posting_date,
+      (
+       SELECT MAX(NVL(actual_end_time, scheduled_end_time))
+       FROM project_phase all_pp
+       WHERE all_pp.project_id = p.project_id 
+      )
+      AS completion_date,
+      (
+       CASE 
+           WHEN pcl.project_type_id != 3 AND p.project_category_id NOT IN (9,29) THEN 
+               (SELECT MAX(ppfr.actual_end_time) 
+                FROM project_phase ppfr 
+                WHERE ppfr.project_id = p.project_id 
+                AND ppfr.phase_type_id = 10 
+                AND ppfr.phase_status_id = 3 
+                AND ppfr.actual_end_time <= (SELECT MIN(NVL(actual_start_time, scheduled_start_time)) 
+                                             FROM project_phase ppappr 
+                                             WHERE ppappr.project_id = p.project_id 
+                                             AND ppappr.phase_type_id = 11)
+               ) 
+           ELSE 
+               (SELECT actual_end_time
+                FROM project_phase ph3 
+                WHERE ph3.project_id = p.project_id
+                AND ph3.phase_type_id = 4
+                AND ph3.phase_status_id = 3) 
+       END  
+      ) AS actual_complete_date,
+      (
+       NVL((SELECT sum(total_amount) 
+            FROM  informixoltp:payment_detail pmd, informixoltp:payment pm 
+            WHERE pmd.component_project_id = p.project_id 
+            AND pmd.installment_number = 1 
+            AND pm.most_recent_detail_id = pmd.payment_detail_id  
+            AND NOT pmd.payment_status_id IN (65, 68, 69))
+       , 0) 
+       + 
+       NVL((SELECT sum(pmd2.total_amount)  
+            FROM  informixoltp:payment_detail pmd, informixoltp:payment pm 
+            LEFT OUTER JOIN informixoltp:payment_detail pmd2 on pm.payment_id = pmd2.parent_payment_id,  
+            informixoltp:payment pm2  
+            WHERE pmd.component_project_id = p.project_id 
+            AND pmd2.installment_number = 1  
+            AND pm.most_recent_detail_id = pmd.payment_detail_id   
+            AND pm2.most_recent_detail_id = pmd2.payment_detail_id  
+            AND NOT pmd2.payment_status_id IN (65, 68, 69))
+       , 0)   
+       +      
+       NVL((SELECT SUM(prize_amount * number_of_submissions) 
+               FROM prize prz 
+               WHERE prz.project_id = p.project_id 
+               AND prz.prize_type_id IN (14, 15)), 0)           
+      ) AS challenge_member_cost,
+      (
+        SELECT NVL(pit_31.value::DECIMAL(10,2), 0)
+        FROM project_info pit_31
+        WHERE pit_31.project_id = p.project_id 
+        AND   pit_31.project_info_type_id = 31
+      )
+       AS challenge_fee,
+      
+      psl.name AS challenge_status,
+      a.cmc_account_id AS cmc_account_id,
+      a.customer_number AS customer_number,
+      b.project_id AS billing_account_id,
+      b.name AS billing_account_name,
+      TO_CHAR(p.modify_date, '%Y-%m-%d') AS last_modification_date,
+      (SELECT COUNT(*) FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 1) AS registrants_count,
+      (SELECT COUNT(*)
+              FROM submission s
+              INNER JOIN upload u ON u.upload_id = s.upload_id
+              WHERE s.submission_type_id = 1
+              AND   s.submission_status_id <> 5
+              AND   u.upload_status_id = 1
+              AND   u.project_id = p.project_id) 
+      AS submissions_count,
+      NVL(reg_pp.actual_end_time, reg_pp.scheduled_end_time) AS registration_end_date,
+      NVL(sub_pp.actual_end_time, sub_pp.scheduled_end_time) AS submission_end_date,
+      (SELECT
+        NVL(chk_pp.actual_end_time, chk_pp.scheduled_end_time)
+       FROM project_phase chk_pp
+       WHERE chk_pp.project_id = p.project_id
+       AND   chk_pp.phase_type_id = 15
+      ) AS checkpoint_end_date,
+     (
+        SELECT   ptl.name
+		FROM project_phase all_pp
+		INNER JOIN phase_type_lu ptl ON ptl.phase_type_id = all_pp.phase_type_id
+		      WHERE all_pp.project_id = p.project_id AND all_pp.phase_status_id = 2
+		      and all_pp.project_phase_id = (select max(project_phase_id) from project_phase ph where ph.project_id = p.project_id and ph.phase_status_id = 2)
+                           
+      ) AS current_phase, 
+      NVL((SELECT prize_amount 
+       FROM prize prz 
+       WHERE prz.project_id = p.project_id 
+       AND prz.place = 1 
+       AND prz.prize_type_id = 15), 0) AS first_prize,
+      NVL((SELECT SUM(prize_amount * number_of_submissions) 
+              FROM prize prz 
+              WHERE prz.project_id = p.project_id 
+              AND prz.prize_type_id IN (14, 15)), 0) AS total_prize,
+      NVL((SELECT SUM(prize_amount * number_of_submissions)
+       FROM prize chk_pr 
+       WHERE chk_pr.project_id = p.project_id 
+       AND chk_pr.prize_type_id = 14), 0)
+      AS checkpoint_prize,
+      (SELECT COUNT(*)
+       FROM submission s
+       INNER JOIN upload u ON u.upload_id = s.upload_id
+       WHERE s.submission_type_id = 3
+       AND   s.submission_status_id <> 5
+       AND   u.upload_status_id = 1
+       AND   u.project_id = p.project_id) AS checkpoint_submissions_count,
+      (SELECT MAX(scheduled_end_time) FROM project_phase all_pp WHERE all_pp.project_id = p.project_id)
+      AS challenge_scheduled_end_date,
+      NVL((SELECT SUM(NVL(ri.value, 0)::DECIMAL(10,2))
+       FROM resource_info ri
+       INNER JOIN resource r ON ri.resource_id = r.resource_id
+       WHERE r.project_id = p.project_id
+       AND   r.resource_role_id = 1
+       AND   ri.resource_info_type_id = 5), 0) AS reliability, 
+       (select handle from user u where u.user_id = p.create_user) as challenge_creator,
+       (select handle from user u, project_info pi58 where pi58.project_id = p.project_id and pi58.project_info_type_id = 58 and pi58.value=u.user_id) as challenge_initiator,
+
+       (SELECT handle
+                FROM resource r, resource_info ri, user  u
+                    WHERE r.project_id = p.project_id and r.resource_id = ri.resource_id 
+                        and ri.resource_info_type_id = 1 and r.resource_role_id = 13 and ri.value=u.user_id
+                        and r.resource_id =
+                            (select min(r2.resource_id) from resource_info ri2, resource r2 
+                                 where  r2.project_id = p.project_id and r2.resource_id = ri2.resource_id 
+                                       and ri2.resource_info_type_id = 1 and r2.resource_role_id = 13
+									   and ri2.value not in (22770213,22719217)))::lvarchar
+         AS challenge_manager
+FROM project p
+INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_category_id
+INNER JOIN project_status_lu psl ON psl.project_status_id = p.project_status_id
+INNER JOIN project_info pit_6 ON pit_6.project_id = p.project_id
+LEFT JOIN project_info pit_32 ON pit_32.project_id = p.project_id
+LEFT JOIN tc_direct_project tdp ON tdp.project_id = p.tc_direct_project_id
+LEFT JOIN project_phase reg_pp ON reg_pp.project_id = p.project_id
+LEFT JOIN project_phase sub_pp ON sub_pp.project_id = p.project_id
+LEFT JOIN tt_project b ON b.project_id = pit_32.value
+LEFT JOIN tt_client_project c ON c.project_id = b.project_id
+LEFT JOIN tt_client a ON a.client_id = c.client_id
+WHERE p.project_status_id = 1 
+AND   reg_pp.phase_type_id = 1
+AND   sub_pp.phase_type_id = 2
+AND   pit_6.project_info_type_id = 6
+AND   pit_32.project_info_type_id = 32
+AND   c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
+AND   NVL(a.cmc_account_id, '') = DECODE('@cmc_account_id@', '', NVL(a.cmc_account_id, ''), '@cmc_account_id@')
+AND   NVL(a.customer_number, '') = DECODE('@customer_number@', '', NVL(a.customer_number, ''), '@customer_number@')

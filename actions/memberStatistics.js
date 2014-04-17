@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.16
- * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc, TCSASSEMBLER
+ * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -178,8 +178,8 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                 achievements,
                 emails,
                 appendIfNotEmpty,
-                address,
-                privateInfo;
+                privateInfo,
+                address;
 
             result = {
                 handle: basic.handle,

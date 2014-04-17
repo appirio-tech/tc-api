@@ -1,0 +1,2 @@
+INSERT INTO review_application(review_application_id, user_id, review_auction_id, review_application_role_id, review_application_status_id, create_date, modify_date)
+VALUES(@review_application_id@, @user_id@, @review_auction_id@, @role_id@, @status@, current, current)

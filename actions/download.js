@@ -573,7 +573,7 @@ var downloadDesignSubmission = function (api, connection, dbConnectionMap, next)
                 noRights = false;
             }
 
-			//Screener can download submission if screening has started
+            //Screener can download submission if screening has started
             if (_.intersection(myResourceRoleIds, screenerRoles).length > 0 && basicInfo[0].is_at_or_after_screening) {
                 noRights = false;
             }
@@ -595,9 +595,9 @@ var downloadDesignSubmission = function (api, connection, dbConnectionMap, next)
                 }
             }
 
-			//managers can download the submissions anytime
+            //managers can download the submissions anytime
             if (noRights && isManager) {
-				noRights = false;
+                noRights = false;
             }
 
             //everyone - can download previews and watermarks after review and if submissions are viewable

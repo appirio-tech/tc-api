@@ -67,16 +67,6 @@
             "rank": 1
         }
     ],
-    "Documents": [
-        {
-            "documentName": "document 1",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=10041"
-        },
-        {
-            "documentName": "document 2",
-            "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=10042"
-        }
-    ],
     "platforms": [
         "Facebook",
         "iOS"

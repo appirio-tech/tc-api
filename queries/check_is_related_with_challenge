@@ -1,0 +1,22 @@
+SELECT
+(SELECT
+    1
+  FROM contest_eligibility ce
+  INNER JOIN group_contest_eligibility gce ON gce.contest_eligibility_id = ce.contest_eligibility_id
+  INNER JOIN user_group_xref ugx ON ugx.group_id = gce.group_id
+  WHERE ce.contest_id = @challengeId@
+  AND ugx.login_id = @user_id@) AS has_access
+, (SELECT
+    1
+  FROM contest_eligibility ce
+  WHERE ce.contest_id = @challengeId@) AS is_private
+, (
+  SELECT 
+    1 
+  FROM resource r
+  INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
+  WHERE r.project_id = @challengeId@
+  AND ri.value = @user_id@) AS is_related
+, (SELECT max(project_metadata_id) FROM direct_project_metadata m, project p 
+         WHERE metadata_value = @user_id@ AND p.tc_direct_project_id = m.tc_direct_project_id and p.project_id = @challengeId@ AND project_metadata_key_id IN (1, 2, 14)) AS is_manager
+FROM dual

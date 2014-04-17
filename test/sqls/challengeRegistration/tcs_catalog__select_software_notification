@@ -1,0 +1,1 @@
+* FROM notification WHERE project_id = 40000001;

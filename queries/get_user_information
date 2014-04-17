@@ -1,0 +1,7 @@
+SELECT
+  u.user_id
+, u.handle
+, su.password AS old_password
+FROM user u
+INNER JOIN security_user su ON su.user_id = u.handle
+WHERE handle_lower = LOWER('@handle@')
