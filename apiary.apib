@@ -7782,13 +7782,20 @@ Payments APIs
 ### Payment List [GET]
 
 + Parameters
-    + status (optional, string, `Paid`) ... Payment Status: Paid, Owed, Cancelled, Entered into payment system
+    + status (optional, string, `Paid`) ... Payment Status: Paid, Owed, Cancelled, Entered into payment system, etc..
     + type (optional, string, `Contest Payment`) ... Payment Type: Contest Payment, Review Payment, Copilot Payment, etc..
-    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1.
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
-    + sortColumn (optional, string, `description`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+    + sortColumn (optional, string, `description`) ... The column name to sort, can be null. The default value will be 'createDate'.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'. The default value will be 'asc'.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
+
 + Response 200 (application/json)
 
         {
@@ -7800,17 +7807,19 @@ Payments APIs
                     "description": "[TCCC-4789] - Cockpit Instant Search Task",
                     "type": "Contest Payment",
                     "createDate": "12/13/2012",
-                    "releaseDate": "13/01/1012",
+                    "releaseDate": "01/13/2013",
+                    "paidDate": "02/30/2013",
                     "status": "Paid",
                     "amount": 250
                 },
                 {
                     "description": "(Application, v1.0) TC API - Studio Challenge Result API Update - First2Finish review board",
                     "type": "Review Board Payment",
-                    "createDate": "12/13/2012",
-                    "releaseDate": "13/01/1012",
+                    "createDate": "12/15/2012",
+                    "releaseDate": "01/15/2013",
+                    "paidDate": "02/30/2013",
                     "status": "Paid",
-                    "amount": 3
+                    "amount": 123
                 }
             ],
             "summary": {
@@ -7820,21 +7829,103 @@ Payments APIs
                 "enteredIntoPaymentSystem": 50.0
             }
         }
- 
 + Response 400 (application/json)
 
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageIndex should be number."
         }
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageIndex should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageSize should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"The sort column 'invalid' is invalid, it should be element of description,type,createDate,releaseDate,paidDate,status,amount."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"The type parameter is incorrect."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"The status parameter is incorrect."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+            "details:":"Unauthorized Error"
         }
 
 + Response 500 (application/json)

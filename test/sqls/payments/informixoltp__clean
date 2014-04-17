@@ -1,0 +1,2 @@
+DELETE FROM payment WHERE payment_id > 1000;
+DELETE FROM payment_detail WHERE payment_detail_id > 1000;
