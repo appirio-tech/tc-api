@@ -53,6 +53,88 @@ var OUTPUT_DATE_FORMAT = 'YYYY-MM-DD';
  */
 var VALID_TRACK = ['develop', 'design', 'data'];
 
+/**
+ * Get Track Statistics API.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.3
+ */
+var getTrackStatistics = function (api, connection, next) {
+    var helper = api.helper,
+        sqlParams,
+        result,
+        queryName,
+        track = connection.params.track.toLowerCase(),
+        startDate = MIN_DATE,
+        endDate = MAX_DATE;
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkContains(VALID_TRACK, track, 'track');
+
+            if (!_.isUndefined(connection.params.startDate)) {
+                startDate = connection.params.startDate;
+                error = error || helper.validateDate(startDate, 'startDate', DATE_FORMAT);
+            }
+            if (!_.isUndefined(connection.params.endDate)) {
+                endDate = connection.params.endDate;
+                error = error || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+            }
+            if (!_.isUndefined(connection.params.startDate) && !_.isUndefined(connection.params.endDate)) {
+                error = error || helper.checkDates(startDate, endDate);
+            }
+
+            cb(error);
+        },
+        function (cb) {
+            sqlParams = {
+                start_date: startDate,
+                end_date: endDate
+            };
+            if (track === helper.software.community) {
+                sqlParams.challenge_type = helper.software.category;
+                queryName = 'get_develop_design_track_statistics';
+            } else if (track === helper.studio.community) {
+                sqlParams.challenge_type = helper.studio.category;
+                queryName = 'get_develop_design_track_statistics';
+            } else {
+                queryName = 'get_data_track_statistics';
+            }
+
+            if (track === 'data') {
+                async.parallel({
+                    data: function (cbx) {
+                        api.dataAccess.executeQuery(queryName, sqlParams, connection.dbConnectionMap, cbx);
+                    },
+                    pastData: function (cbx) {
+                        api.dataAccess.executeQuery('get_past_data_track_statistics', sqlParams, connection.dbConnectionMap, cbx);
+                    }
+                }, cb);
+            } else {
+                api.dataAccess.executeQuery(queryName, sqlParams, connection.dbConnectionMap, cb);
+            }
+        },
+        function (results, cb) {
+            var count = 0;
+            if (track === 'data') {
+                result = helper.transferDBResults2Response(results.data)[0];
+                _.each(results.pastData, function (row) { count += Number(row.total_count); });
+                result.numberOfChallengesInGivenTime += count;
+            } else {
+                result = helper.transferDBResults2Response(results)[0];
+            }
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
 var getChallengeCosts = function (api, connection, next) {
     var helper = api.helper, caller = connection.caller, error, challengeId, projectId, billingId, clientId, startDate,
         endDate, sqlParams, challengeCosts;
@@ -454,9 +536,9 @@ exports.getClientActiveChallengeCosts = {
                         "checkpointSubmissionsCount": item.checkpoint_submissions_count,
                         "challengeScheduledEndDate": moment(item.challenge_scheduled_end_date).format("YYYY-MM-DD"),
                         "reliability": item.reliability,
-						"challengeCreator": item.challenge_creator,
-						"challengeInitiator": item.challenge_initiator,
-						"challengeManager": item.challenge_manager
+                        "challengeCreator": item.challenge_creator,
+                        "challengeInitiator": item.challenge_initiator,
+                        "challengeManager": item.challenge_manager
                     };
                 });
 
