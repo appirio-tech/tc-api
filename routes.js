@@ -217,12 +217,12 @@ exports.routes = {
 
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+		{ path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
         { path: "/:apiVersion/reports/client/activeChallenges", action: "getClientActiveChallengeCosts" },
-        { path: "/:apiVersion/reports/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
