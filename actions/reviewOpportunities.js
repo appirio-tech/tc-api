@@ -196,9 +196,9 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
  */
 var createDate = function (helper, params, dateName) {
     var type = (params[dateName + '.type'] || '').toUpperCase(), date, MIN_DATE, MAX_DATE, now;
-    MIN_DATE = '01.01.1900';
-    MAX_DATE = '01.01.2999';
-    now = new Date();
+    MIN_DATE = '1900-01-01';
+    MAX_DATE = '2999-01-01';
+    now = moment(new Date()).format('YYYY-MM-DD');
 
     // For the unset date filter just return the default date filter - between min date and max date.
     if (!params[dateName + '.type'] && !params[dateName + '.firstDate'] && !params[dateName + '.secondDate']) {
@@ -311,24 +311,24 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
     filter.round1ScheduledStartDate = createDate(helper, params, 'round1ScheduledStartDate');
     filter.round2ScheduledStartDate = createDate(helper, params, 'round2ScheduledStartDate');
 
-    if (_.isDefined(params.reviewType)) {
+    if (!_.isUndefined(params.reviewType)) {
         allowedReviewType = isStudio ? STUDIO_REVIEW_TYPE : SOFTWARE_REVIEW_TYPE;
         error = error || helper.checkContains(helper.getLowerCaseList(allowedReviewType), filter.reviewType.toLowerCase(), 'reviewType');
     }
 
-    if (_.isDefined(params.reviewPaymentLowerBound)) {
+    if (!_.isUndefined(params.reviewPaymentLowerBound)) {
         error = error || helper.checkNumber(Number(params.reviewPaymentLowerBound), 'reviewPaymentLowerBound');
     }
 
-    if (_.isDefined(params.reviewPaymentUpperBound)) {
+    if (!_.isUndefined(params.reviewPaymentUpperBound)) {
         error = error || helper.checkNumber(Number(params.reviewPaymentUpperBound), 'reviewPaymentUpperBound');
     }
 
     error = error ||
-        helper.checkFilterDate(filter.reviewStartDate, 'reviewStartDate', 'MM.DD.YYYY') ||
-        helper.checkFilterDate(filter.reviewEndDate, 'reviewEndDate', 'MM.DD.YYYY') ||
-        helper.checkFilterDate(filter.round1ScheduledStartDate, 'round1ScheduledStartDate', 'MM.DD.YYYY') ||
-        helper.checkFilterDate(filter.round2ScheduledStartDate, 'round2ScheduledStartDate', 'MM.DD.YYYY');
+        helper.checkFilterDate(filter.reviewStartDate, 'reviewStartDate', 'YYYY-MM-DD') ||
+        helper.checkFilterDate(filter.reviewEndDate, 'reviewEndDate', 'YYYY-MM-DD') ||
+        helper.checkFilterDate(filter.round1ScheduledStartDate, 'round1ScheduledStartDate', 'YYYY-MM-DD') ||
+        helper.checkFilterDate(filter.round2ScheduledStartDate, 'round2ScheduledStartDate', 'YYYY-MM-DD');
 
     if (error) {
         cb(error);
@@ -336,7 +336,7 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
     }
 
     // Check the category name last.
-    if (_.isDefined(params.challengeType)) {
+    if (!_.isUndefined(params.challengeType)) {
         helper.isChallengeTypeValid(filter.challengeType, connection.dbConnectionMap, challengeType, cb);
     } else {
         cb();
@@ -438,15 +438,23 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 challengeType: filter.challengeType,
                 challengeName: filter.challengeName,
                 projectTypeId: isStudio ? helper.studio.category : helper.software.category,
-                round1ScheduledStartDateFirstDate: helper.formatDate(filter.round1ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
-                round1ScheduledStartDateSecondDate: helper.formatDate(filter.round1ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
-                round2ScheduledStartDateFirstDate: helper.formatDate(filter.round2ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
-                round2ScheduledStartDateSecondDate: helper.formatDate(filter.round2ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
-                reviewStartDateFirstDate: helper.formatDate(filter.reviewStartDate.firstDate, 'YYYY-MM-DD'),
-                reviewStartDateSecondDate: helper.formatDate(filter.reviewStartDate.secondDate, 'YYYY-MM-DD'),
-                reviewEndDateFirstDate: helper.formatDate(filter.reviewEndDate.firstDate, 'YYYY-MM-DD'),
-                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD'),
-                challengeId: 0
+//                round1ScheduledStartDateFirstDate: helper.formatDate(filter.round1ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
+//                round1ScheduledStartDateSecondDate: helper.formatDate(filter.round1ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
+//                round2ScheduledStartDateFirstDate: helper.formatDate(filter.round2ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
+//                round2ScheduledStartDateSecondDate: helper.formatDate(filter.round2ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
+//                reviewStartDateFirstDate: helper.formatDate(filter.reviewStartDate.firstDate, 'YYYY-MM-DD'),
+//                reviewStartDateSecondDate: helper.formatDate(filter.reviewStartDate.secondDate, 'YYYY-MM-DD'),
+//                reviewEndDateFirstDate: helper.formatDate(filter.reviewEndDate.firstDate, 'YYYY-MM-DD'),
+//                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD'),
+                round1ScheduledStartDateFirstDate: filter.round1ScheduledStartDate.firstDate,
+                round1ScheduledStartDateSecondDate: filter.round1ScheduledStartDate.secondDate,
+                round2ScheduledStartDateFirstDate: filter.round2ScheduledStartDate.firstDate,
+                round2ScheduledStartDateSecondDate: filter.round2ScheduledStartDate.secondDate,
+                reviewStartDateFirstDate: filter.reviewStartDate.firstDate,
+                reviewStartDateSecondDate: filter.reviewStartDate.secondDate,
+                reviewEndDateFirstDate: filter.reviewEndDate.firstDate,
+                reviewEndDateSecondDate: filter.reviewEndDate.secondDate,
+                challenge_id: 0
             };
 
             queryName = isStudio ? 'search_studio_review_opportunities' : 'search_software_review_opportunities_data';
@@ -533,6 +541,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
             result.total = result.data.length;
             result.pageIndex = pageIndex;
             result.pageSize = Number(connection.params.pageIndex) === -1 ? result.data.length : pageSize;
+            // paging the results.
             result.data = result.data.slice(pageStart, pageStart + pageSize);
             cb();
         }

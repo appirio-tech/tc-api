@@ -172,10 +172,8 @@ WHERE 1=1
 AND LOWER(review_type) = LOWER(DECODE('@reviewType@', '', review_type, '@reviewType@'))
 AND LOWER(challenge_name) LIKE LOWER('%@challengeName@%')
 AND LOWER(challenge_type) = LOWER(DECODE('@challengeType@', '', challenge_type, '@challengeType@'))
-AND EXTEND(review_start, year to day) <= '@reviewStartDateSecondDate@'
-AND EXTEND(review_start, year to day) >= '@reviewStartDateFirstDate@'
-AND EXTEND(review_end, year to day) <= '@reviewEndDateSecondDate@'
-AND EXTEND(review_end, year to day) >= '@reviewEndDateFirstDate@'
+AND review_start BETWEEN TO_DATE('@reviewStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@reviewStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
+AND review_end BETWEEN TO_DATE('@reviewEndDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@reviewEndDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
 AND number_of_review_positions_available > 0
 
 ORDER BY @sortColumn@ @sortOrder@
