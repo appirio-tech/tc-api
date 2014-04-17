@@ -177,7 +177,7 @@ exports.getPaymentList = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    cacheEnabled : true,
+    cacheEnabled : false,
     databases : ["informixoltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
