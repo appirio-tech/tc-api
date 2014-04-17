@@ -215,7 +215,7 @@ var getChallengeCosts = function (api, connection, next) {
                     notEmpty = true;
                     res.forEach(function (row) {
                         challengeCosts.history.push({
-                            paymentDate: helper.formatDate(row.payment_date, OUTPUT_DATE_FORMAT),
+                            paymentDate: helper.formatInformixDate(row.payment_date, OUTPUT_DATE_FORMAT),
                             clientName: row.client_name,
                             clientId: row.client_id,
                             billingName: row.billing_name,
@@ -224,8 +224,8 @@ var getChallengeCosts = function (api, connection, next) {
                             challengeId: row.challenge_id,
                             challengeType: row.challenge_type,
                             challengeStatus: (row.challenge_status || '').trim(),
-                            launchDate: helper.formatDate(row.launch_date, OUTPUT_DATE_FORMAT),
-                            completionDate: helper.formatDate(row.completion_date, OUTPUT_DATE_FORMAT),
+                            launchDate: helper.formatInformixDate(row.launch_date, OUTPUT_DATE_FORMAT),
+                            completionDate: helper.formatInformixDate(row.completion_date, OUTPUT_DATE_FORMAT),
                             paymentType: row.payment_type,
                             amount: row.amount
                         });

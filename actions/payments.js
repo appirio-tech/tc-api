@@ -130,9 +130,9 @@ var searchPayments = function (api, connection, next) {
                 return {
                     description : payment.description.trim(),
                     type : payment.type,
-                    createDate : helper.formatDate(payment.date_create, OUTPUT_DATE_FORMAT),
-                    releaseDate : helper.formatDate(payment.release_date, OUTPUT_DATE_FORMAT),
-                    paidDate : helper.formatDate(payment.paid_date, OUTPUT_DATE_FORMAT) || "",
+                    createDate : helper.formatInformixDate(payment.date_create, OUTPUT_DATE_FORMAT),
+                    releaseDate : helper.formatInformixDate(payment.release_date, OUTPUT_DATE_FORMAT),
+                    paidDate : helper.formatInformixDate(payment.paid_date, OUTPUT_DATE_FORMAT) || "",
                     status : payment.status,
                     amount : payment.amount
                 };
