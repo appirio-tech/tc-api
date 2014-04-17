@@ -438,14 +438,6 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 challengeType: filter.challengeType,
                 challengeName: filter.challengeName,
                 projectTypeId: isStudio ? helper.studio.category : helper.software.category,
-//                round1ScheduledStartDateFirstDate: helper.formatDate(filter.round1ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
-//                round1ScheduledStartDateSecondDate: helper.formatDate(filter.round1ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
-//                round2ScheduledStartDateFirstDate: helper.formatDate(filter.round2ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
-//                round2ScheduledStartDateSecondDate: helper.formatDate(filter.round2ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
-//                reviewStartDateFirstDate: helper.formatDate(filter.reviewStartDate.firstDate, 'YYYY-MM-DD'),
-//                reviewStartDateSecondDate: helper.formatDate(filter.reviewStartDate.secondDate, 'YYYY-MM-DD'),
-//                reviewEndDateFirstDate: helper.formatDate(filter.reviewEndDate.firstDate, 'YYYY-MM-DD'),
-//                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD'),
                 round1ScheduledStartDateFirstDate: filter.round1ScheduledStartDate.firstDate,
                 round1ScheduledStartDateSecondDate: filter.round1ScheduledStartDate.secondDate,
                 round2ScheduledStartDateFirstDate: filter.round2ScheduledStartDate.firstDate,
@@ -723,7 +715,7 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
         currentUserApplications;
 
     // The reviewApplicationRoleId is undefined. Initialize it.
-    if (!_.isDefined(reviewApplicationRoleId)) {
+    if (_.isUndefined(reviewApplicationRoleId)) {
         reviewApplicationRoleId = [];
     }
 
