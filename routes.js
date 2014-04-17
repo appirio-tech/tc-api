@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.37
+ * @version 1.38
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee
  * Changes in 1.1:
  * - add routes for search challenges
@@ -86,6 +86,8 @@
  * - add route for get payment list api.
  * Changes in 1.37:
  * - add route for track statistics API.
+ * Changes in 1.38:
+ * - add route for upload member photo API.
  */
 
 /* ---------------------
@@ -247,6 +249,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
         { path: "/:apiVersion/terms/docusignCallback", action: "docusignCallback" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
+        { path: "/:apiVersion/users/photo", action: "uploadMemberPhoto" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },

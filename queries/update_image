@@ -1,0 +1,1 @@
+UPDATE image SET file_name = '@file_name@', path_id = @path_id@ WHERE image_id = @image_id@

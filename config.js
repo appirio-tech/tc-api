@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
- * @version 1.22
+ * @version 1.23
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -53,6 +53,8 @@
  * - add resetTokenSuffix
  * Changes in 1.22:
  * - add auth0 configuration.
+ * Changes in 1.23:
+ * - Add member photo properties.
  */
 "use strict";
 
@@ -123,7 +125,12 @@ config.general = {
      * It can be relative to the current directory or can be absolute 
      */
     uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission",
-    maxRSSLength: 1000
+    maxRSSLength: 1000,
+    memberPhoto: {
+        fileSizeLimit: process.env.PHOTO_SIZE_LIMIT || 1048576,
+        validTypes: ['jpeg', 'png', 'bmp', 'jpg'],
+        storeDir: process.env.PHOTO_STORE_DIR || 'test/tmp/memberPhoto/'
+    }
 };
 
 /////////////
