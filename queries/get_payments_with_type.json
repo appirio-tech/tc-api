@@ -1,0 +1,5 @@
+{
+    "name"    : "get_payments_with_type",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_payments_with_type"
+}

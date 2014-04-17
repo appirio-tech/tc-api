@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
+ * @version 1.4
  * @author Sky_, Ghost_141
  * changes in 1.1
  * - Implement the studio review opportunities.
@@ -10,12 +10,17 @@
  * - remove getStudioReviewOpportunities method.
  * changes in 1.3:
  * - Implement the getSoftwareReviewOpportunity api.
+ * Changes in 1.4:
+ * - Implement the applyDevelopReviewOpportunity API.
+ * - add VALID_REVIEW_APPLICATION_ROLE_ID and REVIEW_APPLICATION_STATUS.
  */
 'use strict';
 var async = require('async');
 var _ = require('underscore');
+var moment = require('moment');
 var NotFoundError = require('../errors/NotFoundError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
 
 /**
@@ -67,6 +72,37 @@ var STUDIO_ALLOWABLE_QUERY_PARAMETER = ['round1ScheduledStartDate.type', 'round1
  * The review type for software review opportunities api.
  */
 var SOFTWARE_REVIEW_TYPE = ['Iterative Review', 'Spec Review', 'Contest Review'];
+
+/**
+ * Valid value for review application role id.
+ *
+ * @since 1.4
+ */
+var VALID_REVIEW_APPLICATION_ROLE_ID = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+/**
+ * The review application status object.
+ *
+ * @since 1.4
+ */
+var REVIEW_APPLICATION_STATUS = {
+    pending: {
+        name: 'Pending',
+        id: 1
+    },
+    cancelled: {
+        name: 'Cancelled',
+        id: 2
+    },
+    approved: {
+        name: 'Approved',
+        id: 3
+    },
+    rejected: {
+        name: 'Rejected',
+        id: 4
+    }
+};
 
 /**
  * Format the date value to a specific pattern.
@@ -160,9 +196,9 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
  */
 var createDate = function (helper, params, dateName) {
     var type = (params[dateName + '.type'] || '').toUpperCase(), date, MIN_DATE, MAX_DATE, now;
-    MIN_DATE = '01.01.1900';
-    MAX_DATE = '01.01.2999';
-    now = new Date();
+    MIN_DATE = '1900-01-01';
+    MAX_DATE = '2999-01-01';
+    now = moment(new Date()).format('YYYY-MM-DD');
 
     // For the unset date filter just return the default date filter - between min date and max date.
     if (!params[dateName + '.type'] && !params[dateName + '.firstDate'] && !params[dateName + '.secondDate']) {
@@ -275,24 +311,24 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
     filter.round1ScheduledStartDate = createDate(helper, params, 'round1ScheduledStartDate');
     filter.round2ScheduledStartDate = createDate(helper, params, 'round2ScheduledStartDate');
 
-    if (_.isDefined(params.reviewType)) {
+    if (!_.isUndefined(params.reviewType)) {
         allowedReviewType = isStudio ? STUDIO_REVIEW_TYPE : SOFTWARE_REVIEW_TYPE;
         error = error || helper.checkContains(helper.getLowerCaseList(allowedReviewType), filter.reviewType.toLowerCase(), 'reviewType');
     }
 
-    if (_.isDefined(params.reviewPaymentLowerBound)) {
+    if (!_.isUndefined(params.reviewPaymentLowerBound)) {
         error = error || helper.checkNumber(Number(params.reviewPaymentLowerBound), 'reviewPaymentLowerBound');
     }
 
-    if (_.isDefined(params.reviewPaymentUpperBound)) {
+    if (!_.isUndefined(params.reviewPaymentUpperBound)) {
         error = error || helper.checkNumber(Number(params.reviewPaymentUpperBound), 'reviewPaymentUpperBound');
     }
 
     error = error ||
-        helper.checkFilterDate(filter.reviewStartDate, 'reviewStartDate', 'MM.DD.YYYY') ||
-        helper.checkFilterDate(filter.reviewEndDate, 'reviewEndDate', 'MM.DD.YYYY') ||
-        helper.checkFilterDate(filter.round1ScheduledStartDate, 'round1ScheduledStartDate', 'MM.DD.YYYY') ||
-        helper.checkFilterDate(filter.round2ScheduledStartDate, 'round2ScheduledStartDate', 'MM.DD.YYYY');
+        helper.checkFilterDate(filter.reviewStartDate, 'reviewStartDate', 'YYYY-MM-DD') ||
+        helper.checkFilterDate(filter.reviewEndDate, 'reviewEndDate', 'YYYY-MM-DD') ||
+        helper.checkFilterDate(filter.round1ScheduledStartDate, 'round1ScheduledStartDate', 'YYYY-MM-DD') ||
+        helper.checkFilterDate(filter.round2ScheduledStartDate, 'round2ScheduledStartDate', 'YYYY-MM-DD');
 
     if (error) {
         cb(error);
@@ -300,7 +336,7 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
     }
 
     // Check the category name last.
-    if (_.isDefined(params.challengeType)) {
+    if (!_.isUndefined(params.challengeType)) {
         helper.isChallengeTypeValid(filter.challengeType, connection.dbConnectionMap, challengeType, cb);
     } else {
         cb();
@@ -402,15 +438,15 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 challengeType: filter.challengeType,
                 challengeName: filter.challengeName,
                 projectTypeId: isStudio ? helper.studio.category : helper.software.category,
-                round1ScheduledStartDateFirstDate: helper.formatDate(filter.round1ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
-                round1ScheduledStartDateSecondDate: helper.formatDate(filter.round1ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
-                round2ScheduledStartDateFirstDate: helper.formatDate(filter.round2ScheduledStartDate.firstDate, 'YYYY-MM-DD'),
-                round2ScheduledStartDateSecondDate: helper.formatDate(filter.round2ScheduledStartDate.secondDate, 'YYYY-MM-DD'),
-                reviewStartDateFirstDate: helper.formatDate(filter.reviewStartDate.firstDate, 'YYYY-MM-DD'),
-                reviewStartDateSecondDate: helper.formatDate(filter.reviewStartDate.secondDate, 'YYYY-MM-DD'),
-                reviewEndDateFirstDate: helper.formatDate(filter.reviewEndDate.firstDate, 'YYYY-MM-DD'),
-                reviewEndDateSecondDate: helper.formatDate(filter.reviewEndDate.secondDate, 'YYYY-MM-DD'),
-                challengeId: 0
+                round1ScheduledStartDateFirstDate: filter.round1ScheduledStartDate.firstDate,
+                round1ScheduledStartDateSecondDate: filter.round1ScheduledStartDate.secondDate,
+                round2ScheduledStartDateFirstDate: filter.round2ScheduledStartDate.firstDate,
+                round2ScheduledStartDateSecondDate: filter.round2ScheduledStartDate.secondDate,
+                reviewStartDateFirstDate: filter.reviewStartDate.firstDate,
+                reviewStartDateSecondDate: filter.reviewStartDate.secondDate,
+                reviewEndDateFirstDate: filter.reviewEndDate.firstDate,
+                reviewEndDateSecondDate: filter.reviewEndDate.secondDate,
+                challenge_id: 0
             };
 
             queryName = isStudio ? 'search_studio_review_opportunities' : 'search_software_review_opportunities_data';
@@ -497,6 +533,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
             result.total = result.data.length;
             result.pageIndex = pageIndex;
             result.pageSize = Number(connection.params.pageIndex) === -1 ? result.data.length : pageSize;
+            // paging the results.
             result.data = result.data.slice(pageStart, pageStart + pageSize);
             cb();
         }
@@ -519,7 +556,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
  */
 var getSoftwareReviewOpportunity = function (api, connection, next) {
     var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, challengeId, sqlParams, result = {},
-        phases, positions, applications, basic, adjustPayment,
+        phases, positions, applications, basic, adjustPayment, assignedResource,
         execQuery = function (name) {
             return function (cb) {
                 api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cb);
@@ -540,6 +577,7 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             }
 
             sqlParams = {
+                challenge_id: challengeId,
                 challengeId: challengeId,
                 user_id: connection.caller.userId
             };
@@ -566,6 +604,7 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                 phases: execQuery('get_review_opportunity_detail_phases'),
                 positions: execQuery('get_review_opportunity_detail_positions'),
                 applications: execQuery('get_review_opportunity_detail_applications'),
+                resource: execQuery('get_assigned_review_resource_role'),
                 adjustPayment: execQuery('search_software_review_opportunities_adjust_payment')
             }, cb);
         },
@@ -573,6 +612,7 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             phases = results.phases;
             positions = results.positions;
             applications = results.applications;
+            assignedResource = results.resource;
             basic = results.basic[0];
             adjustPayment = results.adjustPayment;
 
@@ -594,16 +634,21 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                 });
             });
 
+            // Iterative each positions that this challenge have.
             positions.forEach(function (row) {
                 var positionOpen,
-                    approvedNumber = _.countBy(applications,
-                        function (item) {
-                            return item.review_application_role_id === row.review_application_role_id
-                                && item.status === 'Approved';
-                        })['true'] || 0;
+                    isClosed = false,
+                    i,
+                    reviewApplicationRole = _.filter(results.basic, function (item) { return item.review_application_role_id === row.review_application_role_id; });
 
-                if (approvedNumber === row.num_positions) {
-                    // There is no spaces for new reviewer on this role.
+                for (i = 0; i < reviewApplicationRole.length; i += 1) {
+                    if (!isClosed && reviewApplicationRole[i].is_unique && assignedResource.indexOf(reviewApplicationRole[i].resource_role_id) >= 0) {
+                        isClosed = true;
+                    }
+                }
+
+                if (isClosed) {
+                    // Review application role is closed.
                     return;
                 }
 
@@ -645,6 +690,275 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             helper.handleError(api, connection, err);
         } else {
             connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * Handle the apply develop review opportunities api.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.4
+ */
+var applyDevelopReviewOpportunity = function (api, connection, next) {
+    var helper = api.helper,
+        caller = connection.caller,
+        resourceRoleNames = [],
+        dbConnectionMap = connection.dbConnectionMap,
+        challengeId = Number(connection.params.challengeId),
+        reviewApplicationRoleId = connection.params.reviewApplicationRoleId,
+        reviewAuctionId,
+        message,
+        reviewAssignmentDate,
+        currentUserApplications;
+
+    // The reviewApplicationRoleId is undefined. Initialize it.
+    if (_.isUndefined(reviewApplicationRoleId)) {
+        reviewApplicationRoleId = [];
+    }
+
+    // Only have one review application role id.
+    if (!_.isArray(reviewApplicationRoleId)) {
+        reviewApplicationRoleId = [reviewApplicationRoleId];
+    }
+    // Unique the array and transfer the value to number.
+    reviewApplicationRoleId = _(reviewApplicationRoleId)
+        .chain()
+        .uniq()
+        .map(function (item) { return Number(item); })
+        .value();
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxInt(challengeId, 'challengeId') ||
+                helper.checkMember(connection, 'Anonymous user don\'t have permission to access this api.');
+
+            reviewApplicationRoleId.forEach(function (item) {
+                error = error || helper.checkContains(VALID_REVIEW_APPLICATION_ROLE_ID, item, 'reviewApplicationRoleId');
+            });
+
+            if (error) {
+                cb(error);
+                return;
+            }
+            async.parallel({
+                detail: function (cbx) {
+                    api.dataAccess.executeQuery('review_opportunity_detail', { challenge_id: challengeId }, dbConnectionMap, cbx);
+                },
+                applications: function (cbx) {
+                    api.dataAccess.executeQuery('get_user_review_applications', { challenge_id: challengeId, user_id: caller.userId }, dbConnectionMap, cbx);
+                },
+                resourceRoles: function (cbx) {
+                    api.dataAccess.executeQuery('get_assigned_review_resource_role', { challenge_id: challengeId }, dbConnectionMap, cbx);
+                },
+                reviewerCheck: function (cbx) {
+                    api.dataAccess.executeQuery('check_reviewer', { challenge_id: challengeId, user_id: caller.userId }, dbConnectionMap, cbx);
+                },
+                privateCheck: function (cbx) {
+                    api.dataAccess.executeQuery('check_user_challenge_accessibility', { challengeId: challengeId, user_id: caller.userId }, dbConnectionMap, cbx);
+                }
+            }, cb);
+        },
+        function (res, cb) {
+            var details = res.detail,
+                reviewerCheck = res.reviewerCheck,
+                availableApplicationIds = _.chain(details)
+                    .map(function (item) { return item.review_application_role_id; })
+                    .uniq()
+                    .value(),
+                privateCheck = res.privateCheck[0],
+                positionsLeft,
+                assignedResourceRoles = res.resourceRoles,
+                currentUserResourceRole = _.filter(assignedResourceRoles, function (item) { return item.user_id === caller.userId; });
+
+            currentUserApplications = res.applications;
+
+            // The challenge not existed or don't have review opportunity.
+            if (details.length === 0) {
+                cb(new BadRequestError('The challenge is not existed or don\'t have any review opportunities or review registration is not open.'));
+                return;
+            }
+            // Initialize it after the definition check.
+            // The total review positions left for this challenge.
+            positionsLeft = details[0].positions_left;
+            // The reviewer assignment date.
+            reviewAssignmentDate = details[0].assignment_date;
+            // The review auction id. This will bed used when insert new review application.
+            reviewAuctionId = details[0].review_auction_id;
+
+            // If the request review application role is not belong to this challenge.
+            if (_.difference(reviewApplicationRoleId, availableApplicationIds).length > 0) {
+                cb(new BadRequestError('You can\'t apply the review application role that do not belong to this challenge.'));
+                return;
+            }
+
+            // Check if it's a reviewer of this kind of challenge.
+            // We only check this when caller is trying to apply review opportunity not cancel them.
+            if (reviewApplicationRoleId.length > 0 && reviewerCheck.length === 0) {
+                cb(new ForbiddenError('You are not a Review Board member.'));
+                return;
+            }
+
+            // The caller can't access this private challenge.
+            if (privateCheck.is_private && !privateCheck.has_access) {
+                cb(new ForbiddenError('The user is not allowed to register this challenge review.'));
+                return;
+            }
+
+            // We only check this when caller is trying to apply review opportunity not cancel them.
+            // Get the review resource role that belong to the caller. If the length > 0 then the user is a reviewer already.
+            if (reviewApplicationRoleId.length > 0 && currentUserResourceRole.length > 0) {
+                cb(new BadRequestError('You are already assigned as reviewer for the contest.'));
+                return;
+            }
+
+            // Do not need reviewer anymore.
+            if (positionsLeft <= 0) {
+                cb(new BadRequestError('There are no open positions for this challenge.'));
+                return;
+            }
+
+            // iterative the available review application role ids for this challenge.
+            // The results of this function will be a array of resource role names(The role that caller applied). So we can check the terms of use later.
+            async.eachSeries(availableApplicationIds, function (roleId, cbx) {
+                var reviewApplicationRole = _.filter(details, function (item) { return item.review_application_role_id === roleId; }),
+                    positionsNeeds = Math.min(positionsLeft, reviewApplicationRole[0].positions),
+                    isClosed = false,
+                    assignedRoles = _.map(assignedResourceRoles, function (item) { return item.resource_role_id; }),
+                    i;
+
+                if (reviewApplicationRoleId.indexOf(roleId) < 0) {
+                    // The caller not apply this role.
+                    // Update the reviewers count before callback.
+                    positionsLeft -= positionsNeeds;
+                    cbx();
+                    return;
+                }
+
+                for (i = 0; i < reviewApplicationRole.length; i += 1) {
+                    if (!isClosed && reviewApplicationRole[i].is_unique && assignedRoles.indexOf(reviewApplicationRole[i].resource_role_id) >= 0) {
+                        isClosed = true;
+                    }
+                }
+
+                // The review application role is closed so no need to calculate the positions left(we already did in query).
+                if (isClosed) {
+                    cb(new BadRequestError('There is no open positions for selected review application role: ' + reviewApplicationRole[0].role_name + '.'));
+                    return;
+                }
+
+                if (positionsLeft === 0) {
+                    cbx(new BadRequestError('There is no open positions for selected review application role: ' + reviewApplicationRole[0].role_name + '.'));
+                    return;
+                }
+
+                // Has the positions apply the role.
+                // Store the resource role for later terms of use check.
+                resourceRoleNames = _.union(resourceRoleNames,
+                    _.chain(details)
+                    .filter(function (item) { return item.review_application_role_id === roleId; })
+                    .map(function (item) { return item.resource_role_name; })
+                    .value());
+                positionsLeft -= positionsNeeds;
+                cbx();
+            }, function (err) {
+                cb(err);
+            });
+        },
+        function (cb) {
+            // Check the terms of use for each resource role here.
+            async.eachSeries(resourceRoleNames, function (role, cbx) {
+                api.challengeHelper.getChallengeTerms(connection, challengeId, role, false, dbConnectionMap, function (err, terms) {
+                    if (err) {
+                        cbx(err);
+                        return;
+                    }
+                    // If the terms has not been all agreed.
+                    // We don't allow people who has agree all terms. So simply return an error.
+                    if (helper.allTermsAgreed(terms) !== true) {
+                        cb(new ForbiddenError('You should agree with all terms of use.'));
+                        return;
+                    }
+                    cbx();
+                });
+            }, function (err) {
+                cb(err);
+            });
+        },
+        function (cb) {
+            // Update or insert the review application.
+            var currentPendingAppliedApplication = _.filter(currentUserApplications, function (item) { return item.status === REVIEW_APPLICATION_STATUS.pending.name; }),
+            // The current pending applied application role id for the caller.
+                currentPendingApplied = _.map(currentPendingAppliedApplication, function (item) { return item.role_id; }),
+            // The review application role id to remove.
+                roleToRemove = _.difference(currentPendingApplied, reviewApplicationRoleId),
+            // The review application role id to add.
+                roleToAdd = _.difference(reviewApplicationRoleId, currentPendingApplied);
+
+            async.parallel({
+                update: function (cbx) {
+                    // Update the role to cancelled status.
+                    async.each(roleToRemove, function (roleId, callback) {
+                        var reviewApplicationId = _.find(currentPendingAppliedApplication, function (item) { return item.role_id === roleId; }).review_application_id;
+                        api.dataAccess.executeQuery('update_review_application',
+                            { review_application_id: reviewApplicationId, status: REVIEW_APPLICATION_STATUS.cancelled.id },
+                            dbConnectionMap, callback);
+                    }, function (err) {
+                        cbx(err);
+                    });
+                },
+                add: function (cbx) {
+                    // Add the new application.
+                    async.each(roleToAdd, function (roleId, callback) {
+                        api.idGenerator.getNextIDFromDb('REVIEW_APPLICATION_SEQ', 'tcs_catalog', dbConnectionMap, function (err, id) {
+                            if (err) {
+                                callback(err);
+                                return;
+                            }
+                            api.dataAccess.executeQuery('insert_review_application',
+                                {
+                                    review_application_id: id,
+                                    review_auction_id: reviewAuctionId,
+                                    role_id: roleId,
+                                    user_id: caller.userId,
+                                    status: REVIEW_APPLICATION_STATUS.pending.id
+                                }, dbConnectionMap, callback);
+                        });
+                    }, function (err) {
+                        cbx(err);
+                    });
+                }
+            }, function (err) {
+                cb(err);
+            });
+        },
+        function (cb) {
+            // Register succeed. Prepare the message.
+            if (reviewApplicationRoleId.length === 0) {
+                // The user is intend to remove all reigstered review applications.
+                message = 'Your review application for this contest has been cancelled.';
+            } else if (moment(reviewAssignmentDate).isAfter()) {
+                // The assignment date is not arrived yet.
+                message = 'You have successfully applied to review this contest. The system will automatically select ' +
+                    'reviewers that best match the review positions for this contest on '
+                    + helper.formatDate(reviewAssignmentDate, 'MM.DD.YYYY HH:mm z') + '. You will be notified by email ' +
+                    'what review role you were assigned to.';
+            } else {
+                // The assignment date is passed.
+                message = 'You have successfully applied to review this contest. The system will automatically decide ' +
+                    'whether you match the reviewer requirements for this contest now. You will be notified by email ' +
+                    'shortly.';
+            }
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = { message: message };
         }
         next(connection, true);
     });
@@ -694,6 +1008,33 @@ exports.getSoftwareReviewOpportunity = {
         if (connection.dbConnectionMap) {
             api.log('Execute getSoftwareReviewOpportunity#run', 'debug');
             getSoftwareReviewOpportunity(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Apply Develop Review Opportunity API.
+ * @since 1.4
+ */
+exports.applyDevelopReviewOpportunity = {
+    name: 'applyDevelopReviewOpportunity',
+    description: 'applyDevelopReviewOpportunity',
+    inputs: {
+        required: ['challengeId'],
+        optional: ['reviewApplicationRoleId']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    cacheEnabled: false,
+    version: 'v2',
+    transaction: 'write',
+    databases: ['tcs_catalog', 'common_oltp'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('Execute applyDevelopReviewOpportunity#run', 'debug');
+            applyDevelopReviewOpportunity(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

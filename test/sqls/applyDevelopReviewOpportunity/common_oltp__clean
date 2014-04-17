@@ -1,0 +1,2 @@
+DELETE FROM user_terms_of_use_xref WHERE user_id = 132457;
+DELETE FROM project_role_terms_of_use_xref WHERE project_id = 2001;

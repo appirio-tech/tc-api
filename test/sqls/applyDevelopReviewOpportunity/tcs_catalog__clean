@@ -1,0 +1,9 @@
+DELETE FROM resource_info WHERE resource_id >= 2001;
+DELETE FROM resource WHERE project_id >= 2001;
+DELETE FROM group_contest_eligibility WHERE contest_eligibility_id = 2001;
+DELETE FROM contest_eligibility WHERE contest_id >= 2001;
+DELETE FROM phase_criteria WHERE project_phase_id >= 2001;
+DELETE FROM project_phase WHERE project_id >= 2001;
+DELETE FROM review_application WHERE review_auction_id >= 2001;
+DELETE FROM review_auction WHERE project_id >= 2001;
+DELETE FROM project WHERE project_id >= 2001;

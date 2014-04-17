@@ -16,6 +16,6 @@ delete from comp_versions where comp_vers_id > 40000000 and comp_vers_id < 40000
 delete from comp_catalog where component_id > 40000000 and component_id < 40000020;
 delete from user_rating where user_id = 400011;
 delete from user_reliability where user_id = 400011;
-delete from project_studio_specification where project_studio_spec_id = 1;
+delete from project_studio_specification where project_studio_spec_id = 1001;
 
 delete from copilot_profile where copilot_profile_id = 400011;

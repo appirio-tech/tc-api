@@ -1,0 +1,26 @@
+INSERT INTO user(user_id, handle, status) VALUES(300001, 'testUser300001', 'A');
+
+INSERT INTO user(user_id, handle, status) VALUES(300002, 'testUser300002', 'U');
+INSERT INTO security_user(login_id, user_id, password, create_user_id)
+VALUES(300002, 'testUser300002', '4EjPjy6o+/C+dqNPnxIy9A==', 0);
+INSERT INTO user_role_xref(user_role_id, login_id, role_id, create_user_id, security_status_id)
+VALUES(2001, 300002, 1000, 132456, 1);
+
+INSERT INTO user(user_id, handle, status) VALUES(300003, 'testUser300003', 'A');
+INSERT INTO security_user(login_id, user_id, password, create_user_id)
+VALUES(300003, 'testUser300003', '4EjPjy6o+/C+dqNPnxIy9A==', 0);
+INSERT INTO user_role_xref(user_role_id, login_id, role_id, create_user_id, security_status_id)
+VALUES(2002, 300003, 1000, 132456, 1);
+INSERT INTO address(address_id, address_type_id, country_code, create_date, modify_date)
+VALUES(2001, 2, 192, current, current);
+INSERT INTO user_address_xref(user_id, address_id) VALUES(300003, 2001);
+
+INSERT INTO event(event_id, event_type_id, event_desc, modify_date) VALUES(2001, 1, 'Test Event 2001', current);
+INSERT INTO event_registration(event_id, user_id, eligible_ind, notes, create_date, modify_date)
+VALUES(2001, 124764, 0, 'test', current, current);
+INSERT INTO event_registration(event_id, user_id, eligible_ind, notes, create_date, modify_date)
+VALUES(2001, 124766, 1, 'test', current, current);
+INSERT INTO event_registration(event_id, user_id, eligible_ind, notes, create_date, modify_date)
+VALUES(2001, 300003, 1, 'test', current, current);
+INSERT INTO event_registration(event_id, user_id, eligible_ind, notes, create_date, modify_date)
+VALUES(2001, 132456, 1, 'test', current, current);

@@ -1,0 +1,86 @@
+-- spec
+SELECT
+  ra.review_auction_id
+, 1 - (SELECT COUNT(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id = 18) AS positions_left
+, rarl.name AS role_name
+, rarl.review_application_role_id
+, rarl.positions
+, rarl.order_index
+, rrl.name AS resource_role_name
+, rrl.resource_role_id
+, nvl(pp13.actual_start_time,pp13.scheduled_start_time) + 1 units hour AS assignment_date
+, rarrrx.unique_role AS is_unique
+FROM review_auction ra
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=2
+INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
+INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
+INNER JOIN resource_role_lu rrl ON rrl.resource_role_id = rarrrx.resource_role_id
+INNER JOIN project p ON p.project_id=ra.project_id
+INNER JOIN project_phase pp13 ON pp13.project_id=p.project_id AND pp13.phase_type_id=13 AND not exists (SELECT 1 FROM phase_dependency WHERE dependent_phase_id=pp13.project_phase_id)
+INNER JOIN phase_dependency pd ON pd.dependency_phase_id=pp13.project_phase_id
+INNER JOIN project_phase pp14 ON pp14.project_id=p.project_id AND pp14.phase_type_id=14 AND pp14.project_phase_id=pd.dependent_phase_id
+WHERE p.project_id = @challenge_id@
+AND p.project_status_id = 1 
+AND pp13.phase_status_id IN (2, 3)
+AND pp14.phase_status_id IN (1, 2)
+
+UNION ALL
+
+-- contest
+SELECT
+  ra.review_auction_id
+, pc.parameter::int - (SELECT COUNT(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id IN (4,5,6,7)) AS positions_left
+, rarl.name AS role_name
+, rarl.review_application_role_id
+, rarl.positions
+, rarl.order_index
+, rrl.name AS resource_role_name
+, rrl.resource_role_id
+, nvl(pp2.actual_end_time,pp2.scheduled_end_time) - 24 units hour AS assignment_date
+, rarrrx.unique_role AS is_unique
+FROM review_auction ra
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=1
+INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
+INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
+INNER JOIN resource_role_lu rrl ON rrl.resource_role_id = rarrrx.resource_role_id
+INNER JOIN project p ON p.project_id=ra.project_id
+INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
+INNER JOIN project_phase pp4 ON pp4.project_id=p.project_id AND pp4.phase_type_id=4
+INNER JOIN phase_criteria pc ON pc.project_phase_id=pp4.project_phase_id AND pc.phase_criteria_type_id=6
+WHERE p.project_id = @challenge_id@
+AND p.project_status_id = 1 
+AND pp2.phase_status_id IN (2, 3)
+AND pp4.phase_status_id IN (1, 2)
+AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
+
+UNION ALL
+
+-- iterative
+SELECT
+  ra.review_auction_id
+, pc.parameter::int - (SELECT COUNT(r.resource_id) FROM resource r WHERE r.project_id=p.project_id AND r.resource_role_id = 21) AS positions_left
+, rarl.name AS role_name
+, rarl.review_application_role_id
+, rarl.positions
+, rarl.order_index
+, rrl.name AS resource_role_name
+, rrl.resource_role_id
+, nvl(pp2.actual_start_time,pp2.scheduled_start_time) + 24 units hour AS assignment_date
+, rarrrx.unique_role AS is_unique
+FROM review_auction ra
+INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id=ra.review_auction_type_id AND ratl.review_auction_category_id=3
+INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
+INNER JOIN review_application_role_resource_role_xref rarrrx ON rarrrx.review_application_role_id = rarl.review_application_role_id
+INNER JOIN resource_role_lu rrl ON rrl.resource_role_id = rarrrx.resource_role_id
+INNER JOIN project p ON p.project_id=ra.project_id
+INNER JOIN project_phase pp2 ON pp2.project_id=p.project_id AND pp2.phase_type_id=2
+INNER JOIN project_phase pp18 ON pp18.project_id=p.project_id AND pp18.phase_type_id=18
+INNER JOIN phase_dependency pd ON pd.dependent_phase_id=pp18.project_phase_id AND pd.dependent_start=1 AND pd.dependency_phase_id=pp2.project_phase_id AND pd.dependency_start=1
+INNER JOIN phase_criteria pc ON pc.project_phase_id=pp18.project_phase_id AND pc.phase_criteria_type_id=6
+WHERE p.project_id = @challenge_id@
+AND p.project_status_id = 1 
+AND pp2.phase_status_id IN (2, 3)
+AND pp18.phase_status_id IN (1, 2)
+AND not exists (SELECT 1 FROM project_phase pp12 WHERE pp12.project_id=p.project_id AND pp12.phase_type_id=12)
+
+ORDER BY rarl.order_index ASC

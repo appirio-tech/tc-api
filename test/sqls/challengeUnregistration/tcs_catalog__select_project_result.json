@@ -1,0 +1,5 @@
+{
+  "name"    : "tcs_catalog__select_project_result",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "tcs_catalog__select_project_result"
+}

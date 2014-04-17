@@ -1,0 +1,5 @@
+{
+    "name"    : "get_software_studio_challenges_rss",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_software_studio_challenges_rss"
+}

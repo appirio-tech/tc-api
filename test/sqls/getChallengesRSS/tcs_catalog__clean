@@ -1,0 +1,14 @@
+DELETE FROM resource_info;
+DELETE FROM resource;
+DELETE FROM component_inquiry;
+DELETE FROM phase_criteria;
+DELETE FROM phase_dependency;
+DELETE FROM project_phase;
+DELETE FROM project_platform;
+DELETE FROM prize;
+DELETE FROM group_contest_eligibility;
+DELETE FROM contest_eligibility;
+DELETE FROM project_spec;
+DELETE FROM project_info;
+DELETE FROM project;
+DELETE FROM project_studio_specification;

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv
- * @version 1.16
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
+ * @version 1.22
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -32,6 +32,7 @@
  * - add defaultUserCacheLifetime property.
  * changes in 1.13:
  * - add jive in database mapping.
+ * - added the docusign object
  * - add grantForumAccess property.
  * Changes in 1.14:
  * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
@@ -39,6 +40,19 @@
  * - added configuration for Docusign integration.
  * Changes in 1.16:
  * - add welcome email property.
+ * Changes in 1.17:
+ * - add maxRSSLength.
+ * changes in 1.19:
+ * - add defaultResetPasswordTokenCacheLifetime property.
+ * - add resetPasswordTokenEmailSubject property.
+ * changes in 1.20:
+ * - add tcForumsServer property.
+ * - add studioForumsServer property.
+ * Changes in 1.21:
+ * - add minPasswordLength and maxPasswordLength
+ * - add resetTokenSuffix
+ * Changes in 1.22:
+ * - add auth0 configuration.
  */
 "use strict";
 
@@ -80,6 +94,12 @@ config.general = {
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
+    resetTokenPrefix: 'tokens-',
+    resetTokenSuffix: '-reset-token',
+    minPasswordLength: 8,
+    maxPasswordLength: 30,
+    defaultResetPasswordTokenCacheLifetime: process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY ? parseInt(process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY, 10) : 1000 * 60 * 30, //30 min
+    resetPasswordTokenEmailSubject: process.env.RESET_PASSWORD_TOKEN_EMAIL_SUBJECT || "TopCoder Account Password Reset",
     cachePrefix: '',
     oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
     //auth0 secret is encoded in base64!
@@ -89,6 +109,8 @@ config.general = {
     jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
+    tcForumsServer: process.env.TC_FORUMS_SERVER_NAME || "http://forums.topcoder.com/",
+    studioForumsServer: process.env.STUDIO_FORUMS_SERVER_NAME || "http://studio.topcoder.com/forums",
     grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
     devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     filteredParams: ['password'],
@@ -100,7 +122,8 @@ config.general = {
      * The directory where uploaded files are stored.
      * It can be relative to the current directory or can be absolute 
      */
-    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission"
+    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission",
+    maxRSSLength: 1000
 };
 
 /////////////
@@ -193,7 +216,7 @@ config.tasks = {
   //  ['high,low'] is one worker working 2 queues
     queues: ['default'],
   // how long to sleep between jobs / scheduler checks
-    timeout: 5000,
+    timeout: process.env.TASK_TIMEOUT || 5000,
   // What redis server should we connect to for tasks / delayed jobs?
     redis: config.redis
 };
@@ -277,9 +300,8 @@ config.submissionDir = process.env.SUBMISSION_DIR || 'test/tmp/submissions';
 config.thurgoodDownloadUsername = process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood";
 config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret";
 
-//Max size of a submission. Currently set to 2KB for test purpose. On production, it will be in the order of 100s of MB
-//Set to 0 or negative for no size limit.
-config.submissionMaxSizeBytes = 2048;
+//Max size of a submission. Currently set to 100M for now. 
+config.submissionMaxSizeBytes = 104857600;
 
 //////Thurgood configurables///////
 config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
@@ -309,11 +331,16 @@ config.docusign = {
     roleName: process.env.DOCUSIGN_ROLENAME || 'Member',
     clientUserId: process.env.DOCUSIGN_CLIENT_USER_ID || 'Member',
     returnURL: process.env.DOCUSIGN_RETURN_URL || 'http://localhost:8080/v2/terms/docusign/returnSigning&envelopeId=<%= envelopeId %>',
-    assignmentV2TemplateId: 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
-	w9TemplateId: '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
-	w8benTemplateId: 'CD415871-17F5-4A1E-A007-FE416B030FFB',
-	appirioMutualNDATemplateId: process.env.DOCUSIGN_NDA_TEMPLATE_ID || '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
-	affidavitTemplateId: '9103DC77-D8F1-4D7B-BED1-6116604EE98C'
+    assignmentV2TemplateId: process.env.DOCUSIGN_ASSIGNMENT_V2_TEMPLATE_ID || 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+    w9TemplateId: process.env.DOCUSIGN_W9TEMPLATE_ID || '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+    w8benTemplateId: process.env.DOCUSIGN_W8BEN_TEMPLATE_ID || 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+    appirioMutualNDATemplateId: process.env.DOCUSIGN_NDA_TEMPLATE_ID || '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
+    affidavitTemplateId: process.env.DOCUSIGN_AFFIDAVIT_TEMPLATE_ID || '9103DC77-D8F1-4D7B-BED1-6116604EE98C',
+    assignmentDocTermsOfUseId: process.env.ASSIGNMENT_TERMS_OF_USE_ID || 20753,
+    callbackFailedEmailSubject: process.env.DOCUSIGN_CALLBACK_FAILED_EMAIL_SUBJECT || 'Processing DocuSign document failed',
+    callbackConnectKey: process.env.DOCUSIGN_CALLBACK_CONNECT_KEY || 'ABCDED-12435-EDFADSEC',
+    supportEmailAddress: process.env.DOCUSIGN_CALLBACK_FAILED_SUPPORT_EMAIL_ADDRESS || 'arahant7@yahoo.com',
+    fromEmailAddress: process.env.DOCUSIGN_CALLBACK_FAILED_FROM_EMAIL_ADDRESS || 'do-not-reply@topcoder.com'
 };
 
 config.welcomeEmail = {
@@ -323,5 +350,10 @@ config.welcomeEmail = {
     senderName: '[topcoder] API'
 };
 
+config.auth0 = {
+    serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
+    clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
+    redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
+};
 
 exports.config = config;

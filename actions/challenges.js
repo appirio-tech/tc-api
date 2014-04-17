@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.18
+ * @version 1.20
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -44,6 +44,10 @@
  * add API for submitting to design challenge
  * changes in 1.18:
  * add clientSelection flag in studio results
+ * changes in 1.19:
+ * add new allowed sort columns.
+ * changes in 1.20:
+ * add get challenge detail api for both design and develop challenge.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -90,18 +94,9 @@ var ALLOWABLE_QUERY_PARAMETER = [
  */
 var ALLOWABLE_SORT_COLUMN = [
     "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
-    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints"
+    "submissionEndDate", "finalFixEndDate", "prize1", "currentStatus", "digitalRunPoints",
+    "postingDate", "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "registrationOpen"
 ];
-
-/**
- * Represents a ListType enum
- */
-var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
-
-/**
- * Represents a predefined list of valid list type.
- */
-var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.OPEN, ListType.UPCOMING, ListType.PAST];
 
 /**
  * Represents Percentage of Placement Points for digital run
@@ -114,24 +109,6 @@ var DR_POINT = [[1], [0.7, 0.3], [0.65, 0.25, 0.10], [0.6, 0.22, 0.1, 0.08], [0.
 var MAX_INT = 2147483647;
 
 /**
- * The list type and registration phase status map.
- */
-var LIST_TYPE_REGISTRATION_STATUS_MAP = {};
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.ACTIVE] = [2, 3];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.OPEN] = [2];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.UPCOMING] = [1];
-LIST_TYPE_REGISTRATION_STATUS_MAP[ListType.PAST] = [3];
-
-/**
- * The list type and project status map.
- */
-var LIST_TYPE_PROJECT_STATUS_MAP = {};
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.ACTIVE] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.OPEN] = [1];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.UPCOMING] = [2];
-LIST_TYPE_PROJECT_STATUS_MAP[ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
-
-/**
  * This copilot posting project type id
  */
 var COPILOT_POSTING_PROJECT_TYPE = 29;
@@ -140,8 +117,8 @@ var COPILOT_POSTING_PROJECT_TYPE = 29;
  * Max and min date value for date parameter.
  * @type {string}
  */
-var MIN_DATE = '1900-1-1';
-var MAX_DATE = '9999-1-1';
+var MIN_DATE = '2001-1-1';
+var MAX_DATE = '2199-12-31';
 
 /**
  * The date format for input date parameter startDate and enDate.
@@ -202,7 +179,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
             helper.checkPositiveInteger(pageSize, "pageSize") ||
             helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-            helper.checkContains(ALLOWABLE_LIST_TYPE, type.toUpperCase(), "type") ||
+            helper.checkContains(helper.VALID_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
     if (_.isDefined(query.communityId)) {
@@ -357,7 +334,8 @@ function transferResult(src, helper) {
             digitalRunPoints: row.digital_run_points,
             prize: [],
             reliabilityBonus: helper.getReliabilityBonus(row.prize1),
-            challengeCommunity: row.is_studio ? 'design' : 'develop'
+            challengeCommunity: row.is_studio ? 'design' : 'develop',
+            registrationOpen: row.registration_open
         });
 
         for (i = 1; i < 10; i = i + 1) {
@@ -474,7 +452,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    listType = (query.listtype || ListType.OPEN).toUpperCase();
+    listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
 
@@ -502,8 +480,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             // Set the project type id
             sqlParams.project_type_id = challengeType.category;
             // Set the submission phase status id.
-            sqlParams.registration_phase_status = LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
-            sqlParams.project_status_id = LIST_TYPE_PROJECT_STATUS_MAP[listType];
+            sqlParams.registration_phase_status = helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
+            sqlParams.project_status_id = helper.LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
 
             // Check the private challenge access
@@ -522,12 +500,24 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
                     count: 'search_private_software_studio_challenges_count',
                     challenges: 'search_private_software_studio_challenges'
                 };
+                if (listType === helper.ListType.PAST) {
+                    queryName = {
+                        count: 'search_private_past_software_studio_challenges_count',
+                        challenges: 'search_private_past_software_studio_challenges'
+                    };
+                }
             } else {
                 // Public & Private challenge query name.
                 queryName = {
                     count: 'search_software_studio_challenges_count',
                     challenges: 'search_software_studio_challenges'
                 };
+                if (listType === helper.ListType.PAST) {
+                    queryName = {
+                        count: 'search_past_software_studio_challenges_count',
+                        challenges: 'search_past_software_studio_challenges'
+                    };
+                }
             }
 
             async.parallel({
@@ -576,27 +566,33 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
  */
 var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
     var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software,
-        caller = connection.caller;
+        caller = connection.caller,
+        isRelated = false; // This variable represent if the caller is related with challenge.
     async.waterfall([
         function (cb) {
-            error = helper.checkPositiveInteger(Number(connection.params.contestId), 'contestId') ||
-                helper.checkMaxNumber(Number(connection.params.contestId), MAX_INT, 'contestId');
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
             if (error) {
                 cb(error);
                 return;
             }
             sqlParams = {
-                challengeId: connection.params.contestId,
+                challengeId: connection.params.challengeId,
                 project_type_id: challengeType.category,
                 user_id: caller.userId || 0
             };
 
             // Do the private check.
-            api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
         }, function (result, cb) {
             if (result[0].is_private && !result[0].has_access) {
                 cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
                 return;
+            }
+
+            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
+            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+                isRelated = true;
             }
 
             var execQuery = function (name) {
@@ -782,6 +778,14 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
+            if (connection.action === "getChallenge") {
+                challenge.type = isStudio ? 'design' : 'develop';
+            }
+
+            if (isStudio) {
+                challenge.allowStockArt = data.allow_stock_art;
+            }
+
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
                 challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
             }
@@ -809,9 +813,13 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 registrants: mapRegistrants(results.registrants),
                 checkpoints: mapCheckPoints(results.checkpoints),
                 submissions: mapSubmissions(results),
-                winners: mapWinners(results.winners),
-                Documents: mapDocuments(results.documents)
+                winners: mapWinners(results.winners)
             });
+
+            // Only show the documents to relevant user.
+            if (isRelated) {
+                challenge.Documents = mapDocuments(results.documents);
+            }
 
             if (isStudio) {
                 delete challenge.finalSubmissionGuidelines;
@@ -864,7 +872,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         ret = {},
         userId = connection.caller.userId,
         challengeId = Number(connection.params.challengeId),
-        fileName,
+        fileName = connection.params.fileName,
+        fileData = connection.params.fileData,
         type = connection.params.type,
         error,
         resourceId,
@@ -879,8 +888,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.thurgoodApiKey,
         thurgoodJobId = null,
         multipleSubmissionPossible,
-        savedFilePath = null,
-        submissionFile = connection.params.submissionFile;
+        savedFilePath = null;
 
     async.waterfall([
         function (cb) {
@@ -893,7 +901,9 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
 
             //Simple validations of the incoming parameters
             error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId') ||
+                helper.checkStringPopulated(fileName, 'fileName') ||
+                helper.checkStringPopulated(fileData, 'fileData');
 
             if (error) {
                 cb(error);
@@ -911,15 +921,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 }
             }
 
-            //Simple validations of the incoming parameters
-            if (submissionFile.constructor.name !== 'File') {
-                cb(new IllegalArgumentError("submissionFile must be a File"));
-                return;
-            }
-
-
             //Validation for the size of the fileName parameter. It should be 256 chars as this is max length of parameter field in submission table.
-            fileName = submissionFile.name;
             if (fileName.length > 256) {
                 cb(new BadRequestError("The file name is too long. It must be 256 characters or less."));
                 return;
@@ -988,37 +990,53 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
             uploadId = generatedIds.uploadId;
             submissionId = generatedIds.submissionId;
 
-            var submissionPath;
+            var submissionPath,
+                filePathToSave,
+                decodedFileData;
 
             //The file output dir should be overwritable by environment variable
             submissionPath = api.config.submissionDir;
 
             //The path to save is the folder with the name as <base submission path>
             //The name of the file is the <generated upload id>_<original file name>
-            savedFilePath = submissionPath + "/" + uploadId + "_" + fileName;
+            filePathToSave = submissionPath + "/" + uploadId + "_" + connection.params.fileName;
 
-            //Check the max length of the submission file (if there is a limit)
-            if (api.config.submissionMaxSizeBytes > 0) {
-                fs.stat(submissionFile.path, function (err, stats) {
-                    if (err) {
-                        cb(err);
-                        return;
-                    }
+            //Decode the base64 encoded file data
+            decodedFileData = new Buffer(connection.params.fileData, 'base64');
 
-                    if (stats.size > api.config.submissionMaxSizeBytes) {
-                        cb(new RequestTooLargeError(
-                            "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
-                        ));
-                        return;
-                    }
+            //Write the submission to file
+            fs.writeFile(filePathToSave, decodedFileData, function (err) {
+                if (err) {
+                    cb(err);
+                    return;
+                }
+
+                //Check the max length of the submission file (if there is a limit)
+                if (api.config.submissionMaxSizeBytes > 0) {
+                    fs.stat(filePathToSave, function (err, stats) {
+                        if (err) {
+                            cb(err);
+                            return;
+                        }
+                        console.log('-------------------------------------------');
+                        console.log(stats.size + '\t' + api.config.submissionMaxSizeBytes);
+                        console.log('-------------------------------------------');
+
+                        if (stats.size > api.config.submissionMaxSizeBytes) {
+                            cb(new RequestTooLargeError(
+                                "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
+                            ));
+                            return;
+                        }
+                        savedFilePath = filePathToSave;
+                        cb();
+                    });
+                } else {
+                    savedFilePath = filePathToSave;
                     cb();
-                });
-            } else {
-                cb();
-            }
+                }
+            });
         }, function (cb) {
-            fs.createReadStream(submissionFile.path).pipe(fs.createWriteStream(savedFilePath));
-
             //Now insert into upload table
             _.extend(sqlParams, {
                 uploadId: uploadId,
@@ -1026,10 +1044,10 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 challengeId: challengeId,
                 projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
                 resourceId: resourceId,
-                fileName: fileName
+                fileName: uploadId + "_" + fileName
             });
             api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
-        }, function(notUsed, cb) {
+        }, function (notUsed, cb) {
             //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
             if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
                 //Make request to the thurgood job api url
@@ -1247,7 +1265,7 @@ exports.getChallengeTerms = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-	cacheEnabled : false,
+    cacheEnabled : false,
     databases : ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -1259,6 +1277,7 @@ exports.getChallengeTerms = {
                         connection,
                         challengeId,
                         role,
+                        true,
                         connection.dbConnectionMap,
                         cb
                     );
@@ -1458,7 +1477,7 @@ exports.getSoftwareChallenge = {
     name: "getSoftwareChallenge",
     description: "getSoftwareChallenge",
     inputs: {
-        required: ["contestId"],
+        required: ["challengeId"],
         optional: ["refresh"]
     },
     blockedConnectionTypes: [],
@@ -1483,7 +1502,7 @@ exports.getStudioChallenge = {
     name: "getStudioChallenge",
     description: "getStudioChallenge",
     inputs: {
-        required: ["contestId"],
+        required: ["challengeId"],
         optional: ["refresh"]
     },
     blockedConnectionTypes: [],
@@ -1495,6 +1514,44 @@ exports.getStudioChallenge = {
         if (connection.dbConnectionMap) {
             api.log("Execute getStudioChallenge#run", 'debug');
             getChallenge(api, connection, connection.dbConnectionMap, true, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for getting challenge details.
+ *
+ * @since 1.19
+ */
+exports.getChallenge = {
+    name: "getChallenge",
+    description: "getStudioChallenge",
+    inputs: {
+        required: ["challengeId"],
+        optional: ["refresh"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getChallenge#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length === 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getChallenge(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -1609,7 +1666,7 @@ exports.submitForDevelopChallenge = {
     name: "submitForDevelopChallenge",
     description: "submitForDevelopChallenge",
     inputs: {
-        required: ["challengeId", "submissionFile"],
+        required: ["challengeId", "fileName", "fileData"],
         optional: ["type"]
     },
     blockedConnectionTypes: [],
@@ -1713,7 +1770,7 @@ var DEFAULT_FONT_URL = 'community.topcoder.com/studio/the-process/font-policy/';
  * Gets the file type based on the file name extension. Return null if not found.
  * @since 1.14
  *
- * @param {Object} file - The file name
+ * @param {Object} fileName - The file name
  * @param {Object} fileTypes - The file types from which to read
  */
 var getFileType = function (fileName, fileTypes) {
@@ -1876,7 +1933,7 @@ var SOURCE_DIR = 'source/';
 /**
  * The directory in the unified zip that contains the submission files
  */
-var SUBMISSION_DIR = 'submission/'
+var SUBMISSION_DIR = 'submission/';
 
 /**
  * Generates a unified submission zip for design submissions using the 3 files that submitters submit

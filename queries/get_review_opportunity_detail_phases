@@ -8,5 +8,5 @@ SELECT
 FROM project_phase pp
 INNER JOIN phase_status_lu psl ON psl.phase_status_id = pp.phase_status_id
 INNER JOIN phase_type_lu ptl ON ptl.phase_type_id = pp.phase_type_id
-WHERE pp.project_id = @challengeId@
+WHERE pp.project_id = @challenge_id@
 ORDER BY NVL(actual_start_time, scheduled_start_time) ASC

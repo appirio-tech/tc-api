@@ -1,7 +1,0 @@
-{
-    "reg_source": "source1",
-    "first_name": "foo",
-    "handle": "testHandleFoo",
-    "status": "U",
-    "last_name": "bar"
-}

@@ -1,0 +1,2 @@
+delete from user_terms_of_use_xref where user_id IN (132456, 124764) and terms_of_use_id = 20753;
+delete from user_terms_of_use_ban_xref where user_id = 124772 and terms_of_use_id = 20753;

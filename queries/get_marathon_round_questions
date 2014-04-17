@@ -1,0 +1,15 @@
+SELECT
+    qu.question_id,
+    qs.question_style_desc AS style,
+    qt.question_type_desc AS type,
+    qu.question_text AS text
+FROM
+  round_question rq,
+  question qu,
+  question_style qs,
+  question_type qt
+WHERE  rq.question_id = qu.question_id
+  AND  rq.round_id = @round_id@
+  AND  qs.question_style_id = qu.question_style_id
+  AND  qt.question_type_id = qu.question_type_id
+ORDER BY qu.question_id

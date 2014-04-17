@@ -1,9 +1,9 @@
 SELECT 1
 FROM project p
-INNER JOIN review_auction ra ON ra.project_id = @challengeId@
+INNER JOIN review_auction ra ON ra.project_id = @challenge_id@
 INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
 WHERE 1=1
-AND p.project_id = @challengeId@
+AND p.project_id = @challenge_id@
 AND p.project_category_id != 29 -- filter out the copilot posting challenge.
 AND p.project_category_id != 37 -- filter out the marathon match challenge.
 AND pcl.display = 't'

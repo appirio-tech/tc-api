@@ -1,0 +1,8 @@
+SELECT info.project_id,
+       info_type.name,
+       info.value as forum_category_id
+FROM   project_info AS info
+       JOIN project_info_type_lu AS info_type
+         ON info.project_info_type_id = info_type.project_info_type_id
+WHERE  info.project_id IN ( @challengeId@ )
+and name = 'Developer Forum ID'

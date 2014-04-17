@@ -25,5 +25,4 @@ AND Date(p.complete_date) BETWEEN TO_DATE('@sdt@', '%Y-%m-%d') AND TO_DATE('@edt
 AND c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
 AND nvl(c.cmc_account_id, '') = DECODE('@cmc_account_id@', '', nvl(c.cmc_account_id, ''), '@cmc_account_id@')
 AND nvl(c.customer_number, '') = DECODE('@customer_number@', '', nvl(c.customer_number, ''), '@customer_number@')
-AND p.status_id in (4, 5, 6, 7, 8, 11)
-AND p.project_category_id not in (29)
+AND p.status_id in (4, 5, 6, 7, 8, 11, 9, 10)
