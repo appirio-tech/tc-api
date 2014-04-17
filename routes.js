@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.35
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -80,7 +80,9 @@
  * - add route for apply develop review opportunities api.
  * changes in 1.34:
  * - added route for client active challenge costs
- * Changes in 1.35
+ * changes in 1.35:
+ * - added route for auth0 callback api
+ * Changes in 1.36
  * - add route for get payment list api.
  */
 
@@ -223,7 +225,7 @@ exports.routes = {
         { path: "/:apiVersion/bugs", action: "bugs" },
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
-
+        
         { path: "/:apiVersion/payments", action: "getPaymentList" },
 
         //Stubs APIs
@@ -231,7 +233,9 @@ exports.routes = {
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
-        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
+
+        { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
     ].concat(testMethods.get),
     post: [
         // Stub API
