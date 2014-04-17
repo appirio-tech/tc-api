@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.25
+ * @version 1.26
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -72,6 +72,8 @@
  * - update formatDate function
  * Changes in 1.25:
  * - add method transferDBResults2Response.
+ * Changes in 1.26:
+ * - add method formatInformixDate
  */
 "use strict";
 
@@ -1176,6 +1178,19 @@ helper.checkDates = function (startDate, endDate) {
 helper.formatDate = function (date, format) {
     if (date) {
         return moment(date).format(format);
+    }
+    return '';
+};
+
+/**
+ * Format the date value.
+ * @param {String} date - the date value
+ * @param {String} format - the format
+ * @since 1.26
+ */
+helper.formatInformixDate = function (date, format) {
+    if (!_.isUndefined(date)) {
+        return date.substring(0, format.length);
     }
     return '';
 };
