@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.24
+ * @version 1.25
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -70,6 +70,8 @@
  * - add PAYMENT_STATUS
  * - add checkSortColumn function
  * - update formatDate function
+ * Changes in 1.25:
+ * - add method transferDBResults2Response.
  */
 "use strict";
 
@@ -88,6 +90,7 @@ var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
 var stringUtils = require('../common/stringUtils');
+var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -1188,6 +1191,17 @@ helper.checkTrackName = function (track, isStudio) {
     var validTrack = isStudio ? helper.studioChallengeTypes : helper.softwareChallengeTypes,
         validTrackName = _.map(_.values(validTrack), function (item) { return item.name.toLowerCase(); });
     return helper.checkContains(validTrackName, track, 'track');
+};
+
+/**
+ * Transfer db results to camelize response object.
+ * @param {Object} results - the results from database.
+ * @since 1.25
+ */
+helper.transferDBResults2Response = function (results) {
+    return _.map(results, function (row) {
+        return _.object(_.chain(row).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(row));
+    });
 };
 
 /**

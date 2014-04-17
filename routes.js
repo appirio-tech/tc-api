@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.36
+ * @version 1.37
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee
  * Changes in 1.1:
  * - add routes for search challenges
@@ -84,6 +84,8 @@
  * - added route for auth0 callback api
  * Changes in 1.36
  * - add route for get payment list api.
+ * Changes in 1.37:
+ * - add route for track statistics API.
  */
 
 /* ---------------------
@@ -218,6 +220,7 @@ exports.routes = {
 
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
         { path: "/:apiVersion/reports/client/activeChallenges", action: "getClientActiveChallengeCosts" },
+        { path: "/:apiVersion/reports/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
