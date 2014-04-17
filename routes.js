@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.35
+ * @version 1.36
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee
  * Changes in 1.1:
  * - add routes for search challenges
@@ -82,6 +82,8 @@
  * - added route for client active challenge costs
  * changes in 1.35:
  * - added route for auth0 callback api
+ * Changes in 1.36
+ * - add route for get payment list api.
  */
 
 /* ---------------------
@@ -223,6 +225,8 @@ exports.routes = {
         { path: "/:apiVersion/bugs", action: "bugs" },
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
+
+        { path: "/:apiVersion/payments", action: "getPaymentList" },
 
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },

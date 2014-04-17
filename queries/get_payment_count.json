@@ -1,0 +1,5 @@
+{
+    "name"    : "get_payment_count",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_payment_count"
+}
