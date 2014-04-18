@@ -1,0 +1,5 @@
+{
+  "name"    : "update_payment_accrual_amount",
+  "db"      : "informixoltp",
+  "sqlfile" : "update_payment_accrual_amount"
+}

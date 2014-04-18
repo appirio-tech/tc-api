@@ -1,0 +1,5 @@
+{
+  "name"    : "load_active_payment_methods",
+  "db"      : "informixoltp",
+  "sqlfile" : "load_active_payment_methods"
+}

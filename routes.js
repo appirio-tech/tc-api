@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.38
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee
+ * @version 1.39
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -88,6 +88,8 @@
  * - add route for track statistics API.
  * Changes in 1.38:
  * - add route for upload member photo API.
+ * Changes in 1.39:
+ * - add routes for payment preference api.
  */
 
 /* ---------------------
@@ -231,6 +233,8 @@ exports.routes = {
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
 
+
+        { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
         { path: "/:apiVersion/payments", action: "getPaymentList" },
 
         //Stubs APIs
@@ -260,6 +264,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
-        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
+        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" }
     ]
 };

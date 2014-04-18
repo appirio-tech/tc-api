@@ -1,0 +1,3 @@
+SELECT accrual_amount
+FROM 'informix'.user_accrual
+WHERE user_id = @userId@

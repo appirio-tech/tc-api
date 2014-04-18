@@ -1,0 +1,5 @@
+{
+  "name"    : "load_payment_preference_accrual_amount",
+  "db"      : "informixoltp",
+  "sqlfile" : "load_payment_preference_accrual_amount"
+}
