@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_paypal_account_email",
+  "db"      : "informixoltp",
+  "sqlfile" : "insert_paypal_account_email"
+}

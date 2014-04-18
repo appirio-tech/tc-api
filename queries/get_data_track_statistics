@@ -1,0 +1,55 @@
+SELECT
+  (
+    SELECT
+      COUNT(r.round_id)
+    FROM
+      round_segment rs
+    , round r
+    , contest ct
+    WHERE rs.round_id = r.round_id
+    AND ct.contest_id = r.contest_id
+    AND rs.segment_id = 2
+    AND r.round_type_id IN (13,15,19,22,24,25,27)
+    AND CURRENT < rs.end_time
+    AND CURRENT >= rs.start_time
+    AND NOT EXISTS (SELECT * FROM round_behavior rb WHERE rb.round_id = r.round_id AND rb.behavior_id = 3)) AS number_of_running_challenges
+, 0 AS total_prize_of_running_challenges
+, 0 AS total_prize_in_given_time
+, (
+    SELECT
+      COUNT(r.round_id)
+    FROM
+      round_segment rs
+    , round r
+    WHERE rs.round_id = r.round_id
+    AND rs.segment_id = 2
+    AND r.round_type_id IN (13,15,19,22,24,25,27)
+    AND rs.end_time BETWEEN TO_DATE('@start_date@', '%Y-%m-%d') AND TO_DATE('@end_date@', '%Y-%m-%d')
+    AND NOT EXISTS (SELECT * FROM round_behavior rb WHERE rb.round_id = r.round_id AND rb.behavior_id = 3)) AS number_of_challenges_in_given_time
+, (
+    SELECT
+      COUNT(rr.coder_id)
+    FROM round_segment rs
+    , round_registration rr
+    , round r
+    WHERE rs.round_id = r.round_id
+    AND rr.round_id = r.round_id
+    AND rs.segment_id = 2
+    AND r.round_type_id IN (13,15,19,22,24,25,27)
+    AND CURRENT < rs.end_time
+    AND CURRENT >= rs.start_time
+    AND NOT EXISTS (SELECT * FROM round_behavior rb WHERE rb.round_id = r.round_id AND rb.behavior_id = 3)) AS number_of_registered_users
+, (
+    SELECT
+      COUNT(DISTINCT rr.coder_id)
+    FROM round_segment rs
+    , round_registration rr
+    , round r
+    WHERE rs.round_id = r.round_id
+    AND rr.round_id = r.round_id
+    AND rs.segment_id = 2
+    AND r.round_type_id IN (13,15,19,22,24,25,27)
+    AND CURRENT < rs.end_time
+    AND CURRENT >= rs.start_time
+    AND NOT EXISTS (SELECT * FROM round_behavior rb WHERE rb.round_id = r.round_id AND rb.behavior_id = 3)) AS number_of_active_users
+FROM dual

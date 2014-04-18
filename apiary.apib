@@ -12,13 +12,13 @@ Authorization APIs
 + Parameters
     + username (required, string, `heffan`) ... The username
     + password (required, string, `password`) ... The password
-    
+
 + Response 200 (application/json)
 
         {
              "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NtYS5hdXRoMC5jb20vIiwic3ViIjoiYWR8"
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -50,18 +50,18 @@ Authorization APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-                  
+
 ## Refresh JWT Token [/reauth]
 ### Refresh JWT Token [POST]
 + Parameters
     + token (required, string, `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NtYS5hdXRoMC5jb20vIiwic3ViIjoiYWR8`) ... The old JWT token
-    
+
 + Response 200 (application/json)
 
         {
              "token": "DyJCdeAiOiH7V1QiLCJhbGciOiJI5zI1NiJ9.eyJpc3MiOiJodHRrezovL3NtYS5uyXRoMC5jb20vIiwic3ViIoo4XSO2"
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -92,19 +92,19 @@ Authorization APIs
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }            
+        }
 
 ## Validate SSO Cookie [/validation/sso]
 ### Validate SSO Cookie [GET]
 + Parameters
     + Cookie (required, string, `tcsso=132456|4a6acc4d5327773989a7e8c23b04e8cd1c3da79a1256590973ed731ffa0f24a2`) ... The sso cookie
-    
+
 + Response 200 (application/json)
 
         {
              "userId": 132456
         }
- 
+
 + Response 400 (application/json)
 
         {
@@ -212,7 +212,7 @@ Report APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}]
 ### Client Challenge Costs [GET]
 
@@ -386,7 +386,7 @@ Report APIs
             "value":"403",
             "description":"The request is understood, but it has been refused or access is not allowed."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -410,7 +410,7 @@ Report APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Challenge Analyze [/reports/analyze]
 ### Challenge Analyze [GET]
 
@@ -442,7 +442,7 @@ Report APIs
                     "numberOfDaysLive": "13.5/0.5",
                     "rating": "3/5/10",
                     "numberOfRepost": 0,
-                    "comments": "good resgirations" 
+                    "comments": "good resgirations"
                 }
              ]
         }
@@ -478,7 +478,7 @@ Report APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Track Statistics [/reports/{track}?startDate={startDate}&endDate={endDate}]
 ### Track Statistics [GET]
 
@@ -503,15 +503,31 @@ Report APIs
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"startDate is not a valid date."
         }
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"endDate is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"startDate should be earlier than endDate or at same date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"track should be an element of develop,design,data."
         }
 
 + Response 500 (application/json)
@@ -769,7 +785,7 @@ Register a new user.
             "value":"200",
             "description":"This message will contain the new user id."
         }
-        
+
 + Response 400 (application/json)
 
         {
@@ -777,7 +793,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -785,7 +801,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 422 (application/json)
 
         {
@@ -793,7 +809,7 @@ Register a new user.
             "value":"422",
             "description":"This message will explain why the POST data was not accepted."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -834,7 +850,7 @@ Register a new user.
             "value":"200",
             "description":"This message will contain the new user id."
         }
-        
+
 + Response 400 (application/json)
 
         {
@@ -842,7 +858,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -850,7 +866,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 422 (application/json)
 
         {
@@ -858,7 +874,7 @@ Register a new user.
             "value":"422",
             "description":"This message will explain why the POST data was not accepted."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -1456,7 +1472,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Update Password [/users/updatePassword]
 ### Update Password [POST]
 
@@ -1569,13 +1585,78 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Upload Member Photo [/users/photo]
+### Upload Member Photo [POST]
+
+Request
+
++ Headers
+    Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTM3MDM1NzEsImF1ZCI6
+
++ Parameters
+    + photo (required, file) ... The photo file.
+
++ Response 200 (application/json)
+
+        {
+             "message":"Success"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The photo has to be in following format: jpeg,png,bmp,jpg."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The photo has to be a file."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The photo should be less than 1Mb."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorization information needed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 #Group Software Challenges
-        
+
 ## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Get Review Opportunities [GET]
 
 + Parameters
-    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern MM.dd.yyyy.
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern YYYY-MM-DD.
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
@@ -1651,7 +1732,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -1659,7 +1740,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -1684,7 +1765,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-        
+
 ## Get Review Opportunity Detail [/develop/reviewOpportunities/{challengeId}]
 ### Get Review Opportunity Information [GET]
 
@@ -1732,7 +1813,7 @@ Register a new user.
                     "role": "Secondary Reviewer",
                     "numPositions": 2,
                     "payment": 400
-                }        
+                }
             ],
             "applications":
             [
@@ -1761,7 +1842,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -1769,7 +1850,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -1945,7 +2026,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-        
+
 ## Challenge Reviewers Collection [/develop/reviewers/{contestType}]
 ### List reviewers of current challenge type [GET]
 
@@ -1992,7 +2073,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2000,7 +2081,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -2017,7 +2098,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-        
+
 ## Software Member Statistics [/users/{handle}/statistics/develop?track={track}]
 ### Software Member Statistics [GET]
 
@@ -2097,7 +2178,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2105,7 +2186,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -2121,7 +2202,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Software Member Rating History and Distribution [/develop/statistics/{handle}/{challengeType}]
 ### Software Member Rating History and Distribution [GET]
 
@@ -2157,8 +2238,8 @@ Register a new user.
                     range: "2100-2200",
                     number: 5
                 }
-            ] 
-        
+            ]
+
         }
 
 + Response 400 (application/json)
@@ -2168,7 +2249,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2176,7 +2257,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -2192,7 +2273,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Challenge Types Collection [/develop/challengetypes]
 ### List all challenge types [GET]
 + Response 200 (application/json)
@@ -2219,7 +2300,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2227,7 +2308,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -2243,7 +2324,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Software Challenges [GET]
 
@@ -2370,7 +2451,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2378,7 +2459,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -2402,7 +2483,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Software Challenges [GET]
 
@@ -2528,7 +2609,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2536,7 +2617,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -2560,7 +2641,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Open Software Challenges [GET]
 
@@ -2686,7 +2767,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2694,7 +2775,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -2718,7 +2799,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Past Software Challenges [GET]
 
@@ -2832,7 +2913,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2840,7 +2921,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -2864,7 +2945,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Software Challenges [GET]
 
@@ -2975,7 +3056,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -2983,7 +3064,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -3015,7 +3096,7 @@ Register a new user.
     + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
-        
+
         {
           "challengeType": "Assembly Competition",
           "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
@@ -3246,7 +3327,7 @@ Register a new user.
         }
 
 + Response 200 (application/json)
-        
+
         {
             "challengeType": "First2Finish",
             "challengeName": "this is a F2F challenge",
@@ -3420,7 +3501,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -3428,7 +3509,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3444,7 +3525,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Get Software Challenge Result [/develop/challenges/result/{challengeId}]
 ### Get Software Challenge Result [GET]
 
@@ -3452,7 +3533,7 @@ Register a new user.
     + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
-        
+
         {
           "challengeType": "Assembly Competition",
           "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
@@ -3506,7 +3587,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -3514,7 +3595,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3529,8 +3610,8 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        } 
-         
+        }
+
 ## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{challlengeid}]
 ### Get Software Challenge Checkpoint Information [GET]
 
@@ -3572,7 +3653,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -3580,7 +3661,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3612,7 +3693,7 @@ Register a new user.
             "submissionId": 10000164,
             "uploadId": 10000163
         }
-        
+
 + Response 400 (application/json)
 
         {
@@ -3644,7 +3725,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 413 (application/json)
 
         {
@@ -3652,7 +3733,7 @@ Register a new user.
             "value":"413",
             "description":"The request is understood, but is larger than the server is willing or able to process."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3674,7 +3755,7 @@ Register a new user.
 + Request (application/json)
 
 + Parameters
-    + challlengeId (required, integer, 545464) ... The challenge id 
+    + challlengeId (required, integer, 545464) ... The challenge id
     + submissionFile (required, string, `abcd.zip`) ... The submission zip
     + sourceFile (required, string, `efgh.zip`) ... The source zip
     + previewFile (required, string, `hijk.png`) ... The preview image file
@@ -3694,7 +3775,7 @@ Register a new user.
             "submissionId": 10000164,
             "uploadId": 10000163
         }
-        
+
 + Response 400 (application/json)
 
         {
@@ -3726,7 +3807,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3750,14 +3831,14 @@ Register a new user.
     + contestType (required, string, `design`) ... Ranking Type, support "design", "development", "conceptualization", "specification", "architecture", "assembly", "test_suites", "test_scenarios", "ui_prototype", "ria_build", "content_creation"
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null. Default 1.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set. Default 50.
-    
+
 + Response 200 (application/json)
 
         {
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
-            "data": 
+            "data":
             [
                 {
                     "rank": 1,
@@ -3791,7 +3872,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -3799,7 +3880,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -3815,7 +3896,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 
 # Group Studio Challenges
 
@@ -3833,14 +3914,14 @@ Register a new user.
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-    
+
 + Response 200 (application/json)
-        
+
         {
             "total": 30,
             "pageIndex": 1,
             "pageSize": 2,
-            "data": 
+            "data":
             [
                 {
                     "challengeType": "Web Design",
@@ -3912,7 +3993,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -3920,7 +4001,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -3944,7 +4025,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Studio Challenges [GET]
 
@@ -3956,14 +4037,14 @@ Register a new user.
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-    
+
 + Response 200 (application/json)
-        
+
         {
             "total": 30,
             "pageIndex": 1,
             "pageSize": 2,
-            "data": 
+            "data":
             [
                 {
                     "challengeType": "Web Design",
@@ -4036,7 +4117,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4044,7 +4125,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -4068,7 +4149,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Open Studio Challenges [/design/challenges/open?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Open Studio Challenges [GET]
 
@@ -4080,14 +4161,14 @@ Register a new user.
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-    
+
 + Response 200 (application/json)
-        
+
         {
             "total": 30,
             "pageIndex": 1,
             "pageSize": 2,
-            "data": 
+            "data":
             [
                 {
                     "challengeType": "Web Design",
@@ -4160,7 +4241,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4168,7 +4249,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -4192,7 +4273,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Past Studio Challenges [/design/challenges/past?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Past Studio Challenges [GET]
 
@@ -4204,14 +4285,14 @@ Register a new user.
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-    
+
 + Response 200 (application/json)
-        
+
         {
             "total": 30,
             "pageIndex": 1,
             "pageSize": 2,
-            "data": 
+            "data":
             [
                 {
                     "challengeType": "Web Design",
@@ -4276,7 +4357,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4284,7 +4365,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -4308,7 +4389,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Studio Challenges [GET]
 
@@ -4320,14 +4401,14 @@ Register a new user.
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-    
+
 + Response 200 (application/json)
-        
+
         {
             "total": 30,
             "pageIndex": 1,
             "pageSize": 2,
-            "data": 
+            "data":
             [
                 {
                     "challengeType": "Web Design",
@@ -4388,7 +4469,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4396,7 +4477,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -4420,7 +4501,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Get Studio Challenge Detail [/design/challenges/{challengeId}]
 ### Get Studio Challenge Information [GET]
 
@@ -4594,7 +4675,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4602,7 +4683,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -4618,7 +4699,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Get Studio Challenge Result [/design/challenges/result/{id}]
 ### Get Studio Challenge Result [GET]
 
@@ -4626,7 +4707,7 @@ Register a new user.
     + id (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
-        
+
         {
           "challengeType": "Web Design",
           "challengeName": "CS-TC Help Center Storyboard Design Contest",
@@ -4673,7 +4754,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4681,7 +4762,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -4696,8 +4777,8 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        } 
-        
+        }
+
 ## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{challengeid}]
 ### Get Studio Challenge Checkpoint Information [GET]
 
@@ -4743,7 +4824,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4751,7 +4832,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -4767,7 +4848,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Review Opportunities [/design/reviewOpportunities]
 ### Get Review Opportunities [GET]
 
@@ -4801,7 +4882,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4809,7 +4890,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -4825,7 +4906,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Get Review Opportunity Detail [/design/reviewOpportunities/{id}]
 ### Get Review Opportunity Information [GET]
 
@@ -4858,7 +4939,7 @@ Register a new user.
                     "role": "Screener",
                     "positions": 1,
                     "payment": 500
-                }   
+                }
             ]
         }
 
@@ -4869,7 +4950,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4877,7 +4958,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -4893,7 +4974,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Studio Challenge Types Collection [/design/challengetypes]
 ### List all challenge types [GET]
 + Response 200 (application/json)
@@ -4968,7 +5049,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -4976,7 +5057,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -4992,7 +5073,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Studio Member Statistics [/users/{handle}/statistics/design]
 ### Studio Member Statistics [GET]
 
@@ -5031,7 +5112,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5039,7 +5120,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -5131,7 +5212,7 @@ Register a new user.
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
-            "data": 
+            "data":
             [
                 {
                     "rank": 1,
@@ -5164,7 +5245,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5172,7 +5253,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -5188,7 +5269,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 # Group Data
 
 ## Platforms [/data/platforms]
@@ -5237,7 +5318,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5245,7 +5326,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -5261,7 +5342,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Review Opportunities Collection [/data/reviewOpportunities]
 ### List all review opportunities [GET]
 + Response 200 (application/json)
@@ -5304,7 +5385,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5312,7 +5393,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -5328,7 +5409,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 
 
 ## Algorithm review opportunity details [/data/reviewopportunities/{id}]
@@ -5386,7 +5467,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5394,7 +5475,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -5410,22 +5491,22 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
-        
+
+
 ## View Algorithm SRM Challenges [/data/srm/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm SRM Challenges [GET]
 
 + Parameters
     + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
     + filter (optional, string, `type`) ... Key of the filter key-value pair
-    + value (optional, string, `Development`) ... Value of the filter key-value pair    
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+
 + Response 200 (application/json)
-        
+
         {
                 "total": 450,
                 "pageIndex": 1,
@@ -5473,7 +5554,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5481,7 +5562,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -5505,21 +5586,21 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## View Algorithm Marathon Challenges [/data/marathon/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm Marathon Challenges [GET]
 
 + Parameters
     + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
     + filter (optional, string, `type`) ... Key of the filter key-value pair
-    + value (optional, string, `Development`) ... Value of the filter key-value pair    
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `contestName`) ... The column name to sort, can be null.
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+
 + Response 200 (application/json)
-        
+
         {
                 "total": 450,
                 "pageIndex": 1,
@@ -5553,7 +5634,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5561,7 +5642,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -5607,10 +5688,10 @@ Register a new user.
             "systemTestDate": "06.05.2013 09:00 EDT",
             "winnerHandle": "JacoCronje",
             "winnerScore": 403096.68,
-            "currentProgress": 
+            "currentProgress":
             {
                 "groupType": "HOUR",
-                "progressResources": 
+                "progressResources":
                 [
                     {
                         "currentTopProvisionalScore": 0,
@@ -5630,7 +5711,7 @@ Register a new user.
                     }
                 ]
             },
-             "registrantsRatingSummary": 
+             "registrantsRatingSummary":
              [
                 {
                     "color": "Blue",
@@ -5650,7 +5731,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5658,7 +5739,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -5787,7 +5868,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -5795,7 +5876,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -6161,7 +6242,7 @@ Register a new user.
     + handle (required, string, `iRabbit`) ... Member Handle
 
 + Response 200 (application/json)
-        
+
         {
             "handle": "iRabbit",
             "rating": 1659,
@@ -6213,7 +6294,7 @@ Register a new user.
                     "number": 5
                 }
             ]
-        }        
+        }
 
 + Response 400 (application/json)
 
@@ -6222,7 +6303,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -6230,7 +6311,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 
 + Response 500 (application/json)
 
@@ -6404,7 +6485,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -6412,7 +6493,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 
 + Response 500 (application/json)
 
@@ -6442,7 +6523,7 @@ Register a new user.
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
-            "data": 
+            "data":
             [
                 {
                     "rank": 1,
@@ -6474,7 +6555,7 @@ Register a new user.
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
-            "data": 
+            "data":
             [
                 {
                     "rank": 1,
@@ -6504,7 +6585,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -6512,7 +6593,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -6528,7 +6609,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Top Ranked SRM Members [/data/srm/statistics/tops?rankType={rankType}&pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Ranked SRM Members [GET]
 
@@ -6543,7 +6624,7 @@ Register a new user.
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
-            "data": 
+            "data":
             [
                 {
                     "rank": 1,
@@ -6575,7 +6656,7 @@ Register a new user.
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
-            "data": 
+            "data":
             [
                 {
                     "rank": 1,
@@ -6605,7 +6686,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -6613,7 +6694,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 500 (application/json)
 
         {
@@ -6797,7 +6878,7 @@ Register a new user.
                 "startDate": "2014-01-27T18:37:46-05:00"
               }
         ]
-    
+
 + Response 400 (application/json)
 
         {
@@ -7313,7 +7394,7 @@ Register a new user.
             "value":"400",
             "description":"This message will explain why the request is invalid or cannot be served."
         }
-        
+
 + Response 404 (application/json)
 
         {
@@ -7321,7 +7402,7 @@ Register a new user.
             "value":"404",
             "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
-        
+
 + Response 406 (application/json)
 
         {
@@ -7583,7 +7664,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 # Group Download API
 
 ## Download Documents API [/download/document/{docid}?challengeId={challengeId}]
@@ -7634,7 +7715,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Download Design Submissions API [/design/download/{submissionId}?submissionType={submissionType}]
 ### Download Design Submissions API [GET]
 
@@ -7683,7 +7764,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Download Develop Submissions API [/develop/download/{submissionId}]
 ### Download Develop Submissions API [GET]
 
@@ -7737,29 +7818,40 @@ Payments APIs
 
 ## Payment Preference [/payments/preference]
 ### Payment Preference [GET]
-    
+
 + Response 200 (application/json)
 
-        {
-             "paymentAccrualAmount": 50,
-             "paymentMethod": "WesternUnion",
-             "paypalAccountEmail": "test@paypal.com"
-        }
- 
-+ Response 400 (application/json)
+          {
+              "paymentAccrualAmount": 100,
+              "paypalAccountEmail": "heffan@topcoder.com",
+              "paymentMethod": "PayPal"
+          }
+
++ Response 200 (application/json)
+         {
+              "paymentAccrualAmount": 43,
+              "paymentMethod": "Western Union"
+         }
+
++ Response 401 (application/json)
 
         {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeType should be an element of develop,design,data."
+           "error": {
+               "name": "Unauthorized",
+               "value": 401,
+               "description": "Authentication credentials were missing or incorrect.",
+               "details": "No anonymous access to this API."
+           }
         }
 
 + Response 404 (application/json)
 
         {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"listType should be an element of ACTIVE,OPEN,UPCOMING,PAST."
+          "error": {
+              "name": "Not Found",
+              "value": 404,
+              "description": "The URI requested is invalid or the requested resource does not exist.",
+              "details": "No payment preference found for user heffan."
         }
 
 + Response 500 (application/json)
@@ -7777,18 +7869,176 @@ Payments APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
+### Payment Preference [POST]
++ Parameters
+     + paymentMethod (mandatory, string, `Western Union`) ... Payment Method: PayPal, Western Union, Payoneer
+     + paypalAccountEmail (mandatory, string, if paymentMethods === "PayPal", else prohibited, must not exceed 100 characters, `heffan@gmail.com`) ... Email address of PayPal account
+     + paymentAccrualAmount (optional, integer, must be greater than or equal to 25, `100`) ... Accrual amount to be paid
+
++ Response 200 (application/json)
+
+             {
+              success: true
+             }
+
+
++ Response 400 (application/json)
+
+            {
+                "error": {
+                    "name": "Bad Request",
+                    "value": 400,
+                    "description": "The request was invalid. An accompanying message will explain why.",
+                    "details": "'FooBar' is not an active payment method."
+            }
+
++ Response 400 (application/json)
+
+            {
+                "error": {
+                    "name": "Bad Request",
+                    "value": 400,
+                    "description": "The request was invalid. An accompanying message will explain why.",
+                    "details": "paymentMethod should be string."
+                }
+            }
+
++ Response 400 (application/json)
+
+            {
+                "error": {
+                    "name": "Bad Request",
+                    "value": 400,
+                    "description": "The request was invalid. An accompanying message will explain why.",
+                    "details": "'paymentAccrualAmount' was 1, but must not be lower than 25."
+                }
+            }
+
++ Response 400 (application/json)
+
+           {
+               "error": {
+                   "name": "Bad Request",
+                   "value": 400,
+                   "description": "The request was invalid. An accompanying message will explain why.",
+                   "details": "paymentAccrualAmount should be Integer."
+               }
+           }
+
++ Response 400 (application/json)
+
+          {
+              "error": {
+                  "name": "Bad Request",
+                  "value": 400,
+                  "description": "The request was invalid. An accompanying message will explain why.",
+                  "details": "paymentAccrualAmount should be positive."
+              }
+          }
+
++ Response 400 (application/json)
+
+         {
+             "error": {
+                 "name": "Bad Request",
+                 "value": 400,
+                 "description": "The request was invalid. An accompanying message will explain why.",
+                 "details": "Argument 'paypalAccountEmail' provided, but 'paymentMethod' was 'Payoneer'."
+             }
+         }
+
++ Response 400 (application/json)
+
+            {
+                "error": {
+                    "name": "Bad Request",
+                    "value": 400,
+                    "description": "The request was invalid. An accompanying message will explain why.",
+                    "details": "Mandatory argument 'paypalAccountEmail' is missing."
+                }
+            }
+
++ Response 400 (application/json)
+
+            {
+                "error": {
+                    "name": "Bad Request",
+                    "value": 400,
+                    "description": "The request was invalid. An accompanying message will explain why.",
+                    "details": "paypalAccountEmail should be email address."
+                }
+            }
+
++ Response 400 (application/json)
+
+           {
+               "error": {
+                   "name": "Bad Request",
+                   "value": 400,
+                   "description": "The request was invalid. An accompanying message will explain why.",
+                   "details": "paypalAccountEmail exceeds 100 characters."
+               }
+           }
+
++ Response 400 (application/json)
+
+           {
+               "error": {
+                   "name": "Bad Request",
+                   "value": 400,
+                   "description": "The request was invalid. An accompanying message will explain why.",
+                   "details": "paypalAccountEmail should be string."
+               }
+           }
+
++ Response 401 (application/json)
+
+            {
+                "error": {
+                    "name": "Unauthorized",
+                    "value": 401,
+                    "description": "Authentication credentials were missing or incorrect.",
+                    "details": "No anonymous access to this API."
+            }
+
+
++ Response 500 (application/json)
+
+            {
+                "name":"Internal Server Error",
+                "value":"500",
+                "description":"Unknown server error. Please contact support."
+            }
+
++ Response 503 (application/json)
+
+            {
+                "name":"Service Unavailable",
+                "value":"503",
+                "description":"Servers are up but overloaded. Try again later."
+            }
+
+
+
 ## Payment List [/payments?type={type}&status={status}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### Payment List [GET]
 
 + Parameters
-    + status (optional, string, `Paid`) ... Payment Status: Paid, Owed, Cancelled, Entered into payment system
+    + status (optional, string, `Paid`) ... Payment Status: Paid, Owed, Cancelled, Entered into payment system, etc..
     + type (optional, string, `Contest Payment`) ... Payment Type: Contest Payment, Review Payment, Copilot Payment, etc..
-    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1.
     + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
-    + sortColumn (optional, string, `description`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    
+    + sortColumn (optional, string, `description`) ... The column name to sort, can be null. The default value will be 'createDate'.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'. The default value will be 'asc'.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
+
 + Response 200 (application/json)
 
         {
@@ -7800,17 +8050,19 @@ Payments APIs
                     "description": "[TCCC-4789] - Cockpit Instant Search Task",
                     "type": "Contest Payment",
                     "createDate": "12/13/2012",
-                    "releaseDate": "13/01/1012",
+                    "releaseDate": "01/13/2013",
+                    "paidDate": "02/30/2013",
                     "status": "Paid",
                     "amount": 250
                 },
                 {
                     "description": "(Application, v1.0) TC API - Studio Challenge Result API Update - First2Finish review board",
                     "type": "Review Board Payment",
-                    "createDate": "12/13/2012",
-                    "releaseDate": "13/01/1012",
+                    "createDate": "12/15/2012",
+                    "releaseDate": "01/15/2013",
+                    "paidDate": "02/30/2013",
                     "status": "Paid",
-                    "amount": 3
+                    "amount": 123
                 }
             ],
             "summary": {
@@ -7820,21 +8072,103 @@ Payments APIs
                 "enteredIntoPaymentSystem": 50.0
             }
         }
- 
 + Response 400 (application/json)
 
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageIndex should be number."
         }
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageIndex should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageSize should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"The sort column 'invalid' is invalid, it should be element of description,type,createDate,releaseDate,paidDate,status,amount."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"The type parameter is incorrect."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The request was invalid. An accompanying message will explain why."
+            "description":"The status parameter is incorrect."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+            "details:":"Unauthorized Error"
         }
 
 + Response 500 (application/json)
@@ -7897,4 +8231,105 @@ Payments APIs
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Auth0 Callback API [/auth0/callback]
+### Auth0 Callback API [GET]
+
++ Parameters
+    + code (required, string, `drztXEojbzIYF5mg`) ... The access code.
+    + state (optional, string, `http%3A%2F%2Ftc.cloud.topcoder.com`) ... The redirect url.
+
++ Response 200 (application/json)
+
+        {
+                "code": "kHmqAt0e99pSfAKx",
+                "state": "http://tc.cloud.topcoder.com",
+                "handle": "heffan",
+                "userId": 132456,
+                "password": "4EjPjy6o+/C+dqNPnxIy9A==",
+                "result": "login",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "socialAccount": {
+                  "name": "tc123bk",
+                  "email": "",
+                  "givenName": "",
+                  "familyName": "",
+                  "emailVerified": false,
+                  "providerId": 4,
+                  "enterpriseLogin": false,
+                  "socialUserId": 5644427,
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "STjDXB7tfK2sFgQWIgKuuVUVv0ubZB9k3JBnuCKvkpIl5H4fhOSabOScMxAnhaeW"
+
+        }
+
++ Response 200 (application/json)
+
+        {
+                "code": "GE4U7TEzsB4NMe7e",
+                "state": "http://tc.cloud.topcoder.com",
+                "regUrl": "http://www.topcoder.com/?action=callback#access_token=wu9tZmWRnLJQ8pq0jVjxTEo3PSxnFGOEVyyWjMvudepwxRL1R5yILKSWmuvWX2J6&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3RjLTEyMy1iay5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDYzNTIyMDEwODcwMTQ1NzgwMTgiLCJhdWQiOiIzRXhqOXZGeGpja1NRN09NRW1VWnYzQWl5a0UwSzVPYSIsImV4cCI6MTM5Njg3ODc1OCwiaWF0IjoxMzk2ODQyNzU4LCJjbGllbnRJRCI6IjNFeGo5dkZ4amNrU1E3T01FbVVadjNBaXlrRTBLNU9hIiwiY3JlYXRlZF9hdCI6IjIwMTQtMDQtMDRUMDg6MTU6NTUuMzY0WiIsImVtYWlsIjoiZmx5dG9qMmVlQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmYW1pbHlfbmFtZSI6IlplbmciLCJnZW5kZXIiOiJtYWxlIiwiZ2l2ZW5fbmFtZSI6IkVyaWMiLCJpZGVudGl0aWVzIjpbeyJhY2Nlc3NfdG9rZW4iOiJ5YTI5LjEuQUFEdE5fV2VTdF9UMmp2aTdMYV9DTUlGMXBpX1JDS3BkbVRTajBpQU9kM01MZno0M0ItaE5SRHRYZGhOZ0liZV9RIiwicHJvdmlkZXIiOiJnb29nbGUtb2F1dGgyIiwiZXhwaXJlc19pbiI6MzYwMCwidXNlcl9pZCI6IjEwNjM1MjIwMTA4NzAxNDU3ODAxOCIsImNvbm5lY3Rpb24iOiJnb29nbGUtb2F1dGgyIiwiaXNTb2NpYWwiOnRydWV9XSwibG9jYWxlIjoiemgtQ04iLCJuYW1lIjoiRXJpYyBaZW5nIiwibmlja25hbWUiOiJmbHl0b2oyZWUiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1YZFVJcWRNa0NXQS9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS80MjUycnNjYnY1TS9waG90by5qcGciLCJ1c2VyX2lkIjoiZ29vZ2xlLW9hdXRoMnwxMDYzNTIyMDEwODcwMTQ1NzgwMTgifQ.0p9nsPLaFtJsnW5W7_Rd7MqH5EEAiALxXwxup4mRxdQ&token_type=bearer&state=http%3A%2F%2Fwww.topcoder.com",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "result": "register",
+                "socialAccount": {
+                  "name": "",
+                  "email": "email@gmail.com",
+                  "givenName": "name",
+                  "familyName": "name",
+                  "emailVerified": true,
+                  "providerId": 2,
+                  "enterpriseLogin": false,
+                  "socialUserId": "106352201087014578018",
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "wu9tZmWRnLJQ8pq0jVjxTEo3PSxnFGOEVyyWjMvudepwxRL1R5yILKSWmuvWX2J6"
+                }
+        }
+
++ Response 200 (application/json)
+
+        {
+                "code": "STSYzhWDjVBqjAIN",
+                "state": "http://tc.cloud.topcoder.com",
+                "handle": "heffan",
+                "userId": 132456,
+                "password": "4EjPjy6o+/C+dqNPnxIy9A==",
+                "result": "login",
+                "nextPage": "http://tc.cloud.topcoder.com",
+                "socialAccount": {
+                  "name": "heffan",
+                  "email": "",
+                  "givenName": "",
+                  "familyName": "",
+                  "emailVerified": false,
+                  "providerId": 50,
+                  "enterpriseLogin": true,
+                  "socialUserId": "132456",
+                  "jsonWebToken": "eyJ0eXAiOi...",
+                  "accessToken": "C6Ayl5Hy2MeMvTIzK7fvsu5I8xhT943UGn9aJRfTPFvikQbPWowVcZW5krwcuDDc"
+                }
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"The social account should have at least one valid email or one valid username."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Fails to get access token from auth0."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Fails to get user info from auth0."
         }

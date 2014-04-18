@@ -1,0 +1,52 @@
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1001, 450, to_date('2014-04-08T10:01:04','%Y-%m-%dT%H:%M:%S'), NULL, 53, 'contest 2 1st place', 65, to_date('2014-03-20T10:01:04','%Y-%m-%dT%H:%M:%S'), to_date('2014-02-18T10:01:05','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1001, 132456, 1001, to_date('2014-02-18T10:01:05','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1002, 150, to_date('2014-04-08T10:01:05','%Y-%m-%dT%H:%M:%S'), NULL, 53, 'contest 2 1st place', 65, to_date('2014-03-20T10:01:05','%Y-%m-%dT%H:%M:%S'), to_date('2014-02-18T10:01:06','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1002, 132456, 1002, to_date('2014-02-18T10:01:06','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1003, 600, to_date('2014-04-08T10:01:07','%Y-%m-%dT%H:%M:%S'), NULL, 53, 'contest 3 1st place', 65, to_date('2014-03-30T10:01:07','%Y-%m-%dT%H:%M:%S'), to_date('2014-02-28T10:01:08','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1003, 132456, 1003, to_date('2014-02-28T10:01:08','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1004, 200, to_date('2014-04-08T10:01:09','%Y-%m-%dT%H:%M:%S'), NULL, 53, 'contest 3 1st place', 65, to_date('2014-03-30T10:01:09','%Y-%m-%dT%H:%M:%S'), to_date('2014-02-28T10:01:12','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1004, 132456, 1004, to_date('2014-02-28T10:01:12','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1005, 500, to_date('2014-04-08T10:01:12','%Y-%m-%dT%H:%M:%S'), NULL, 53, 'contest 4 2nd place', 65, to_date('2014-04-04T10:01:12','%Y-%m-%dT%H:%M:%S'), to_date('2014-02-28T10:01:13','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1005, 132456, 1005, to_date('2014-02-28T10:01:13','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1006, 300, NULL, NULL, 56, 'contest 1 1st place', 65, to_date('2014-04-19T10:01:14','%Y-%m-%dT%H:%M:%S'), to_date('2014-03-20T10:01:15','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1006, 132456, 1006, to_date('2014-03-20T10:01:15','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1007, 100, NULL, NULL, 56, 'contest 1 1st place', 65, to_date('2014-04-19T10:01:15','%Y-%m-%dT%H:%M:%S'), to_date('2014-03-20T10:01:16','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1007, 132456, 1007, to_date('2014-03-20T10:01:16','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1008, 250, NULL, 250, 56, 'component 1 1st place', 6, to_date('2014-04-29T10:01:18','%Y-%m-%dT%H:%M:%S'), to_date('2014-03-30T10:01:18','%Y-%m-%dT%H:%M:%S'), 400, 1);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1008, 132456, 1008, to_date('2014-03-30T10:01:18','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1009, 150, NULL, 150, 56, 'component 1 1st place', 6, to_date('2014-04-29T10:01:19','%Y-%m-%dT%H:%M:%S'), to_date('2014-03-30T10:01:20','%Y-%m-%dT%H:%M:%S'), 400, 2);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1009, 132456, 1009, to_date('2014-03-30T10:01:20','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1010, 435.24, NULL, NULL, 70, '2014 February Development Track Top Performers 10th place', 41, to_date('2014-04-06T10:01:20','%Y-%m-%dT%H:%M:%S'), to_date('2014-03-22T10:01:22','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1010, 132456, 1010, to_date('2014-03-22T10:01:22','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1011, 20.15, NULL, NULL, 70, '2014 February Development Track Top Performers 10th place (taxable)', 63, to_date('2014-04-06T10:01:22','%Y-%m-%dT%H:%M:%S'), to_date('2014-03-22T10:01:23','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1011, 132456, 1011, to_date('2014-03-22T10:01:23','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1012, 225, NULL, NULL, 71, 'contest review 1', 7, to_date('2014-05-09T10:01:24','%Y-%m-%dT%H:%M:%S'), to_date('2014-04-09T10:01:24','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1012, 132456, 1012, to_date('2014-04-09T10:01:24','%Y-%m-%dT%H:%M:%S'));
+INSERT INTO payment_detail(payment_detail_id, net_amount, date_paid, gross_amount, payment_status_id, payment_desc, payment_type_id, date_due, create_date, total_amount, installment_number)
+VALUES(1013, 50, NULL, NULL, 71, 'spec review 1', 27, to_date('2014-05-09T10:01:25','%Y-%m-%dT%H:%M:%S'), to_date('2014-04-09T10:01:26','%Y-%m-%dT%H:%M:%S'), NULL, NULL);
+INSERT INTO payment(payment_id, user_id, most_recent_detail_id, create_date)
+VALUES(1013, 132456, 1013, to_date('2014-04-09T10:01:26','%Y-%m-%dT%H:%M:%S'));

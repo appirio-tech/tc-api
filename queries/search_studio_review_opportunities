@@ -48,10 +48,8 @@ WHERE 1=1
 AND LOWER(review_type) = LOWER(DECODE('@reviewType@', '', review_type, '@reviewType@'))
 AND LOWER(challenge_name) LIKE LOWER('%@challengeName@%')
 AND LOWER(challenge_type) = LOWER(DECODE('@challengeType@', '', challenge_type, '@challengeType@'))
-AND EXTEND(round_1_scheduled_start_date, year to day) <= '@round1ScheduledStartDateSecondDate@'
-AND EXTEND(round_1_scheduled_start_date, year to day) >= '@round1ScheduledStartDateFirstDate@'
-AND EXTEND(round_2_scheduled_start_date, year to day) <= '@round2ScheduledStartDateSecondDate@'
-AND EXTEND(round_2_scheduled_start_date, year to day) >= '@round2ScheduledStartDateFirstDate@'
+AND round_1_scheduled_start_date BETWEEN TO_DATE('@round1ScheduledStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@round1ScheduledStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
+AND round_2_scheduled_start_date BETWEEN TO_DATE('@round2ScheduledStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@round2ScheduledStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
 
 ORDER BY @sortColumn@ @sortOrder@
 

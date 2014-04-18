@@ -117,8 +117,8 @@ var COPILOT_POSTING_PROJECT_TYPE = 29;
  * Max and min date value for date parameter.
  * @type {string}
  */
-var MIN_DATE = '1900-1-1';
-var MAX_DATE = '9999-1-1';
+var MIN_DATE = '2001-1-1';
+var MAX_DATE = '2199-12-31';
 
 /**
  * The date format for input date parameter startDate and enDate.

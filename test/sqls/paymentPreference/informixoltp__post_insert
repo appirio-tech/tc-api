@@ -1,0 +1,4 @@
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (124772, 5, current);
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (124856, 3, current);
+insert into 'informix'.user_paypal_account (user_id, email_address) values (124856, 'wyzmo@oldmail.com');
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (124861, 43);

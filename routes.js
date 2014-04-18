@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.34
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv
+ * @version 1.39
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -80,6 +80,16 @@
  * - add route for apply develop review opportunities api.
  * changes in 1.34:
  * - added route for client active challenge costs
+ * changes in 1.35:
+ * - added route for auth0 callback api
+ * Changes in 1.36
+ * - add route for get payment list api.
+ * Changes in 1.37:
+ * - add route for track statistics API.
+ * Changes in 1.38:
+ * - add route for upload member photo API.
+ * Changes in 1.39:
+ * - add routes for payment preference api.
  */
 
 /* ---------------------
@@ -207,6 +217,7 @@ exports.routes = {
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
+		{ path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
 
@@ -222,12 +233,18 @@ exports.routes = {
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
 
+
+        { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
+        { path: "/:apiVersion/payments", action: "getPaymentList" },
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
-        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
+
+        { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
     ].concat(testMethods.get),
     post: [
         // Stub API
@@ -236,6 +253,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
         { path: "/:apiVersion/terms/docusignCallback", action: "docusignCallback" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
+        { path: "/:apiVersion/users/photo", action: "uploadMemberPhoto" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },
@@ -246,6 +264,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
-        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
+        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" }
     ]
 };

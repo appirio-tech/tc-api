@@ -1,0 +1,7 @@
+INSERT INTO path(path_id, path, modify_date) VALUES(2001, 'xxx', current);
+
+INSERT INTO image(image_id, file_name, image_type_id, path_id) VALUES(2001, 'super.bmp', 1, 2001);
+INSERT INTO image(image_id, file_name, image_type_id, path_id) VALUES(2002, 'heffan.jpg', 1, 2001);
+
+INSERT INTO coder_image_xref(coder_id, image_id, display_flag, modify_date) VALUES(132457, 2001, 1, current);
+INSERT INTO coder_image_xref(coder_id, image_id, display_flag, modify_date) VALUES(132456, 2002, 1, current);
