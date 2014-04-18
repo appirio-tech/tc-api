@@ -2339,9 +2339,9 @@ exports.submitForDesignChallenge = {
     }
 };
 
-var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next) {
+var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, isRelated = false, registrants;
+        caller = connection.caller, isRelated = false, submissions;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2369,43 +2369,78 @@ var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next)
                 isRelated = true;
             }
 
-
-            api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
-        }, function (results, cb) {
-            var mapRegistrants = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (item) {
-                        var registrant = {
-                            handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date)
-                        };
-                        if (!isStudio) {
-                            registrant.rating = item.rating;
-                            registrant.colorStyle = helper.getColorStyle(item.rating);
-                        }
-                        return registrant;
-                    });
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
                 };
-            registrants = mapRegistrants(results);
+            };
+
+            if (isStudio) {
+                async.parallel({
+                    submissions: execQuery('get_studio_challenge_detail_submissions'),
+                    digital_run_points: execQuery('challenge_digital_run')
+                }, cb);
+            } else {
+                async.parallel({
+                    submissions: execQuery('challenge_submissions'),
+                    digital_run_points: execQuery('challenge_digital_run')
+                }, cb);
+            }
+        }, function (results, cb) {
+            var mapSubmissions = function (results, digitalRunPoints) {
+                var submissions = [], passedReview = 0, drTable, submission = {};
+                if (isStudio) {
+                    submissions = _.map(results, function (item) {
+                        return {
+                            submissionId: item.submission_id,
+                            submitter: item.handle,
+                            submissionTime: formatDate(item.create_date)
+                        };
+                    });
+                } else {
+                    results.forEach(function (item) {
+                        if (item.placement) {
+                            passedReview = passedReview + 1;
+                        }
+                    });
+                    drTable = DR_POINT[Math.min(passedReview - 1, 4)];
+                    submissions = _.map(results, function (item) {
+                        submission = {
+                            handle: item.handle,
+                            placement: item.placement || "",
+                            screeningScore: item.screening_score,
+                            initialScore: item.initial_score,
+                            finalScore: item.final_score,
+                            points: 0,
+                            submissionStatus: item.submission_status,
+                            submissionDate: formatDate(item.submission_date)
+                        };
+                        if (submission.placement && drTable.length >= submission.placement) {
+                            submission.points = drTable[submission.placement - 1] * digitalRunPoints;
+                        }
+                        return submission;
+                    });
+                }
+                return submissions;
+            };
+
+            submissions = mapSubmissions(results.submissions, results.digital_run_points[0].value);
             cb();
         }
     ], function (err) {
         if (err) {
             helper.handleError(api, connection, err);
         } else {
-            connection.response = registrants;
+            connection.response = submissions;
         }
         next(connection, true);
     });
 };
 
 
-exports.getRegistrants = {
-    name: "getRegistrants",
-    description: "getRegistrants",
+exports.getSubmissions = {
+    name: "getSubmissions",
+    description: "getSubmissions",
     inputs: {
         required: ["challengeId"],
         optional: []
@@ -2427,7 +2462,7 @@ exports.getRegistrants = {
                     next(connection, true);
                 } else {
                     var isStudio = Boolean(result[0].is_studio);
-                    getRegistrants(api, connection, connection.dbConnectionMap, isStudio, next);
+                    getSubmissions(api, connection, connection.dbConnectionMap, isStudio, next);
                 }
             });
         } else {
