@@ -1,12 +1,12 @@
-/*jslint nomen: true */
+/*jslint node: true, nomen: true */
 /**
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  */
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo
- * @version 1.26
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
+ * @version 1.27
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -74,6 +74,8 @@
  * - add method transferDBResults2Response.
  * Changes in 1.26:
  * - add method formatInformixDate
+ * Changes in 1.27:
+ * - added checkEmailAddress
  */
 "use strict";
 
@@ -434,6 +436,25 @@ helper.checkString = function (obj, objName) {
         return new IllegalArgumentError(objName + " should be string.");
     }
     return null;
+};
+
+/**
+ * Check Object given object is email address.
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if invalid or null if valid.
+ * @since 1.22
+ */
+helper.checkEmailAddress = function (obj, objName) {
+    var pattern = /^(?:(?:\w|[\-+])+)(?:\.(?:\w|[\-+])+)*@(?:\w|\-)+(?:\.(?:\w|\-)+)*(?:\.[abcdefghijklmnopqrstuvwxyz]{2,})$/i,
+        error = helper.checkString(obj, objName);
+    if (!error && obj.length > 100) {
+        error = new IllegalArgumentError(objName + " exceeds 100 characters.");
+    }
+    if (!error && !pattern.test(obj)) {
+        error = new IllegalArgumentError(objName + " should be email address.");
+    }
+    return error;
 };
 
 /**
@@ -1232,7 +1253,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
     var cacheKey = "users-" + handle;
     api.helper.getCachedValue(cacheKey, function (err, exists) {
         if (!exists) {
-            // If there is no hit in cache then query DB to check user account for existence and cache positive result 
+            // If there is no hit in cache then query DB to check user account for existence and cache positive result
             // only
             api.log("No hit in users cache for [" + handle + "]. Will query database.", "debug");
             api.dataAccess.executeQuery("check_coder_exist", { handle: handle }, dbConnectionMap, function (err, result) {

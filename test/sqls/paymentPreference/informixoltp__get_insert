@@ -1,0 +1,13 @@
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (132456, 2, current);
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (132456, 100);
+insert into 'informix'.user_paypal_account (user_id, email_address) values (132456, 'heffan@topcoder.com');
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (124776, 100);
+insert into 'informix'.user_paypal_account (user_id, email_address) values (124834, 'lightspeed@topcoder.com');
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (124772, 6, current);
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (124772, 43);
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (20, 5, current);
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (20, 25);
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (132457, 5, current);
+insert into 'informix'.user_accrual (user_id, accrual_amount) values (132457, 50);
+insert into 'informix'.user_paypal_account (user_id, email_address) values (132457, 'super@topcoder.com');
+insert into 'informix'.user_payment_method (user_id, payment_method_id, modify_date) values (132458, 5, current);

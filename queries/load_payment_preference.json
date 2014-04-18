@@ -1,0 +1,5 @@
+{
+  "name"    : "load_payment_preference",
+  "db"      : "informixoltp",
+  "sqlfile" : "load_payment_preference"
+}

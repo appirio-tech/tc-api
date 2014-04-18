@@ -1,0 +1,1 @@
+insert into 'informix'.user_payment_method(user_id, payment_method_id, modify_date) values (@userId@, @value@, current)
