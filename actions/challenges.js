@@ -2339,3 +2339,99 @@ exports.submitForDesignChallenge = {
     }
 };
 
+var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next) {
+    var error, sqlParams, helper = api.helper, challengeType = helper.both,
+        caller = connection.caller, isRelated = false, registrants;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                challengeId: connection.params.challengeId,
+                project_type_id: challengeType.category,
+                user_id: caller.userId || 0
+            };
+
+            // Do the private check.
+            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result[0].is_private && !result[0].has_access) {
+                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
+                return;
+            }
+
+            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
+            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+                isRelated = true;
+            }
+
+
+            api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            var mapRegistrants = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (item) {
+                        var registrant = {
+                            handle: item.handle,
+                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                            registrationDate: formatDate(item.inquiry_date)
+                        };
+                        if (!isStudio) {
+                            registrant.rating = item.rating;
+                            registrant.colorStyle = helper.getColorStyle(item.rating);
+                        }
+                        return registrant;
+                    });
+                };
+            registrants = mapRegistrants(results);
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = registrants;
+        }
+        next(connection, true);
+    });
+};
+
+
+exports.getRegistrants = {
+    name: "getRegistrants",
+    description: "getRegistrants",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getRegistrations#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length === 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getRegistrants(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
