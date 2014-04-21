@@ -500,11 +500,11 @@ exports.getClientActiveChallengeCosts = {
                 costs = _.map(results, function (item) {
                     var duration = parseFloat(item.challenge_duration.toFixed(1)),
                         currentPhaseText = item.current_phase,
-                        currentPhaseArray = [];
+                   /*     currentPhaseArray = [];
 
                     if (currentPhaseText) {
                         currentPhaseArray = currentPhaseText.split(',');
-                    }
+                    }*/
 
                     return {
                         "customerName": item.customer_name,
@@ -527,7 +527,7 @@ exports.getClientActiveChallengeCosts = {
                         "registrationEndDate": moment(item.registration_end_date).format("YYYY-MM-DD"),
                         "submissionEndDate": moment(item.submission_end_date).format("YYYY-MM-DD"),
                         "checkpointEndDate": moment(item.checkpoint_end_date).format("YYYY-MM-DD"),
-                        "currentPhase": currentPhaseArray,
+                        "currentPhase": currentPhaseText,
                         "firstPrize": item.first_prize,
                         "totalPrize": item.total_prize,
                         "checkpointPrize": item.checkpoint_prize,
