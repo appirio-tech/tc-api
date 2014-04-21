@@ -499,7 +499,7 @@ exports.getClientActiveChallengeCosts = {
             }, function (results, cb) {
                 costs = _.map(results, function (item) {
                     var duration = parseFloat(item.challenge_duration.toFixed(1)),
-                        currentPhaseText = item.current_phase,
+                        currentPhaseText = item.current_phase;
                    /*     currentPhaseArray = [];
 
                     if (currentPhaseText) {
