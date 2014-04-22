@@ -711,6 +711,15 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 
             if (isStudio) {
                 challenge.allowStockArt = data.allow_stock_art;
+
+
+                var filetypesText = data.filetypes, 
+                    filetypesArray = [];                  
+  
+                if (filetypesText) {
+                    filetypesArray = filetypesText.split(',');
+                }    
+                challenge.filetypes =  filetypesArray;               
             }
 
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
