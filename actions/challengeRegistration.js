@@ -389,10 +389,10 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
-				submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
+                submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
-				submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
+                submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
 

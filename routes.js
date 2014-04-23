@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.39
+ * @version 1.40
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
@@ -90,6 +90,8 @@
  * - add route for upload member photo API.
  * Changes in 1.39:
  * - add routes for payment preference api.
+ * Changes in 1.40:
+ * - Add routes for new split challenges API.
  */
 
 /* ---------------------
@@ -166,6 +168,10 @@ exports.routes = {
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
+        { path: "/:apiVersion/develop/challenges/active", action: "getActiveDevelopChallenges" },
+        { path: "/:apiVersion/develop/challenges/open", action: "getOpenDevelopChallenges" },
+        { path: "/:apiVersion/develop/challenges/upcoming", action: "getUpcomingDevelopChallenges" },
+        { path: "/:apiVersion/develop/challenges/past", action: "getPastDevelopChallenges" },
         { path: "/:apiVersion/develop/challenges/:challengeId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
@@ -177,6 +183,10 @@ exports.routes = {
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
+        { path: "/:apiVersion/design/challenges/active", action: "getActiveDesignChallenges" },
+        { path: "/:apiVersion/design/challenges/open", action: "getOpenDesignChallenges" },
+        { path: "/:apiVersion/design/challenges/upcoming", action: "getUpcomingDesignChallenges" },
+        { path: "/:apiVersion/design/challenges/past", action: "getPastDesignChallenges" },
         { path: "/:apiVersion/design/challenges/:challengeId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
@@ -217,7 +227,7 @@ exports.routes = {
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
-		{ path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
+        { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
 
