@@ -1,0 +1,103 @@
+{
+    "total": 13,
+    "pageIndex": 1,
+    "pageSize": 10,
+    "payments": [
+        {
+            "description": "contest 2 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-18",
+            "releaseDate": "2014-03-20",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 450
+        },
+        {
+            "description": "contest 2 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-18",
+            "releaseDate": "2014-03-20",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 150
+        },
+        {
+            "description": "contest 3 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-28",
+            "releaseDate": "2014-03-30",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 600
+        },
+        {
+            "description": "contest 3 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-28",
+            "releaseDate": "2014-03-30",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 200
+        },
+        {
+            "description": "contest 4 2nd place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-28",
+            "releaseDate": "2014-04-04",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 500
+        },
+        {
+            "description": "contest 1 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-03-20",
+            "releaseDate": "2014-04-19",
+            "paidDate": "",
+            "status": "Owed",
+            "amount": 300
+        },
+        {
+            "description": "contest 1 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-03-20",
+            "releaseDate": "2014-04-19",
+            "paidDate": "",
+            "status": "Owed",
+            "amount": 100
+        },
+        {
+            "description": "2014 February Development Track Top Performers 10th place",
+            "type": "Digital Run v2 Top Performers Payment",
+            "createDate": "2014-03-22",
+            "releaseDate": "2014-04-06",
+            "paidDate": "",
+            "status": "Entered into payment system",
+            "amount": 435.24
+        },
+        {
+            "description": "2014 February Development Track Top Performers 10th place (taxable)",
+            "type": "Digital Run v2 Top Performers Payment (taxable)",
+            "createDate": "2014-03-22",
+            "releaseDate": "2014-04-06",
+            "paidDate": "",
+            "status": "Entered into payment system",
+            "amount": 20.15
+        },
+        {
+            "description": "component 1 1st place(1st installment, total amount=400.00)",
+            "type": "Component Payment",
+            "createDate": "2014-03-30",
+            "releaseDate": "2014-04-29",
+            "paidDate": "",
+            "status": "Owed",
+            "amount": 250
+        }
+    ],
+    "summary": {
+        "paid": 1900,
+        "owed": 800,
+        "enteredIntoPaymentSystem": 455.39,
+        "accruing": 275
+    }
+}

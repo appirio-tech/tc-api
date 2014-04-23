@@ -156,8 +156,8 @@ var COPILOT_POSTING_PROJECT_TYPE = 29;
  * Max and min date value for date parameter.
  * @type {string}
  */
-var MIN_DATE = '1900-1-1';
-var MAX_DATE = '9999-1-1';
+var MIN_DATE = '2001-1-1';
+var MAX_DATE = '2199-12-31';
 
 /**
  * The date format for input date parameter startDate and enDate.
@@ -751,12 +751,24 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
                     count: 'search_private_software_studio_challenges_count',
                     challenges: 'search_private_software_studio_challenges'
                 };
+                if (listType === helper.ListType.PAST) {
+                    queryName = {
+                        count: 'search_private_past_software_studio_challenges_count',
+                        challenges: 'search_private_past_software_studio_challenges'
+                    };
+                }
             } else {
                 // Public & Private challenge query name.
                 queryName = {
                     count: 'search_software_studio_challenges_count',
                     challenges: 'search_software_studio_challenges'
                 };
+                if (listType === helper.ListType.PAST) {
+                    queryName = {
+                        count: 'search_past_software_studio_challenges_count',
+                        challenges: 'search_past_software_studio_challenges'
+                    };
+                }
             }
 
             async.parallel({
@@ -806,7 +818,13 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
     var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software,
         caller = connection.caller,
-        isRelated = false; // This variable represent if the caller is related with challenge.
+        isRelated = false, // This variable represent if the caller is related with challenge.
+        unified = connection.action === "getChallenge",
+        execQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
+        };
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -834,29 +852,18 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 isRelated = true;
             }
 
-            var execQuery = function (name) {
-                return function (cbx) {
-                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
-                };
-            };
             if (isStudio) {
                 async.parallel({
                     details: execQuery('challenge_details'),
-                    registrants: execQuery('challenge_registrants'),
                     checkpoints: execQuery("get_studio_challenge_detail_checkpoints"),
-                    submissions: execQuery("get_studio_challenge_detail_submissions"),
                     winners: execQuery("get_studio_challenge_detail_winners"),
                     platforms: execQuery('challenge_platforms'),
-                    phases: execQuery('challenge_phases'),
                     documents: execQuery('challenge_documents')
                 }, cb);
             } else {
                 async.parallel({
                     details: execQuery('challenge_details'),
-                    registrants: execQuery('challenge_registrants'),
-                    submissions: execQuery('challenge_submissions'),
                     platforms: execQuery('challenge_platforms'),
-                    phases: execQuery('challenge_phases'),
                     documents: execQuery('challenge_documents'),
                     copilot: execQuery('check_is_copilot')
                 }, cb);
@@ -870,42 +877,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 isCopilot = results.copilot[0].user_is_copilot;
             }
             var data = results.details[0], i = 0, prize = 0,
-                mapSubmissions = function (results) {
-                    var submissions = [], passedReview = 0, drTable, submission = {};
-                    if (isStudio) {
-                        submissions = _.map(results.submissions, function (item) {
-                            return {
-                                submissionId: item.submission_id,
-                                submitter: item.handle,
-                                submissionTime: formatDate(item.create_date)
-                            };
-                        });
-                    } else {
-                        results.submissions.forEach(function (item) {
-                            if (item.placement) {
-                                passedReview = passedReview + 1;
-                            }
-                        });
-                        drTable = DR_POINT[Math.min(passedReview - 1, 4)];
-                        submissions = _.map(results.submissions, function (item) {
-                            submission = {
-                                handle: item.handle,
-                                placement: item.placement || "",
-                                screeningScore: item.screening_score,
-                                initialScore: item.initial_score,
-                                finalScore: item.final_score,
-                                points: 0,
-                                submissionStatus: item.submission_status,
-                                submissionDate: formatDate(item.submission_date)
-                            };
-                            if (submission.placement && drTable.length >= submission.placement) {
-                                submission.points = drTable[submission.placement - 1] * results.details[0].digital_run_points;
-                            }
-                            return submission;
-                        });
-                    }
-                    return submissions;
-                },
                 mapPlatforms = function (results) {
                     if (!_.isDefined(results)) {
                         return [];
@@ -915,38 +886,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         platforms.push(item.name);
                     });
                     return platforms;
-                },
-                mapPhases = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (item) {
-                        return {
-                            type: item.type,
-                            status: item.status,
-                            scheduledStartTime: item.scheduled_start_time,
-                            actualStartTime: item.actual_start_time,
-                            scheduledEndTime: item.scheduled_end_time,
-                            actualendTime: item.actual_end_time
-                        };
-                    });
-                },
-                mapRegistrants = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (item) {
-                        var registrant = {
-                            handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date)
-                        };
-                        if (!isStudio) {
-                            registrant.rating = item.rating;
-                            registrant.colorStyle = helper.getColorStyle(item.rating);
-                        }
-                        return registrant;
-                    });
                 },
                 mapPrize = function (results) {
                     var prizes = [];
@@ -1017,12 +956,21 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate : formatDate(data.submission_end_date)
             };
 
-            if (connection.action === "getChallenge") {
+            if (unified) {
                 challenge.type = isStudio ? 'design' : 'develop';
             }
 
             if (isStudio) {
                 challenge.allowStockArt = data.allow_stock_art;
+
+
+                var filetypesText = data.filetypes, 
+                    filetypesArray = [];                  
+  
+                if (filetypesText) {
+                    filetypesArray = filetypesText.split(',');
+                }    
+                challenge.filetypes =  filetypesArray;               
             }
 
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
@@ -1038,22 +986,24 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             //use xtend to preserve ordering of attributes
             challenge = extend(challenge, {
                 submissionLimit : data.submission_limit,
-                currentPhaseEndDate : formatDate(data.current_phase_end_date),
                 currentStatus : data.current_status,
-                currentPhaseName : convertNull(data.current_phase_name),
-                currentPhaseRemainingTime : data.current_phase_remaining_time,
                 digitalRunPoints: data.digital_run_points,
                 reliabilityBonus: helper.getReliabilityBonus(data.prize1),
                 challengeCommunity: challengeType.community,
                 directUrl : helper.getDirectProjectLink(data.challenge_id),
                 technology: data.technology.split(', '),
                 prize: mapPrize(data),
-                numberOfRegistrants: results.registrants.length,
-                registrants: mapRegistrants(results.registrants),
                 checkpoints: mapCheckPoints(results.checkpoints),
-                submissions: mapSubmissions(results),
                 winners: mapWinners(results.winners)
             });
+
+            if (!unified) {
+                challenge = extend(challenge, {
+                    currentPhaseName : convertNull(data.current_phase_name),
+                    currentPhaseRemainingTime : data.current_phase_remaining_time,
+                    currentPhaseEndDate : formatDate(data.current_phase_end_date)
+                });
+            }
 
             // Only show the documents to relevant user.
             if (isRelated) {
@@ -1066,7 +1016,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.technology;
                 delete challenge.platforms;
             } else {
-                challenge.numberOfSubmissions = results.submissions.length;
 
                 if (data.is_reliability_bonus_eligible !== 'true') {
                     delete challenge.reliabilityBonus;
@@ -1079,9 +1028,106 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.submissionLimit;
             }
             challenge.platforms = mapPlatforms(results.platforms);
-            challenge.phases = mapPhases(results.phases);
             if (data.event_id !== 0) {
                 challenge.event = {id: data.event_id, description: data.event_description, shortDescription: data.event_short_desc};
+            }
+            cb();
+        }, function (cb) {
+            if (unified) {
+                cb(null, null);
+            } else {
+                if (isStudio) {
+                    async.parallel({
+                        registrants: execQuery('challenge_registrants'),
+                        submissions: execQuery("get_studio_challenge_detail_submissions"),
+                        phases: execQuery('challenge_phases')
+                    }, cb);
+                } else {
+                    async.parallel({
+                        registrants: execQuery('challenge_registrants'),
+                        submissions: execQuery('challenge_submissions'),
+                        phases: execQuery('challenge_phases')
+                    }, cb);
+                }
+            }
+        }, function (results, cb) {
+            if (!unified) {
+                var mapSubmissions = function (results) {
+                        var submissions = [], passedReview = 0, drTable, submission = {};
+                        if (isStudio) {
+                            submissions = _.map(results.submissions, function (item) {
+                                return {
+                                    submissionId: item.submission_id,
+                                    submitter: item.handle,
+                                    submissionTime: formatDate(item.create_date)
+                                };
+                            });
+                        } else {
+                            results.submissions.forEach(function (item) {
+                                if (item.placement) {
+                                    passedReview = passedReview + 1;
+                                }
+                            });
+                            drTable = DR_POINT[Math.min(passedReview - 1, 4)];
+                            submissions = _.map(results.submissions, function (item) {
+                                submission = {
+                                    handle: item.handle,
+                                    placement: item.placement || "",
+                                    screeningScore: item.screening_score,
+                                    initialScore: item.initial_score,
+                                    finalScore: item.final_score,
+                                    points: 0,
+                                    submissionStatus: item.submission_status,
+                                    submissionDate: formatDate(item.submission_date)
+                                };
+                                if (submission.placement && drTable.length >= submission.placement) {
+                                    submission.points = drTable[submission.placement - 1] * challenge.digitalRunPoints;
+                                }
+                                return submission;
+                            });
+                        }
+                        return submissions;
+                    },
+                    mapPhases = function (results) {
+                        if (!_.isDefined(results)) {
+                            return [];
+                        }
+                        return _.map(results, function (item) {
+                            return {
+                                type: item.type,
+                                status: item.status,
+                                scheduledStartTime: item.scheduled_start_time,
+                                actualStartTime: item.actual_start_time,
+                                scheduledEndTime: item.scheduled_end_time,
+                                actualendTime: item.actual_end_time
+                            };
+                        });
+                    },
+                    mapRegistrants = function (results) {
+                        if (!_.isDefined(results)) {
+                            return [];
+                        }
+                        return _.map(results, function (item) {
+                            var registrant = {
+                                handle: item.handle,
+                                reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                                registrationDate: formatDate(item.inquiry_date)
+                            };
+                            if (!isStudio) {
+                                registrant.rating = item.rating;
+                                registrant.colorStyle = helper.getColorStyle(item.rating);
+                            }
+                            return registrant;
+                        });
+                    };
+
+                challenge = extend(challenge, {
+                    registrants: mapRegistrants(results.registrants),
+                    submissions: mapSubmissions(results),
+                    phases: mapPhases(results.phases)
+                });
+                challenge.numberOfRegistrants = results.registrants.length;
+                challenge.numberOfSubmissions = results.submissions.length;
             }
             cb();
         }

@@ -1,0 +1,1 @@
+UPDATE user_social_login set social_user_id = '@socialUserId@' WHERE user_id = '@userId@'

@@ -1,0 +1,5 @@
+{
+    "name"    : "get_old_member_photo",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_old_member_photo"
+}

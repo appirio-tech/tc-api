@@ -1,0 +1,27 @@
+SELECT
+SKIP @firstRowIndex@
+FIRST @pageSize@
+  pd.payment_desc ||
+    (CASE WHEN pt.payment_type_id IN (6, 7) AND pd.gross_amount <> pd.total_amount THEN
+      '(' || TO_CHAR(pd.installment_number) ||
+      (CASE pd.installment_number WHEN 1 THEN 'st' WHEN 2 THEN 'nd' WHEN 3 THEN 'rd' ELSE 'th' END) ||
+      ' installment, total amount=' || TO_CHAR(pd.total_amount) || ')'
+    ELSE '' END) AS description,
+  pt.payment_type_desc AS type,
+  p.create_date AS date_create,
+  pd.date_due AS release_date,
+  pd.date_paid AS paid_date,
+  ps.payment_status_desc AS status,
+  pd.net_amount AS amount
+FROM payment p,
+  payment_detail pd,
+  payment_type_lu pt,
+  payment_status_lu ps
+WHERE p.most_recent_detail_id = pd.payment_detail_id
+  AND pd.payment_type_id = pt.payment_type_id
+  AND pd.payment_status_id = ps.payment_status_id
+  AND pt.payment_type_id NOT IN (3, 5)
+  AND p.user_id = @userId@
+  AND ps.payment_status_id IN (@paymentStatusIds@)
+  AND LOWER(pt.payment_type_desc) = LOWER('@type@')
+ORDER BY @sortColumn@ @sortOrder@

@@ -1,0 +1,5 @@
+{
+  "name"    : "update_social_user_id",
+  "db"      : "common_oltp",
+  "sqlfile" : "update_social_user_id"
+}

@@ -9,6 +9,8 @@
  * add common function getForumWrapper, aduitResourceAddition
  * Changes in 1.2:
  * - Add new parameter in getChallengeTerms.
+ * Changes in 1.3:
+ * - Avoid undefined if rows[0].copilot_type is null.
  */
 "use strict";
 
@@ -158,7 +160,7 @@ exports.challengeHelper = function (api, next) {
                     }
 
                     if (rows[0].project_category_id === COPILOT_POSTING_PROJECT_TYPE) {
-                        if (!rows[0].user_is_copilot && rows[0].copilot_type.indexOf("Marathon Match") < 0) {
+                        if (!rows[0].user_is_copilot && rows[0].copilot_type && rows[0].copilot_type.indexOf("Marathon Match") < 0) {
                             cb(new ForbiddenError('You cannot participate in this challenge because you are not an active member of the copilot pool.'));
                             return;
                         }

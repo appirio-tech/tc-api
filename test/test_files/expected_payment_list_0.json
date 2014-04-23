@@ -1,0 +1,9 @@
+{
+    "total": 0,
+    "pageIndex": 1,
+    "pageSize": 10,
+    "payments": [],
+    "summary": {
+        "paid": 0
+    }
+}
