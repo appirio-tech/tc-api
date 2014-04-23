@@ -100,7 +100,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
  */
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
-    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId',
+    "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
     "submissionEndFrom", "submissionEndTo"];
 
 /**
@@ -464,9 +464,6 @@ function setFilterV2(filter, sqlParams) {
     }
     if (!_.isUndefined(filter.projectId)) {
         sqlParams.project_id = filter.projectId;
-    }
-    if (!_.isUndefined(filter.cmcTaskId)) {
-        sqlParams.cmc = filter.cmcTaskId;
     }
     if (!_.isUndefined(filter.communityId)) {
         sqlParams.community_id = filter.communityId;
@@ -2640,7 +2637,7 @@ var getChallenges = function (api, connection, isDesign, listType, next) {
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo"],
+            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo"],
         dbConnectionMap = connection.dbConnectionMap,
         sqlParams = {},
         filter = {},
