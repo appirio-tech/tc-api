@@ -877,6 +877,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 isCopilot = results.copilot[0].user_is_copilot;
             }
             var data = results.details[0], i = 0, prize = 0,
+                filetypesText,
+                filetypesArray,
                 mapPlatforms = function (results) {
                     if (!_.isDefined(results)) {
                         return [];
@@ -963,14 +965,13 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             if (isStudio) {
                 challenge.allowStockArt = data.allow_stock_art;
 
+                filetypesText = data.filetypes;
+                filetypesArray = [];
 
-                var filetypesText = data.filetypes, 
-                    filetypesArray = [];                  
-  
                 if (filetypesText) {
                     filetypesArray = filetypesText.split(',');
-                }    
-                challenge.filetypes =  filetypesArray;               
+                }
+                challenge.filetypes =  filetypesArray;
             }
 
             if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {

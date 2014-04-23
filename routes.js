@@ -227,7 +227,7 @@ exports.routes = {
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
-		{ path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
+        { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
 

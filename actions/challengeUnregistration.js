@@ -191,7 +191,7 @@ var unregisterChallengeAction = function (api, connection, next) {
             } else if (!rows[0].user_has_submitter_resource_role) {
 
                 cb(new ForbiddenError('You are not registered for this challenge.'));
-            } 
+            }
 
             sqlParams.categoryId = rows[0].category_id;
             sqlParams.isStudio =  rows[0].is_studio;
