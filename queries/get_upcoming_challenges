@@ -86,9 +86,8 @@ AND pi1.project_info_type_id = 1 -- external reference id
 AND pi1.project_id = p.project_id
 
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
-AND LOWER(pn.value) LIKE ('@challenge_name@')
+AND pn.value LIKE ('@challenge_name@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
-AND NVL(LOWER(pi70.value), '') = DECODE('@cmc@', '', NVL(LOWER(pi70.value), ''), '@cmc@')
 ORDER BY @sort_column@ @sort_order@
