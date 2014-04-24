@@ -137,10 +137,14 @@ describe('Get Challenges API', function () {
                     assert.equal(result1.data[i].registrationStartDate, result2.data[i].postingDate, 'invalid registration start date ' + result1.data[i].registrationStartDate);
                     assert.equal(result1.data[i].numSubmissions, result2.data[i].numSubmissions, 'invalid number of submissions.');
                     assert.equal(result1.data[i].numRegistrants, result2.data[i].numRegistrants, 'invalid number of registrants.');
-                    assert.equal(result1.data[i].currentStatus, result2.data[i].currentStatus, 'invalid current status');
                     if (url.indexOf('past') < 0) {
+                        // Test for other type
+                        assert.equal(result1.data[i].currentStatus, result2.data[i].currentStatus, 'invalid current status');
                         assert.equal(result1.data[i].currentPhaseName, result2.data[i].currentPhaseName, 'invalid current phase name.');
                         assert.equal(result1.data[i].currentPhaseEndDate, result2.data[i].currentPhaseEndDate, 'invalid current phase end date.');
+                    } else {
+                        // Test for past type
+                        assert.equal(result1.data[i].status, result2.data[i].currentStatus, 'invalid current status');
                     }
                     assert.equal(result1.data[i].registrationOpen, result2.data[i].registrationOpen, 'invalid registration open');
                 }

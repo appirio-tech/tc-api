@@ -7,7 +7,6 @@ FIRST @page_size@
 , p.project_id AS challenge_id
 , screening.parameter AS screening_scorecard_id
 , review.parameter AS review_scorecard_id
-, NVL(pi70.value, '') AS cmc_task_id
 , (SELECT value FROM project_info WHERE project_id = p.project_id AND project_info_type_id = 4) AS forum_id
 , (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
         WHERE u1.project_id = p.project_id
@@ -22,7 +21,7 @@ FIRST @page_size@
 , NVL(pp1.actual_end_time, pp1.scheduled_end_time) AS registration_end_date
 , NVL(pp15.actual_end_time, pp15.scheduled_end_time) AS checkpoint_submission_end_date
 , NVL(pp2.actual_end_time, pp2.scheduled_end_time) AS submission_end_date
-, pstatus.name AS current_status
+, pstatus.name AS status
 , CASE WHEN pidr.value = 'On' THEN
   NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
   ELSE NULL END AS digital_run_points
@@ -58,7 +57,6 @@ LEFT JOIN (
   AND pc4.phase_criteria_type_id = 1
 ) review ON review.project_id = p.project_id
 LEFT JOIN project_info pidr ON pidr.project_id = p.project_id AND pidr.project_info_type_id = 26
-LEFT JOIN project_info pi70 ON pi70.project_id = p.project_id AND pi70.project_info_type_id = 70
 WHERE 1=1
 -- Filter the private challenge
 AND p.project_id IN (SELECT

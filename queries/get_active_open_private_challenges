@@ -7,7 +7,6 @@ FIRST @page_size@
 , p.project_id AS challenge_id
 , pc3.parameter AS screening_scorecard_id
 , pc4.parameter AS review_scorecard_id
-, NVL(pi70.value, '') AS cmc_task_id
 , pi4.value AS forum_id
 , (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
       WHERE u1.project_id = p.project_id
@@ -49,7 +48,6 @@ FROM project p
 , project_category_lu pcl
 , outer project_info pi4 --forum id
 , outer project_info pi1 -- external id
-, outer project_info pi70 -- cmc task id
 WHERE 1=1
 AND p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
@@ -72,8 +70,6 @@ AND pidr.project_id = p.project_id
 AND pidr.project_info_type_id = 26  --digital run
 AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
-AND pi70.project_id = p.project_id
-AND pi70.project_info_type_id = 70 -- cmc task id
 AND p.project_Id = nd_phase.project_id
 AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
 AND p.project_category_id = pcl.project_category_id
