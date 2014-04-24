@@ -7,7 +7,6 @@ FIRST @page_size@
 , p.project_id AS challenge_id
 , pc3.parameter AS screening_scorecard_id
 , pc4.parameter AS review_scorecard_id
-, NVL(pi70.value, '') AS cmc_task_id
 , pi4.value AS forum_id
 , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
 , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1) AS first_place_prize
@@ -41,7 +40,6 @@ FROM project p
 , project_category_lu pcl
 , outer project_info pi4 --forum id
 , outer project_info pi1 -- external id
-, outer project_info pi70 -- cmc task id
 WHERE 1=1
 AND p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
@@ -64,8 +62,6 @@ AND pidr.project_id = p.project_id
 AND pidr.project_info_type_id = 26  --digital run
 AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
-AND pi70.project_id = p.project_id
-AND pi70.project_info_type_id = 70 -- cmc task id
 AND p.project_category_id = pcl.project_category_id
 AND pi32.project_id = p.project_id
 AND pi32.project_info_type_id = 32

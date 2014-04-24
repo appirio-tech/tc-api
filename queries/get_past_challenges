@@ -7,7 +7,6 @@ FIRST @page_size@
 , p.project_id AS challenge_id
 , screening.parameter AS screening_scorecard_id
 , review.parameter AS review_scorecard_id
-, NVL(pi70.value, '') AS cmc_task_id
 , (SELECT value FROM project_info WHERE project_id = p.project_id AND project_info_type_id = 4) AS forum_id
 , (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
         WHERE u1.project_id = p.project_id
@@ -58,7 +57,6 @@ LEFT JOIN (
   AND pc4.phase_criteria_type_id = 1
 ) review ON review.project_id = p.project_id
 LEFT JOIN project_info pidr ON pidr.project_id = p.project_id AND pidr.project_info_type_id = 26
-LEFT JOIN project_info pi70 ON pi70.project_id = p.project_id AND pi70.project_info_type_id = 70
 WHERE 1=1
 -- Filter out the challenge that user is not belong to.
 AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
