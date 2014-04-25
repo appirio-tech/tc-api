@@ -58,8 +58,7 @@ describe('Submit for develop challenge', function () {
      * @param {Object} user the user to authenticate
      */
     function getAuthHeader(user) {
-        var authHeader = "Bearer " + jwt.sign({sub: user}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
-        return authHeader;
+        return "Bearer " + jwt.sign({sub: user}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
     }
 
     /**
@@ -71,13 +70,12 @@ describe('Submit for develop challenge', function () {
      * @param {Number} expectedStatusCode the expected status code of the response
      */
     function getRequest(url, user, expectedStatusCode) {
-        var req = request(API_ENDPOINT)
+        return request(API_ENDPOINT)
             .post(url)
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user))
             .expect('Content-Type', /json/)
             .expect(expectedStatusCode);
-        return req;
     }
 
 
@@ -142,7 +140,7 @@ describe('Submit for develop challenge', function () {
      */
     after(function (done) {
         mockThurgoodServer.close();
-        done();
+        clearDb(done);
     });
 
     /**
@@ -171,7 +169,7 @@ describe('Submit for develop challenge', function () {
                             var expected = {
                                 project_phase_id: 77702,
                                 resource_id: 77711,
-                                parameter: 'sample_submission.zip',
+                                parameter: resp.body.uploadId + '_sample_submission.zip',
                                 modify_user: '124764',
                                 project_id: 77701,
                                 upload_type_id: 1,
@@ -237,8 +235,6 @@ describe('Submit for develop challenge', function () {
                     return;
                 }
 
-                console.log(resp.body);
-
                 async.series([
                     function (cb) {
                         //Check if the row was created properly in upload table
@@ -247,7 +243,7 @@ describe('Submit for develop challenge', function () {
                             var expected = {
                                 project_phase_id: 77705,
                                 resource_id: 77711,
-                                parameter: 'sample_submission.zip',
+                                parameter: resp.body.uploadId + '_sample_submission.zip',
                                 modify_user: '124764',
                                 project_id: 77701,
                                 upload_type_id: 1,
@@ -309,8 +305,6 @@ describe('Submit for develop challenge', function () {
                     done(err);
                     return;
                 }
-
-                console.log(resp.body);
 
                 //Check if the thurgoodJobId in submission table is null
                 var sql = "thurgood_job_id from submission where submission_id = " + resp.body.submissionId;

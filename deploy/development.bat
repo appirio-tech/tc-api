@@ -80,5 +80,6 @@ REM The period for expiring the generated tokens for password resetting (in mill
 set RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
 set RESET_PASSWORD_TOKEN_CACHE_EXPIRY=180000
 
+set DEVELOP_SUBMISSION_MAX_SIZE=6144
 rem set REDIS_HOST=localhost
 rem set REDIS_PORT=6379
