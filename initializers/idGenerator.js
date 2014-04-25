@@ -1,12 +1,14 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author TCSASSEMBLER, Sky_, kurtrips
+ * @version 1.3
+ * @author TCSASSEMBLER, Sky_, kurtrips, Ghost_141
  * changes in 1.1:
  * - generated id by using sql SEQUENCE
  * changes in 1.2:
  * - added method to generate id from a sequence in any DB
+ * Changes in 1.3:
+ * - Update method getNextIDFromDb
  */
 
 "use strict";
@@ -67,49 +69,15 @@ exports.idGenerator = function (api, next) {
          * @since 1.2
          */
         getNextIDFromDb : function (idName, dbName, dbConnectionMap, next) {
-//            api.log("Generate next id for sequence: " + idName + " in database: " + dbName, "debug");
-//            api.dataAccess.executeQuery("get_next_sequence_" + dbName, {seq_name : idName}, dbConnectionMap, function (err, result) {
-//                if (err) {
-//                    api.log(err.message + "\n" + err.stack, "error");
-//                    next(err);
-//                    return;
-//                }
-//                next(null, result[0].next_id);
-//            });
-
             api.log("Generate next id for sequence:" + idName + " in database: " + dbName, "debug");
-            var connection = dbConnectionMap[dbName],
-                error = api.helper.checkObject(connection, 'connection');
-            if (error) {
-                next(error);
-                return;
-            }
-
-            if (connection.isConnected()) {
-                async.waterfall([
-                    function (cb) {
-                        api.dataAccess._parameterizeQuery(GET_NEXT_SEQUENCE, { seq_name: idName }, cb);
-                    },
-                    function (query, cb) {
-                        connection.query(query, cb, {
-                            start: function (q) {
-                                api.log('Start to execute ' + q, 'debug');
-                            },
-                            finish: function (f) {
-                                api.log('Finish executing ' + f, 'debug');
-                            }
-                        }).execute();
-                    }
-                ], function (err, result) {
-                    if (err) {
-                        api.log(err.message + "\n" + err.stack, "error");
-                        next(err);
-                        return;
-                    }
-                    next(null, result[0].next_id);
-                });
-            }
-
+            api.dataAccess.executeSqlQuery(GET_NEXT_SEQUENCE, { seq_name: idName }, dbName, dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.log(err.message + "\n" + err.stack, "error");
+                    next(err);
+                    return;
+                }
+                next(null, result[0].next_id);
+            });
         }
     };
     next();
