@@ -424,7 +424,6 @@ exports.ldapHelper = function (api, next) {
                 api.log('Leave retrieveMemberProfileLDAPEntry', 'debug');
                 next(err, entry);
             });
-            return next(null, true);
         },
 
         /**
