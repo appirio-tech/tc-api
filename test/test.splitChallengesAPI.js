@@ -18,7 +18,7 @@ var async = require('async');
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + '/sqls/challenges/';
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var activeDevelopEndpoint = '/v2/develop/challenges/active';
+var activeChallengesEndpoint = '/v2/challenges/active';
 
 describe('Get Challenges API', function () {
     this.timeout(180000);     // The api with testing remote db could be quit slow
@@ -167,87 +167,76 @@ describe('Get Challenges API', function () {
      * The listType is not allowed.
      */
     it('should return bad Request. The listType is not allowed now.', function (done) {
-        assertBadResponse(activeDevelopEndpoint + '?listType=active', 400, errorObject.invalidQuery, null, done);
+        assertBadResponse(activeChallengesEndpoint + '?listType=active', 400, errorObject.invalidQuery, null, done);
     });
 
     /**
      * The challengeType is a valid query parameter.
      */
     it('should return success results. The challengeType is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?challengeType=development', null, done);
-    });
-
-    /**
-     * The challenge Type is invalid.
-     */
-    it('should return bad Request. The value of challengeType is invalid.', function (done) {
-        assertBadResponse(activeDevelopEndpoint + '?challengeType=Wireframes', 400, errorObject.invalidChallengeType, null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?challengeType=development', null, done);
     });
 
     /**
      * The challengeType is invalid.
      */
     it('should return bad Request. The value of challengeType is invalid.', function (done) {
-        assertBadResponse(activeDevelopEndpoint + '?challengeType=abc', 400, errorObject.invalidChallengeType, null, done);
+        assertBadResponse(activeChallengesEndpoint + '?challengeType=abc', 400, errorObject.invalidChallengeType, null, done);
     });
 
     it('should return success results. The projectId is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?projectId=123', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?projectId=123', null, done);
     });
 
     it('should return success results. The sortColumn is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?sortColumn=challengeName', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?sortColumn=challengeName', null, done);
     });
 
     it('should return success results. The sortOrder is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?sortOrder=asc', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?sortOrder=asc', null, done);
     });
 
     it('should return success results. The pageIndex is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?pageIndex=1', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?pageIndex=1', null, done);
     });
 
     it('should return success results. The pageSize is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?pageSize=1', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?pageSize=1', null, done);
     });
 
     it('should return success results. The prizeLowerBound is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?prizeLowerBound=1', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?prizeLowerBound=1', null, done);
     });
 
     it('should return success results. The prizeUpperBound is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?prizeUpperBound=100', null, done);
-    });
-
-    it('should return success results. The cmcTaskId is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?cmcTaskId=abc', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?prizeUpperBound=100', null, done);
     });
 
     it('should return success results. The submissionEndFrom is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?submissionEndFrom=2014-1-1', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?submissionEndFrom=2014-1-1', null, done);
     });
 
     it('should return success results. The submissionEndTo is a valid query parameter.', function (done) {
-        assertSuccessResponse(activeDevelopEndpoint + '?submissionEndTo=2014-1-1', null, done);
+        assertSuccessResponse(activeChallengesEndpoint + '?submissionEndTo=2014-1-1', null, done);
     });
 
-    it('should return success results. The new split active develop api should return same results as old challenges api.',
+    it('should return success results. The new split active api should return same results as old challenges api.',
         function (done) {
-            assertNewApi(activeDevelopEndpoint, '/v2/develop/challenges?listType=active', done);
+            assertNewApi(activeChallengesEndpoint, '/v2/challenges?listType=active', done);
         });
 
-    it('should return success results. Test past develop api.',
+    it('should return success results. Test past api.',
         function (done) {
-            assertNewApi('/v2/develop/challenges/past', '/v2/develop/challenges?listType=past', done);
+            assertNewApi('/v2/challenges/past', '/v2/challenges?listType=past', done);
         });
 
-    it('should return success results. The new split active develop api should return same results as old challenges api.',
+    it('should return success results. The new split active api should return same results as old challenges api.',
         function (done) {
-            assertNewApi('/v2/design/challenges/active', '/v2/design/challenges?listType=active', done);
+            assertNewApi('/v2/challenges/active', '/v2/challenges?listType=active', done);
         });
 
     it('should return success results. Test past design api.',
         function (done) {
-            assertNewApi('/v2/design/challenges/past', '/v2/design/challenges?listType=past', done);
+            assertNewApi('/v2/challenges/past', '/v2/challenges?listType=past', done);
         });
 });
