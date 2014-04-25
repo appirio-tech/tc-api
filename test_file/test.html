@@ -1,0 +1,42 @@
+<html>
+<head>
+				<script language="JavaScript" type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+        <script src="//d19p4zemcycm7a.cloudfront.net/w2/auth0-widget-2.3.6.min.js"></script>
+        <script>
+            var widget = new Auth0Widget({
+                domain: 'tc-123-bk.auth0.com',
+                clientID: '3Exj9vFxjckSQ7OMEmUZv3AiykE0K5Oa',
+                callbackURL: 'http://agile-crag-5056.herokuapp.com/v2/auth0/callback'
+            });
+
+            function showAuth0Widget(){
+                widget.signin({
+                    state: 'http://tc.cloud.topcoder.com',
+                    icon: 'http://www.topcoder.com/i/24x24_brackets.png', 
+                    showIcon: true}).on('signin_ready', function() {
+                    $('.a0-email input').each(function() {
+                        $(this)
+                        .clone()
+                        .attr('type','text')
+                        .attr('placeholder', 'Username')
+                        .attr('title', 'Username')
+                        .insertAfter($(this)).prev().remove();
+                    });
+                });  
+            }            
+            
+            $(function () {
+                $('.social-login').click(function () {
+                    showAuth0Widget();
+                });
+            });
+            
+        </script>    
+        
+        
+      </head>
+      
+      <body>
+      	<a class="gMetal social-login" href="javascript:;">Social Login</a>
+      	</body>
+    </html>

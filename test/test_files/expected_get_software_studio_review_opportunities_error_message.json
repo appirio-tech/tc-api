@@ -28,8 +28,8 @@
     },
     "reviewStartDate": {
         "missingType": "reviewStartDate.type should be an element of AFTER,AFTER_CURRENT_DATE,BEFORE,BEFORE_CURRENT_DATE,BETWEEN_DATES,ON.",
-        "invalidFormat": "Invalid reviewStartDate.firstDate. Expected format is MM.DD.YYYY",
-        "missingSecondDate": "Invalid reviewStartDate.secondDate. Expected format is MM.DD.YYYY"
+        "invalidFormat": "Invalid reviewStartDate.firstDate. Expected format is YYYY-MM-DD",
+        "missingSecondDate": "Invalid reviewStartDate.secondDate. Expected format is YYYY-MM-DD"
     },
     "reviewPaymentLowerBound": {
         "notNumber": "reviewPaymentLowerBound should be number."

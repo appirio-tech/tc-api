@@ -1,0 +1,12 @@
+{
+    "total": 0,
+    "pageIndex": 1,
+    "pageSize": 10,
+    "payments": [],
+    "summary": {
+        "paid": 1900,
+        "owed": 800,
+        "enteredIntoPaymentSystem": 455.39,
+        "accruing": 275
+    }
+}

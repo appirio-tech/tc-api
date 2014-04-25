@@ -1,0 +1,89 @@
+SELECT
+SKIP @first_row_index@
+FIRST @page_size@
+  CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
+, pcl.description AS challenge_type
+, pn.value AS challenge_name
+, p.project_id AS challenge_id
+, pc3.parameter AS screening_scorecard_id
+, pc4.parameter AS review_scorecard_id
+, pi4.value AS forum_id
+, NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
+, (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1) AS first_place_prize
+, (SELECT SUM(prize_amount) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15) AS total_prize
+, (SELECT SUM(prize_amount * number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14) AS total_checkpoint_prize
+, pp1.scheduled_end_time AS registration_end_date
+, pp1.scheduled_start_time AS registration_start_date
+, pp15.scheduled_end_time AS checkpoint_submission_end_date
+, pp2.scheduled_end_time AS submission_end_date
+, pstatus.name AS current_status
+, CASE WHEN pidr.value = 'On' THEN
+  NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
+  ELSE NULL END AS digital_run_points
+, nvl((SELECT max(event_id) FROM contest_project_xref x, contest c WHERE project_id = p.project_id and c.contest_id = x.contest_id), 0) AS event_id
+, (SELECT event_short_desc FROM event e WHERE e.event_id = nvl((SELECT max(event_id) FROM contest_project_xref x, contest c WHERE project_id = p.project_id and c.contest_id = x.contest_id), 0)) AS event_name
+, technology_list(pi1.value) AS technologies
+, platform_list(p.project_id) AS platforms
+, CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
+FROM project p
+, project_status_lu pstatus
+, project_phase pp1 --registration phase
+, project_phase pp2 --submission phase
+, outer project_phase pp15 --checkpoint submission phase
+, outer ( project_phase pp3  --screening phase
+, outer phase_criteria pc3 ) --screening phase scorecard
+, outer ( project_phase pp4 --review phase
+, outer phase_criteria pc4)  --review phase scorecard
+, project_info pn
+, project_info pi32
+, outer project_info pidr
+, project_category_lu pcl
+, outer project_info pi4 --forum id
+, outer project_info pi1 -- external id
+WHERE 1=1
+AND p.project_status_id = pstatus.project_status_id
+AND p.project_id = pn.project_id
+AND pn.project_info_type_id = 6
+AND pp1.project_id = p.project_id
+AND pp1.phase_type_id = 1  --registration phase
+AND pp2.project_id = p.project_id
+AND pp2.phase_type_id = 2  --submission phase
+AND pp15.project_id = p.project_id
+AND pp15.phase_type_id = 15 --checkpoint submission phase
+AND pp3.project_id = p.project_id
+AND pp3.phase_type_id = 3  --screening phase
+AND pp3.project_phase_id = pc3.project_phase_id
+AND pc3.phase_criteria_type_id = 1 -- scorecardid type
+AND pp4.project_id = p.project_id
+AND pp4.phase_type_id = 4  --review phase
+AND pp4.project_phase_id = pc4.project_phase_id
+AND pc4.phase_criteria_type_id = 1 -- scorecardid type
+AND pidr.project_id = p.project_id
+AND pidr.project_info_type_id = 26  --digital run
+AND pi4.project_id = p.project_id
+AND pi4.project_info_type_id = 4  --forum id
+AND pi32.project_id = p.project_id
+AND pi32.project_info_type_id = 32
+AND pi32.value != '0'
+AND p.project_category_id = pcl.project_category_id
+-- Filter out the challenge that user is not belong to.
+AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
+         or exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
+                   WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
+                         AND ce.contest_id = p.project_id))
+AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
+-- start of parameters
+AND p.project_status_id = 2
+AND pcl.project_type_id IN (1, 2, 3)
+AND pp1.phase_status_id = 1
+AND pp1.scheduled_start_time > CURRENT
+AND pp2.scheduled_end_time BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND pi1.project_info_type_id = 1 -- external reference id
+AND pi1.project_id = p.project_id
+
+AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
+AND pn.value LIKE ('@challenge_name@')
+AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
+AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
+AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
+ORDER BY @sort_column@ @sort_order@

@@ -1,0 +1,2 @@
+INSERT INTO image(image_id, file_name, image_type_id, path_id, modify_date, link)
+VALUES(@image_id@, '@file_name@', @image_type_id@, @path_id@, current, '@link@')

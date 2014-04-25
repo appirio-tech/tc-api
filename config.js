@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka
- * @version 1.21
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
+ * @version 1.23
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -51,6 +51,10 @@
  * Changes in 1.21:
  * - add minPasswordLength and maxPasswordLength
  * - add resetTokenSuffix
+ * Changes in 1.22:
+ * - add auth0 configuration.
+ * Changes in 1.23:
+ * - Add member photo properties.
  */
 "use strict";
 
@@ -121,7 +125,12 @@ config.general = {
      * It can be relative to the current directory or can be absolute 
      */
     uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission",
-    maxRSSLength: 1000
+    maxRSSLength: 1000,
+    memberPhoto: {
+        fileSizeLimit: process.env.PHOTO_SIZE_LIMIT || 1048576,
+        validTypes: ['jpeg', 'png', 'bmp', 'jpg'],
+        storeDir: process.env.PHOTO_STORE_DIR || 'test/tmp/memberPhoto/'
+    }
 };
 
 /////////////
@@ -298,8 +307,8 @@ config.submissionDir = process.env.SUBMISSION_DIR || 'test/tmp/submissions';
 config.thurgoodDownloadUsername = process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood";
 config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret";
 
-//Max size of a submission. Currently set to 10M for now. 
-config.submissionMaxSizeBytes = 10485760;
+//Max size of a submission. Currently set to 100M for now. 
+config.submissionMaxSizeBytes = 104857600;
 
 //////Thurgood configurables///////
 config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
@@ -346,6 +355,12 @@ config.welcomeEmail = {
     subject: 'Welcome to [topcoder]',
     fromAddress: process.env.TC_EMAIL_FROM,
     senderName: '[topcoder] API'
+};
+
+config.auth0 = {
+    serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
+    clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
+    redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
 };
 
 exports.config = config;

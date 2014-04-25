@@ -1,0 +1,1 @@
+INSERT INTO path(path_id, path, modify_date) VALUES(@path_id@, '@path@', current)

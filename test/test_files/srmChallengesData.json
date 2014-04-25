@@ -2,7 +2,7 @@
     "1": {
       "roundId": 1,
       "name": "SRM 1",
-      "startDate": "2010-01-05T00:00:00.000Z",
+      "startDate": "2010-01-05T00:00:00.000+0000",
       "totalCompetitors": 150,
       "divICompetitors": 100,
       "divIICompetitors": 50,
@@ -18,7 +18,7 @@
     "2": {
       "roundId": 2,
       "name": "SRM 2",
-      "startDate": "2010-01-12T00:00:00.000Z",
+      "startDate": "2010-01-12T00:00:00.000+0000",
       "totalCompetitors": 180,
       "divICompetitors": 120,
       "divIICompetitors": 60,
@@ -34,7 +34,7 @@
     "3": {
       "roundId": 3,
       "name": "SRM 3",
-      "startDate": "2010-01-19T00:00:00.000Z",
+      "startDate": "2010-01-19T00:00:00.000+0000",
       "totalCompetitors": 210,
       "divICompetitors": 200,
       "divIICompetitors": 10,

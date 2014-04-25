@@ -1,0 +1,17 @@
+SELECT
+  (SELECT pm.payment_method_desc
+   FROM 'informix'.payment_method_lu pm
+   WHERE upm.payment_method_id = pm.payment_method_id
+  ) AS payment_method,
+  (SELECT accrual_amount
+   FROM 'informix'.user_accrual
+   WHERE user_id = @userId@
+  ) AS accrual_amount,
+  CASE upm.payment_method_id
+    WHEN 2 THEN (SELECT email_address FROM 'informix'.user_paypal_account WHERE user_id = @userId@)
+    ELSE null
+  END AS paypal_account_email
+FROM
+  'informix'.user_payment_method upm
+WHERE
+  upm.user_id = @userId@

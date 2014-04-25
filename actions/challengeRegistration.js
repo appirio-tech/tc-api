@@ -17,6 +17,9 @@
  *
  * changes in 1.4:
  * send email notification for design(studio) challenges registration
+ *
+ * changes in 1.5:
+ * check if there is a jwt (logged in user).
  */
 "use strict";
 
@@ -386,10 +389,10 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
-				submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
+                submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
-				submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
+                submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
 
@@ -828,7 +831,8 @@ exports.registerChallenge = {
             function (cb) {
                 //Simple validations of the incoming parameters
                 var error = api.helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                    api.helper.checkMaxInt(challengeId, 'challengeId');
+                    api.helper.checkMaxInt(challengeId, 'challengeId') ||
+                    api.helper.checkMember(connection, 'You don\'t have the authority to do this. Please login.');
                 if (error) {
                     console.log("error: " +  error);
                     cb(error);

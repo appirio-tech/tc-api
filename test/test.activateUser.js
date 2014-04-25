@@ -62,7 +62,7 @@ describe('Test Activate User API', function () {
             },
             function (cb) {
                 require('../initializers/ldapHelper').ldapHelper(api, function () {
-                    api.ldapHelper.removeMemberProfileLDAPEntry('901005', function (err, result) {
+                    api.ldapHelper.removeMemberProfileLDAPEntry('901005', function () {
                         cb();   // ignore non-exist error
                     });
                 });
@@ -219,13 +219,13 @@ describe('Test Activate User API', function () {
         async.waterfall([
             function (cb) {
                 require('../initializers/ldapHelper').ldapHelper(api, function () {
-                    api.ldapHelper.removeMemberProfileLDAPEntry('901005', function (err, result) {
+                    api.ldapHelper.removeMemberProfileLDAPEntry('901005', function () {
                         cb();   // ignore non-exist error
                     });
                 });
             },
             function (cb) {
-                assertErrorResponse('BHWZEF6D', 500, null, null, done);
+                assertErrorResponse('BHWZEF6D', 500, null, null, cb);
             }
         ], done);
     });
@@ -237,7 +237,7 @@ describe('Test Activate User API', function () {
         async.waterfall([
             function (cb) {
                 require('../initializers/ldapHelper').ldapHelper(api, function () {
-                    api.ldapHelper.addMemberProfileLDAPEntry(ldapParams, function (err, result) {
+                    api.ldapHelper.addMemberProfileLDAPEntry(ldapParams, function (err) {
                         cb(err);
                     });
                 });
@@ -262,9 +262,9 @@ describe('Test Activate User API', function () {
                 require('../initializers/ldapHelper').ldapHelper(api, function () {
                     api.ldapHelper.retrieveMemberProfileLDAPEntry({userId: '901005'}, function (err, result) {
                         assert.ok(result);
-                        assert.isDefined(result.status);
-                        assert.equal(result.status, 'A');
-                        done();
+                        assert.isDefined(result.status, 'undefined status');
+                        assert.equal(result.status, 'A', 'invalid status value');
+                        cb();
                     });
                 });
             }

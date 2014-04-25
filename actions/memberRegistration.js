@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
+ * @version 1.5
  * @author mekanizumu, Sky_, xjtufreeman, muzehyun
  * changes in 1.1:
  * - disable cache for member register action
@@ -14,6 +14,8 @@
  * - Modify to use case-insensitive check for email.
  * changes in 1.4:
  * - Add validate handle api
+ * Changes in 1.5:
+ * - Update validateFirstName and validateLastName
  */
 "use strict";
 
@@ -786,11 +788,14 @@ var validateHandle = function (api, handle, dbConnectionMap, next) {
 /**
  * Validate the first name
  *
+ * Changes in 1.5:
+ * - Allow firstName contains spaces.
+ *
  * @param {String} firstName The name to check
  * @return {String} the error message or null if the name is valid.
  */
 var validateFirstName = function (firstName) {
-    if (isNullOrEmptyString(firstName) || !stringUtils.containsOnly(firstName, HANDLE_ALPHABET)) {
+    if (isNullOrEmptyString(firstName) || !stringUtils.containsOnly(firstName, HANDLE_ALPHABET + ' ')) {
         return "First name is required";
     }
 
@@ -804,11 +809,14 @@ var validateFirstName = function (firstName) {
 /**
  * Validate the last name
  *
+ * Changes in 1.5:
+ * - Allow lastName contains spaces.
+ *
  * @param {String} lastName The name to check
  * @return {String} the error message or null if the name is valid.
  */
 var validateLastName = function (lastName) {
-    if (isNullOrEmptyString(lastName) || !stringUtils.containsOnly(lastName, HANDLE_ALPHABET)) {
+    if (isNullOrEmptyString(lastName) || !stringUtils.containsOnly(lastName, HANDLE_ALPHABET + ' ')) {
         return "Last name is required";
     }
 

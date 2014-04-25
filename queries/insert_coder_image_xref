@@ -1,0 +1,1 @@
+INSERT INTO coder_image_xref(coder_id, image_id, display_flag, modify_date) VALUES(@user_id@, @image_id@, 1, current)

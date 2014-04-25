@@ -1,0 +1,90 @@
+SELECT COUNT(*) AS total
+FROM project p
+LEFT JOIN (
+  SELECT
+    project_id
+  , MAX(CASE WHEN prize_type_id = 14 AND place = 1 THEN prize_amount ELSE NULL END) AS top_checkpoint_prize
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 1 THEN prize_amount ELSE NULL END) AS prize1
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 2 THEN prize_amount ELSE NULL END) AS prize2
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 3 THEN prize_amount ELSE NULL END) AS prize3
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 4 THEN prize_amount ELSE NULL END) AS prize4
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 5 THEN prize_amount ELSE NULL END) AS prize5
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 6 THEN prize_amount ELSE NULL END) AS prize6
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 7 THEN prize_amount ELSE NULL END) AS prize7
+  , MAX(CASE WHEN prize_type_id = 15 AND place = 8 THEN prize_amount ELSE NULL END) AS prize8
+  FROM prize
+  WHERE prize_type_id IN (14, 15)
+  GROUP BY project_id
+) pr ON pr.project_id = p.project_id
+INNER JOIN (
+  SELECT
+    project_id
+  , MAX(DECODE(phase_type_id, 2, actual_end_time, NULL)) AS submission_actual_end_time
+  , MAX(DECODE(phase_type_id, 2, scheduled_end_time, NULL)) AS submission_scheduled_end_time
+  , MAX(DECODE(phase_type_id, 6, scheduled_end_time, NULL)) AS appeals_scheduled_end_time
+  , MAX(DECODE(phase_type_id, 9, actual_end_time, NULL)) AS final_fix_actual_end_time
+  , MAX(DECODE(phase_type_id, 9, scheduled_end_time, NULL)) AS final_fix_scheduled_end_time
+  , MAX(DECODE(phase_type_id, 15, actual_end_time, NULL)) AS checkpoint_actual_end_time
+  , MAX(DECODE(phase_type_id, 15, scheduled_end_time, NULL)) AS checkpoint_scheduled_end_time
+  FROM project_phase
+  WHERE phase_type_id IN (1,2,6,9,15)
+  GROUP BY project_id
+) pp ON pp.project_id = p.project_id
+INNER JOIN (
+  SELECT
+    project_id
+  , MAX(DECODE(project_info_type_id, 4, value, '')) AS forum_id
+  , MAX(DECODE(project_info_type_id, 16, value, '')) AS payments
+  , MAX(DECODE(project_info_type_id, 26, value, '')) AS digital_run_flag
+  , MAX(DECODE(project_info_type_id, 30, value, '')) AS digital_run_points
+  , MAX(DECODE(project_info_type_id, 70, value, '')) AS cmc_task_id
+  , MAX(DECODE(project_info_type_id, 6, value, '')) AS challenge_name
+  FROM project_info
+  WHERE project_info_type_id IN (70, 30, 16, 26, 4, 6)
+  GROUP BY project_id
+) pi ON pi.project_id = p.project_id
+LEFT OUTER JOIN (
+  SELECT
+    pp3.project_id
+  , pc3.parameter
+  FROM project_phase pp3
+  LEFT OUTER JOIN phase_criteria pc3 ON pp3.project_phase_id = pc3.project_phase_id
+  WHERE pp3.phase_type_id = 3
+  AND pc3.phase_criteria_type_id = 1
+) screening ON screening.project_id = p.project_id
+LEFT OUTER JOIN (
+  SELECT
+    pp4.project_id
+  , pc4.parameter
+  , pp4.scheduled_end_time
+  FROM project_phase pp4
+  LEFT OUTER JOIN phase_criteria pc4 ON pp4.project_phase_id = pc4.project_phase_id
+  WHERE pp4.phase_type_id = 4
+  AND pc4.phase_criteria_type_id = 1
+) review ON review.project_id = p.project_id
+INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1
+INNER JOIN project_status_lu pstatus ON p.project_status_id = pstatus.project_status_id
+LEFT OUTER JOIN project_phase nd_phase ON p.project_Id = nd_phase.project_id
+, project_category_lu pcl
+WHERE 1=1
+AND p.project_category_id = pcl.project_category_id
+-- Filter out the challenge that user is not belong to.
+AND p.project_id IN (SELECT
+                      contest_id
+                    FROM contest_eligibility ce
+                    , group_contest_eligibility gce
+                    WHERE ce.contest_eligibility_id = gce.contest_eligibility_id
+                    AND gce.group_id = @communityId@)
+AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
+AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
+AND pcl.project_type_id IN (@project_type_id@)
+AND pp1.phase_status_id = 3
+AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
+
+AND NVL(pp.submission_actual_end_time, pp.submission_scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
+AND LOWER(pi.challenge_name) LIKE ('@challengeName@')
+AND NVL(pr.prize1, 0) >= @prilower@
+AND NVL(pr.prize1, 0) <= @priupper@
+AND p.tc_direct_project_id = DECODE(@tcdirectid@, 0, p.tc_direct_project_id, @tcdirectid@)
+AND NVL(LOWER(pi.cmc_task_id), '') = DECODE('@cmc@', '', NVL(LOWER(pi.cmc_task_id), ''), '@cmc@')

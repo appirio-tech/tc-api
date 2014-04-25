@@ -1,0 +1,1 @@
+insert into 'informix'.user_paypal_account(user_id, email_address) values (@userId@,'@value@')

@@ -1,0 +1,6 @@
+{
+    "unauthorized": "Authorization information needed.",
+    "invalidType": "The photo has to be in following format: jpeg,png,bmp,jpg.",
+    "notFile": "The photo has to be a file.",
+    "tooLarge": "The photo should be less than 1Mb."
+}

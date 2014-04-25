@@ -1,0 +1,82 @@
+SELECT
+  (
+    SELECT
+      COUNT(p.project_id)
+    FROM project p
+    INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+    INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+    INNER JOIN project_info pi12 ON pi12.project_id = p.project_id AND pi12.project_info_type_id = 12
+    WHERE p.project_status_id = 1
+    AND reg.phase_status_id IN (2)
+    AND pcl.display = 't'
+    AND pi12.value = "Yes"
+    AND p.project_category_id NOT IN (29, 37)
+    AND pcl.project_type_id IN (@challenge_type@)) AS number_of_running_challenges
+, (
+    SELECT
+      NVL(SUM(prize_amount * number_of_submissions), 0)
+    FROM prize pr
+    INNER JOIN project p ON p.project_id = pr.project_id
+    INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+    INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+    INNER JOIN project_info pi12 ON pi12.project_id = p.project_id AND pi12.project_info_type_id = 12
+    WHERE p.project_status_id = 1
+    AND reg.phase_status_id IN (2)
+    AND pcl.display = 't'
+    AND pi12.value = "Yes"
+    AND p.project_category_id NOT IN (29, 37)
+    AND pcl.project_type_id IN (@challenge_type@)) AS total_prize_of_running_challenges
+, (
+    SELECT
+      NVL(SUM(prize_amount * number_of_submissions), 0)
+    FROM prize pr
+    INNER JOIN project p ON p.project_id = pr.project_id
+    INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+    WHERE 1=1
+    AND pcl.display = 't'
+    AND p.project_category_id NOT IN (29, 37)
+    AND pcl.project_type_id IN (@challenge_type@)
+    AND (SELECT NVL(MAX(actual_end_time), MAX(scheduled_end_time)) FROM project_phase WHERE project_id = p.project_id) BETWEEN TO_DATE('@start_date@', '%Y-%m-%d') AND TO_DATE('@end_date@', '%Y-%m-%d')) AS total_prize_in_given_time
+, (
+    SELECT 
+      COUNT(p.project_id)
+    FROM project p
+    INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+    WHERE 1=1
+    AND pcl.display = 't'
+    AND p.project_category_id NOT IN (29, 37)
+    AND pcl.project_type_id IN (@challenge_type@)
+    AND (SELECT NVL(MAX(actual_end_time), MAX(scheduled_end_time)) FROM project_phase WHERE project_id = p.project_id) BETWEEN TO_DATE('@start_date@', '%Y-%m-%d') AND TO_DATE('@end_date@', '%Y-%m-%d')) AS number_of_challenges_in_given_time
+, (
+    SELECT
+      COUNT(r.resource_id)
+    FROM resource r
+    INNER JOIN project p ON p.project_id = r.project_id
+    INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+    INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+    INNER JOIN project_info pi12 ON pi12.project_id = p.project_id AND pi12.project_info_type_id = 12
+    WHERE p.project_status_id = 1
+    AND reg.phase_status_id IN (2, 3)
+    AND pcl.display = 't'
+    AND pi12.value = "Yes"
+    AND p.project_category_id NOT IN (29, 37)
+    AND pcl.project_type_id IN (@challenge_type@)
+    AND r.resource_role_id = 1) AS number_of_registered_users
+, (
+    SELECT
+      COUNT(DISTINCT ri.value)
+    FROM resource r
+    INNER JOIN resource_info ri ON ri.resource_id = r.resource_id
+    INNER JOIN project p ON p.project_id = r.project_id
+    INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+    INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
+    INNER JOIN project_info pi12 ON pi12.project_id = p.project_id AND pi12.project_info_type_id = 12
+    WHERE p.project_status_id = 1
+    AND reg.phase_status_id IN (2, 3)
+    AND pcl.display = 't'
+    AND pi12.value = "Yes"
+    AND p.project_category_id NOT IN (29, 37)
+    AND pcl.project_type_id IN (@challenge_type@)
+    AND r.resource_role_id = 1
+    AND ri.resource_info_type_id = 1) AS number_of_active_users
+FROM dual
