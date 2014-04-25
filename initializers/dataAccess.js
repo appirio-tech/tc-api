@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author vangavroche, Sky_, pvmagacho
+ * @version 1.4
+ * @author vangavroche, Sky_, pvmagacho, Ghost_141
  * changes in 1.1:
  * 1. change executeQuery to support parameterization.
  * changes in 1.2
@@ -10,7 +10,9 @@
  * changes in 1.3
  * 1. removed C++ informix driver
  * 2. added JDBC informix driver.
- *
+ * Changes in 1.4:
+ * 1. add method executeSqlQuery. It will be used to execute sql directly instead of query from preloaded files.
+ * 2. Fix some jslint error.
  */
 "use strict";
 /*jslint unparam: true, stupid: true */
@@ -181,11 +183,11 @@ exports.dataAccess = function (api, next) {
                 throw error;
             }
 
-            user = eval('process.env.' + dbServerPrefix + "_USER");
-            password = eval('process.env.' + dbServerPrefix + "_PASSWORD");
-            hostname = eval('process.env.' + dbServerPrefix + "_HOST");
-            server = eval('process.env.' + dbServerPrefix + "_NAME");
-            port = eval('process.env.' + dbServerPrefix + "_PORT");
+            user = process.env[dbServerPrefix + "_USER"];
+            password = process.env[dbServerPrefix + "_PASSWORD"];
+            hostname = process.env[dbServerPrefix + "_HOST"];
+            server = process.env[dbServerPrefix + "_NAME"];
+            port = process.env[dbServerPrefix + "_PORT"];
 
             // Initialize the database settings
             settings = {
@@ -280,6 +282,77 @@ exports.dataAccess = function (api, next) {
 
                 next(err, result);
             });
+        },
+
+        /**
+         * Execute the given sql query. Handles select/insert/delete/update queries.
+         * The result will be passed to the "next" callback.
+         *
+         * @param {String} sql - the sql query.
+         * @param {Object} parameters - the query parameter.
+         * @param {String} dbName - the database that query against.
+         * @param {Object} connectionMap - the database connection object.
+         * @param {Function} next - the callback function.
+         * @since 1.4
+         */
+        executeSqlQuery: function (sql, parameters, dbName, connectionMap, next) {
+            api.log("Execute sql query '" + sql + "'", "debug");
+
+            var error = helper.checkFunction(next, "next"), connection;
+            if (!_.isUndefined(parameters)) {
+                error = error || helper.checkObject(parameters, "parameters");
+            } else {
+                parameters = {};
+            }
+            if (error) {
+                throw error;
+            }
+            error = helper.checkString(sql, "sql") ||
+                helper.checkString(dbName, 'dbName');
+            if (error) {
+                next(error);
+                return;
+            }
+
+            connection = connectionMap[dbName];
+
+            error = helper.checkObject(connection, "connection");
+
+            if (error) {
+                next(error);
+                return;
+            }
+
+            async.waterfall([
+                function (cb) {
+                    parameterizeQuery(sql, parameters, cb);
+                }, function (parametrizedQuery, cb) {
+                    sql = parametrizedQuery;
+                    api.log("Database connected", 'info');
+
+                    // the connection might have been closed due to other errors, so this check must be done
+                    if (connection.isConnected()) {
+                        // Run the query
+                        connection.query(sql, cb, {
+                            start: function (q) {
+                                api.log('Start to execute ' + q, 'debug');
+                            },
+                            finish: function (f) {
+                                api.log('Finish executing ' + f, 'debug');
+                            }
+                        }).execute();
+                    }
+                }
+            ], function (err, result) {
+                if (err) {
+                    api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
+                } else {
+                    api.log("Query executed", "debug");
+                }
+
+                next(err, result);
+            });
+
         }
     };
     next();

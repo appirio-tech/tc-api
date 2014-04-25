@@ -8,11 +8,9 @@ AND regpp.phase_type_id = 1
 AND submpp.project_id = p.project_id
 AND submpp.phase_type_id = 2
 and p.project_status_id = 1
-AND (submpp.phase_status_id = 2 or regpp.phase_status_id = 2)
+AND (regpp.phase_status_id = 2)
 AND NOT EXISTS (SELECT 'has_eligibility_constraints' FROM contest_eligibility ce
-WHERE ce.is_studio = 0 AND ce.contest_id = p.project_id)
- and regpp.scheduled_start_time <= CURRENT
-AND submpp.scheduled_end_time > CURRENT
+WHERE ce.contest_id = p.project_id)
 ) +
 ( SELECT count(unique r.round_id)
   FROM informixoltp:round_segment rs
@@ -71,10 +69,8 @@ AND submpp.project_id = p.project_id
 AND submpp.phase_type_id = 2
 and pr.project_id = p.project_id
 and p.project_status_id = 1
-AND (submpp.phase_status_id = 2 or regpp.phase_status_id = 2)
+AND (regpp.phase_status_id = 2)
 and pcl.project_category_id = p.project_category_id
 AND NOT EXISTS (SELECT 'has_eligibility_constraints' FROM contest_eligibility ce
-WHERE ce.contest_id = p.project_id)
- and regpp.scheduled_start_time <= CURRENT
-AND submpp.scheduled_end_time > CURRENT), 0) AS prize_purse
+WHERE ce.contest_id = p.project_id)), 0) AS prize_purse
 FROM dual

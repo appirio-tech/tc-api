@@ -58,5 +58,11 @@
     "challengeTypeId": 3,
     "name": "Other",
     "description": "Other"
+  },
+  {
+    "challengeCategoryId": 40,
+    "challengeTypeId": 3,
+    "description": "Design First2Finish",
+    "name": "Design First2Finish"
   }
 ]

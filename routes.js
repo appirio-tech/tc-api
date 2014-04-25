@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.39
+ * @version 1.40
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
@@ -90,6 +90,8 @@
  * - add route for upload member photo API.
  * Changes in 1.39:
  * - add routes for payment preference api.
+ * Changes in 1.40:
+ * - Add routes for new split challenges API.
  */
 
 /* ---------------------
@@ -159,6 +161,10 @@ exports.routes = {
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges/registrants/:challengeId", action: "getRegistrants" },
         { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
+        { path: "/:apiVersion/challenges/active", action: "getActiveChallenges" },
+        { path: "/:apiVersion/challenges/open", action: "getOpenChallenges" },
+        { path: "/:apiVersion/challenges/upcoming", action: "getUpcomingChallenges" },
+        { path: "/:apiVersion/challenges/past", action: "getPastChallenges" },
         { path: "/:apiVersion/challenges/:challengeId", action: "getChallenge" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
@@ -218,7 +224,7 @@ exports.routes = {
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
-		{ path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
+        { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
 

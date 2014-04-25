@@ -223,7 +223,7 @@ describe('Test Docusign Callback Action', function () {
             //The terms of use must already exists and must not be inserted again
             testHelper.runSqlSelectQuery("* from user_terms_of_use_xref where user_id = 132456 and terms_of_use_id = 20753", "common_oltp", function (err, result) {
                 assert.equal(result.length, 1, 'The terms of use must already exist for user.');
-                assert.equal(result[0].modify_date, '2013-12-12T00:00:00.000Z', 'The modified date must remain the same.');
+                assert.equal(result[0].modify_date, '2013-12-12T00:00:00.000+0000', 'The modified date must remain the same.');
                 done();
             });
         });
