@@ -2339,9 +2339,9 @@ exports.submitForDesignChallenge = {
     }
 };
 
-var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next) {
+var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, isRelated = false, registrants;
+        caller = connection.caller, isRelated = false, result;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2368,44 +2368,54 @@ var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next)
             if (result[0].has_access || result[0].is_related || result[0].is_manager) {
                 isRelated = true;
             }
-
-
-            api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
-        }, function (results, cb) {
-            var mapRegistrants = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (item) {
-                        var registrant = {
-                            handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date)
-                        };
-                        if (!isStudio) {
-                            registrant.rating = item.rating;
-                            registrant.colorStyle = helper.getColorStyle(item.rating);
-                        }
-                        return registrant;
-                    });
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
                 };
-            registrants = mapRegistrants(results);
+            };
+
+            async.parallel({
+                details: execQuery('challenge_phase_details'),
+                phases: execQuery('challenge_phases')
+            }, cb);
+        }, function (results, cb) {
+            var data = results.details[0], mapPhases = function (results) {
+                if (!_.isDefined(results)) {
+                    return [];
+                }
+                return _.map(results, function (item) {
+                    return {
+                        type: item.type,
+                        status: item.status,
+                        scheduledStartTime: item.scheduled_start_time,
+                        actualStartTime: item.actual_start_time,
+                        scheduledEndTime: item.scheduled_end_time,
+                        actualendTime: item.actual_end_time
+                    };
+                });
+            };
+            result = {
+                phases: mapPhases(results.phases),
+                currentPhaseEndDate : formatDate(data.current_phase_end_date),
+                currentPhaseName : convertNull(data.current_phase_name),
+                currentPhaseRemainingTime : data.current_phase_remaining_time
+            };
             cb();
         }
     ], function (err) {
         if (err) {
             helper.handleError(api, connection, err);
         } else {
-            connection.response = registrants;
+            connection.response = result;
         }
         next(connection, true);
     });
 };
 
 
-exports.getRegistrants = {
-    name: "getRegistrants",
-    description: "getRegistrants",
+exports.getPhases = {
+    name: "getPhases",
+    description: "getPhases",
     inputs: {
         required: ["challengeId"],
         optional: []
@@ -2417,7 +2427,7 @@ exports.getRegistrants = {
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute getRegistrations#run", 'debug');
+            api.log("Execute getPhases#run", 'debug');
             api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
@@ -2427,7 +2437,7 @@ exports.getRegistrants = {
                     next(connection, true);
                 } else {
                     var isStudio = Boolean(result[0].is_studio);
-                    getRegistrants(api, connection, connection.dbConnectionMap, isStudio, next);
+                    getPhases(api, connection, connection.dbConnectionMap, isStudio, next);
                 }
             });
         } else {
