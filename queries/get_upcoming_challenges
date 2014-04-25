@@ -64,7 +64,7 @@ AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
 AND pi32.project_id = p.project_id
 AND pi32.project_info_type_id = 32
-AND pi32.value != '0'
+AND pi32.value != '0' and pi32.value != ''
 AND p.project_category_id = pcl.project_category_id
 -- Filter out the challenge that user is not belong to.
 AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
