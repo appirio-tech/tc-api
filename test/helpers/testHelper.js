@@ -110,6 +110,7 @@ helper.runSqlQueries = function (queries, databaseName, callback) {
     connection.connect(function (error) {
         if (error) {
             callback(error);
+            connection.disconnect();
             return;
         }
         async.forEachSeries(queries, function (query, cb) {
@@ -164,6 +165,7 @@ helper.runSqlSelectQuery = function (query, databaseName, callback) {
                 }
 
                 callback(err, result);
+                connection.disconnect();
             },
                 {
                     start: function (q) {
@@ -197,6 +199,7 @@ helper.updateTextColumn = function (query, databaseName, params, callback) {
                     connection.disconnect();
                 }
                 callback(err, result);
+                connection.disconnect();
             }, {
                 start: function (q) {
                     return;

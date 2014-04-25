@@ -60,6 +60,20 @@ SELECT
      , (SELECT event_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_description
      , (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_short_desc
      , pi52.value AS allow_stock_art
+     , REPLACE(
+                 REPLACE(
+                    REPLACE(
+                         REPLACE(
+                             MULTISET(
+                                 SELECT  ITEM description
+                                 FROM project_file_type_xref x
+                                INNER JOIN file_type_lu l ON l.file_type_id = x.file_type_id
+                                 WHERE x.project_id = p.project_id)::lvarchar,
+                             'MULTISET{'''
+                         ), '''}'
+                     ),''''
+                 ),'MULTISET{}'
+              ) AS filetypes
   FROM project p
      , project_status_lu pstatus
      , outer project_spec ps

@@ -1,0 +1,4 @@
+{
+    "invalidQuery": "The query string contains invalid parameter 'listtype'.",
+    "invalidChallengeType": "The challengeType parameter is not a correct project category value."
+}

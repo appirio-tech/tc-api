@@ -1,16 +1,34 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author TCSASSEMBLER, Sky_, kurtrips
+ * @version 1.3
+ * @author TCSASSEMBLER, Sky_, kurtrips, Ghost_141
  * changes in 1.1:
  * - generated id by using sql SEQUENCE
  * changes in 1.2:
  * - added method to generate id from a sequence in any DB
+ * Changes in 1.3:
+ * - Update method getNextIDFromDb
  */
 
 "use strict";
 var async = require('async');
+var fs = require('fs');
+
+/**
+ * The dir that store all the query used by tc api.
+ */
+var dir = './queries';
+/**
+ * The get next sequence query.
+ */
+var GET_NEXT_SEQUENCE = null;
+/**
+ * Get the query content from the file.
+ */
+fs.readFile(dir + '/get_next_sequence', 'utf8', function (err, sql) {
+    GET_NEXT_SEQUENCE = sql;
+});
 
 /**
  * Expose the "idGenerator" utility.
@@ -51,8 +69,8 @@ exports.idGenerator = function (api, next) {
          * @since 1.2
          */
         getNextIDFromDb : function (idName, dbName, dbConnectionMap, next) {
-            api.log("Generate next id for sequence: " + idName + " in database: " + dbName, "debug");
-            api.dataAccess.executeQuery("get_next_sequence_" + dbName, {seq_name : idName}, dbConnectionMap, function (err, result) {
+            api.log("Generate next id for sequence:" + idName + " in database: " + dbName, "debug");
+            api.dataAccess.executeSqlQuery(GET_NEXT_SEQUENCE, { seq_name: idName }, dbName, dbConnectionMap, function (err, result) {
                 if (err) {
                     api.log(err.message + "\n" + err.stack, "error");
                     next(err);

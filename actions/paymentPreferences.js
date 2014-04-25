@@ -138,6 +138,7 @@ exports.getPaymentPreference = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled : false,
     databases: ["informixoltp"],
     run: function (api, connection, next) {
         api.log("Execute getPaymentPreference#run", 'debug');
