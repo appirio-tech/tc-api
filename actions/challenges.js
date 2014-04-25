@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.21
+ * @version 1.22
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -53,6 +53,8 @@
  * - add transferResultV2, checkQueryParameterAndSortColumnV2, validateInputParameterV2 and setFilterV2 method.
  * - add SPLIT_API_ALLOWABLE_QUERY_PARAMETER and SPLIT_API_ALLOWABLE_SORT_COLUMN.
  * - add getChallenges method.
+ * Changes in 1.22:
+ * - Merge get active/open/upcoming/past design/develop challenges to get active/open/upcoming/past challenges api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -379,7 +381,6 @@ function checkQueryParameterAndSortColumnV2(helper, type, queryString, sortColum
  * The v2 version of validateInputParameter method.
  * @param {Object} helper - the helper.
  * @param {Object} caller - the caller object.
- * @param {Object} challengeType - the challenge type object.
  * @param {Object} query - the query string.
  * @param {Object} filter - the filter.
  * @param {Number} pageIndex - the page index.
@@ -391,7 +392,7 @@ function checkQueryParameterAndSortColumnV2(helper, type, queryString, sortColum
  * @param {Function} callback - the callback function.
  * @since 1.21
  */
-function validateInputParameterV2(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
+function validateInputParameterV2(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
         helper.checkPageIndex(pageIndex, "pageIndex") ||
         helper.checkPositiveInteger(pageSize, "pageSize") ||
@@ -427,7 +428,7 @@ function validateInputParameterV2(helper, caller, challengeType, query, filter, 
         return;
     }
     if (!_.isUndefined(query.challengeType)) {
-        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, challengeType, callback);
+        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, helper.both, callback);
     } else {
         callback();
     }
@@ -2627,12 +2628,11 @@ exports.submitForDesignChallenge = {
  *
  * @param {Object} api - the api object.
  * @param {Object} connection - the connection object.
- * @param {Boolean} isDesign - the flag that represents search design challenges or not.
  * @param {Object} listType - which type of challenges to get.
  * @param {Function} next - the callback function.
  * @since 1.21
  */
-var getChallenges = function (api, connection, isDesign, listType, next) {
+var getChallenges = function (api, connection, listType, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
@@ -2648,7 +2648,6 @@ var getChallenges = function (api, connection, isDesign, listType, next) {
         prop,
         result = {},
         total,
-        challengeType,
         queryName,
         challenges;
     for (prop in query) {
@@ -2656,8 +2655,6 @@ var getChallenges = function (api, connection, isDesign, listType, next) {
             query[prop.toLowerCase()] = query[prop];
         }
     }
-
-    challengeType = isDesign ? helper.studio : helper.software;
 
     sortOrder = query.sortorder || "asc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
@@ -2672,7 +2669,7 @@ var getChallenges = function (api, connection, isDesign, listType, next) {
 
     async.waterfall([
         function (cb) {
-            validateInputParameterV2(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
+            validateInputParameterV2(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
@@ -2685,8 +2682,6 @@ var getChallenges = function (api, connection, isDesign, listType, next) {
                 page_size: pageSize,
                 sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
                 sort_order: sortOrder.toLowerCase(),
-                // Set the project type id
-                project_type_id: challengeType.category,
                 // Set the submission phase status id.
                 registration_phase_status: helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType],
                 project_status_id: helper.LIST_TYPE_PROJECT_STATUS_MAP[listType],
@@ -2751,12 +2746,12 @@ var getChallenges = function (api, connection, isDesign, listType, next) {
 };
 
 /**
- * The API for get active design challenges.
+ * The API for get active challenges.
  * @since 1.21
  */
-exports.getActiveDesignChallenges = {
-    name: "getActiveDesignChallenges",
-    description: "get active design challenges api",
+exports.getActiveChallenges = {
+    name: "getActiveChallenges",
+    description: "get active challenges api",
     inputs: {
         required: [],
         optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
@@ -2768,8 +2763,8 @@ exports.getActiveDesignChallenges = {
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute getActiveDesignChallenges#run", 'debug');
-            getChallenges(api, connection, true, api.helper.ListType.ACTIVE, next);
+            api.log("Execute getActiveChallenges#run", 'debug');
+            getChallenges(api, connection, api.helper.ListType.ACTIVE, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -2777,12 +2772,12 @@ exports.getActiveDesignChallenges = {
 };
 
 /**
- * The API for get open design challenges.
+ * The API for get open challenges.
  * @since 1.21
  */
-exports.getOpenDesignChallenges = {
-    name: "getOpenDesignChallenges",
-    description: "get open design challenges api",
+exports.getOpenChallenges = {
+    name: "getOpenChallenges",
+    description: "get open challenges api",
     inputs: {
         required: [],
         optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
@@ -2794,8 +2789,8 @@ exports.getOpenDesignChallenges = {
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute getOpenDesignChallenges#run", 'debug');
-            getChallenges(api, connection, true, api.helper.ListType.OPEN, next);
+            api.log("Execute getOpenChallenges#run", 'debug');
+            getChallenges(api, connection, api.helper.ListType.OPEN, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -2803,12 +2798,12 @@ exports.getOpenDesignChallenges = {
 };
 
 /**
- * The API for get upcoming design challenges.
+ * The API for get upcoming challenges.
  * @since 1.21
  */
-exports.getUpcomingDesignChallenges = {
-    name: "getUpcomingDesignChallenges",
-    description: "get upcoming design challenges api",
+exports.getUpcomingChallenges = {
+    name: "getUpcomingChallenges",
+    description: "get upcoming challenges api",
     inputs: {
         required: [],
         optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
@@ -2820,8 +2815,8 @@ exports.getUpcomingDesignChallenges = {
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute getUpcomingDesignChallenges#run", 'debug');
-            getChallenges(api, connection, true, api.helper.ListType.UPCOMING, next);
+            api.log("Execute getUpcomingChallenges#run", 'debug');
+            getChallenges(api, connection, api.helper.ListType.UPCOMING, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -2829,12 +2824,12 @@ exports.getUpcomingDesignChallenges = {
 };
 
 /**
- * The API for get past design challenges.
+ * The API for get past challenges.
  * @since 1.21
  */
-exports.getPastDesignChallenges = {
-    name: "getPastDesignChallenges",
-    description: "get past design challenges api",
+exports.getPastChallenges = {
+    name: "getPastChallenges",
+    description: "get past challenges api",
     inputs: {
         required: [],
         optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
@@ -2846,112 +2841,8 @@ exports.getPastDesignChallenges = {
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute getPastDesignChallenges#run", 'debug');
-            getChallenges(api, connection, true, api.helper.ListType.PAST, next);
-        } else {
-            api.helper.handleNoConnection(api, connection, next);
-        }
-    }
-};
-
-/**
- * The API for get active develop challenges.
- * @since 1.21
- */
-exports.getActiveDevelopChallenges = {
-    name: "getActiveDevelopChallenges",
-    description: "get active develop challenges api",
-    inputs: {
-        required: [],
-        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read',
-    databases: ['tcs_catalog'],
-    run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
-            api.log("Execute getActiveDevelopChallenges#run", 'debug');
-            getChallenges(api, connection, false, api.helper.ListType.ACTIVE, next);
-        } else {
-            api.helper.handleNoConnection(api, connection, next);
-        }
-    }
-};
-
-/**
- * The API for get open develop challenges.
- * @since 1.21
- */
-exports.getOpenDevelopChallenges = {
-    name: "getOpenDevelopChallenges",
-    description: "get open develop challenges api",
-    inputs: {
-        required: [],
-        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read',
-    databases: ['tcs_catalog'],
-    run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
-            api.log("Execute getOpenDevelopChallenges#run", 'debug');
-            getChallenges(api, connection, false, api.helper.ListType.OPEN, next);
-        } else {
-            api.helper.handleNoConnection(api, connection, next);
-        }
-    }
-};
-
-/**
- * The API for get upcoming develop challenges.
- * @since 1.21
- */
-exports.getUpcomingDevelopChallenges = {
-    name: "getUpcomingDevelopChallenges",
-    description: "get upcoming develop challenges api",
-    inputs: {
-        required: [],
-        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read',
-    databases: ['tcs_catalog'],
-    run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
-            api.log("Execute getUpcomingDevelopChallenges#run", 'debug');
-            getChallenges(api, connection, false, api.helper.ListType.UPCOMING, next);
-        } else {
-            api.helper.handleNoConnection(api, connection, next);
-        }
-    }
-};
-
-/**
- * The API for get past develop challenges.
- * @since 1.21
- */
-exports.getPastDevelopChallenges = {
-    name: "getPastDevelopChallenges",
-    description: "get past develop challenges api",
-    inputs: {
-        required: [],
-        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read',
-    databases: ['tcs_catalog'],
-    run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
-            api.log("Execute getPastDevelopChallenges#run", 'debug');
-            getChallenges(api, connection, false, api.helper.ListType.PAST, next);
+            api.log("Execute getPastChallenges#run", 'debug');
+            getChallenges(api, connection, api.helper.ListType.PAST, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
