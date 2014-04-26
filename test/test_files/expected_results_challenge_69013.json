@@ -1,35 +1,35 @@
 {
-  "challengeCommunity": "design",
-  "challengeType": "Banner/Icons",
-  "challengeName": "NodeJS Result API Des Project - Public",
-  "challengeId": 66913,
-  "postingDate": "2013-12-10T09:30:15.000Z",
-  "challengeEndDate": "2013-12-17T09:30:15.000Z",
-  "registrants": 3,
-  "submissions": 2,
-  "submissionsPassedScreening": 2,
-  "results": [
-    {
-      "placement": 1,
-      "submissionDate": "2013-12-12T01:00:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 350,
-      "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66941",
-      "previewDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66941&sbt=small",
-      "handle": "twight"
-    },
-    {
-      "placement": 2,
-      "submissionDate": "2013-12-12T10:30:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 150,
-      "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66945",
-      "previewDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66945&sbt=small",
-      "handle": "sandking"
-    }
-  ],
-  "finalFixes": [
-    "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66948",
-    "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66947"
-  ]
+    "challengeCommunity": "design",
+    "challengeType": "Banner/Icons",
+    "challengeName": "NodeJS Result API Des Project - Public",
+    "challengeId": 66913,
+    "postingDate": "2013-12-10T09:30:15.000+0000",
+    "challengeEndDate": "2013-12-17T09:30:15.000+0000",
+    "registrants": 3,
+    "submissions": 2,
+    "submissionsPassedScreening": 2,
+    "results": [
+        {
+            "placement": 1,
+            "submissionDate": "2013-12-12T01:00:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 350,
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66941",
+            "previewDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66941&sbt=small",
+            "handle": "twight"
+        },
+        {
+            "placement": 2,
+            "submissionDate": "2013-12-12T10:30:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 150,
+            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66945",
+            "previewDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66945&sbt=small",
+            "handle": "sandking"
+        }
+    ],
+    "finalFixes": [
+        "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66948",
+        "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66947"
+    ]
 }
