@@ -55,3 +55,5 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 
 INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(4001, 'The Great Mashup Challenge', 3437, CURRENT);
 INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(4001, 40000006, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, user_id, create_user, create_date, modify_user, modify_date) VALUES(2001, 1, 40000003, 400012, 132456, current, 132456, current);
