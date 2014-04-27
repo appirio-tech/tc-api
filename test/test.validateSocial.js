@@ -4,7 +4,7 @@
  * @version 1.0
  * @author TCSASSEMBLER
  */
-"use strict";
+'use strict';
 /*global describe, it, before, beforeEach, after, afterEach */
 /*jslint node: true, stupid: true, unparam: true */
 
@@ -19,7 +19,7 @@ var SQL_DIR = __dirname + "/sqls/validateSocial/";
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
-describe('Test Bugs API', function () {
+describe('Test Validate Social API', function () {
     this.timeout(30000); // The api with testing remote db could be quit slow
 
     /**

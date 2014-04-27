@@ -28,6 +28,7 @@ var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
+var _ = require("underscore");
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 
@@ -1209,21 +1210,21 @@ exports.validateSocial = {
                     if (err) {
                         cb(err);
                     } else {
-                        if (result !== true) {
+                        if (!result) {
                             cb(new BadRequestError("Social provider id is not valid."));
                         } else {
                             cb(null);
                         }
                     }
                 });
-            }, function(cb) {
+            }, function (cb) {
                 checkResult = validateSocialUserId(socialUserId);
                 if (checkResult !== null) {
                     cb(new IllegalArgumentError(checkResult));
                     return;
                 }
                 isSoicalLoginExisted(socialProviderId, socialUserId, api, dbConnectionMap, function (err, existed) {
-                    result = { available: !existed };
+                    result = { available: existed };
                     cb(err);
                 });
             }
