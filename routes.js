@@ -160,6 +160,7 @@ exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges/registrants/:challengeId", action: "getRegistrants" },
+        { path: "/:apiVersion/challenges/submissions/:challengeId", action: "getSubmissions" },
         { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
         { path: "/:apiVersion/challenges/active", action: "getActiveChallenges" },
         { path: "/:apiVersion/challenges/open", action: "getOpenChallenges" },
