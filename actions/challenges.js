@@ -537,6 +537,7 @@ function transferResult(src, helper) {
             postingDate : formatDate(row.posting_date),
             registrationEndDate : formatDate(row.registration_end_date),
             checkpointSubmissionEndDate : formatDate(row.checkpoint_submission_end_date),
+            isPrivate : row.is_private,
             submissionEndDate : formatDate(row.submission_end_date)
         }, i, prize;
 
@@ -3033,7 +3034,7 @@ var getChallenges = function (api, connection, listType, next) {
                 page_size: pageSize,
                 sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
                 sort_order: sortOrder.toLowerCase(),
-                challenge_type: type.category,
+                track: type.category,
                 // Set the submission phase status id.
                 registration_phase_status: helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType],
                 project_status_id: helper.LIST_TYPE_PROJECT_STATUS_MAP[listType],

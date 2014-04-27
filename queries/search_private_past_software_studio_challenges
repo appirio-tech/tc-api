@@ -46,6 +46,7 @@ FIRST @pageSize@
 , (SELECT event_short_desc FROM event e WHERE e.event_id = nvl((SELECT max(event_id) FROM contest_project_xref x, contest c WHERE project_id = p.project_id AND c.contest_id = x.contest_id), 0)) AS event_name
 , technology_list(p.project_id) AS technology
 , platform_list(p.project_id) AS platforms
+, CAST('f' AS boolean) AS is_private
 FROM project p
 LEFT JOIN (
   SELECT
