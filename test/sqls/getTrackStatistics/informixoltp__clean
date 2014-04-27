@@ -2,3 +2,12 @@ DELETE FROM round_registration WHERE round_id >= 2001;
 DELETE FROM round_segment WHERE round_id >= 2001 AND round_id <= 2050;
 DELETE FROM round WHERE round_id >= 2001 AND round_id <= 2050;
 DELETE FROM contest WHERE contest_id >= 2001 AND contest_id <= 2050;
+
+DELETE FROM round_segment;
+DELETE FROM round_registration;
+DELETE FROM room;
+DELETE FROM round_component;
+DELETE FROM round_room_assignment;
+DELETE FROM round_terms;
+DELETE FROM round;
+DELETE FROM contest;
