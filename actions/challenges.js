@@ -103,7 +103,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
-    "submissionEndFrom", "submissionEndTo"];
+    "submissionEndFrom", "submissionEndTo", 'type'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -381,24 +381,25 @@ function checkQueryParameterAndSortColumnV2(helper, type, queryString, sortColum
  * The v2 version of validateInputParameter method.
  * @param {Object} helper - the helper.
  * @param {Object} caller - the caller object.
+ * @param {String} type - the type of challenge. eg. 'develop', 'design'.
  * @param {Object} query - the query string.
  * @param {Object} filter - the filter.
  * @param {Number} pageIndex - the page index.
  * @param {Number} pageSize - the page size.
  * @param {String} sortColumn - the sort column.
  * @param {String} sortOrder - the sort order.
- * @param {String} type - the type of challenge.
+ * @param {String} listType - the listType of challenge.
  * @param {Object} dbConnectionMap - the database connection map.
  * @param {Function} callback - the callback function.
  * @since 1.21
  */
-function validateInputParameterV2(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
+function validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
         helper.checkPageIndex(pageIndex, "pageIndex") ||
         helper.checkPositiveInteger(pageSize, "pageSize") ||
         helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
         helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-        checkQueryParameterAndSortColumnV2(helper, type, query, sortColumn);
+        checkQueryParameterAndSortColumnV2(helper, listType, query, sortColumn);
 
     if (!_.isUndefined(query.communityId)) {
         if (_.isUndefined(caller.userId)) {
@@ -423,12 +424,15 @@ function validateInputParameterV2(helper, caller, query, filter, pageIndex, page
     if (!_.isUndefined(filter.submissionEndTo)) {
         error = error || helper.validateDate(filter.submissionEndTo, 'submissionEndTo', DATE_FORMAT);
     }
+    if (!_.isUndefined(filter.type)) {
+        error = error || helper.checkContains([helper.studio.community, helper.software.community], filter.type, 'listType');
+    }
     if (error) {
         callback(error);
         return;
     }
     if (!_.isUndefined(query.challengeType)) {
-        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, helper.both, callback);
+        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, type, callback);
     } else {
         callback();
     }
@@ -1015,7 +1019,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.technology;
                 delete challenge.platforms;
             } else {
- 
+
                 if (data.is_reliability_bonus_eligible !== 'true') {
                     delete challenge.reliabilityBonus;
                 }
@@ -2867,7 +2871,7 @@ var getChallenges = function (api, connection, listType, next) {
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo"],
+            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type'],
         dbConnectionMap = connection.dbConnectionMap,
         sqlParams = {},
         filter = {},
@@ -2876,6 +2880,7 @@ var getChallenges = function (api, connection, listType, next) {
         sortColumn,
         sortOrder,
         prop,
+        type,
         result = {},
         total,
         queryName,
@@ -2897,9 +2902,17 @@ var getChallenges = function (api, connection, listType, next) {
         }
     });
 
+    if (_.isUndefined(connection.params.type)) {
+        type = helper.both;
+    } else if (connection.params.type === helper.studio.community) {
+        type = helper.studio;
+    } else if (connection.params.type === helper.software.community) {
+        type = helper.software;
+    }
+
     async.waterfall([
         function (cb) {
-            validateInputParameterV2(helper, caller, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
+            validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
@@ -2912,6 +2925,7 @@ var getChallenges = function (api, connection, listType, next) {
                 page_size: pageSize,
                 sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
                 sort_order: sortOrder.toLowerCase(),
+                challenge_type: type.category,
                 // Set the submission phase status id.
                 registration_phase_status: helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType],
                 project_status_id: helper.LIST_TYPE_PROJECT_STATUS_MAP[listType],

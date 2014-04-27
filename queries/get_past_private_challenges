@@ -32,7 +32,7 @@ FIRST @page_size@
 , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
 FROM project p
 INNER JOIN project_status_lu pstatus ON pstatus.project_status_id = p.project_status_id AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
-INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (1, 2, 3)
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (@challenge_type@)
 INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1 AND pp1.phase_status_id = 3
 INNER JOIN project_phase pp2 ON pp2.project_id = p.project_id AND pp2.phase_type_id = 2 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6 AND pn.value LIKE('@challenge_name@')
