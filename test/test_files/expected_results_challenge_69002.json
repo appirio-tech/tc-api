@@ -1,27 +1,27 @@
 {
-  "challengeCommunity": "design",
-  "challengeType": "Banner/Icons",
-  "challengeName": "NodeJS Result API Des Project - Private",
-  "challengeId": 66902,
-  "postingDate": "2013-12-10T09:30:15.000Z",
-  "challengeEndDate": "2013-12-17T09:30:15.000Z",
-  "registrants": 3,
-  "submissions": 2,
-  "submissionsPassedScreening": 2,
-  "results": [
-    {
-	  "handle": "twight",
-      "placement": 1,
-      "submissionDate": "2013-12-12T01:00:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 350
-    },
-    {
-	  "handle": "sandking",
-      "placement": 2,
-      "submissionDate": "2013-12-12T10:30:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 150
-    }
-  ]
+    "challengeCommunity": "design",
+    "challengeType": "Banner/Icons",
+    "challengeName": "NodeJS Result API Des Project - Private",
+    "challengeId": 66902,
+    "postingDate": "2013-12-10T09:30:15.000+0000",
+    "challengeEndDate": "2013-12-17T09:30:15.000+0000",
+    "registrants": 3,
+    "submissions": 2,
+    "submissionsPassedScreening": 2,
+    "results": [
+        {
+            "handle": "twight",
+            "placement": 1,
+            "submissionDate": "2013-12-12T01:00:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 350
+        },
+        {
+            "handle": "sandking",
+            "placement": 2,
+            "submissionDate": "2013-12-12T10:30:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 150
+        }
+    ]
 }

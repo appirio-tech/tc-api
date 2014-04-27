@@ -15,14 +15,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7501,
             "challengeDuration": 17.1,
-            "currentPhase": ["Final Review"],
+            "currentPhase": "Final Review",
             "firstPrize": 1000,
             "totalPrize": 1500,
             "checkpointPrize": 0,
             "registrantsCount": 2,
             "submissionsCount": 2,
             "checkpointSubmissionsCount": 0,
-            "reliability": 38
+            "reliability": 38,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000001",
@@ -39,14 +41,16 @@
             "challengeFee": 375,
             "challengeTotalCost": 6045,
             "challengeDuration": 11.5,
-            "currentPhase": ["Checkpoint Screening"],
+            "currentPhase": "Checkpoint Screening",
             "firstPrize": 1700,
             "totalPrize": 5670,
             "checkpointPrize": 170,
             "registrantsCount": 2,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 2,
-            "reliability": 4
+            "reliability": 4,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000001",
@@ -63,14 +67,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7589,
             "challengeDuration": 18.1,
-            "currentPhase": ["Submission"],
+            "currentPhase": "Submission",
             "firstPrize": 1000,
             "totalPrize": 1588,
             "checkpointPrize": 88,
             "registrantsCount": 3,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 3,
-            "reliability": 227
+            "reliability": 227,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000002",
@@ -87,14 +93,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7691,
             "challengeDuration": 18.1,
-            "currentPhase": ["Screening"],
+            "currentPhase": "Screening",
             "firstPrize": 800,
             "totalPrize": 1690,
             "checkpointPrize": 490,
             "registrantsCount": 2,
             "submissionsCount": 1,
             "checkpointSubmissionsCount": 2,
-            "reliability": 40
+            "reliability": 40,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000002",
@@ -111,14 +119,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7561,
             "challengeDuration": 18.1,
-            "currentPhase": ["Review"],
+            "currentPhase": "Review",
             "firstPrize": 800,
             "totalPrize": 1560,
             "checkpointPrize": 360,
             "registrantsCount": 4,
             "submissionsCount": 4,
             "checkpointSubmissionsCount": 4,
-            "reliability": 40
+            "reliability": 40,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000002",
@@ -135,14 +145,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7489,
             "challengeDuration": 18.1,
-            "currentPhase": ["Appeals Response"],
+            "currentPhase": "Appeals Response",
             "firstPrize": 800,
             "totalPrize": 1488,
             "checkpointPrize": 288,
             "registrantsCount": 2,
             "submissionsCount": 1,
             "checkpointSubmissionsCount": 2,
-            "reliability": 32
+            "reliability": 32,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000002",
@@ -159,14 +171,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7801,
             "challengeDuration": 17.1,
-            "currentPhase": ["Specification Review"],
+            "currentPhase": "Specification Review",
             "firstPrize": 1200,
             "totalPrize": 1800,
             "checkpointPrize": 0,
             "registrantsCount": 0,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 0,
-            "reliability": 0
+            "reliability": 0,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000003",
@@ -183,14 +197,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7801,
             "challengeDuration": 17.1,
-            "currentPhase": ["Registration","Submission"],
+            "currentPhase": "Submission",
             "firstPrize": 1200,
             "totalPrize": 1800,
             "checkpointPrize": 0,
             "registrantsCount": 3,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 0,
-            "reliability": 0
+            "reliability": 0,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000003",
@@ -207,14 +223,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7201,
             "challengeDuration": 18.1,
-            "currentPhase": ["Final Fix"],
+            "currentPhase": "Final Fix",
             "firstPrize": 800,
             "totalPrize": 1200,
             "checkpointPrize": 0,
             "registrantsCount": 3,
             "submissionsCount": 3,
             "checkpointSubmissionsCount": 0,
-            "reliability": 86
+            "reliability": 86,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000004",
@@ -231,14 +249,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7268,
             "challengeDuration": 18.1,
-            "currentPhase": ["Aggregation"],
+            "currentPhase": "Aggregation",
             "firstPrize": 800,
             "totalPrize": 1267,
             "checkpointPrize": 67,
             "registrantsCount": 2,
             "submissionsCount": 1,
             "checkpointSubmissionsCount": 2,
-            "reliability": 4
+            "reliability": 4,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000004",
@@ -255,14 +275,16 @@
             "challengeFee": 375,
             "challengeTotalCost": 4634,
             "challengeDuration": 11.5,
-            "currentPhase": ["Registration","Checkpoint Submission","Submission"],
+            "currentPhase": "Submission",
             "firstPrize": 1700,
             "totalPrize": 4259,
             "checkpointPrize": 59,
             "registrantsCount": 2,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 0,
-            "reliability": 130
+            "reliability": 130,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000004",
@@ -279,14 +301,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7501,
             "challengeDuration": 18.1,
-            "currentPhase": ["Specification Submission"],
+            "currentPhase": "Specification Submission",
             "firstPrize": 1000,
             "totalPrize": 1500,
             "checkpointPrize": 0,
             "registrantsCount": 0,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 0,
-            "reliability": 0
+            "reliability": 0,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000004",
@@ -303,14 +327,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7501,
             "challengeDuration": 17.1,
-            "currentPhase": ["Final Review"],
+            "currentPhase": "Final Review",
             "firstPrize": 1000,
             "totalPrize": 1500,
             "checkpointPrize": 0,
             "registrantsCount": 4,
             "submissionsCount": 2,
             "checkpointSubmissionsCount": 0,
-            "reliability": 28
+            "reliability": 28,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000004",
@@ -327,14 +353,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7461,
             "challengeDuration": 18.1,
-            "currentPhase": ["Approval"],
+            "currentPhase": "Approval",
             "firstPrize": 800,
             "totalPrize": 1460,
             "checkpointPrize": 260,
             "registrantsCount": 3,
             "submissionsCount": 1,
             "checkpointSubmissionsCount": 3,
-            "reliability": 63
+            "reliability": 63,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000005",
@@ -351,14 +379,16 @@
             "challengeFee": 375,
             "challengeTotalCost": 3719,
             "challengeDuration": 11.5,
-            "currentPhase": ["Checkpoint Screening"],
+            "currentPhase": "Checkpoint Screening",
             "firstPrize": 1700,
             "totalPrize": 3344,
             "checkpointPrize": 244,
             "registrantsCount": 3,
             "submissionsCount": 0,
             "checkpointSubmissionsCount": 3,
-            "reliability": 74
+            "reliability": 74,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000005",
@@ -375,14 +405,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7857,
             "challengeDuration": 18.1,
-            "currentPhase": ["Appeals Response"],
+            "currentPhase": "Appeals Response",
             "firstPrize": 1200,
             "totalPrize": 1856,
             "checkpointPrize": 56,
             "registrantsCount": 4,
             "submissionsCount": 3,
             "checkpointSubmissionsCount": 4,
-            "reliability": 74
+            "reliability": 74,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000005",
@@ -399,14 +431,16 @@
             "challengeFee": 375,
             "challengeTotalCost": 4860,
             "challengeDuration": 11.5,
-            "currentPhase": ["Review"],
+            "currentPhase": "Review",
             "firstPrize": 1700,
             "totalPrize": 4485,
             "checkpointPrize": 285,
             "registrantsCount": 4,
             "submissionsCount": 3,
             "checkpointSubmissionsCount": 4,
-            "reliability": 104
+            "reliability": 104,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         },
         {
             "customerName": "Client 9000005",
@@ -423,14 +457,16 @@
             "challengeFee": 6001,
             "challengeTotalCost": 7801,
             "challengeDuration": 18.1,
-            "currentPhase": ["Appeals"],
+            "currentPhase": "Appeals",
             "firstPrize": 1200,
             "totalPrize": 1800,
             "checkpointPrize": 0,
             "registrantsCount": 3,
             "submissionsCount": 1,
             "checkpointSubmissionsCount": 0,
-            "reliability": 80
+            "reliability": 80,
+            "challengeCreator": "heffan",
+            "challengeManager": "heffan"
         }
     ]
 }

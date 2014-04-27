@@ -17,3 +17,4 @@ AND p.project_status_id IN (@project_status_id@)
 AND pcl.project_type_id IN (@project_type_id@)
 AND pp1.phase_status_id IN (@registration_phase_status@)
 AND p.project_category_id NOT IN (27, 37)
+ORDER BY challenge_id ASC

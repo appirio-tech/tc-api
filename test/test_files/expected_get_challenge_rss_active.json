@@ -562,81 +562,15 @@
         },
         {
             "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2006",
-            "challengeId": 2006,
-            "detailedRequirements": "Test Active marathon contest 2006"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2010",
-            "challengeId": 2010,
-            "detailedRequirements": "Test Active marathon contest 2010"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2015",
-            "challengeId": 2015,
-            "detailedRequirements": "Test Active marathon contest 2015"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2011",
-            "challengeId": 2011,
-            "detailedRequirements": "Test Active marathon contest 2011"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2016",
-            "challengeId": 2016,
-            "detailedRequirements": "Test Active marathon contest 2016"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2018",
-            "challengeId": 2018,
-            "detailedRequirements": "Test Active marathon contest 2018"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2019",
-            "challengeId": 2019,
-            "detailedRequirements": "Test Active marathon contest 2019"
+            "challengeName": "Test Active marathon contest 2001",
+            "challengeId": 2001,
+            "detailedRequirements": "Test Active marathon contest 2001"
         },
         {
             "challengeType": "marathon",
             "challengeName": "Test Active marathon contest 2002",
             "challengeId": 2002,
             "detailedRequirements": "Test Active marathon contest 2002"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2005",
-            "challengeId": 2005,
-            "detailedRequirements": "Test Active marathon contest 2005"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2008",
-            "challengeId": 2008,
-            "detailedRequirements": "Test Active marathon contest 2008"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2012",
-            "challengeId": 2012,
-            "detailedRequirements": "Test Active marathon contest 2012"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2017",
-            "challengeId": 2017,
-            "detailedRequirements": "Test Active marathon contest 2017"
-        },
-        {
-            "challengeType": "marathon",
-            "challengeName": "Test Active marathon contest 2001",
-            "challengeId": 2001,
-            "detailedRequirements": "Test Active marathon contest 2001"
         },
         {
             "challengeType": "marathon",
@@ -652,15 +586,51 @@
         },
         {
             "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2005",
+            "challengeId": 2005,
+            "detailedRequirements": "Test Active marathon contest 2005"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2006",
+            "challengeId": 2006,
+            "detailedRequirements": "Test Active marathon contest 2006"
+        },
+        {
+            "challengeType": "marathon",
             "challengeName": "Test Active marathon contest 2007",
             "challengeId": 2007,
             "detailedRequirements": "Test Active marathon contest 2007"
         },
         {
             "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2008",
+            "challengeId": 2008,
+            "detailedRequirements": "Test Active marathon contest 2008"
+        },
+        {
+            "challengeType": "marathon",
             "challengeName": "Test Active marathon contest 2009",
             "challengeId": 2009,
             "detailedRequirements": "Test Active marathon contest 2009"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2010",
+            "challengeId": 2010,
+            "detailedRequirements": "Test Active marathon contest 2010"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2011",
+            "challengeId": 2011,
+            "detailedRequirements": "Test Active marathon contest 2011"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2012",
+            "challengeId": 2012,
+            "detailedRequirements": "Test Active marathon contest 2012"
         },
         {
             "challengeType": "marathon",
@@ -673,6 +643,36 @@
             "challengeName": "Test Active marathon contest 2014",
             "challengeId": 2014,
             "detailedRequirements": "Test Active marathon contest 2014"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2015",
+            "challengeId": 2015,
+            "detailedRequirements": "Test Active marathon contest 2015"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2016",
+            "challengeId": 2016,
+            "detailedRequirements": "Test Active marathon contest 2016"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2017",
+            "challengeId": 2017,
+            "detailedRequirements": "Test Active marathon contest 2017"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2018",
+            "challengeId": 2018,
+            "detailedRequirements": "Test Active marathon contest 2018"
+        },
+        {
+            "challengeType": "marathon",
+            "challengeName": "Test Active marathon contest 2019",
+            "challengeId": 2019,
+            "detailedRequirements": "Test Active marathon contest 2019"
         },
         {
             "challengeType": "marathon",

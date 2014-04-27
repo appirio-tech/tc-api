@@ -53,13 +53,12 @@ describe('Terms Of Use API', function () {
          * @param {Number} expectedStatusCode the expected status code of the response
          */
         function getRequest(url, user, expectedStatusCode) {
-            var req = request(API_ENDPOINT)
+            return request(API_ENDPOINT)
                 .get(url)
                 .set('Accept', 'application/json')
                 .set('Authorization', testHelper.generateAuthHeader({ sub: user }))
                 .expect('Content-Type', /json/)
                 .expect(expectedStatusCode);
-            return req;
         }
 
         /**
@@ -106,6 +105,7 @@ describe('Terms Of Use API', function () {
         /**
          * Makes call to API and checks response content.
          * @param {String} url - the url to call.
+         * @param {String} user - the user.
          * @param {String} name - the expected file name.
          * @param {Function} cb - the call back function.
          */
@@ -232,23 +232,7 @@ describe('Terms Of Use API', function () {
                     done(err);
                     return;
                 }
-                assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country information is either missing or is banned.");
-                done();
-            });
-        });
-
-        /**
-         * Test /v2/terms/:challengeId where user's country is missing.
-         * should return 403 error
-         */
-        it('should return 403 error because user country is missing', function (done) {
-            var req = getRequest('/v2/terms/40000001', user17, 403);
-            req.end(function (err, resp) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country information is either missing or is banned.");
+                assert.equal(resp.body.error.details, "You cannot participate in this challenge as your country is banned.");
                 done();
             });
         });

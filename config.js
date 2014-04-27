@@ -308,7 +308,7 @@ config.thurgoodDownloadUsername = process.env.THURGOOD_DOWNLOAD_USERNAME || "iam
 config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret";
 
 //Max size of a submission. Currently set to 100M for now. 
-config.submissionMaxSizeBytes = 104857600;
+config.submissionMaxSizeBytes = process.env.DEVELOP_SUBMISSION_MAX_SIZE || 104857600;
 
 //////Thurgood configurables///////
 config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';

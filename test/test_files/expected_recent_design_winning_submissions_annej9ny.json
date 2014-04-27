@@ -5,7 +5,7 @@
             "contestName": "Test Wireframes 1",
             "rank": "1",
             "prize": 2000,
-            "submissionDate": "2014-01-03T09:30:00.000Z",
+            "submissionDate": "2014-01-03T09:30:00.000+0000",
             "viewable": true,
             "preview": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=110005&sbt=small"
         }

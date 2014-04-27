@@ -2,7 +2,7 @@
   {
     "countryCode": "004",
     "countryName": "Afghanistan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 65.917969,
@@ -11,7 +11,7 @@
   {
     "countryCode": "008",
     "countryName": "Albania",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 19.907227,
@@ -20,7 +20,7 @@
   {
     "countryCode": "010",
     "countryName": "Antarctica",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 5.625,
@@ -29,7 +29,7 @@
   {
     "countryCode": "012",
     "countryName": "Algeria",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 3.339844,
@@ -38,7 +38,7 @@
   {
     "countryCode": "016",
     "countryName": "American Samoa",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -170.727539,
@@ -47,7 +47,7 @@
   {
     "countryCode": "020",
     "countryName": "Andorra",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 1.516667,
@@ -56,7 +56,7 @@
   {
     "countryCode": "024",
     "countryName": "Angola",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 13.333333,
@@ -65,7 +65,7 @@
   {
     "countryCode": "028",
     "countryName": "Antigua and Barbuda",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.85,
@@ -74,7 +74,7 @@
   {
     "countryCode": "031",
     "countryName": "Azerbaijan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 49.883333,
@@ -83,7 +83,7 @@
   {
     "countryCode": "032",
     "countryName": "Argentina",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -58.5,
@@ -92,7 +92,7 @@
   {
     "countryCode": "036",
     "countryName": "Australia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 149.133333,
@@ -101,7 +101,7 @@
   {
     "countryCode": "040",
     "countryName": "Austria",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 16.35,
@@ -110,7 +110,7 @@
   {
     "countryCode": "044",
     "countryName": "Bahamas",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -77.958984,
@@ -119,7 +119,7 @@
   {
     "countryCode": "048",
     "countryName": "Bahrain",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 50.556335,
@@ -128,7 +128,7 @@
   {
     "countryCode": "050",
     "countryName": "Bangladesh",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 90.395508,
@@ -137,7 +137,7 @@
   {
     "countryCode": "051",
     "countryName": "Armenia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 44.516602,
@@ -146,7 +146,7 @@
   {
     "countryCode": "052",
     "countryName": "Barbados",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -59.557571,
@@ -155,7 +155,7 @@
   {
     "countryCode": "056",
     "countryName": "Belgium",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 4.378052,
@@ -164,7 +164,7 @@
   {
     "countryCode": "060",
     "countryName": "Bermuda",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -64.768524,
@@ -173,7 +173,7 @@
   {
     "countryCode": "064",
     "countryName": "Bhutan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 90.252686,
@@ -182,7 +182,7 @@
   {
     "countryCode": "068",
     "countryName": "Bolivia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -64.863281,
@@ -191,7 +191,7 @@
   {
     "countryCode": "070",
     "countryName": "Bosnia and Herzegowina",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 17.753906,
@@ -200,7 +200,7 @@
   {
     "countryCode": "072",
     "countryName": "Botswana",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 23.664551,
@@ -209,7 +209,7 @@
   {
     "countryCode": "074",
     "countryName": "Bouvet Island",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 3.400269,
@@ -218,7 +218,7 @@
   {
     "countryCode": "076",
     "countryName": "Brazil",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -52.602539,
@@ -227,7 +227,7 @@
   {
     "countryCode": "084",
     "countryName": "Belize",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -88.665161,
@@ -236,7 +236,7 @@
   {
     "countryCode": "086",
     "countryName": "British Indian Ocean Territory",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 72.427368,
@@ -245,7 +245,7 @@
   {
     "countryCode": "090",
     "countryName": "Solomon Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 160.180664,
@@ -254,7 +254,7 @@
   {
     "countryCode": "092",
     "countryName": "Virgin Islands (British)",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -64.613342,
@@ -263,7 +263,7 @@
   {
     "countryCode": "096",
     "countryName": "Brunei Darussalam",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 114.584656,
@@ -272,7 +272,7 @@
   {
     "countryCode": "100",
     "countryName": "Bulgaria",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 24.8213,
@@ -281,7 +281,7 @@
   {
     "countryCode": "104",
     "countryName": "Myanmar",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 96.196289,
@@ -290,7 +290,7 @@
   {
     "countryCode": "108",
     "countryName": "Burundi",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 29.937744,
@@ -299,7 +299,7 @@
   {
     "countryCode": "112",
     "countryName": "Belarus",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 27.729492,
@@ -308,7 +308,7 @@
   {
     "countryCode": "116",
     "countryName": "Cambodia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 104.666748,
@@ -317,7 +317,7 @@
   {
     "countryCode": "120",
     "countryName": "Cameroon",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 12.436523,
@@ -326,7 +326,7 @@
   {
     "countryCode": "124",
     "countryName": "Canada",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -103.447266,
@@ -335,7 +335,7 @@
   {
     "countryCode": "132",
     "countryName": "Cape Verde",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -23.659058,
@@ -344,7 +344,7 @@
   {
     "countryCode": "136",
     "countryName": "Cayman Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -81.235657,
@@ -353,7 +353,7 @@
   {
     "countryCode": "140",
     "countryName": "Central African Republic",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 20.170898,
@@ -362,7 +362,7 @@
   {
     "countryCode": "144",
     "countryName": "Sri Lanka",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 80.683594,
@@ -371,7 +371,7 @@
   {
     "countryCode": "148",
     "countryName": "Chad",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 18.457031,
@@ -380,7 +380,7 @@
   {
     "countryCode": "152",
     "countryName": "Chile",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -71.455078,
@@ -389,7 +389,7 @@
   {
     "countryCode": "156",
     "countryName": "China",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 102.568359,
@@ -398,7 +398,7 @@
   {
     "countryCode": "158",
     "countryName": "Taiwan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 120.844116,
@@ -407,7 +407,7 @@
   {
     "countryCode": "162",
     "countryName": "Christmas Island",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 105.650024,
@@ -416,7 +416,7 @@
   {
     "countryCode": "166",
     "countryName": "Cocos (Keeling) Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 96.840363,
@@ -425,7 +425,7 @@
   {
     "countryCode": "170",
     "countryName": "Colombia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -73.168945,
@@ -434,7 +434,7 @@
   {
     "countryCode": "174",
     "countryName": "Comoros",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 43.349304,
@@ -443,7 +443,7 @@
   {
     "countryCode": "175",
     "countryName": "Mayotte",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 45.153122,
@@ -452,7 +452,7 @@
   {
     "countryCode": "178",
     "countryName": "Congo",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 15.666504,
@@ -461,7 +461,7 @@
   {
     "countryCode": "180",
     "countryName": "Zaire",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 14.0625,
@@ -470,7 +470,7 @@
   {
     "countryCode": "184",
     "countryName": "Cook Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -27.210388,
@@ -479,7 +479,7 @@
   {
     "countryCode": "188",
     "countryName": "Costa Rica",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -84.04541,
@@ -488,7 +488,7 @@
   {
     "countryCode": "191",
     "countryName": "Croatia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 15.205078,
@@ -497,7 +497,7 @@
   {
     "countryCode": "192",
     "countryName": "Cuba",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 0,
     "default_taxform_id": 2,
     "longitude": -78.706055,
@@ -506,7 +506,7 @@
   {
     "countryCode": "196",
     "countryName": "Cyprus",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 33.206177,
@@ -515,7 +515,7 @@
   {
     "countryCode": "203",
     "countryName": "Czech Republic",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 15.358887,
@@ -524,7 +524,7 @@
   {
     "countryCode": "204",
     "countryName": "Benin",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 2.362061,
@@ -533,7 +533,7 @@
   {
     "countryCode": "208",
     "countryName": "Denmark",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 9.239502,
@@ -542,7 +542,7 @@
   {
     "countryCode": "212",
     "countryName": "Dominica",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.350403,
@@ -551,7 +551,7 @@
   {
     "countryCode": "214",
     "countryName": "Dominican Republic",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -70.570679,
@@ -560,7 +560,7 @@
   {
     "countryCode": "218",
     "countryName": "Ecuador",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -78.310547,
@@ -569,7 +569,7 @@
   {
     "countryCode": "222",
     "countryName": "El Salvador",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -88.829956,
@@ -578,7 +578,7 @@
   {
     "countryCode": "226",
     "countryName": "Equatorial Guinea",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 10.458984,
@@ -587,7 +587,7 @@
   {
     "countryCode": "231",
     "countryName": "Ethiopia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 39.528809,
@@ -596,7 +596,7 @@
   {
     "countryCode": "232",
     "countryName": "Eritrea",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 38.825684,
@@ -605,7 +605,7 @@
   {
     "countryCode": "233",
     "countryName": "Estonia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 25.905762,
@@ -614,7 +614,7 @@
   {
     "countryCode": "234",
     "countryName": "Faroe Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -7.086182,
@@ -623,7 +623,7 @@
   {
     "countryCode": "238",
     "countryName": "Falkland Islands (Malvinas)",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -58.886719,
@@ -632,7 +632,7 @@
   {
     "countryCode": "239",
     "countryName": "South Georgia and The S.Sandwich Is.",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -36.738281,
@@ -641,7 +641,7 @@
   {
     "countryCode": "242",
     "countryName": "Fiji",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 178.044434,
@@ -650,7 +650,7 @@
   {
     "countryCode": "246",
     "countryName": "Finland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 26.89313,
@@ -659,7 +659,7 @@
   {
     "countryCode": "250",
     "countryName": "France",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 2.548828,
@@ -668,7 +668,7 @@
   {
     "countryCode": "254",
     "countryName": "French Guiana",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -53.041992,
@@ -677,7 +677,7 @@
   {
     "countryCode": "258",
     "countryName": "French Polynesia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -149.545898,
@@ -686,7 +686,7 @@
   {
     "countryCode": "260",
     "countryName": "French Southern Territories",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 69.463806,
@@ -695,7 +695,7 @@
   {
     "countryCode": "262",
     "countryName": "Djibouti",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 42.519836,
@@ -704,7 +704,7 @@
   {
     "countryCode": "266",
     "countryName": "Gabon",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 11.953125,
@@ -713,7 +713,7 @@
   {
     "countryCode": "268",
     "countryName": "Georgia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 43.395996,
@@ -722,7 +722,7 @@
   {
     "countryCode": "270",
     "countryName": "Gambia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -16.018066,
@@ -731,7 +731,7 @@
   {
     "countryCode": "276",
     "countryName": "Germany",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 10.546875,
@@ -740,7 +740,7 @@
   {
     "countryCode": "288",
     "countryName": "Ghana",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -1.40625,
@@ -749,7 +749,7 @@
   {
     "countryCode": "292",
     "countryName": "Gibraltar",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -5.346565,
@@ -758,7 +758,7 @@
   {
     "countryCode": "296",
     "countryName": "Kiribati",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -157.5,
@@ -767,7 +767,7 @@
   {
     "countryCode": "300",
     "countryName": "Greece",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 22.346191,
@@ -776,7 +776,7 @@
   {
     "countryCode": "304",
     "countryName": "Greenland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -44.472656,
@@ -785,7 +785,7 @@
   {
     "countryCode": "308",
     "countryName": "Grenada",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.699219,
@@ -794,7 +794,7 @@
   {
     "countryCode": "312",
     "countryName": "Guadeloupe",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -62.825317,
@@ -803,7 +803,7 @@
   {
     "countryCode": "316",
     "countryName": "Guam",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 1,
     "longitude": 144.775085,
@@ -812,7 +812,7 @@
   {
     "countryCode": "320",
     "countryName": "Guatemala",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -90.021973,
@@ -821,7 +821,7 @@
   {
     "countryCode": "324",
     "countryName": "Guinea",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -11.337891,
@@ -830,7 +830,7 @@
   {
     "countryCode": "328",
     "countryName": "Guyana",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -58.974609,
@@ -839,7 +839,7 @@
   {
     "countryCode": "332",
     "countryName": "Haiti",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -72.355957,
@@ -848,7 +848,7 @@
   {
     "countryCode": "334",
     "countryName": "Heard and Mc Donald Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 73.528748,
@@ -857,7 +857,7 @@
   {
     "countryCode": "336",
     "countryName": "Vatican City State (Holy See)",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 12.453432,
@@ -866,7 +866,7 @@
   {
     "countryCode": "340",
     "countryName": "Honduras",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -86.791992,
@@ -875,7 +875,7 @@
   {
     "countryCode": "344",
     "countryName": "Hong Kong",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 114.180908,
@@ -884,7 +884,7 @@
   {
     "countryCode": "348",
     "countryName": "Hungary",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 19.6875,
@@ -893,7 +893,7 @@
   {
     "countryCode": "352",
     "countryName": "Iceland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -17.753906,
@@ -902,7 +902,7 @@
   {
     "countryCode": "356",
     "countryName": "India",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 78.530273,
@@ -911,7 +911,7 @@
   {
     "countryCode": "360",
     "countryName": "Indonesia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 114.609375,
@@ -920,7 +920,7 @@
   {
     "countryCode": "364",
     "countryName": "Iran",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 0,
     "default_taxform_id": 2,
     "longitude": 53.876953,
@@ -929,7 +929,7 @@
   {
     "countryCode": "368",
     "countryName": "Iraq",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 0,
     "default_taxform_id": 2,
     "longitude": 43.549805,
@@ -938,7 +938,7 @@
   {
     "countryCode": "372",
     "countryName": "Ireland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -8.005,
@@ -947,7 +947,7 @@
   {
     "countryCode": "376",
     "countryName": "Israel",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 35.112305,
@@ -956,7 +956,7 @@
   {
     "countryCode": "380",
     "countryName": "Italy",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 11.33095,
@@ -965,7 +965,7 @@
   {
     "countryCode": "384",
     "countryName": "Cote D'Ivoire",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -5.888672,
@@ -974,7 +974,7 @@
   {
     "countryCode": "388",
     "countryName": "Jamaica",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -77.255859,
@@ -983,7 +983,7 @@
   {
     "countryCode": "392",
     "countryName": "Japan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 137.900391,
@@ -992,7 +992,7 @@
   {
     "countryCode": "398",
     "countryName": "Kazakhstan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 66.708984,
@@ -1001,7 +1001,7 @@
   {
     "countryCode": "400",
     "countryName": "Jordan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 36.276855,
@@ -1010,7 +1010,7 @@
   {
     "countryCode": "404",
     "countryName": "Kenya",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 37.96875,
@@ -1019,7 +1019,7 @@
   {
     "countryCode": "408",
     "countryName": "South Korea",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 128.144531,
@@ -1028,7 +1028,7 @@
   {
     "countryCode": "410",
     "countryName": "North Korea",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 0,
     "default_taxform_id": 2,
     "longitude": 126.518555,
@@ -1037,7 +1037,7 @@
   {
     "countryCode": "414",
     "countryName": "Kuwait",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 47.658691,
@@ -1046,7 +1046,7 @@
   {
     "countryCode": "417",
     "countryName": "Kyrgyzstan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 74.487305,
@@ -1055,7 +1055,7 @@
   {
     "countryCode": "418",
     "countryName": "Lao People's Democratic Republic",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 103.007813,
@@ -1064,7 +1064,7 @@
   {
     "countryCode": "422",
     "countryName": "Lebanon",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 35.936279,
@@ -1073,7 +1073,7 @@
   {
     "countryCode": "426",
     "countryName": "Lesotho",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 28.075562,
@@ -1082,7 +1082,7 @@
   {
     "countryCode": "428",
     "countryName": "Latvia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 24.818115,
@@ -1091,7 +1091,7 @@
   {
     "countryCode": "430",
     "countryName": "Liberia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -9.228516,
@@ -1100,7 +1100,7 @@
   {
     "countryCode": "434",
     "countryName": "Libya",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 17.929688,
@@ -1109,7 +1109,7 @@
   {
     "countryCode": "438",
     "countryName": "Liechtenstein",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 9.562912,
@@ -1118,7 +1118,7 @@
   {
     "countryCode": "440",
     "countryName": "Lithuania",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 23.884277,
@@ -1127,7 +1127,7 @@
   {
     "countryCode": "442",
     "countryName": "Luxembourg",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 6.16333,
@@ -1136,7 +1136,7 @@
   {
     "countryCode": "446",
     "countryName": "Macau",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 113.527222,
@@ -1145,7 +1145,7 @@
   {
     "countryCode": "450",
     "countryName": "Madagascar",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 46.054688,
@@ -1154,7 +1154,7 @@
   {
     "countryCode": "454",
     "countryName": "Malawi",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 34.035645,
@@ -1163,7 +1163,7 @@
   {
     "countryCode": "458",
     "countryName": "Malaysia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 102.041016,
@@ -1172,7 +1172,7 @@
   {
     "countryCode": "462",
     "countryName": "Maldives",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 73.037109,
@@ -1181,7 +1181,7 @@
   {
     "countryCode": "466",
     "countryName": "Mali",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -3.251953,
@@ -1190,7 +1190,7 @@
   {
     "countryCode": "470",
     "countryName": "Malta",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 14.370804,
@@ -1199,7 +1199,7 @@
   {
     "countryCode": "474",
     "countryName": "Martinique",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.062012,
@@ -1208,7 +1208,7 @@
   {
     "countryCode": "478",
     "countryName": "Mauritania",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -9.84375,
@@ -1217,7 +1217,7 @@
   {
     "countryCode": "480",
     "countryName": "Mauritius",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 57.392578,
@@ -1226,7 +1226,7 @@
   {
     "countryCode": "484",
     "countryName": "Mexico",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -102.678223,
@@ -1235,7 +1235,7 @@
   {
     "countryCode": "492",
     "countryName": "Monaco",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 7.41687,
@@ -1244,7 +1244,7 @@
   {
     "countryCode": "496",
     "countryName": "Mongolia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 102.304688,
@@ -1253,7 +1253,7 @@
   {
     "countryCode": "498",
     "countryName": "Moldova, Republic of",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 28.520508,
@@ -1262,7 +1262,7 @@
   {
     "countryCode": "500",
     "countryName": "Montserrat",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -62.20459,
@@ -1271,7 +1271,7 @@
   {
     "countryCode": "504",
     "countryName": "Morocco",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -7.119141,
@@ -1280,7 +1280,7 @@
   {
     "countryCode": "508",
     "countryName": "Mozambique",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 37.96875,
@@ -1289,7 +1289,7 @@
   {
     "countryCode": "512",
     "countryName": "Oman",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 56.601563,
@@ -1298,7 +1298,7 @@
   {
     "countryCode": "516",
     "countryName": "Namibia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 15.644531,
@@ -1307,7 +1307,7 @@
   {
     "countryCode": "520",
     "countryName": "Nauru",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 166.904297,
@@ -1316,7 +1316,7 @@
   {
     "countryCode": "524",
     "countryName": "Nepal",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 84.243164,
@@ -1325,7 +1325,7 @@
   {
     "countryCode": "528",
     "countryName": "Netherlands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 5.844727,
@@ -1334,7 +1334,7 @@
   {
     "countryCode": "530",
     "countryName": "Netherlands Antilles",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -68.356934,
@@ -1343,7 +1343,7 @@
   {
     "countryCode": "533",
     "countryName": "Aruba",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -70.114746,
@@ -1352,7 +1352,7 @@
   {
     "countryCode": "540",
     "countryName": "New Caledonia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 165.366211,
@@ -1361,7 +1361,7 @@
   {
     "countryCode": "548",
     "countryName": "Vanuatu",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 166.92627,
@@ -1370,7 +1370,7 @@
   {
     "countryCode": "554",
     "countryName": "New Zealand",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 171.738281,
@@ -1379,7 +1379,7 @@
   {
     "countryCode": "558",
     "countryName": "Nicaragua",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -84.990234,
@@ -1388,7 +1388,7 @@
   {
     "countryCode": "562",
     "countryName": "Niger",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 9.667969,
@@ -1397,7 +1397,7 @@
   {
     "countryCode": "566",
     "countryName": "Nigeria",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 8.701172,
@@ -1406,7 +1406,7 @@
   {
     "countryCode": "570",
     "countryName": "Niue",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -169.867859,
@@ -1415,7 +1415,7 @@
   {
     "countryCode": "574",
     "countryName": "Norfolk Island",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 167.947998,
@@ -1424,7 +1424,7 @@
   {
     "countryCode": "578",
     "countryName": "Norway",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 8.964844,
@@ -1433,7 +1433,7 @@
   {
     "countryCode": "580",
     "countryName": "Northern Mariana Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 145.766602,
@@ -1442,7 +1442,7 @@
   {
     "countryCode": "581",
     "countryName": "United States Minor Outlying Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 1,
     "longitude": -156.796875,
@@ -1451,7 +1451,7 @@
   {
     "countryCode": "583",
     "countryName": "Micronesia, Federated States of",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 158.334961,
@@ -1460,7 +1460,7 @@
   {
     "countryCode": "584",
     "countryName": "Marshall Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 168.442383,
@@ -1469,7 +1469,7 @@
   {
     "countryCode": "585",
     "countryName": "Palau",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 134.428711,
@@ -1478,7 +1478,7 @@
   {
     "countryCode": "586",
     "countryName": "Pakistan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 69.389648,
@@ -1487,7 +1487,7 @@
   {
     "countryCode": "591",
     "countryName": "Panama",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -80.771484,
@@ -1496,7 +1496,7 @@
   {
     "countryCode": "598",
     "countryName": "Papua New Guinea",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 143.613281,
@@ -1505,7 +1505,7 @@
   {
     "countryCode": "600",
     "countryName": "Paraguay",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -57.65625,
@@ -1514,7 +1514,7 @@
   {
     "countryCode": "604",
     "countryName": "Peru",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -75.849609,
@@ -1523,7 +1523,7 @@
   {
     "countryCode": "608",
     "countryName": "Philippines",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 123.398438,
@@ -1532,7 +1532,7 @@
   {
     "countryCode": "612",
     "countryName": "Pitcairn",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -128.320312,
@@ -1541,7 +1541,7 @@
   {
     "countryCode": "616",
     "countryName": "Poland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 19.16894,
@@ -1550,7 +1550,7 @@
   {
     "countryCode": "620",
     "countryName": "Portugal",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -7.954102,
@@ -1559,7 +1559,7 @@
   {
     "countryCode": "624",
     "countryName": "Guinea-Bissau",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -14.666748,
@@ -1568,7 +1568,7 @@
   {
     "countryCode": "626",
     "countryName": "East Timor",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 125.562744,
@@ -1577,7 +1577,7 @@
   {
     "countryCode": "630",
     "countryName": "Puerto Rico",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 1,
     "longitude": -67.016602,
@@ -1586,7 +1586,7 @@
   {
     "countryCode": "634",
     "countryName": "Qatar",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 51.196289,
@@ -1595,7 +1595,7 @@
   {
     "countryCode": "638",
     "countryName": "Reunion",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 55.496063,
@@ -1604,7 +1604,7 @@
   {
     "countryCode": "642",
     "countryName": "Romania",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 24.873047,
@@ -1613,7 +1613,7 @@
   {
     "countryCode": "643",
     "countryName": "Russian Federation",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 93.691406,
@@ -1622,7 +1622,7 @@
   {
     "countryCode": "646",
     "countryName": "Rwanda",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 29.858093,
@@ -1631,7 +1631,7 @@
   {
     "countryCode": "654",
     "countryName": "St. Helena",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -5.932617,
@@ -1640,7 +1640,7 @@
   {
     "countryCode": "659",
     "countryName": "Saint Kitts and Nevis",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -62.756653,
@@ -1649,7 +1649,7 @@
   {
     "countryCode": "660",
     "countryName": "Anguilla",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -63.058777,
@@ -1658,7 +1658,7 @@
   {
     "countryCode": "662",
     "countryName": "Saint Lucia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.018066,
@@ -1667,7 +1667,7 @@
   {
     "countryCode": "666",
     "countryName": "St. Pierre and Miquelon",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -56.329651,
@@ -1676,7 +1676,7 @@
   {
     "countryCode": "670",
     "countryName": "Saint Vincent and The Grenadines",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.181488,
@@ -1685,7 +1685,7 @@
   {
     "countryCode": "674",
     "countryName": "San Marino",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 12.448196,
@@ -1694,7 +1694,7 @@
   {
     "countryCode": "678",
     "countryName": "Sao Tome and Principe",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 6.641235,
@@ -1703,7 +1703,7 @@
   {
     "countryCode": "682",
     "countryName": "Saudi Arabia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 44.077148,
@@ -1712,7 +1712,7 @@
   {
     "countryCode": "686",
     "countryName": "Senegal",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -14.194336,
@@ -1721,7 +1721,7 @@
   {
     "countryCode": "690",
     "countryName": "Seychelles",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 55.393066,
@@ -1730,7 +1730,7 @@
   {
     "countryCode": "694",
     "countryName": "Sierra Leone",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -11.777344,
@@ -1739,7 +1739,7 @@
   {
     "countryCode": "702",
     "countryName": "Singapore",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 103.815308,
@@ -1748,7 +1748,7 @@
   {
     "countryCode": "703",
     "countryName": "Slovakia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 19.65532,
@@ -1757,7 +1757,7 @@
   {
     "countryCode": "704",
     "countryName": "Viet Nam",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 108.588867,
@@ -1766,7 +1766,7 @@
   {
     "countryCode": "705",
     "countryName": "Slovenia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 15.073242,
@@ -1775,7 +1775,7 @@
   {
     "countryCode": "706",
     "countryName": "Somalia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 46.757813,
@@ -1784,7 +1784,7 @@
   {
     "countryCode": "710",
     "countryName": "South Africa",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 24.082031,
@@ -1793,7 +1793,7 @@
   {
     "countryCode": "716",
     "countryName": "Zimbabwe",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 30.058594,
@@ -1802,7 +1802,7 @@
   {
     "countryCode": "724",
     "countryName": "Spain",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -4.394531,
@@ -1811,7 +1811,7 @@
   {
     "countryCode": "732",
     "countryName": "Western Sahara",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -13.31543,
@@ -1820,7 +1820,7 @@
   {
     "countryCode": "736",
     "countryName": "Sudan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 0,
     "default_taxform_id": 2,
     "longitude": 29.443359,
@@ -1829,7 +1829,7 @@
   {
     "countryCode": "740",
     "countryName": "Suriname",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -56.293945,
@@ -1838,7 +1838,7 @@
   {
     "countryCode": "744",
     "countryName": "Svalbard and Jan Mayen Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 17.182617,
@@ -1847,7 +1847,7 @@
   {
     "countryCode": "748",
     "countryName": "Swaziland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 31.536255,
@@ -1856,7 +1856,7 @@
   {
     "countryCode": "752",
     "countryName": "Sweden",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 15.644531,
@@ -1865,7 +1865,7 @@
   {
     "countryCode": "756",
     "countryName": "Switzerland",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 8.4375,
@@ -1874,7 +1874,7 @@
   {
     "countryCode": "760",
     "countryName": "Syria",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 0,
     "default_taxform_id": 2,
     "longitude": 38.012695,
@@ -1883,7 +1883,7 @@
   {
     "countryCode": "762",
     "countryName": "Tajikistan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 71.499023,
@@ -1892,7 +1892,7 @@
   {
     "countryCode": "764",
     "countryName": "Thailand",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 101.118164,
@@ -1901,7 +1901,7 @@
   {
     "countryCode": "768",
     "countryName": "Togo",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 1.07666,
@@ -1910,7 +1910,7 @@
   {
     "countryCode": "772",
     "countryName": "Tokelau",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -171.853638,
@@ -1919,7 +1919,7 @@
   {
     "countryCode": "776",
     "countryName": "Tonga",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -175.012207,
@@ -1928,7 +1928,7 @@
   {
     "countryCode": "780",
     "countryName": "Trinidad and Tobago",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.281738,
@@ -1937,7 +1937,7 @@
   {
     "countryCode": "784",
     "countryName": "United Arab Emirates",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 54.228516,
@@ -1946,7 +1946,7 @@
   {
     "countryCode": "788",
     "countryName": "Tunisia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 9.821777,
@@ -1955,7 +1955,7 @@
   {
     "countryCode": "792",
     "countryName": "Turkey",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 37.133789,
@@ -1964,7 +1964,7 @@
   {
     "countryCode": "795",
     "countryName": "Turkmenistan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 59.106445,
@@ -1973,7 +1973,7 @@
   {
     "countryCode": "796",
     "countryName": "Turks and Caicos Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -71.83136,
@@ -1982,7 +1982,7 @@
   {
     "countryCode": "798",
     "countryName": "Tuvalu",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 179.208984,
@@ -1991,7 +1991,7 @@
   {
     "countryCode": "800",
     "countryName": "Uganda",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 32.431641,
@@ -2000,7 +2000,7 @@
   {
     "countryCode": "804",
     "countryName": "Ukraine",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 31.860352,
@@ -2009,7 +2009,7 @@
   {
     "countryCode": "807",
     "countryName": "Macedonia, Former Yugoslav Rep. of",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 21.687012,
@@ -2018,7 +2018,7 @@
   {
     "countryCode": "818",
     "countryName": "Egypt",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 29.267578,
@@ -2027,7 +2027,7 @@
   {
     "countryCode": "826",
     "countryName": "United Kingdom",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -2.373047,
@@ -2036,7 +2036,7 @@
   {
     "countryCode": "834",
     "countryName": "Tanzania, United Republic of",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 34.365234,
@@ -2045,7 +2045,7 @@
   {
     "countryCode": "840",
     "countryName": "United States",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 1,
     "longitude": -101.074219,
@@ -2054,7 +2054,7 @@
   {
     "countryCode": "850",
     "countryName": "Virgin Islands (U.S.)",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 1,
     "longitude": -64.750671,
@@ -2063,7 +2063,7 @@
   {
     "countryCode": "854",
     "countryName": "Burkina Faso",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -1.395264,
@@ -2072,7 +2072,7 @@
   {
     "countryCode": "858",
     "countryName": "Uruguay",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -55.942383,
@@ -2081,7 +2081,7 @@
   {
     "countryCode": "860",
     "countryName": "Uzbekistan",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 63.500977,
@@ -2090,7 +2090,7 @@
   {
     "countryCode": "862",
     "countryName": "Venezuela",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -66.09375,
@@ -2099,7 +2099,7 @@
   {
     "countryCode": "876",
     "countryName": "Wallis and Futuna Islands",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -178.198242,
@@ -2108,7 +2108,7 @@
   {
     "countryCode": "882",
     "countryName": "Samoa",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -172.298584,
@@ -2117,7 +2117,7 @@
   {
     "countryCode": "887",
     "countryName": "Yemen",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 47.988281,
@@ -2126,7 +2126,7 @@
   {
     "countryCode": "891",
     "countryName": "Serbia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 20.961914,
@@ -2135,7 +2135,7 @@
   {
     "countryCode": "894",
     "countryName": "Zambia",
-    "modifyDate": "2003-01-06T16:06:26.000Z",
+    "modifyDate": "2003-01-06T16:06:26.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 27.597656,
@@ -2144,7 +2144,7 @@
   {
     "countryCode": "895",
     "countryName": "Montenegro",
-    "modifyDate": "2006-09-25T13:48:56.000Z",
+    "modifyDate": "2006-09-25T13:48:56.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": 19.165649,
@@ -2153,7 +2153,7 @@
   {
     "countryCode": "897",
     "countryName": "St. Kitts and Nevis",
-    "modifyDate": "2007-01-01T22:16:12.000Z",
+    "modifyDate": "2007-01-01T22:16:12.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -62.801971,
@@ -2162,7 +2162,7 @@
   {
     "countryCode": "898",
     "countryName": "St. Lucia",
-    "modifyDate": "2007-01-01T22:16:12.000Z",
+    "modifyDate": "2007-01-01T22:16:12.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -60.961075,
@@ -2171,7 +2171,7 @@
   {
     "countryCode": "899",
     "countryName": "St. Vincent and Grenadines",
-    "modifyDate": "2007-01-01T22:16:12.000Z",
+    "modifyDate": "2007-01-01T22:16:12.000+0000",
     "participating": 1,
     "default_taxform_id": 2,
     "longitude": -61.188354,
@@ -2180,7 +2180,7 @@
   {
     "countryCode": "900",
     "countryName": "Palestine",
-    "modifyDate": "2007-10-31T13:39:21.000Z",
+    "modifyDate": "2007-10-31T13:39:21.000+0000",
     "participating": 1,
     "default_taxform_id": 2
   }
