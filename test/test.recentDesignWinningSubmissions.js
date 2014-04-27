@@ -152,6 +152,33 @@ describe('Recent design winning submissions API', function () {
     });
 
     /**
+     * Test /v2/users/hung/statistics/design/recentWins?challengeId=abc
+     * challengeId should be number, expect 400
+     */
+    it("should return error 400 when challengeId is not a number", function (done) {
+        assertError("/v2/users/hung/statistics/design/recentWins?challengeId=abc", 400,
+            "challengeId should be number.", done);
+    });
+
+    /**
+     * Test /v2/users/hung/statistics/design/recentWins?challengeId=-1
+     * challengeId should be positive, expect 400
+     */
+    it("should return error 400 when challengeId is not positive", function (done) {
+        assertError("/v2/users/hung/statistics/design/recentWins?challengeId=-1", 400,
+            "challengeId should be positive.", done);
+    });
+
+    /**
+     * Test /v2/users/hung/statistics/design/recentWins?challengeId=111111111111111
+     * challengeId is too large, expect 400
+     */
+    it("should return error 400 when challengeId is too large", function (done) {
+        assertError("/v2/users/hung/statistics/design/recentWins?challengeId=111111111111111", 400,
+            "challengeId should be less or equal to 2147483647.", done);
+    });
+
+    /**
      * Test /v2/users/annej9ny/statistics/design/recentWins
      */
     it("should return 200 with one recent winning submission", function (done) {
@@ -193,5 +220,13 @@ describe('Recent design winning submissions API', function () {
     it("should return 200 with 7 recent winning submissions", function (done) {
         validateResult("/v2/users/partha/statistics/design/recentWins?numberOfRecentWins=10",
             "./test_files/expected_recent_design_winning_submissions_partha_10.json", done);
+    });
+
+    /**
+     * Test results for challenge 32000005
+     */
+    it('should return 200 with only submissions for one challenge', function (done) {
+        validateResult('/v2/users/Partha/statistics/design/recentWins?challengeId=32000005',
+            './test_files/expected_recent_design_winning_submissions_partha_challenge_32000005.json', done);
     });
 });
