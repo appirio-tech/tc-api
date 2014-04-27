@@ -33,4 +33,5 @@ WHERE r.project_id = p.project_id
   AND ri.value = user.user_id
   AND user.handle_lower = lower('@handle@')
   AND NOT s.placement IS NULL
+  AND p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
 ORDER BY s.create_date desc

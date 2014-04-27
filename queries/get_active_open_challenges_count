@@ -20,7 +20,7 @@ AND (not exists (select contest_id from contest_eligibility where contest_id = p
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
 -- start of parameters
 AND p.project_status_id = 1
-AND pcl.project_type_id IN (1, 2, 3)
+AND pcl.project_type_id IN (@track@)
 AND pp1.phase_status_id IN (@registration_phase_status@)
 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 

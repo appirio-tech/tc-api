@@ -48,6 +48,7 @@ FIRST @pageSize@
      , technology_list(pi1.value) AS technology
      , platform_list(p.project_id) as platforms
      , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
+     , NVL((SELECT CAST('t' AS boolean) FROM contest_eligibility WHERE contest_id = p.project_id), CAST('f' AS boolean)) AS is_private
   FROM project p
      , project_status_lu pstatus
      , project_phase pp1 --registration phase

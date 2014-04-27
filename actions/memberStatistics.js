@@ -1087,11 +1087,16 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
         function (callback) {
             var error = helper.checkPositiveInteger(numberOfRecentWins, "numberOfRecentWins") ||
                 helper.checkMaxNumber(numberOfRecentWins, helper.MAX_INT, "numberOfRecentWins");
+            if (!_.isUndefined(connection.params.challengeId)) {
+                error = error || helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                    helper.checkMaxInt(Number(connection.params.challengeId), 'challengeId');
+            }
             if (error) {
                 callback(error);
             } else {
                 sqlParams.numberOfRecentWins = numberOfRecentWins;
                 sqlParams.handle = connection.params.handle;
+                sqlParams.challenge_id = Number(connection.params.challengeId) || 0;
                 callback();
             }
         },
@@ -1143,7 +1148,7 @@ exports.getRecentWinningDesignSubmissions = {
     description: "get recent winning design submissions",
     inputs: {
         required: ["handle"],
-        optional: ["numberOfRecentWins"]
+        optional: ["numberOfRecentWins", 'challengeId']
     },
     blockedConnectionTypes: [],
     outputExample: {},
