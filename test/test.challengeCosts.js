@@ -15,6 +15,7 @@ var fs = require('fs');
 var request = require('supertest');
 var assert = require('chai').assert;
 var async = require('async');
+var _ = require('underscore');
 
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + '/sqls/challengeCosts/';
@@ -341,6 +342,12 @@ describe('Get Challenge Costs API', function () {
         createRequest(BASE_URL + '/1900-1-1/2999-1-1', 200, adminAuthHeader, function (err, result) {
             if (!err) {
                 var actual = testHelper.getTrimmedData(result.res.text);
+                actual.history.forEach(function (item) {
+                    assert.isTrue(_.isDate(new Date(item.launchDate)));
+                    assert.isTrue(_.isDate(new Date(item.completionDate)));
+                    delete item.launchDate;
+                    delete item.completionDate;
+                });
                 assert.deepEqual(actual, expected, 'invalid response');
             } else {
                 done(err);
@@ -358,6 +365,12 @@ describe('Get Challenge Costs API', function () {
         createRequest(BASE_URL + '/2014-1-1/2999-1-1', 200, adminAuthHeader, function (err, result) {
             if (!err) {
                 var actual = testHelper.getTrimmedData(result.res.text);
+                actual.history.forEach(function (item) {
+                    assert.isTrue(_.isDate(new Date(item.launchDate)));
+                    assert.isTrue(_.isDate(new Date(item.completionDate)));
+                    delete item.launchDate;
+                    delete item.completionDate;
+                });
                 assert.deepEqual(actual, expected, 'invalid response');
             } else {
                 done(err);

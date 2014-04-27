@@ -85,3 +85,5 @@ export RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
 
 export REDIS_HOST=localhost
 export REDIS_PORT=6379
+
+export DEVELOP_SUBMISSION_MAX_SIZE=6144

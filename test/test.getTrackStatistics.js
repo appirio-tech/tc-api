@@ -74,7 +74,7 @@ describe('Get Track Statistics API', function () {
      */
     function createRequest(url, expectStatus, authHeader, cb) {
         var req = request(API_ENDPOINT)
-            .get('/v2/reports/' + url)
+            .get('/v2/platform/statistics/' + url)
             .set('Accept', 'application/json');
         if (authHeader) {
             req.set('Authorization', authHeader);

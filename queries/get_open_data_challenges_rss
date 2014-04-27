@@ -14,3 +14,4 @@ AND rs.segment_id = 2
 AND r.round_type_id IN (13,15,19,22,24,25,27)
 AND CURRENT < rs.end_time
 AND CURRENT >= rs.start_time
+ORDER BY challenge_id

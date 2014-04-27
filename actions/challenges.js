@@ -1015,7 +1015,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.technology;
                 delete challenge.platforms;
             } else {
-
+ 
                 if (data.is_reliability_bonus_eligible !== 'true') {
                     delete challenge.reliabilityBonus;
                 }
@@ -2623,6 +2623,237 @@ exports.submitForDesignChallenge = {
     }
 };
 
+var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next) {
+    var error, sqlParams, helper = api.helper, challengeType = helper.both,
+        caller = connection.caller, isRelated = false, registrants;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                challengeId: connection.params.challengeId,
+                project_type_id: challengeType.category,
+                user_id: caller.userId || 0
+            };
+
+            // Do the private check.
+            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result[0].is_private && !result[0].has_access) {
+                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
+                return;
+            }
+
+            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
+            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+                isRelated = true;
+            }
+
+
+            api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            var mapRegistrants = function (results) {
+                    if (!_.isDefined(results)) {
+                        return [];
+                    }
+                    return _.map(results, function (item) {
+                        var registrant = {
+                            handle: item.handle,
+                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                            registrationDate: formatDate(item.inquiry_date)
+                        };
+                        if (!isStudio) {
+                            registrant.rating = item.rating;
+                            registrant.colorStyle = helper.getColorStyle(item.rating);
+                        }
+                        return registrant;
+                    });
+                };
+            registrants = mapRegistrants(results);
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = registrants;
+        }
+        next(connection, true);
+    });
+};
+
+
+exports.getRegistrants = {
+    name: "getRegistrants",
+    description: "getRegistrants",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getRegistrations#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length === 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getRegistrants(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+
+var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next) {
+    var error, sqlParams, helper = api.helper, challengeType = helper.both,
+        caller = connection.caller, isRelated = false, submissions;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                challengeId: connection.params.challengeId,
+                project_type_id: challengeType.category,
+                user_id: caller.userId || 0
+            };
+
+            // Do the private check.
+            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result[0].is_private && !result[0].has_access) {
+                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
+                return;
+            }
+
+            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
+            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+                isRelated = true;
+            }
+
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+                };
+            };
+
+            if (isStudio) {
+                async.parallel({
+                    submissions: execQuery('get_studio_challenge_detail_submissions'),
+                    digital_run_points: execQuery('challenge_digital_run')
+                }, cb);
+            } else {
+                async.parallel({
+                    submissions: execQuery('challenge_submissions'),
+                    digital_run_points: execQuery('challenge_digital_run')
+                }, cb);
+            }
+        }, function (results, cb) {
+            var mapSubmissions = function (results, digitalRunPoints) {
+                var submissions = [], passedReview = 0, drTable, submission = {};
+                if (isStudio) {
+                    submissions = _.map(results, function (item) {
+                        return {
+                            submissionId: item.submission_id,
+                            submitter: item.handle,
+                            submissionTime: formatDate(item.create_date)
+                        };
+                    });
+                } else {
+                    results.forEach(function (item) {
+                        if (item.placement) {
+                            passedReview = passedReview + 1;
+                        }
+                    });
+                    drTable = DR_POINT[Math.min(passedReview - 1, 4)];
+                    submissions = _.map(results, function (item) {
+                        submission = {
+                            handle: item.handle,
+                            placement: item.placement || "",
+                            screeningScore: item.screening_score,
+                            initialScore: item.initial_score,
+                            finalScore: item.final_score,
+                            points: 0,
+                            submissionStatus: item.submission_status,
+                            submissionDate: formatDate(item.submission_date)
+                        };
+                        if (submission.placement && drTable.length >= submission.placement) {
+                            submission.points = drTable[submission.placement - 1] * digitalRunPoints;
+                        }
+                        return submission;
+                    });
+                }
+                return submissions;
+            };
+
+            submissions = mapSubmissions(results.submissions, results.digital_run_points[0].value);
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = submissions;
+        }
+        next(connection, true);
+    });
+};
+
+
+exports.getSubmissions = {
+    name: "getSubmissions",
+    description: "getSubmissions",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getRegistrations#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length === 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getSubmissions(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+
 var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
         caller = connection.caller, isRelated = false, result;
@@ -2729,6 +2960,7 @@ exports.getPhases = {
         }
     }
 };
+
 /**
  * Handle get active challenges api.
  *

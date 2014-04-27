@@ -1,0 +1,7 @@
+SELECT
+       NVL(
+       (SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id),
+       (SELECT NVL(pi16.value::decimal, 1) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id)
+       ) AS value
+FROM project p
+WHERE p.project_id = @challengeId@

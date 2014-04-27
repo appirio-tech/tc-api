@@ -33,3 +33,4 @@ FROM
   WHERE  r.round_type_id in (1, 2, 10)
   AND c.end_date >= current
 )
+ORDER BY challenge_id ASC

@@ -23,7 +23,7 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 
 describe('Get Client Active Challenge Costs API', function () {
-    this.timeout(30000);     // The api with testing remote db could be quit slow
+    this.timeout(60000);     // The api with testing remote db could be quit slow
 
     var adminHeader, memberHeader;
 
@@ -96,7 +96,7 @@ describe('Get Client Active Challenge Costs API', function () {
      */
     function createRequest(queryString, statusCode, authHeader) {
         var req = request(API_ENDPOINT)
-            .get('/v2/reports/client/activeCosts' + (queryString || ""))
+            .get('/v2/reports/client/activeChallenges' + (queryString || ""))
             .set('Accept', 'application/json');
         if (authHeader) {
             req = req.set('Authorization', authHeader);
