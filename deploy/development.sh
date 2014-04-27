@@ -17,7 +17,7 @@
 # tests rely on caching being off. But set this to a real value (or remove) while coding.
 export CACHE_EXPIRY=-1
 
-VM_IP=informix.cloud.topcoder.com 
+VM_IP=informix.cloud.topcoder.com
 if [ -n "$TC_VM_IP" ]
 then
 VM_IP=$TC_VM_IP
@@ -58,6 +58,7 @@ export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
 export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
 export TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
+export TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 
 export PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 ## JDBC connection pool environment variables - set for all databases
