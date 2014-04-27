@@ -1,0 +1,17 @@
+SELECT
+     NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
+     , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
+                (SELECT phase_type_lu.description FROM phase_type_lu
+                WHERE phase_type_id = nd_phase.phase_type_id)
+            ELSE NULL
+            END AS current_phase_name
+     , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
+            (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8
+            ELSE 0
+            END AS current_phase_remaining_time
+  FROM project p
+     , outer project_phase nd_phase
+ WHERE 1=1
+   AND p.project_id = @challengeId@
+   AND p.project_Id = nd_phase.project_id
+   AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12,18))

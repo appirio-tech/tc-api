@@ -2853,6 +2853,114 @@ exports.getSubmissions = {
     }
 };
 
+
+var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
+    var error, sqlParams, helper = api.helper, challengeType = helper.both,
+        caller = connection.caller, isRelated = false, result;
+    async.waterfall([
+        function (cb) {
+            error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
+                helper.checkMaxNumber(Number(connection.params.challengeId), MAX_INT, 'challengeId');
+            if (error) {
+                cb(error);
+                return;
+            }
+            sqlParams = {
+                challengeId: connection.params.challengeId,
+                project_type_id: challengeType.category,
+                user_id: caller.userId || 0
+            };
+
+            // Do the private check.
+            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result[0].is_private && !result[0].has_access) {
+                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
+                return;
+            }
+
+            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
+            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+                isRelated = true;
+            }
+            var execQuery = function (name) {
+                return function (cbx) {
+                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+                };
+            };
+
+            async.parallel({
+                details: execQuery('challenge_phase_details'),
+                phases: execQuery('challenge_phases')
+            }, cb);
+        }, function (results, cb) {
+            var data = results.details[0], mapPhases = function (results) {
+                if (!_.isDefined(results)) {
+                    return [];
+                }
+                return _.map(results, function (item) {
+                    return {
+                        type: item.type,
+                        status: item.status,
+                        scheduledStartTime: item.scheduled_start_time,
+                        actualStartTime: item.actual_start_time,
+                        scheduledEndTime: item.scheduled_end_time,
+                        actualendTime: item.actual_end_time
+                    };
+                });
+            };
+            result = {
+                phases: mapPhases(results.phases),
+                currentPhaseEndDate : formatDate(data.current_phase_end_date),
+                currentPhaseName : convertNull(data.current_phase_name),
+                currentPhaseRemainingTime : data.current_phase_remaining_time
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+
+exports.getPhases = {
+    name: "getPhases",
+    description: "getPhases",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["tcs_catalog", "tcs_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getPhases#run", 'debug');
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+                if (err) {
+                    api.helper.handleError(api, connection, err);
+                    next(connection, true);
+                } else if (result.length === 0) {
+                    api.helper.handleError(api, connection, new NotFoundError("Challenge not found."));
+                    next(connection, true);
+                } else {
+                    var isStudio = Boolean(result[0].is_studio);
+                    getPhases(api, connection, connection.dbConnectionMap, isStudio, next);
+                }
+            });
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
 /**
  * Handle get active challenges api.
  *
