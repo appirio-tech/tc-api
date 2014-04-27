@@ -5,6 +5,7 @@ SELECT FIRST @numberOfRecentWins@
   , s.create_date AS submission_date
   , DECODE(pzz.prize_type_id, 14, 'M', TO_CHAR(pzz.place)) as rank
   , s.submission_id
+  , p.project_id AS challenge_id
 FROM project p
   , resource r
   , resource_info ri
@@ -33,5 +34,4 @@ WHERE r.project_id = p.project_id
   AND ri.value = user.user_id
   AND user.handle_lower = lower('@handle@')
   AND NOT s.placement IS NULL
-  AND p.project_id = DECODE(@challenge_id@, 0, p.project_id, @challenge_id@)
 ORDER BY s.create_date desc
