@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.40
+ * @version 1.41
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
@@ -92,6 +92,8 @@
  * - add routes for payment preference api.
  * Changes in 1.40:
  * - Add routes for new split challenges API.
+ * Changes in 1.41:
+ * - added routes for testing the unifiedSubmissionValidator
  */
 
 /* ---------------------
@@ -146,7 +148,11 @@ var testMethods = {
         {path: "/test/cache/reset", action: "cacheTestResetHits"},
         {path: "/test/cache/disabled", action: "cacheDisabled"},
         {path: "/test/cache", action: "cacheTest"},
-        {path: "/test/oauth", action: "oauthTest"}
+        {path: "/test/oauth", action: "oauthTest"},
+        {path: "/test/usv/getFileType", action: "usvGetFileType"},
+        {path: "/test/usv/getBundledFileParser", action: "usvGetBundledFileParser"},
+        {path: "/test/usv/validate", action: "usvValidate"},
+        {path: "/test/usv/getFiles", action: "usvGetFiles"}
     ]
 };
 
