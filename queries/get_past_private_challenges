@@ -32,11 +32,11 @@ FIRST @page_size@
 , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
 , CAST('f' AS boolean) AS is_private
 FROM project p
-INNER JOIN project_status_lu pstatus ON pstatus.project_status_id = p.project_status_id AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
-INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (@track@)
-INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1 AND pp1.phase_status_id = 3
-INNER JOIN project_phase pp2 ON pp2.project_id = p.project_id AND pp2.phase_type_id = 2 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
-INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6 AND pn.value LIKE('@challenge_name@')
+INNER JOIN project_status_lu pstatus ON pstatus.project_status_id = p.project_status_id 
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id 
+INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1 
+INNER JOIN project_phase pp2 ON pp2.project_id = p.project_id AND pp2.phase_type_id = 2 
+INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6 
 LEFT JOIN project_info pi1 ON pi1.project_id = p.project_id AND pi1.project_info_type_id = 1
 LEFT JOIN project_phase pp15 ON pp15.project_id = p.project_id AND pp15.phase_type_id = 15
 LEFT JOIN (
@@ -58,7 +58,10 @@ LEFT JOIN (
   AND pc4.phase_criteria_type_id = 1
 ) review ON review.project_id = p.project_id
 LEFT JOIN project_info pidr ON pidr.project_id = p.project_id AND pidr.project_info_type_id = 26
-WHERE 1=1
+WHERE  p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
+AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (@track@)
+AND pp1.phase_status_id = 3
+AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 -- Filter the private challenge
 AND p.project_id IN (SELECT
                     contest_id
@@ -67,7 +70,8 @@ AND p.project_id IN (SELECT
                     WHERE ce.contest_eligibility_id = gce.contest_eligibility_id
                     AND gce.group_id = @community_id@)
 -- start of parameters
-
+and pp2.actual_end_time > '2012-01-01 00:00:00'
+AND pn.value LIKE('@challenge_name@')
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
