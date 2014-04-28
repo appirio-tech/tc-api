@@ -65,6 +65,9 @@ exports.searchSRMChallenges = {
         }
 
         sortOrder = (params.sortOrder || "asc").toLowerCase();
+		if (_.isDefined(params.sortColumn) && params.sortColumn === 'submissionEndDate') {
+			sortColumn = "roundid";
+		}
         sortColumn = (params.sortColumn || "roundId").toLowerCase();
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
