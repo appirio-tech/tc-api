@@ -1661,8 +1661,13 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 restrictions: execQuery("get_challenge_restrictions")
             }, cb);
 
-        }, function (res, cb) {
-            var infoRow = res.info[0];
+        }, function (res, cb) { 
+            var infoRow = res.info[0]; 
+            if (!_.isDefined(infoRow)) {
+                cb(new BadRequestError('No Result Found'));
+                return;
+
+            }
             _.extend(result, {
                 challengeType: infoRow.project_category_name,
                 challengeName: infoRow.component_name,
