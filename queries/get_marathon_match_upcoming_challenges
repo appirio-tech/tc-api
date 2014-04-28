@@ -1,4 +1,4 @@
-SELECT 
+SELECT
   SKIP @firstRowIndex@
   FIRST @pageSize@
   r.round_id
@@ -10,7 +10,7 @@ SELECT
 , (select count(*) from round_registration where round_id = r.round_id) as registrants_count
 , (select count(*) from long_component_state cs, long_submission s where s.example = 0 and s.long_component_state_id = cs.long_component_state_id and cs.round_id = r.round_id) as submission_count
 
-FROM 
+FROM
   round_segment rs
 , round r
 , contest ct
@@ -18,8 +18,8 @@ WHERE rs.round_id = r.round_id
 AND ct.contest_id = r.contest_id
 AND rs.segment_id = 2
 AND r.round_type_id IN (13,15,19,22,24,25,27)
-AND CURRENT < rs.end_time 
-AND CURRENT >= rs.start_time
+AND CURRENT < rs.end_time
+AND rs.start_time > CURRENT
 
 AND r.round_id = DECODE(@round_id@, 0, r.round_id, @round_id@)
 AND LOWER(ct.name) LIKE (LOWER('%@full_name@%'))
