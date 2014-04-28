@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
+ * @version 1.5
  * @author mekanizumu, Sky_, xjtufreeman, muzehyun
  * changes in 1.1:
  * - disable cache for member register action
@@ -14,6 +14,8 @@
  * - Modify to use case-insensitive check for email.
  * changes in 1.4:
  * - Add validate handle api
+ * Changes in 1.5:
+ * - Update validateFirstName and validateLastName
  */
 "use strict";
 
@@ -26,6 +28,7 @@ var async = require("async");
 var stringUtils = require("../common/stringUtils.js");
 var bigdecimal = require("bigdecimal");
 var bignum = require("bignum");
+var _ = require("underscore");
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 
@@ -129,8 +132,7 @@ function codeRandom(coderId) {
         } while (oldseed.toNumber() === nextseed.toNumber());
         cr.seed = nextseed;
         return nextseed.shiftRight(16).toNumber();
-    }
-
+    };
     return cr;
 }
 
@@ -190,7 +192,10 @@ function getCode(coderId) {
  * @param {Function} next - The callback function
  */
 var registerUser = function (user, api, dbConnectionMap, next) {
-    var activationCode;
+    var activationCode,
+        utm_source = user.utm_source || '',
+        utm_medium = user.utm_medium || '',
+        utm_campaign = user.utm_campaign || '';
     // Get the next user id
     api.idGenerator.getNextID("USER_SEQ", dbConnectionMap, function (err, result) {
         if (err) {
@@ -205,7 +210,18 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
                     // use user id as activation code for now
                     activationCode = getCode(user.id);
-                    api.dataAccess.executeQuery("insert_user", {userId : user.id, firstName : user.firstName, lastName : user.lastName, handle : user.handle, status : status, activationCode : activationCode, regSource : regSource}, dbConnectionMap, function (err, result) {
+                    api.dataAccess.executeQuery("insert_user", {
+                            userId : user.id,
+                            firstName : user.firstName,
+                            lastName : user.lastName,
+                            handle : user.handle,
+                            status : status,
+                            activationCode : activationCode,
+                            regSource : regSource,
+                            utm_source : utm_source,
+                            utm_medium : utm_medium,
+                            utm_campaign : utm_campaign},
+                        dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
                 },
@@ -773,11 +789,14 @@ var validateHandle = function (api, handle, dbConnectionMap, next) {
 /**
  * Validate the first name
  *
+ * Changes in 1.5:
+ * - Allow firstName contains spaces.
+ *
  * @param {String} firstName The name to check
  * @return {String} the error message or null if the name is valid.
  */
 var validateFirstName = function (firstName) {
-    if (isNullOrEmptyString(firstName) || !stringUtils.containsOnly(firstName, HANDLE_ALPHABET)) {
+    if (isNullOrEmptyString(firstName) || !stringUtils.containsOnly(firstName, HANDLE_ALPHABET + ' ')) {
         return "First name is required";
     }
 
@@ -791,11 +810,14 @@ var validateFirstName = function (firstName) {
 /**
  * Validate the last name
  *
+ * Changes in 1.5:
+ * - Allow lastName contains spaces.
+ *
  * @param {String} lastName The name to check
  * @return {String} the error message or null if the name is valid.
  */
 var validateLastName = function (lastName) {
-    if (isNullOrEmptyString(lastName) || !stringUtils.containsOnly(lastName, HANDLE_ALPHABET)) {
+    if (isNullOrEmptyString(lastName) || !stringUtils.containsOnly(lastName, HANDLE_ALPHABET + ' ')) {
         return "Last name is required";
     }
 
@@ -955,7 +977,7 @@ exports.memberRegister = {
     description: "Register a new member",
     inputs: {
         required: ["firstName", "lastName", "handle", "country", "email"],
-        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource", "socialUserId"]
+        optional: ["password", "socialProviderId", "socialUserName", "socialEmail", "socialEmailVerified", "regSource", "socialUserId", "utm_source", "utm_medium", "utm_campaign"]
     },
     blockedConnectionTypes : [],
     outputExample : {},
@@ -1188,21 +1210,21 @@ exports.validateSocial = {
                     if (err) {
                         cb(err);
                     } else {
-                        if (result !== true) {
+                        if (!result) {
                             cb(new BadRequestError("Social provider id is not valid."));
                         } else {
                             cb(null);
                         }
                     }
                 });
-            }, function(cb) {
+            }, function (cb) {
                 checkResult = validateSocialUserId(socialUserId);
                 if (checkResult !== null) {
                     cb(new IllegalArgumentError(checkResult));
                     return;
                 }
                 isSoicalLoginExisted(socialProviderId, socialUserId, api, dbConnectionMap, function (err, existed) {
-                    result = { available: !existed };
+                    result = { available: existed };
                     cb(err);
                 });
             }

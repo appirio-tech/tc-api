@@ -3,6 +3,7 @@
     "Tracks": {
         "Development": {
             "rating": 478,
+            "reliability": "n/a",
             "activePercentile": "65.45%",
             "activeRank": 1,
             "activeCountryRank": 1,
@@ -13,11 +14,9 @@
             "overallSchoolRank": 1,
             "volatility": 102,
             "competitions": 5,
-            "maximumRating": 2696,
-            "minimumRating": 585,
-            "inquiries": 5,
             "submissions": 4,
             "submissionRate": "80.00%",
+            "inquiries": 5,
             "passedScreening": 3,
             "screeningSuccessRate": "75.00%",
             "passedReview": 3,
@@ -30,11 +29,8 @@
             "averagePlacement": 3.6,
             "wins": 1,
             "winPercentage": "25.00%",
-            "reviewerRating": 1906,
-            "copilotCompletedContests": 5,
-            "copilotRepostedContests": 1,
-            "copilotFailedContests": 5,
-            "copilotFulfillment": "0%"
+            "maximumRating": 2696,
+            "minimumRating": 585
         }
     }
 }

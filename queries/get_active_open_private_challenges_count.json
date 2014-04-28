@@ -1,0 +1,5 @@
+{
+    "name"    : "get_active_open_private_challenges_count",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_active_open_private_challenges_count"
+}

@@ -47,6 +47,8 @@ FIRST @pageSize@
      , (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_name
      , technology_list(pi1.value) AS technology
      , platform_list(p.project_id) as platforms
+     , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
+     , NVL((SELECT CAST('t' AS boolean) FROM contest_eligibility WHERE contest_id = p.project_id), CAST('f' AS boolean)) AS is_private
   FROM project p
      , project_status_lu pstatus
      , project_phase pp1 --registration phase

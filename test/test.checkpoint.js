@@ -287,7 +287,7 @@ describe('Checkpoint API', function () {
      * getStudioChallenge(/design/challenges/:contestId) is called here with contestId = "checkpoint"
      */
     it("should return error if challengeId is not defined (studio)", function (done) {
-        assertErrorResponse(true, "", 400, null, "contestId should be number.", done);
+        assertErrorResponse(true, "", 400, null, "challengeId should be number.", done);
     });
 
     /**
@@ -296,7 +296,7 @@ describe('Checkpoint API', function () {
      * getSoftwareChallenge(/develop/challenges/:contestId) is called here with contestId = "checkpoint"
      */
     it("should return error if challengeId is not defined (software)", function (done) {
-        assertErrorResponse(false, "", 400, null, "contestId should be number.", done);
+        assertErrorResponse(false, "", 400, null, "challengeId should be number.", done);
     });
 
     /**

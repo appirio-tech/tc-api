@@ -21,7 +21,7 @@ var ALLOWABLE_SORT_COLUMN = [
     "roundId", "name", "startDate", "totalCompetitors", "divICompetitors", "divIICompetitors",
     "divITotalSolutionsSubmitted", "divIAverageSolutionsSubmitted", "divIITotalSolutionsSubmitted",
     "divIIAverageSolutionsSubmitted", "divITotalSolutionsChallenged",
-    "divIAverageSolutionsChallenged", "divIITotalSolutionsChallenged", "divIIAverageSolutionsChallenged"
+    "divIAverageSolutionsChallenged", "divIITotalSolutionsChallenged", "divIIAverageSolutionsChallenged", "submissionEndDate"
 ];
 
 /**
@@ -139,6 +139,7 @@ exports.searchSRMChallenges = {
                         roundId: item.round_id,
                         name: item.name,
                         startDate: item.start_date,
+                        submissionEndDate: item.end_date,
                         totalCompetitors: item.total_competitors,
                         divICompetitors: item.div_i_competitors,
                         divIICompetitors: item.div_ii_competitors,

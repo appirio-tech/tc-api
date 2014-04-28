@@ -194,4 +194,5 @@ describe('Recent design winning submissions API', function () {
         validateResult("/v2/users/partha/statistics/design/recentWins?numberOfRecentWins=10",
             "./test_files/expected_recent_design_winning_submissions_partha_10.json", done);
     });
+
 });

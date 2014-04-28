@@ -1,0 +1,5 @@
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, create_date, modify_date, sort_order, group_ind)
+VALUES(2001, 4, 20704, current, current, 0, 1);
+
+INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id, create_date, modify_date)
+VALUES(132457, 20704, current, current);

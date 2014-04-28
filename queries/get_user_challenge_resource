@@ -1,0 +1,13 @@
+SELECT 	DISTINCT 
+        resource_info_type_lu.resource_info_type_id,
+		resource_info.value as user_id,
+		resource.resource_id AS  resource_id,
+        resource_role_id
+  	FROM resource,
+       resource_info,
+       resource_info_type_lu
+WHERE resource.resource_id = resource_info.resource_id
+   	AND resource_info.resource_info_type_id =  resource_info_type_lu.resource_info_type_id
+   	AND project_id = @challengeId@
+   	AND resource_info_type_lu.resource_info_type_id = 1 -- External Reference ID
+    AND resource_info.value = '@userId@'

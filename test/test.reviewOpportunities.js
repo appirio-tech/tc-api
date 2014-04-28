@@ -272,14 +272,14 @@ describe('Get Review Opportunities API', function () {
          * Test when the filter date's type is missing.
          */
         it('should return bad request. The reviewStartDate.type is missing.', function (done) {
-            assertBadCall(URL + '?reviewStartDate.firstDate=01.01.2014', 400, errorObject.reviewStartDate.missingType, done);
+            assertBadCall(URL + '?reviewStartDate.firstDate=2014-01-01', 400, errorObject.reviewStartDate.missingType, done);
         });
 
         /**
          * Test when filter date's firstDate has invalid format.
          */
         it('should return bad request. The reviewStartDate.firstDate is in invalid format.', function (done) {
-            assertBadCall(URL + '?reviewStartDate.type=on&reviewStartDate.firstDate=2014-1-1', 400,
+            assertBadCall(URL + '?reviewStartDate.type=on&reviewStartDate.firstDate=2014.1.1', 400,
                 errorObject.reviewStartDate.invalidFormat, done);
         });
 
@@ -287,7 +287,7 @@ describe('Get Review Opportunities API', function () {
          * Test when filter date's secondDate is missing.
          */
         it('should return bad request. The reviewStartDate.secondDate is missing.', function (done) {
-            assertBadCall(URL + '?reviewStartDate.type=BETWEEN_DATES&reviewStartDate.firstDate=01.01.2014', 400,
+            assertBadCall(URL + '?reviewStartDate.type=BETWEEN_DATES&reviewStartDate.firstDate=2014-01-01', 400,
                 errorObject.reviewStartDate.missingSecondDate, done);
         });
 

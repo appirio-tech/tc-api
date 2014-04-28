@@ -51,6 +51,7 @@ FIRST @pageSize@
      , CASE WHEN pidr.value = 'On' THEN
        NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
        ELSE NULL END AS digital_run_points
+     , CAST('f' AS boolean) AS is_private
   FROM project p
      , project_status_lu pstatus
      , project_phase pp1 --registration phase

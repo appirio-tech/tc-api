@@ -1,1 +1,0 @@
-select SEQUENCE_@seq_name@.NEXTVAL as next_id from table(set{1})

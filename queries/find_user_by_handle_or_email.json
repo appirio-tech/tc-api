@@ -1,0 +1,5 @@
+{
+    "name": "find_user_by_handle_or_email",
+    "db": "common_oltp",
+    "sqlfile": "find_user_by_handle_or_email"
+}

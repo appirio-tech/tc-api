@@ -1,7 +1,6 @@
 SELECT
   u.handle
 , rarl.name AS role
-, rarl.review_application_role_id AS role_id
 , ratingTable.rating AS reviewer_rating
 , rasl.name AS status
 , ra.create_date AS application_date
@@ -10,7 +9,7 @@ INNER JOIN user u ON u.user_id = ra.user_id
 INNER JOIN review_auction rauc ON rauc.review_auction_id = ra.review_auction_id
 INNER JOIN review_application_role_lu rarl ON rarl.review_application_role_id = ra.review_application_role_id
 INNER JOIN review_application_status_lu rasl ON rasl.review_application_status_id = ra.review_application_status_id
-INNER JOIN project p ON p.project_id = @challengeId@ AND p.project_id = rauc.project_id
+INNER JOIN project p ON p.project_id = @challenge_id@ AND p.project_id = rauc.project_id
 LEFT OUTER JOIN (
   SELECT
   DISTINCT 
@@ -18,14 +17,14 @@ LEFT OUTER JOIN (
   , rr.user_id
   , rr.review_date
   FROM reviewer_rating rr
-  INNER JOIN project p1 ON p1.project_id = @challengeId@
+  INNER JOIN project p1 ON p1.project_id = @challenge_id@
   INNER JOIN project p2 ON p2.project_id = rr.project_id
   WHERE 1=1
   AND p1.project_category_id = p2.project_category_id
   AND review_date = (SELECT
   max(rr.review_date)
   FROM reviewer_rating rr
-  INNER JOIN project p1 ON p1.project_id = @challengeId@
+  INNER JOIN project p1 ON p1.project_id = @challenge_id@
   INNER JOIN project p2 ON p2.project_id = rr.project_id
   WHERE 1=1
   AND p1.project_category_id = p2.project_category_id)

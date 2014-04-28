@@ -1,0 +1,5 @@
+{
+    "name"    : "check_reviewer",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "check_reviewer"
+}

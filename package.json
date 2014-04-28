@@ -26,8 +26,8 @@
     "bigdecimal": "0.6.1",
     "bignum": "0.6.2",
     "java": "0.2.9",
-    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#1b3c12d90dba5b464d2f0a54a11953b1d68dc262",
-    "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#9066f062e4e2a97b3de89e047a3b022443e7dd83",
+    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#ae513d6c27d14acaef52092165831dcf23fc83dd",
+    "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#98d0db07348a0950924b9ec967bf83769346b700",
     "asn1": "*",
     "crypto": ">= 0.0.3",
     "jsonwebtoken": "*",
@@ -40,7 +40,8 @@
     "validator": "~3.5.0",
     "adm-zip": "0.4.4",
     "mkdirp": "0.3.5",
-    "archiver": "~0.6.1"
+    "archiver": "~0.6.1",
+    "redis": "0.10.1"
   },
   "devDependencies": {
     "supertest": "0.8.1",

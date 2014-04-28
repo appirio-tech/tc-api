@@ -1,0 +1,24 @@
+SELECT COUNT(p.project_id) AS total
+FROM project p
+inner JOIN prize pr ON pr.project_id = p.project_id and pr.place =1 and pr.prize_type_id = 15
+inner JOIN project_phase pp ON pp.project_id = p.project_id and pp.phase_type_id = 2
+left outer JOIN project_info cmc_task_id on cmc_task_id.project_id = p.project_id and cmc_task_id.project_info_type_id = 70
+inner join project_info  challenge_name on challenge_name.project_id = p.project_id and challenge_name.project_info_type_id = 6
+
+INNER JOIN project_status_lu pstatus ON p.project_status_id = pstatus.project_status_id
+
+INNER JOIN project_category_lu pcl on pcl.project_category_id = p.project_category_id
+WHERE  (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
+  OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
+                WHERE x.login_id = 22655028 AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
+                AND ce.contest_id = p.project_id))
+AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
+AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
+AND pcl.project_type_id in (@project_type_id@)
+AND NVL(pp.actual_end_time, pp.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
+AND LOWER(challenge_name.value) LIKE ('@challengeName@')
+AND NVL(pr.prize_amount, 0) >= @prilower@
+AND NVL(pr.prize_amount, 0) <=@priupper@
+AND p.tc_direct_project_id = p.tc_direct_project_id
+AND NVL(LOWER(cmc_task_id.value), '') = DECODE('@cmc@', '', NVL(LOWER(cmc_task_id.value), ''), '@cmc@')

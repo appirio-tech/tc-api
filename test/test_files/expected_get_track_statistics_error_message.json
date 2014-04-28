@@ -1,0 +1,10 @@
+{
+    "startDate": {
+        "invalid": "startDate is not a valid date."
+    },
+    "endDate": {
+        "invalid": "endDate is not a valid date."
+    },
+    "invalidDates": "startDate should be earlier than endDate or at same date.",
+    "invalidTrack": "track should be an element of develop,design,data."
+}

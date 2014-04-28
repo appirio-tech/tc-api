@@ -53,12 +53,27 @@ SELECT
             ELSE 0
             END AS current_phase_remaining_time
      , CASE WHEN pidr.value = 'On' THEN 
-       NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id)) 
+       NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT NVL(pi16.value::decimal, 1) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
        ELSE NULL END AS digital_run_points
      , pi51.value AS submission_limit
      , nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0) as event_id
      , (SELECT event_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_description
      , (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_short_desc
+     , pi52.value AS allow_stock_art
+     , REPLACE(
+                 REPLACE(
+                    REPLACE(
+                         REPLACE(
+                             MULTISET(
+                                 SELECT  ITEM description
+                                 FROM project_file_type_xref x
+                                INNER JOIN file_type_lu l ON l.file_type_id = x.file_type_id
+                                 WHERE x.project_id = p.project_id)::lvarchar,
+                             'MULTISET{'''
+                         ), '''}'
+                     ),''''
+                 ),'MULTISET{}'
+              ) AS filetypes
   FROM project p
      , project_status_lu pstatus
      , outer project_spec ps
@@ -80,6 +95,7 @@ SELECT
      , outer project_info pi4 --forum id
      , outer project_info pi1
      , outer project_info pi51
+     , outer project_info pi52
  WHERE 1=1
    AND p.project_id = @challengeId@
    AND p.project_status_id = pstatus.project_status_id
@@ -115,6 +131,8 @@ SELECT
    AND pi1.project_id = p.project_id
    AND pi51.project_info_type_id = 51 -- maximum submissions
    AND pi51.project_id = p.project_id
+   AND pi52.project_info_type_id = 52 -- allow stock art
+   AND pi52.project_id = p.project_id
    AND p.project_Id = nd_phase.project_id
    AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12,18))
    AND p.project_category_id = pcl.project_category_id

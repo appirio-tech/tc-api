@@ -1,0 +1,4 @@
+DELETE FROM coder_image_xref WHERE coder_id IN (132456, 132457, 132458);
+DELETE FROM image;
+DELETE FROM path WHERE path_id >= 1000000;
+DELETE FROM path WHERE path_id = 2001;

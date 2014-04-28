@@ -5,37 +5,42 @@
             "contestName": "Logo Design 2",
             "rank": "1",
             "prize": 1200,
-            "submissionDate": "2014-02-03T09:30:00.000Z",
+            "submissionDate": "2014-02-03T09:30:00.000+0000",
+            "challengeId": 32000005,
             "viewable": false
         },
         {
             "contestName": "Logo Design 2",
             "rank": "M",
             "prize": 100,
-            "submissionDate": "2014-02-02T10:12:00.000Z",
+            "submissionDate": "2014-02-02T10:12:00.000+0000",
+            "challengeId": 32000005,
             "viewable": false
         },
         {
             "contestName": "Logo Design 1",
             "rank": "2",
             "prize": 500,
-            "submissionDate": "2014-01-23T09:30:00.000Z",
+            "submissionDate": "2014-01-23T09:30:00.000+0000",
+            "challengeId": 32000004,
             "viewable": false
         },
         {
             "contestName": "Logo Design 1",
             "rank": "M",
             "prize": 200,
-            "submissionDate": "2014-01-22T10:12:00.000Z",
+            "submissionDate": "2014-01-22T10:12:00.000+0000",
+            "challengeId": 32000004,
             "viewable": false
         },
         {
             "contestName": "Web Design 1",
-            "rank": "1",
-            "prize": 1200,
-            "submissionDate": "2014-01-13T09:30:00.000Z",
+            "rank": "M",
+            "prize": 100,
+            "submissionDate": "2014-01-10T10:12:00.000+0000",
             "viewable": true,
-            "preview": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=140005&sbt=small"
+            "challengeId": 32000006,
+            "preview": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=140003&sbt=small"
         }
     ]
 }

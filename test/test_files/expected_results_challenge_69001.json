@@ -1,76 +1,76 @@
 {
-  "challengeCommunity": "develop",
-  "challengeType": "Architecture",
-  "challengeName": "NodeJS Result API Dev Project",
-  "challengeId": 66901,
-  "postingDate": "2013-12-10T09:30:15.000Z",
-  "challengeEndDate": "2013-12-17T09:30:15.000Z",
-  "registrants": 25,
-  "submissions": 5,
-  "submissionsPassedScreening": 4,
-  "submissionsPercentage": 20,
-  "averageInitialScore": 87.2,
-  "averageFinalScore": 89.9,
-  "results": [
-    {
-      "placement": 1,
-      "finalScore": 97.47,
-      "screeningScore": 100,
-      "initialScore": 88.6,
-      "submissionDate": "2013-12-12T01:00:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 270,
-      "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66921",
-      "handle": "Hung"
-    },
-    {
-      "placement": 2,
-      "finalScore": 93.41,
-      "screeningScore": 100,
-      "initialScore": 89.1,
-      "submissionDate": "2013-12-12T07:00:07.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 135,
-      "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66923",
-      "handle": "Partha"
-    },
-    {
-      "placement": 3,
-      "finalScore": 81.2,
-      "screeningScore": 100,
-      "initialScore": 80,
-      "submissionDate": "2013-12-12T09:21:21.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 45,
-      "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66924",
-      "handle": "twight"
-    },
-    {
-      "placement": 4,
-      "finalScore": 73.47,
-      "screeningScore": 100,
-      "initialScore": 74.2,
-      "submissionDate": "2013-12-12T10:30:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 0,
-      "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66925",
-      "handle": "sandking"
-    },
-    {
-      "placement": "n/a",
-      "finalScore": 0,
-      "screeningScore": 50,
-      "initialScore": 0,
-      "submissionDate": "2013-12-12T11:55:00.000Z",
-      "registrationDate": "2013-12-12T00:00:00.000Z",
-      "points": 0,
-      "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66926",
-      "handle": "lightspeed"
-    }
-  ],
-  "finalFixes": [
-    "https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=66929",
-    "https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=66928",
-    "https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=66927"
-  ]
+    "challengeCommunity": "develop",
+    "challengeType": "Architecture",
+    "challengeName": "NodeJS Result API Dev Project",
+    "challengeId": 66901,
+    "postingDate": "2013-12-10T09:30:15.000+0000",
+    "challengeEndDate": "2013-12-17T09:30:15.000+0000",
+    "registrants": 25,
+    "submissions": 5,
+    "submissionsPassedScreening": 4,
+    "submissionsPercentage": 20,
+    "averageInitialScore": 87.2,
+    "averageFinalScore": 89.9,
+    "results": [
+        {
+            "placement": 1,
+            "finalScore": 97.47,
+            "screeningScore": 100,
+            "initialScore": 88.6,
+            "submissionDate": "2013-12-12T01:00:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 270,
+            "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66921",
+            "handle": "Hung"
+        },
+        {
+            "placement": 2,
+            "finalScore": 93.41,
+            "screeningScore": 100,
+            "initialScore": 89.1,
+            "submissionDate": "2013-12-12T07:00:07.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 135,
+            "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66923",
+            "handle": "Partha"
+        },
+        {
+            "placement": 3,
+            "finalScore": 81.2,
+            "screeningScore": 100,
+            "initialScore": 80,
+            "submissionDate": "2013-12-12T09:21:21.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 45,
+            "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66924",
+            "handle": "twight"
+        },
+        {
+            "placement": 4,
+            "finalScore": 73.47,
+            "screeningScore": 100,
+            "initialScore": 74.2,
+            "submissionDate": "2013-12-12T10:30:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 0,
+            "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66925",
+            "handle": "sandking"
+        },
+        {
+            "placement": "n/a",
+            "finalScore": 0,
+            "screeningScore": 50,
+            "initialScore": 0,
+            "submissionDate": "2013-12-12T11:55:00.000+0000",
+            "registrationDate": "2013-12-12T00:00:00.000+0000",
+            "points": 0,
+            "submissionDownloadLink": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=66926",
+            "handle": "lightspeed"
+        }
+    ],
+    "finalFixes": [
+        "https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=66929",
+        "https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=66928",
+        "https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=66927"
+    ]
 }

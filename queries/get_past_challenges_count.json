@@ -1,0 +1,5 @@
+{
+    "name"    : "get_past_challenges_count",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_past_challenges_count"
+}

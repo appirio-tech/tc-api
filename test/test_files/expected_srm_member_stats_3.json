@@ -11,7 +11,7 @@
     "defaultLanguage": "Java",
     "competitions": 35,
     "mostRecentEventName": "test round 2001",
-    "mostRecentEventDate": "2011-12-31T00:00:00.000Z",
+    "mostRecentEventDate": "2011-12-31T00:00:00.000+0000",
     "Divisions": {
         "Division I": {
             "test level 1": {

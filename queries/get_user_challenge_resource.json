@@ -1,0 +1,5 @@
+{
+"name"    : "get_user_challenge_resource",
+"db"      : "tcs_catalog",
+"sqlfile" : "get_user_challenge_resource"
+}

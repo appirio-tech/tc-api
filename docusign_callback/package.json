@@ -1,0 +1,26 @@
+{
+  "name": "docusign_callback",
+  "version": "0.0.1",
+  "description": "Standalone listener of incoming messages from Docusign Connect, parses the XML and then forwards to the Docusign Callback actionhero action",
+  "main": "docusignCallbackListener.js",
+  "scripts": {
+	"start": "node docusignCallbackListener.js &",
+    "test": "node_modules/.bin/mocha test/test.docusignCallbackListener.js"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "devDependencies": {
+    "supertest": "0.8.1",
+    "mocha": "1.13.0",
+    "chai": "1.8.1"
+  },
+  "author": "",
+  "dependencies": {
+    "async": "~0.2.10",
+    "underscore": "~1.6.0",
+    "request": "~2.34.0",
+    "xmldom": "~0.1.19",
+    "xpath": "0.0.6"
+  }
+}

@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.30
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild
+ * @version 1.41
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -61,6 +61,7 @@
  * - added stub api for reset token and reset password
  * changes in 1.25
  * - add route for register marathon match challenge api.
+ * - added api for docusign callback
  * changes in 1.26:
  * - added route for handling design submission
  * changes in 1.27
@@ -69,7 +70,29 @@
  * - added route for Dosusign get recipient view url
  * changes in 1.29
  * - added route for activate user api
- * Changes in 1.30:
+ * changes in 1.30
+ * - added route for getting marathon match challenge register info api
+ * Changes in 1.31:
+ * - add route for challenge rss output api.
+ * changes in 1.32:
+ * - added route for Challenge Unregistration API
+ * Changes in 1.33:
+ * - add route for apply develop review opportunities api.
+ * changes in 1.34:
+ * - added route for client active challenge costs
+ * changes in 1.35:
+ * - added route for auth0 callback api
+ * Changes in 1.36
+ * - add route for get payment list api.
+ * Changes in 1.37:
+ * - add route for track statistics API.
+ * Changes in 1.38:
+ * - add route for upload member photo API.
+ * Changes in 1.39:
+ * - add routes for payment preference api.
+ * Changes in 1.40:
+ * - Add routes for new split challenges API.
+ * Changes in 1.41:
  * - add route for challenge analyze api.
  */
 
@@ -138,6 +161,15 @@ var testMethods = {
 exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
+        { path: "/:apiVersion/challenges/registrants/:challengeId", action: "getRegistrants" },
+        { path: "/:apiVersion/challenges/submissions/:challengeId", action: "getSubmissions" },
+        { path: "/:apiVersion/challenges/phases/:challengeId", action: "getPhases" },
+        { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
+        { path: "/:apiVersion/challenges/active", action: "getActiveChallenges" },
+        { path: "/:apiVersion/challenges/open", action: "getOpenChallenges" },
+        { path: "/:apiVersion/challenges/upcoming", action: "getUpcomingChallenges" },
+        { path: "/:apiVersion/challenges/past", action: "getPastChallenges" },
+        { path: "/:apiVersion/challenges/:challengeId", action: "getChallenge" },
         { path: "/:apiVersion/challenges", action: "searchSoftwareAndStudioChallenges" },
 
         { path: "/:apiVersion/develop/challenges/checkpoint/:challengeId", action: "getSoftwareCheckpoint" },
@@ -145,7 +177,7 @@ exports.routes = {
 
         { path: "/:apiVersion/develop/challengetypes", action: "softwareTypes" },
         { path: "/:apiVersion/develop/challenges/result/:challengeId", action: "getSoftwareChallengeResults" },
-        { path: "/:apiVersion/develop/challenges/:contestId", action: "getSoftwareChallenge" },
+        { path: "/:apiVersion/develop/challenges/:challengeId", action: "getSoftwareChallenge" },
         { path: "/:apiVersion/develop/statistics/tops/:contestType", action: "getTops" },
         { path: "/:apiVersion/develop/statistics/:handle/:challengeType", action: "getSoftwareRatingHistoryAndDistribution" },
         { path: "/:apiVersion/develop/challenges", action: "searchSoftwareChallenges" },
@@ -156,7 +188,7 @@ exports.routes = {
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
-        { path: "/:apiVersion/design/challenges/:contestId", action: "getStudioChallenge" },
+        { path: "/:apiVersion/design/challenges/:challengeId", action: "getStudioChallenge" },
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
@@ -181,6 +213,7 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
         { path: "/:apiVersion/data/marathon/statistics/tops", action: "getMarathonTops" },
@@ -195,6 +228,7 @@ exports.routes = {
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
 
+        { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
 
@@ -202,6 +236,7 @@ exports.routes = {
 
         { path: "/:apiVersion/reports/analyze", action: "getChallengeAnalyze" },
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+        { path: "/:apiVersion/reports/client/activeChallenges", action: "getClientActiveChallengeCosts" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 
         { path: "/:apiVersion/bugs/:jiraProjectId/:status", action: "bugs" },
@@ -210,27 +245,38 @@ exports.routes = {
 
         { path: "/:apiVersion/validation/sso", action: "ssoValidation" },
 
+
+        { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
+        { path: "/:apiVersion/payments", action: "getPaymentList" },
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
-        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
+
+        { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
     ].concat(testMethods.get),
     post: [
         // Stub API
-        { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
 
+        { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
+        { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
+        { path: "/:apiVersion/terms/docusignCallback", action: "docusignCallback" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
+        { path: "/:apiVersion/users/photo", action: "uploadMemberPhoto" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
+        { path: "/:apiVersion/challenges/:challengeId/unregister", action: "unregisterChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
-        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"}
+        { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
+        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" }
     ]
 };

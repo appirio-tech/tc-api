@@ -1,15 +1,9 @@
 {
   "handle": "heffan",
   "country": "United States",
-  "memberSince": "2001-05-09T01:04:42.000Z",
+  "memberSince": "2001-05-09T01:04:42.000+0000",
   "quote": "Acknowledge and move on.",
   "photoLink": "",
-  "isCopilot": {
-    "value": false,
-    "software": false,
-    "studio": false
-  },
-  "isPM": false,
   "ratingSummary": [
       {
           "name": "Algorithm",

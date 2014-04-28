@@ -24,6 +24,7 @@ exports.action = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute generateJwt#run", 'debug');
         var form = {
@@ -80,6 +81,7 @@ exports.refreshJwt = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
     run: function (api, connection, next) {
         api.log("Execute refreshJwt#run", 'debug');
         var form = {

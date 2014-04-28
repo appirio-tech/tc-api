@@ -1,0 +1,6 @@
+SELECT
+  p.path || i.file_name AS image_path
+FROM coder_image_xref cix
+INNER JOIN image i ON i.image_id = cix.image_id AND i.image_type_id = 1
+INNER JOIN path p ON p.path_id = i.path_id
+WHERE cix.coder_id = @user_id@

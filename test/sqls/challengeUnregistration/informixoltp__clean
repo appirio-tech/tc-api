@@ -1,0 +1,1 @@
+DELETE FROM coder WHERE coder_id = 400013;

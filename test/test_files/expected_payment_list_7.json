@@ -1,0 +1,76 @@
+{
+    "total": 7,
+    "pageIndex": 1,
+    "pageSize": 10,
+    "payments": [
+        {
+            "description": "contest 4 2nd place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-28",
+            "releaseDate": "2014-04-04",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 500
+        },
+        {
+            "description": "contest 3 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-28",
+            "releaseDate": "2014-03-30",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 200
+        },
+        {
+            "description": "contest 3 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-28",
+            "releaseDate": "2014-03-30",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 600
+        },
+        {
+            "description": "contest 2 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-18",
+            "releaseDate": "2014-03-20",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 150
+        },
+        {
+            "description": "contest 2 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-02-18",
+            "releaseDate": "2014-03-20",
+            "paidDate": "2014-04-08",
+            "status": "Paid",
+            "amount": 450
+        },
+        {
+            "description": "contest 1 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-03-20",
+            "releaseDate": "2014-04-19",
+            "paidDate": "",
+            "status": "Owed",
+            "amount": 300
+        },
+        {
+            "description": "contest 1 1st place",
+            "type": "Contest Payment",
+            "createDate": "2014-03-20",
+            "releaseDate": "2014-04-19",
+            "paidDate": "",
+            "status": "Owed",
+            "amount": 100
+        }
+    ],
+    "summary": {
+        "paid": 1900,
+        "owed": 800,
+        "enteredIntoPaymentSystem": 455.39,
+        "accruing": 275
+    }
+}

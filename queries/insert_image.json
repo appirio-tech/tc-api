@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_image",
+    "db"      : "informixoltp",
+    "sqlfile" : "insert_image"
+}
