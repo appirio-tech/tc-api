@@ -1,0 +1,33 @@
+SELECT
+  SKIP @firstRowIndex@
+  FIRST @pageSize@
+  r.round_id
+, ct.name AS full_name
+, r.name AS short_name
+, rs.start_time AS start_date
+, rs.end_time AS end_date
+, (( rs.end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS time_remaining
+, (select count(*) from round_registration where round_id = r.round_id) as registrants_count
+, (select count(*) from long_component_state cs, long_submission s where s.example = 0 and s.long_component_state_id = cs.long_component_state_id and cs.round_id = r.round_id) as submission_count
+
+FROM
+  round_segment rs
+, round r
+, contest ct
+WHERE rs.round_id = r.round_id
+AND ct.contest_id = r.contest_id
+AND rs.segment_id = 2
+AND r.round_type_id IN (13,15,19,22,24,25,27)
+AND CURRENT < rs.end_time
+AND rs.start_time > CURRENT
+
+AND r.round_id = DECODE(@round_id@, 0, r.round_id, @round_id@)
+AND LOWER(ct.name) LIKE (LOWER('%@full_name@%'))
+AND LOWER(r.name) LIKE (LOWER('%@short_name@%'))
+
+AND EXTEND(rs.end_time , year to day) <= '@end_time_end@'
+AND EXTEND(rs.end_time , year to day) >= '@end_time_start@'
+
+AND EXTEND(rs.start_time , year to day) <= '@start_time_end@'
+AND EXTEND(rs.start_time , year to day) >= '@start_time_start@'
+ORDER BY @sortColumn@ @sortOrder@, round_id desc

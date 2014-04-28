@@ -24,12 +24,12 @@ var ForbiddenError = require('../errors/ForbiddenError');
 /**
  * Represents a ListType enum
  */
-var ListType = { ACTIVE: "ACTIVE", PAST: "PAST" };
+var ListType = { ACTIVE: "ACTIVE", PAST: "PAST", UPCOMING: "UPCOMING" };
 
 /**
  * Represents a predefined list of valid list type.
  */
-var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.PAST];
+var ALLOWABLE_LIST_TYPE = [ListType.ACTIVE, ListType.PAST, ListType.UPCOMING];
 
 /**
  * Represents a predefined list of valid sort column.
@@ -230,6 +230,9 @@ exports.searchMarathonChallenges = {
                     break;
                 case ListType.PAST:
                     scriptName = "get_marathon_match_past_challenges";
+                    break;
+                case ListType.UPCOMING:
+                    scriptName = "get_marathon_match_upcoming_challenges";
                     break;
                 }
                 async.parallel({
