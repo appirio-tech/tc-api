@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
- * @version 1.23
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka
+ * @version 1.24
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -55,6 +55,9 @@
  * - add auth0 configuration.
  * Changes in 1.23:
  * - Add member photo properties.
+ * Changes in 1.24:
+ * - added designSubmission group of properties
+ * 
  */
 "use strict";
 
@@ -361,6 +364,12 @@ config.auth0 = {
     serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
     clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
     redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
+};
+
+
+config.designSubmission = {
+    sourcePrefix: 'source/',
+    submissionPrefix: 'submission/'
 };
 
 exports.config = config;
