@@ -1,0 +1,4 @@
+DELETE FROM client_project WHERE project_id = 2001;
+DELETE FROM client WHERE client_id = 2001;
+DELETE FROM project_audit WHERE project_id = 2001;
+DELETE FROM project WHERE project_id = 2001;

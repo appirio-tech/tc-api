@@ -1,0 +1,93 @@
+SELECT
+(SELECT count(user_id) FROM
+table(multiset(
+SELECT
+       (SELECT u.user_id
+        FROM jivemessage jm
+        , user u
+        WHERE jm.userid = u.user_id AND jm.threadid = latest_threads.threadid AND jm.modificationdate = latest_threads.modificationdate
+        AND  NOT EXISTS (SELECT value FROM resource r, resource_info ri WHERE r.project_id = p.project_id  AND r.resource_role_id in (11,12,13,14,15)
+                            AND r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1 AND value = u.user_id)
+        ) user_id
+  FROM table(multiset(
+        SELECT m.threadid,
+               max(m.modificationdate) modificationdate
+          FROM jivecategory c,
+               jiveforum f,
+               jivemessage m
+         WHERE c.categoryid = pi4.value
+           AND c.categoryid = f.categoryid
+           AND m.forumid = f.forumid
+      GROUP BY m.threadid
+      )) latest_threads
+))
+WHERE user_id IS NOT NULL ) number_of_unanswered_thread
+, p.project_id AS challenge_id
+FROM project p
+INNER JOIN project_info pi4 ON pi4.project_id = p.project_id AND pi4.project_info_type_id = 4
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id AND pcl.project_type_id != 3
+INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6
+INNER JOIN (
+    SELECT
+      project_id
+    , MAX(DECODE(place, 1, prize_amount, 0)) AS first_place_prize
+    , MAX(DECODE(place, 2, prize_amount, 0)) AS second_place_prize
+    FROM prize
+    WHERE prize_type_id = 15
+    GROUP BY project_id
+) pr ON pr.project_id = p.project_id
+INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+WHERE 1=1
+AND p.project_status_id = 1
+AND reg.phase_status_id IN (2, 3)
+AND NVL(reg.actual_start_time, reg.scheduled_start_time) BETWEEN TO_DATE('@open_registration_date_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@open_registration_date_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
+AND LOWER(pn.value) LIKE ('@challenge_name@')
+AND pr.first_place_prize >= @prize_lower@
+AND pr.first_place_prize <= @prize_upper@
+AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
+
+UNION ALL
+
+SELECT
+(SELECT count(user_id) FROM
+table(multiset(
+SELECT
+       (SELECT u.user_id FROM studio_jive:jivemessage jm, user u
+        WHERE jm.userid = u.user_id AND jm.threadid = latest_threads.threadid AND jm.modificationdate = latest_threads.modificationdate
+        AND  NOT EXISTS (SELECT value FROM resource r, resource_info ri WHERE r.project_id = p.project_id  AND r.resource_role_id in (11,12,13,14,15)
+                            AND r.resource_id = ri.resource_id AND ri.resource_info_type_id = 1 AND value = u.user_id)
+        ) user_id
+  FROM table(multiset(
+        SELECT m.threadid,
+               max(m.modificationdate) modificationdate
+          FROM studio_jive:jivemessage m
+         WHERE m.forumid = pi4.value
+      GROUP BY m.threadid
+      )) latest_threads
+))
+WHERE user_id IS NOT NULL ) number_of_unanswered_thread
+, p.project_id AS challenge_id
+FROM project p
+INNER JOIN project_info pi4 ON pi4.project_id = p.project_id AND pi4.project_info_type_id = 4
+INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id AND pcl.project_type_id = 3
+INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_type_id = 6
+INNER JOIN (
+    SELECT
+      project_id
+    , MAX(DECODE(place, 1, prize_amount, 0)) AS first_place_prize
+    , MAX(DECODE(place, 2, prize_amount, 0)) AS second_place_prize
+    FROM prize
+    WHERE prize_type_id = 15
+    GROUP BY project_id
+) pr ON pr.project_id = p.project_id
+INNER JOIN project_phase reg ON reg.project_id = p.project_id AND reg.phase_type_id = 1
+WHERE 1=1
+AND p.project_status_id = 1
+AND reg.phase_status_id IN (2, 3)
+AND NVL(reg.actual_start_time, reg.scheduled_start_time) BETWEEN TO_DATE('@open_registration_date_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@open_registration_date_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
+AND LOWER(pn.value) LIKE ('@challenge_name@')
+AND pr.first_place_prize >= @prize_lower@
+AND pr.first_place_prize <= @prize_upper@
+AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)

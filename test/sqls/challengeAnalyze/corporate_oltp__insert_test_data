@@ -1,0 +1,10 @@
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2001, 'Test Project 2001', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2002, 'Test Project 2002', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2003, 'Test Project 2003', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2004, 'Test Project 2004', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2005, 'Test Project 2005', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2006, 'Test Project 2006', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2007, 'Test Project 2007', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2008, 'Test Project 2008', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2009, 'Test Project 2009', 1, 132456, current);
+INSERT INTO tc_direct_project(project_id, name, project_status_id, user_id, create_date) VALUES(2010, 'Test Project 2010', 1, 132456, current);

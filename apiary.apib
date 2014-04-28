@@ -412,7 +412,18 @@ Report APIs
         }
 
 ## Challenge Analyze [/reports/analyze]
+        
+## Challenge Analyze [/reports/analyze?projectId={projectId}&openRegistrationDateFrom={openRegistrationDateFrom}&openRegistrationDateTo={openRegistrationDateTo}&challengeType={challengeType}&challengeName={challengeName}&prizeLower={prizeLower}&prizeUpper={prizeUpper}]
 ### Challenge Analyze [GET]
+
++ Parameters
+    + projectId (optional, string, `1245`) ... The project id.
+    + openRegistrationDateFrom (optional, string, `2014-04-01`) ... The open registration date from.
+    + openRegistrationDateTo (optional, string, `2014-04-05`) ... The open registration date to.
+    + challengeType (optional, string, `Wireframes`) ... The challenge type.
+    + challengeName (optional, string, `TC-API`) ... The challenge name.
+    + prizeLower (optional, number, `500`) ... The prize lower bound
+    + prizeUpper (optional, number, `1800`) ... The prize upper bound.
 
 + Response 200 (application/json)
 
@@ -425,11 +436,16 @@ Report APIs
                     "challengeType": "Assembly",
                     "client": "Topcoder",
                     "copilot": "iRabbit",
-                    "csm": "3",
+                    "csm": [
+                        "nlouie"
+                    ]
                     "architect": "none",
-                    "pm": "nlouie",
-                    "challengeStatus": "active",
-                    "currentPhase": "registration",
+                    "pm": [
+                        "nlouie",
+                        "Shannon"
+                    ]
+                    "challengeStatus": "Active",
+                    "currentPhase": "Registration",
                     "numberOfRegistrants": 15,
                     "numberOfUnregistered": 5,
                     "estimatedNumberOfSubmissions": 3,
@@ -437,12 +453,11 @@ Report APIs
                     "openRegistrationDate": "2014-04-01",
                     "forumPosts": "11/25",
                     "numberOfUnansweredThread": 3,
-                    "1stPlacePrize": "1600/50",
-                    "2ndPlacePrize": "750/25",
+                    "1stPlacePrize": "1600/1400.0",
+                    "2ndPlacePrize": "750/800.0",
                     "numberOfDaysLive": "13.5/0.5",
                     "rating": "3/5/10",
-                    "numberOfRepost": 0,
-                    "comments": "good resgirations"
+                    "numberOfRepost": 0
                 }
              ]
         }
@@ -452,15 +467,143 @@ Report APIs
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"openRegistrationDateFrom is not a valid date."
         }
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"openRegistrationDateTo is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"startDate should be earlier than endDate or at same date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeLower should be greater or equal to 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeLower should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeLower should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeLower should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeUpper should be greater or equal to 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeUpper should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeUpper should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"prizeUpper should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"projectId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"projectId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"projectId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"projectId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The challengeType parameter is not a correct project category value."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorized information needed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You don't have access to this api."
         }
 
 + Response 500 (application/json)
@@ -2325,6 +2468,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+        
 ## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Software Challenges [GET]
 

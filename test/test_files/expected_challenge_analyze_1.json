@@ -1,0 +1,294 @@
+{
+    "results": [
+        {
+            "challengeName": "Test Challenge 2001",
+            "projectName": "Test Project 2001",
+            "challengeType": "Web Design",
+            "client": "Test Client",
+            "copilot": "lightspeed",
+            "architect": "reassembler",
+            "pm": [
+                "heffan",
+                "Partha"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 2,
+            "numberOfUnregistered": 1,
+            "estimatedNumberOfSubmissions": 0.87,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "Hung",
+                "lightspeed"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/1",
+            "numberOfRepost": 3,
+            "1stPlacePrize": "1564/1533.5",
+            "2ndPlacePrize": "1312/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2002",
+            "projectName": "Test Project 2002",
+            "challengeType": "Conceptualization",
+            "client": "",
+            "copilot": "annej9ny",
+            "architect": "ksmith",
+            "pm": [
+                "user",
+                "twight"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 5,
+            "numberOfUnregistered": 5,
+            "estimatedNumberOfSubmissions": 3.87,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "Partha",
+                "reassembler"
+            ],
+            "forumPosts": 2,
+            "numberOfUnansweredThread": 2,
+            "rating": "3/0/2",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "2301/1533.5",
+            "2ndPlacePrize": "267/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2003",
+            "projectName": "Test Project 2003",
+            "challengeType": "Assembly Competition",
+            "client": "",
+            "copilot": "ksmith",
+            "architect": "super",
+            "pm": [
+                "Hung",
+                "sandking"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 7,
+            "numberOfUnregistered": 4,
+            "estimatedNumberOfSubmissions": 3.48,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "twight",
+                "annej9ny"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/1/5",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "456/1533.5",
+            "2ndPlacePrize": "609/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2004",
+            "projectName": "Test Project 2004",
+            "challengeType": "Application Front-End Design",
+            "client": "",
+            "copilot": "chelseasimon",
+            "architect": "Hung",
+            "pm": [
+                "Partha",
+                "lightspeed"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 7,
+            "numberOfUnregistered": 1,
+            "estimatedNumberOfSubmissions": 2.66,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "sandking",
+                "plinehan"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/1/5",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "1583/1533.5",
+            "2ndPlacePrize": "742/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2005",
+            "projectName": "Test Project 2005",
+            "challengeType": "Web Design",
+            "client": "",
+            "copilot": "user",
+            "architect": "heffan",
+            "pm": [
+                "twight",
+                "reassembler"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 6,
+            "numberOfUnregistered": 4,
+            "estimatedNumberOfSubmissions": 3.27,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "lightspeed",
+                "chelseasimon"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/5",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "1720/1533.5",
+            "2ndPlacePrize": "960/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2006",
+            "projectName": "Test Project 2006",
+            "challengeType": "Web Design",
+            "client": "",
+            "copilot": "plinehan",
+            "architect": "chelseasimon",
+            "pm": [
+                "sandking",
+                "annej9ny"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 3,
+            "numberOfUnregistered": 7,
+            "estimatedNumberOfSubmissions": 1.11,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "reassembler",
+                "wyzmo"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/2",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "263/1533.5",
+            "2ndPlacePrize": "996/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2007",
+            "projectName": "Test Project 2007",
+            "challengeType": "Test Suites",
+            "client": "",
+            "copilot": "sandking",
+            "architect": "super",
+            "pm": [
+                "lightspeed",
+                "plinehan"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 4,
+            "numberOfUnregistered": 6,
+            "estimatedNumberOfSubmissions": 1.95,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "annej9ny",
+                "cartajs"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/3",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "1524/1533.5",
+            "2ndPlacePrize": "47/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2008",
+            "projectName": "Test Project 2008",
+            "challengeType": "Conceptualization",
+            "client": "",
+            "copilot": "ksmith",
+            "architect": "heffan",
+            "pm": [
+                "reassembler",
+                "chelseasimon"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 2,
+            "numberOfUnregistered": 2,
+            "estimatedNumberOfSubmissions": 0.34,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "plinehan",
+                "ksmith"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/1",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "1560/1533.5",
+            "2ndPlacePrize": "85/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2009",
+            "projectName": "Test Project 2009",
+            "challengeType": "Design",
+            "client": "",
+            "copilot": "Yoshi",
+            "architect": "lightspeed",
+            "pm": [
+                "annej9ny",
+                "wyzmo"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 5,
+            "numberOfUnregistered": 2,
+            "estimatedNumberOfSubmissions": 3.95,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "chelseasimon",
+                "Yoshi"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/4",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "2754/1533.5",
+            "2ndPlacePrize": "653/697.8"
+        },
+        {
+            "challengeName": "Test Challenge 2010",
+            "projectName": "Test Project 2010",
+            "challengeType": "Application Front-End Design",
+            "client": "",
+            "copilot": "wyzmo",
+            "architect": "ksmith",
+            "pm": [
+                "plinehan",
+                "cartajs"
+            ],
+            "challengeStatus": "Active",
+            "currentPhase": "Registration",
+            "numberOfRegistrants": 4,
+            "numberOfUnregistered": 1,
+            "estimatedNumberOfSubmissions": 1.77,
+            "currentNumberOfSubmissions": 0,
+            "openRegistrationDate": "2014-04-19",
+            "csm": [
+                "wyzmo",
+                "super"
+            ],
+            "forumPosts": 0,
+            "numberOfUnansweredThread": 0,
+            "rating": "1/0/3",
+            "numberOfRepost": 0,
+            "1stPlacePrize": "1610/1533.5",
+            "2ndPlacePrize": "1307/697.8"
+        }
+    ]
+}

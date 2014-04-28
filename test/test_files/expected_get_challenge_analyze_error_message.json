@@ -1,0 +1,26 @@
+{
+    "invalidOpenRegistrationDateFrom": "openRegistrationDateFrom is not a valid date.",
+    "invalidOpenRegistrationDateTo": "openRegistrationDateTo is not a valid date.",
+    "wrongSequence": "startDate should be earlier than endDate or at same date.",
+    "prizeLower": {
+        "negative": "prizeLower should be greater or equal to 0",
+        "notNumber": "prizeLower should be number.",
+        "tooBig": "prizeLower should be less or equal to 2147483647.",
+        "notInteger": "prizeLower should be Integer."
+    },
+    "prizeUpper": {
+        "negative": "prizeUpper should be greater or equal to 0",
+        "notNumber": "prizeUpper should be number.",
+        "tooBig": "prizeUpper should be less or equal to 2147483647.",
+        "notInteger": "prizeUpper should be Integer."
+    },
+    "projectId": {
+        "notPositive": "projectId should be positive.",
+        "notNumber": "projectId should be number.",
+        "tooBig": "projectId should be less or equal to 2147483647.",
+        "notInteger": "projectId should be Integer."
+    },
+    "unauthorized": "Authorized information needed.",
+    "forbidden": "You don't have access to this api.",
+    "invalidChallengeType": "The challengeType parameter is not a correct project category value."
+}

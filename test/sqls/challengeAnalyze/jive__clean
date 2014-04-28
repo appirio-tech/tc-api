@@ -1,0 +1,4 @@
+DELETE FROM jivemessage WHERE forumid = 2002;
+DELETE FROM jivethread WHERE forumid = 2002;
+DELETE FROM jiveforum WHERE forumid = 2002;
+DELETE FROM jivecategory WHERE categoryid = 2002;

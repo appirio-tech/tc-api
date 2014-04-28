@@ -1,0 +1,5 @@
+{
+    "name"		:	"get_challenge_analyze_repost_number",
+    "db"		:	"tcs_catalog",
+    "sqlfile"	:	"get_challenge_analyze_repost_number"
+}

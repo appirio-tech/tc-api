@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
+ * @version 1.5
  * @author Ghost_141, Sky_, muzehyun, isv
  * Changes in 1.1
  * - add invoice history (challenge costs) api.
@@ -11,6 +11,8 @@
  * - added getClientActiveChallengeCosts function
  * Changes in 1.4:
  * - Implement the track statistics API.
+ * Changes in 1.5:
+ * - Implement the challenge analyze api.
  */
 'use strict';
 
@@ -243,6 +245,185 @@ var getChallengeCosts = function (api, connection, next) {
             helper.handleError(api, connection, err);
         } else {
             connection.response = challengeCosts;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * Get Challenge Analyze.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.3
+ */
+var getChallengeAnalyze = function (api, connection, next) {
+    var helper = api.helper,
+        dbConnectionMap = connection.dbConnectionMap,
+        result,
+        sqlParams,
+        openRegistrationDateFrom = connection.params.openRegistrationDateFrom || MIN_DATE,
+        openRegistrationDateTo = connection.params.openRegistrationDateTo || MAX_DATE,
+        challengeType = (connection.params.challengeType || '').toLowerCase(),
+        challengeName = (connection.params.challengeName || '%').toLowerCase(),
+        prizeLower = Number(connection.params.prizeLower || 0),
+        prizeUpper = Number(connection.params.prizeUpper || helper.MAX_INT),
+        projectId = Number(connection.params.projectId || 0),
+        exeQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
+        };
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'You don\'t have access to this api.'));
+        },
+        function (cb) {
+            var error = null;
+            if (!_.isUndefined(connection.params.openRegistrationDateFrom)) {
+                error = error || helper.validateDate(openRegistrationDateFrom, 'openRegistrationDateFrom', DATE_FORMAT);
+            }
+
+            if (!_.isUndefined(connection.params.openRegistrationDateTo)) {
+                error = error || helper.validateDate(openRegistrationDateTo, 'openRegistrationDateTo', DATE_FORMAT);
+            }
+
+            if (!_.isUndefined(connection.params.openRegistrationDateFrom) && !_.isUndefined(connection.params.openRegistrationDateTo)) {
+                error = error || helper.checkDates(openRegistrationDateFrom, openRegistrationDateTo);
+            }
+
+            if (!_.isUndefined(connection.params.prizeLower)) {
+                error = error || helper.checkNonNegativeNumber(prizeLower, 'prizeLower') ||
+                    helper.checkMaxInt(prizeLower, 'prizeLower');
+            }
+
+            if (!_.isUndefined(connection.params.prizeUpper)) {
+                error = error || helper.checkNonNegativeNumber(prizeUpper, 'prizeUpper') ||
+                    helper.checkMaxInt(prizeUpper, 'prizeUpper');
+            }
+
+            if (!_.isUndefined(connection.params.projectId)) {
+                error = error || helper.checkPositiveInteger(projectId, 'projectId') ||
+                    helper.checkMaxInt(projectId, 'projectId');
+            }
+
+            if (!_.isUndefined(connection.params.challengeName)) {
+                // initialize the challenge name for sql parameters.
+                challengeName = '%' + challengeName + '%';
+            }
+            cb(error);
+        },
+        function (cb) {
+            if (!_.isUndefined(connection.params.challengeType)) {
+                helper.isChallengeTypeValid(challengeType, dbConnectionMap, helper.both, cb);
+            } else {
+                cb();
+            }
+        },
+        function (cb) {
+            sqlParams = {
+                open_registration_date_from: openRegistrationDateFrom,
+                open_registration_date_to: openRegistrationDateTo,
+                challenge_type: challengeType,
+                challenge_name: challengeName,
+                prize_lower: prizeLower,
+                prize_upper: prizeUpper,
+                project_id: projectId
+            };
+
+            async.parallel({
+                basic: exeQuery('get_challenge_analyze_basic'),
+                pm: function (cbx) {
+                    api.dataAccess.executeQuery('get_managers_for_challenge_analyze',
+                        _.chain(sqlParams).clone().extend({ metadata_key: 1 }).value(), dbConnectionMap, cbx);
+                },
+                csm: function (cbx) {
+                    api.dataAccess.executeQuery('get_managers_for_challenge_analyze',
+                        _.chain(sqlParams).clone().extend({ metadata_key: 14 }).value(), dbConnectionMap, cbx);
+                },
+                repost: exeQuery('get_challenge_analyze_repost_number'),
+                unansweredThreads: exeQuery('get_challenge_analyze_unanswered_threads')
+            }, cb);
+        },
+        function (results, cb) {
+            var basic = results.basic,
+                repost = results.repost,
+                pmGroup = _.groupBy(results.pm, function (row) { return row.challenge_id; }),
+                csmGroup = _.groupBy(results.csm, function (row) { return row.challenge_id; }),
+                forum = results.unansweredThreads,
+                averageDaysLive = 0.0,
+                averageFirstPrize = 0.0,
+                averageSecondPrize = 0.0;
+
+            result = _.map(basic, function (row) {
+                var flag = true,
+                    repostCount = 0,
+                    source = row.challenge_id,
+                    match,
+                    findTarget = function (item) {
+                        return item.source === source;
+                    };
+                // Manually count the repost number.
+                while (flag) {
+                    match = _.find(repost, findTarget);
+                    if (!_.isUndefined(match)) {
+                        repostCount += 1;
+                        source = match.target;
+                    } else {
+                        flag = false;
+                    }
+                }
+                return {
+                    challengeName: row.challenge_name,
+                    projectName: row.project_name.trim(),
+                    challengeType: row.challenge_type,
+                    client: row.client.trim(),
+                    copilot: row.copilot,
+                    architect: row.architect,
+                    pm: _.map(pmGroup[row.challenge_id], function (item) { return item.handle; }),
+                    challengeStatus: row.challenge_status,
+                    currentPhase: row.current_phase,
+                    numberOfRegistrants: row.number_of_registrants,
+                    numberOfUnregistered: row.number_of_unregistered,
+                    estimatedNumberOfSubmissions: row.estimated_number_of_submissions,
+                    currentNumberOfSubmissions: row.current_number_of_submissions,
+                    openRegistrationDate: row.open_registration_date,
+                    csm: _.map(csmGroup[row.challenge_id], function (item) { return item.handle; }),
+                    forumPosts: row.forum_posts,
+                    numberOfUnansweredThread: _.find(forum, function (item) { return item.challenge_id === row.challenge_id; }).number_of_unanswered_thread,
+                    numberOfDaysLive: Number((moment().diff(moment(row.start_date), 'hours') / 24).toFixed(1)),
+                    rating: row.rating.trim(),
+                    numberOfRepost: repostCount,
+                    '1stPlacePrize': Number(row.first_place_prize),
+                    '2ndPlacePrize': Number(row.second_place_prize)
+                };
+            });
+
+            // Sum the numberOfDaysLive, firstPlacePrize, secondPlacePrize manually
+            result.forEach(function (item) {
+                averageDaysLive += item.numberOfDaysLive;
+                averageFirstPrize += item['1stPlacePrize'];
+                averageSecondPrize += item['2ndPlacePrize'];
+            });
+            // Get the average value for these fields.
+            averageDaysLive = Number((averageDaysLive / result.length).toFixed(1));
+            averageFirstPrize = Number((averageFirstPrize / result.length).toFixed(1));
+            averageSecondPrize = Number((averageSecondPrize / result.length).toFixed(1));
+            // Add the average value.
+            result.forEach(function (item) {
+                item.numberOfDaysLive += '/' + averageDaysLive;
+                item['1stPlacePrize'] += '/' + averageFirstPrize;
+                item['2ndPlacePrize'] += '/' + averageSecondPrize;
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {
+                results: result
+            };
         }
         next(connection, true);
     });
@@ -577,6 +758,33 @@ exports.getTrackStatistics = {
         if (connection.dbConnectionMap) {
             api.log("Execute getTrackStatistics#run", 'debug');
             getTrackStatistics(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Challenge Analyze API.
+ * @since 1.3
+ */
+exports.getChallengeAnalyze = {
+    name: 'getChallengeAnalyze',
+    description: 'getChallengeAnalyze',
+    inputs: {
+        required: [],
+        optional: ['projectId', 'openRegistrationDateFrom', 'openRegistrationDateTo', 'challengeType', 'challengeName',
+            'prizeLower', 'prizeUpper']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ["tcs_catalog"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getChallengeAnalyze#run", 'debug');
+            getChallengeAnalyze(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
