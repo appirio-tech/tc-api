@@ -20,4 +20,3 @@ AND EXTEND(rs.end_time , year to day) >= '@end_time_start@'
 
 AND EXTEND(rs.start_time , year to day) <= '@start_time_end@'
 AND EXTEND(rs.start_time , year to day) >= '@start_time_start@'
-ORDER BY @sortColumn@ @sortOrder@, round_id desc
