@@ -2,4 +2,4 @@ SELECT
       1 as exists
 FROM tcs_dw:client_project_dim c
 WHERE c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
-AND c.cmc_account_id = DECODE('@cmc_account_id@', '', c.cmc_account_id, '@cmc_account_id@')
+AND nvl((c.cmc_account_id), '') = nvl(DECODE('@cmc_account_id@', '', c.cmc_account_id, '@cmc_account_id@'), '')
