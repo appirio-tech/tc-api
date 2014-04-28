@@ -2630,7 +2630,7 @@ exports.submitForDesignChallenge = {
 
 var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, isRelated = false, registrants;
+        caller = connection.caller, registrants;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2652,12 +2652,6 @@ var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next)
                 cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
                 return;
             }
-
-            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
-            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
-                isRelated = true;
-            }
-
 
             api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
@@ -2728,7 +2722,7 @@ exports.getRegistrants = {
 
 var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, isRelated = false, submissions;
+        caller = connection.caller, submissions;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2749,11 +2743,6 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
             if (result[0].is_private && !result[0].has_access) {
                 cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
                 return;
-            }
-
-            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
-            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
-                isRelated = true;
             }
 
             var execQuery = function (name) {
@@ -2861,7 +2850,7 @@ exports.getSubmissions = {
 
 var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, isRelated = false, result;
+        caller = connection.caller, result;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2884,10 +2873,6 @@ var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
                 return;
             }
 
-            // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
-            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
-                isRelated = true;
-            }
             var execQuery = function (name) {
                 return function (cbx) {
                     api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
