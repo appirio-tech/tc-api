@@ -6,3 +6,4 @@ JOIN coder AS c ON c.coder_id = up.user_id
 WHERE p.show_in_profile_ind = 1
 AND handle_lower = LOWER('@handle@')
 AND c.status = 'A'
+AND p.payment_status_id not in (65,69)
