@@ -61,18 +61,18 @@ LEFT JOIN project_info pidr ON pidr.project_id = p.project_id AND pidr.project_i
 WHERE
 p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (@track@)
+and pp2.actual_end_time > '2012-01-01 00:00:00'
 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 -- Filter out the challenge that user is not belong to.
-AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
-         OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                   WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
-                         AND ce.contest_id = p.project_id))
 AND pp1.phase_status_id = 3
 AND pn.value LIKE('@challenge_name@')
 -- start of parameters
-and pp2.actual_end_time > '2012-01-01 00:00:00'
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
+AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
+         OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
+                   WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
+                         AND ce.contest_id = p.project_id))
 ORDER BY @sort_column@ @sort_order@

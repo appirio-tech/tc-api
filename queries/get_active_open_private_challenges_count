@@ -4,14 +4,16 @@ FROM project p
 , project_phase pp2 --submission phase
 , project_info pn
 , project_category_lu pcl
-WHERE 1=1
-AND p.project_id = pn.project_id
+WHERE p.project_id = pn.project_id
 AND pn.project_info_type_id = 6
 AND pp1.project_id = p.project_id
 AND pp1.phase_type_id = 1  --registration phase
 AND pp2.project_id = p.project_id
 AND pp2.phase_type_id = 2  --submission phase
 AND p.project_category_id = pcl.project_category_id
+AND p.project_status_id = 1
+AND pcl.project_type_id IN (@track@)
+AND pp1.phase_status_id IN (@registration_phase_status@)
 -- Filter the private challenge
 AND p.project_id IN (SELECT
                       contest_id
@@ -21,9 +23,7 @@ AND p.project_id IN (SELECT
                     AND gce.group_id = @community_id@)
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
 -- start of parameters
-AND p.project_status_id = 1
-AND pcl.project_type_id IN (@track@)
-AND pp1.phase_status_id IN (@registration_phase_status@)
+
 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
