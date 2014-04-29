@@ -85,6 +85,13 @@ function resetPassword(api, connection, next) {
             }
             userId = result[0].user_id;
             oldPassword = helper.decodePassword(result[0].old_password, helper.PASSWORD_HASH_KEY);
+
+            // If the user has empty strings as his password. Return an error.
+            if (oldPassword === null || oldPassword === undefined || oldPassword.length === 0) {
+                cb(new BadRequestError('We can\'t retrieve your old password. please contact support@topcoder.com'));
+                return;
+            }
+
             sqlParams.handle = result[0].handle;
             helper.getCachedValue(tokenKey, cb);
         },
