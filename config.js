@@ -160,14 +160,17 @@ fs.mkdir("./log", function (err) {
     }
 });
 
-config.logger.transports.push(function (api, winston) {
-    return new (winston.transports.File)({
-        filename : config.general.paths.log + "/" + api.pids.title + '.log',
-        level : "debug",
-        json : false,
-        timestamp : true
+// disable file logging by default b/c the console logging is captured in forever log
+if (process.env.ENABLE_FILE_LOG === "true") {
+    config.logger.transports.push(function (api, winston) {
+        return new (winston.transports.File)({
+            filename : config.general.paths.log + "/" + api.pids.title + '.log',
+            level : "debug",
+            json : false,
+            timestamp : true
+        });
     });
-});
+}
 
 ///////////
 // Stats //
