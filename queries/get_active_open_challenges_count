@@ -4,6 +4,7 @@ FROM project p
 , project_phase pp2 --submission phase
 , project_info pn
 , project_category_lu pcl
+, project_info pi1
 WHERE 1=1
 AND p.project_id = pn.project_id
 AND pn.project_info_type_id = 6
@@ -23,6 +24,8 @@ AND p.project_status_id = 1
 AND pcl.project_type_id IN (@track@)
 AND pp1.phase_status_id IN (@registration_phase_status@)
 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND pi1.project_info_type_id = 1 -- external reference id
+AND pi1.project_id = p.project_id
 
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
 AND pn.value LIKE ('@challenge_name@')
