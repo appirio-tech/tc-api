@@ -57,7 +57,7 @@ var resolveUserByHandleOrEmail = function (handle, email, api, dbConnectionMap, 
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
 function resetPassword(api, connection, next) {
-    var result, helper = api.helper, sqlParams, userId, ldapEntryParams, oldPassword,
+    var result, helper = api.helper, sqlParams, userId, ldapEntryParams,
         dbConnectionMap = connection.dbConnectionMap,
         token = connection.params.token,
         handle = decodeURI(connection.params.handle).toLowerCase(),
@@ -84,7 +84,6 @@ function resetPassword(api, connection, next) {
                 return;
             }
             userId = result[0].user_id;
-            oldPassword = helper.decodePassword(result[0].old_password, helper.PASSWORD_HASH_KEY);
             sqlParams.handle = result[0].handle;
             helper.getCachedValue(tokenKey, cb);
         },
@@ -110,10 +109,9 @@ function resetPassword(api, connection, next) {
             ldapEntryParams = {
                 userId: userId,
                 handle: sqlParams.handle,
-                oldPassword: oldPassword,
                 newPassword: newPassword
             };
-            api.ldapHelper.updateMemberPasswordLDAPEntry(ldapEntryParams, cb);
+            api.ldapHelper.resetMemberPasswordLDAPEntry(ldapEntryParams, cb);
         },
         function (cb) {
             // Delete the token from cache system.
