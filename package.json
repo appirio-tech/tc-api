@@ -30,7 +30,7 @@
     "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#98d0db07348a0950924b9ec967bf83769346b700",
     "asn1": "*",
     "crypto": ">= 0.0.3",
-    "jsonwebtoken": "*",
+    "jsonwebtoken": "0.2.0",
     "request": "~2.33.0",
     "soap": "~0.3.2",
     "moment-timezone": "0.0.3",
