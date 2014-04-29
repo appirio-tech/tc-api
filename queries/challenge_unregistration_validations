@@ -2,7 +2,9 @@ select distinct
 	p.project_id,
 	p.project_category_id as category_id,
 	(pp_reg_open.project_id IS NOT NULL) as reg_open,
-    (ri.value IS NOT NULL) as user_has_Submitter_resource_role,
+    (select ri.value is not null from resource r, resource_info ri 
+        where r.project_id = p.project_id and r.resource_role_id = 1 
+        and r.resource_id = ri.resource_id and ri.resource_info_type_Id = 1 and ri.value = @userId@) as user_has_Submitter_resource_role,
     CASE WHEN (p.project_studio_spec_id is NULL) THEN 0 ELSE 1 END as is_studio
 from project p
 -- Check if project's registration is open 
@@ -11,9 +13,5 @@ left join
 	on p.project_id = pp_reg_open.project_id 
 	and pp_reg_open.phase_type_id = 1 
 	and pp_reg_open.phase_status_id = 2
--- Check if user has Submitter resource role
-left join resource rs left join resource_info ri on rs.resource_id = ri.resource_id and ri.resource_info_type_id = 1 and ri.value = @userId@
-    on rs.project_id = p.project_id
-    and rs.resource_role_id = 1
 where p.project_id = @challengeId@;
 
