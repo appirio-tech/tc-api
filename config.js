@@ -161,7 +161,7 @@ fs.mkdir("./log", function (err) {
 });
 
 // disable file logging by default b/c the console logging is captured in forever log
-if (process.env.ENABLE_FILE_LOG === "true") {
+if (!process.env.DISABLE_FILE_LOG === "true") {
     config.logger.transports.push(function (api, winston) {
         return new (winston.transports.File)({
             filename : config.general.paths.log + "/" + api.pids.title + '.log',
