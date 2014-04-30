@@ -8,6 +8,9 @@
  * - implemented generateResetToken function
  * Changes in 1.2:
  * - Implement the Reset Password API
+ * Changes in 1.3:
+ * - Update reset password api to use resetMemberPasswordLDAPEntry in ldapHelper.js
+ * - Update generate token to allow social login user update their password.
  */
 "use strict";
 
@@ -247,21 +250,15 @@ exports.generateResetToken = {
                         resolveUserByHandleOrEmail(handle, email, api, connection.dbConnectionMap, cb);
                     }
                 }, function (result, cb) {
-                    if (result.social_login_provider_name !== '') {
-                        // For social login accounts return the provider name
-                        cb(null, null, result.social_login_provider_name);
-                    } else {
-                        // Generate reset password token for user
-                        generateResetToken(result.handle, result.email_address, api, cb);
-                    }
+                    // Generate reset password token for user
+                    generateResetToken(result.handle, result.email_address, api, cb);
+
                 }
-            ], function (err, newToken, socialProviderName) {
+            ], function (err, newToken) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
                 } else if (newToken) {
                     connection.response = {successful: true};
-                } else if (socialProviderName) {
-                    connection.response = {socialProvider: socialProviderName};
                 }
                 next(connection, true);
             });
