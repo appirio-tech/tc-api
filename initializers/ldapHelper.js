@@ -2,13 +2,15 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.2
+ * Version: 1.3
  * Author: TCSASSEMBLER, muzehyun, Ghost_141
  * changes in 1.1
  * - add retrieveMemberProfileLDAPEntry
  * - fix bugs (returing too early without any result)
  * Changes in 1.2:
  * - updateMemberPasswordLDAPEntry for update member password.
+ * Changes in 1.3:
+ * - add resetMemberPasswordLDAPEntry for reset member password.
  */
 "use strict";
 
@@ -167,6 +169,35 @@ var passwordModify = function (api, client, params, callback) {
     writer.endSequence();
 
     client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err, result) {
+        if (err) {
+            client.unbind();
+            callback('cannot modify password for user', translateLdapError(err));
+        } else {
+            api.log('Successfully modified password', 'info');
+            callback(null, 'modified password');
+        }
+    });
+};
+
+
+/**
+ * Function used to reset the password in order to create a hashed version of it
+ *
+ * @param {Object} api - object used to access infrastructure
+ * @param {Object} client - an object of current client of ldap server
+ * @param {Object} params - the parameters
+ * @param {Function} callback - a async callback function with prototype like callback(err, results)
+ */
+var resetPassword = function (api, client, params, callback) {
+    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
+        np = params.newPassword || params.password,
+        writer = new Ber.Writer();
+    writer.startSequence();
+    writer.writeString(dn, LDAP_TAG_EXOP_X_MODIFY_PASSWD_ID);
+    writer.writeString(np, LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW);
+    writer.endSequence();
+
+    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err) {
         if (err) {
             client.unbind();
             callback('cannot modify password for user', translateLdapError(err));
@@ -466,6 +497,55 @@ exports.ldapHelper = function (api, next) {
                     } else {
                         client.unbind();
                         api.log('Leave updateMemberPasswordLDAPEntry', 'debug');
+                        next();
+                    }
+                });
+            } catch (err) {
+                console.log('CAUGHT: ' + err);
+                next(error, null);
+            }
+        },
+
+        /**
+         * Main function of resetMemberPasswordLDAPEntry
+         *
+         * @param {Object} params require fields: userId, handle, newPassword, oldPassword
+         * @param {Function} next - callback function
+         * @since 1.3
+         */
+        resetMemberPasswordLDAPEntry: function (params, next) {
+            api.log('Enter resetMemberPasswordLDAPEntry', 'debug');
+
+            var client, error, index, requiredParams = ['userId', 'handle', 'newPassword'];
+
+            for (index = 0; index < requiredParams.length; index += 1) {
+                error = api.helper.checkDefined(params[requiredParams[index]], requiredParams[index]);
+                if (error) {
+                    api.log('resetMemberPasswordLDAPEntry: error occurred: ' + error + " " + (error.stack || ''), "error");
+                    next(error, null);
+                    return;
+                }
+            }
+            try {
+                async.series([
+                    function (callback) {
+                        client  = createClient();
+                        callback(null, 'create client');
+                    },
+                    function (callback) {
+                        bindClient(api, client, callback);
+                    },
+                    function (callback) {
+                        resetPassword(api, client, params, callback);
+                    }
+                ], function (err, result) {
+                    if (err) {
+                        error = result.pop();
+                        api.log('resetMemberPasswordLDAPEntry: error occurred: ' + err + " " + (err.stack || ''), "error");
+                        next(error, null);
+                    } else {
+                        client.unbind();
+                        api.log('Leave resetMemberPasswordLDAPEntry', 'debug');
                         next();
                     }
                 });
