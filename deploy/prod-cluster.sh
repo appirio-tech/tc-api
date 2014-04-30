@@ -76,6 +76,8 @@ export SUBMISSION_DIR=/nfs_shares/tcssubmissions
 export THURGOOD_API_URL="https://thurgood-production.herokuapp.com/api/1/jobs"
 export THURGOOD_API_KEY="52bc413f5e4f3df4c700014a"
 
+export ENABLE_FILE_LOG=true
+
 
 
 export ACTIONHERO_CONFIG=./config.js
