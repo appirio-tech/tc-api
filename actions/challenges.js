@@ -858,7 +858,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             if (isStudio) {
                 async.parallel({
                     details: execQuery('challenge_details'),
-                    checkpoints: execQuery("get_studio_challenge_detail_checkpoints"),
                     winners: execQuery("get_studio_challenge_detail_winners"),
                     platforms: execQuery('challenge_platforms'),
                     documents: execQuery('challenge_documents')
@@ -913,18 +912,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                             submissionTime: s.submission_time,
                             points: s.points,
                             rank: s.rank
-                        };
-                    });
-                },
-                mapCheckPoints = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
-                    }
-                    return _.map(results, function (s) {
-                        return {
-                            submissionId: s.submission_id,
-                            submitter: s.handle,
-                            submissionTime: s.create_date
                         };
                     });
                 },
@@ -997,7 +984,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 directUrl : helper.getDirectProjectLink(data.challenge_id),
                 technology: data.technology.split(', '),
                 prize: mapPrize(data),
-                checkpoints: mapCheckPoints(results.checkpoints),
                 winners: mapWinners(results.winners)
             });
 
@@ -1024,7 +1010,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 if (data.is_reliability_bonus_eligible !== 'true') {
                     delete challenge.reliabilityBonus;
                 }
-                delete challenge.checkpoints;
                 delete challenge.winners;
                 delete challenge.introduction;
                 delete challenge.round1Introduction;
@@ -1043,10 +1028,20 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 if (isStudio) {
                     async.parallel({
                         registrants: execQuery('challenge_registrants'),
-                        submissions: execQuery("get_studio_challenge_detail_submissions"),
+                        submissions: function (cbx) {
+                            api.dataAccess.executeQuery('get_studio_challenge_detail_submissions',
+                                _.chain(sqlParams).clone().extend({ submission_type: helper.SUBMISSION_TYPE.challenge.id }).value(),
+                                dbConnectionMap, cbx);
+                        },
+                        checkpoints: function (cbx) {
+                            api.dataAccess.executeQuery('get_studio_challenge_detail_submissions',
+                                _.chain(sqlParams).clone().extend({ submission_type: helper.SUBMISSION_TYPE.checkpoint.id }).value(),
+                                dbConnectionMap, cbx);
+                        },
                         phases: execQuery('challenge_phases')
                     }, cb);
                 } else {
+                    sqlParams.submission_type = [helper.SUBMISSION_TYPE.challenge.id, helper.SUBMISSION_TYPE.checkpoint.id];
                     async.parallel({
                         registrants: execQuery('challenge_registrants'),
                         submissions: execQuery('challenge_submissions'),
@@ -1107,6 +1102,18 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                             };
                         });
                     },
+                    mapCheckPoints = function (results) {
+                        if (_.isUndefined(results)) {
+                            return [];
+                        }
+                        return _.map(results, function (s) {
+                            return {
+                                submissionId: s.submission_id,
+                                submitter: s.handle,
+                                submissionTime: s.create_date
+                            };
+                        });
+                    },
                     mapRegistrants = function (results) {
                         if (!_.isDefined(results)) {
                             return [];
@@ -1130,6 +1137,11 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     submissions: mapSubmissions(results),
                     phases: mapPhases(results.phases)
                 });
+                if (isStudio) {
+                    challenge = extend(challenge, {
+                        checkpoints: mapCheckPoints(results.checkpoints)
+                    });
+                }
                 challenge.numberOfRegistrants = results.registrants.length;
                 challenge.numberOfSubmissions = results.submissions.length;
             }
@@ -1661,8 +1673,8 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 restrictions: execQuery("get_challenge_restrictions")
             }, cb);
 
-        }, function (res, cb) { 
-            var infoRow = res.info[0]; 
+        }, function (res, cb) {
+            var infoRow = res.info[0];
             if (!_.isDefined(infoRow)) {
                 cb(new BadRequestError('No Result Found'));
                 return;
@@ -2739,7 +2751,8 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
             sqlParams = {
                 challengeId: connection.params.challengeId,
                 project_type_id: challengeType.category,
-                user_id: caller.userId || 0
+                user_id: caller.userId || 0,
+                submission_type: [helper.SUBMISSION_TYPE.challenge.id, helper.SUBMISSION_TYPE.checkpoint.id]
             };
 
             // Do the private check.

@@ -78,6 +78,8 @@
  * - added checkEmailAddress
  * Changes in 1.28:
  * - Update method checkAdmin to receive two more input parameters.
+ * Changes in 1.29:
+ * - Add SUBMISSION_TYPE object.
  */
 "use strict";
 
@@ -144,6 +146,25 @@ helper.PAYMENT_STATUS = {
     68 : 'Expired',
     70 : 'Entered into payment system',
     71 : 'Accruing'
+};
+
+/**
+ * The submission type object.
+ * @since 1.29
+ */
+helper.SUBMISSION_TYPE = {
+    challenge: {
+        name: 'Contest Submission',
+        id: 1
+    },
+    specification: {
+        name: 'Specification Submission',
+        id: 2
+    },
+    checkpoint: {
+        name: 'Checkpoint Submission',
+        id: 3
+    }
 };
 
 /**
