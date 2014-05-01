@@ -147,7 +147,8 @@ if (cluster.isMaster && !process.env.DISABLE_CONSOLE_LOG) {
         return new (winston.transports.Console)({
             colorize : true,
             level : "debug",
-            timestamp : api.utils.sqlDateTime
+            timestamp : api.utils.sqlDateTime,
+	    json: false
         });
     });
 }
@@ -160,17 +161,15 @@ fs.mkdir("./log", function (err) {
     }
 });
 
-// disable file logging by default b/c the console logging is captured in forever log
-if (!process.env.DISABLE_FILE_LOG === "true") {
-    config.logger.transports.push(function (api, winston) {
-        return new (winston.transports.File)({
-            filename : config.general.paths.log + "/" + api.pids.title + '.log',
-            level : "debug",
-            json : false,
-            timestamp : true
-        });
+config.logger.transports.push(function (api, winston) {
+    return new (winston.transports.File)({
+        filename : config.general.paths.log + '/actionhero-worker.log',
+        level : "debug",
+        json : false,
+        timestamp : api.utils.sqlDateTime,
+        colorize: true
     });
-}
+});
 
 ///////////
 // Stats //
