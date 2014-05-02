@@ -55,6 +55,9 @@
  * - add getChallenges method.
  * Changes in 1.22:
  * - Merge get active/open/upcoming/past design/develop challenges to get active/open/upcoming/past challenges api.
+ * Changes in 1.23:
+ * - Update submissions API.
+ * - Remove checkpoints from get Software/Studio challenge detail api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
