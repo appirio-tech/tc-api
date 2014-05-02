@@ -91,7 +91,7 @@ config.general = {
         "pid" : __dirname + "/pids",
         "log" : __dirname + "/log",
         "server" : __dirname + "/servers",
-        "initializer" : __dirname + "/initializers"
+        "initializer" : __dirname + "/initializers",
     },
     defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
     defaultAuthMiddlewareCacheLifetime : process.env.AUTH_MIDDLEWARE_CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
