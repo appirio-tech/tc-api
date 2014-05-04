@@ -1,0 +1,12 @@
+SELECT 
+u2.handle as handle
+FROM
+member_contact_black_list b, user u, user u2
+WHERE 
+u.handle = '@handle@'
+AND
+b.user_id = u.user_id
+AND
+u2.user_id = b.blocked_user_id
+AND
+blocked_ind = 1

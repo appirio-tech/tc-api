@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.16
- * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc
+ * @version 1.17
+ * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc, TCASSEMBLER
  * changes in 1.1:
  * - implement marathon statistics
  * changes in 1.2:
@@ -40,8 +40,13 @@
  * - enabled granular data access in getBasicUserProfile via optional query param
  * Changes in 1.16:
  * - Implement the upload member photo API.
+ * Changes in 1.17:
+ * - Added fields to get my user profile api.
+ * - Added logic to update user profile.
  */
 "use strict";
+/*jslint node: true, stupid: true, unparam: true, plusplus: true */
+
 var async = require('async');
 var _ = require('underscore');
 var path = require('path');
@@ -51,6 +56,10 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
 var NotFoundError = require('../errors/NotFoundError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
+var COMPETITION_ID = 1;
+var STUDIO_ID = 6;
+var OPENAIM_ID = 8;
+var HIGH_SCHOOL_ID = 3;
 
 /**
  * check whether given user is activated.
@@ -72,6 +81,84 @@ function checkUserActivated(handle, api, dbConnectionMap, callback) {
         }
     });
 }
+
+/**
+ * Update user preference.
+ *
+ * @param value the value to update
+ * @param preferenceId the preference id
+ * @param handle the user handle
+ * @param userId the user id
+ * @param api the api instance
+ * @param dbConnectionMap the database connection map
+ * @param callback the callback method
+ */
+function updateUserPreference(value, preferenceId, handle, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {};
+    async.waterfall([
+        function (cb) {
+            sqlParams.handle = handle;
+            sqlParams.preferenceIds = preferenceId;
+            api.dataAccess.executeQuery('get_user_preference_values', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            sqlParams.coderId = userId;
+            sqlParams.preferenceId = preferenceId;
+            sqlParams.value = (value.toLowerCase());
+            if (results.length > 0) {
+                //update
+                api.dataAccess.executeQuery('update_user_preference_values', sqlParams, dbConnectionMap, cb);
+            } else {
+                //insert
+                api.dataAccess.executeQuery('insert_user_preference_values', sqlParams, dbConnectionMap, cb);
+            }
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+/**
+ * Update demographic response.
+ *
+ * @param key the key
+ * @param value the value
+ * @param questionId the question id
+ * @param userId the user id
+ * @param api the api instance
+ * @param dbConnectionMap the database connection map
+ * @param callback the callback method
+ */
+function updateDemographicResponse(key, value, questionId, userId, api, dbConnectionMap, callback) {
+    var ageAnswerId, sqlParams = {};
+    async.waterfall([
+        function (cb) {
+            sqlParams.questionId = questionId;
+            api.dataAccess.executeQuery('get_demographic_answers', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            var i;
+            for (i = 0; i < results.length; i++) {
+                if (value.toLowerCase() === results[i].demographic_answer_text.toLowerCase()) {
+                    ageAnswerId = results[i].demographic_answer_id;
+                    break;
+                }
+            }
+            if (!_.isDefined(ageAnswerId)) {
+                cb(new IllegalArgumentError(value + ' is not a valid ' + key + ' value.'));
+                return;
+            }
+
+            sqlParams.questionId = questionId;
+            sqlParams.coderId = userId;
+            api.dataAccess.executeQuery('delete_demographic_responses', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            sqlParams.questionId = questionId;
+            sqlParams.coderId = userId;
+            sqlParams.answerId = ageAnswerId;
+            api.dataAccess.executeQuery('insert_demographic_response', sqlParams, dbConnectionMap, cb);
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
 
 /**
  * Check if the user exist and activated.
@@ -126,7 +213,10 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
         result,
         loadData,
         requestedData,
-        parts;
+        parts,
+        registrationTypes,
+        registrationTypesStr,
+        allPreferences;
 
     // check for an optional data query string param than enables loading a subset of data
     requestedData = connection.rawConnection.parsedURL.query.data;
@@ -142,7 +232,8 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
         }
         api.log("Requested data param found: " + requestedData, "debug");
     } else {
-        loadData = {earnings: true, ratings: true, achievements: true, address: true, email: true}; // load all data by default
+        loadData = {earnings: true, ratings: true, achievements: true, address: true, email: true, privacy: true,
+            emailNotification: true}; // load all data by default
     }
 
     async.waterfall([
@@ -213,7 +304,6 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                         description: item.description
                     });
                 });
-                // TODO: why is this capitalized?
                 result.Achievements = achievements;
             }
 
@@ -257,10 +347,161 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                 }
             }
 
-            if (result.isPM) {
-                delete result.ratingSummary;
+            cb(null, null);
+        }, function (results, cb) {
+            if (privateInfoEligibility && loadData.privacy && loadData.emailNotification) {
+                sqlParams.handle = handle;
+                async.parallel({
+                    getRegistrationTypes: function (cbx) { api.dataAccess.executeQuery('get_registration_types', sqlParams, dbConnectionMap, cbx); },
+                    getCurrentSchool: function (cbx) { api.dataAccess.executeQuery('get_current_school', sqlParams, dbConnectionMap, cbx); }
+                }, cb);
+            } else {
+                cb(null, null);
             }
+        }, function (results, cb) {
+            if (privateInfoEligibility && loadData.privacy) {
+                result.privacy = {};
+                if (results.getRegistrationTypes.length > 0) {
+                    registrationTypes = results.getRegistrationTypes;
+                    var i = 0, competitionType = false, studioType = false, openAIMType = false, highSchoolType = false;
+                    for (i = 0; i < registrationTypes.length; i++) {
+                        if (registrationTypes[i].id === COMPETITION_ID) {
+                            competitionType = true;
+                        } else if (registrationTypes[i].id === STUDIO_ID) {
+                            studioType = true;
+                        } else if (registrationTypes[i].id === OPENAIM_ID) {
+                            openAIMType = true;
+                        } else if (registrationTypes[i].id === HIGH_SCHOOL_ID) {
+                            highSchoolType = true;
+                        }
 
+                        if ((competitionType || (studioType && openAIMType)) && !highSchoolType) {
+                            break;
+                        }
+                    }
+
+                    if ((competitionType || (studioType && openAIMType))
+                            && !highSchoolType && results.getCurrentSchool.length > 0) {
+                        result.privacy.showMySchool = results.getCurrentSchool[0] === 't' ? "show" : "hide";
+                    } else {
+                        result.privacy.showMySchool = "N/A";
+                    }
+
+                }
+            }
+            cb();
+        }, function (cb) {
+            if (privateInfoEligibility && loadData.privacy) {
+                if (registrationTypes.length > 0) {
+                    var tmp = '', k;
+                    for (k = 0; k < registrationTypes.length; k++) {
+                        if (k > 0) {
+                            tmp = tmp + ', ';
+                        }
+                        tmp = tmp + registrationTypes[k].id;
+                    }
+                    registrationTypesStr = tmp;
+                    sqlParams.registrationTypes = tmp;
+                    api.dataAccess.executeQuery('get_all_preferences', sqlParams, dbConnectionMap, cb);
+                } else {
+                    cb(null, null);
+                }
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (privateInfoEligibility && loadData.privacy) {
+                //query all user preferences values
+                if (_.isDefined(results) && results.length > 0) {
+                    allPreferences = results;
+                    var tmp = '', k;
+                    for (k = 0; k < results.length; k++) {
+                        if (k > 0) {
+                            tmp = tmp + ', ';
+                        }
+                        tmp = tmp + results[k].id;
+                    }
+                    sqlParams.preferenceIds = tmp;
+                    api.dataAccess.executeQuery('get_user_preference_values', sqlParams, dbConnectionMap, cb);
+                } else {
+                    cb(null, null);
+                }
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (privateInfoEligibility && loadData.privacy) {
+                var itemName, itemValue = 'No', i, j;
+                for (i = 0; i < allPreferences.length; i++) {
+                    itemName = allPreferences[i].name;
+                    if (allPreferences[i].id === 100) {
+                        itemName = 'showMyEarnings';
+                    } else if (allPreferences[i].id === 24) {
+                        itemName = 'receiveMessages';
+                    }
+                    if (_.isDefined(results) && results.length > 0) {
+                        for (j = 0; j < results.length; j++) {
+                            if (results[j].id === allPreferences[i].id) {
+                                itemValue = results[j].value;
+                                break;
+                            }
+                        }
+                    }
+                    result.privacy[itemName] = itemValue;
+                    itemValue = 'No';
+                }
+                sqlParams.handle = handle;
+                api.dataAccess.executeQuery('get_member_contact_black_list', sqlParams, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (privateInfoEligibility && loadData.privacy) {
+                result.privacy.messageBlackList = [];
+                var i;
+                for (i = 0; i < results.length; i++) {
+                    result.privacy.messageBlackList.push(results[i].handle);
+                }
+            }
+            cb();
+        }, function (cb) {
+            if (privateInfoEligibility && loadData.emailNotification) {
+                if (registrationTypes.length > 0) {
+                    sqlParams.types = registrationTypesStr;
+                    sqlParams.handle = handle;
+                    async.parallel({
+                        getNotifies: function (cbx) { api.dataAccess.executeQuery('get_notifies', sqlParams, dbConnectionMap, cbx); },
+                        getUserNotifies: function (cbx) { api.dataAccess.executeQuery('get_user_notifies', sqlParams, dbConnectionMap, cbx); }
+                    }, cb);
+                } else {
+                    cb(null, null);
+                }
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (privateInfoEligibility && loadData.emailNotification) {
+                result.emailNotification = {};
+                if (results.getNotifies.length > 0) {
+                    var itemName, itemValue, i, j, type;
+                    for (i = 0; i < results.getNotifies.length; i++) {
+                        itemValue = 'No';
+                        itemName = results.getNotifies[i].name;
+                        type = results.getNotifies[i].type;
+
+                        for (j = 0; j < results.getUserNotifies.length; j++) {
+                            if (results.getUserNotifies[j].id === results.getNotifies[i].id) {
+                                itemValue = 'Yes';
+                                break;
+                            }
+                        }
+                        if (!_.isDefined(result.emailNotification[type])) {
+                            result.emailNotification[type] = {};
+                        }
+                        result.emailNotification[type][itemName] = itemValue;
+                    }
+                }
+            }
             cb();
         }
     ], function (err) {
@@ -1114,7 +1355,6 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
                     prize: element.prize,
                     submissionDate: element.submission_date,
                     viewable: element.viewable.toLowerCase() === "true",
-                    challengeId: element.challenge_id,
                     preview: api.config.designSubmissionLink + element.submission_id + "&sbt=small"
                 };
                 if (!winningSubmission.viewable) {
@@ -1312,6 +1552,627 @@ exports.uploadMemberPhoto = {
         if (connection.dbConnectionMap) {
             api.log("Execute uploadMemberPhoto#run", "debug");
             uploadMemberPhoto(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+
+
+function updateCountry(countryName, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {};
+    async.waterfall([
+        function (cb) {
+            if (countryName.length === 0) {
+                cb(new IllegalArgumentError(countryName + ' is empty.'));
+                return;
+            }
+            sqlParams.countryName = countryName;
+            api.dataAccess.executeQuery('get_country_code', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            if (results.length === 0) {
+                cb(new IllegalArgumentError(countryName + ' is not a valid country name.'));
+                return;
+            }
+
+            sqlParams.compCountryCode = results[0].country_code;
+            sqlParams.coderId = userId;
+            api.dataAccess.executeQuery('update_user_country_code', sqlParams, dbConnectionMap, cb);
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+
+function updateEmailNotification(emailNotification, registrationTypes, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {}, tmp = '', k, registrationTypesStr, yesList = [];
+    async.waterfall([
+        function (cb) {
+            if (registrationTypes.length > 0) {
+                for (k = 0; k < registrationTypes.length; k++) {
+                    if (k > 0) {
+                        tmp = tmp + ', ';
+                    }
+                    tmp = tmp + registrationTypes[k].id;
+                }
+                registrationTypesStr = tmp;
+
+                sqlParams.types = registrationTypesStr;
+                api.dataAccess.executeQuery('get_notifies', sqlParams, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            //check parameter
+            var checkResults = [], i, j, flag, idList = '', allNotifies = JSON.parse(emailNotification),
+                keys = _.keys(allNotifies);
+            for (i = 0; i < keys.length; i++) {
+                flag = false;
+                if (i > 0) {
+                    idList = idList + ', ';
+                }
+                if (_.isDefined(allNotifies[keys[i]]) && allNotifies[keys[i]].toLowerCase() !== 'yes'
+                        && allNotifies[keys[i]].toLowerCase() !== 'no') {
+                    cb(new IllegalArgumentError(keys[i] + ' contains invalid value.'));
+                    return;
+                }
+
+                for (j = 0; j < results.length; j++) {
+                    if (results[j].name.toLowerCase() === keys[i].toLowerCase()) {
+                        flag = true;
+                        idList = idList + results[j].id;
+                        if (_.isDefined(allNotifies[keys[i]]) && allNotifies[keys[i]].toLowerCase() === 'yes') {
+                            yesList.push(results[j].id);
+                        }
+                        break;
+                    }
+                }
+
+                if (!flag) {
+                    checkResults.push(keys[i]);
+                }
+
+            }
+
+            if (checkResults.length !== 0) {
+                cb(new IllegalArgumentError(checkResults + ' is invalid key.'));
+                return;
+            }
+            //remove notify in user notify table
+            sqlParams.userId = userId;
+            sqlParams.notifyId = idList;
+            api.dataAccess.executeQuery('delete_user_notifies', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            var insert = function (id, cbx) {
+                sqlParams.userId = userId;
+                sqlParams.notifyId = id;
+                api.dataAccess.executeQuery('insert_user_notify', sqlParams, dbConnectionMap, cbx);
+            };
+            async.map(yesList, insert, function (err, r) {
+                cb();
+            });
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+function handleEmail(email, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {};
+    async.waterfall([
+        function (cb) {
+            sqlParams.coderId = userId;
+            sqlParams.typeId = email.typeId;
+            api.dataAccess.executeQuery('get_email', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            if (results.length === 0) {
+                //insert
+                async.waterfall([
+                    function (callback) {
+                        // get the next email id
+                        api.idGenerator.getNextID("EMAIL_SEQ", dbConnectionMap, function (err, emailId) {
+                            callback(err, emailId);
+                        });
+                    },
+                    function (emailId, callback) {
+                        // insert email
+                        sqlParams.userId = userId;
+                        sqlParams.emailId = emailId;
+                        sqlParams.emailTypeId = email.typeId;
+                        sqlParams.address = email.email;
+                        sqlParams.statusId = email.statusId;
+                        sqlParams.primaryInd = ((email.typeId === 1) ? 1 : 0);
+                        api.dataAccess.executeQuery('insert_full_email', sqlParams, dbConnectionMap, callback);
+                    }
+                ], function (err, result) {
+                    cb(err, result);
+                });
+            } else {
+                //update
+                sqlParams.emailId = results[0].email_id;
+                sqlParams.emailTypeId = email.typeId;
+                sqlParams.address = email.email;
+                sqlParams.statusId = email.statusId;
+                api.dataAccess.executeQuery('update_email', sqlParams, dbConnectionMap, cb);
+            }
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+function updateEmail(emails, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {}, allEmails = JSON.parse(emails), primaryId = -1, secondaryId = -1, i;
+    async.waterfall([
+        function (cb) {
+            //check email at first
+            if (allEmails.length > 2) {
+                cb(new IllegalArgumentError('It cannot have more than 2 emails.'));
+                return;
+            }
+            if (allEmails.length === 1) {
+                //only one is primary
+                if (allEmails[0].type.toLowerCase() !== 'primary') {
+                    cb(new IllegalArgumentError('One email should be primary email.'));
+                    return;
+                }
+                primaryId = 0;
+            } else if (allEmails.length === 2) {
+                //one is primary, one is secondary, cannot be same
+                for (i = 0; i < allEmails.length; i++) {
+                    if (allEmails[i].type.toLowerCase() === 'primary') {
+                        primaryId = i;
+                    } else if (allEmails[i].type.toLowerCase() === 'secondary') {
+                        secondaryId = i;
+                    }
+                }
+                if (primaryId === -1) {
+                    cb(new IllegalArgumentError('One of emails should be primary email.'));
+                    return;
+                }
+
+                if (secondaryId === -1) {
+                    cb(new IllegalArgumentError('One of emails should be secondary email.'));
+                    return;
+                }
+
+                if (allEmails[0].email === allEmails[1].email) {
+                    cb(new IllegalArgumentError('The email addresses should not be same.'));
+                    return;
+                }
+            }
+            cb();
+        }, function (cb) {
+            api.dataAccess.executeQuery('get_email_type', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            //validation
+            var typeFlag, j, emailError;
+            for (i = 0; i < allEmails.length; i++) {
+                typeFlag = false;
+                for (j = 0; j < results.length; j++) {
+                    if (allEmails[i].type.toLowerCase() === results[j].email_type_desc.toLowerCase()) {
+                        typeFlag = true;
+                        allEmails[i].typeId = results[j].email_type_id;
+                        break;
+                    }
+                }
+                //status is optional
+                allEmails[i].statusId = 1;
+
+                //validate email format
+                emailError = api.helper.checkEmailAddress(allEmails[i].email, allEmails[i].type + ' email');
+                if (emailError) {
+                    cb(emailError);
+                    return;
+                }
+
+                if (!typeFlag) {
+                    cb(new IllegalArgumentError(allEmails[i].type + ' is not a valid email type.'));
+                    return;
+                }
+            }
+
+            //delete emails, primary email can't be removed, it's controlled in sql
+            sqlParams.coderId = userId;
+            api.dataAccess.executeQuery('delete_email', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            if (primaryId !== -1) {
+                handleEmail(allEmails[primaryId], userId, api, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (secondaryId !== -1) {
+                handleEmail(allEmails[secondaryId], userId, api, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+
+function updateAddress(address, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {}, allAddress, createdAddressId, countryCode, stateCode;
+    async.waterfall([
+        function (cb) {
+            allAddress = JSON.parse(address);
+
+            if (_.isDefined(allAddress.country)) {
+                sqlParams.countryName = allAddress.country;
+                api.dataAccess.executeQuery('get_country_code', sqlParams, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (_.isDefined(allAddress.country)) {
+                if (results.length === 0) {
+                    cb(new IllegalArgumentError('The country in address is not a valid country name.'));
+                    return;
+                }
+
+                countryCode = results[0].country_code;
+                if (countryCode === '840' && _.isDefined(allAddress.state)) {
+                    sqlParams.stateName = allAddress.state;
+                    api.dataAccess.executeQuery('get_state_code', sqlParams, dbConnectionMap, cb);
+                } else {
+                    cb(null, null);
+                }
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (_.isDefined(allAddress.country) && countryCode === '840' && _.isDefined(allAddress.state)) {
+                if (results.length === 0) {
+                    cb(new IllegalArgumentError('The state in address is not a valid state name.'));
+                    return;
+                }
+                stateCode = results[0].state_code;
+            }
+
+            sqlParams.coderId = userId;
+            api.dataAccess.executeQuery('get_address', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            sqlParams.address1 = allAddress.address1;
+            sqlParams.address2 = allAddress.address2;
+            sqlParams.address3 = allAddress.address3;
+            sqlParams.city = allAddress.city;
+            sqlParams.zip = allAddress.zip;
+            sqlParams.countryCode = null;
+            sqlParams.province = null;
+            sqlParams.stateCode = null;
+
+            if (_.isDefined(allAddress.country)) {
+                sqlParams.countryCode = countryCode;
+            }
+
+            if (_.isDefined(stateCode)) {
+                sqlParams.stateCode = stateCode;
+            }
+
+            if (_.isDefined(allAddress.province) && countryCode !== '840') {
+                sqlParams.province = allAddress.province;
+            }
+
+            if (results.length > 0) {
+                //update
+                sqlParams.addressId = results[0].address_id;
+                api.dataAccess.executeQuery('update_address', sqlParams, dbConnectionMap, cb);
+            } else {
+                //insert
+                async.waterfall([
+                    function (callback) {
+                        api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, function (err, addressId) {
+                            callback(err, addressId);
+                        });
+                    },
+                    function (addressId, callback) {
+                        createdAddressId = addressId;
+                        sqlParams.addressId = addressId;
+                        api.dataAccess.executeQuery('insert_full_address', sqlParams, dbConnectionMap, callback);
+                    },
+                    function (result, callback) {
+                        sqlParams.addressId = createdAddressId;
+                        sqlParams.userId = userId;
+                        api.dataAccess.executeQuery('insert_address_xref', sqlParams, dbConnectionMap, callback);
+                    }
+                ], function (err, result) {
+                    cb(err, result);
+                });
+            }
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+
+
+function updateMessageBlackList(messageBlackList, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {};
+    async.waterfall([
+        function (cb) {
+            sqlParams.userId = userId;
+            api.dataAccess.executeQuery('delete_member_contact_black_list', sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            var getUserId = function (item, cbx) {
+                api.dataAccess.executeQuery('get_user_by_handle', {handle : item}, dbConnectionMap, cbx);
+            };
+            async.map(JSON.parse(messageBlackList), getUserId, function (err, result) {
+                cb(null, result);
+            });
+        }, function (results, cb) {
+            var i, insertBlockUsers = function (item, cbx) {
+                if (_.isDefined(item)) {
+                    async.waterfall([
+                        function (c) {
+                            sqlParams.userId = userId;
+                            sqlParams.blockedUserId = item[0].id;
+                            api.dataAccess.executeQuery('get_one_member_contact_black', sqlParams, dbConnectionMap, c);
+                        }, function (results, c) {
+                            if (results.length > 0) {
+                                sqlParams.userId = userId;
+                                sqlParams.blockedUserId = item[0].id;
+                                sqlParams.flag = 1;
+                                api.dataAccess.executeQuery('update_member_contact_black', sqlParams, dbConnectionMap, c);
+                            } else {
+                                api.dataAccess.executeQuery('insert_member_contact_black_list',
+                                    {blockUserId : item[0].id, coderId : userId}, dbConnectionMap, cbx);
+                            }
+                        }], function (err) {
+                        cbx(err, null);
+                    });
+                }
+            };
+            for (i = 0; _.isDefined(results[i]) && i < results.length; i++) {
+                if (results[i].length === 0) {
+                    cb(new IllegalArgumentError('messageBlackList contains invalid user handle.'));
+                    return;
+                }
+                if (results[i][0].id === userId) {
+                    cb(new IllegalArgumentError('messageBlackList cannot contain current user.'));
+                    return;
+                }
+            }
+
+            async.map(results, insertBlockUsers, function (err, result) {
+                cb(null, null);
+            });
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+
+
+function updateQuote(quote, userId, api, dbConnectionMap, callback) {
+    var sqlParams = {};
+    async.waterfall([
+        function (cb) {
+            if (quote.length > 255) {
+                cb(new IllegalArgumentError('quote value is too long.'));
+                return;
+            }
+            sqlParams.quote = quote;
+            sqlParams.coderId = userId;
+            api.dataAccess.executeQuery('update_user_quote', sqlParams, dbConnectionMap, cb);
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+function updateShowMySchool(showMySchool, askHighSchool, userId, api, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            if (!askHighSchool) {
+                cb(new IllegalArgumentError('showMySchool value is not allowed to update for this user.'));
+                return;
+            }
+            if (showMySchool.toLowerCase() !== 'yes' && showMySchool.toLowerCase() !== 'no') {
+                cb(new IllegalArgumentError('showMySchool value is invalid.'));
+                return;
+            }
+
+            api.dataAccess.executeQuery('update_current_high_school',
+                {viewable : (showMySchool.toLowerCase() === 'yes' ? 1 : 0), coderId : userId}, dbConnectionMap, cb);
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+
+function updateShowMyEarnings(showMyEarnings, handle, userId, api, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            if (showMyEarnings.toLowerCase() !== 'show' && showMyEarnings.toLowerCase() !== 'hide') {
+                cb(new IllegalArgumentError('showMyEarnings value is invalid.'));
+                return;
+            }
+            updateUserPreference(showMyEarnings, '100', handle, userId, api, dbConnectionMap, cb);
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+function updateReceiveMessages(receiveMessages, handle, userId, api, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            if (receiveMessages.toLowerCase() !== 'yes' && receiveMessages.toLowerCase() !== 'no') {
+                cb(new IllegalArgumentError('receiveMessages value is invalid.'));
+                return;
+            }
+            updateUserPreference(receiveMessages, '24', handle, userId, api, dbConnectionMap, cb);
+        }], function (err) {
+        callback(err, null);
+    });
+}
+
+
+/**
+ * Updates user profile.
+ *
+ * @param api the api instance.
+ * @param handle the handle value
+ * @param dbConnectionMap the database connection map
+ * @param connection the connection instance
+ * @param next the callback method
+ */
+function updateUserProfile(api, handle, dbConnectionMap, connection, next) {
+    var helper = api.helper,
+        sqlParams = {
+            handle: handle
+        },
+        result = {},
+        registrationTypes,
+
+        userId = 0,
+        emailNotification = connection.params.emailNotification,
+        countryName = connection.params.country,
+        age = connection.params.age,
+        gender = connection.params.gender,
+        shirtSize = connection.params.shirtSize,
+        emails = connection.params.emails,
+        address = connection.params.address,
+        showMySchool = connection.params.showMySchool,
+        messageBlackList = connection.params.messageBlackList,
+        showMyEarnings = connection.params.showMyEarnings,
+        receiveMessages = connection.params.receiveMessages,
+        askHighSchool = false,
+        quote = connection.params.quote;
+
+
+    async.waterfall([
+        function (cb) {
+            checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
+                if (err) {
+                    cb(err);
+                } else {
+                    cb(result);
+                }
+            });
+        }, function (cb) {
+            sqlParams.handle = handle;
+            async.parallel({
+                getRegistrationTypes: function (cbx) { api.dataAccess.executeQuery('get_registration_types', sqlParams, dbConnectionMap, cbx); },
+                getCurrentSchool: function (cbx) { api.dataAccess.executeQuery('get_current_school', sqlParams, dbConnectionMap, cbx); },
+                getUser: function (cbx) { api.dataAccess.executeQuery('get_user_by_handle', sqlParams, dbConnectionMap, cbx); }
+            }, cb);
+        }, function (results, cb) {
+            if (results.getUser.length > 0) {
+                userId = results.getUser[0].id;
+            }
+            registrationTypes = results.getRegistrationTypes;
+            var i, competitionType = false, studioType = false, openAIMType = false, highSchoolType = false,
+                emptyQuery = function (cbx) { cbx(); };
+            if (_.isDefined(showMySchool)) {
+                if (registrationTypes.length > 0) {
+                    for (i = 0; i < registrationTypes.length; i++) {
+                        if (registrationTypes[i].id === COMPETITION_ID) {
+                            competitionType = true;
+                        } else if (registrationTypes[i].id === STUDIO_ID) {
+                            studioType = true;
+                        } else if (registrationTypes[i].id === OPENAIM_ID) {
+                            openAIMType = true;
+                        } else if (registrationTypes[i].id === HIGH_SCHOOL_ID) {
+                            highSchoolType = true;
+                        }
+                        if ((competitionType || (studioType && openAIMType))
+                                && !highSchoolType) {
+                            break;
+                        }
+                    }
+
+                    if ((competitionType || (studioType && openAIMType))
+                            && !highSchoolType && results.getCurrentSchool.length > 0) {
+                        askHighSchool = true;
+                    }
+                }
+            }
+
+            async.parallel({
+                updateEmailNotification: _.isDefined(emailNotification) ?
+                        function (cbx) { updateEmailNotification(emailNotification, registrationTypes, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateCountryName: _.isDefined(countryName) ?
+                        function (cbx) { updateCountry(countryName, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+                updateQuote: _.isDefined(quote) ?
+                        function (cbx) { updateQuote(quote, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateAge: _.isDefined(age) ?
+                        function (cbx) { updateDemographicResponse('age', age, 1, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateGender: _.isDefined(gender) ?
+                        function (cbx) { updateDemographicResponse('gender', gender, 2, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateShirtSize: _.isDefined(shirtSize) ?
+                        function (cbx) { updateDemographicResponse('shirtSize', shirtSize, 26, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateEmail: _.isDefined(emails) ?
+                        function (cbx) { updateEmail(emails, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateAddress: _.isDefined(address) ?
+                        function (cbx) { updateAddress(address, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateMessageBlackList: _.isDefined(messageBlackList) ?
+                        function (cbx) { updateMessageBlackList(messageBlackList, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateShowMySchool: _.isDefined(showMySchool) ?
+                        function (cbx) { updateShowMySchool(showMySchool, askHighSchool, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateShowMyEarnings: _.isDefined(showMyEarnings) ?
+                        function (cbx) { updateShowMyEarnings(showMyEarnings, handle, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery,
+
+                updateReceiveMessages: _.isDefined(receiveMessages) ?
+                        function (cbx) { updateReceiveMessages(receiveMessages, handle, userId, api, dbConnectionMap, cbx); }
+                    : emptyQuery
+            }, cb);
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The action for update my profile api.
+ */
+exports.updateMyProfile = {
+    name: "updateMyProfile",
+    description: "update my profile",
+    inputs: {
+        required: [],
+        optional: ['emailNotification', 'country', 'quote', 'age', 'gender', 'shirtSize', 'emails', 'address',
+            'messageBlackList', 'showMySchool', 'showMyEarnings', 'receiveMessages']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ["informixoltp", "topcoder_dw", "common_oltp", "time_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute updateMyProfile#run", "debug");
+            if (connection.caller.accessLevel === "anon") {
+                api.helper.handleError(api, connection, new UnauthorizedError("Authentication credential was missing."));
+                next(connection, true);
+            } else {
+                updateUserProfile(api, connection.caller.handle, connection.dbConnectionMap, connection, next);
+            }
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

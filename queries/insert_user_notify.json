@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_user_notify",
+    "db"      : "common_oltp",
+    "sqlfile" : "insert_user_notify"
+}

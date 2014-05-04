@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_demographic_response",
+    "db"      : "common_oltp",
+    "sqlfile" : "insert_demographic_response"
+}

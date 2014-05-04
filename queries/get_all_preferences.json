@@ -1,0 +1,5 @@
+{
+    "name"    : "get_all_preferences",
+    "db"      : "common_oltp",
+    "sqlfile" : "get_all_preferences"
+}

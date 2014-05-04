@@ -1,0 +1,1 @@
+INSERT INTO user_address_xref (address_id, user_id) VALUES ('@addressId@', '@userId@')

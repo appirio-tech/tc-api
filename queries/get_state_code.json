@@ -1,0 +1,5 @@
+{
+    "name"    : "get_state_code",
+    "db"      : "common_oltp",
+    "sqlfile" : "get_state_code"
+}

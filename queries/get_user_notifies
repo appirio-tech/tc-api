@@ -1,0 +1,8 @@
+SELECT 
+x.notify_id as id
+FROM 
+user_notify_xref x, user u
+WHERE 
+u.handle = '@handle@'
+AND
+x.user_id = u.user_id

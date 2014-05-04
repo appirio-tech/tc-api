@@ -1,0 +1,1 @@
+INSERT INTO member_contact_black_list(user_id, blocked_user_id, blocked_ind ) VALUES ('@coderId@', '@blockUserId@', 1)

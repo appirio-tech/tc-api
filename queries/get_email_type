@@ -1,0 +1,2 @@
+SELECT email_type_id, email_type_desc
+FROM email_type_lu

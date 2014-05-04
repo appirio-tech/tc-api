@@ -1,0 +1,1 @@
+DELETE FROM demographic_response WHERE demographic_question_id = '@questionId@' AND user_id = '@coderId@'

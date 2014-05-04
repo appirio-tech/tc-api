@@ -1,0 +1,8 @@
+UPDATE
+user_preference
+SET
+value = '@value@'
+WHERE
+user_id = '@coderId@'
+AND
+preference_id = '@preferenceId@'
