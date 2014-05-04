@@ -17,6 +17,7 @@
     "submissionEndDate": "2013-11-03T00:00:00.000+0000",
     "filetypes": [],
     "appealsEndDate": "2013-11-05T00:00:00.000+0000",
+    "submissionLimit": "3",
     "currentStatus": "Completed",
     "digitalRunPoints": 450,
     "challengeCommunity": "design",

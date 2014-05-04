@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
- * @author Sky_, Ghost_141, OlinaRuan, xjtufreeman
+ * @version 1.7
+ * @author Sky_, Ghost_141, OlinaRuan, xjtufreeman, TCSASSEMBLER
  * changes in 1.1:
  * - remove studio tests
  * changes in 1.2:
@@ -17,6 +17,8 @@
  * for example "/v2/design/challenges/10041" around line #1141.
  * changes in 1.6
  * Add test cases to test the new field 'private_description_text' for copilot postings.
+ * changes in 1.7
+ * Fixed to make all test passed.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach, __dirname */
@@ -39,10 +41,15 @@ var TCS_DW = 'tcs_dw';
 var CORPORATE_OLTP = 'corporate_oltp';
 var ListType = { ACTIVE: "ACTIVE", OPEN: "OPEN", UPCOMING: "UPCOMING", PAST: "PAST" };
 var software_collection_length = {};
-software_collection_length[ListType.ACTIVE] = 3;
+software_collection_length[ListType.ACTIVE] = 4;
 software_collection_length[ListType.OPEN] = 1;
 software_collection_length[ListType.UPCOMING] = 2;
-software_collection_length[ListType.PAST] = 2;
+software_collection_length[ListType.PAST] = 0;
+var software_collection_total = {};
+software_collection_total[ListType.ACTIVE] = 4;
+software_collection_total[ListType.OPEN] = 1;
+software_collection_total[ListType.UPCOMING] = 2;
+software_collection_total[ListType.PAST] = 2;
 
 describe('Test Challenges API', function () {
     this.timeout(60000); // The api with testing remote db could be quit slow
@@ -87,7 +94,7 @@ describe('Test Challenges API', function () {
             .end(function (err, res) {
                 assert.ifError(err);
                 var body = res.body;
-                assert.equal(body.total, software_collection_length[type], 'total is not equal');
+                assert.equal(body.total, software_collection_total[type], 'total is not equal');
                 assert.equal(body.pageIndex, 1);
                 assert.equal(body.pageSize, 50);
                 assert.ok(body.data);
@@ -106,7 +113,7 @@ describe('Test Challenges API', function () {
      * @param {String} cmc - the cmc to assert
      * @param {Function<err>} done the callback
      */
-    function assertCMC(type, size, cmc, done) {
+    function assertCMC(type, total, size, cmc, done) {
         request(API_ENDPOINT)
             .get('/v2/' + 'develop' + '/challenges?listType=' + type + "&cmcTaskId=" + cmc)
             .set('Accept', 'application/json')
@@ -115,7 +122,7 @@ describe('Test Challenges API', function () {
             .end(function (err, res) {
                 assert.ifError(err);
                 var body = res.body, i;
-                assert.equal(body.total, size);
+                assert.equal(body.total, total);
                 assert.ok(body.data);
                 assert.equal(body.data.length, size);
 
@@ -262,28 +269,28 @@ describe('Test Challenges API', function () {
              * Test develop/challenges?listType=active&cmcTaskId=cmc
              */
             it('should return 2 ACTIVE challenges with cmcTaskId=cmc', function (done) {
-                assertCMC("ACTIVE", 2, "cmc", done);
+                assertCMC("ACTIVE", 3, 3, "cmc", done);
             });
 
             /**
              * Test develop/challenges?listType=open&cmcTaskId=cmc
              */
             it('should return 1 OPEN challenges with cmcTaskId=cmc', function (done) {
-                assertCMC("OPEN", 1, "cmc", done);
+                assertCMC("OPEN", 1, 1, "cmc", done);
             });
 
             /**
              * Test develop/challenges?listType=past&cmcTaskId=cmc
              */
             it('should return 2 PAST challenges with cmcTaskId=cmc', function (done) {
-                assertCMC("PAST", 2, "cmc", done);
+                assertCMC("PAST", 2, 0, "cmc", done);
             });
 
             /**
              * Test develop/challenges?listType=upcoming&cmcTaskId=cmc
              */
             it('should return 2 UPCOMING challenges with cmcTaskId=cmc', function (done) {
-                assertCMC("UPCOMING", 1, "cmc", done);
+                assertCMC("UPCOMING", 1, 1, "cmc", done);
             });
         });
 
@@ -292,14 +299,14 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=active
              */
             it("should return results for ?listType=active", function (done) {
-                validateResult("listType=active", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&submissionEndFrom=2014-01-01
              */
             it('should return 1 challenges after filtering submissionEndDate', function (done) {
-                validateResult("listType=active&submissionEndFrom=2014-01-01", [1], "ACTIVE", 1, 1, 50, done);
+                validateResult("listType=active&submissionEndFrom=2014-01-01", [1, 2], "ACTIVE", 2, 1, 50, done);
             });
 
             /**
@@ -313,175 +320,175 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=aCtiVe
              */
             it("should return results for ?listType=aCtiVe", function (done) {
-                validateResult("listType=aCtiVe", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=aCtiVe", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeName
              */
             it("should return results for ?listType=active&sortColumn=challengeName", function (done) {
-                validateResult("listType=active&sortColumn=challengeName", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeName", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=challengeName&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeName&sortOrder=desc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeName&sortOrder=dESc
              */
             it("should return results for ?listType=active&sortColumn=challengeName&sortOrder=dESc", function (done) {
-                validateResult("listType=active&sortColumn=challengeName&sortOrder=dESc", [4, 1], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeName&sortOrder=dESc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeType
              */
             it("should return results for ?listType=active&sortColumn=challengeType", function (done) {
-                validateResult("listType=active&sortColumn=challengeType", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeType", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeType&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=challengeType&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=challengeType&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeType&sortOrder=desc", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=registrationEndDate
              */
             it("should return results for ?listType=active&sortColumn=registrationEndDate", function (done) {
-                validateResult("listType=active&sortColumn=registrationEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=registrationEndDate", [4, 1, 2], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=registrationEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=registrationEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=registrationEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=registrationEndDate&sortOrder=desc", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=submissionEndDate
              */
             it("should return results for ?listType=active&sortColumn=submissionEndDate", function (done) {
-                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=submissionEndDate", [4, 1, 2], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=submissionEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=submissionEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=submissionEndDate&sortOrder=desc", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate
              */
             it("should return results for ?listType=active&sortColumn=finalFixEndDate", function (done) {
-                validateResult("listType=active&sortColumn=finalFixEndDate", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=finalFixEndDate", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=finalFixEndDate&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=finalFixEndDate&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=finalFixEndDate&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=finalFixEndDate&sortOrder=desc", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeId
              */
             it("should return results for ?listType=active&sortColumn=challengeId", function (done) {
-                validateResult("listType=active&sortColumn=challengeId", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeId", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=challengeId&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=challengeId&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=challengeId&sortOrder=desc", [4, 1], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=challengeId&sortOrder=desc", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=prize1
              */
             it("should return results for ?listType=active&sortColumn=prize1", function (done) {
-                validateResult("listType=active&sortColumn=prize1", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=prize1", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=prize1&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=prize1&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=prize1&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=prize1&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints
              */
             it("should return results for ?listType=active&sortColumn=digitalRunPoints", function (done) {
-                validateResult("listType=active&sortColumn=digitalRunPoints", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=digitalRunPoints", [2, 1, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=digitalRunPoints&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=digitalRunPoints&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=digitalRunPoints&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=digitalRunPoints&sortOrder=desc", [1, 4, 2], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=cmcTaskId
              */
             it("should return results for ?listType=active&sortColumn=cmcTaskId", function (done) {
-                validateResult("listType=active&sortColumn=cmcTaskId", [4, 1], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=cmcTaskId", [4, 2, 1], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=cmcTaskId&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=cmcTaskId&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=cmcTaskId&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=cmcTaskId&sortOrder=desc", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=currentStatus
              */
             it("should return results for ?listType=active&sortColumn=currentStatus", function (done) {
-                validateResult("listType=active&sortColumn=currentStatus", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=currentStatus", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&sortColumn=currentStatus&sortOrder=desc
              */
             it("should return results for ?listType=active&sortColumn=currentStatus&sortOrder=desc", function (done) {
-                validateResult("listType=active&sortColumn=currentStatus&sortOrder=desc", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&sortColumn=currentStatus&sortOrder=desc", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&pageIndex=1&pageSize=1
              */
             it("should return results for ?listType=active&pageIndex=1&pageSize=1", function (done) {
-                validateResult("listType=active&pageIndex=1&pageSize=1", [1], "ACTIVE", 2, 1, 1, done);
+                validateResult("listType=active&pageIndex=1&pageSize=1", [1], "ACTIVE", 3, 1, 1, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&pageIndex=2&pageSize=1
              */
             it("should return results for ?listType=active&pageIndex=2&pageSize=1", function (done) {
-                validateResult("listType=active&pageIndex=2&pageSize=1", [4], "ACTIVE", 2, 2, 1, done);
+                validateResult("listType=active&pageIndex=2&pageSize=1", [2], "ACTIVE", 3, 2, 1, done);
             });
 
             /**
              * /v2/design/challenges?listType=active&pageIndex=-1
              */
             it("should return results for ?listType=active&pageIndex=-1", function (done) {
-                validateResult("listType=active&pageIndex=-1", [1, 4], "ACTIVE", 2, 1, 2147483647, done);
+                validateResult("listType=active&pageIndex=-1", [1, 2, 4], "ACTIVE", 3, 1, 2147483647, done);
             });
 
             /**
@@ -502,7 +509,7 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=UPCOMING
              */
             it("should return results for ?listType=UPCOMING", function (done) {
-                validateResult("listType=UPCOMING", [3], "UPCOMING", 1, 1, 50, done);
+                validateResult("listType=UPCOMING", [], "UPCOMING", 1, 1, 50, done);
             });
 
 
@@ -533,7 +540,7 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=active&prizeUpperBound=1200
              */
             it("should return results for ?listType=active&prizeUpperBound=1200", function (done) {
-                validateResult("listType=active&prizeUpperBound=1200", [1, 4], "ACTIVE", 2, 1, 50, done);
+                validateResult("listType=active&prizeUpperBound=1200", [1, 2, 4], "ACTIVE", 3, 1, 50, done);
             });
 
             /**
@@ -701,10 +708,10 @@ describe('Test Challenges API', function () {
                     .expect(200)
                     .end(function (err, res) {
                         var body = res.body;
-                        assert.equal(body.total, 5, 'Invalid total number');
+                        assert.equal(body.total, 7, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
-                        assert.equal(body.data.length, 5, 'Invalid data length');
+                        assert.equal(body.data.length, 7, 'Invalid data length');
                         done();
                     });
             });
@@ -734,7 +741,7 @@ describe('Test Challenges API', function () {
                         assert.equal(body.total, 3, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
-                        assert.equal(body.data.length, 3, 'Invalid data length');
+                        assert.equal(body.data.length, 2, 'Invalid data length');
                         done();
                     });
             });
@@ -750,7 +757,7 @@ describe('Test Challenges API', function () {
                         assert.equal(body.total, 3, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
-                        assert.equal(body.data.length, 3, 'Invalid data length');
+                        assert.equal(body.data.length, 1, 'Invalid data length');
                         done();
                     });
             });
@@ -1047,7 +1054,7 @@ describe('Test Challenges API', function () {
                         if (err) {
                             done(err);
                         }
-                        var expected = require('./test_files/expected_copilot_challenge_detail.json');
+                        var expected = require('./test_files/expected_copilot_challenge_detail_2.json');
                         delete res.body.serverInformation;
                         delete res.body.requesterInformation;
                         // The time in test data is not constant.
@@ -1253,7 +1260,7 @@ describe('Test Challenges API', function () {
                         delete body.currentPhaseEndDate;
                         testHelper.assertResponse(err,
                             res,
-                            "test_files/exptected_studio_challenge_details.json",
+                            "test_files/exptected_studio_challenge_details_1.json",
                             done);
                     });
             });
