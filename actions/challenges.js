@@ -55,6 +55,9 @@
  * - add getChallenges method.
  * Changes in 1.22:
  * - Merge get active/open/upcoming/past design/develop challenges to get active/open/upcoming/past challenges api.
+ * Changes in 1.23:
+ * - Update challenges API to execute the sql query directly instead of run query file.
+ * - Add technology and platform filter for challenges api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -89,6 +92,28 @@ var SORT_COLUMN = "sortColumn";
 var DEFAULT_SORT_COLUMN = "challengeName";
 
 /**
+ * The path that store all query files.
+ * @since 1.23
+ */
+var QUERY_PATH = './queries/';
+
+/**
+ * The technology filter for challenges api.
+ * @since 1.23
+ */
+var TECHNOLOGY_FILTER = 'AND EXISTS (SELECT 1 FROM technology_types tt, comp_technology ct ' +
+    'WHERE tt.technology_type_id = ct.technology_type_id AND ct.comp_vers_id = pi1.value ' +
+    'AND LOWER(tt.technology_name) IN (@filter@))\n';
+
+/**
+ * The platform filter for challenges api.
+ * @since 1.23
+ */
+var PLATFORM_FILTER = 'AND EXISTS (SELECT 1 FROM project_platform_lu ppl ' +
+    'INNER JOIN project_platform pp ON pp.project_platform_id = ppl.project_platform_id ' +
+    'WHERE LOWER(name) IN (@filter@) AND p.project_id = pp.project_id)\n';
+
+/**
  * Represents a predefined list of valid query parameter for all challenge types.
  */
 var ALLOWABLE_QUERY_PARAMETER = [
@@ -103,7 +128,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
-    "submissionEndFrom", "submissionEndTo", 'type'];
+    "submissionEndFrom", "submissionEndTo", 'type', 'platform', 'technology'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -1661,8 +1686,8 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 restrictions: execQuery("get_challenge_restrictions")
             }, cb);
 
-        }, function (res, cb) { 
-            var infoRow = res.info[0]; 
+        }, function (res, cb) {
+            var infoRow = res.info[0];
             if (!_.isDefined(infoRow)) {
                 cb(new BadRequestError('No Result Found'));
                 return;
@@ -2957,6 +2982,48 @@ exports.getPhases = {
 };
 
 /**
+ * Add template into sql.
+ * @param {String} sql - the sql query.
+ * @param {String} template - the template that will insert into sql
+ * @param {String} content - the content that need in template.
+ * @since 1.23
+ */
+var editSql = function (sql, template, content) {
+    var index = sql.toLowerCase().indexOf('order by');
+    if (!_.isUndefined(template)) {
+        template = template.replace('@filter@', content);
+    }
+    return sql.slice(0, index) + template + sql.slice(index, sql.length);
+};
+
+/**
+ * Add technology and platform filter for sql query.
+ * @param {Object} sql - the sql object.
+ * @param {Object} connection - the connection object.
+ * @since 1.23
+ */
+var addFilter = function (sql, connection) {
+    var platform = '', technology = '';
+    if (!_.isUndefined(connection.params.platform)) {
+        platform = _.map(connection.params.platform.split(','), function (item) {
+            return "'" + item.toLowerCase().trim() + "'";
+        }).join(', ');
+
+        sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
+        sql.data = editSql(sql.data, PLATFORM_FILTER, platform);
+    }
+
+    if (!_.isUndefined(connection.params.technology)) {
+        technology = _.map(connection.params.technology.split(','), function (item) {
+            return "'" + item.toLowerCase().trim() + "'";
+        }).join(', ');
+        sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
+        sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+    }
+    return sql;
+};
+
+/**
  * Handle get active challenges api.
  *
  * @param {Object} api - the api object.
@@ -3058,10 +3125,20 @@ var getChallenges = function (api, connection, listType, next) {
 
             async.parallel({
                 count: function (cbx) {
-                    api.dataAccess.executeQuery(queryName.count, sqlParams, dbConnectionMap, cbx);
+                    fs.readFile(QUERY_PATH + queryName.count, 'utf8', cbx);
                 },
                 data: function (cbx) {
-                    api.dataAccess.executeQuery(queryName.data, sqlParams, dbConnectionMap, cbx);
+                    fs.readFile(QUERY_PATH + queryName.data, 'utf8', cbx);
+                }
+            }, cb);
+        }, function (sql, cb) {
+            sql = addFilter(sql, connection);
+            async.parallel({
+                count: function (cbx) {
+                    api.dataAccess.executeSqlQuery(sql.count, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
+                },
+                data: function (cbx) {
+                    api.dataAccess.executeSqlQuery(sql.data, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
                 }
             }, cb);
         }, function (results, cb) {
