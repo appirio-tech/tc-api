@@ -2,6 +2,7 @@
     "data": [
         {
             "challengeName": "test project 3001",
+            "challengeType": "Banners/Icons",
             "challengeId": 3001,
             "reviewerPayment": 100,
             "reviewer": "twight",
@@ -9,6 +10,7 @@
         },
         {
             "challengeName": "test project 3002",
+            "challengeType": "Web Design",
             "challengeId": 3002,
             "reviewerPayment": 100,
             "reviewer": "twight",
@@ -16,6 +18,7 @@
         },
         {
             "challengeName": "test project 3003",
+            "challengeType": "Wireframes",
             "challengeId": 3003,
             "reviewerPayment": 100,
             "reviewer": "ksmith",
@@ -23,6 +26,7 @@
         },
         {
             "challengeName": "test project 3004",
+            "challengeType": "Logo Design",
             "challengeId": 3004,
             "reviewerPayment": 150,
             "reviewer": "cartajs",
@@ -30,6 +34,7 @@
         },
         {
             "challengeName": "test project 3005",
+            "challengeType": "Print/Presentation",
             "challengeId": 3005,
             "reviewerPayment": 100,
             "reviewer": "super",
@@ -37,6 +42,7 @@
         },
         {
             "challengeName": "test project 3006",
+            "challengeType": "Banners/Icons",
             "challengeId": 3006,
             "reviewerPayment": 75,
             "reviewer": "lightspeed",
@@ -44,6 +50,7 @@
         },
         {
             "challengeName": "test project 3007",
+            "challengeType": "Web Design",
             "challengeId": 3007,
             "reviewerPayment": 75,
             "reviewer": "heffan",
@@ -51,6 +58,7 @@
         },
         {
             "challengeName": "test project 3008",
+            "challengeType": "Wireframes",
             "challengeId": 3008,
             "reviewerPayment": 75,
             "reviewer": "hung",
@@ -58,6 +66,7 @@
         },
         {
             "challengeName": "test project 3009",
+            "challengeType": "Logo Design",
             "challengeId": 3009,
             "reviewerPayment": 75,
             "reviewer": "partha",
@@ -65,6 +74,7 @@
         },
         {
             "challengeName": "test project 3010",
+            "challengeType": "Print/Presentation",
             "challengeId": 3010,
             "reviewerPayment": 75,
             "reviewer": "reassembler",
