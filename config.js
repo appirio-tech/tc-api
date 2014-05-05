@@ -130,7 +130,9 @@ config.general = {
         fileSizeLimit: process.env.PHOTO_SIZE_LIMIT || 1048576,
         validTypes: ['jpeg', 'png', 'bmp', 'jpg'],
         storeDir: process.env.PHOTO_STORE_DIR || 'test/tmp/memberPhoto/'
-    }
+    },
+    technologiesCacheKey: 'technologies',
+    platformsCacheKey: 'platforms'
 };
 
 /////////////
