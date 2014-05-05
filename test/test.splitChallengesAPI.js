@@ -220,23 +220,4 @@ describe('Get Challenges API', function () {
         assertSuccessResponse(activeChallengesEndpoint + '?submissionEndTo=2014-1-1', null, done);
     });
 
-    it('should return success results. The new split active api should return same results as old challenges api.',
-        function (done) {
-            assertNewApi(activeChallengesEndpoint, '/v2/challenges?listType=active', done);
-        });
-
-    it('should return success results. Test past api.',
-        function (done) {
-            assertNewApi('/v2/challenges/past', '/v2/challenges?listType=past', done);
-        });
-
-    it('should return success results. The new split active api should return same results as old challenges api.',
-        function (done) {
-            assertNewApi('/v2/challenges/active', '/v2/challenges?listType=active', done);
-        });
-
-    it('should return success results. Test past design api.',
-        function (done) {
-            assertNewApi('/v2/challenges/past', '/v2/challenges?listType=past', done);
-        });
 });

@@ -85,15 +85,6 @@ describe('Reset Password API', function () {
     });
 
     /**
-     * This function is run after all tests.
-     * Clean up all data.
-     * @param {Function<err>} done the callback
-     */
-    after(function (done) {
-        clearDb(done);
-    });
-
-    /**
      * Create a http request and test it.
      * @param {String} handle - the request handle.
      * @param {Number} expectStatus - the expected request response status.
@@ -109,6 +100,37 @@ describe('Reset Password API', function () {
             .send(postData)
             .end(cb);
     }
+
+    /**
+     * This function is run after all tests.
+     * Clean up all data.
+     * @param {Function<err>} done the callback
+     */
+    after(function (done) {
+        async.waterfall([
+            function (cbx) {
+                clearDb(cbx);
+            },
+            function (cbx) {
+                // Insert again.
+                testHelper.addCacheValue(heffan,
+                    {
+                        value: 'abcde',
+                        expireTimestamp: new Date('2016-1-1').getTime(),
+                        createdAt: new Date().getTime(),
+                        readAt: null
+                    }, cbx);
+            },
+            function (cbx) {
+                createRequest('HEFFAN', 200, { token: 'abcde', password: 'password' }, function (err) {
+                    cbx(err);
+                });
+            },
+            function (cbx) {
+                clearDb(cbx);
+            }
+        ], done);
+    });
 
     /**
      * assert the bad response.
