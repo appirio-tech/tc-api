@@ -1355,6 +1355,7 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
                     prize: element.prize,
                     submissionDate: element.submission_date,
                     viewable: element.viewable.toLowerCase() === "true",
+                    challengeId: element.challenge_id,
                     preview: api.config.designSubmissionLink + element.submission_id + "&sbt=small"
                 };
                 if (!winningSubmission.viewable) {
