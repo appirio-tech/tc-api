@@ -1,0 +1,8 @@
+SELECT 
+user_id
+FROM
+member_contact_black_list
+WHERE 
+user_id = '@userId@'
+AND
+blocked_user_id = '@blockedUserId@'

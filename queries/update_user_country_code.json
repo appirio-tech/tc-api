@@ -1,0 +1,5 @@
+{
+  "name"    : "update_user_country_code",
+  "db"      : "common_oltp",
+  "sqlfile" : "update_user_country_code"
+}

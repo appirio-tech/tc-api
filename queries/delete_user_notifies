@@ -1,0 +1,6 @@
+DELETE FROM 
+user_notify_xref
+WHERE 
+user_id = '@userId@'
+AND
+notify_id in (@notifyId@)

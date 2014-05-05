@@ -1,6 +1,5 @@
 {
   "handle": "dok_tester",
-  "memberSince": "2008-02-15T13:43:53.000+0000",
   "photoLink": "",
   "ratingSummary": [],
   "Achievements": [],
@@ -11,5 +10,24 @@
       "status": "Active"
     }
   ],
-  "name": "dok dok"
+  "name": "dok dok",
+  "privacy": {
+   "showMySchool": "N/A",
+   "receiveMessages": "No",
+   "showMyEarnings": "No",
+   "messageBlackList": []
+  },
+  "emailNotification": {
+   "Competition announcements": {
+     "Algorithm Competitions": "No",
+     "Software Development Opportunities": "No",
+     "TopCoder Studio Competitions": "No"
+   },
+   "Other": {
+     "Employment Opportunities": "No",
+     "TopCoder News & Events": "No",
+     "Products & Services": "No",
+     "TopCoder Design Studio Newsletter": "No"
+   }
+  }
 }

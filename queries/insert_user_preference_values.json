@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_user_preference_values",
+    "db"      : "common_oltp",
+    "sqlfile" : "insert_user_preference_values"
+}

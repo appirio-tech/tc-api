@@ -1,0 +1,6 @@
+SELECT 
+demographic_answer_id, demographic_answer_text
+FROM 
+demographic_answer 
+WHERE 
+demographic_question_id = '@questionId@'

@@ -1,0 +1,1 @@
+INSERT INTO email (user_id, email_id, email_type_id, address, primary_ind, status_id) VALUES(@userId@, @emailId@, '@emailTypeId@', '@address@', '@primaryInd@', '@statusId@')

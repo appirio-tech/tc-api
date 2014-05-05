@@ -1,0 +1,6 @@
+SELECT 
+address_id
+FROM 
+user_address_xref
+WHERE
+user_id = '@coderId@'

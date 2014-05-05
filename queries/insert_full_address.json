@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_full_address",
+    "db"      : "common_oltp",
+    "sqlfile" : "insert_full_address"
+}

@@ -1,0 +1,8 @@
+SELECT 
+cs.school_id as school_id, cs.viewable as viewable
+FROM 
+current_school cs, coder c
+WHERE 
+c.handle_lower = LOWER('@handle@')
+AND 
+cs.coder_id = c.coder_id

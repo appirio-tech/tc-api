@@ -1,0 +1,6 @@
+SELECT 
+rt.registration_type_id as id 
+FROM 
+user u, user_group_xref ugx, security_groups sg, registration_type_lu rt 
+WHERE
+u.handle = '@handle@' AND ugx.login_id = u.user_id AND ugx.security_status_id = 1 AND sg.group_id = ugx.group_id AND rt.security_group_id = sg.group_id

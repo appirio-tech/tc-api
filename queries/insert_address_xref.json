@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_address_xref",
+    "db"      : "common_oltp",
+    "sqlfile" : "insert_address_xref"
+}

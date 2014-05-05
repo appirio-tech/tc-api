@@ -1,0 +1,1 @@
+SELECT email_id FROM email WHERE user_id = '@coderId@' and email_type_id = '@typeId@'
