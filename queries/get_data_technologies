@@ -1,3 +1,4 @@
 SELECT DISTINCT technology_types.technology_name AS name
+, technology_type_id AS id
 FROM  technology_types
 ORDER BY name ASC;

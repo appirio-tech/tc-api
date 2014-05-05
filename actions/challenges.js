@@ -101,17 +101,15 @@ var QUERY_PATH = './queries/';
  * The technology filter for challenges api.
  * @since 1.23
  */
-var TECHNOLOGY_FILTER = 'AND EXISTS (SELECT 1 FROM technology_types tt, comp_technology ct ' +
-    'WHERE tt.technology_type_id = ct.technology_type_id AND ct.comp_vers_id = pi1.value ' +
-    'AND LOWER(tt.technology_name) IN (@filter@))\n';
+var TECHNOLOGY_FILTER = 'AND EXISTS (SELECT DISTINCT 1 FROM comp_technology ct WHERE ct.comp_vers_id = pi1.value ' +
+    'AND ct.technology_type_id IN (@filter@))';
 
 /**
  * The platform filter for challenges api.
  * @since 1.23
  */
-var PLATFORM_FILTER = 'AND EXISTS (SELECT 1 FROM project_platform_lu ppl ' +
-    'INNER JOIN project_platform pp ON pp.project_platform_id = ppl.project_platform_id ' +
-    'WHERE LOWER(name) IN (@filter@) AND p.project_id = pp.project_id)\n';
+var PLATFORM_FILTER = 'AND EXISTS (SELECT 1 FROM project_platform pp WHERE pp.project_platform_id IN (@filter@) ' +
+    'AND p.project_id = pp.project_id)';
 
 /**
  * Represents a predefined list of valid query parameter for all challenge types.
@@ -128,7 +126,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
-    "submissionEndFrom", "submissionEndTo", 'type', 'platform', 'technology'];
+    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -456,11 +454,38 @@ function validateInputParameterV2(helper, caller, type, query, filter, pageIndex
         callback(error);
         return;
     }
-    if (!_.isUndefined(query.challengeType)) {
-        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, type, callback);
-    } else {
-        callback();
-    }
+    async.waterfall([
+        function (cbx) {
+            if (!_.isUndefined(query.challengeType)) {
+                helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, type, cbx);
+            } else {
+                cbx();
+            }
+        },
+        function (cbx) {
+            if (!_.isUndefined(filter.technologies)) {
+                helper.getCatalogCachedValue(filter.technologies.split(','), dbConnectionMap, 'technologies', cbx);
+            } else {
+                cbx(null, null);
+            }
+        },
+        function (techId, cbx) {
+            if (_.isDefined(techId)) {
+                filter.technologies = techId;
+            }
+            if (_.isDefined(filter.platforms)) {
+                helper.getCatalogCachedValue(filter.platforms.split(','), dbConnectionMap, 'platforms', cbx);
+            } else {
+                cbx(null, null);
+            }
+        },
+        function (platformId, cbx) {
+            if (_.isDefined(platformId)) {
+                filter.platforms = platformId;
+            }
+            cbx();
+        }
+    ], callback);
 }
 
 /**
@@ -2999,24 +3024,19 @@ var editSql = function (sql, template, content) {
 /**
  * Add technology and platform filter for sql query.
  * @param {Object} sql - the sql object.
- * @param {Object} connection - the connection object.
+ * @param {Object} filter - the filter object.
  * @since 1.23
  */
-var addFilter = function (sql, connection) {
-    var platform = '', technology = '';
-    if (!_.isUndefined(connection.params.platform)) {
-        platform = _.map(connection.params.platform.split(','), function (item) {
-            return "'" + item.toLowerCase().trim() + "'";
-        }).join(', ');
-
+var addFilter = function (sql, filter) {
+    var platform, technology;
+    if (_.isDefined(filter.platforms)) {
+        platform = filter.platforms.join(', ');
         sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
         sql.data = editSql(sql.data, PLATFORM_FILTER, platform);
     }
 
-    if (!_.isUndefined(connection.params.technology)) {
-        technology = _.map(connection.params.technology.split(','), function (item) {
-            return "'" + item.toLowerCase().trim() + "'";
-        }).join(', ');
+    if (_.isDefined(filter.technologies)) {
+        technology = filter.technologies.join(', ');
         sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
         sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
     }
@@ -3037,7 +3057,7 @@ var getChallenges = function (api, connection, listType, next) {
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type'],
+            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms'],
         dbConnectionMap = connection.dbConnectionMap,
         sqlParams = {},
         filter = {},
@@ -3132,7 +3152,7 @@ var getChallenges = function (api, connection, listType, next) {
                 }
             }, cb);
         }, function (sql, cb) {
-            sql = addFilter(sql, connection);
+            sql = addFilter(sql, filter);
             async.parallel({
                 count: function (cbx) {
                     api.dataAccess.executeSqlQuery(sql.count, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
