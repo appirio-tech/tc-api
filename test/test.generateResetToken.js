@@ -22,14 +22,14 @@ var redis = require('redis');
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 var SQL_DIR = __dirname + "/sqls/resetPassword/";
 var DATABASE_NAME = "common_oltp";
-var TOKEN_LIFETIME = require('../config').config.general.defaultResetPasswordTokenCacheLifetime;
-var IS_FAKE_REDIS_USED = require('../config').config.redis.fake;
+var TOKEN_LIFETIME = require('../config/tc-config').tcConfig.defaultResetPasswordTokenCacheLifetime;
+var IS_FAKE_REDIS_USED = !(process.env.fakeredis == 'false');
 if (typeof TOKEN_LIFETIME === 'string') {
     TOKEN_LIFETIME = parseInt(TOKEN_LIFETIME, 10);
 }
 
-var CLIENT_ID = require('../config').config.general.oauthClientId;
-var SECRET = require('../config').config.general.oauthClientSecret;
+var CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId;
+var SECRET = require('../config/tc-config').tcConfig.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 describe('Test Generate Reset Token API', function () {

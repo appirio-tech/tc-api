@@ -20,8 +20,8 @@ var jwt = require('jsonwebtoken');
 var testHelper = require('./helpers/testHelper');
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var CLIENT_ID = require('../config').config.general.oauthClientId;
-var SECRET = require('../config').config.general.oauthClientSecret;
+var CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId;
+var SECRET = require('../config/tc-config').tcConfig.oauthClientSecret;
 var COMMON_OLTP = "common_oltp";
 var SQL_DIR = __dirname + "/sqls/oauth/";
 

@@ -6,7 +6,7 @@
 exports.default = { 
   redis: function(api){
     return {
-      package: !(process.env.REDIS_HOST && process.env.REDIS_HOST !== '127.0.0.1') ? 'fakeredis' : 'redis',
+      package: !(process.env.REDIS_HOST && process.env.REDIS_HOST !== '127.0.0.1' && process.env.REDIS_HOST !== 'localhost') ? 'fakeredis' : 'redis',
 
       host : process.env.REDIS_HOST || "127.0.0.1",
       port : process.env.REDIS_PORT || 6379,

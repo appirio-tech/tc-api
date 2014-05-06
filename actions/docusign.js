@@ -10,7 +10,7 @@
 var _ = require("underscore");
 var async = require("async");
 var S = require("string");
-var config = require("../config").config;
+//var config = require("../config/tc-config").default.tcConfig;
 var request = require('request');
 
 var NotFoundError = require('../errors/NotFoundError');
@@ -90,6 +90,7 @@ TermsOfUseHandler.prototype.handleDocument = function (userId, tabs, api, dbConn
  * Note that there can be more than 1 handlers per template
  * Handlers that are not required for this contest are left empty
  */
+ /*
 var templates = [{
     name: 'W9',
     templateId: config.docusign.w9TemplateId,
@@ -113,6 +114,34 @@ var templates = [{
     templateId: config.docusign.affidavitTemplateId,
     handlers: []
 }];
+*/
+var templates;
+
+function initTemplates(config) {
+    templates = [{
+    name: 'W9',
+    templateId: config.docusign.w9TemplateId,
+    handlers: []
+}, {
+    name: 'W-8BEN',
+    templateId: config.docusign.w8benTemplateId,
+    handlers: []
+}, {
+    name: 'TopCoder Assignment v2.0',
+    templateId: config.docusign.assignmentV2TemplateId,
+    handlers: [
+        new TermsOfUseHandler(config.docusign.assignmentDocTermsOfUseId)
+    ]
+}, {
+    name: 'Appirio Mutual NDA',
+    templateId: config.docusign.appirioMutualNDATemplateId,
+    handlers: []
+}, {
+    name: 'Affidavit',
+    templateId: config.docusign.affidavitTemplateId,
+    handlers: []
+}];
+}
 
 /**
  * Convenience function that writes the response and calls the actionhero next 
@@ -161,9 +190,13 @@ exports.docusignCallback = {
             sqlParams = {},
             envelopeInfo;
 
+        if (_.isUndefined(templates)) {
+            initTemplates(api.config.tcConfig);
+        }
+
         async.waterfall([
             function (cb) {
-                if (connectKey !== config.docusign.callbackConnectKey) {
+                if (connectKey !== api.config.tcConfig.docusign.callbackConnectKey) {
                     api.log(CONNECT_KEY_MISSING, 'error');
                     writeResponse(connection, 404, next, CONNECT_KEY_MISSING);
                     return;
@@ -198,7 +231,7 @@ exports.docusignCallback = {
                 envelopeInfo = rows[0];
 
                 //Find the template for the envelope
-                var template = _.findWhere(templates, {templateId: envelopeInfo.docusign_template_id});
+                var template = _.findWhere(api.config.tcConfig.docusign.templates, {templateId: envelopeInfo.docusign_template_id});
                 if (template === undefined) {
                     api.log('No Template was found for template id: ' + envelopeInfo.docusign_template_id, 'warn');
                     writeResponse(connection, 200, next);
@@ -220,10 +253,10 @@ exports.docusignCallback = {
             if (err) {
                 //All errors need to be communicated to the support staff
                 api.tasks.enqueue("sendEmail", {
-                    subject : config.docusign.callbackFailedEmailSubject,
+                    subject : api.config.tcConfig.docusign.callbackFailedEmailSubject,
                     template : 'docusign_callback_failure_email',
-                    toAddress : config.docusign.supportEmailAddress,
-                    fromAddress : config.docusign.fromEmailAddress,
+                    toAddress : api.config.tcConfig.docusign.supportEmailAddress,
+                    fromAddress : api.config.tcConfig.docusign.fromEmailAddress,
                     userId : envelopeInfo.user_id,
                     templateId: envelopeInfo.docusign_template_id,
                     envelopeId : envelopeInfo.docusign_envelope_id,
@@ -259,9 +292,9 @@ function initializeRequest(api, url, method, body) {
         "body": body,
         "headers": {}
     }, dsAuthHeader = JSON.stringify({ // DocuSign authorization header
-        "Username": api.config.docusign.username,
-        "Password": api.config.docusign.password,
-        "IntegratorKey": api.config.docusign.integratorKey
+        "Username": api.config.tcConfig.docusign.username,
+        "Password": api.config.tcConfig.docusign.password,
+        "IntegratorKey": api.config.tcConfig.docusign.integratorKey
     });
     options.headers["X-DocuSign-Authentication"] = dsAuthHeader;
 
@@ -335,7 +368,7 @@ exports.generateDocusignViewURL = {
 
 
                 //Perform login to docusign
-                options = initializeRequest(api, config.docusign.serverURL + "login_information", 'GET', '');
+                options = initializeRequest(api, api.config.tcConfig.docusign.serverURL + "login_information", 'GET', '');
                 request(options, function (err, res, body) {
                     var resp;
                     try {
@@ -389,8 +422,8 @@ exports.generateDocusignViewURL = {
                         templateRoles: [{
                             name: user.first_name + " " + user.last_name,
                             email: user.email,
-                            roleName: api.config.docusign.roleName,
-                            clientUserId: api.config.docusign.clientUserId,
+                            roleName: api.config.tcConfig.docusign.roleName,
+                            clientUserId: api.config.tcConfig.docusign.clientUserId,
                             tabs: {
                                 textTabs: textTabs
                             }
@@ -441,12 +474,12 @@ exports.generateDocusignViewURL = {
                 var url, returnURL, reqParams;
 
                 //Create the return url
-                returnURL = _.template(api.config.docusign.returnURL)({envelopeId: envelopeId});
+                returnURL = _.template(api.config.tcConfig.docusign.returnURL)({envelopeId: envelopeId});
 
                 //Request recipient view
                 url = baseURL + "/envelopes/" + envelopeId + "/views/recipient";
                 reqParams = {
-                    clientUserId: api.config.docusign.clientUserId,
+                    clientUserId: api.config.tcConfig.docusign.clientUserId,
                     email: user.email,
                     returnUrl: returnURL,
                     userName: user.first_name + " " + user.last_name,

@@ -19,7 +19,7 @@ var async = require('async');
 var S = require('string');
 
 var testHelper = require('./helpers/testHelper');
-var configs = require('../config');
+var config = require('../config/tc-config').tcConfig;
 var SQL_DIR = __dirname + '/sqls/uploadMemberPhoto/';
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
@@ -30,9 +30,9 @@ describe('Upload Member Photo API', function () {
         heffan = testHelper.generateAuthHeader({ sub: 'ad|132456' }),
         superu = testHelper.generateAuthHeader({ sub: 'ad|132457' }),
         user = testHelper.generateAuthHeader({ sub: 'ad|132458' }),
-        filePath = configs.config.general.memberPhoto.storeDir;
+        filePath = config.memberPhoto.storeDir;
 
-    if (!new S(configs.config.general.memberPhoto.storeDir).endsWith('/')) {
+    if (!new S(config.memberPhoto.storeDir).endsWith('/')) {
         filePath += '/';
     }
 

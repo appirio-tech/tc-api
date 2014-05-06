@@ -36,7 +36,7 @@ var helper = {};
 /**
  * Heroku config
  */
-var configs = require('../../config');
+var configs = require('../../config/tc-config').tcConfig;
 var java = require('java');
 var Jdbc = require('informix-wrapper');
 
@@ -52,8 +52,8 @@ var DEFAULT_TIMEOUT = 30000; // 30s
 /**
  * client id and secret.
  */
-var CLIENT_ID = configs.config.general.oauthClientId;
-var SECRET = configs.config.general.oauthClientSecret;
+var CLIENT_ID = configs.oauthClientId;
+var SECRET = configs.oauthClientSecret;
 
 /**
  * The password hash key.
@@ -67,7 +67,7 @@ helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || "default";
  * @return {Object} the created connection
  */
 function createConnection(databaseName) {
-    var dbServerPrefix = configs.config.databaseMapping[databaseName], user,
+    var dbServerPrefix = configs.databaseMapping[databaseName], user,
         password, hostname, server, port, settings;
 
     if (!dbServerPrefix) {
