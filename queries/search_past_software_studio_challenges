@@ -62,7 +62,7 @@ AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'co
 AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND pcl.project_type_id IN (@project_type_id@)
 AND NVL(pp.actual_end_time, pp.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
-AND LOWER(pcl.description) = DECODE('@categoryName@', '', (pcl.description), '@categoryName@')
+ AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
 AND (challenge_name.value) LIKE ('@challengeName@')
 AND NVL(pr.prize_amount, 0) >= @prilower@
 AND NVL(pr.prize_amount, 0) <= @priupper@
