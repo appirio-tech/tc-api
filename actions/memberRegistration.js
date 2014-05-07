@@ -1007,8 +1007,15 @@ exports.memberRegister = {
             // validate parameters that require database access
             async.series({
                 validatePassword: function (callback) {
-                    if ((connection.params.socialProviderId == null || connection.params.socialProviderId == undefined) && (connection.params.password == null || connection.params.password == undefined)) {                   
+                    if ((connection.params.socialProviderId == null || connection.params.socialProviderId == undefined) && (connection.params.password == null || connection.params.password == undefined)) {
                         callback(null, "Password is a required parameter if the registering is not through social login.");
+                    } else if (_.isDefined(connection.params.password)) {
+                        var error = helper.validatePassword(connection.params.password);
+                        if (error) {
+                            callback(null, error.message);
+                        } else {
+                            callback(null, null);
+                        }
                     } else {
                         callback(null, null);
                     }
