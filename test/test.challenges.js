@@ -49,7 +49,7 @@ var software_collection_total = {};
 software_collection_total[ListType.ACTIVE] = 4;
 software_collection_total[ListType.OPEN] = 1;
 software_collection_total[ListType.UPCOMING] = 2;
-software_collection_total[ListType.PAST] = 2;
+software_collection_total[ListType.PAST] = 0;
 
 describe('Test Challenges API', function () {
     this.timeout(60000); // The api with testing remote db could be quit slow
@@ -283,7 +283,7 @@ describe('Test Challenges API', function () {
              * Test develop/challenges?listType=past&cmcTaskId=cmc
              */
             it('should return 2 PAST challenges with cmcTaskId=cmc', function (done) {
-                assertCMC("PAST", 2, 0, "cmc", done);
+                assertCMC("PAST", 0, 0, "cmc", done);
             });
 
             /**
@@ -509,7 +509,7 @@ describe('Test Challenges API', function () {
              * /v2/design/challenges?listType=UPCOMING
              */
             it("should return results for ?listType=UPCOMING", function (done) {
-                validateResult("listType=UPCOMING", [], "UPCOMING", 1, 1, 50, done);
+                validateResult("listType=UPCOMING", [], "UPCOMING", 0, 1, 50, done);
             });
 
 
@@ -738,7 +738,7 @@ describe('Test Challenges API', function () {
                     .expect(200)
                     .end(function (err, res) {
                         var body = res.body;
-                        assert.equal(body.total, 3, 'Invalid total number');
+                        assert.equal(body.total, 2, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
                         assert.equal(body.data.length, 2, 'Invalid data length');
@@ -754,7 +754,7 @@ describe('Test Challenges API', function () {
                     .expect(200)
                     .end(function (err, res) {
                         var body = res.body;
-                        assert.equal(body.total, 3, 'Invalid total number');
+                        assert.equal(body.total, 1, 'Invalid total number');
                         assert.equal(body.pageIndex, 1, 'Invalid pageIndex');
                         assert.equal(body.pageSize, 50, 'Invalid pageSize');
                         assert.equal(body.data.length, 1, 'Invalid data length');

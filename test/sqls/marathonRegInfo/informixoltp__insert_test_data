@@ -1,3 +1,4 @@
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (1000, "SRM 67 DIV 2", "A", -1);
 INSERT INTO contest (contest_id, name, status, group_id) VALUES (10000, 'Marathon Match 90', 'A', -1);
 INSERT INTO contest (contest_id, name, status, group_id) VALUES (10001, 'Marathon Match 91', 'A', -1);
 
