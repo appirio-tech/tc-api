@@ -14,6 +14,12 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
 
+/**
+ * The date format for input date parameter startDate and enDate.
+ * Dates like 2014-01-29 and 2014-1-29 are valid
+ */
+var DATE_FORMAT = 'YYYY-M-D';
+
 /*
  * This variable holds a new billing to be created.
  */
@@ -23,7 +29,6 @@ var newBilling = {
     poBoxNumber: 'null',
     paymentTermId: 1,
     salestax: 0,
-    durationInYears: 3,
     isManualPrizeSetting: 1
 };
 
@@ -58,7 +63,7 @@ exports.action = {
     name: "createBilling",
     description: "create new billing account",
     inputs: {
-        required: ["customerNumber", "billingAccountName"],
+        required: ["customerNumber", "billingAccountName", "startDate", "endDate"],
         optional: []
     },
     blockedConnectionTypes: [],
@@ -72,8 +77,11 @@ exports.action = {
         var helper = api.helper,
             customerNumber = connection.params.customerNumber,
             billingAccountName = connection.params.billingAccountName,
+            startDate = connection.params.startDate,
+            endDate = connection.params.endDate,
             dbConnectionMap = connection.dbConnectionMap,
-            existingClientId;
+            existingClientId,
+            error;
 
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -98,6 +106,13 @@ exports.action = {
                     return;
                 }
 
+                error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
+                    || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+                if (error) {
+                    cb(error);
+                    return;
+                }
+
                 //Check if the user is logged-in
                 if (connection.caller.accessLevel === "anon") {
                     cb(new UnauthorizedError("Authentication details missing or incorrect."));
@@ -113,7 +128,9 @@ exports.action = {
                 //Check for uniqueness of billingAccountName and existence of client with customer number
                 _.extend(newBilling, {
                     billingAccountName: billingAccountName,
-                    customerNumber: customerNumber
+                    customerNumber: customerNumber,
+                    startDate: startDate,
+                    endDate: endDate
                 });
                 async.parallel({
                     billing: function (cb) {

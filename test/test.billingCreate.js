@@ -132,7 +132,7 @@ describe('Create new billing', function () {
             .expect('Content-Type', /json/)
             .expect(401);
 
-        req.send({ billingAccountName: 'billing_name_101', customerNumber: '101'})
+        req.send({ billingAccountName: 'billing_name_101', customerNumber: '101', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 assertError(err, resp, "Authentication details missing or incorrect.", done);
             });
@@ -145,7 +145,7 @@ describe('Create new billing', function () {
     it('should return 403 error when user is not admin', function (done) {
         var req = getRequest('/v2/platform/billing', user124764, 403);
 
-        req.send({ billingAccountName: 'billing_name_102', customerNumber: '102'})
+        req.send({ billingAccountName: 'billing_name_102', customerNumber: '102', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 assertError(err, resp, "Only admin members are allowed to create a new billing.", done);
             });
@@ -158,7 +158,7 @@ describe('Create new billing', function () {
     it('should return 400 error when billingAccountName is empty', function (done) {
         var req = getRequest('/v2/platform/billing', user124764, 400);
 
-        req.send({ billingAccountName: '         \t\t   \n\n ', customerNumber: '102'})
+        req.send({ billingAccountName: '         \t\t   \n\n ', customerNumber: '102', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 assertError(err, resp, "billingAccountName cannot be empty.", done);
             });
@@ -171,7 +171,7 @@ describe('Create new billing', function () {
     it('should return 400 error when billingAccountName is too long', function (done) {
         var req = getRequest('/v2/platform/billing', user124764, 400);
 
-        req.send({ billingAccountName: 'fkasdfkasjdhf;alksdf8;askjbkjsdbfkjnaskdbfanmsdbv,mabsndkjfhaskdfna,sdfsdfss', customerNumber: '102'})
+        req.send({ billingAccountName: 'fkasdfkasjdhf;alksdf8;askjbkjsdbfkjnaskdbfanmsdbv,mabsndkjfhaskdfna,sdfsdfss', customerNumber: '102', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 assertError(err, resp, "billingAccountName is too long.", done);
             });
@@ -184,7 +184,7 @@ describe('Create new billing', function () {
     it('should return 400 error when billingAccountName already exists', function (done) {
         var req = getRequest('/v2/platform/billing', user132456, 400);
 
-        req.send({ billingAccountName: 'existingBillingAccount', customerNumber: 'blaah233wq'})
+        req.send({ billingAccountName: 'existingBillingAccount', customerNumber: 'blaah233wq', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 assertError(err, resp, "Billing with this name already exists.", done);
             });
@@ -197,7 +197,7 @@ describe('Create new billing', function () {
     it('should return 400 error when client with customerName does not exist', function (done) {
         var req = getRequest('/v2/platform/billing', user132456, 400);
 
-        req.send({ billingAccountName: 'blahijsmshhs', customerNumber: 'noSuchCustomerNumber'})
+        req.send({ billingAccountName: 'blahijsmshhs', customerNumber: 'noSuchCustomerNumber', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 assertError(err, resp, "Client with this customer number must already exist but was not found.", done);
             });
@@ -212,7 +212,7 @@ describe('Create new billing', function () {
     it('should return 200 when billing created properly', function (done) {
         var req = getRequest('/v2/platform/billing', user132456, 200);
 
-        req.send({ billingAccountName: 'billingABC', customerNumber: 'customerNumberDEF'})
+        req.send({ billingAccountName: 'billingABC', customerNumber: 'customerNumberDEF', startDate: '2014-5-7', endDate: '2014-7-10'})
             .end(function (err, resp) {
                 if (err) {
                     done(err);
@@ -255,11 +255,11 @@ describe('Create new billing', function () {
                             assert.isUndefined(result[0].parent_project_id, "parent_project_id must not be present because it is null.");
                             assert.isUndefined(result[0].budget, "budget must not be present because it is null.");
 
-                            //Also make sure that the start_date and end_date are 3 years apart
+                            //Also make sure that the start_date and end_date are correct
                             var startDate = new Date(result[0].start_date);
-                            var expectedEndDate = startDate.addYears(3);
-                            var actualEndDate = new Date(result[0].end_date);
-                            assert.isTrue(actualEndDate.equals(expectedEndDate), "Dates must be 3 years apart.");
+                            assert.isTrue(startDate.equals(new Date('2014-5-7')), "Start date should be equal.");
+                            var endDate = new Date(result[0].end_date);
+                            assert.isTrue(endDate.equals(new Date('2014-7-10')), "End date should be equal.");
 
                             cb(null, result[0].start_date, result[0].end_date);
                         });
