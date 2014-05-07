@@ -1,3 +1,4 @@
 SELECT project_platform_lu.name
+, project_platform_id AS id
 FROM  project_platform_lu
 ORDER BY name ASC;

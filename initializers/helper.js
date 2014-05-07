@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.28
+ * @version 1.29
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -78,6 +78,8 @@
  * - added checkEmailAddress
  * Changes in 1.28:
  * - Update method checkAdmin to receive two more input parameters.
+ * Changes in 1.29:
+ * - Add getCatalogCachedValue method.
  */
 "use strict";
 
@@ -692,6 +694,61 @@ helper.checkMaxNumber = function (obj, max, objName) {
         result = new IllegalArgumentError(objName + " should be less or equal to " + max + ".");
     }
     return result;
+};
+
+/**
+ * Get catalog cache for tech/platform.
+ * @param {Array} values - the values array.
+ * @param {Object} dbConnectionMap - the database connection map.
+ * @param {String} catalogName - the catalog name. eg. 'technologies', 'platforms'
+ * @param {Function} cb - the callback function.
+ * @since 1.29
+ */
+helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, cb) {
+    var value, res = [], i = 0;
+    async.waterfall([
+        function (cbx) {
+            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (err, value) {
+                cbx(null, value);
+            });
+        },
+        function (value, cbx) {
+            if (!_.isDefined(value)) {
+                helper.api.dataAccess.executeQuery('get_data_' + catalogName, {}, dbConnectionMap, cbx);
+            } else {
+                value = JSON.parse(value);
+                cbx(null, null);
+            }
+        },
+        function (res, cbx) {
+            if (_.isDefined(res)) {
+                value = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
+                helper.api.cache.save(helper.api.config.general[catalogName + 'CacheKey'], value, helper.api.config.general.defaultCacheLifetime,
+                    function (err) {
+                        cbx(err);
+                    });
+
+            } else {
+                // Since the query will always return results. So if the results is undefined then we have cache value for catalog.
+                cbx();
+            }
+        },
+        function (cbx) {
+            // Check the catalog type here.
+            for (i; i < values.length; i += 1) {
+                var id = value[values[i].trim().toLowerCase()];
+                if (_.isDefined(id)) {
+                    res.push(id);
+                } else {
+                    cbx(new IllegalArgumentError('The ' + values[i] + ' is not a valid ' + catalogName + ' value.'));
+                    return;
+                }
+            }
+            cbx();
+        }
+    ], function (err) {
+        cb(err, res);
+    });
 };
 
 /**
