@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.22
+ * @version 1.24
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
  * @changes from 1.0
  * merged with Member Registration API
@@ -58,6 +58,8 @@
  * Changes in 1.23:
  * - Update challenges API to execute the sql query directly instead of run query file.
  * - Add technology and platform filter for challenges api.
+ * Changes in 1.24:
+ * - Update challenges API to return all challenges for active/upcoming request.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -78,7 +80,6 @@ var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
-
 var RequestTooLargeError = require('../errors/RequestTooLargeError');
 
 /**
@@ -101,15 +102,37 @@ var QUERY_PATH = './queries/';
  * The technology filter for challenges api.
  * @since 1.23
  */
-var TECHNOLOGY_FILTER = 'AND EXISTS (SELECT DISTINCT 1 FROM comp_technology ct WHERE ct.comp_vers_id = pi1.value ' +
+var TECHNOLOGY_FILTER = ' AND EXISTS (SELECT DISTINCT 1 FROM comp_technology ct WHERE ct.comp_vers_id = pi1.value ' +
     'AND ct.technology_type_id IN (@filter@))';
 
 /**
  * The platform filter for challenges api.
  * @since 1.23
  */
-var PLATFORM_FILTER = 'AND EXISTS (SELECT 1 FROM project_platform pp WHERE pp.project_platform_id IN (@filter@) ' +
+var PLATFORM_FILTER = ' AND EXISTS (SELECT 1 FROM project_platform pp WHERE pp.project_platform_id IN (@filter@) ' +
     'AND p.project_id = pp.project_id)';
+
+/**
+ * This filter will return all private challenges.
+ * @since 1.24
+ */
+var ALL_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)\n';
+
+/**
+ * This filter will return private challenges that given user_id can access.
+ * @since 1.24
+ */
+var USER_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT contest_id FROM contest_eligibility ce, ' +
+    'group_contest_eligibility gce, user_group_xref x WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id ' +
+    'AND gce.contest_eligibility_id = ce.contest_eligibility_id AND ce.contest_id = p.project_id)\n';
+
+/**
+ * This filter return all private challenges that in specific group.
+ * @since 1.24
+ */
+var GROUP_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT 1 FROM contest_eligibility ce, group_contest_eligibility gce ' +
+    'WHERE ce.contest_eligibility_id = gce.contest_eligibility_id AND gce.group_id = @community_id@ ' +
+    'AND p.project_id = ce.contest_id)\n';
 
 /**
  * Represents a predefined list of valid query parameter for all challenge types.
@@ -126,7 +149,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
-    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies'];
+    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies', 'private'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -200,44 +223,18 @@ var isCopilot = false;
  */
 var CHALLENGES_QUERY = {
     ACTIVE : {
-        publicQ: {
-            data: 'get_active_open_challenges',
-            count: 'get_active_open_challenges_count'
-        },
-        privateQ: {
-            data: 'get_active_open_private_challenges',
-            count: 'get_active_open_private_challenges_count'
-        }
+        data: 'get_active_challenges'
     },
     OPEN: {
-        publicQ: {
-            data: 'get_active_open_challenges',
-            count: 'get_active_open_challenges_count'
-        },
-        privateQ: {
-            data: 'get_active_open_private_challenges',
-            count: 'get_active_open_private_challenges_count'
-        }
+        data: 'get_open_challenges',
+        count: 'get_open_challenges_count'
     },
     UPCOMING: {
-        publicQ: {
-            data: 'get_upcoming_challenges',
-            count: 'get_upcoming_challenges_count'
-        },
-        privateQ: {
-            data: 'get_upcoming_private_challenges',
-            count: 'get_upcoming_private_challenges_count'
-        }
+        data: 'get_upcoming_challenges'
     },
     PAST: {
-        publicQ: {
-            data: 'get_past_challenges',
-            count: 'get_past_challenges_count'
-        },
-        privateQ: {
-            data: 'get_past_private_challenges',
-            count: 'get_past_private_challenges_count'
-        }
+        data: 'get_past_challenges',
+        count: 'get_past_challenges_count'
     }
 };
 
@@ -2819,9 +2816,9 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
             }
         }, function (results, cb) {
             var mapSubmissions = function (results, digitalRunPoints) {
-                var submissions = [], passedReview = 0, drTable, submission = {};
+                var subs = [], passedReview = 0, drTable, submission = {};
                 if (isStudio) {
-                    submissions = _.map(results, function (item) {
+                    subs = _.map(results, function (item) {
                         return {
                             submissionId: item.submission_id,
                             submitter: item.handle,
@@ -2835,7 +2832,7 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                         }
                     });
                     drTable = DR_POINT[Math.min(passedReview - 1, 4)];
-                    submissions = _.map(results, function (item) {
+                    subs = _.map(results, function (item) {
                         submission = {
                             handle: item.handle,
                             placement: item.placement || "",
@@ -2852,7 +2849,7 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                         return submission;
                     });
                 }
-                return submissions;
+                return subs;
             };
 
             submissions = mapSubmissions(results.submissions, results.digital_run_points[0].value);
@@ -3014,6 +3011,10 @@ exports.getPhases = {
  * @since 1.23
  */
 var editSql = function (sql, template, content) {
+    // For empty sql just return it.
+    if (sql.length === 0) {
+        return sql;
+    }
     var index = sql.toLowerCase().indexOf('order by');
     if (!_.isUndefined(template)) {
         template = template.replace('@filter@', content);
@@ -3025,10 +3026,12 @@ var editSql = function (sql, template, content) {
  * Add technology and platform filter for sql query.
  * @param {Object} sql - the sql object.
  * @param {Object} filter - the filter object.
+ * @param {Object} helper - the helper object.
+ * @param {Object} caller - the caller object.
  * @since 1.23
  */
-var addFilter = function (sql, filter) {
-    var platform, technology;
+var addFilter = function (sql, filter, helper, caller) {
+    var platform, technology, challengeFilter;
     if (_.isDefined(filter.platforms)) {
         platform = filter.platforms.join(', ');
         sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
@@ -3039,6 +3042,32 @@ var addFilter = function (sql, filter) {
         technology = filter.technologies.join(', ');
         sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
         sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+    }
+
+    if (_.isDefined(filter.communityId)) {
+        // return challenges that in specific group.
+        challengeFilter = ' AND' + GROUP_PRIVATE_CHALLENGE_FILTER;
+    } else {
+        if (helper.isMember(caller)) {
+            // The caller information is set.
+            if (_.isDefined(filter['private']) && filter['private'] === 'true') {
+                // return private challenges only.
+                challengeFilter = ' AND' + USER_PRIVATE_CHALLENGE_FILTER;
+            } else {
+                // return public + private that caller can access.
+                challengeFilter = ' AND ( NOT' + ALL_PRIVATE_CHALLENGE_FILTER + 'or ' + USER_PRIVATE_CHALLENGE_FILTER + ')';
+            }
+        } else {
+            // If the caller is anonymous then return all public challenges only.
+            challengeFilter = ' AND NOT' + ALL_PRIVATE_CHALLENGE_FILTER;
+        }
+    }
+    sql.count = editSql(sql.count, challengeFilter, null);
+    sql.data = editSql(sql.data, challengeFilter, null);
+
+    if (_.isDefined(filter['private'])) {
+        sql.data = editSql(sql.data, '', null);
+        sql.count = editSql(sql.count, '', null);
     }
     return sql;
 };
@@ -3057,7 +3086,8 @@ var getChallenges = function (api, connection, listType, next) {
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms'],
+            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms',
+            'private'],
         dbConnectionMap = connection.dbConnectionMap,
         sqlParams = {},
         filter = {},
@@ -3069,7 +3099,6 @@ var getChallenges = function (api, connection, listType, next) {
         type,
         result = {},
         total,
-        queryName,
         challenges;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
@@ -3129,46 +3158,43 @@ var getChallenges = function (api, connection, listType, next) {
                 return;
             }
 
-            if (!_.isUndefined(query.communityId)) {
-                // Private challenge only query name.
-                queryName = {
-                    count: CHALLENGES_QUERY[listType].privateQ.count,
-                    data: CHALLENGES_QUERY[listType].privateQ.data
-                };
-            } else {
-                // Public & Private challenge query name.
-                queryName = {
-                    count: CHALLENGES_QUERY[listType].publicQ.count,
-                    data: CHALLENGES_QUERY[listType].publicQ.data
-                };
-            }
-
             async.parallel({
                 count: function (cbx) {
-                    fs.readFile(QUERY_PATH + queryName.count, 'utf8', cbx);
+                    if (listType === helper.ListType.ACTIVE || listType === helper.ListType.UPCOMING) {
+                        cbx(null, '');
+                    } else {
+                        fs.readFile(QUERY_PATH + CHALLENGES_QUERY[listType].count, 'utf8', cbx);
+                    }
                 },
                 data: function (cbx) {
-                    fs.readFile(QUERY_PATH + queryName.data, 'utf8', cbx);
+                    fs.readFile(QUERY_PATH + CHALLENGES_QUERY[listType].data, 'utf8', cbx);
                 }
             }, cb);
         }, function (sql, cb) {
-            sql = addFilter(sql, filter);
+            sql = addFilter(sql, filter, helper, caller);
             async.parallel({
                 count: function (cbx) {
-                    api.dataAccess.executeSqlQuery(sql.count, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
+                    if (listType === helper.ListType.ACTIVE || listType === helper.ListType.UPCOMING) {
+                        cbx(null, null);
+                    } else {
+                        api.dataAccess.executeSqlQuery(sql.count, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
+                    }
                 },
                 data: function (cbx) {
                     api.dataAccess.executeSqlQuery(sql.data, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
                 }
             }, cb);
         }, function (results, cb) {
-            total = results.count[0].total;
+            if (listType === helper.ListType.ACTIVE || listType === helper.ListType.UPCOMING) {
+                total = results.data.length;
+            } else {
+                total = results.count[0].total;
+            }
             challenges = results.data;
             if (challenges.length === 0) {
                 result.data = [];
             } else {
                 result.data = transferResultV2(challenges, helper);
-
             }
             result.total = total;
             result.pageIndex = pageIndex;
