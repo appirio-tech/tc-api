@@ -176,10 +176,6 @@
     },
     "registrantsRatingSummary": [
         {
-            "color": "Blue",
-            "numberOfMembers": 14
-        },
-        {
             "color": "Red",
             "numberOfMembers": 52
         },
@@ -188,12 +184,16 @@
             "numberOfMembers": 18
         },
         {
-            "color": "Green",
-            "numberOfMembers": 3
+            "color": "Blue",
+            "numberOfMembers": 14
         },
         {
             "color": "Yellow",
             "numberOfMembers": 13
+        },
+        {
+            "color": "Green",
+            "numberOfMembers": 3
         }
     ]
 }
