@@ -9,6 +9,7 @@
 
 var _ = require("underscore");
 var async = require("async");
+var moment = require('moment');
 var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
@@ -63,8 +64,8 @@ exports.action = {
     name: "createBilling",
     description: "create new billing account",
     inputs: {
-        required: ["customerNumber", "billingAccountName", "startDate", "endDate"],
-        optional: []
+        required: ["customerNumber", "billingAccountName"],
+        optional: ["startDate", "endDate"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -106,11 +107,16 @@ exports.action = {
                     return;
                 }
 
-                error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
-                    || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
-                if (error) {
-                    cb(error);
-                    return;
+                if (startDate && endDate) {
+                    error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
+                        || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+                    if (error) {
+                        cb(error);
+                        return;
+                    }
+                } else {
+                    startDate = moment().format(DATE_FORMAT);
+                    endDate = moment().add('y', 3).format(DATE_FORMAT);
                 }
 
                 //Check if the user is logged-in
