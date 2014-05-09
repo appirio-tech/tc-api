@@ -65,7 +65,7 @@ exports.action = {
     description: "create new billing account",
     inputs: {
         required: ["customerNumber", "billingAccountName"],
-        optional: ["startDate", "endDate"]
+        optional: ["startDate", "endDate", "billingAccountId"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -80,6 +80,7 @@ exports.action = {
             billingAccountName = connection.params.billingAccountName,
             startDate = connection.params.startDate,
             endDate = connection.params.endDate,
+            projectId = connection.params.billingAccountId,
             dbConnectionMap = connection.dbConnectionMap,
             existingClientId,
             error;
@@ -163,20 +164,23 @@ exports.action = {
                 });
             }, function (cb) {
                 //No more validations. Generate the ids for the project, contact, address
-                async.parallel({
-                    projectId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("PROJECT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
+                var parallels = {
                     addressId: function (cb) {
                         api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, cb);
                     },
                     contactId: function (cb) {
                         api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, cb);
                     }
-                }, cb);
+                };
+                if (!projectId) {
+                    parallels.projectId = function (cb) {
+                        api.idGenerator.getNextIDFromDb("PROJECT_SEQ", "time_oltp", dbConnectionMap, cb);
+                    };
+                }
+                async.parallel(parallels, cb);
             }, function (generatedIds, cb) {
                 _.extend(newBilling, {
-                    projectId: generatedIds.projectId,
+                    projectId: projectId || generatedIds.projectId,
                     userId: connection.caller.userId
                 });
                 _.extend(dummyContact, {
@@ -192,7 +196,7 @@ exports.action = {
                 //These are inserted all in parallel, as there are no dependencies between these records.
                 async.parallel([
                     function (cb) {
-                        api.dataAccess.executeQuery("insert_billing", newBilling, dbConnectionMap, cb);
+                        api.dataAccess.executeQuery(projectId ? "update_billing" : "insert_billing", newBilling, dbConnectionMap, cb);
                     }, function (cb) {
                         api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
                     }, function (cb) {
