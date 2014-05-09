@@ -149,7 +149,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
-    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies', 'private'];
+    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -3050,13 +3050,8 @@ var addFilter = function (sql, filter, helper, caller) {
     } else {
         if (helper.isMember(caller)) {
             // The caller information is set.
-            if (_.isDefined(filter['private']) && filter['private'] === 'true') {
-                // return private challenges only.
-                challengeFilter = ' AND' + USER_PRIVATE_CHALLENGE_FILTER;
-            } else {
-                // return public + private that caller can access.
-                challengeFilter = ' AND ( NOT' + ALL_PRIVATE_CHALLENGE_FILTER + 'or ' + USER_PRIVATE_CHALLENGE_FILTER + ')';
-            }
+            // return public + private that caller can access.
+            challengeFilter = ' AND ( NOT' + ALL_PRIVATE_CHALLENGE_FILTER + 'or ' + USER_PRIVATE_CHALLENGE_FILTER + ')';
         } else {
             // If the caller is anonymous then return all public challenges only.
             challengeFilter = ' AND NOT' + ALL_PRIVATE_CHALLENGE_FILTER;
@@ -3065,10 +3060,6 @@ var addFilter = function (sql, filter, helper, caller) {
     sql.count = editSql(sql.count, challengeFilter, null);
     sql.data = editSql(sql.data, challengeFilter, null);
 
-    if (_.isDefined(filter['private'])) {
-        sql.data = editSql(sql.data, '', null);
-        sql.count = editSql(sql.count, '', null);
-    }
     return sql;
 };
 
