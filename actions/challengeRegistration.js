@@ -89,7 +89,7 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
 
             api.dataAccess.executeQuery("get_user_rating",
                 {
-                    phaseId: componentInfo.phase_id,
+                    phaseId: componentInfo.project_category_id + 111,
                     userId: userId
                 },
                 dbConnectionMap,
