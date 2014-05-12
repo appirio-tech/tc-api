@@ -898,7 +898,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
 
             // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
-            if (result[0].has_access || result[0].is_related || result[0].is_manager) {
+            if (result[0].has_access || result[0].is_related || result[0].is_manager || helper.isAdmin(caller)) {
                 isRelated = true;
             }
 
