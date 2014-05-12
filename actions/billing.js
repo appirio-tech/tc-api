@@ -9,10 +9,17 @@
 
 var _ = require("underscore");
 var async = require("async");
+var moment = require('moment');
 var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
+
+/**
+ * The date format for input date parameter startDate and enDate.
+ * Dates like 2014-01-29 and 2014-1-29 are valid
+ */
+var DATE_FORMAT = 'YYYY-M-D';
 
 /*
  * This variable holds a new billing to be created.
@@ -23,7 +30,6 @@ var newBilling = {
     poBoxNumber: 'null',
     paymentTermId: 1,
     salestax: 0,
-    durationInYears: 3,
     isManualPrizeSetting: 1
 };
 
@@ -59,7 +65,7 @@ exports.action = {
     description: "create new billing account",
     inputs: {
         required: ["customerNumber", "billingAccountName"],
-        optional: []
+        optional: ["startDate", "endDate", "billingAccountId"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -72,8 +78,12 @@ exports.action = {
         var helper = api.helper,
             customerNumber = connection.params.customerNumber,
             billingAccountName = connection.params.billingAccountName,
+            startDate = connection.params.startDate,
+            endDate = connection.params.endDate,
+            projectId = connection.params.billingAccountId,
             dbConnectionMap = connection.dbConnectionMap,
-            existingClientId;
+            existingClientId,
+            error;
 
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -98,6 +108,18 @@ exports.action = {
                     return;
                 }
 
+                if (startDate && endDate) {
+                    error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
+                        || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+                    if (error) {
+                        cb(error);
+                        return;
+                    }
+                } else {
+                    startDate = moment().format(DATE_FORMAT);
+                    endDate = moment().add('y', 3).format(DATE_FORMAT);
+                }
+
                 //Check if the user is logged-in
                 if (connection.caller.accessLevel === "anon") {
                     cb(new UnauthorizedError("Authentication details missing or incorrect."));
@@ -113,7 +135,9 @@ exports.action = {
                 //Check for uniqueness of billingAccountName and existence of client with customer number
                 _.extend(newBilling, {
                     billingAccountName: billingAccountName,
-                    customerNumber: customerNumber
+                    customerNumber: customerNumber,
+                    startDate: startDate,
+                    endDate: endDate
                 });
                 async.parallel({
                     billing: function (cb) {
@@ -140,20 +164,23 @@ exports.action = {
                 });
             }, function (cb) {
                 //No more validations. Generate the ids for the project, contact, address
-                async.parallel({
-                    projectId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("PROJECT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
+                var parallels = {
                     addressId: function (cb) {
                         api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, cb);
                     },
                     contactId: function (cb) {
                         api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, cb);
                     }
-                }, cb);
+                };
+                if (!projectId) {
+                    parallels.projectId = function (cb) {
+                        api.idGenerator.getNextIDFromDb("PROJECT_SEQ", "time_oltp", dbConnectionMap, cb);
+                    };
+                }
+                async.parallel(parallels, cb);
             }, function (generatedIds, cb) {
                 _.extend(newBilling, {
-                    projectId: generatedIds.projectId,
+                    projectId: projectId || generatedIds.projectId,
                     userId: connection.caller.userId
                 });
                 _.extend(dummyContact, {
@@ -169,7 +196,7 @@ exports.action = {
                 //These are inserted all in parallel, as there are no dependencies between these records.
                 async.parallel([
                     function (cb) {
-                        api.dataAccess.executeQuery("insert_billing", newBilling, dbConnectionMap, cb);
+                        api.dataAccess.executeQuery(projectId ? "update_billing" : "insert_billing", newBilling, dbConnectionMap, cb);
                     }, function (cb) {
                         api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
                     }, function (cb) {
