@@ -18,6 +18,7 @@ var async = require('async');
 
 var testHelper = require('./helpers/testHelper');
 var configs = require('../config');
+var ldapHelper = require('../initializers/ldapHelper');
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Reset Password API', function () {
@@ -107,11 +108,28 @@ describe('Reset Password API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
+        var mockApi = {
+            log: function () {
+                return null;
+            },
+            helper: {
+                checkDefined : function () {
+                    return null;
+                }
+            }
+        };
         async.waterfall([
             function (cbx) {
                 clearDb(cbx);
             },
             function (cbx) {
+                var password = testHelper.encodePassword('password', testHelper.PASSWORD_HASH_KEY);
+                testHelper.runSqlQuery("UPDATE security_user SET password = '" + password + "' WHERE user_id = 'heffan'", 'common_oltp', cbx);
+            },
+            function (cbx) {
+                ldapHelper.ldapHelper(mockApi, function () {
+                    mockApi.ldapHelper.resetMemberPasswordLDAPEntry({userId: '132456', handle: 'heffan', newPassword: 'password'}, cbx);
+                });
                 // Insert again.
                 testHelper.addCacheValue(heffan,
                     {
@@ -120,14 +138,6 @@ describe('Reset Password API', function () {
                         createdAt: new Date().getTime(),
                         readAt: null
                     }, cbx);
-            },
-            function (cbx) {
-                createRequest('HEFFAN', 200, { token: 'abcde', password: 'password' }, function (err) {
-                    cbx(err);
-                });
-            },
-            function (cbx) {
-                clearDb(cbx);
             }
         ], done);
     });
