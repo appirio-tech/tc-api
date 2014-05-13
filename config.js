@@ -98,7 +98,7 @@ config.general = {
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
     resetTokenPrefix: 'tokens-',
     resetTokenSuffix: '-reset-token',
-    minPasswordLength: 8,
+    minPasswordLength: 7,
     maxPasswordLength: 30,
     defaultResetPasswordTokenCacheLifetime: process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY ? parseInt(process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY, 10) : 1000 * 60 * 30, //30 min
     resetPasswordTokenEmailSubject: process.env.RESET_PASSWORD_TOKEN_EMAIL_SUBJECT || "TopCoder Account Password Reset",
