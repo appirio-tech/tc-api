@@ -708,7 +708,7 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
     var value, res = [], i = 0;
     async.waterfall([
         function (cbx) {
-            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (err, value) {
+            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (value) {
                 cbx(null, value);
             });
         },
@@ -735,8 +735,9 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
         },
         function (cbx) {
             // Check the catalog type here.
+            var id;
             for (i; i < values.length; i += 1) {
-                var id = value[values[i].trim().toLowerCase()];
+                id = value[values[i].trim().toLowerCase()];
                 if (_.isDefined(id)) {
                     res.push(id);
                 } else {
@@ -1368,12 +1369,14 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
  */
 helper.validatePassword = function (password) {
     var value = password.trim(),
-        configGeneral = helper.api.config.general,
-        i,
-        error;
-    error = helper.checkStringPopulated(password, 'password');
-    if (error) {
-        return error;
+        result = 0,
+        configGeneral = helper.api.config.general;
+
+    if (password.trim() === '') {
+        return new IllegalArgumentError('password should be non-null and non-empty string.');
+    }
+    if (password.match("'")) {
+        return new IllegalArgumentError('password is invalid.');
     }
     if (value.length > configGeneral.maxPasswordLength) {
         return new IllegalArgumentError('password may contain at most ' + configGeneral.maxPasswordLength + ' characters.');
@@ -1381,12 +1384,22 @@ helper.validatePassword = function (password) {
     if (value.length < configGeneral.minPasswordLength) {
         return new IllegalArgumentError('password must be at least ' + configGeneral.minPasswordLength + ' characters in length.');
     }
-    for (i = 0; i < password.length; i += 1) {
-        if (!_.contains(stringUtils.PASSWORD_ALPHABET, password.charAt(i))) {
-            return new IllegalArgumentError('Your password may contain only letters, numbers and ' + stringUtils.PUNCTUATION);
-        }
-    }
 
+    if (password.match(/[a-z]/)) {
+        result += 1;
+    }
+    if (password.match(/[A-Z]/)) {
+        result += 1;
+    }
+    if (password.match(/\d/)) {
+        result += 1;
+    }
+    if (password.match(/[\]\[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\\\^\_\`\{\|\}\~\-]/)) {
+        result += 1;
+    }
+    if (result < 2) {
+        return new IllegalArgumentError("The password is not strong enough.");
+    }
     return null;
 };
 

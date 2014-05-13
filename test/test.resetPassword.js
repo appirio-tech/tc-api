@@ -18,6 +18,7 @@ var async = require('async');
 
 var testHelper = require('./helpers/testHelper');
 var configs = require('../config');
+var ldapHelper = require('../initializers/ldapHelper');
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Reset Password API', function () {
@@ -107,11 +108,28 @@ describe('Reset Password API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
+        var mockApi = {
+            log: function () {
+                return null;
+            },
+            helper: {
+                checkDefined : function () {
+                    return null;
+                }
+            }
+        };
         async.waterfall([
             function (cbx) {
                 clearDb(cbx);
             },
             function (cbx) {
+                var password = testHelper.encodePassword('password', testHelper.PASSWORD_HASH_KEY);
+                testHelper.runSqlQuery("UPDATE security_user SET password = '" + password + "' WHERE user_id = 'heffan'", 'common_oltp', cbx);
+            },
+            function (cbx) {
+                ldapHelper.ldapHelper(mockApi, function () {
+                    mockApi.ldapHelper.resetMemberPasswordLDAPEntry({userId: '132456', handle: 'heffan', newPassword: 'password'}, cbx);
+                });
                 // Insert again.
                 testHelper.addCacheValue(heffan,
                     {
@@ -120,14 +138,6 @@ describe('Reset Password API', function () {
                         createdAt: new Date().getTime(),
                         readAt: null
                     }, cbx);
-            },
-            function (cbx) {
-                createRequest('HEFFAN', 200, { token: 'abcde', password: 'password' }, function (err) {
-                    cbx(err);
-                });
-            },
-            function (cbx) {
-                clearDb(cbx);
             }
         ], done);
     });
@@ -174,45 +184,38 @@ describe('Reset Password API', function () {
     });
 
     /**
-     * Test when password contains the invalid characters.
-     */
-    it('should return bad Request. The password contains invalid characters.', function (done) {
-        assertBadResponse('heffan', 400, errorObject.password.invalidCharacters, { token: 'abcde', password: '+*&^%$$#@' }, done);
-    });
-
-    /**
      * Test when token is not existed in cache system.
      */
     it('should return bad Request. The token is not existed in cache system.', function (done) {
-        assertBadResponse('super', 400, errorObject.token.notExistedOrExpired, { token: 'djoisdfj', password: 'password' }, done);
+        assertBadResponse('super', 400, errorObject.token.notExistedOrExpired, { token: 'djoisdfj', password: 'passWord' }, done);
     });
 
     /**
      * Test when token is in system but expired.
      */
     it('should return bad Request. The token is in system but expired.', function (done) {
-        assertBadResponse('user', 400, errorObject.token.notExistedOrExpired, { token: 'djoisdfj', password: 'password' }, done);
+        assertBadResponse('user', 400, errorObject.token.notExistedOrExpired, { token: 'djoisdfj', password: 'passwOrd' }, done);
     });
 
     /**
      * Test when token is incorrect.
      */
     it('should return bad Request. The token is incorrect.', function (done) {
-        assertBadResponse('heffan', 400, errorObject.token.inCorrect, { token: 'ajdoijfiodsfj', password: 'password' }, done);
+        assertBadResponse('heffan', 400, errorObject.token.inCorrect, { token: 'ajdoijfiodsfj', password: 'passworD' }, done);
     });
 
     /**
      * Test when user in not exist.
      */
     it('should return not Found Error. The user is not existed', function (done) {
-        assertBadResponse('notExist', 404, errorObject.notExist, { token: 'abcde', password: 'password' }, done);
+        assertBadResponse('notExist', 404, errorObject.notExist, { token: 'abcde', password: 'pAssword' }, done);
     });
 
     /**
      * Test success results.
      */
     it('should return success results. The password has been saved.', function (done) {
-        var newPassword = 'abcdefghijk';
+        var newPassword = 'abcdefGHIJK';
         async.waterfall([
             function (cb) {
                 createRequest('heffan', 200, { token: 'abcde', password: newPassword }, function (err) {
@@ -233,7 +236,7 @@ describe('Reset Password API', function () {
      * Test success results. The user handle is in upper case.
      */
     it('should return success results. The user handle is in upper case.', function (done) {
-        var newPassword = 'abcdefghijk';
+        var newPassword = 'abcdeFghijk';
         async.waterfall([
             function (cb) {
                 // Insert again.
