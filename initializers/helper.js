@@ -1265,6 +1265,29 @@ helper.formatDate = function (date, format) {
 };
 
 /**
+ * The default timezone.
+ */
+var DEFAULT_TIME_ZONE = 'EST5EDT';
+
+/**
+ * The date format for date with timezone.
+ */
+var DEFAULT_DATE_FORMAT_WITH_TIMEZONE = 'MMM DD, YYYY HH:mm z';
+
+/**
+ * Format the date value to default timezone format.
+ * Will return empty string if the date is null.
+ * @param {String} date - the date value.
+ * @since 1.8
+ */
+helper.formatDateWithTimezone = function (date) {
+    if (date) {
+        return moment(date).tz(DEFAULT_TIME_ZONE).format(DEFAULT_DATE_FORMAT_WITH_TIMEZONE);
+    }
+    return '';
+};
+
+/**
  * Format the date value.
  * @param {String} date - the date value
  * @param {String} format - the format

@@ -403,7 +403,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 forumURL : forumURL,
                 documentationDetails : documentationDetails,
                 umlToolInfo : umlToolInfo,
-                deadlineDate : componentInfo.initial_submission_date,
+                deadlineDate : api.helper.formatDateWithTimezone(componentInfo.initial_submission_date),
                 submitURL : submitURL,
                 template : 'registration_notification_email',
                 toAddress : user.email,
