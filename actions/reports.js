@@ -19,6 +19,7 @@
 require('datejs');
 var async = require('async');
 var _ = require('underscore');
+var S = require('string');
 var moment = require('moment');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
@@ -617,6 +618,99 @@ exports.getActiveBillingAccounts = {
 
 
 /**
+ * Handle the active/past client challenge costs api.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ */
+var clientChallengeCosts = function (api, connection, next) {
+    var dbConnectionMap = connection.dbConnectionMap,
+        helper = api.helper,
+        clientId = 0,
+        cmc = connection.params.sfdcAccountId || "",
+        customerNumber = connection.params.customerNumber || "",
+        type = (connection.params.type || 'ACTIVE').toUpperCase(),
+        startDate = connection.params.startDate || '1900-01-01',
+        endDate = connection.params.endDate || '2999-01-01',
+        sqlParameters,
+        costs;
+
+    async.waterfall([
+        function (cb) {
+            //Admin only
+            cb(helper.checkAdmin(connection));
+        },
+        function (cb) {
+            var error;
+            if (_.isDefined(connection.params.clientId)) {
+                clientId = Number(connection.params.clientId);
+                error = helper.checkPositiveInteger(clientId, "clientId");
+                //don't check maxInt, because clientId is DECIMAL in database, not integer
+            }
+            error = error || helper.checkContains([helper.ListType.ACTIVE, helper.ListType.PAST], type.toUpperCase(), 'type');
+            if (type === helper.ListType.PAST) {
+                // The startDate and endDate is required for past api.
+                // Use the date from connection parameters to validate since it could be null
+                error = error || helper.validateDate(connection.params.startDate, 'startDate', DATE_FORMAT) ||
+                    helper.validateDate(connection.params.endDate, 'endDate', DATE_FORMAT) ||
+                    helper.checkDates(startDate, endDate);
+            }
+            cb(error);
+        }, function (cb) {
+            sqlParameters = {
+                clientid: clientId,
+                cmc_account_id: cmc,
+                customer_number: customerNumber,
+                challenge_status: helper.LIST_TYPE_PROJECT_STATUS_MAP[type],
+                registration_status: helper.LIST_TYPE_REGISTRATION_STATUS_MAP[type],
+                submission_status: helper.LIST_TYPE_SUBMISSION_STATUS_MAP[type],
+                start_date: startDate,
+                end_date: endDate
+            };
+            if (_.isDefined(connection.params.clientId) || _.isDefined(connection.params.sfdcAccountId)) {
+                api.dataAccess.executeQuery("check_client_active_challenge_costs_exists", sqlParameters,
+                    dbConnectionMap, cb);
+            } else {
+                cb(null, ["dummy"]);
+            }
+        }, function (results, cb) {
+            if (!results.length) {
+                cb(new NotFoundError('Client not found'));
+                return;
+            }
+
+            api.dataAccess.executeQuery("client_challenges_costs", sqlParameters, dbConnectionMap, cb);
+        }, function (results, cb) {
+            costs = _.map(results, function (item) {
+                var cost = _.object(_.chain(results).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(results));
+
+                cost.challengeDuration = parseFloat(item.challenge_duration.toFixed(1));
+                cost.postinDate = helper.formatDate(cost.postingDate, 'YYYY-MM-DD');
+                cost.completionDate = helper.formatDate(cost.completionDate, 'YYYY-MM-DD');
+                cost.challengeTotalCost = cost.challengeMemberCost + cost.challengeFee;
+                cost.lastModificationDate = helper.formatDate(cost.lastModificationDate, 'YYYY-MM-DD');
+                cost.registrationEndDate = helper.formatDate(cost.registrationEndDate, 'YYYY-MM-DD');
+                cost.submissionEndDate = helper.formatDate(cost.submissionEndDate, 'YYYY-MM-DD');
+                cost.checkpointEndDate = helper.formatDate(cost.checkpointEndDate, 'YYYY-MM-DD');
+                cost.challengeScheduledEndDate = helper.formatDate(cost.challengeScheduledEndDate, 'YYYY-MM-DD');
+                return cost;
+            });
+
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {
+                challenges: costs
+            };
+        }
+        next(connection, true);
+    });
+};
+
+/**
  * The API for getting active client challenge costs
  */
 exports.getClientActiveChallengeCosts = {
@@ -736,6 +830,27 @@ exports.getClientActiveChallengeCosts = {
     }
 };
 
+exports.clientChallengeCosts = {
+    name: 'clientChallengeCosts',
+    description: 'active or past client challenge costs',
+    inputs: {
+        required: [],
+        optional: ['type', "clientId", "sfdcAccountId", 'customerNumber', 'startDate', 'endDate']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute clientChallengeCosts#run", 'debug');
+            clientChallengeCosts(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
 
 /**
  * Track statistics API.
