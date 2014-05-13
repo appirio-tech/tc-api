@@ -194,40 +194,47 @@ exports.action = {
 
                 //Now save the new billing, contact, address records
                 //These are inserted all in parallel, as there are no dependencies between these records.
-                async.parallel([
-                    function (cb) {
-                        api.dataAccess.executeQuery(projectId ? "update_billing" : "insert_billing", newBilling, dbConnectionMap, cb);
-                    }, function (cb) {
+                var parallels = [function (cb) {
+                    api.dataAccess.executeQuery(projectId ? "update_billing" : "insert_billing", newBilling, dbConnectionMap, cb);
+                }];
+                if (!projectId) {
+                    parallels.push(function (cb) {
                         api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
-                    }, function (cb) {
+                    });
+                    parallels.push(function (cb) {
                         api.dataAccess.executeQuery("insert_address", dummyAddress, dbConnectionMap, cb);
-                    }
-                ], cb);
+                    });
+                }
+                async.parallel(parallels, cb);
             }, function (notUsed, cb) {
-                //Now save the client_project, address_relation and contact_relation records (again in parallel)
-                var dummyAddressRelation = {
-                    entityId: newBilling.projectId,
-                    addressTypeId: 1,
-                    addressId: dummyAddress.addressId,
-                    userId: connection.caller.userId
-                },  dummyContactRelation = {
-                    entityId: newBilling.projectId,
-                    contactTypeId: 1,
-                    contactId: dummyContact.contactId,
-                    userId: connection.caller.userId
-                };
-                async.parallel([
-                    function (cb) {
-                        newBilling.clientId = existingClientId;
-                        api.dataAccess.executeQuery("insert_client_project", newBilling, dbConnectionMap, cb);
-                    },
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation, dbConnectionMap, cb);
-                    },
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation, dbConnectionMap, cb);
-                    }
-                ], cb);
+                if (!projectId) {
+                    //Now save the client_project, address_relation and contact_relation records (again in parallel)
+                    var dummyAddressRelation = {
+                        entityId: newBilling.projectId,
+                        addressTypeId: 1,
+                        addressId: dummyAddress.addressId,
+                        userId: connection.caller.userId
+                    }, dummyContactRelation = {
+                        entityId: newBilling.projectId,
+                        contactTypeId: 1,
+                        contactId: dummyContact.contactId,
+                        userId: connection.caller.userId
+                    };
+                    async.parallel([
+                        function (cb) {
+                            newBilling.clientId = existingClientId;
+                            api.dataAccess.executeQuery("insert_client_project", newBilling, dbConnectionMap, cb);
+                        },
+                        function (cb) {
+                            api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation, dbConnectionMap, cb);
+                        },
+                        function (cb) {
+                            api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation, dbConnectionMap, cb);
+                        }
+                    ], cb);
+                } else {
+                    cb();
+                }
             }
         ], function (err) {
             if (err) {
