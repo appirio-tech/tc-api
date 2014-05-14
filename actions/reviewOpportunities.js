@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.5
- * @author Sky_, Ghost_141, TCASSEMBLER
+ * @author Sky_, Ghost_141, flytoj2ee
  * changes in 1.1
  * - Implement the studio review opportunities.
  * changes in 1.2

@@ -2675,17 +2675,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Software Challenges [/develop/challenges/active?communityId={communityId}&private={private}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, string, `1`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -3137,17 +3132,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?communityId={communityId}&private={private}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, string, `true`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -4217,17 +4207,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Studio Challenges [/design/challenges/active?communityId={communityId}&private={private}]
 ### Search Active Studio Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, string, `1`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -4581,17 +4566,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Studio Challenges [/design/challenges/upcoming?communityId={communityId}&private={private}]
 ### Search Upcoming Studio Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, private, `1`) ... The private flag.
 
 + Response 200 (application/json)
 

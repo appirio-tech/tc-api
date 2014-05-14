@@ -4,7 +4,7 @@
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
  * @version 1.6
- * @author ecnu_haozi, xjtufreeman, bugbuka, TCASSEMBLER
+ * @author ecnu_haozi, xjtufreeman, bugbuka, flytoj2ee
  *
  * changes in 1.1:
  * Combine Challenge Registration API(BUGR-11058)
@@ -93,7 +93,7 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
 
             api.dataAccess.executeQuery("get_user_rating",
                 {
-                    phaseId: componentInfo.phase_id,
+                    phaseId: componentInfo.project_category_id + 111,
                     userId: userId
                 },
                 dbConnectionMap,
@@ -409,7 +409,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 forumURL : forumURL,
                 documentationDetails : documentationDetails,
                 umlToolInfo : umlToolInfo,
-                deadlineDate : componentInfo.initial_submission_date,
+                deadlineDate : api.helper.formatDateWithTimezone(componentInfo.initial_submission_date),
                 submitURL : submitURL,
                 template : 'registration_notification_email',
                 toAddress : user.email,
