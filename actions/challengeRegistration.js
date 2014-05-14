@@ -3,8 +3,8 @@
  *
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
- * @version 1.4
- * @author ecnu_haozi, xjtufreeman, bugbuka
+ * @version 1.6
+ * @author ecnu_haozi, xjtufreeman, bugbuka, flytoj2ee
  *
  * changes in 1.1:
  * Combine Challenge Registration API(BUGR-11058)
@@ -20,6 +20,10 @@
  *
  * changes in 1.5:
  * check if there is a jwt (logged in user).
+ *
+ * changes in 1.6:
+ * Add role id and phase type id in insert resource sql.
+ * Fix jslint issue.
  */
 "use strict";
 
@@ -145,6 +149,8 @@ var persistResource = function (api, resourceId, userId, challengeId, dbConnecti
     api.dataAccess.executeQuery("insert_resource", {
         resourceId: resourceId,
         projectId: challengeId,
+        roleId: 1,
+        phaseId: null,
         userId: userId,
         createUser: '"' + userId + '"',
         modifyUser: '"' + userId + '"'
@@ -489,6 +495,47 @@ var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
 };
 
 /**
+ * Set the timeline notification if it's disable before.
+ *
+ * @param {Object} api The api object that is used to access the infrastructure.
+ * @param {Number} userId The current logged-in user's id.
+ * @param {Number} challengeId The id of the challenge to register.
+ * @param {Object} dbConnectionMap The database connection map for the current request.
+ * @param {Function<err, data>} next The callback to be called after this function is done.
+ */
+var timelineNotification = function (api, userId, challengeId, dbConnectionMap, next) {
+    async.waterfall([
+        function (cb) {
+            api.dataAccess.executeQuery("get_challenge_notification_count", {
+                challengeId: challengeId,
+                userId: userId,
+                notificationTypeId : TIMELINE_NOTIFICATION_ID
+            },
+                dbConnectionMap,
+                cb);
+        },
+        function (result, cb) {
+            if (result.length === 0 || !_.has(result[0], 'total_count')) {
+                cb(new NotFoundError("Notification not found."));
+            }
+            if (result[0].total_count === 0) {
+                api.dataAccess.executeQuery("insert_challenge_notification", {
+                    challengeId: challengeId,
+                    userId: userId,
+                    notificationTypeId : 1, // See java field ORNotification.TIMELINE_NOTIFICATION_ID.
+                    createUser : '"' + userId + '"',
+                    modifyUser : '"' + userId + '"'
+                },
+                    dbConnectionMap,
+                    cb);
+            } else {
+                cb(null);
+            }
+        }
+    ], next);
+};
+
+/**
  * Register a challenge for the current logged-in user.
  *
  * @param {Object} api The api object that is used to access the infrastructure.
@@ -610,46 +657,7 @@ var persistStudioChallengeResouce = function (api, userId, challengeId, dbConnec
         }
     ], next);
 };
-/**
- * Set the timeline notification if it's disable before.
- *
- * @param {Object} api The api object that is used to access the infrastructure.
- * @param {Number} userId The current logged-in user's id.
- * @param {Number} challengeId The id of the challenge to register.
- * @param {Object} dbConnectionMap The database connection map for the current request.
- * @param {Function<err, data>} next The callback to be called after this function is done.
- */
-var timelineNotification = function (api, userId, challengeId, dbConnectionMap, next) {
-    async.waterfall([
-        function (cb) {
-            api.dataAccess.executeQuery("get_challenge_notification_count", {
-                challengeId: challengeId,
-                userId: userId,
-                notificationTypeId : TIMELINE_NOTIFICATION_ID
-            },
-                dbConnectionMap,
-                cb);
-        },
-        function (result, cb) {
-            if (result.length === 0 || !_.has(result[0], 'total_count')) {
-                cb(new NotFoundError("Notification not found."));
-            }
-            if (result[0].total_count === 0) {
-                api.dataAccess.executeQuery("insert_challenge_notification", {
-                    challengeId: challengeId,
-                    userId: userId,
-                    notificationTypeId : 1, // See java field ORNotification.TIMELINE_NOTIFICATION_ID. 
-                    createUser : '"' + userId + '"',
-                    modifyUser : '"' + userId + '"'
-                },
-                    dbConnectionMap,
-                    cb);
-            } else {
-                cb(null);
-            }
-        }
-    ], next);
-};
+
 /**
  * Register a design challenge (studio) for the current logged-in user.
  *

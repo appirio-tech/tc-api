@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.42
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
+ * @version 1.43
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
+ *         panoptimum, TCASSEMBLER
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -96,6 +97,8 @@
  * - add route for challenge analyze api.
  * Changes in 1.42:
  * - add routes for update user profile api.
+ * Changes in 1.43:
+ * - add routes for apply design review api.
  */
 
 /* ---------------------
@@ -280,6 +283,7 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
         { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
         { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" },
-        { path: "/:apiVersion/user/profile", action: "updateMyProfile" }
+        { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
+        { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" }
     ]
 };

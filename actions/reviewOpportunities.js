@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author Sky_, Ghost_141
+ * @version 1.5
+ * @author Sky_, Ghost_141, flytoj2ee
  * changes in 1.1
  * - Implement the studio review opportunities.
  * changes in 1.2
@@ -13,8 +13,12 @@
  * Changes in 1.4:
  * - Implement the applyDevelopReviewOpportunity API.
  * - add VALID_REVIEW_APPLICATION_ROLE_ID and REVIEW_APPLICATION_STATUS.
+ * Changes in 1.5:
+ * - Implement the applyStudioReviewOpportunity api.
  */
 'use strict';
+/*jslint node: true, stupid: true, unparam: true, plusplus: true */
+
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
@@ -103,6 +107,48 @@ var REVIEW_APPLICATION_STATUS = {
         id: 4
     }
 };
+
+/**
+ * The specification reviewer role id.
+ * @since 1.5
+ */
+var SPECIFICATION_REVIEWER_ROLE_ID = 18;
+
+/**
+ * The specification reviewer phase type id.
+ * @since 1.5
+ */
+var SPECIFICATION_REVIEW_PHASE_TYPE_ID = 14;
+
+/**
+ * The screener role id.
+ * @since 1.5
+ */
+var SCREENER_ROLE_ID = 2;
+
+/**
+ * The check point screener role id.
+ * @since 1.5
+ */
+var CHECKPOINT_SCREENER_ROLE_ID = 19;
+
+/**
+ * The screening phase type id.
+ * @since 1.5
+ */
+var SCREENING_PHASE_TYPE_ID = 3;
+
+/**
+ * The check point screening phase type id.
+ * @since 1.5
+ */
+var CHECKPOINT_SCREENING_PHASE_TYPE_ID = 16;
+
+/**
+ * The time line notification id.
+ * @since 1.5
+ */
+var TIMELINE_NOTIFICATION_ID = 1;
 
 /**
  * Format the date value to a specific pattern.
@@ -1129,6 +1175,247 @@ exports.getAlgorithmsReviewOpportunity = {
         api.log("Execute getAlgorithmsReviewOpportunity#run", 'debug');
         connection.response = sampleAlgorithmsReviewOpportunity;
         next(connection, true);
+    }
+};
+
+/**
+ * Apply design review opportunity.
+ *
+ * @param api - the api instance.
+ * @param connection - the database connection.
+ * @param next - the callback method.
+ */
+var applyDesignReviewOpportunity = function (api, connection, next) {
+    var helper = api.helper,
+        caller = connection.caller,
+        dbConnectionMap = connection.dbConnectionMap,
+        challengeId = Number(connection.params.challengeId),
+        isSpecReview = connection.params.isSpecReview,
+        roleIds,
+        phaseIds,
+        sqlParams = {},
+        roleStr = '',
+        i;
+
+    async.waterfall([
+        function (cb) {
+            //check challenge id and member
+            var error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxInt(challengeId, 'challengeId') ||
+                helper.checkMember(connection, 'Anonymous user don\'t have permission to access this api.');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            //handle spec review flag
+            if (_.isDefined(isSpecReview)) {
+                if (isSpecReview.toLowerCase() !== 'true' && isSpecReview.toLowerCase() !== 'false') {
+                    cb(new BadRequestError("The isSpecReview flag should be true or false."));
+                    return;
+                }
+                if (isSpecReview.toLowerCase() === 'true') {
+                    isSpecReview = true;
+                } else {
+                    isSpecReview = false;
+                }
+            } else {
+                isSpecReview = false;
+            }
+
+            //set default values
+            if (isSpecReview === true) {
+                roleIds = [SPECIFICATION_REVIEWER_ROLE_ID];
+                phaseIds = [SPECIFICATION_REVIEW_PHASE_TYPE_ID];
+            } else {
+                roleIds = [SCREENER_ROLE_ID, CHECKPOINT_SCREENER_ROLE_ID];
+                phaseIds = [SCREENING_PHASE_TYPE_ID, CHECKPOINT_SCREENING_PHASE_TYPE_ID];
+            }
+            for (i = 0; i < roleIds.length; i++) {
+                if (i > 0) {
+                    roleStr = roleStr + ', ';
+                }
+                roleStr = roleStr + roleIds[i];
+            }
+            sqlParams.userId = caller.userId;
+            sqlParams.challengeId = challengeId;
+            sqlParams.resourceRoleIds = roleStr;
+
+            async.parallel({
+                detail: function (cbx) {
+                    api.dataAccess.executeQuery('check_challenge_exists', { challengeId: challengeId }, dbConnectionMap, cbx);
+                },
+                reviewerCheck: function (cbx) {
+                    api.dataAccess.executeQuery('check_reviewer', { challenge_id: challengeId, user_id: caller.userId }, dbConnectionMap, cbx);
+                },
+                terms: function (cbx) {
+                    api.dataAccess.executeQuery("challenge_terms_of_use", sqlParams, dbConnectionMap, cbx);
+                },
+                roles: function (cbx) {
+                    api.dataAccess.executeQuery("check_challenge_resource", sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
+        }, function (results, cb) {
+            if (results.detail.length === 0) {
+                cb(new BadRequestError("The specified challenge doesn't exist."));
+                return;
+            }
+
+            if (results.detail[0].is_studio === 0) {
+                cb(new BadRequestError("The specified challenge is not a design challenge."));
+                return;
+            }
+
+            if (results.reviewerCheck.length === 0) {
+                cb(new BadRequestError("Sorry, you are not a member of the review board."));
+                return;
+            }
+
+            if (helper.allTermsAgreed(results.terms) !== true) {
+                cb(new ForbiddenError('You should agree with all terms of use.'));
+                return;
+            }
+
+            if (results.roles.length !== 0) {
+                cb(new BadRequestError("The specified " + (isSpecReview ? "Specification" : "Screening")
+                    + " review position is already taken."));
+                return;
+            }
+
+            //pass validation, insert resource and resource_info
+            var insertCount = 0, insert = function (roleId, roleCallback) {
+                var resourceId, phaseId;
+
+                async.waterfall([
+                    function (callback) {
+                        api.dataAccess.executeQuery('get_project_phase', { projectId: challengeId,
+                            phaseTypeId: phaseIds[insertCount] }, dbConnectionMap, callback);
+
+                    },
+                    function (result, callback) {
+                        insertCount = insertCount + 1;
+                        if (result.length > 0) {
+                            phaseId = result[0].project_phase_id;
+                            api.idGenerator.getNextID("RESOURCE_ID_SEQ", dbConnectionMap, callback);
+                        } else {
+                            callback(null, null);
+                        }
+                    },
+                    function (result, callback) {
+                        if (_.isDefined(phaseId)) {
+                            resourceId = result;
+                            //insert resource
+                            api.dataAccess.executeQuery("insert_resource",
+                                {
+                                    resourceId: resourceId,
+                                    projectId: challengeId,
+                                    phaseId: phaseId,
+                                    roleId: roleId,
+                                    userId: caller.userId,
+                                    createUser: '"' + caller.userId + '"',
+                                    modifyUser: '"' + caller.userId + '"'
+                                }, dbConnectionMap, callback);
+                        } else {
+                            callback(null, null);
+                        }
+                    }, function (result, callback) {
+                        if (_.isDefined(phaseId)) {
+                            //insert resource info
+                            async.parallel({
+                                userId: function (cbx) {
+                                    api.dataAccess.executeQuery('insert_resource_info', { resourceId: resourceId,
+                                        resourceInfoTypeId: 1, value: '"' + caller.userId + '"', createUser: caller.userId,
+                                        modifyUser: caller.userId }, dbConnectionMap, cbx);
+                                },
+                                userName: function (cbx) {
+                                    api.dataAccess.executeQuery('insert_resource_info', { resourceId: resourceId,
+                                        resourceInfoTypeId: 2, value: '"' + caller.handle + '"', createUser: caller.userId,
+                                        modifyUser: caller.userId }, dbConnectionMap, cbx);
+                                },
+                                regDate: function (cbx) {
+                                    api.dataAccess.executeQuery('insert_resource_info', { resourceId: resourceId,
+                                        resourceInfoTypeId: 6, value: '"' + moment().format('MM.DD.YYYY hh:mm A') + '"', createUser: caller.userId,
+                                        modifyUser: caller.userId }, dbConnectionMap, cbx);
+                                },
+                                payment: function (cbx) {
+                                    api.dataAccess.executeQuery('insert_resource_info', { resourceId: resourceId,
+                                        resourceInfoTypeId: 7, value: '"0.0"', createUser: caller.userId,
+                                        modifyUser: caller.userId }, dbConnectionMap, cbx);
+                                },
+                                paymentStatus: function (cbx) {
+                                    api.dataAccess.executeQuery('insert_resource_info', { resourceId: resourceId,
+                                        resourceInfoTypeId: 8, value: '"No"', createUser: caller.userId,
+                                        modifyUser: caller.userId }, dbConnectionMap, cbx);
+                                }
+                            }, callback);
+                        } else {
+                            callback(null, null);
+                        }
+                    }
+                ], function (err, result) {
+                    if (err) {
+                        roleCallback(err);
+                        return;
+                    }
+                    roleCallback(err, result);
+                });
+
+            };
+            async.map(roleIds, insert, function (err, r) {
+                if (err) {
+                    cb(err);
+                    return;
+                }
+                cb();
+            });
+        }, function (cb) {
+            //handle challenge notifications.
+            api.dataAccess.executeQuery('get_challenge_notification_count', { challengeId: challengeId,
+                userId: caller.userId, notificationTypeId: TIMELINE_NOTIFICATION_ID}, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (result.length === 0 || result[0].total_count === 0) {
+                api.dataAccess.executeQuery('insert_challenge_notification', { challengeId: challengeId,
+                    userId: caller.userId, notificationTypeId: TIMELINE_NOTIFICATION_ID, createUser: caller.userId,
+                    modifyUser: caller.userId}, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = { result: 'Success' };
+        }
+        next(connection, true);
+    });
+
+};
+
+/**
+ * The API for apply design review opportunity.
+ */
+exports.applyDesignReviewOpportunity = {
+    name: 'applyDesignReviewOpportunity',
+    description: 'Apply Design Review Opportunity',
+    inputs: {
+        required: ['challengeId'],
+        optional: ['isSpecReview']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    cacheEnabled: false,
+    version: 'v2',
+    transaction: 'write',
+    databases: ['tcs_catalog', 'common_oltp'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('Execute applyDesignReviewOpportunity#run', 'debug');
+            applyDesignReviewOpportunity(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
 

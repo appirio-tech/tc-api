@@ -1,0 +1,5 @@
+{
+	"name"		:	"get_project_phase",
+	"db"		:	"tcs_catalog",
+	"sqlfile"	:	"get_project_phase"
+}

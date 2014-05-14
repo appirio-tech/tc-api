@@ -10,6 +10,13 @@ DELETE FROM project WHERE project_id IN (2001, 2002, 2003);
 
 DELETE FROM resource_info WHERE resource_id >= 3001 AND resource_id <= 4000;
 DELETE FROM resource WHERE resource_id >= 3001 AND resource_id <= 4000;
+
+DELETE FROM resource_info WHERE resource_id in (SELECT resource_id FROM resource WHERE project_id = '3001');
+DELETE FROM resource WHERE project_id = '3001';
+DELETE FROM notification WHERE project_id = '3001';
+
 DELETE FROM project_phase WHERE project_id >= 3001 AND project_id <= 4000;
 DELETE FROM project_info WHERE project_id >= 3001 AND project_id <= 4000;
 DELETE FROM project WHERE project_id >= 3001 AND project_id <= 4000;
+DELETE FROM project_studio_specification WHERE project_studio_spec_id = 901002;
+DELETE FROM rboard_user WHERE user_id = 132456;

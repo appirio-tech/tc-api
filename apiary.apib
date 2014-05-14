@@ -8506,3 +8506,103 @@ Payments APIs
             "value":"500",
             "description":"Fails to get user info from auth0."
         }
+
+## Apply design review opportunity [/design/reviewOpportunities/:challengeId/apply]
+### Create Customer [POST]
++ Parameters
+    + challengeId (required, string, `3001`) ... The challenge id
+    + isSpecReview (required, boolean, `true` or false) ... The spec review flag
+
++ Response 200 (application/json)
+
+        {
+            "result": "Success"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The isSpecReview flag should be true or false."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified challenge doesn't exist."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified challenge is not a design challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Sorry, you are not a member of the review board."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified Screening review position is already taken."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Anonymous user don\'t have permission to access this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You should agree with all terms of use."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
