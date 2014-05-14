@@ -1,0 +1,3 @@
+delete from algo_rating;
+delete from algo_rating_type_lu;
+delete from coder;
