@@ -27,7 +27,7 @@ var VALID_CHALLENGE_TYPE = ['develop', 'design', 'data'];
 function getChallengesRSS(api, connection, next) {
     var result, helper = api.helper,
         dbConnectionMap = connection.dbConnectionMap,
-        RSSMaxLength = api.config.general.maxRSSLength,
+        RSSMaxLength = api.config.tcConfig.maxRSSLength,
         positionsRemain = RSSMaxLength,
         challengeType = connection.params.challengeType,
         listType = (connection.params.listType || helper.ListType.OPEN).toUpperCase(),

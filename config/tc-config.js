@@ -85,6 +85,9 @@ var config = {
     //The temporary directory for creating unified zip file
     designSubmissionTmpPath: process.env.DESIGN_SUBMISSIONS_TMP_PATH || 'test/tmp/design_tmp_submissions/',
 
+    cacheFileTypesKey: "file_types",
+    cacheDefaultLifetime: 1000 * 60 * 60 * 24,
+
     //The configuration for the DocuSign integration
     docusign: {
         username: process.env.DOCUSIGN_USERNAME || '3c484022-cfd1-4be8-b199-951933a1e81b',

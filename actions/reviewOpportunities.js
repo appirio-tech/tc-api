@@ -498,8 +498,8 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                         reviewType: rows[0].review_type.trim(),
                         challengeName: rows[0].challenge_name,
                         challengeId: rows[0].challenge_id,
-                        challengeLink: api.config.general.challengeCommunityLink + rows[0].challenge_id,
-                        detailLink: api.config.general.reviewAuctionDetailLink + rows[0].review_auction_id
+                        challengeLink: api.config.tcConfig.challengeCommunityLink + rows[0].challenge_id,
+                        detailLink: api.config.tcConfig.reviewAuctionDetailLink + rows[0].review_auction_id
                     });
                 });
             } else {

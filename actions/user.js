@@ -48,7 +48,7 @@ exports.activateUser = {
         var helper = api.helper,
             code = connection.params.code,
             dbConnectionMap = connection.dbConnectionMap,
-            welcomeEmail = api.config.welcomeEmail,
+            welcomeEmail = api.config.tcConfig.welcomeEmail,
             result,
             params = {},
             handle,

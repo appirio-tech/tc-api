@@ -1266,7 +1266,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
                     return;
                 }
                 if (result && result[0] && result[0].handle_exist !== 0) {
-                    var lifetime = api.config.general.defaultUserCacheLifetime;
+                    var lifetime = api.config.tcConfig.defaultUserCacheLifetime;
                     api.cache.save(cacheKey, true, lifetime); // storing primitive boolean "true" value as cache value
                     callback(err, null);
                 } else {
@@ -1288,7 +1288,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
  */
 helper.validatePassword = function (password) {
     var value = password.trim(),
-        configGeneral = helper.api.config.general,
+        configGeneral = helper.api.config.tcConfig,
         i,
         error;
     error = helper.checkStringPopulated(password, 'password');
@@ -1331,8 +1331,8 @@ helper.allTermsAgreed = function (terms) {
  * @since 1.13
  */
 helper.getFileTypes = function (api, dbConnectionMap, callback) {
-    var cacheFileTypesKey = api.config.redis.cacheFileTypesKey,
-        cacheDefaultLifetime = api.config.redis.cacheDefaultLifetime;
+    var cacheFileTypesKey = api.config.tcConfig.cacheFileTypesKey,
+        cacheDefaultLifetime = api.config.tcConfig.cacheDefaultLifetime;
 
     //Load from cache and perform rolling timeout
     api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {

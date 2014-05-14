@@ -149,7 +149,7 @@ exports.action = {
                 cb();
             }, function (cb) {
                 //get access token from auth0
-                request.post("https://" + api.config.general.oauthDomain + ".auth0.com/oauth/token", function (err, res, body) {
+                request.post("https://" + api.config.tcConfig.oauthDomain + ".auth0.com/oauth/token", function (err, res, body) {
                     api.log("response body: " + body, 'debug');
                     api.log("err: " + err, 'debug');
                     if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {
@@ -161,16 +161,16 @@ exports.action = {
                     idToken = resp.id_token;
                     cb();
                 }).form({
-                    "client_id" : api.config.general.oauthClientId,
-                    "client_secret" : api.config.auth0.clientSecret,
-                    "redirect_uri": api.config.auth0.serverName + api.config.auth0.redirectUrl,
+                    "client_id" : api.config.tcConfig.oauthClientId,
+                    "client_secret" : api.config.tcConfig.auth0.clientSecret,
+                    "redirect_uri": api.config.tcConfig.auth0.serverName + api.config.tcConfig.auth0.redirectUrl,
                     "grant_type": "authorization_code",
                     "code" : code,
                     "scope" : "openid"
                 });
             }, function (cb) {
                 //get user info from auth0
-                request("https://" + api.config.general.oauthDomain + ".auth0.com/userinfo?access_token=" + accessToken,
+                request("https://" + api.config.tcConfig.oauthDomain + ".auth0.com/userinfo?access_token=" + accessToken,
                     function (err, res, body) {
                         api.log("response body: " + body, 'debug');
                         if (err || (res.statusCode !== 200 && res.statusCode !== 201)) {

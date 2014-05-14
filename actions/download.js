@@ -86,7 +86,7 @@ exports.downloadDocument = {
                     cb(new ForbiddenError("You don't have permission to access this document"));
                     return;
                 }
-                filePath = path.join(api.config.general.downloadsRootDirectory, document.url);
+                filePath = path.join(api.config.tcConfig.downloadsRootDirectory, document.url);
                 fs.stat(filePath, cb);
             }, function (stat, cb) {
                 var mime = Mime.lookup(filePath),
@@ -163,8 +163,8 @@ var downloadDevSubmission = function (api, connection, dbConnectionMap, next) {
 
             //Check if thurgood request. User need not be logged-in for this but instead thurgood credentials will be present
             if (!_.isUndefined(basicInfo[0].thurgood_language) && !_.isUndefined(basicInfo[0].thurgood_platform) && !loggedIn &&
-                    connection.params.username === api.config.thurgoodDownloadUsername &&
-                    connection.params.password === api.config.thurgoodDownloadPassword) {
+                    connection.params.username === api.config.tcConfig.thurgoodDownloadUsername &&
+                    connection.params.password === api.config.tcConfig.thurgoodDownloadPassword) {
                 noRights = false;
             }
 
@@ -341,7 +341,7 @@ var downloadDevSubmission = function (api, connection, dbConnectionMap, next) {
             api.dataAccess.executeQuery("insert_project_download_audit", sqlParams, dbConnectionMap, cb);
         }, function (notUsed, cb) {
             //Now we write the document to response
-            filePath = path.join(api.config.general.uploadsRootDirectory, basicInfo[0].upload_parameter);
+            filePath = path.join(api.config.tcConfig.uploadsRootDirectory, basicInfo[0].upload_parameter);
             fs.stat(filePath, cb);
         }, function (stats, cb) {
             var mime = Mime.lookup(filePath),
@@ -666,7 +666,7 @@ var downloadDesignSubmission = function (api, connection, dbConnectionMap, next)
                 return;
             }
 
-            filePath = api.config.designSubmissionsBasePath + "/" + basicInfo[0].project_id +
+            filePath = api.config.tcConfig.designSubmissionsBasePath + "/" + basicInfo[0].project_id +
                 "/" + basicInfo[0].submitter_handle.toLowerCase() + "_" + basicInfo[0].submitter_id + "/";
 
             //if this is not a original submission request, we need some more data

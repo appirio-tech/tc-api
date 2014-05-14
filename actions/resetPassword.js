@@ -62,7 +62,7 @@ function resetPassword(api, connection, next) {
         token = connection.params.token,
         handle = decodeURI(connection.params.handle).toLowerCase(),
         newPassword = connection.params.password,
-        tokenKey = api.config.general.resetTokenPrefix + handle + api.config.general.resetTokenSuffix;
+        tokenKey = api.config.tcConfig.resetTokenPrefix + handle + api.config.tcConfig.resetTokenSuffix;
 
     async.waterfall([
         function (cb) {
@@ -156,7 +156,7 @@ function resetPassword(api, connection, next) {
  * @param {Function<err>} callback - the callback function.
  */
 var generateResetToken = function (userHandle, userEmailAddress, api, callback) {
-    var tokenCacheKey = api.config.general.resetTokenPrefix + userHandle + api.config.general.resetTokenSuffix,
+    var tokenCacheKey = api.config.tcConfig.resetTokenPrefix + userHandle + api.config.tcConfig.resetTokenSuffix,
         current,
         expireDate,
         expireDateString,
@@ -172,7 +172,7 @@ var generateResetToken = function (userHandle, userEmailAddress, api, callback) 
         } else {
             // There is no token - generate new one
             var newToken = stringUtils.generateRandomString(TOKEN_ALPHABET, 6),
-                lifetime = api.config.general.defaultResetPasswordTokenCacheLifetime;
+                lifetime = api.config.tcConfig.defaultResetPasswordTokenCacheLifetime;
             api.cache.save(tokenCacheKey, newToken, lifetime);
 
             // Send email with token to user
@@ -184,7 +184,7 @@ var generateResetToken = function (userHandle, userEmailAddress, api, callback) 
                 token: newToken,
                 expiry: expireDateString,
                 template: 'reset_token_email',
-                subject: api.config.general.resetPasswordTokenEmailSubject,
+                subject: api.config.tcConfig.resetPasswordTokenEmailSubject,
                 toAddress: userEmailAddress
             };
             api.tasks.enqueue("sendEmail", emailParams, 'default');

@@ -26,7 +26,7 @@ var _ = require('underscore');
 var assert = require('chai').assert;
 var crypto = require("crypto");
 var jwt = require('jsonwebtoken');
-var redis = require('redis');
+var redis = require('fakeredis');
 
 /**
  * The test helper
