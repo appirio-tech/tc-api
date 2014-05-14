@@ -1,0 +1,7 @@
+select 1
+from 
+resource r
+where
+r.project_id = '@challengeId@'
+and
+r.resource_role_id in (@resourceRoleIds@)

@@ -2675,12 +2675,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Software Challenges [/develop/challenges/active?communityId={communityId}&private={private}]
+## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, string, `1`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -3132,12 +3137,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?communityId={communityId}&private={private}]
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, string, `true`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -4207,12 +4217,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Studio Challenges [/design/challenges/active?communityId={communityId}&private={private}]
+## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Studio Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, string, `1`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -4566,12 +4581,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Studio Challenges [/design/challenges/upcoming?communityId={communityId}&private={private}]
+## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Studio Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, private, `1`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -8505,4 +8525,104 @@ Payments APIs
             "name":"Internal Server Error",
             "value":"500",
             "description":"Fails to get user info from auth0."
+        }
+
+## Apply design review opportunity [/design/reviewOpportunities/:challengeId/apply]
+### Create Customer [POST]
++ Parameters
+    + challengeId (required, string, `3001`) ... The challenge id
+    + isSpecReview (required, boolean, `true` or false) ... The spec review flag
+
++ Response 200 (application/json)
+
+        {
+            "result": "Success"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The isSpecReview flag should be true or false."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified challenge doesn't exist."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified challenge is not a design challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Sorry, you are not a member of the review board."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified Screening review position is already taken."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Anonymous user don\'t have permission to access this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You should agree with all terms of use."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
         }
