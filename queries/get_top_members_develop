@@ -1,0 +1,26 @@
+SELECT
+  SKIP @firstRowIndex@
+  FIRST @pageSize@
+  ur3.user_id
+  , c.handle
+  , ur3.rating
+  , ur3.phase_id
+FROM (SELECT
+        ur2.user_id
+        , ur2.rating
+        , MIN(ur2.phase_id) AS phase_id
+      FROM (SELECT ur1.user_id, MAX(ur1.rating) AS max_rating
+            FROM tcs_dw:user_rating ur1
+            WHERE ur1.phase_id IN (112, 113, 117, 118, 120, 124, 125, 130, 135, 137, 146)
+            GROUP BY ur1.user_id) AS ur_max
+        , tcs_dw:user_rating ur2
+      WHERE ur2.user_id = ur_max.user_id
+        AND ur2.rating = ur_max.max_rating
+      GROUP BY ur2.user_id, ur2.rating) AS ur_min
+  , tcs_dw:user_rating ur3
+  , coder c
+WHERE c.coder_id = ur_min.user_id
+  AND c.status = 'A'
+  AND ur3.user_id = ur_min.user_id
+  AND ur3.phase_id = ur_min.phase_id
+ORDER BY ur3.rating DESC, handle ASC

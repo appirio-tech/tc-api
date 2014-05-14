@@ -1,0 +1,3 @@
+SELECT COUNT(*) AS count
+FROM (SELECT coder_id, rating FROM algo_rating r WHERE r.algo_rating_type_id = 1) AS r1
+  FULL OUTER JOIN (SELECT coder_id, rating FROM algo_rating r WHERE r.algo_rating_type_id = 3) AS r3 ON r1.coder_id = r3.coder_id

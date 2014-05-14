@@ -1,0 +1,111 @@
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900001, 7, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900002, 7, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900003, 7, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900004, 7, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900005, 7, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900006, 7, 22, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900007, 7, 30, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900008, 7, 31, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900009, 7, 32, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900010, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900011, 7, 40, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900101, 7, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900102, 7, 17, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900103, 7, 18, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900104, 7, 20, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900105, 7, 21, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900106, 7, 22, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900107, 7, 30, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900108, 7, 31, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900109, 7, 32, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900110, 7, 34, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
+    VALUES (900111, 7, 40, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+    VALUES(901001, 1, 900001, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+    VALUES(901001, 1, 132456, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+    VALUES(902001, 900001, 901001, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+    VALUES(903001, 900001, 1, 2, 15, 10, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+    VALUES(904001, 902001, 1, 1, 1, 903001, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+    VALUES(901002, 1, 900002, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+    VALUES(901002, 1, 132456, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+    VALUES(902002, 900002, 901002, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+    VALUES(903002, 900002, 1, 2, 15, 10, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+    VALUES(904002, 902002, 1, 1, 1, 903002, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+    VALUES(901003, 1, 900003, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+    VALUES(901003, 1, 132456, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+    VALUES(902003, 900003, 901003, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+    VALUES(903003, 900003, 1, 2, 15, 10, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+    VALUES(904003, 902003, 1, 1, 1, 903003, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+    VALUES(901004, 1, 900004, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+    VALUES(901004, 1, 132456, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+    VALUES(902004, 900004, 901004, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+    VALUES(903004, 900004, 1, 2, 15, 10, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+    VALUES(904004, 902004, 1, 1, 1, 903004, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+    VALUES(901005, 1, 900005, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+    VALUES(901005, 1, 132456, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+    VALUES(902005, 900005, 901005, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+    VALUES(903005, 900005, 1, 2, 15, 10, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+    VALUES(904005, 902005, 1, 1, 1, 903005, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date)
+    VALUES(901006, 1, 900006, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+    VALUES(901006, 1, 132457, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO upload(upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date)
+    VALUES(902006, 900006, 901006, 1, 1, 'test', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+    VALUES(903006, 900006, 1, 2, 15, 10, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO submission(submission_id, upload_id, submission_status_id, placement, submission_type_id, prize_id, create_user, create_date, modify_user, modify_date)
+    VALUES(904006, 902006, 1, 1, 1, 903006, 132456, CURRENT, 132456, CURRENT);

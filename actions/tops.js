@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
+ * @version 1.6
  * @author Sky_, mekanizumu, muzehyun, Ghost_141
  * @changes from 1.0
  * merged with Member Registration API
@@ -15,6 +15,8 @@
  * Move contestTypes to helper class and rename it to softwareChallengeTypes.
  * changes in 1.5:
  * implement the studio top api.
+ * changes in 1.6:
+ * implement the top track members of develop, design and data.
  */
 "use strict";
 var async = require('async');
@@ -477,6 +479,126 @@ exports.getSRMTops = {
                         return obj;
                     });
                 }
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
+    }
+};
+
+/**
+ * The valid track types
+ */
+var VALID_TRACK_TYPES = ['design', 'develop', 'data'];
+
+/**
+ * Maximum page size
+ */
+var MAX_PAGE_SIZE = 1000;
+
+/**
+ * The API for top track members of develop, design and data.
+ */
+exports.getTopTrackMembers = {
+    name: 'getTopTrackMembers',
+    description: 'The API for top track members of develop, design and data.',
+    inputs: {
+        required: ['trackType'],
+        optional: ['pageIndex', 'pageSize']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['topcoder_dw', 'tcs_dw', 'tcs_catalog'],
+    run: function (api, connection, next) {
+        api.log('Execute getTopTrackMembers#run', 'debug');
+        var helper = api.helper,
+            trackType = connection.params.trackType.toLowerCase(),
+            pageIndex = Number(connection.params.pageIndex || 1),
+            pageSize = Number(connection.params.pageSize || 50),
+            dbConnectionMap = connection.dbConnectionMap,
+            result = {},
+            error,
+            sqlParams = {},
+            isNoPaging;
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+        async.waterfall([
+            function (cb) {
+                if (_.isDefined(connection.params.pageIndex)) {
+                    error = helper.checkDefined(connection.params.pageSize, 'pageSize');
+                }
+                error = error ||
+                    helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
+                    helper.checkMaxNumber(pageSize, MAX_PAGE_SIZE, 'pageSize') ||
+                    helper.checkPageIndex(pageIndex, 'pageIndex') ||
+                    helper.checkPositiveInteger(pageSize, 'pageSize') ||
+                    helper.checkContains(VALID_TRACK_TYPES, trackType, 'trackType');
+                if (error) {
+                    cb(error);
+                    return;
+                }
+                if (pageIndex === -1) {
+                    pageIndex = 1;
+                    pageSize = MAX_INT;     // No paging, show all.
+                    isNoPaging = true;
+                }
+                // Retrieves total number of top members for the given track.
+                api.dataAccess.executeQuery('get_top_members_' + trackType + '_count', sqlParams, dbConnectionMap, cb);
+            }, function (rows, cb) {
+                if (rows.length === 0) {
+                    cb(new Error('no rows returned from get_top_members_' + trackType + '_count'));
+                    return;
+                }
+                var total = rows[0].count;
+                result.total = total;
+                result.pageIndex = pageIndex;
+                result.pageSize = isNoPaging ? total : pageSize;
+                result.data = [];
+                sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
+                sqlParams.pageSize = pageSize;
+                // Retrieves paged and ordered top members for the given track.
+                api.dataAccess.executeQuery('get_top_members_' + trackType, sqlParams, dbConnectionMap, cb);
+            }, function (rows, cb) {
+                var rank = (pageIndex - 1) * pageSize + 1;
+                if (rows.length === 0) {
+                    cb(new NotFoundError('No results found'));
+                    return;
+                }
+                rows.forEach(function (row) {
+                    var color, highestRatingType;
+                    switch (trackType) {
+                    case 'design':
+                        color = 'N/A';
+                        break;
+                    case 'develop':
+                        color = helper.getCoderColor(row.rating);
+                        highestRatingType = helper.getPhaseName(row.phase_id);
+                        break;
+                    case 'data':
+                        color = helper.getCoderColor(row.rating);
+                        highestRatingType = row.challenge_type.trim();
+                        break;
+                    }
+                    result.data.push({
+                        rank: rank,
+                        handle: row.handle,
+                        userId: row.coder_id,
+                        color: color,
+                        rating: row.rating,
+                        highestRatingType: highestRatingType
+                    });
+                    rank = rank + 1;
+                });
                 cb();
             }
         ], function (err) {
