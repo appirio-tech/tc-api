@@ -62,7 +62,7 @@ set MINPOOL=1
 set MAXPOOL=20
 set MAXSIZE=0
 set IDLETIMEOUT=3600
-set TIMEOUT=3000
+set TIMEOUT=30000
 
 REM Used in Jira soap service (Bugs API)
 set JIRA_USERNAME=api_test

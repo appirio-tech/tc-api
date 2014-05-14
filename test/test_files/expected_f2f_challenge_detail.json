@@ -10,22 +10,32 @@
     "numberOfCheckpointsPrizes": 0,
     "topCheckPointPrize": "",
     "currentStatus": "Active",
-    "currentPhaseName": "Iterative Review",
     "digitalRunPoints": 510,
     "reliabilityBonus": 200,
     "challengeCommunity": "develop",
     "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
-    "technology": ["Java", "MySQL"],
+    "technology": [
+        "Java",
+        "MySQL"
+    ],
     "prize": [
         1000
     ],
-    "numberOfRegistrants": 1,
+    "currentPhaseName": "Iterative Review",
+    "platforms": [
+        "AWS",
+        "Cloud Foundry"
+    ],
+    "event": {
+        "id": 3437,
+        "description": "TCO",
+        "shortDescription": "TCO short description"
+    },
     "registrants": [
         {
             "handle": "heffan",
             "reliability": "100%",
-            "rating": 1800,
-            "colorStyle": "color: #DDCC00"
+            "colorStyle": "color: #000000"
         }
     ],
     "submissions": [
@@ -39,43 +49,35 @@
             "submissionStatus": "Active"
         }
     ],
-    "numberOfSubmissions": 1,
-    "platforms": [
-        "AWS",
-        "Cloud Foundry"
-    ],
     "phases": [
-     {
-       "type": "Registration",
-       "status": "Closed",
-       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
-       "actualStartTime": "2013-12-20T01:40:00.000Z",
-       "scheduledEndTime": "2013-12-22T00:00:00.000Z",
-       "actualendTime": "2013-12-22T00:00:00.000Z"
-     },
-     {
-       "type": "Submission",
-       "status": "Closed",
-       "scheduledStartTime": "2013-12-20T00:00:00.000Z",
-       "actualStartTime": "2013-12-20T00:00:00.000Z",
-       "scheduledEndTime": "2013-12-26T00:00:00.000Z"
-     },
-     {
-       "type": "Iterative Review",
-       "status": "Open",
-       "scheduledStartTime": "2013-12-26T12:00:00.000Z",
-       "scheduledEndTime": "2014-01-01T12:00:00.000Z"
-     },
-     {
-       "type": "Iterative Review",
-       "status": "Scheduled",
-       "scheduledStartTime": "2013-12-27T12:00:00.000Z",
-       "scheduledEndTime": "2014-01-02T12:00:00.000Z"
-     }
-   ],
-   "event": {
-       "id": 3437,
-       "description": "TCO",
-       "shortDescription": "TCO short description"
-   }
+        {
+            "type": "Registration",
+            "status": "Closed",
+            "scheduledStartTime": "2013-12-20T00:00:00.000+0000",
+            "actualStartTime": "2013-12-20T01:40:00.000+0000",
+            "scheduledEndTime": "2013-12-22T00:00:00.000+0000",
+            "actualendTime": "2013-12-22T00:00:00.000+0000"
+        },
+        {
+            "type": "Submission",
+            "status": "Closed",
+            "scheduledStartTime": "2013-12-20T00:00:00.000+0000",
+            "actualStartTime": "2013-12-20T00:00:00.000+0000",
+            "scheduledEndTime": "2013-12-26T00:00:00.000+0000"
+        },
+        {
+            "type": "Iterative Review",
+            "status": "Open",
+            "scheduledStartTime": "2013-12-26T12:00:00.000+0000",
+            "scheduledEndTime": "2014-01-01T12:00:00.000+0000"
+        },
+        {
+            "type": "Iterative Review",
+            "status": "Scheduled",
+            "scheduledStartTime": "2013-12-27T12:00:00.000+0000",
+            "scheduledEndTime": "2014-01-02T12:00:00.000+0000"
+        }
+    ],
+    "numberOfRegistrants": 1,
+    "numberOfSubmissions": 1
 }

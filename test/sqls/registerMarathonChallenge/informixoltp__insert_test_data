@@ -1,3 +1,5 @@
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (1000, "SRM 67 DIV 2", "A", -1);
+
 INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2001, 1000, 'Test Round 2001', 'A', 13, 'Test Round 2001', 0, 10);
 INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2002, 1000, 'Test Round 2002', 'A', 13, 'Test Round 2002', 0, 10);
 INSERT INTO round(round_id, contest_id, name, status, round_type_id, short_name, invitational, registration_limit) VALUES(2003, 1000, 'Test Round 2003', 'A', 13, 'Test Round 2003', 1, 10);

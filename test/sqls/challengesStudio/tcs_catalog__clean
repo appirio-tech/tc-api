@@ -1,30 +1,24 @@
-delete from event where event_id = 3437; 
+delete from event where event_id = 3437;
 delete from contest_project_xref where contest_id = 10041; 
 delete from contest where contest_id = 10041;
 DELETE FROM component_inquiry WHERE component_id = 10041;
+
 DELETE FROM comp_documentation WHERE comp_vers_id = 10041;
 DELETE FROM comp_versions WHERE comp_vers_id = 10041;
 DELETE FROM comp_catalog WHERE component_id = 10041;
 
-DELETE FROM review_item_comment WHERE resource_id = 10045;
-DELETE FROM review_item WHERE review_item_id = 1;
-DELETE FROM review WHERE review_id = 1;
-
-DELETE FROM submission WHERE submission_id > 10000;
-DELETE FROM upload WHERE upload_id > 10000;
-
-DELETE FROM prize WHERE prize_id > 10000;
-
+DELETE FROM review_item_comment;
+DELETE FROM review_item;
+DELETE FROM review;
+DELETE FROM submission;
+DELETE FROM upload;
+DELETE FROM prize;
 DELETE FROM resource_info WHERE resource_id > 10000;
 DELETE FROM resource WHERE resource_id > 10000;
-
 DELETE FROM project_phase WHERE project_id > 10000;
-DELETE FROM project_platform WHERE project_id > 10000;
-
+DELETE FROM project_platform;
 DELETE FROM project_info WHERE project_id > 10000;
 DELETE FROM project WHERE project_id > 10000;
-
-DELETE FROM project_studio_specification WHERE project_studio_spec_id = 1;
-
-DELETE FROM user_permission_grant WHERE resource_id = 30010001;
-DELETE FROM tc_direct_project WHERE project_id = 30010001;
+DELETE FROM project_studio_specification;
+DELETE FROM user_permission_grant;
+DELETE FROM tc_direct_project;

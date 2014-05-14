@@ -1,0 +1,5 @@
+{
+    "name"    : "update_member_contact_black",
+    "db"      : "informixoltp",
+    "sqlfile" : "update_member_contact_black"
+}

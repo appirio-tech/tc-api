@@ -1,0 +1,131 @@
+﻿{
+    "challengeType": "Banners/Icons",
+    "challengeName": "Studio Contest 5",
+    "challengeId": 10041,
+    "projectId": 30010001,
+    "forumId": "10000001",
+    "introduction": "Introduction of Studio Contest 5",
+    "round1Introduction": "Introduction of Studio Contest 5 Round 1",
+    "round2Introduction": "Introduction of Studio Contest 5 Round 2",
+    "detailedRequirements": "studio detail requirement",
+    "cmcTaskId": "",
+    "numberOfCheckpointsPrizes": 1,
+    "topCheckPointPrize": 250,
+    "postingDate": "2013-11-01T00:00:00.000+0000",
+    "registrationEndDate": "2013-11-02T00:00:00.000+0000",
+    "checkpointSubmissionEndDate": "2013-11-03T00:00:00.000+0000",
+    "submissionEndDate": "2013-11-03T00:00:00.000+0000",
+    "filetypes": [],
+    "appealsEndDate": "2013-11-05T00:00:00.000+0000",
+    "submissionLimit": "3",
+    "currentStatus": "Completed",
+    "digitalRunPoints": 450,
+    "challengeCommunity": "design",
+    "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=10041",
+    "prize": [
+        1000,
+        500,
+        200
+    ],
+    "checkpoints": [
+        {
+            "submissionId": 10042,
+            "submitter": "user"
+        }
+    ],
+    "winners": [
+        {
+            "submissionId": 10041,
+            "submitter": "super",
+            "points": 450,
+            "rank": 1
+        }
+    ],
+    "currentPhaseName": "",
+    "currentPhaseRemainingTime": 0,
+    "platforms": [
+        "Facebook",
+        "iOS"
+    ],
+    "event": {
+        "id": 3437,
+        "description": "TCO",
+        "shortDescription": "TCO short description"
+    },
+    "registrants": [
+        {
+            "handle": "heffan",
+            "reliability": "100%"
+        },
+        {
+            "handle": "user",
+            "reliability": "n/a"
+        },
+        {
+            "handle": "twight",
+            "reliability": "n/a"
+        },
+        {
+            "handle": "sandking",
+            "reliability": "n/a"
+        }
+    ],
+    "submissions": [
+        {
+            "submissionId": 10041,
+            "submitter": "super"
+        }
+    ],
+    "phases": [
+        {
+            "type": "Registration",
+            "status": "Closed",
+            "scheduledStartTime": "2013-11-01T00:00:00.000+0000",
+            "actualStartTime": "2013-11-01T00:00:00.000+0000",
+            "scheduledEndTime": "2013-11-02T00:00:00.000+0000",
+            "actualendTime": "2013-11-02T00:00:00.000+0000"
+        },
+        {
+            "type": "Submission",
+            "status": "Closed",
+            "scheduledStartTime": "2013-11-01T00:00:00.000+0000",
+            "actualStartTime": "2013-11-01T00:00:00.000+0000",
+            "scheduledEndTime": "2013-11-03T00:00:00.000+0000",
+            "actualendTime": "2013-11-03T00:00:00.000+0000"
+        },
+        {
+            "type": "Checkpoint Submission",
+            "status": "Closed",
+            "scheduledStartTime": "2013-11-01T00:00:00.000+0000",
+            "actualStartTime": "2013-11-01T00:00:00.000+0000",
+            "scheduledEndTime": "2013-11-03T00:00:00.000+0000",
+            "actualendTime": "2013-11-03T00:00:00.000+0000"
+        },
+        {
+            "type": "Screening",
+            "status": "Closed",
+            "scheduledStartTime": "2013-11-03T00:00:00.000+0000",
+            "actualStartTime": "2013-11-03T00:00:00.000+0000",
+            "scheduledEndTime": "2013-11-04T00:00:00.000+0000",
+            "actualendTime": "2013-11-04T00:00:00.000+0000"
+        },
+        {
+            "type": "Review",
+            "status": "Closed",
+            "scheduledStartTime": "2013-11-04T00:00:00.000+0000",
+            "actualStartTime": "2013-11-04T00:00:00.000+0000",
+            "scheduledEndTime": "2013-11-05T00:00:00.000+0000",
+            "actualendTime": "2013-11-05T00:00:00.000+0000"
+        },
+        {
+            "type": "Checkpoint Review",
+            "status": "Closed",
+            "scheduledStartTime": "2013-11-04T00:00:00.000+0000",
+            "actualStartTime": "2013-11-04T00:00:00.000+0000",
+            "scheduledEndTime": "2013-11-05T00:00:00.000+0000",
+            "actualendTime": "2013-11-05T00:00:00.000+0000"
+        }
+    ],
+    "numberOfRegistrants": 4,
+    "numberOfSubmissions": 1
+}

@@ -1,0 +1,5 @@
+{
+    "name"    : "update_current_high_school",
+    "db"      : "topcoder_dw",
+    "sqlfile" : "update_current_high_school"
+}

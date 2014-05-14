@@ -104,3 +104,4 @@ AND LOWER(pn.value) LIKE ('@challenge_name@')
 AND pr.first_place_prize >= @prize_lower@
 AND pr.first_place_prize <= @prize_upper@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
+order by challenge_id asc

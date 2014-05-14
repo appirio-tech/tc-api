@@ -260,30 +260,10 @@ describe('Test Generate Reset Token API', function () {
         testSuccessScenario(null, 'normal_user_14@test.com', null, done, 'normal_user_14', false);
     });
 
-    it('Existing social login handle is provided - should respond with HTTP 200 and provider name', function (done) {
-        testSuccessScenario('user2', null, 'Facebook', done, null, true);
-    });
-
-    it('Existing social login email is provided - should respond with HTTP 200 and provider name', function (done) {
-        testSuccessScenario(null, 'social.email21@test.com', 'Twitter', done, null, true);
-    });
-
-    it('Username that matches handle for TC user account (which also have a social login username) and social '
-        + 'login username for another TC user account is provided - should respond with HTTP 200 and social '
-        + 'provider name for user with matching TC handle', function (done) {
-            testSuccessScenario('common_handle', null, 'Google', done, null, true);
-        });
-
     it('Username that matches handle for TC user account (which does not have a social login username) and social '
         + 'login username for another TC user account is provided - should respond with HTTP 200 and generated '
         + 'token for user with matching TC handle', function (done) {
             testSuccessScenario('common_handle2', null, null, done, null, false);
-        });
-
-    it('Email address that matches email for TC user account (which also have a social login username) and social '
-        + 'login email for another TC user account is provided - should respond with HTTP 200 and social '
-        + 'provider name for user with matching TC email address', function (done) {
-            testSuccessScenario(null, 'common_email@test.com', 'Google', done, null, true);
         });
 
     it('Email address that matches email for TC user account (which does not have a social login account) and social '

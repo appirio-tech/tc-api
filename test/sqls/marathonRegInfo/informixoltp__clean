@@ -16,4 +16,4 @@ DELETE FROM invite_list WHERE round_id = 2005;
 DELETE FROM round WHERE round_id IN (2001, 2002, 2003, 2004, 2005, 2006, 2007);
 DELETE FROM team_coder_xref WHERE coder_id IN (132456);
 
-DELETE FROM contest WHERE contest_id IN (10000, 10001);
+DELETE FROM contest WHERE contest_id IN (10000, 10001, 1000);

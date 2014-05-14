@@ -1,0 +1,6 @@
+INSERT INTO coder (coder_id, handle, status) VALUES (132456, 'heffan', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (132458, 'user', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (132457, 'super', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124764, 'Hung', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124766, 'twight', 'A');
+INSERT INTO coder (coder_id, handle, status) VALUES (124916, 'Yoshi', 'A');

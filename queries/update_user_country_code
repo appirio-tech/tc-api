@@ -1,0 +1,1 @@
+UPDATE 'informixoltp':coder SET comp_country_code = '@compCountryCode@' WHERE coder_id = @coderId@;

@@ -1,0 +1,12 @@
+SELECT 
+n.notify_id as id, n.name as name, t.notify_type_desc as type
+FROM 
+notify_lu n, notify_type_lu t, registration_type_notify_xref x
+WHERE 
+x.notify_id = n.notify_id
+AND
+x.registration_type_id in (@types@)
+AND
+n.notify_type_id = t.notify_type_id
+AND
+n.status = 'A'

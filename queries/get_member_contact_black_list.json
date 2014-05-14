@@ -1,0 +1,5 @@
+{
+    "name"    : "get_member_contact_black_list",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_member_contact_black_list"
+}

@@ -58,7 +58,7 @@ describe('Test Validate Social API', function () {
      * Get response and assert response from /api/v2/bugs/
      * @param {String} socialProviderId the social provider id
      * @param {String} socialUserId the social user id
-     * @param {String} result the result
+     * @param {Boolean} result the result
      * @param {Function<err>} done the callback
      */
     function assertResponse(socialProviderId, socialUserId, result, done) {
@@ -99,7 +99,7 @@ describe('Test Validate Social API', function () {
                     return;
                 }
                 if (errorMessage) {
-                    if (statusCode != 200) {
+                    if (statusCode !== 200) {
                         assert.ok(res.body);
                         assert.ok(res.body.error);
                         assert.equal(res.body.error.details, errorMessage);
@@ -166,13 +166,13 @@ describe('Test Validate Social API', function () {
      * Test /api/v2/users/validateSocial?socialProviderId=1&socialUserId=fb124764
      */
     it('should return results', function (done) {
-        assertResponse("1", "fb124764", true, done);
+        assertResponse("1", "fb124764", false, done);
     });
 
     /**
      * Test /api/v2/users/validateSocial?socialProviderId=1&socialUserId=fb124764a
      */
     it('should return results', function (done) {
-        assertResponse("1", "fb124764a", false, done);
+        assertResponse("1", "fb124764a", true, done);
     });
 });

@@ -1,0 +1,5 @@
+{
+    "name"    : "get_registration_types",
+    "db"      : "common_oltp",
+    "sqlfile" : "get_registration_types"
+}

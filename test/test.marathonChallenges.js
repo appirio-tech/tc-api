@@ -21,7 +21,7 @@ var SQL_DIR = __dirname + "/sqls/marathonChallenges/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 describe('Get Marathon Challenges API', function () {
-    this.timeout(60000);     // The api with testing remote db could be quit slow
+    this.timeout(180000);     // The api with testing remote db could be quit slow
 
 
     /**

@@ -507,6 +507,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                     var reviewType = row.review_type.trim(),
                         reviewOpp = {
                             challengeName: row.challenge_name,
+                            challengeType: row.challenge_type,
                             challengeId: row.challenge_id,
                             round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
                             round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),

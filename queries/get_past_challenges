@@ -71,8 +71,4 @@ AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.descriptio
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
-AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
-         OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                   WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
-                         AND ce.contest_id = p.project_id))
 ORDER BY @sort_column@ @sort_order@

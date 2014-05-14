@@ -1,0 +1,6 @@
+UPDATE
+current_school
+SET
+viewable = '@viewable@'
+WHERE
+coder_id = '@coderId@'

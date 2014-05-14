@@ -121,8 +121,7 @@ describe('Download Design Submission API', function () {
      * @param {Function<err>} done the callback
      */
     after(function (done) {
-        done();
-        //clearDb(done);
+        clearDb(done);
     });
 
     /**

@@ -1138,6 +1138,7 @@ exports.validateHandle = {
     outputExample : {},
     version : 'v2',
     transaction : 'read',
+	cacheEnabled : false,
     databases : ["common_oltp"],
     run: function (api, connection, next) {
         var helper = api.helper,
@@ -1185,6 +1186,7 @@ exports.validateSocial = {
     outputExample : {},
     version : 'v2',
     transaction : 'read',
+	cacheEnabled : false,
     databases : ["common_oltp"],
     run: function (api, connection, next) {
         var helper = api.helper,
@@ -1224,7 +1226,7 @@ exports.validateSocial = {
                     return;
                 }
                 isSoicalLoginExisted(socialProviderId, socialUserId, api, dbConnectionMap, function (err, existed) {
-                    result = { available: existed };
+                    result = { available: !existed };
                     cb(err);
                 });
             }

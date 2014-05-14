@@ -109,7 +109,7 @@ FIRST @pageSize@
    AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
    AND pi1.project_info_type_id = 1 -- external reference id
    AND pi1.project_id = p.project_id
-
+   AND pp1.scheduled_start_time >= decode (pstatus.project_status_id, 2, current, pp1.scheduled_start_time)
    AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
    AND LOWER(pn.value) LIKE ('@challengeName@')
    AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prilower@

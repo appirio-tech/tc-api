@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.28
+ * @version 1.29
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -78,6 +78,8 @@
  * - added checkEmailAddress
  * Changes in 1.28:
  * - Update method checkAdmin to receive two more input parameters.
+ * Changes in 1.29:
+ * - Add getCatalogCachedValue method.
  */
 "use strict";
 
@@ -695,6 +697,62 @@ helper.checkMaxNumber = function (obj, max, objName) {
 };
 
 /**
+ * Get catalog cache for tech/platform.
+ * @param {Array} values - the values array.
+ * @param {Object} dbConnectionMap - the database connection map.
+ * @param {String} catalogName - the catalog name. eg. 'technologies', 'platforms'
+ * @param {Function} cb - the callback function.
+ * @since 1.29
+ */
+helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, cb) {
+    var value, res = [], i = 0;
+    async.waterfall([
+        function (cbx) {
+            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (value) {
+                cbx(null, value);
+            });
+        },
+        function (value, cbx) {
+            if (!_.isDefined(value)) {
+                helper.api.dataAccess.executeQuery('get_data_' + catalogName, {}, dbConnectionMap, cbx);
+            } else {
+                value = JSON.parse(value);
+                cbx(null, null);
+            }
+        },
+        function (res, cbx) {
+            if (_.isDefined(res)) {
+                value = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
+                helper.api.cache.save(helper.api.config.general[catalogName + 'CacheKey'], value, helper.api.config.general.defaultCacheLifetime,
+                    function (err) {
+                        cbx(err);
+                    });
+
+            } else {
+                // Since the query will always return results. So if the results is undefined then we have cache value for catalog.
+                cbx();
+            }
+        },
+        function (cbx) {
+            // Check the catalog type here.
+            var id;
+            for (i; i < values.length; i += 1) {
+                id = value[values[i].trim().toLowerCase()];
+                if (_.isDefined(id)) {
+                    res.push(id);
+                } else {
+                    cbx(new IllegalArgumentError('The ' + values[i] + ' is not a valid ' + catalogName + ' value.'));
+                    return;
+                }
+            }
+            cbx();
+        }
+    ], function (err) {
+        cb(err, res);
+    });
+};
+
+/**
  * Get color for given rating
  * @param {Number} rating - the rating
  * @return {String} the color name
@@ -1208,6 +1266,29 @@ helper.formatDate = function (date, format) {
 };
 
 /**
+ * The default timezone.
+ */
+var DEFAULT_TIME_ZONE = 'EST5EDT';
+
+/**
+ * The date format for date with timezone.
+ */
+var DEFAULT_DATE_FORMAT_WITH_TIMEZONE = 'MMM DD, YYYY HH:mm z';
+
+/**
+ * Format the date value to default timezone format.
+ * Will return empty string if the date is null.
+ * @param {String} date - the date value.
+ * @since 1.8
+ */
+helper.formatDateWithTimezone = function (date) {
+    if (date) {
+        return moment(date).tz(DEFAULT_TIME_ZONE).format(DEFAULT_DATE_FORMAT_WITH_TIMEZONE);
+    }
+    return '';
+};
+
+/**
  * Format the date value.
  * @param {String} date - the date value
  * @param {String} format - the format
@@ -1288,12 +1369,14 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
  */
 helper.validatePassword = function (password) {
     var value = password.trim(),
-        configGeneral = helper.api.config.tcConfig,
-        i,
-        error;
-    error = helper.checkStringPopulated(password, 'password');
-    if (error) {
-        return error;
+        result = 0,
+        configGeneral = helper.api.config.tcConfig;
+
+    if (password.trim() === '') {
+        return new IllegalArgumentError('password should be non-null and non-empty string.');
+    }
+    if (password.match("'")) {
+        return new IllegalArgumentError('password is invalid.');
     }
     if (value.length > configGeneral.maxPasswordLength) {
         return new IllegalArgumentError('password may contain at most ' + configGeneral.maxPasswordLength + ' characters.');
@@ -1301,12 +1384,22 @@ helper.validatePassword = function (password) {
     if (value.length < configGeneral.minPasswordLength) {
         return new IllegalArgumentError('password must be at least ' + configGeneral.minPasswordLength + ' characters in length.');
     }
-    for (i = 0; i < password.length; i += 1) {
-        if (!_.contains(stringUtils.PASSWORD_ALPHABET, password.charAt(i))) {
-            return new IllegalArgumentError('Your password may contain only letters, numbers and ' + stringUtils.PUNCTUATION);
-        }
-    }
 
+    if (password.match(/[a-z]/)) {
+        result += 1;
+    }
+    if (password.match(/[A-Z]/)) {
+        result += 1;
+    }
+    if (password.match(/\d/)) {
+        result += 1;
+    }
+    if (password.match(/[\]\[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\\\^\_\`\{\|\}\~\-]/)) {
+        result += 1;
+    }
+    if (result < 2) {
+        return new IllegalArgumentError("The password is not strong enough.");
+    }
     return null;
 };
 

@@ -110,6 +110,7 @@ describe('Get Basic User Profile API', function () {
                         delete item.date;
                     });
                 }
+                delete body.memberSince;
                 assert.deepEqual(body, expected);
                 cb();
             });
@@ -417,6 +418,7 @@ describe('My Profile API', function () {
                 response.Achievements.forEach(function (item) {
                     delete item.date;
                 });
+                delete response.memberSince;
                 assert.deepEqual(response, expectedResponse);
                 done(err);
             });
@@ -453,7 +455,18 @@ describe('My Profile API', function () {
     it('should return private info for heffan', function (done) {
         var authHeader = generateAuthHeader({ sub: userHeffan}),
             expectedResponse = require('./test_files/user_profile_private/expected_basic_user_profile_heffan_private.json');
-        assertResponse(expectedResponse, authHeader, done);
+        createRequest(200, authHeader)
+            .end(function (err, res) {
+                assert.ifError(err);
+                assert.ok(res.body);
+                var response = res.body;
+                delete response.serverInformation;
+                delete response.requesterInformation;
+                response.Achievements.forEach(function (item) {
+                    delete item.date;
+                });
+                done(err);
+            });
     });
 
     /**

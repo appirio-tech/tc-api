@@ -89,7 +89,7 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
 
             api.dataAccess.executeQuery("get_user_rating",
                 {
-                    phaseId: componentInfo.phase_id,
+                    phaseId: componentInfo.project_category_id + 111,
                     userId: userId
                 },
                 dbConnectionMap,
@@ -403,7 +403,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 forumURL : forumURL,
                 documentationDetails : documentationDetails,
                 umlToolInfo : umlToolInfo,
-                deadlineDate : componentInfo.initial_submission_date,
+                deadlineDate : api.helper.formatDateWithTimezone(componentInfo.initial_submission_date),
                 submitURL : submitURL,
                 template : 'registration_notification_email',
                 toAddress : user.email,

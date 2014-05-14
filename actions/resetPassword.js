@@ -8,6 +8,9 @@
  * - implemented generateResetToken function
  * Changes in 1.2:
  * - Implement the Reset Password API
+ * Changes in 1.3:
+ * - Update reset password api to use resetMemberPasswordLDAPEntry in ldapHelper.js
+ * - Update generate token to allow social login user update their password.
  */
 "use strict";
 
@@ -57,7 +60,7 @@ var resolveUserByHandleOrEmail = function (handle, email, api, dbConnectionMap, 
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
 function resetPassword(api, connection, next) {
-    var result, helper = api.helper, sqlParams, userId, ldapEntryParams, oldPassword,
+    var result, helper = api.helper, sqlParams, userId, ldapEntryParams,
         dbConnectionMap = connection.dbConnectionMap,
         token = connection.params.token,
         handle = decodeURI(connection.params.handle).toLowerCase(),
@@ -84,14 +87,6 @@ function resetPassword(api, connection, next) {
                 return;
             }
             userId = result[0].user_id;
-            oldPassword = helper.decodePassword(result[0].old_password, helper.PASSWORD_HASH_KEY);
-
-            // If the user has empty strings as his password. Return an error.
-            if (oldPassword === null || oldPassword === undefined || oldPassword.length === 0) {
-                cb(new BadRequestError('We can\'t retrieve your old password. please contact support@topcoder.com'));
-                return;
-            }
-
             sqlParams.handle = result[0].handle;
             helper.getCachedValue(tokenKey, cb);
         },
@@ -117,10 +112,9 @@ function resetPassword(api, connection, next) {
             ldapEntryParams = {
                 userId: userId,
                 handle: sqlParams.handle,
-                oldPassword: oldPassword,
                 newPassword: newPassword
             };
-            api.ldapHelper.updateMemberPasswordLDAPEntry(ldapEntryParams, cb);
+            api.ldapHelper.resetMemberPasswordLDAPEntry(ldapEntryParams, cb);
         },
         function (cb) {
             // Delete the token from cache system.
@@ -256,21 +250,15 @@ exports.generateResetToken = {
                         resolveUserByHandleOrEmail(handle, email, api, connection.dbConnectionMap, cb);
                     }
                 }, function (result, cb) {
-                    if (result.social_login_provider_name !== '') {
-                        // For social login accounts return the provider name
-                        cb(null, null, result.social_login_provider_name);
-                    } else {
-                        // Generate reset password token for user
-                        generateResetToken(result.handle, result.email_address, api, cb);
-                    }
+                    // Generate reset password token for user
+                    generateResetToken(result.handle, result.email_address, api, cb);
+
                 }
-            ], function (err, newToken, socialProviderName) {
+            ], function (err, newToken) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
                 } else if (newToken) {
                     connection.response = {successful: true};
-                } else if (socialProviderName) {
-                    connection.response = {socialProvider: socialProviderName};
                 }
                 next(connection, true);
             });

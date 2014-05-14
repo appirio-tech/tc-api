@@ -2,7 +2,7 @@
     "component_id": 40000001, 
     "user_id": 400011,
     "agreed_to_terms": 1,
-    "rating": 0,
+    "rating": 222,
     "comment": "Cool",
     "phase": 113,
     "tc_user_id": 400011,

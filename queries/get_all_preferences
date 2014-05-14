@@ -1,0 +1,12 @@
+SELECT
+ p.preference_id as id, p.preference_name as name
+FROM
+preference_lu p, preference_group_lu pg, registration_type_preference_xref rtp 
+WHERE
+pg.preference_group_id = 10 
+AND 
+p.preference_group_id = pg.preference_group_id 
+AND 
+rtp.preference_id = p.preference_id 
+AND 
+rtp.registration_type_id in (@registrationTypes@);

@@ -1,7 +1,6 @@
 {
   "handle": "heffan",
   "country": "United States",
-  "memberSince": "2001-05-09T01:04:42.000-0400",
   "quote": "Acknowledge and move on.",
   "photoLink": "",
   "ratingSummary": [
@@ -32,5 +31,24 @@
   "address": "address1, city, Maine, 04043, United States",
   "age": "25 - 34",
   "gender": "Male",
-  "shirtSize": "Medium"
+  "shirtSize": "Medium",
+  "privacy": {
+   "showMySchool": "N/A",
+   "receiveMessages": "No",
+   "showMyEarnings": "No",
+   "messageBlackList": []
+  },
+  "emailNotification": {
+   "Competition announcements": {
+     "Algorithm Competitions": "No",
+     "Software Development Opportunities": "No",
+     "TopCoder Studio Competitions": "No"
+   },
+   "Other": {
+     "Employment Opportunities": "No",
+     "TopCoder News & Events": "No",
+     "Products & Services": "No",
+     "TopCoder Design Studio Newsletter": "No"
+   }
+  }
 }

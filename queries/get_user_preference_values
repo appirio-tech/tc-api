@@ -1,0 +1,10 @@
+SELECT 
+up.preference_id as id, up.value as value
+FROM 
+user_preference up, user u
+WHERE 
+u.handle = '@handle@'
+AND
+up.user_id = u.user_id
+AND 
+up.preference_id in (@preferenceIds@)

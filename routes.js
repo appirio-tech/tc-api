@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.41
+ * @version 1.42
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
@@ -94,6 +94,8 @@
  * - Add routes for new split challenges API.
  * Changes in 1.41:
  * - add route for challenge analyze api.
+ * Changes in 1.42:
+ * - add routes for update user profile api.
  */
 
 /* ---------------------
@@ -277,6 +279,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
         { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
-        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" }
+        { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" },
+        { path: "/:apiVersion/user/profile", action: "updateMyProfile" }
     ]
 };
