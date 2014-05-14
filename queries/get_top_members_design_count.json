@@ -1,0 +1,5 @@
+{
+  "name"    : "get_top_members_design_count",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_top_members_design_count"
+}

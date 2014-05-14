@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.42
+ * @version 1.43
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee, panoptimum
  * Changes in 1.1:
  * - add routes for search challenges
@@ -96,6 +96,8 @@
  * - add route for challenge analyze api.
  * Changes in 1.42:
  * - add routes for update user profile api.
+ * Changes in 1.43:
+ * - add route for top track members api.
  */
 
 /* ---------------------
@@ -195,6 +197,7 @@ exports.routes = {
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
 
+        { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
 
         { path: "/:apiVersion/users/validateEmail", action: "emailValidation" },

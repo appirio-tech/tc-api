@@ -1,0 +1,111 @@
+{
+  "total": 13,
+  "pageIndex": 1,
+  "pageSize": 50,
+  "data": [
+    {
+      "rank": 1,
+      "handle": "design_6",
+      "userId": 6,
+      "color": "Red",
+      "rating": 3938,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 2,
+      "handle": "design_5",
+      "userId": 5,
+      "color": "Red",
+      "rating": 3838,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 3,
+      "handle": "design_1",
+      "userId": 1,
+      "color": "Red",
+      "rating": 3738,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 4,
+      "handle": "design_4",
+      "userId": 4,
+      "color": "Red",
+      "rating": 3738,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 5,
+      "handle": "design_2",
+      "userId": 2,
+      "color": "Red",
+      "rating": 3638,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 6,
+      "handle": "design_3",
+      "userId": 3,
+      "color": "Red",
+      "rating": 3538,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 7,
+      "handle": "design_7",
+      "userId": 7,
+      "color": "Red",
+      "rating": 3238,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 8,
+      "handle": "design_8",
+      "userId": 8,
+      "color": "Red",
+      "rating": 3138,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 9,
+      "handle": "design_9",
+      "userId": 9,
+      "color": "Red",
+      "rating": 3123,
+      "highestRatingType": "marathon"
+    },
+    {
+      "rank": 10,
+      "handle": "design_11",
+      "userId": 11,
+      "color": "Red",
+      "rating": 2344,
+      "highestRatingType": "algorithm"
+    },
+    {
+      "rank": 11,
+      "handle": "design_10",
+      "userId": 10,
+      "color": "Blue",
+      "rating": 1233,
+      "highestRatingType": "algorithm"
+    },
+    {
+      "rank": 12,
+      "handle": "design_12",
+      "userId": 12,
+      "color": "Green",
+      "rating": 1122,
+      "highestRatingType": "algorithm"
+    },
+    {
+      "rank": 13,
+      "handle": "design_13",
+      "userId": 13,
+      "color": "Gray",
+      "rating": 100,
+      "highestRatingType": "marathon"
+    }
+  ]
+}
