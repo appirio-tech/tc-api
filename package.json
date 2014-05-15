@@ -19,13 +19,13 @@
     "underscore": "1.5.x",
     "datejs": "0.0.x",
     "string": "1.6.x",
-    "ldapjs": "git://github.com/mcavage/node-ldapjs.git#2f1b0790f6d5dd201468a3d5cb9674c3e2623f24",
+    "ldapjs": "0.7.x",
     "nodemailer": "0.5.x",
     "email-templates": "0.1.x",
     "bcrypt": "0.7.x",
     "bigdecimal": "0.6.x",
     "bignum": "0.6.x",
-    "java": "0.2.x",
+    "java": "0.x",
     "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#ae513d6c27d14acaef52092165831dcf23fc83dd",
     "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#8e2edb97fa5a19a1adae3f150a1f38e25e64a3f8",
     "asn1": "*",
@@ -41,7 +41,7 @@
     "adm-zip": "0.4.x",
     "mkdirp": "0.3.x",
     "archiver": "~0.6.1",
-    "redis": "0.10.x"
+    "redis": "0.10.x",
     "temp": "0.7.0"
   },
   "devDependencies": {

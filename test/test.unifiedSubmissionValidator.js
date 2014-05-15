@@ -17,7 +17,7 @@ var assert = require('chai').assert;
 var async = require('async');
 var path = require('path');
 var usv = require("../common/unifiedSubmissionValidator");
-var config = require("../config").config;
+var config = require("../config/tc-config").tcConfig;
 
 var unifiedSubmissionValidator = usv.getUnifiedSubmissionValidator(null, null);
 

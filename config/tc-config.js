@@ -120,7 +120,29 @@ var config = {
         serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
         clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
         redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
-    }
+    },
+    
+	watermark: {
+    	filePath: process.env.WATERMARK_FILE_PATH || '/home/studio/web/resources/studio/studio_logo_watermark.png',
+    	fileType: process.env.WATERMARK_FILE_TYPE || 'PNG',
+    	baseImageTransparency: process.env.WATERMARK_BASE_IMAGE_TRANSPARENCY || '50',
+    	overlayImageTransparency: process.env.WATERMARK_OVERLAY_IMAGE_TRANSPARENCY || '100',
+    	overlayImageRed: process.env.WATERMARK_OVERLAY_IMAGE_RED || '0',
+    	overlayImageGreen: process.env.WATERMARK_OVERLAY_IMAGE_GREEN || '0',
+    	overlayImageBlue: process.env.WATERMARK_OVERLAY_IMAGE_BLUE || '0'
+	},
+
+	galleryIds: [16, 17, 18, 20, 21, 22, 23, 30, 32],
+
+	designSubmission: {
+    		sourcePrefix: 'source/',
+    		submissionPrefix: 'submission/'
+	},
+
+	jvm: {
+    		minMemory: '128m',
+    		maxMemory: '2048m'
+	}
 };
 module.exports.tcConfig = config;
 
