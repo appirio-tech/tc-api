@@ -17,7 +17,6 @@ var assert = require('chai').assert;
 var async = require("async");
 var http = require('http');
 var _ = require('underscore');
-var config = require('../config.js');
 
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/devUploadSubmission/";
@@ -26,8 +25,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config').config.general.oauthClientId;
-var SECRET = require('../config').config.general.oauthClientSecret;
+var CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId;
+var SECRET = require('../config/tc-config').tcConfig.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 describe('Submit for develop challenge', function () {

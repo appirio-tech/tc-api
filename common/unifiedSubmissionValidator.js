@@ -11,7 +11,7 @@ var path = require('path');
 var async = require('async');
 var _ = require('underscore');
 var AdmZip = require('adm-zip');
-var config = require("../config").config;
+var config = require("../config/tc-config").tcConfig;
 
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 

@@ -16,7 +16,6 @@ var _ = require('underscore'),
     request = require('supertest'),
     assert = require('chai').assert,
     jwt = require('jsonwebtoken'),
-    config = require('../config').config,
     testHelper = require('./helpers/testHelper'),
     util = require('util');
 
@@ -26,8 +25,8 @@ var _ = require('underscore'),
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     SQL_DIR = __dirname + "/sqls/paymentPreference/",
     ROUTE = '/v2/payments/preference/',
-    CLIENT_SECRET = config.general.oauthClientSecret,
-    CLIENT_ID = config.general.oauthClientId,
+    CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId,
+    SECRET = require('../config/tc-config').tcConfig.oauthClientSecret,
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",

@@ -11,7 +11,7 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 var _ = require('underscore');
-var config = require('../config').config;
+var config = require('../config/tc-config').tcConfig;
 var java = require('java');
 var usv = require("./unifiedSubmissionValidator");
 

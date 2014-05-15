@@ -239,6 +239,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
     async.waterfall([
         function (cb) {
             if (privateInfoEligibility) {
+console.log("*****CHECKING ACTIVATED: " + handle);
                 checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
                     if (err) {
                         cb(err);
@@ -255,6 +256,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                     api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
                 };
             };
+api.log("***load data:" + JSON.stringify(loadData));
             async.parallel({
                 basic: execQuery('basic'),
                 earning: loadData.earnings ? execQuery('overall_earning') : function (cbx) { cbx(); },
@@ -264,6 +266,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                 emails: loadData.email && privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
             }, cb);
         }, function (results, cb) {
+api.log("***RES:" + JSON.stringify(results));
             var basic = results.basic[0],
                 ratingSummary,
                 achievements,
@@ -545,7 +548,7 @@ function uploadMemberPhoto(api, connection, next) {
     var helper = api.helper,
         caller = connection.caller,
         photo = connection.params.photo,
-        storePath = api.config.general.memberPhoto.storeDir,
+        storePath = api.config.tcConfig.memberPhoto.storeDir,
         sqlParams = {},
         dbConnectionMap = connection.dbConnectionMap,
         fileToDelete,
@@ -558,15 +561,15 @@ function uploadMemberPhoto(api, connection, next) {
                 return;
             }
             // Check the upload file type.
-            if (helper.checkContains(api.config.general.memberPhoto.validTypes, photo.type.substring(photo.type.lastIndexOf('/') + 1), 'photoType')) {
-                cb(new BadRequestError('The photo has to be in following format: ' + api.config.general.memberPhoto.validTypes + '.'));
+            if (helper.checkContains(api.config.tcConfig.memberPhoto.validTypes, photo.type.substring(photo.type.lastIndexOf('/') + 1), 'photoType')) {
+                cb(new BadRequestError('The photo has to be in following format: ' + api.config.tcConfig.memberPhoto.validTypes + '.'));
                 return;
             }
             cb(helper.checkMember(connection, 'Authorization information needed.'));
         },
         function (cb) {
             fs.stat(photo.path, function (err, stats) {
-                if (stats.size > api.config.general.memberPhoto.fileSizeLimit) {
+                if (stats.size > api.config.tcConfig.memberPhoto.fileSizeLimit) {
                     cb(new BadRequestError('The photo should be less than 1Mb.'));
                     return;
                 }
@@ -1356,7 +1359,7 @@ var getRecentWinningDesignSubmissions = function (api, connection, dbConnectionM
                     submissionDate: element.submission_date,
                     viewable: element.viewable.toLowerCase() === "true",
                     challengeId: element.challenge_id,
-                    preview: api.config.designSubmissionLink + element.submission_id + "&sbt=small"
+                    preview: api.config.tcConfig.designSubmissionLink + element.submission_id + "&sbt=small"
                 };
                 if (!winningSubmission.viewable) {
                     delete winningSubmission.preview;

@@ -98,7 +98,7 @@ if (typeof String.prototype.startsWith !== 'function') {
 
 var async = require('async');
 var _ = require('underscore');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var stringUtils = require('../common/stringUtils');
 var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
@@ -1386,7 +1386,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
                     return;
                 }
                 if (result && result[0] && result[0].handle_exist !== 0) {
-                    var lifetime = api.config.general.defaultUserCacheLifetime;
+                    var lifetime = api.config.tcConfig.defaultUserCacheLifetime;
                     api.cache.save(cacheKey, true, lifetime); // storing primitive boolean "true" value as cache value
                     callback(err, null);
                 } else {
@@ -1409,7 +1409,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 helper.validatePassword = function (password) {
     var value = password.trim(),
         result = 0,
-        configGeneral = helper.api.config.general;
+        configGeneral = helper.api.config.tcConfig;
 
     if (password.trim() === '') {
         return new IllegalArgumentError('password should be non-null and non-empty string.');
@@ -1463,8 +1463,8 @@ helper.allTermsAgreed = function (terms) {
  * @since 1.13
  */
 helper.getFileTypes = function (api, dbConnectionMap, callback) {
-    var cacheFileTypesKey = api.config.redis.cacheFileTypesKey,
-        cacheDefaultLifetime = api.config.redis.cacheDefaultLifetime;
+    var cacheFileTypesKey = api.config.tcConfig.cacheFileTypesKey,
+        cacheDefaultLifetime = api.config.tcConfig.cacheDefaultLifetime;
 
     //Load from cache and perform rolling timeout
     api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {

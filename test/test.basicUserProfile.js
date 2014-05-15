@@ -25,8 +25,9 @@ var jwt = require('jsonwebtoken');
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/basicUserProfile/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
-var CLIENT_ID = require('../config').config.general.oauthClientId;
-var SECRET = require('../config').config.general.oauthClientSecret;
+var config = require('../config/tc-config').tcConfig;
+var CLIENT_ID = config.oauthClientId;
+var SECRET = config.oauthClientSecret;
 
 describe('Get Basic User Profile API', function () {
     this.timeout(120000); // The api with testing remote db could be quit slow

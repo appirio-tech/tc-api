@@ -202,7 +202,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             next(err);
         } else {
             user.id = result;
-            var password = (user.password !== null && user.password !== undefined) ? user.password : api.config.defaultPassword;
+            var password = (user.password !== null && user.password !== undefined) ? user.password : api.config.tcConfig.defaultPassword;
             // perform a series of insert
             async.series([
                 function (callback) {

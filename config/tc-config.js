@@ -1,0 +1,153 @@
+var config = {
+    defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
+    resetTokenPrefix: 'tokens-',
+    resetTokenSuffix: '-reset-token',
+    minPasswordLength: 8,
+    maxPasswordLength: 30,
+    defaultResetPasswordTokenCacheLifetime: process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY ? parseInt(process.env.RESET_PASSWORD_TOKEN_CACHE_EXPIRY, 10) : 1000 * 60 * 30, //30 min
+    resetPasswordTokenEmailSubject: process.env.RESET_PASSWORD_TOKEN_EMAIL_SUBJECT || "TopCoder Account Password Reset",
+    oauthClientId: process.env.OAUTH_CLIENT_ID || "CMaBuwSnY0Vu68PLrWatvvu3iIiGPh7t",
+    //auth0 secret is encoded in base64!
+    oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
+    oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
+    oauthDomain: process.env.OAUTH_DOMAIN || "sma",
+    jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
+    jiraUsername: process.env.JIRA_USERNAME,
+    jiraPassword: process.env.JIRA_PASSWORD,
+    tcForumsUrlPrefix: (process.env.TC_FORUMS_SERVER_NAME || "http://forums.topcoder.com/") + '?module=Category&categoryID=',
+    studioForumsUrlPrefix: (process.env.STUDIO_FORUMS_SERVER_NAME || "http://studio.topcoder.com/forums") + '?module=ThreadList&forumID=',
+    grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
+    devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
+    downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
+    challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
+    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
+
+    /**
+     * The directory where uploaded files are stored.
+     * It can be relative to the current directory or can be absolute 
+     */
+    uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission",
+    maxRSSLength: 1000,
+    memberPhoto: {
+        fileSizeLimit: process.env.PHOTO_SIZE_LIMIT || 1048576,
+        validTypes: ['jpeg', 'png', 'bmp', 'jpg'],
+        storeDir: process.env.PHOTO_STORE_DIR || 'test/tmp/memberPhoto/'
+    },
+
+    databaseMapping: {
+        "common_oltp" : "TC_DB",
+        "informixoltp" : "TC_DB",
+        "tcs_catalog" : "TC_DB",
+        "topcoder_dw" : "TC_DW",
+        "tcs_dw" : "TC_DW",
+        "time_oltp": "TC_DB",
+        "corporate_oltp": "TC_DB",
+        "jive": "TC_DB"
+    },
+
+    documentProvider: 'http://community.topcoder.com/tc?module=DownloadDocument&docid',
+
+    defaultPassword: process.env.DEFAULT_PASSWORD  || "defaultpass",
+
+    submissionLink: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=',
+    finalFixLink: 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=',
+    designSubmissionLink: 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=',
+
+    //The name of the folder where to store the submission files.
+    //Please make sure the directory already exists
+    submissionDir: process.env.SUBMISSION_DIR || 'test/tmp/submissions',
+
+    /**
+     * The thurgood username and password used for downloading submissions
+     */
+    thurgoodDownloadUsername: process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood",
+    thurgoodDownloadPassword: process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret",
+
+    //Max size of a submission. Currently set to 100M for now. 
+    submissionMaxSizeBytes: process.env.DEVELOP_SUBMISSION_MAX_SIZE || 104857600,
+
+    //////Thurgood configurables///////
+    thurgoodCodeUrl: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=',
+
+    //API URL for production
+    //config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs',
+    //API URL for testing
+    thurgoodApiUrl: process.env.THURGOOD_API_URL || 'http://localhost:8090/',
+
+    thurgoodTimeout: 5000,
+
+    //API KEY for testing
+    //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
+    thurgoodApiKey: process.env.THURGOOD_API_KEY || 'mock_api_key',
+
+    //The base directory for design submission files. This directory must exist.
+    designSubmissionsBasePath: process.env.DESIGN_SUBMISSIONS_BASE_PATH || 'test/tmp/design_submissions/',
+    //The temporary directory for creating unified zip file
+    designSubmissionTmpPath: process.env.DESIGN_SUBMISSIONS_TMP_PATH || 'test/tmp/design_tmp_submissions/',
+
+    cacheFileTypesKey: "file_types",
+    cacheDefaultLifetime: 1000 * 60 * 60 * 24,
+
+    //The configuration for the DocuSign integration
+    docusign: {
+        username: process.env.DOCUSIGN_USERNAME || '3c484022-cfd1-4be8-b199-951933a1e81b',
+        password: process.env.DOCUSIGN_PASSWORD || 'dN1ofminimum',
+        integratorKey: process.env.DOCUSIGN_INTEGRATOR_KEY || 'TOPC-a02ca014-0677-4e7f-946b-3a03f803c937',
+        serverURL: process.env.DOCUSIGN_SERVER_URL || 'https://demo.docusign.net/restapi/v2/',
+        roleName: process.env.DOCUSIGN_ROLENAME || 'Member',
+        clientUserId: process.env.DOCUSIGN_CLIENT_USER_ID || 'Member',
+        returnURL: process.env.DOCUSIGN_RETURN_URL || 'http://localhost:8080/v2/terms/docusign/returnSigning&envelopeId=<%= envelopeId %>',
+        assignmentV2TemplateId: process.env.DOCUSIGN_ASSIGNMENT_V2_TEMPLATE_ID || 'E12C78DE-67B1-4150-BEC8-C44CE20A2F0B',
+        w9TemplateId: process.env.DOCUSIGN_W9TEMPLATE_ID || '8E95BEB4-1C77-4CE2-97C7-5F64A3366370',
+        w8benTemplateId: process.env.DOCUSIGN_W8BEN_TEMPLATE_ID || 'CD415871-17F5-4A1E-A007-FE416B030FFB',
+        appirioMutualNDATemplateId: process.env.DOCUSIGN_NDA_TEMPLATE_ID || '19D958E1-E2EC-4828-B270-CA8F14CF7BF4',
+        affidavitTemplateId: process.env.DOCUSIGN_AFFIDAVIT_TEMPLATE_ID || '9103DC77-D8F1-4D7B-BED1-6116604EE98C',
+        assignmentDocTermsOfUseId: process.env.ASSIGNMENT_TERMS_OF_USE_ID || 20753,
+        callbackFailedEmailSubject: process.env.DOCUSIGN_CALLBACK_FAILED_EMAIL_SUBJECT || 'Processing DocuSign document failed',
+        callbackConnectKey: process.env.DOCUSIGN_CALLBACK_CONNECT_KEY || 'ABCDED-12435-EDFADSEC',
+        supportEmailAddress: process.env.DOCUSIGN_CALLBACK_FAILED_SUPPORT_EMAIL_ADDRESS || 'arahant7@yahoo.com',
+        fromEmailAddress: process.env.DOCUSIGN_CALLBACK_FAILED_FROM_EMAIL_ADDRESS || 'do-not-reply@topcoder.com'
+    },
+
+    welcomeEmail: {
+        template: 'welcome_email',
+        subject: 'Welcome to [topcoder]',
+        fromAddress: process.env.TC_EMAIL_FROM,
+        senderName: '[topcoder] API'
+    },
+
+    auth0: {
+        serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
+        clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
+        redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
+    },
+    
+	watermark: {
+    	filePath: process.env.WATERMARK_FILE_PATH || '/home/studio/web/resources/studio/studio_logo_watermark.png',
+    	fileType: process.env.WATERMARK_FILE_TYPE || 'PNG',
+    	baseImageTransparency: process.env.WATERMARK_BASE_IMAGE_TRANSPARENCY || '50',
+    	overlayImageTransparency: process.env.WATERMARK_OVERLAY_IMAGE_TRANSPARENCY || '100',
+    	overlayImageRed: process.env.WATERMARK_OVERLAY_IMAGE_RED || '0',
+    	overlayImageGreen: process.env.WATERMARK_OVERLAY_IMAGE_GREEN || '0',
+    	overlayImageBlue: process.env.WATERMARK_OVERLAY_IMAGE_BLUE || '0'
+	},
+
+	galleryIds: [16, 17, 18, 20, 21, 22, 23, 30, 32],
+
+	designSubmission: {
+    		sourcePrefix: 'source/',
+    		submissionPrefix: 'submission/'
+	},
+
+	jvm: {
+    		minMemory: '128m',
+    		maxMemory: '2048m'
+	}
+};
+module.exports.tcConfig = config;
+
+exports.default = {
+    tcConfig: function(api) {
+        return config;
+    }
+}
