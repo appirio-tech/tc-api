@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author kurtrips
+ * @version 1.1
+ * @author kurtrips, isv
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -17,6 +17,7 @@ var assert = require('chai').assert;
 var _ = require('underscore');
 var async = require('async');
 var config = require('../config.js');
+var usv = require("../common/unifiedSubmissionValidator");
 
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/desUploadSubmission/";
@@ -55,12 +56,31 @@ describe('Submit for design challenge', function () {
     /**
      * The path to a sample preview file
      */
-    var samplePreviewPath = './test/test_files/des_upload_submission/preview.gif';
+    var samplePreviewPath = './test/test_files/des_upload_submission/preview.jpg';
 
     /**
      * The path to an unknown type file
      */
     var unknownTypePath = './test/test_files/des_upload_submission/strange.blah';
+
+    /**
+     * Deletes specified folder recursively.
+     * 
+     * @param {String} path - a path to folder to be deleted.
+     */
+    function deleteFolderRecursive(path) {
+        if (fs.existsSync(path)) {
+            fs.readdirSync(path).forEach(function (file, index) {
+                var curPath = path + "/" + file;
+                if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        }
+    }
 
     /**
      * Return the authentication header to be used for the given user.
@@ -130,6 +150,70 @@ describe('Submit for design challenge', function () {
     }
 
     /**
+     * Checks if records have been inserted into image, submission_image tables and image files have been generated for
+     * tested submission.
+     * 
+     * @param {Number} submissionId - ID for generated submission.
+     * @param {Function} callback - a callback to be notified when done.
+     */
+    function checkGeneratedImages(submissionId, callback) {
+        var images = [],
+            imageFileName,
+            imageMapped,
+            submissionDir = usv.createDesignSubmissionPath(432001, 124764, 'hung');
+
+        async.waterfall([
+            function (cb) {
+                // check image table
+                var sql = "* from image ORDER BY image_id";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        assert.equal(result.length, 21, 'Wrong number of images inserted into image table');
+                        result.forEach(function (row) {
+                            images.push({imageId: row.image_id, typeId: row.image_type_id, fileName: row.file_name});
+                        });
+                        cb();
+                    }
+                });
+
+            }, function (cb) {
+                // check submission_image table
+                var sql = "* from submission_image WHERE submission_id = " + submissionId + " ORDER BY image_id";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        imageMapped = false;
+                        assert.equal(result.length, 21, 'Wrong number of images inserted into submission_image table');
+                        result.forEach(function (row) {
+                            images.forEach(function (image) {
+                                if (image.imageId === row.image_id) {
+                                    imageMapped = true;
+                                }
+                            });
+                        });
+                        assert.isTrue(imageMapped, "Wrong image mapped to submission");
+                        cb();
+                    }
+                });
+            }, function (cb) {
+                // check files
+                images.forEach(function (image) {
+                    imageFileName = submissionDir + image.fileName;
+                    assert.isTrue(fs.existsSync(imageFileName), "Generated image file is not found");
+                });
+                assert.isTrue(fs.existsSync(submissionDir + submissionId + "_image.jpg"), "Preview image file is not found");
+                assert.isTrue(fs.existsSync(submissionDir + submissionId + "_imagew.png"), "Watermarked preview image file is not found");
+                assert.isTrue(fs.existsSync(submissionDir + submissionId + "_preview.zip"), "Preview ZIP file is not found");
+                cb();
+            }
+
+        ], callback);
+    }
+
+    /**
      * This function is run before all tests.
      * Generate tests data.
      * @param {Function<err>} done the callback
@@ -147,11 +231,49 @@ describe('Submit for design challenge', function () {
     });
 
     /**
+     * This function is run before each test.
+     * Generate tests data.
+     * @param {Function<err>} done the callback
+     */
+    beforeEach(function (done) {
+        async.waterfall([
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean.part1", "tcs_catalog", cb);
+            }, function (cb) {
+                var submissionDir = usv.createDesignSubmissionPath(432001, 124764, 'hung');
+                if (fs.existsSync(submissionDir)) {
+                    deleteFolderRecursive(submissionDir);
+                }
+                cb();
+            }
+        ], done);
+    });
+
+    /**
      * This function is run after all tests.
      * @param {Function<err>} done the callback
      */
     after(function (done) {
         clearDb(done);
+    });
+
+    /**
+     * This function is run after each test.
+     * Cleans up tests data.
+     * @param {Function<err>} done the callback
+     */
+    afterEach(function (done) {
+        async.waterfall([
+            function (cb) {
+                testHelper.runSqlFile(SQL_DIR + "tcs_catalog__clean.part1", "tcs_catalog", cb);
+            }, function (cb) {
+                var submissionDir = usv.createDesignSubmissionPath(432001, 124764, 'hung');
+                if (fs.existsSync(submissionDir)) {
+                    deleteFolderRecursive(submissionDir);
+                }
+                cb();
+            }
+        ], done);
     });
 
     /**
@@ -495,7 +617,10 @@ describe('Submit for design challenge', function () {
      * Also note that rank is automatically set to 1 even if we send it in as 0 (could even send it as negative)
      */
     it('should return 200 when success', function (done) {
-        var req = getRequest('/v2/design/challenges/432001/submit', user124764, 200);
+        var req = getRequest('/v2/design/challenges/432001/submit', user124764, 200),
+            dirName,
+            targetFile;
+
         req.field('comment', 'just a test comment');
         req.field('fonts', 'font1||font2||font3');
         req.field('fontNames', 'arial||sans||droid');
@@ -565,11 +690,15 @@ describe('Submit for design challenge', function () {
                     });
                 }, function (cb) {
                     //The unified zip must exist in test/tmp/design_submissions/432001/hung_124764/
-                    var targetFile = __dirname + '/tmp/design_submissions/432001/hung_124764/' + parameter;
+                    dirName = usv.createDesignSubmissionPath(432001, 124764, 'hung');
+                    targetFile = dirName + parameter;
                     assert.isTrue(fs.existsSync(targetFile), "The unified zip must exist");
                     cb();
 
                     /*Please inspect the zip manually, specially that the declaration.txt inside the submission.zip of submission directory*/
+                }, function (cb) {
+                    // Verify that the necessary records have been inserted into image, submission_image tables
+                    checkGeneratedImages(submissionId, cb);
                 }
             ], done);
         });
@@ -587,12 +716,18 @@ describe('Submit for design challenge', function () {
             var submissionId = resp.body.submissionId;
             var previousSubmissionId = submissionIds[0];
 
-            var sql = "user_rank, submission_id from submission where submission_id IN (" + previousSubmissionId + "," + submissionId + ") order by submission_id";
-            testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
-                assert.equal(result[0].user_rank, 2);
-                assert.equal(result[1].user_rank, 1);
-                done();
-            });
+            async.waterfall([
+                function (cb) {
+                    var sql = "user_rank, submission_id from submission where submission_id IN (" + previousSubmissionId + "," + submissionId + ") order by submission_id";
+                    testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                        assert.equal(result[0].user_rank, 2);
+                        assert.equal(result[1].user_rank, 1);
+                        cb();
+                    });
+                }, function (cb) {
+                    checkGeneratedImages(submissionId, cb);
+                }
+            ], done);
         });
     });
 
@@ -607,11 +742,17 @@ describe('Submit for design challenge', function () {
         req.end(function (err, resp) {
             var submissionId = resp.body.submissionId;
 
-            var sql = "user_rank from submission where submission_id = " + submissionId;
-            testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
-                assert.equal(result[0].user_rank, 3);
-                done();
-            });
+            async.waterfall([
+                function (cb) {
+                    var sql = "user_rank from submission where submission_id = " + submissionId;
+                    testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                        assert.equal(result[0].user_rank, 3);
+                        cb();
+                    });
+                }, function (cb) {
+                    checkGeneratedImages(submissionId, cb);
+                }
+            ], done);
         });
     });
 
@@ -676,6 +817,8 @@ describe('Submit for design challenge', function () {
                         assert.deepEqual(actual, expected, 'Actual and Expected of resource_submission table did not match');
                         cb();
                     });
+                }, function (cb) {
+                    checkGeneratedImages(submissionId, cb);
                 }
             ], done);
         });

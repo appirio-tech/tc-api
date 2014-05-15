@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
- * @version 1.23
+ * @version 1.24
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -55,6 +55,9 @@
  * - add auth0 configuration.
  * Changes in 1.23:
  * - Add member photo properties.
+ * Changes in 1.24:
+ * - Added 'watermark' configuration.
+ * - Added designSubmission group of properties" from the UnifiedSubmissionValidator submission.
  */
 "use strict";
 
@@ -366,6 +369,28 @@ config.auth0 = {
     serverName: process.env.AUTH0_SERVER_NAME || 'http://agile-crag-5056.herokuapp.com',
     clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
     redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
+};
+
+config.watermark = {
+    filePath: process.env.WATERMARK_FILE_PATH || '/home/studio/web/resources/studio/studio_logo_watermark.png',
+    fileType: process.env.WATERMARK_FILE_TYPE || 'PNG',
+    baseImageTransparency: process.env.WATERMARK_BASE_IMAGE_TRANSPARENCY || '50',
+    overlayImageTransparency: process.env.WATERMARK_OVERLAY_IMAGE_TRANSPARENCY || '100',
+    overlayImageRed: process.env.WATERMARK_OVERLAY_IMAGE_RED || '0',
+    overlayImageGreen: process.env.WATERMARK_OVERLAY_IMAGE_GREEN || '0',
+    overlayImageBlue: process.env.WATERMARK_OVERLAY_IMAGE_BLUE || '0'
+};
+
+config.galleryIds = [16, 17, 18, 20, 21, 22, 23, 30, 32];
+
+config.designSubmission = {
+    sourcePrefix: 'source/',
+    submissionPrefix: 'submission/'
+};
+
+config.jvm = {
+    minMemory: '128m',
+    maxMemory: '2048m'
 };
 
 exports.config = config;

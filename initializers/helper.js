@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.29
+ * @version 1.30
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -80,6 +80,8 @@
  * - Update method checkAdmin to receive two more input parameters.
  * Changes in 1.29:
  * - Add getCatalogCachedValue method.
+ * Changes in 1.30:
+ * - Added copyFiles function.
  */
 "use strict";
 
@@ -109,6 +111,7 @@ var helper = {};
 var crypto = require("crypto");
 var bigdecimal = require('bigdecimal');
 var bignum = require('bignum');
+var fs = require('fs');
 
 /**
  * software type.
@@ -400,6 +403,42 @@ helper.checkDefined = function (obj, objName) {
     return null;
 };
 
+/**
+ * Copies the specified file to specified one.
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure.
+ * @param {String} fromPath - a path to file to be copied.
+ * @param {String} toPath = a path to file referencing the new location of the copy.
+ * @param {Function<err>} callback - a callback to be called when copying is finished.
+ */
+helper.copyFiles = function (api, fromPath, toPath, callback) {
+    api.log('copyFiles called with : fromPath = ' + fromPath + ", toPath = " + toPath);
+    var cbCalled = false,
+        fromStream,
+        toStream;
+
+    function done(err) {
+        if (!cbCalled) {
+            callback(err);
+            cbCalled = true;
+        }
+    }
+
+    fromStream = fs.createReadStream(fromPath);
+    fromStream.on("error", function (err) {
+        done(err);
+    });
+
+    toStream = fs.createWriteStream(toPath);
+    toStream.on("error", function (err) {
+        done(err);
+    });
+    toStream.on("finish", function () {
+        done();
+    });
+
+    fromStream.pipe(toStream);
+};
 
 /**
  * Checks whether given object is object type.

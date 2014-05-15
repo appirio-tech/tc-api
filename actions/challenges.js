@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
+ * @version 1.25
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
+ * @author isv
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -60,6 +61,10 @@
  * - Add technology and platform filter for challenges api.
  * Changes in 1.24:
  * - Update challenges API to return all challenges for active/upcoming request.
+ * Changes in 1.25:
+ * - Updated submitForDesignChallenge to initiate the process of generating the alternate representations for 
+ *   submission for design challenge
+ * - Fixed existing errors report by jsLint tool
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -74,6 +79,8 @@ var request = require('request');
 var AdmZip = require('adm-zip');
 var archiver = require('archiver');
 var mkdirp = require('mkdirp');
+var usv = require("../common/unifiedSubmissionValidator");
+var difg = require("../common/designImageFileGenerator");
 
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -2336,6 +2343,7 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     unifiedZip.on('finish', function () {
         if (!doneCalled) {
             doneCalled = true;
+            fs.unlinkSync(submissionOutputPath);
             done(null, unifiedZipPath);
         }
     });
@@ -2343,6 +2351,7 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     archive.on('error', function (err) {
         if (!doneCalled) {
             doneCalled = true;
+            fs.unlinkSync(submissionOutputPath);
             done(err);
         }
     });
@@ -2350,6 +2359,7 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     submissionArchive.on('error', function (err) {
         if (!doneCalled) {
             doneCalled = true;
+            fs.unlinkSync(submissionOutputPath);
             done(err);
         }
     });
@@ -2394,7 +2404,8 @@ var submitForDesignChallenge = function (api, connection, dbConnectionMap, next)
         systemFileName,
         ids,
         unifiedZipPath,
-        error;
+        error,
+        designImageFileGenerator;
 
     async.waterfall([
         function (cb) {
@@ -2544,7 +2555,7 @@ var submitForDesignChallenge = function (api, connection, dbConnectionMap, next)
             //2. Load the template for the declaration file
             async.parallel({
                 mkdirRes: function (cbx) {
-                    filePath = api.config.designSubmissionsBasePath + challengeId + "/" + userHandle.toLowerCase() + "_" + userId + "/";
+                    filePath = usv.createDesignSubmissionPath(challengeId, userId, userHandle);
                     mkdirp(filePath, cbx);
                 },
                 declarationTemplate: function (cbx) {
@@ -2636,8 +2647,18 @@ var submitForDesignChallenge = function (api, connection, dbConnectionMap, next)
             ], cb);
         }, function (notUsed, cb) {
             //Copy the unified zip from the temp folder into the actual folder
-            fs.createReadStream(unifiedZipPath).pipe(fs.createWriteStream(filePath + systemFileName));
-            cb();
+            api.helper.copyFiles(api, unifiedZipPath, filePath + systemFileName, cb);
+        }, function (cb) { // Initiate the process of generating the alternate representations for the submission
+            fs.unlinkSync(unifiedZipPath);
+            designImageFileGenerator = difg.getDesignImageFileGenerator(
+                {challengeId: challengeId, challengeCategoryId: basicInfo[0].project_category_id},
+                {userId: userId, handle: userHandle},
+                {submissionId: ids.submissionId, images: []},
+                {name: submissionFile.name, path: filePath + systemFileName},
+                api,
+                dbConnectionMap
+            );
+            designImageFileGenerator.generateFiles(cb);
         }
     ], function (err) {
         if (err) {
@@ -2671,7 +2692,7 @@ exports.submitForDesignChallenge = {
     version: 'v2',
     transaction: 'write',
     cacheEnabled : false,
-    databases: ["tcs_catalog", "common_oltp"],
+    databases: ["tcs_catalog", "common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute submitForDesignChallenge#run", 'debug');
