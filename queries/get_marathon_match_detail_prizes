@@ -1,0 +1,5 @@
+SELECT
+  place
+, amount
+FROM round_prize
+WHERE round_id = @roundId@

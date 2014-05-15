@@ -9,7 +9,7 @@ SELECT
 , (( rs.end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS time_remaining
 , (select count(*) from round_registration where round_id = r.round_id) as registrants_count
 , (select count(*) from long_component_state cs, long_submission s where s.example = 0 and s.long_component_state_id = cs.long_component_state_id and cs.round_id = r.round_id) as submission_count
-
+, (SELECT min(p.problem_id) FROM component c, problem p, round_component rc WHERE rc.round_id = r.round_id AND rc.component_id = c.component_id AND c.problem_id = p.problem_id) AS problem_id
 FROM 
   round_segment rs
 , round r

@@ -1,0 +1,3 @@
+DELETE FROM submission_image;
+DELETE FROM image;
+DELETE FROM informixoltp:path WHERE path_id > 100;
