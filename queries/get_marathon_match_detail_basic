@@ -3,6 +3,7 @@ SELECT
 , p.name AS full_name
 , rd.name AS short_name
 , p.problem_text as description
+, p.problem_id
 , nRegistrants.count AS number_of_registrants
 , nCompetitors.count AS number_of_competitors
 , nSubmissions.count AS number_of_submissions

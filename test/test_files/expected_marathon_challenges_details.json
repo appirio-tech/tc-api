@@ -3,6 +3,8 @@
     "fullName": "test problem",
     "shortName": "test round 2001",
     "description": "",
+    "problemId": 2001,
+    "prizes": [],
     "numberOfRegistrants": 100,
     "numberOfSubmissions": 413,
     "numberOfCompetitors": 100,
