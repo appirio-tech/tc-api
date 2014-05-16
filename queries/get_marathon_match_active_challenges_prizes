@@ -1,0 +1,26 @@
+SELECT
+  rp.round_id
+, rp.place
+, rp.amount
+FROM
+  round_segment rs
+, round r
+, contest ct
+, round_prize rp
+WHERE rs.round_id = r.round_id
+AND rp.round_id = r.round_id
+AND ct.contest_id = r.contest_id
+AND rs.segment_id = 2
+AND r.round_type_id IN (13,15,19,22,24,25,27)
+AND CURRENT < rs.end_time
+AND CURRENT >= rs.start_time
+
+AND r.round_id = DECODE(@round_id@, 0, r.round_id, @round_id@)
+AND LOWER(ct.name) LIKE (LOWER('%@full_name@%'))
+AND LOWER(r.name) LIKE (LOWER('%@short_name@%'))
+
+AND EXTEND(rs.end_time , year to day) <= '@end_time_end@'
+AND EXTEND(rs.end_time , year to day) >= '@end_time_start@'
+
+AND EXTEND(rs.start_time , year to day) <= '@start_time_end@'
+AND EXTEND(rs.start_time , year to day) >= '@start_time_start@'

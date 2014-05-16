@@ -13,7 +13,7 @@ var request = require('supertest');
 var assert = require('chai').assert;
 var async = require("async");
 var _ = require("underscore");
-var config = require("../config").config;
+var config = require("../config/tc-config").tcConfig;
 
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/updateUserProfile/";
@@ -22,8 +22,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config').config.general.oauthClientId;
-var SECRET = require('../config').config.general.oauthClientSecret;
+var CLIENT_ID = config.oauthClientId;
+var SECRET = config.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 /**

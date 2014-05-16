@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.29
+ * @version 1.30
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -80,6 +80,8 @@
  * - Update method checkAdmin to receive two more input parameters.
  * Changes in 1.29:
  * - Add getCatalogCachedValue method.
+ * Changes in 1.30:
+ * - Added copyFiles function.
  */
 "use strict";
 
@@ -96,7 +98,7 @@ if (typeof String.prototype.startsWith !== 'function') {
 
 var async = require('async');
 var _ = require('underscore');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var stringUtils = require('../common/stringUtils');
 var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
@@ -109,6 +111,7 @@ var helper = {};
 var crypto = require("crypto");
 var bigdecimal = require('bigdecimal');
 var bignum = require('bignum');
+var fs = require('fs');
 
 /**
  * software type.
@@ -407,6 +410,42 @@ helper.checkDefined = function (obj, objName) {
     return null;
 };
 
+/**
+ * Copies the specified file to specified one.
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure.
+ * @param {String} fromPath - a path to file to be copied.
+ * @param {String} toPath = a path to file referencing the new location of the copy.
+ * @param {Function<err>} callback - a callback to be called when copying is finished.
+ */
+helper.copyFiles = function (api, fromPath, toPath, callback) {
+    api.log('copyFiles called with : fromPath = ' + fromPath + ", toPath = " + toPath);
+    var cbCalled = false,
+        fromStream,
+        toStream;
+
+    function done(err) {
+        if (!cbCalled) {
+            callback(err);
+            cbCalled = true;
+        }
+    }
+
+    fromStream = fs.createReadStream(fromPath);
+    fromStream.on("error", function (err) {
+        done(err);
+    });
+
+    toStream = fs.createWriteStream(toPath);
+    toStream.on("error", function (err) {
+        done(err);
+    });
+    toStream.on("finish", function () {
+        done();
+    });
+
+    fromStream.pipe(toStream);
+};
 
 /**
  * Checks whether given object is object type.
@@ -1354,7 +1393,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
                     return;
                 }
                 if (result && result[0] && result[0].handle_exist !== 0) {
-                    var lifetime = api.config.general.defaultUserCacheLifetime;
+                    var lifetime = api.config.tcConfig.defaultUserCacheLifetime;
                     api.cache.save(cacheKey, true, lifetime); // storing primitive boolean "true" value as cache value
                     callback(err, null);
                 } else {
@@ -1377,7 +1416,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 helper.validatePassword = function (password) {
     var value = password.trim(),
         result = 0,
-        configGeneral = helper.api.config.general;
+        configGeneral = helper.api.config.tcConfig;
 
     if (password.trim() === '') {
         return new IllegalArgumentError('password should be non-null and non-empty string.');
@@ -1431,8 +1470,8 @@ helper.allTermsAgreed = function (terms) {
  * @since 1.13
  */
 helper.getFileTypes = function (api, dbConnectionMap, callback) {
-    var cacheFileTypesKey = api.config.redis.cacheFileTypesKey,
-        cacheDefaultLifetime = api.config.redis.cacheDefaultLifetime;
+    var cacheFileTypesKey = api.config.tcConfig.cacheFileTypesKey,
+        cacheDefaultLifetime = api.config.tcConfig.cacheDefaultLifetime;
 
     //Load from cache and perform rolling timeout
     api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {

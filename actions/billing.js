@@ -108,16 +108,21 @@ exports.action = {
                     return;
                 }
 
-                if (startDate && endDate) {
-                    error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
-                        || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
-                    if (error) {
-                        cb(error);
-                        return;
-                    }
-                } else {
+                // use 'current' if the startDate is not given
+                if (!startDate) {
                     startDate = moment().format(DATE_FORMAT);
+                }
+
+                // user 'current+3 years' if the endDate is not given
+                if (!endDate) {
                     endDate = moment().add('y', 3).format(DATE_FORMAT);
+                }
+
+                error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
+                    || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+                if (error) {
+                    cb(error);
+                    return;
                 }
 
                 //Check if the user is logged-in
@@ -151,7 +156,7 @@ exports.action = {
                         cb(err);
                         return;
                     }
-                    if (data.billing.length > 0) {
+                    if (!projectId && data.billing.length > 0) {
                         cb(new IllegalArgumentError("Billing with this name already exists."));
                         return;
                     }
@@ -164,31 +169,22 @@ exports.action = {
                 });
             }, function (cb) {
                 //No more validations. Generate the ids for the project, contact, address
-                var parallels = {
-                    addressId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
-                    contactId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    }
-                };
+                var parallels = {};
                 if (!projectId) {
                     parallels.projectId = function (cb) {
                         api.idGenerator.getNextIDFromDb("PROJECT_SEQ", "time_oltp", dbConnectionMap, cb);
+                    };
+                    parallels.addressId = function (cb) {
+                        api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, cb);
+                    };
+                    parallels.contactId = function (cb) {
+                        api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, cb);
                     };
                 }
                 async.parallel(parallels, cb);
             }, function (generatedIds, cb) {
                 _.extend(newBilling, {
                     projectId: projectId || generatedIds.projectId,
-                    userId: connection.caller.userId
-                });
-                _.extend(dummyContact, {
-                    contactId: generatedIds.contactId,
-                    userId: connection.caller.userId
-                });
-                _.extend(dummyAddress, {
-                    addressId: generatedIds.addressId,
                     userId: connection.caller.userId
                 });
 
@@ -198,6 +194,14 @@ exports.action = {
                     api.dataAccess.executeQuery(projectId ? "update_billing" : "insert_billing", newBilling, dbConnectionMap, cb);
                 }];
                 if (!projectId) {
+                    _.extend(dummyContact, {
+                        contactId: generatedIds.contactId,
+                        userId: connection.caller.userId
+                    });
+                    _.extend(dummyAddress, {
+                        addressId: generatedIds.addressId,
+                        userId: connection.caller.userId
+                    });
                     parallels.push(function (cb) {
                         api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
                     });

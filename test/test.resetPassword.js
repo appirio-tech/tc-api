@@ -17,7 +17,7 @@ var assert = require('chai').assert;
 var async = require('async');
 
 var testHelper = require('./helpers/testHelper');
-var configs = require('../config');
+var configs = require('../config/tc-config');
 var ldapHelper = require('../initializers/ldapHelper');
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
@@ -25,7 +25,7 @@ describe('Reset Password API', function () {
     this.timeout(120000);     // The api with testing remote db could be quit slow
 
     var errorObject = require('../test/test_files/expected_reset_password_error_message'),
-        configGeneral = configs.config.general,
+        configGeneral = configs.tcConfig,
         heffan = configGeneral.cachePrefix + configGeneral.resetTokenPrefix + 'heffan' + configGeneral.resetTokenSuffix,
         user = configGeneral.cachePrefix + configGeneral.resetTokenPrefix + 'user' + configGeneral.resetTokenSuffix,
         superUser = configGeneral.cachePrefix + configGeneral.resetTokenPrefix + 'super' + configGeneral.resetTokenSuffix;

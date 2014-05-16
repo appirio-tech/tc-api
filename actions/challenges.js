@@ -1,8 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.24
- * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild
+ * @version 1.25
+ * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
+ * @author isv
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -60,6 +61,10 @@
  * - Add technology and platform filter for challenges api.
  * Changes in 1.24:
  * - Update challenges API to return all challenges for active/upcoming request.
+ * Changes in 1.25:
+ * - Updated submitForDesignChallenge to initiate the process of generating the alternate representations for 
+ *   submission for design challenge
+ * - Fixed existing errors report by jsLint tool
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -74,6 +79,8 @@ var request = require('request');
 var AdmZip = require('adm-zip');
 var archiver = require('archiver');
 var mkdirp = require('mkdirp');
+var usv = require("../common/unifiedSubmissionValidator");
+var difg = require("../common/designImageFileGenerator");
 
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
@@ -982,7 +989,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     return _.map(results, function (item) {
                         return {
                             documentName: item.document_name,
-                            url: api.config.documentProvider + '=' + item.document_id
+                            url: api.config.tcConfig.documentProvider + '=' + item.document_id
                         };
                     });
                 };
@@ -1221,7 +1228,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         submissionId,
         thurgoodLanguage,
         thurgoodPlatform,
-        thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.thurgoodApiKey,
+        thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.tcConfig.thurgoodApiKey,
         thurgoodJobId = null,
         multipleSubmissionPossible,
         savedFilePath = null;
@@ -1331,7 +1338,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 decodedFileData;
 
             //The file output dir should be overwritable by environment variable
-            submissionPath = api.config.submissionDir;
+            submissionPath = api.config.tcConfig.submissionDir;
 
             //The path to save is the folder with the name as <base submission path>
             //The name of the file is the <generated upload id>_<original file name>
@@ -1348,19 +1355,19 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 }
 
                 //Check the max length of the submission file (if there is a limit)
-                if (api.config.submissionMaxSizeBytes > 0) {
+                if (api.config.tcConfig.submissionMaxSizeBytes > 0) {
                     fs.stat(filePathToSave, function (err, stats) {
                         if (err) {
                             cb(err);
                             return;
                         }
                         console.log('-------------------------------------------');
-                        console.log(stats.size + '\t' + api.config.submissionMaxSizeBytes);
+                        console.log(stats.size + '\t' + api.config.tcConfig.submissionMaxSizeBytes);
                         console.log('-------------------------------------------');
 
-                        if (stats.size > api.config.submissionMaxSizeBytes) {
+                        if (stats.size > api.config.tcConfig.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
-                                "The submission file size is greater than the max allowed size: " + (api.config.submissionMaxSizeBytes / 1024) + " KB."
+                                "The submission file size is greater than the max allowed size: " + (api.config.tcConfig.submissionMaxSizeBytes / 1024) + " KB."
                             ));
                             return;
                         }
@@ -1390,8 +1397,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
 
                 //Prepare the options for the request
                 var options = {
-                    url: api.config.thurgoodApiUrl,
-                    timeout: api.config.thurgoodTimeout,
+                    url: api.config.tcConfig.thurgoodApiUrl,
+                    timeout: api.config.tcConfig.thurgoodTimeout,
                     method: 'POST',
                     headers: {
                         'Authorization': 'Token: token=' + thurgoodApiKey
@@ -1401,7 +1408,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                         'thurgoodLanguage': thurgoodLanguage,
                         'userId': userHandle,
                         'notification': 'email',
-                        'codeUrl': api.config.thurgoodCodeUrl + uploadId,
+                        'codeUrl': api.config.tcConfig.thurgoodCodeUrl + uploadId,
                         'platform': thurgoodPlatform
                     }
                 };
@@ -1429,8 +1436,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
 
                 //Prepare the options for the request
                 var options = {
-                    url: api.config.thurgoodApiUrl + '/' + thurgoodJobId + '/submit',
-                    timeout: api.config.thurgoodTimeout,
+                    url: api.config.tcConfig.thurgoodApiUrl + '/' + thurgoodJobId + '/submit',
+                    timeout: api.config.tcConfig.thurgoodTimeout,
                     method: 'PUT',
                     headers: {
                         'Authorization': 'Token: token=' + thurgoodApiKey
@@ -1766,11 +1773,11 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 //Submission Links
                 if (isStudio) {
                     if (res.restrictions[0].show_submissions) {
-                        resEl.submissionDownloadLink = api.config.designSubmissionLink + el.submission_id;
-                        resEl.previewDownloadLink = api.config.designSubmissionLink + el.submission_id + "&sbt=small";
+                        resEl.submissionDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id;
+                        resEl.previewDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id + "&sbt=small";
                     }
                 } else {
-                    resEl.submissionDownloadLink = api.config.submissionLink + el.upload_id;
+                    resEl.submissionDownloadLink = api.config.tcConfig.submissionLink + el.upload_id;
                 }
 
                 //Handle
@@ -1789,12 +1796,12 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             if (isStudio) {
                 if (res.restrictions[0].show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
-                        return api.config.designSubmissionLink + ff.submission_id;
+                        return api.config.tcConfig.designSubmissionLink + ff.submission_id;
                     });
                 }
             } else {
                 result.finalFixes = _.map(res.finalFixes, function (ff) {
-                    return api.config.finalFixLink + ff.upload_id;
+                    return api.config.tcConfig.finalFixLink + ff.upload_id;
                 });
             }
 
@@ -2289,9 +2296,9 @@ var SUBMISSION_DIR = 'submission/';
  * @param {Function<err, data>} done - The function to call when done
  */
 var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, sourceFile, declaration, userId, done) {
-    var unifiedZipPath = api.config.designSubmissionTmpPath + 'generated_' + new Date().getTime() + '_' + userId + '_unifiedSubmission.zip',
+    var unifiedZipPath = api.config.tcConfig.designSubmissionTmpPath + 'generated_' + new Date().getTime() + '_' + userId + '_unifiedSubmission.zip',
         unifiedZip = fs.createWriteStream(unifiedZipPath),
-        submissionOutputPath = api.config.designSubmissionTmpPath + new Date().getTime() + ".zip",
+        submissionOutputPath = api.config.tcConfig.designSubmissionTmpPath + new Date().getTime() + ".zip",
         submissionOutputZip = fs.createWriteStream(submissionOutputPath),
         archive = archiver('zip'),
         submissionArchive = archiver('zip'),
@@ -2306,14 +2313,14 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     submissionZip.getEntries().forEach(function (zipEntry) {
         if (!zipEntry.isDirectory) {
             //Extract the file to tmp location
-            submissionZip.extractEntryTo(zipEntry, api.config.designSubmissionTmpPath, false, true);
+            submissionZip.extractEntryTo(zipEntry, api.config.tcConfig.designSubmissionTmpPath, false, true);
 
             //Read file from tmp location and add to unified zip
-            var tmpFileBuf = fs.readFileSync(api.config.designSubmissionTmpPath + zipEntry.name);
+            var tmpFileBuf = fs.readFileSync(api.config.tcConfig.designSubmissionTmpPath + zipEntry.name);
             submissionArchive.append(tmpFileBuf, {name: zipEntry.name});
 
             //Remove the temporary file
-            fs.unlinkSync(api.config.designSubmissionTmpPath + zipEntry.name);
+            fs.unlinkSync(api.config.tcConfig.designSubmissionTmpPath + zipEntry.name);
         }
     });
 
@@ -2336,6 +2343,7 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     unifiedZip.on('finish', function () {
         if (!doneCalled) {
             doneCalled = true;
+            fs.unlinkSync(submissionOutputPath);
             done(null, unifiedZipPath);
         }
     });
@@ -2343,6 +2351,7 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     archive.on('error', function (err) {
         if (!doneCalled) {
             doneCalled = true;
+            fs.unlinkSync(submissionOutputPath);
             done(err);
         }
     });
@@ -2350,6 +2359,7 @@ var generateUnifiedSubmissionFile = function (api, submissionFile, previewFile, 
     submissionArchive.on('error', function (err) {
         if (!doneCalled) {
             doneCalled = true;
+            fs.unlinkSync(submissionOutputPath);
             done(err);
         }
     });
@@ -2394,7 +2404,8 @@ var submitForDesignChallenge = function (api, connection, dbConnectionMap, next)
         systemFileName,
         ids,
         unifiedZipPath,
-        error;
+        error,
+        designImageFileGenerator;
 
     async.waterfall([
         function (cb) {
@@ -2544,7 +2555,7 @@ var submitForDesignChallenge = function (api, connection, dbConnectionMap, next)
             //2. Load the template for the declaration file
             async.parallel({
                 mkdirRes: function (cbx) {
-                    filePath = api.config.designSubmissionsBasePath + challengeId + "/" + userHandle.toLowerCase() + "_" + userId + "/";
+                    filePath = usv.createDesignSubmissionPath(challengeId, userId, userHandle);
                     mkdirp(filePath, cbx);
                 },
                 declarationTemplate: function (cbx) {
@@ -2636,8 +2647,18 @@ var submitForDesignChallenge = function (api, connection, dbConnectionMap, next)
             ], cb);
         }, function (notUsed, cb) {
             //Copy the unified zip from the temp folder into the actual folder
-            fs.createReadStream(unifiedZipPath).pipe(fs.createWriteStream(filePath + systemFileName));
-            cb();
+            api.helper.copyFiles(api, unifiedZipPath, filePath + systemFileName, cb);
+        }, function (cb) { // Initiate the process of generating the alternate representations for the submission
+            fs.unlinkSync(unifiedZipPath);
+            designImageFileGenerator = difg.getDesignImageFileGenerator(
+                {challengeId: challengeId, challengeCategoryId: basicInfo[0].project_category_id},
+                {userId: userId, handle: userHandle},
+                {submissionId: ids.submissionId, images: []},
+                {name: submissionFile.name, path: filePath + systemFileName},
+                api,
+                dbConnectionMap
+            );
+            designImageFileGenerator.generateFiles(cb);
         }
     ], function (err) {
         if (err) {
@@ -2671,7 +2692,7 @@ exports.submitForDesignChallenge = {
     version: 'v2',
     transaction: 'write',
     cacheEnabled : false,
-    databases: ["tcs_catalog", "common_oltp"],
+    databases: ["tcs_catalog", "common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute submitForDesignChallenge#run", 'debug');

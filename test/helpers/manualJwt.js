@@ -9,8 +9,8 @@
 "use strict";
 
 var jwt = require('jsonwebtoken');
-var CLIENT_ID = require('../../config').config.general.oauthClientId;
-var SECRET = require('../../config').config.general.oauthClientSecret;
+var CLIENT_ID = require('../../config/tc-config').tcConfig.oauthClientId;
+var SECRET = require('../../config/tc-config').tcConfig.oauthClientSecret;
 var sub = process.argv[2], token;
 
 if (!sub) {

@@ -30,12 +30,12 @@ var TEST_FILE_DIR = "test/test_files/";
 
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
-var grantForumAccess = require('../config').config.general.grantForumAccess;
+var grantForumAccess = require('../config/tc-config').tcConfig.grantForumAccess;
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config').config.general.oauthClientId;
-var SECRET = require('../config').config.general.oauthClientSecret;
+var CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId;
+var SECRET = require('../config/tc-config').tcConfig.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 describe('Challenge Registration API', function () {

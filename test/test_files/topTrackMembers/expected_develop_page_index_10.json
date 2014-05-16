@@ -1,0 +1,252 @@
+{
+    "total": 616,
+    "pageIndex": 10,
+    "pageSize": 35,
+    "data": [
+        {
+            "rank": 316,
+            "handle": "design_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "Design"
+        },
+        {
+            "rank": 317,
+            "handle": "development_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "Development"
+        },
+        {
+            "rank": 318,
+            "handle": "ria_build_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "RIA Build"
+        },
+        {
+            "rank": 319,
+            "handle": "specification_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "Specification"
+        },
+        {
+            "rank": 320,
+            "handle": "test_scenarios_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "Test Scenarios"
+        },
+        {
+            "rank": 321,
+            "handle": "test_suites_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "Test Suites"
+        },
+        {
+            "rank": 322,
+            "handle": "ui_prototypes_34",
+            "color": "Yellow",
+            "rating": 1640,
+            "highestRatingType": "UI Prototypes"
+        },
+        {
+            "rank": 323,
+            "handle": "architecture_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Architecture"
+        },
+        {
+            "rank": 324,
+            "handle": "assembly_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Assembly"
+        },
+        {
+            "rank": 325,
+            "handle": "design_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Design"
+        },
+        {
+            "rank": 326,
+            "handle": "development_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Development"
+        },
+        {
+            "rank": 327,
+            "handle": "ria_build_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "RIA Build"
+        },
+        {
+            "rank": 328,
+            "handle": "specification_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Specification"
+        },
+        {
+            "rank": 329,
+            "handle": "test_scenarios_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Test Scenarios"
+        },
+        {
+            "rank": 330,
+            "handle": "test_suites_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "Test Suites"
+        },
+        {
+            "rank": 331,
+            "handle": "ui_prototypes_35",
+            "color": "Yellow",
+            "rating": 1620,
+            "highestRatingType": "UI Prototypes"
+        },
+        {
+            "rank": 332,
+            "handle": "architecture_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Architecture"
+        },
+        {
+            "rank": 333,
+            "handle": "assembly_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Assembly"
+        },
+        {
+            "rank": 334,
+            "handle": "design_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Design"
+        },
+        {
+            "rank": 335,
+            "handle": "development_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Development"
+        },
+        {
+            "rank": 336,
+            "handle": "ria_build_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "RIA Build"
+        },
+        {
+            "rank": 337,
+            "handle": "specification_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Specification"
+        },
+        {
+            "rank": 338,
+            "handle": "test_scenarios_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Test Scenarios"
+        },
+        {
+            "rank": 339,
+            "handle": "test_suites_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "Test Suites"
+        },
+        {
+            "rank": 340,
+            "handle": "ui_prototypes_36",
+            "color": "Yellow",
+            "rating": 1600,
+            "highestRatingType": "UI Prototypes"
+        },
+        {
+            "rank": 341,
+            "handle": "architecture_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Architecture"
+        },
+        {
+            "rank": 342,
+            "handle": "assembly_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Assembly"
+        },
+        {
+            "rank": 343,
+            "handle": "design_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Design"
+        },
+        {
+            "rank": 344,
+            "handle": "development_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Development"
+        },
+        {
+            "rank": 345,
+            "handle": "ria_build_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "RIA Build"
+        },
+        {
+            "rank": 346,
+            "handle": "specification_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Specification"
+        },
+        {
+            "rank": 347,
+            "handle": "test_scenarios_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Test Scenarios"
+        },
+        {
+            "rank": 348,
+            "handle": "test_suites_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "Test Suites"
+        },
+        {
+            "rank": 349,
+            "handle": "ui_prototypes_37",
+            "color": "Yellow",
+            "rating": 1580,
+            "highestRatingType": "UI Prototypes"
+        },
+        {
+            "rank": 350,
+            "handle": "architecture_38",
+            "color": "Yellow",
+            "rating": 1560,
+            "highestRatingType": "Architecture"
+        }
+    ]
+}

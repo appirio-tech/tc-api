@@ -31,11 +31,11 @@ exports.action = {
             grant_type: "password",
             username: connection.params.username,
             password: connection.params.password,
-            client_id: api.config.general.oauthClientId,
-            connection: api.config.general.oauthConnection,
+            client_id: api.config.tcConfig.oauthClientId,
+            connection: api.config.tcConfig.oauthConnection,
             scope: "openid"
         },
-            url = "https://" + api.config.general.oauthDomain + ".auth0.com/oauth/ro";
+            url = "https://" + api.config.tcConfig.oauthDomain + ".auth0.com/oauth/ro";
         async.waterfall([
             function (cb) {
                 request.post({url: url, form: form}, cb);
@@ -87,11 +87,11 @@ exports.refreshJwt = {
         var form = {
             grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
             id_token: connection.params.token,
-            client_id: api.config.general.oauthClientId,
-            target: api.config.general.oauthClientId,
+            client_id: api.config.tcConfig.oauthClientId,
+            target: api.config.tcConfig.oauthClientId,
             scope: "openid"
         },
-            url = "https://" + api.config.general.oauthDomain + ".auth0.com/delegation";
+            url = "https://" + api.config.tcConfig.oauthDomain + ".auth0.com/delegation";
         async.waterfall([
             function (cb) {
                 request.post({url: url, form: form}, cb);

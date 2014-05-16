@@ -60,7 +60,7 @@ function isProjectResultCategory(categoryId) {
  */
 var removeForumPermissions = function (api, userId, forumCategoryId, next) {
 
-    if (api.config.general.grantForumAccess !== true || forumCategoryId === 0) {
+    if (api.config.tcConfig.grantForumAccess !== true || forumCategoryId === 0) {
         next();
         return;
     }

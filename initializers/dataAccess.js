@@ -35,7 +35,6 @@ var async = require("async");
 var java = require('java');
 var Jdbc = require('informix-wrapper');
 var helper;
-var configs = require("../config.js");
 
 /**
  * Regex for sql paramters e.g @param_name@
@@ -176,7 +175,7 @@ exports.dataAccess = function (api, next) {
          * @return {Object} the created connection.
          */
         createConnection : function (databaseName) {
-            var error, dbServerPrefix = configs.config.databaseMapping[databaseName],
+            var error, dbServerPrefix = api.config.tcConfig.databaseMapping[databaseName],
                 user, password, hostname, server, port, settings;
             error = helper.checkDefined(dbServerPrefix, "database server prefix");
             if (error) {
