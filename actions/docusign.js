@@ -48,7 +48,7 @@ TermsOfUseHandler.prototype.handleDocument = function (userId, tabs, api, dbConn
         }, function (rows, cb) {
             if (rows.length === 0) {
                 done({
-                    message: "No terms of use exists for id: " + sqlParams.termsOfUseId,
+                    message: "No terms of use exists for id: " + sqlParams.termsOfUseId
                 });
                 return;
             }
@@ -119,28 +119,28 @@ var templates;
 
 function initTemplates(config) {
     templates = [{
-    name: 'W9',
-    templateId: config.docusign.w9TemplateId,
-    handlers: []
-}, {
-    name: 'W-8BEN',
-    templateId: config.docusign.w8benTemplateId,
-    handlers: []
-}, {
-    name: 'TopCoder Assignment v2.0',
-    templateId: config.docusign.assignmentV2TemplateId,
-    handlers: [
-        new TermsOfUseHandler(config.docusign.assignmentDocTermsOfUseId)
-    ]
-}, {
-    name: 'Appirio Mutual NDA',
-    templateId: config.docusign.appirioMutualNDATemplateId,
-    handlers: []
-}, {
-    name: 'Affidavit',
-    templateId: config.docusign.affidavitTemplateId,
-    handlers: []
-}];
+        name: 'W9',
+        templateId: config.docusign.w9TemplateId,
+        handlers: []
+    }, {
+        name: 'W-8BEN',
+        templateId: config.docusign.w8benTemplateId,
+        handlers: []
+    }, {
+        name: 'TopCoder Assignment v2.0',
+        templateId: config.docusign.assignmentV2TemplateId,
+        handlers: [
+            new TermsOfUseHandler(config.docusign.assignmentDocTermsOfUseId)
+        ]
+    }, {
+        name: 'Appirio Mutual NDA',
+        templateId: config.docusign.appirioMutualNDATemplateId,
+        handlers: []
+    }, {
+        name: 'Affidavit',
+        templateId: config.docusign.affidavitTemplateId,
+        handlers: []
+    }];
 }
 
 /**
@@ -178,7 +178,7 @@ exports.docusignCallback = {
     databases : ["informixoltp", "common_oltp"],
     inputs: {
         required: ['envelopeStatus', 'envelopeId', 'tabs', 'connectKey'],
-        optional: [],
+        optional: []
     },
     run: function (api, connection, next) {
         api.log("Execute docusignCallback#run", 'debug');

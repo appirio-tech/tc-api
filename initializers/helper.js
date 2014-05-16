@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.30
+ * @version 1.31
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -82,6 +82,8 @@
  * - Add getCatalogCachedValue method.
  * Changes in 1.30:
  * - Added copyFiles function.
+ * Changes in 1.31:
+ * - Add SUBMISSION_TYPE object.
  */
 "use strict";
 
@@ -149,6 +151,25 @@ helper.PAYMENT_STATUS = {
     68 : 'Expired',
     70 : 'Entered into payment system',
     71 : 'Accruing'
+};
+
+/**
+ * The submission type object.
+ * @since 1.31
+ */
+helper.SUBMISSION_TYPE = {
+    challenge: {
+        name: 'Contest Submission',
+        id: 1
+    },
+    specification: {
+        name: 'Specification Submission',
+        id: 2
+    },
+    checkpoint: {
+        name: 'Checkpoint Submission',
+        id: 3
+    }
 };
 
 /**
