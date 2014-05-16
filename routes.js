@@ -253,6 +253,7 @@ exports.routes = {
 
         { path: "/:apiVersion/reports/analyze", action: "getChallengeAnalyze" },
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
+        { path: "/:apiVersion/reports/client/challenges", action: "clientChallengeCosts" },
         { path: "/:apiVersion/reports/client/activeChallenges", action: "getClientActiveChallengeCosts" },
         { path: "/:apiVersion/reports/costs/:startDate/:endDate", action: "getChallengeCosts" },
 

@@ -381,6 +381,13 @@ helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.UPCOMING] = [1];
 helper.LIST_TYPE_REGISTRATION_STATUS_MAP[helper.ListType.PAST] = [3];
 
 /**
+ * The list type and submission phase status map.
+ */
+helper.LIST_TYPE_SUBMISSION_STATUS_MAP = {};
+helper.LIST_TYPE_SUBMISSION_STATUS_MAP[helper.ListType.ACTIVE] = [2];
+helper.LIST_TYPE_SUBMISSION_STATUS_MAP[helper.ListType.PAST] = [3];
+
+/**
  * The list type and project status map.
  * @since 1.21
  */

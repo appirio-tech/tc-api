@@ -411,6 +411,125 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Client Challenge Costs [/reports/client/challenges/?clientid={clientId}&sfdcAccountId={cmc}&customerNumber={customerNumber}&type={type}&startDate={startDate}&endDate={endDate}]
+### Client Challenge Costs [GET]
+
++ Parameters
+    + clientId (optional, number, `4310`) ... Client Id
+    + sfdcAccountId (optional, string, `4310`) ... CMC account ID
+    + customerNumber (optional, string, `4310`) ... Customer number
+    + type (optional, string, `4310`) ... The challenge status type
+    + startDate (optional, string, `4310`) ... The start date
+    + endDate (optional, string, `4310`) ... The end date
+
++ Response 200 (application/json)
+
+{
+    "challenges": [
+        {
+            "customerName": "Client 9000001",
+            "customerNumber": "900000100",
+            "customerId": 9000001,
+            "billingAccountId": 9000001,
+            "billingAccountName": "Client 9000001 Billing Account 1",
+            "projectName": "Client 9000001 Billing Account 1 Project 2",
+            "challengeName": "Logo Design Contest 2",
+            "challengeId": 9000002,
+            "challengeType": "Logo Design",
+            "challengeStatus": "Active",
+            "postingDate": "2014-03-27",
+            "completionDate": "2014-03-29",
+            "challengeMemberCost": 0,
+            "challengeFee": 375,
+            "challengeTotalCost": 375,
+            "challengeDuration": 1.8,
+            "lastModificationDate": "2014-03-29",
+            "registrationEndDate": "2014-03-29",
+            "submissionEndDate": "2014-04-03",
+            "checkpointEndDate": "2014-03-30",
+            "currentPhase": "Checkpoint Screening",
+            "firstPrize": 1700,
+            "totalPrize": 1870,
+            "checkpointPrize": 170,
+            "registrantsCount": 2,
+            "submissionsCount": 0,
+            "checkpointSubmissionsCount": 2,
+            "challengeScheduledEndDate": "2014-04-08",
+            "reliability": 4
+        },
+        {
+            "customerName": "Client 9000001",
+            "customerNumber": "900000100",
+            "customerId": 9000001,
+            "billingAccountId": 9000002,
+            "billingAccountName": "Client 9000001 Billing Account 2",
+            "projectName": "Client 9000001 Billing Account 2 Project 1",
+            "challengeName": "Conceptualization Contest 3",
+            "challengeId": 9000003,
+            "challengeType": "Conceptualization",
+            "challengeStatus": "Active",
+            "postingDate": "2014-03-25",
+            "completionDate": "2014-03-29",
+            "challengeMemberCost": 0,
+            "challengeFee": 6001,
+            "challengeTotalCost": 6001,
+            "challengeDuration": 4.3,
+            "lastModificationDate": "2014-03-29",
+            "registrationEndDate": "2014-03-27",
+            "submissionEndDate": "2014-03-30",
+            "checkpointEndDate": "2014-03-28",
+            "currentPhase": "Submission",
+            "firstPrize": 1000,
+            "totalPrize": 1088,
+            "checkpointPrize": 88,
+            "registrantsCount": 3,
+            "submissionsCount": 0,
+            "checkpointSubmissionsCount": 3,
+            "challengeScheduledEndDate": "2014-04-10",
+            "reliability": 227
+        }
+    ]
+}
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"Client not found"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Challenge Analyze [/reports/analyze]
         
 ## Challenge Analyze [/reports/analyze?projectId={projectId}&openRegistrationDateFrom={openRegistrationDateFrom}&openRegistrationDateTo={openRegistrationDateTo}&challengeType={challengeType}&challengeName={challengeName}&prizeLower={prizeLower}&prizeUpper={prizeUpper}]
