@@ -1,0 +1,1 @@
+INSERT INTO user_preference(user_id, preference_id, value) VALUES ('@coderId@', '@preferenceId@', '@value@')

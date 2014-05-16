@@ -30,3 +30,4 @@ AND rr.round_id = rd.round_id
 AND c.coder_id = rr.coder_id 
 AND ar.coder_id = c.coder_id 
 GROUP BY 1
+ORDER BY 2 DESC

@@ -1,199 +1,201 @@
 {
-  "roundId": 2001,
-  "fullName": "test problem",
-  "shortName": "test round 2001",
-  "description": "",
-  "numberOfRegistrants": 100,
-  "numberOfCompetitors": 99,
-  "numberOfSubmissions": 413,
-  "startDate": "2013-10-20T12:00:00.000Z",
-  "endDate": "2013-12-06T12:00:00.000Z",
-  "systemTestDate": "2013-12-01T12:00:00.000Z",
-  "currentProgress": {
-    "groupType": "DAY",
-    "progressResources": [
-      {
-        "currentTopProvisionalScore": 0,
-        "currentNoOfSubmissions": 0,
-        "currentNoOfCompetitors": 0,
-        "currentNoOfRegistrants": 1,
-        "date": "2013-11-12T12:00:00.000Z",
-        "topUserHandle": ""
-      },
-      {
-        "currentTopProvisionalScore": 0,
-        "currentNoOfSubmissions": 0,
-        "currentNoOfCompetitors": 0,
-        "currentNoOfRegistrants": 2,
-        "date": "2013-11-13T12:00:00.000Z",
-        "topUserHandle": ""
-      },
-      {
-        "currentTopProvisionalScore": 914477.38,
-        "currentNoOfSubmissions": 7,
-        "currentNoOfCompetitors": 6,
-        "currentNoOfRegistrants": 6,
-        "date": "2013-11-15T12:00:00.000Z",
-        "topUserHandle": "user3065"
-      },
-      {
-        "currentTopProvisionalScore": 858232.14,
-        "currentNoOfSubmissions": 18,
-        "currentNoOfCompetitors": 12,
-        "currentNoOfRegistrants": 10,
-        "date": "2013-11-16T12:00:00.000Z",
-        "topUserHandle": "user3079"
-      },
-      {
-        "currentTopProvisionalScore": 978384.16,
-        "currentNoOfSubmissions": 18,
-        "currentNoOfCompetitors": 17,
-        "currentNoOfRegistrants": 11,
-        "date": "2013-11-17T12:00:00.000Z",
-        "topUserHandle": "user3039"
-      },
-      {
-        "currentTopProvisionalScore": 980927.42,
-        "currentNoOfSubmissions": 31,
-        "currentNoOfCompetitors": 27,
-        "currentNoOfRegistrants": 8,
-        "date": "2013-11-18T12:00:00.000Z",
-        "topUserHandle": "user3026"
-      },
-      {
-        "currentTopProvisionalScore": 974305.55,
-        "currentNoOfSubmissions": 30,
-        "currentNoOfCompetitors": 22,
-        "currentNoOfRegistrants": 11,
-        "date": "2013-11-19T12:00:00.000Z",
-        "topUserHandle": "user3033"
-      },
-      {
-        "currentTopProvisionalScore": 986052.31,
-        "currentNoOfSubmissions": 50,
-        "currentNoOfCompetitors": 37,
-        "currentNoOfRegistrants": 17,
-        "date": "2013-11-20T12:00:00.000Z",
-        "topUserHandle": "user3028"
-      },
-      {
-        "currentTopProvisionalScore": 921849.95,
-        "currentNoOfSubmissions": 49,
-        "currentNoOfCompetitors": 41,
-        "currentNoOfRegistrants": 16,
-        "date": "2013-11-21T12:00:00.000Z",
-        "topUserHandle": "user3095"
-      },
-      {
-        "currentTopProvisionalScore": 985967.16,
-        "currentNoOfSubmissions": 63,
-        "currentNoOfCompetitors": 52,
-        "currentNoOfRegistrants": 13,
-        "date": "2013-11-22T12:00:00.000Z",
-        "topUserHandle": "user3088"
-      },
-      {
-        "currentTopProvisionalScore": 972579.75,
-        "currentNoOfSubmissions": 41,
-        "currentNoOfCompetitors": 36,
-        "currentNoOfRegistrants": 5,
-        "date": "2013-11-23T12:00:00.000Z",
-        "topUserHandle": "user3084"
-      },
-      {
-        "currentTopProvisionalScore": 986519.35,
-        "currentNoOfSubmissions": 41,
-        "currentNoOfCompetitors": 31,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-24T12:00:00.000Z",
-        "topUserHandle": "user3068"
-      },
-      {
-        "currentTopProvisionalScore": 977424.63,
-        "currentNoOfSubmissions": 24,
-        "currentNoOfCompetitors": 20,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-25T12:00:00.000Z",
-        "topUserHandle": "user3093"
-      },
-      {
-        "currentTopProvisionalScore": 966385.85,
-        "currentNoOfSubmissions": 17,
-        "currentNoOfCompetitors": 13,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-26T12:00:00.000Z",
-        "topUserHandle": "user3078"
-      },
-      {
-        "currentTopProvisionalScore": 972579.7,
-        "currentNoOfSubmissions": 10,
-        "currentNoOfCompetitors": 9,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-27T12:00:00.000Z",
-        "topUserHandle": "user3034"
-      },
-      {
-        "currentTopProvisionalScore": 928743.83,
-        "currentNoOfSubmissions": 8,
-        "currentNoOfCompetitors": 7,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-28T12:00:00.000Z",
-        "topUserHandle": "user3022"
-      },
-      {
-        "currentTopProvisionalScore": 878726.88,
-        "currentNoOfSubmissions": 2,
-        "currentNoOfCompetitors": 2,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-29T12:00:00.000Z",
-        "topUserHandle": "user3023"
-      },
-      {
-        "currentTopProvisionalScore": 870244.57,
-        "currentNoOfSubmissions": 1,
-        "currentNoOfCompetitors": 1,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-11-30T12:00:00.000Z",
-        "topUserHandle": "user3075"
-      },
-      {
-        "currentTopProvisionalScore": 892960.04,
-        "currentNoOfSubmissions": 1,
-        "currentNoOfCompetitors": 1,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-12-02T12:00:00.000Z",
-        "topUserHandle": "user3075"
-      },
-      {
-        "currentTopProvisionalScore": 282872.4,
-        "currentNoOfSubmissions": 2,
-        "currentNoOfCompetitors": 1,
-        "currentNoOfRegistrants": 0,
-        "date": "2013-12-04T12:00:00.000Z",
-        "topUserHandle": "user3075"
-      }
+    "roundId": 2001,
+    "fullName": "test problem",
+    "shortName": "test round 2001",
+    "description": "",
+    "problemId": 2001,
+    "prizes": [],
+    "numberOfRegistrants": 100,
+    "numberOfCompetitors": 99,
+    "numberOfSubmissions": 413,
+    "startDate": "2013-10-20T12:00:00.000+0000",
+    "endDate": "2013-12-06T12:00:00.000+0000",
+    "systemTestDate": "2013-12-01T12:00:00.000+0000",
+    "currentProgress": {
+        "groupType": "DAY",
+        "progressResources": [
+            {
+                "currentTopProvisionalScore": 0,
+                "currentNoOfSubmissions": 0,
+                "currentNoOfCompetitors": 0,
+                "currentNoOfRegistrants": 1,
+                "date": "2013-11-12T12:00:00.000Z",
+                "topUserHandle": ""
+            },
+            {
+                "currentTopProvisionalScore": 0,
+                "currentNoOfSubmissions": 0,
+                "currentNoOfCompetitors": 0,
+                "currentNoOfRegistrants": 2,
+                "date": "2013-11-13T12:00:00.000Z",
+                "topUserHandle": ""
+            },
+            {
+                "currentTopProvisionalScore": 914477.38,
+                "currentNoOfSubmissions": 7,
+                "currentNoOfCompetitors": 6,
+                "currentNoOfRegistrants": 6,
+                "date": "2013-11-15T12:00:00.000Z",
+                "topUserHandle": "user3065"
+            },
+            {
+                "currentTopProvisionalScore": 858232.14,
+                "currentNoOfSubmissions": 18,
+                "currentNoOfCompetitors": 12,
+                "currentNoOfRegistrants": 10,
+                "date": "2013-11-16T12:00:00.000Z",
+                "topUserHandle": "user3079"
+            },
+            {
+                "currentTopProvisionalScore": 978384.16,
+                "currentNoOfSubmissions": 18,
+                "currentNoOfCompetitors": 17,
+                "currentNoOfRegistrants": 11,
+                "date": "2013-11-17T12:00:00.000Z",
+                "topUserHandle": "user3039"
+            },
+            {
+                "currentTopProvisionalScore": 980927.42,
+                "currentNoOfSubmissions": 31,
+                "currentNoOfCompetitors": 27,
+                "currentNoOfRegistrants": 8,
+                "date": "2013-11-18T12:00:00.000Z",
+                "topUserHandle": "user3026"
+            },
+            {
+                "currentTopProvisionalScore": 974305.55,
+                "currentNoOfSubmissions": 30,
+                "currentNoOfCompetitors": 22,
+                "currentNoOfRegistrants": 11,
+                "date": "2013-11-19T12:00:00.000Z",
+                "topUserHandle": "user3033"
+            },
+            {
+                "currentTopProvisionalScore": 986052.31,
+                "currentNoOfSubmissions": 50,
+                "currentNoOfCompetitors": 37,
+                "currentNoOfRegistrants": 17,
+                "date": "2013-11-20T12:00:00.000Z",
+                "topUserHandle": "user3028"
+            },
+            {
+                "currentTopProvisionalScore": 921849.95,
+                "currentNoOfSubmissions": 49,
+                "currentNoOfCompetitors": 41,
+                "currentNoOfRegistrants": 16,
+                "date": "2013-11-21T12:00:00.000Z",
+                "topUserHandle": "user3095"
+            },
+            {
+                "currentTopProvisionalScore": 985967.16,
+                "currentNoOfSubmissions": 63,
+                "currentNoOfCompetitors": 52,
+                "currentNoOfRegistrants": 13,
+                "date": "2013-11-22T12:00:00.000Z",
+                "topUserHandle": "user3088"
+            },
+            {
+                "currentTopProvisionalScore": 972579.75,
+                "currentNoOfSubmissions": 41,
+                "currentNoOfCompetitors": 36,
+                "currentNoOfRegistrants": 5,
+                "date": "2013-11-23T12:00:00.000Z",
+                "topUserHandle": "user3084"
+            },
+            {
+                "currentTopProvisionalScore": 986519.35,
+                "currentNoOfSubmissions": 41,
+                "currentNoOfCompetitors": 31,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-24T12:00:00.000Z",
+                "topUserHandle": "user3068"
+            },
+            {
+                "currentTopProvisionalScore": 977424.63,
+                "currentNoOfSubmissions": 24,
+                "currentNoOfCompetitors": 20,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-25T12:00:00.000Z",
+                "topUserHandle": "user3093"
+            },
+            {
+                "currentTopProvisionalScore": 966385.85,
+                "currentNoOfSubmissions": 17,
+                "currentNoOfCompetitors": 13,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-26T12:00:00.000Z",
+                "topUserHandle": "user3078"
+            },
+            {
+                "currentTopProvisionalScore": 972579.7,
+                "currentNoOfSubmissions": 10,
+                "currentNoOfCompetitors": 9,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-27T12:00:00.000Z",
+                "topUserHandle": "user3034"
+            },
+            {
+                "currentTopProvisionalScore": 928743.83,
+                "currentNoOfSubmissions": 8,
+                "currentNoOfCompetitors": 7,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-28T12:00:00.000Z",
+                "topUserHandle": "user3022"
+            },
+            {
+                "currentTopProvisionalScore": 878726.88,
+                "currentNoOfSubmissions": 2,
+                "currentNoOfCompetitors": 2,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-29T12:00:00.000Z",
+                "topUserHandle": "user3023"
+            },
+            {
+                "currentTopProvisionalScore": 870244.57,
+                "currentNoOfSubmissions": 1,
+                "currentNoOfCompetitors": 1,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-11-30T12:00:00.000Z",
+                "topUserHandle": "user3075"
+            },
+            {
+                "currentTopProvisionalScore": 892960.04,
+                "currentNoOfSubmissions": 1,
+                "currentNoOfCompetitors": 1,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-12-02T12:00:00.000Z",
+                "topUserHandle": "user3075"
+            },
+            {
+                "currentTopProvisionalScore": 282872.4,
+                "currentNoOfSubmissions": 2,
+                "currentNoOfCompetitors": 1,
+                "currentNoOfRegistrants": 0,
+                "date": "2013-12-04T12:00:00.000Z",
+                "topUserHandle": "user3075"
+            }
+        ]
+    },
+    "registrantsRatingSummary": [
+        {
+            "color": "Red",
+            "numberOfMembers": 52
+        },
+        {
+            "color": "Gray",
+            "numberOfMembers": 18
+        },
+        {
+            "color": "Blue",
+            "numberOfMembers": 14
+        },
+        {
+            "color": "Yellow",
+            "numberOfMembers": 13
+        },
+        {
+            "color": "Green",
+            "numberOfMembers": 3
+        }
     ]
-  },
-  "registrantsRatingSummary": [
-    {
-      "color": "Blue",
-      "numberOfMembers": 14
-    },
-    {
-      "color": "Red",
-      "numberOfMembers": 52
-    },
-    {
-      "color": "Gray",
-      "numberOfMembers": 18
-    },
-    {
-      "color": "Green",
-      "numberOfMembers": 3
-    },
-    {
-      "color": "Yellow",
-      "numberOfMembers": 13
-    }
-  ]
 }

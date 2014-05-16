@@ -1,0 +1,19 @@
+{
+  "total": 2,
+  "pageIndex": 1,
+  "pageSize": 50,
+  "data": [
+    {
+      "rank": 1,
+      "handle": "heffan",
+      "color": "N/A",
+      "rating": 5
+    },
+    {
+      "rank": 2,
+      "handle": "super",
+      "color": "N/A",
+      "rating": 1
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+UPDATE email SET address = '@address@', status_id = '@statusId@', email_type_id = '@emailTypeId@' WHERE email_id = '@emailId@'

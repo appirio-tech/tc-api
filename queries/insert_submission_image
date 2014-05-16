@@ -1,0 +1,1 @@
+INSERT INTO submission_image (submission_id, image_id, sort_order) VALUES (@submission_id@, @image_id@, @sort_index@);

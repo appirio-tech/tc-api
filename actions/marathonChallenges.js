@@ -247,6 +247,13 @@ exports.searchMarathonChallenges = {
                             sqlParams,
                             dbConnectionMap,
                             cbx);
+                    },
+                    prizes: function (cbx) {
+                        if (listType === ListType.PAST) {
+                            cbx(null, []);
+                        } else {
+                            api.dataAccess.executeQuery(scriptName + '_prizes', sqlParams, dbConnectionMap, cbx);
+                        }
                     }
                 }, cb);
             }, function (results, cb) {
@@ -266,6 +273,7 @@ exports.searchMarathonChallenges = {
                         var challenge = {
                             roundId: item.round_id,
                             fullName: item.full_name,
+                            problemId: item.problem_id,
                             shortName: item.short_name,
                             startDate: item.start_date,
                             endDate: item.end_date,
@@ -275,6 +283,15 @@ exports.searchMarathonChallenges = {
                             numberOfRegistrants: item.registrants_count,
                             numberOfSubmissions: item.submission_count
                         };
+                        if (listType === ListType.ACTIVE || listType === ListType.UPCOMING) {
+                            challenge.prizes = _.chain(results.prizes)
+                                .filter(function (row) { return row.round_id === item.round_id; })
+                                .map(function (row) { return {
+                                    place: row.place,
+                                    amount: row.amount
+                                }; })
+                                .value();
+                        }
                         if (listType === ListType.ACTIVE) {
                             delete challenge.winnerHandle;
                             delete challenge.winnerScore;
@@ -453,7 +470,8 @@ exports.getMarathonChallenge = {
                     hour: execQuery("progress_hour"),
                     hourRegistrants: execQuery("progress_hour_registrants"),
                     summary: execQuery("registrants_rating_summary"),
-                    competitors: execQuery("progress_competitors")
+                    competitors: execQuery("progress_competitors"),
+                    prizes: execQuery('prizes')
                 }, cb);
             }, function (results, cb) {
                 if (results.basic.length === 0) {
@@ -479,6 +497,7 @@ exports.getMarathonChallenge = {
                 result = {
                     roundId: details.round_id,
                     fullName: details.full_name,
+                    problemId: details.problem_id,
                     shortName: details.short_name,
                     description: helper.convertToString(details.description),
                     numberOfRegistrants: details.number_of_registrants,
@@ -488,7 +507,8 @@ exports.getMarathonChallenge = {
                     endDate: details.end_date,
                     winnerScore: details.winner_score,
                     winnerHandle: details.winner_handle,
-                    systemTestDate: details.system_test_date
+                    systemTestDate: details.system_test_date,
+                    prizes: helper.transferDBResults2Response(results.prizes)
                 };
 
                 //no winner

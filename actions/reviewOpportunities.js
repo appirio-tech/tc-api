@@ -498,8 +498,8 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                         reviewType: rows[0].review_type.trim(),
                         challengeName: rows[0].challenge_name,
                         challengeId: rows[0].challenge_id,
-                        challengeLink: api.config.general.challengeCommunityLink + rows[0].challenge_id,
-                        detailLink: api.config.general.reviewAuctionDetailLink + rows[0].review_auction_id
+                        challengeLink: api.config.tcConfig.challengeCommunityLink + rows[0].challenge_id,
+                        detailLink: api.config.tcConfig.reviewAuctionDetailLink + rows[0].review_auction_id
                     });
                 });
             } else {
@@ -507,6 +507,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                     var reviewType = row.review_type.trim(),
                         reviewOpp = {
                             challengeName: row.challenge_name,
+                            challengeType: row.challenge_type,
                             challengeId: row.challenge_id,
                             round1ScheduledStartDate: formatDate(row.round_1_scheduled_start_date),
                             round2ScheduledStartDate: formatDate(row.round_2_scheduled_start_date),

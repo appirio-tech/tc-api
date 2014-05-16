@@ -1,0 +1,2 @@
+INSERT INTO demographic_response (demographic_question_id, user_id, demographic_answer_id) VALUES ('@questionId@', '@coderId@', '@answerId@')
+

@@ -9,10 +9,17 @@
 
 var _ = require("underscore");
 var async = require("async");
+var moment = require('moment');
 var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
+
+/**
+ * The date format for input date parameter startDate and enDate.
+ * Dates like 2014-01-29 and 2014-1-29 are valid
+ */
+var DATE_FORMAT = 'YYYY-M-D';
 
 /*
  * This variable holds a new billing to be created.
@@ -23,7 +30,6 @@ var newBilling = {
     poBoxNumber: 'null',
     paymentTermId: 1,
     salestax: 0,
-    durationInYears: 3,
     isManualPrizeSetting: 1
 };
 
@@ -59,7 +65,7 @@ exports.action = {
     description: "create new billing account",
     inputs: {
         required: ["customerNumber", "billingAccountName"],
-        optional: []
+        optional: ["startDate", "endDate", "billingAccountId"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -72,8 +78,12 @@ exports.action = {
         var helper = api.helper,
             customerNumber = connection.params.customerNumber,
             billingAccountName = connection.params.billingAccountName,
+            startDate = connection.params.startDate,
+            endDate = connection.params.endDate,
+            projectId = connection.params.billingAccountId,
             dbConnectionMap = connection.dbConnectionMap,
-            existingClientId;
+            existingClientId,
+            error;
 
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -98,6 +108,23 @@ exports.action = {
                     return;
                 }
 
+                // use 'current' if the startDate is not given
+                if (!startDate) {
+                    startDate = moment().format(DATE_FORMAT);
+                }
+
+                // user 'current+3 years' if the endDate is not given
+                if (!endDate) {
+                    endDate = moment().add('y', 3).format(DATE_FORMAT);
+                }
+
+                error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
+                    || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+                if (error) {
+                    cb(error);
+                    return;
+                }
+
                 //Check if the user is logged-in
                 if (connection.caller.accessLevel === "anon") {
                     cb(new UnauthorizedError("Authentication details missing or incorrect."));
@@ -113,7 +140,9 @@ exports.action = {
                 //Check for uniqueness of billingAccountName and existence of client with customer number
                 _.extend(newBilling, {
                     billingAccountName: billingAccountName,
-                    customerNumber: customerNumber
+                    customerNumber: customerNumber,
+                    startDate: startDate,
+                    endDate: endDate
                 });
                 async.parallel({
                     billing: function (cb) {
@@ -127,7 +156,7 @@ exports.action = {
                         cb(err);
                         return;
                     }
-                    if (data.billing.length > 0) {
+                    if (!projectId && data.billing.length > 0) {
                         cb(new IllegalArgumentError("Billing with this name already exists."));
                         return;
                     }
@@ -140,67 +169,76 @@ exports.action = {
                 });
             }, function (cb) {
                 //No more validations. Generate the ids for the project, contact, address
-                async.parallel({
-                    projectId: function (cb) {
+                var parallels = {};
+                if (!projectId) {
+                    parallels.projectId = function (cb) {
                         api.idGenerator.getNextIDFromDb("PROJECT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
-                    addressId: function (cb) {
+                    };
+                    parallels.addressId = function (cb) {
                         api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
-                    contactId: function (cb) {
+                    };
+                    parallels.contactId = function (cb) {
                         api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    }
-                }, cb);
+                    };
+                }
+                async.parallel(parallels, cb);
             }, function (generatedIds, cb) {
                 _.extend(newBilling, {
-                    projectId: generatedIds.projectId,
-                    userId: connection.caller.userId
-                });
-                _.extend(dummyContact, {
-                    contactId: generatedIds.contactId,
-                    userId: connection.caller.userId
-                });
-                _.extend(dummyAddress, {
-                    addressId: generatedIds.addressId,
+                    projectId: projectId || generatedIds.projectId,
                     userId: connection.caller.userId
                 });
 
                 //Now save the new billing, contact, address records
                 //These are inserted all in parallel, as there are no dependencies between these records.
-                async.parallel([
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_billing", newBilling, dbConnectionMap, cb);
-                    }, function (cb) {
+                var parallels = [function (cb) {
+                    api.dataAccess.executeQuery(projectId ? "update_billing" : "insert_billing", newBilling, dbConnectionMap, cb);
+                }];
+                if (!projectId) {
+                    _.extend(dummyContact, {
+                        contactId: generatedIds.contactId,
+                        userId: connection.caller.userId
+                    });
+                    _.extend(dummyAddress, {
+                        addressId: generatedIds.addressId,
+                        userId: connection.caller.userId
+                    });
+                    parallels.push(function (cb) {
                         api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
-                    }, function (cb) {
+                    });
+                    parallels.push(function (cb) {
                         api.dataAccess.executeQuery("insert_address", dummyAddress, dbConnectionMap, cb);
-                    }
-                ], cb);
+                    });
+                }
+                async.parallel(parallels, cb);
             }, function (notUsed, cb) {
-                //Now save the client_project, address_relation and contact_relation records (again in parallel)
-                var dummyAddressRelation = {
-                    entityId: newBilling.projectId,
-                    addressTypeId: 1,
-                    addressId: dummyAddress.addressId,
-                    userId: connection.caller.userId
-                },  dummyContactRelation = {
-                    entityId: newBilling.projectId,
-                    contactTypeId: 1,
-                    contactId: dummyContact.contactId,
-                    userId: connection.caller.userId
-                };
-                async.parallel([
-                    function (cb) {
-                        newBilling.clientId = existingClientId;
-                        api.dataAccess.executeQuery("insert_client_project", newBilling, dbConnectionMap, cb);
-                    },
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation, dbConnectionMap, cb);
-                    },
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation, dbConnectionMap, cb);
-                    }
-                ], cb);
+                if (!projectId) {
+                    //Now save the client_project, address_relation and contact_relation records (again in parallel)
+                    var dummyAddressRelation = {
+                        entityId: newBilling.projectId,
+                        addressTypeId: 1,
+                        addressId: dummyAddress.addressId,
+                        userId: connection.caller.userId
+                    }, dummyContactRelation = {
+                        entityId: newBilling.projectId,
+                        contactTypeId: 1,
+                        contactId: dummyContact.contactId,
+                        userId: connection.caller.userId
+                    };
+                    async.parallel([
+                        function (cb) {
+                            newBilling.clientId = existingClientId;
+                            api.dataAccess.executeQuery("insert_client_project", newBilling, dbConnectionMap, cb);
+                        },
+                        function (cb) {
+                            api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation, dbConnectionMap, cb);
+                        },
+                        function (cb) {
+                            api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation, dbConnectionMap, cb);
+                        }
+                    ], cb);
+                } else {
+                    cb();
+                }
             }
         ], function (err) {
             if (err) {

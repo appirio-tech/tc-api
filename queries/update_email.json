@@ -1,0 +1,5 @@
+{
+  "name"    : "update_email",
+  "db"      : "common_oltp",
+  "sqlfile" : "update_email"
+}

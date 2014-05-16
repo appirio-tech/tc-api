@@ -1,0 +1,5 @@
+{
+    "name"    : "delete_demographic_responses",
+    "db"      : "common_oltp",
+    "sqlfile" : "delete_demographic_responses"
+}

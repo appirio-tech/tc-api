@@ -1,0 +1,1 @@
+DELETE FROM email WHERE user_id = '@coderId@' and email_type_id != 1 and primary_ind != 1

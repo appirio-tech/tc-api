@@ -15,7 +15,7 @@ var request = require('supertest');
 var assert = require('chai').assert;
 var async = require("async");
 var _ = require("underscore");
-var config = require("../config").config;
+//var config = require("../config/tc-config").tcConfig;
 
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/docusign/callback/";

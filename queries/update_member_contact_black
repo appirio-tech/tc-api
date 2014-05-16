@@ -1,0 +1,8 @@
+UPDATE
+member_contact_black_list
+SET
+blocked_ind = '@flag@'
+WHERE 
+user_id = '@userId@'
+AND
+blocked_user_id = '@blockedUserId@'

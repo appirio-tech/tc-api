@@ -32,7 +32,7 @@ INSERT INTO comp_jive_category_xref	(comp_vers_id, jive_category_id) VALUES ('40
 
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (40000002, 40000002, 1, 2, null, CURRENT + -44640 UNITS MINUTE, CURRENT + -36000 UNITS MINUTE, CURRENT + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 
-INSERT INTO user_rating (user_id, rating, phase_id, last_rated_project_id) values (400011, 0, 113, null);
+INSERT INTO user_rating (user_id, rating, phase_id, last_rated_project_id) values (400011, 222, 113, null);
 
 INSERT INTO user_reliability (user_id, rating, phase_id) values (400011, null, 113);
 

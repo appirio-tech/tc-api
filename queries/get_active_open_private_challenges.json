@@ -1,5 +1,0 @@
-{
-    "name"    : "get_active_open_private_challenges",
-    "db"      : "tcs_catalog",
-    "sqlfile" : "get_active_open_private_challenges"
-}

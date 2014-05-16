@@ -1,7 +1,7 @@
 SELECT
   u.handle
 , c.country_name AS country
-, co.member_since
+, EXTEND(co.member_since, year to minute) as member_since
 , co.quote
 , p.path || i.file_name AS photo_link
 , up.value AS show_earnings

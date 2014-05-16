@@ -22,3 +22,4 @@ AND NVL(pr.prize_amount, 0) >= @prilower@
 AND NVL(pr.prize_amount, 0) <=@priupper@
 AND p.tc_direct_project_id = p.tc_direct_project_id
 AND NVL(LOWER(cmc_task_id.value), '') = DECODE('@cmc@', '', NVL(LOWER(cmc_task_id.value), ''), '@cmc@')
+and pp.actual_end_time > '2012-01-01 00:00:00'

@@ -1,1 +1,1 @@
-select country_code from 'informix'.country where country_name = '@countryName@'
+select country_code from 'informix'.country where lower(country_name) = lower('@countryName@')

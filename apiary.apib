@@ -411,6 +411,125 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Client Challenge Costs [/reports/client/challenges/?clientid={clientId}&sfdcAccountId={cmc}&customerNumber={customerNumber}&type={type}&startDate={startDate}&endDate={endDate}]
+### Client Challenge Costs [GET]
+
++ Parameters
+    + clientId (optional, number, `4310`) ... Client Id
+    + sfdcAccountId (optional, string, `4310`) ... CMC account ID
+    + customerNumber (optional, string, `4310`) ... Customer number
+    + type (optional, string, `4310`) ... The challenge status type
+    + startDate (optional, string, `4310`) ... The start date
+    + endDate (optional, string, `4310`) ... The end date
+
++ Response 200 (application/json)
+
+{
+    "challenges": [
+        {
+            "customerName": "Client 9000001",
+            "customerNumber": "900000100",
+            "customerId": 9000001,
+            "billingAccountId": 9000001,
+            "billingAccountName": "Client 9000001 Billing Account 1",
+            "projectName": "Client 9000001 Billing Account 1 Project 2",
+            "challengeName": "Logo Design Contest 2",
+            "challengeId": 9000002,
+            "challengeType": "Logo Design",
+            "challengeStatus": "Active",
+            "postingDate": "2014-03-27",
+            "completionDate": "2014-03-29",
+            "challengeMemberCost": 0,
+            "challengeFee": 375,
+            "challengeTotalCost": 375,
+            "challengeDuration": 1.8,
+            "lastModificationDate": "2014-03-29",
+            "registrationEndDate": "2014-03-29",
+            "submissionEndDate": "2014-04-03",
+            "checkpointEndDate": "2014-03-30",
+            "currentPhase": "Checkpoint Screening",
+            "firstPrize": 1700,
+            "totalPrize": 1870,
+            "checkpointPrize": 170,
+            "registrantsCount": 2,
+            "submissionsCount": 0,
+            "checkpointSubmissionsCount": 2,
+            "challengeScheduledEndDate": "2014-04-08",
+            "reliability": 4
+        },
+        {
+            "customerName": "Client 9000001",
+            "customerNumber": "900000100",
+            "customerId": 9000001,
+            "billingAccountId": 9000002,
+            "billingAccountName": "Client 9000001 Billing Account 2",
+            "projectName": "Client 9000001 Billing Account 2 Project 1",
+            "challengeName": "Conceptualization Contest 3",
+            "challengeId": 9000003,
+            "challengeType": "Conceptualization",
+            "challengeStatus": "Active",
+            "postingDate": "2014-03-25",
+            "completionDate": "2014-03-29",
+            "challengeMemberCost": 0,
+            "challengeFee": 6001,
+            "challengeTotalCost": 6001,
+            "challengeDuration": 4.3,
+            "lastModificationDate": "2014-03-29",
+            "registrationEndDate": "2014-03-27",
+            "submissionEndDate": "2014-03-30",
+            "checkpointEndDate": "2014-03-28",
+            "currentPhase": "Submission",
+            "firstPrize": 1000,
+            "totalPrize": 1088,
+            "checkpointPrize": 88,
+            "registrantsCount": 3,
+            "submissionsCount": 0,
+            "checkpointSubmissionsCount": 3,
+            "challengeScheduledEndDate": "2014-04-10",
+            "reliability": 227
+        }
+    ]
+}
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"Client not found"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Challenge Analyze [/reports/analyze]
         
 ## Challenge Analyze [/reports/analyze?projectId={projectId}&openRegistrationDateFrom={openRegistrationDateFrom}&openRegistrationDateTo={openRegistrationDateTo}&challengeType={challengeType}&challengeName={challengeName}&prizeLower={prizeLower}&prizeUpper={prizeUpper}]
@@ -1420,6 +1539,53 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## My Profile [/user/profile]
+### My Profile [POST]
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+        {
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"User is not activated."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"Authentication credential was missing."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
 ## Validate Handle [/users/validate/{handle}]
 ### Validate Handle [GET]
 
@@ -2628,17 +2794,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Software Challenges [/develop/challenges/active?communityId={communityId}&private={private}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, string, `1`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -3090,17 +3251,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?communityId={communityId}&private={private}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, string, `true`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -3895,7 +4051,7 @@ Request
         }
 
 ## Design Challenge Upload Submission [/design/challenges/{challlengeId}/submit]
-### Upload a submission [POST]
+### Upload a submission and generate preview and alternate presentations for submission [POST]
 + Request (application/json)
 
 + Parameters
@@ -4170,17 +4326,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Studio Challenges [/design/challenges/active?communityId={communityId}&private={private}]
 ### Search Active Studio Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, string, `1`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -4534,17 +4685,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Studio Challenges [/design/challenges/upcoming?communityId={communityId}&private={private}]
 ### Search Upcoming Studio Challenges [GET]
 
 + Parameters
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + private (optional, private, `1`) ... The private flag.
 
 + Response 200 (application/json)
 
@@ -5002,6 +5148,7 @@ Request
          "data": [
           {
             "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+            "challengetype": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
@@ -5010,6 +5157,7 @@ Request
           },
           {
             "challengeName": "Cornell - Responsive Storyboard",
+            "ChallengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,

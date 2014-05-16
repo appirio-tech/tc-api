@@ -1,6 +1,4 @@
 SELECT
-SKIP @first_row_index@
-FIRST @page_size@
   CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
 , pcl.description AS challenge_type
 , pn.value AS challenge_name
@@ -75,17 +73,8 @@ AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'co
 -- start of parameters
 
 AND pp1.scheduled_start_time > CURRENT
-AND pp2.scheduled_end_time BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
+AND pp1.scheduled_start_time < CURRENT + 90 UNITS DAY
 AND pi1.project_info_type_id = 1 -- external reference id
 AND pi1.project_id = p.project_id
 
-AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
-AND pn.value LIKE ('@challenge_name@')
-AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
-AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
-AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
-AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
-         or exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                   WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
-                         AND ce.contest_id = p.project_id))
-ORDER BY @sort_column@ @sort_order@
+ORDER BY pp2.scheduled_end_time ASC

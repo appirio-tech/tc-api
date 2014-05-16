@@ -43,9 +43,9 @@ var DESIGN_PROJECT_TYPE = 1,
     COMPONENT_TESTING_PROJECT_TYPE = 5,
     APPEALS_COMPLETE_EARLY_PROPERTY_ID = 13,
     NO_VALUE = 'NO',
-    TIMELINE_NOTIFICATION_ID = 1,// See java field ORNotification.TIMELINE_NOTIFICATION_ID.
-    TC_FORUMS_URL_PREFIX = require('../config').config.general.tcForumsServer + '?module=Category&categoryID=',
-    STUDIO_FORUMS_URL_PREFIX = require('../config').config.general.studioForumsServer + '?module=ThreadList&forumID=';
+    TIMELINE_NOTIFICATION_ID = 1;// See java field ORNotification.TIMELINE_NOTIFICATION_ID.
+    //TC_FORUMS_URL_PREFIX = require('../config').config.general.tcForumsServer + '?module=Category&categoryID=',
+    //STUDIO_FORUMS_URL_PREFIX = require('../config').config.general.studioForumsServer + '?module=ThreadList&forumID=';
 
 var CHALLENGE_TYPE = {
     DEVELOP: 'develop',
@@ -89,7 +89,7 @@ var registerComponentInquiry = function (api, userId, challengeId, dbConnectionM
 
             api.dataAccess.executeQuery("get_user_rating",
                 {
-                    phaseId: componentInfo.phase_id,
+                    phaseId: componentInfo.project_category_id + 111,
                     userId: userId
                 },
                 dbConnectionMap,
@@ -388,10 +388,10 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             }
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
-                forumURL = TC_FORUMS_URL_PREFIX + activeForumCategoryId;
+                forumURL = api.config.tcConfig.tcForumsUrlPrefix + activeForumCategoryId;
                 submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
-                forumURL = STUDIO_FORUMS_URL_PREFIX + activeForumCategoryId;
+                forumURL = api.config.tcConfig.studioForumsUrlPrefix + activeForumCategoryId;
                 submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
@@ -403,7 +403,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 forumURL : forumURL,
                 documentationDetails : documentationDetails,
                 umlToolInfo : umlToolInfo,
-                deadlineDate : componentInfo.initial_submission_date,
+                deadlineDate : api.helper.formatDateWithTimezone(componentInfo.initial_submission_date),
                 submitURL : submitURL,
                 template : 'registration_notification_email',
                 toAddress : user.email,
@@ -455,7 +455,7 @@ var getActiveForumCategoryId = function (api, componentInfo, challengeId, dbConn
  */
 var grantForumAccess = function (api, userId, activeForumCategoryId, next) {
 
-    if (api.config.general.grantForumAccess !== true) {
+    if (api.config.tcConfig.grantForumAccess !== true) {
         next();
         return;
     }
