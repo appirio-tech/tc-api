@@ -74,7 +74,7 @@ set STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 set GRANT_FORUM_ACCESS=false
 set DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
-set ACTIONHERO_CONFIG=./config.js
+REM set ACTIONHERO_CONFIG=./config.js
 
 REM The period for expiring the generated tokens for password resetting (in milliseconds)
 set RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
