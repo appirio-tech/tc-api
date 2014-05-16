@@ -239,7 +239,6 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
     async.waterfall([
         function (cb) {
             if (privateInfoEligibility) {
-console.log("*****CHECKING ACTIVATED: " + handle);
                 checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
                     if (err) {
                         cb(err);
@@ -256,7 +255,6 @@ console.log("*****CHECKING ACTIVATED: " + handle);
                     api.dataAccess.executeQuery('get_user_basic_profile_' + name, sqlParams, dbConnectionMap, cbx);
                 };
             };
-api.log("***load data:" + JSON.stringify(loadData));
             async.parallel({
                 basic: execQuery('basic'),
                 earning: loadData.earnings ? execQuery('overall_earning') : function (cbx) { cbx(); },
@@ -266,7 +264,6 @@ api.log("***load data:" + JSON.stringify(loadData));
                 emails: loadData.email && privateInfoEligibility ? execQuery('private_email') : function (cbx) { cbx(); }
             }, cb);
         }, function (results, cb) {
-api.log("***RES:" + JSON.stringify(results));
             var basic = results.basic[0],
                 ratingSummary,
                 achievements,
