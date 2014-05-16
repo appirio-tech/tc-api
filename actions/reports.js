@@ -682,7 +682,7 @@ var clientChallengeCosts = function (api, connection, next) {
             api.dataAccess.executeQuery("client_challenges_costs", sqlParameters, dbConnectionMap, cb);
         }, function (results, cb) {
             costs = _.map(results, function (item) {
-                var cost = _.object(_.chain(results).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(results));
+                var cost = _.object(_.chain(item).keys().map(function (i) { return new S(i).camelize().s; }).value(), _.values(item));
 
                 cost.challengeDuration = parseFloat(item.challenge_duration.toFixed(1));
                 cost.postinDate = helper.formatDate(cost.postingDate, 'YYYY-MM-DD');
