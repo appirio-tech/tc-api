@@ -3,8 +3,8 @@
  *
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
- * @version 1.6
- * @author ecnu_haozi, xjtufreeman, bugbuka, flytoj2ee
+ * @version 1.7
+ * @author ecnu_haozi, xjtufreeman, bugbuka, flytoj2ee, muzehyun
  *
  * changes in 1.1:
  * Combine Challenge Registration API(BUGR-11058)
@@ -24,6 +24,9 @@
  * changes in 1.6:
  * Add role id and phase type id in insert resource sql.
  * Fix jslint issue.
+ *
+ * changes in 1.7:
+ * Avoid reliability info set if there is none for new user.
  */
 "use strict";
 
@@ -326,9 +329,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                         },
                         function (result, cbk) {
                             var reliability;
-                            if (result.length === 0) {
-                                reliability = 0;
-                            } else {
+                            if (result.length > 0) {
                                 reliability = result[0].rating;
                             }
                             if (!_.isNull(reliability) && !_.isUndefined(reliability)) {
