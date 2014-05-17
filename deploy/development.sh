@@ -78,8 +78,6 @@ export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
-#export ACTIONHERO_CONFIG=./config.js
-
 ## The period for expiring the generated tokens for password resetting
 export RESET_PASSWORD_TOKEN_EMAIL_SUBJECT=TopCoder Account Password Reset
 # Set this to 180000 which is 3 mins. This will help saving time for test.
