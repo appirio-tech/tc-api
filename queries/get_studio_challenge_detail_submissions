@@ -1,6 +1,7 @@
 select
        (select ri.value from resource_info ri where  ri.resource_id = u.resource_id and resource_info_type_id = 2) AS handle, 
        s.submission_id,
+       s.submission_type_id,
        s.create_date
 from upload u,
      submission s

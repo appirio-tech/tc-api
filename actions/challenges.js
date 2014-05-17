@@ -2810,7 +2810,7 @@ exports.getRegistrants = {
 
 var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, submissions;
+        caller = connection.caller, finalSubmissions, checkpointSubmissions;
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2852,16 +2852,21 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                 }, cb);
             }
         }, function (results, cb) {
-            var mapSubmissions = function (results, digitalRunPoints) {
+            var mapSubmissions = function (results, digitalRunPoints, submissionTypeId) {
                 var subs = [], passedReview = 0, drTable, submission = {};
                 if (isStudio) {
-                    subs = _.map(results, function (item) {
-                        return {
-                            submissionId: item.submission_id,
-                            submitter: item.handle,
-                            submissionTime: formatDate(item.create_date)
-                        };
-                    });
+                    subs = _.chain(results)
+                        .filter(function (item) {
+                            return item.submission_type_id === submissionTypeId;
+                        })
+                        .map(results, function (item) {
+                            return {
+                                submissionId: item.submission_id,
+                                submitter: item.handle,
+                                submissionTime: formatDate(item.create_date)
+                            };
+                        })
+                        .value();
                 } else {
                     results.forEach(function (item) {
                         if (item.placement) {
@@ -2869,34 +2874,43 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                         }
                     });
                     drTable = DR_POINT[Math.min(passedReview - 1, 4)];
-                    subs = _.map(results, function (item) {
-                        submission = {
-                            handle: item.handle,
-                            placement: item.placement || "",
-                            screeningScore: item.screening_score,
-                            initialScore: item.initial_score,
-                            finalScore: item.final_score,
-                            points: 0,
-                            submissionStatus: item.submission_status,
-                            submissionDate: formatDate(item.submission_date)
-                        };
-                        if (submission.placement && drTable.length >= submission.placement) {
-                            submission.points = drTable[submission.placement - 1] * digitalRunPoints;
-                        }
-                        return submission;
-                    });
+                    subs = _.chain(results)
+                        .filter(function (item) {
+                            return item.submission_type_id === submissionTypeId;
+                        })
+                        .map(results, function (item) {
+                            submission = {
+                                handle: item.handle,
+                                placement: item.placement || "",
+                                screeningScore: item.screening_score,
+                                initialScore: item.initial_score,
+                                finalScore: item.final_score,
+                                points: 0,
+                                submissionStatus: item.submission_status,
+                                submissionDate: formatDate(item.submission_date)
+                            };
+                            if (submission.placement && drTable.length >= submission.placement) {
+                                submission.points = drTable[submission.placement - 1] * digitalRunPoints;
+                            }
+                            return submission;
+                        })
+                        .value();
                 }
                 return subs;
             };
 
-            submissions = mapSubmissions(results.submissions, results.digital_run_points[0].value);
+            finalSubmissions = mapSubmissions(results.submissions, results.digital_run_points[0].value, helper.SUBMISSION_TYPE.challenge.id);
+            checkpointSubmissions = mapSubmissions(results.submissions, results.digital_run_points[0].value, helper.SUBMISSION_TYPE.checkpoint.id);
             cb();
         }
     ], function (err) {
         if (err) {
             helper.handleError(api, connection, err);
         } else {
-            connection.response = submissions;
+            connection.response = {
+                finalSubmissions: finalSubmissions,
+                checkpointSubmissions: checkpointSubmissions
+            };
         }
         next(connection, true);
     });
