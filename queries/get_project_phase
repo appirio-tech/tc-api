@@ -1,0 +1,8 @@
+SELECT 
+project_phase_id
+FROM 
+project_phase
+WHERE 
+project_id = '@projectId@'
+AND
+phase_type_id = '@phaseTypeId@'
