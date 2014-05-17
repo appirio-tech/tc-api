@@ -1,6 +1,7 @@
 INSERT INTO resource
 	(	resource_id,
 	 	resource_role_id,
+	 	project_phase_id,
 	 	project_id,
 	 	user_id,
 	 	create_user, 
@@ -9,7 +10,8 @@ INSERT INTO resource
 	 	modify_date)
 VALUES
 	(	@resourceId@, 
-		1, 
+		@roleId@, 
+		@phaseId@,
 		@projectId@,
 		@userId@,
 		@createUser@,

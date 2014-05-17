@@ -103,6 +103,7 @@
  * changes in 1.44:
  * - added routes for testing the designImageFileGenerator
  * - added routes for testing the unifiedSubmissionValidator
+ * - add routes for apply design review api.
  */
 
 /* ---------------------
@@ -296,6 +297,7 @@ exports.routes = {
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
         { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
         { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" },
-        { path: "/:apiVersion/user/profile", action: "updateMyProfile" }
-    ].concat(testMethods.post)
+        { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
+        { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" }
+    ]
 };

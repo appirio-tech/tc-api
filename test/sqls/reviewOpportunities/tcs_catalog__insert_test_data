@@ -49,8 +49,11 @@ INSERT INTO prize(prize_id, project_id, place, prize_amount, prize_type_id, numb
 VALUES(2003, 2003, 1, 1800, 15, 3, 132456, current, 132456, current);
 
 -- studio review
-INSERT INTO project(project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
-VALUES(3001, 1, 16, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_studio_specification (project_studio_spec_id, create_user, create_date, modify_user, modify_date)
+    VALUES (901002, 132456, CURRENT, 132456, CURRENT);
+    
+INSERT INTO project(project_id, project_status_id, project_category_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date)
+VALUES(3001, 1, 16, 901002, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
 VALUES(3001, 6, 'test project 3001', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase(project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, actual_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
@@ -198,3 +201,5 @@ INSERT INTO resource(resource_id, resource_role_id, project_id, create_user, cre
 VALUES(3010, 18, 3010, 'heffan', CURRENT, 'heffan', CURRENT);
 INSERT INTO resource_info(resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
 VALUES(3010, 1, 124835, 'heffan', CURRENT, 'heffan', CURRENT);
+
+insert into rboard_user(user_id, project_type_id, catalog_id, status_id, immune_ind) values (132456, 16, 1, 100, 1);
