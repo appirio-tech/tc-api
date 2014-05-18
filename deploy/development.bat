@@ -81,3 +81,5 @@ set RESET_PASSWORD_TOKEN_CACHE_EXPIRY=180000
 set DEVELOP_SUBMISSION_MAX_SIZE=6144
 rem set REDIS_HOST=localhost
 rem set REDIS_PORT=6379
+
+set WATERMARK_FILE_PATH=test/test_files/design_image_file_generator/studio_logo_watermark.png

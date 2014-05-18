@@ -85,3 +85,4 @@ export REDIS_HOST=localhost
 export REDIS_PORT=6379
 
 export DEVELOP_SUBMISSION_MAX_SIZE=6144
+export WATERMARK_FILE_PATH=test/test_files/design_image_file_generator/studio_logo_watermark.png
