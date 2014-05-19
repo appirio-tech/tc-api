@@ -1,9 +1,11 @@
-exports.default = { 
-  servers: {
-    websocket: function(api){
-      return {
-        enabled: false
-      }
+"use strict";
+
+exports.default = {
+    servers: {
+        websocket: function () {
+            return {
+                enabled: false
+            };
+        }
     }
-  }
 }

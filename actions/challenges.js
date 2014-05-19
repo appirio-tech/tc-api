@@ -2840,44 +2840,44 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                 };
             };
 
-            
+
             async.parallel({
                 submissions: execQuery('challenge_submissions'),
                 digital_run_points: execQuery('challenge_digital_run')
             }, cb);
-            
+
         }, function (results, cb) {
             var mapSubmissions = function (results, digitalRunPoints, submissionTypeId) {
-                var subs = [], passedReview = 0, drTable, submission = {};
-                
-                    results.forEach(function (item) {
-                        if (item.placement) {
-                            passedReview = passedReview + 1;
+                var subs, passedReview = 0, drTable, submission = {};
+
+                results.forEach(function (item) {
+                    if (item.placement) {
+                        passedReview = passedReview + 1;
+                    }
+                });
+                drTable = DR_POINT[Math.min(passedReview - 1, 4)];
+                subs = _.chain(results)
+                    .filter(function (item) {
+                        return item.submission_type_id === submissionTypeId;
+                    })
+                    .map(function (item) {
+                        submission = {
+                            handle: item.handle,
+                            placement: item.placement || "",
+                            screeningScore: item.screening_score,
+                            initialScore: item.initial_score,
+                            finalScore: item.final_score,
+                            points: 0,
+                            submissionStatus: item.submission_status,
+                            submissionDate: formatDate(item.submission_date)
+                        };
+                        if (submission.placement && drTable.length >= submission.placement) {
+                            submission.points = drTable[submission.placement - 1] * digitalRunPoints;
                         }
-                    });
-                    drTable = DR_POINT[Math.min(passedReview - 1, 4)];
-                    subs = _.chain(results)
-                        .filter(function (item) {
-                            return item.submission_type_id === submissionTypeId;
-                        })
-                        .map(function (item) {
-                            submission = {
-                                handle: item.handle,
-                                placement: item.placement || "",
-                                screeningScore: item.screening_score,
-                                initialScore: item.initial_score,
-                                finalScore: item.final_score,
-                                points: 0,
-                                submissionStatus: item.submission_status,
-                                submissionDate: formatDate(item.submission_date)
-                            };
-                            if (submission.placement && drTable.length >= submission.placement) {
-                                submission.points = drTable[submission.placement - 1] * digitalRunPoints;
-                            }
-                            return submission;
-                        })
-                        .value();
-                
+                        return submission;
+                    })
+                    .value();
+
                 return subs;
             };
 
