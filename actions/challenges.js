@@ -2840,34 +2840,16 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                 };
             };
 
-            if (isStudio) {
-                async.parallel({
-                    submissions: execQuery('get_studio_challenge_detail_submissions'),
-                    digital_run_points: execQuery('challenge_digital_run')
-                }, cb);
-            } else {
-                async.parallel({
-                    submissions: execQuery('challenge_submissions'),
-                    digital_run_points: execQuery('challenge_digital_run')
-                }, cb);
-            }
+            
+            async.parallel({
+                submissions: execQuery('challenge_submissions'),
+                digital_run_points: execQuery('challenge_digital_run')
+            }, cb);
+            
         }, function (results, cb) {
             var mapSubmissions = function (results, digitalRunPoints, submissionTypeId) {
                 var subs = [], passedReview = 0, drTable, submission = {};
-                if (isStudio) {
-                    subs = _.chain(results)
-                        .filter(function (item) {
-                            return item.submission_type_id === submissionTypeId;
-                        })
-                        .map(results, function (item) {
-                            return {
-                                submissionId: item.submission_id,
-                                submitter: item.handle,
-                                submissionTime: formatDate(item.create_date)
-                            };
-                        })
-                        .value();
-                } else {
+                
                     results.forEach(function (item) {
                         if (item.placement) {
                             passedReview = passedReview + 1;
@@ -2878,7 +2860,7 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                         .filter(function (item) {
                             return item.submission_type_id === submissionTypeId;
                         })
-                        .map(results, function (item) {
+                        .map(function (item) {
                             submission = {
                                 handle: item.handle,
                                 placement: item.placement || "",
@@ -2895,7 +2877,7 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                             return submission;
                         })
                         .value();
-                }
+                
                 return subs;
             };
 
