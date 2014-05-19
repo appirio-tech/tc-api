@@ -150,7 +150,7 @@ var GROUP_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT 1 FROM contest_eligibility
 var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId',
-    "submissionEndFrom", "submissionEndTo"];
+    "submissionEndFrom", "submissionEndTo", "technologies", "platforms"];
 
 /**
  * Represents a list of valid query parameter for split challenges api.
@@ -327,11 +327,39 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
         callback(error);
         return;
     }
-    if (_.isDefined(query.challengeType)) {
-        helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, challengeType, callback);
-    } else {
-        callback();
-    }
+
+    async.waterfall([
+        function (cbx) {
+            if (!_.isUndefined(query.challengeType)) {
+                helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, type, cbx);
+            } else {
+                cbx();
+            }
+        },
+        function (cbx) {
+            if (!_.isUndefined(filter.technologies)) {
+                helper.getCatalogCachedValue(filter.technologies.split(','), dbConnectionMap, 'technologies', cbx);
+            } else {
+                cbx(null, null);
+            }
+        },
+        function (techId, cbx) {
+            if (_.isDefined(techId)) {
+                filter.technologies = techId;
+            }
+            if (_.isDefined(filter.platforms)) {
+                helper.getCatalogCachedValue(filter.platforms.split(','), dbConnectionMap, 'platforms', cbx);
+            } else {
+                cbx(null, null);
+            }
+        },
+        function (platformId, cbx) {
+            if (_.isDefined(platformId)) {
+                filter.platforms = platformId;
+            }
+            cbx();
+        }
+    ], callback);
 }
 
 /**
@@ -662,6 +690,66 @@ function transferResultV2(src, helper) {
 }
 
 /**
+ * Add template into sql.
+ * @param {String} sql - the sql query.
+ * @param {String} template - the template that will insert into sql
+ * @param {String} content - the content that need in template.
+ * @since 1.23
+ */
+var editSql = function (sql, template, content) {
+    // For empty sql just return it.
+    if (sql.length === 0) {
+        return sql;
+    }
+    var index = sql.toLowerCase().indexOf('order by');
+    if (!_.isUndefined(template)) {
+        template = template.replace('@filter@', content);
+    }
+    return sql.slice(0, index) + template + sql.slice(index, sql.length);
+};
+
+/**
+ * Add technology and platform filter for sql query.
+ * @param {Object} sql - the sql object.
+ * @param {Object} filter - the filter object.
+ * @param {Object} helper - the helper object.
+ * @param {Object} caller - the caller object.
+ * @since 1.23
+ */
+var addFilter = function (sql, filter, helper, caller) {
+    var platform, technology, challengeFilter;
+    if (_.isDefined(filter.platforms)) {
+        platform = filter.platforms.join(', ');
+        sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
+        sql.data = editSql(sql.data, PLATFORM_FILTER, platform);
+    }
+
+    if (_.isDefined(filter.technologies)) {
+        technology = filter.technologies.join(', ');
+        sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
+        sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+    }
+
+    if (_.isDefined(filter.communityId)) {
+        // return challenges that in specific group.
+        challengeFilter = ' AND' + GROUP_PRIVATE_CHALLENGE_FILTER;
+    } else {
+        if (helper.isMember(caller)) {
+            // The caller information is set.
+            // return public + private that caller can access.
+            challengeFilter = ' AND ( NOT' + ALL_PRIVATE_CHALLENGE_FILTER + 'or ' + USER_PRIVATE_CHALLENGE_FILTER + ')';
+        } else {
+            // If the caller is anonymous then return all public challenges only.
+            challengeFilter = ' AND NOT' + ALL_PRIVATE_CHALLENGE_FILTER;
+        }
+    }
+    sql.count = editSql(sql.count, challengeFilter, null);
+    sql.data = editSql(sql.data, challengeFilter, null);
+
+    return sql;
+};
+
+/**
  * Check input data.
  * Verify challengeId is correct number.
  * It exists and it's studio or software.
@@ -729,7 +817,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo"],
+            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo", "technologies", "platforms"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -833,10 +921,20 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
 
             async.parallel({
                 count: function (cbx) {
-                    api.dataAccess.executeQuery(queryName.count, sqlParams, dbConnectionMap, cbx);
+                    fs.readFile(QUERY_PATH + queryName.count, 'utf8', cbx);
+                },
+                data: function (cbx) {
+                    fs.readFile(QUERY_PATH + queryName.challenges, 'utf8', cbx);
+                }
+            }, cb);
+        }, function (queries, cb) {
+            var sql = addFilter(queries, filter, helper, caller);
+            async.parallel({
+                count: function (cbx) {
+                    api.dataAccess.executeSqlQuery(sql.count, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
                 },
                 challenges: function (cbx) {
-                    api.dataAccess.executeQuery(queryName.challenges, sqlParams, dbConnectionMap, cbx);
+                    api.dataAccess.executeSqlQuery(sql.data, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
                 }
             }, cb);
         }, function (results, cb) {
@@ -3037,66 +3135,6 @@ exports.getPhases = {
 };
 
 /**
- * Add template into sql.
- * @param {String} sql - the sql query.
- * @param {String} template - the template that will insert into sql
- * @param {String} content - the content that need in template.
- * @since 1.23
- */
-var editSql = function (sql, template, content) {
-    // For empty sql just return it.
-    if (sql.length === 0) {
-        return sql;
-    }
-    var index = sql.toLowerCase().indexOf('order by');
-    if (!_.isUndefined(template)) {
-        template = template.replace('@filter@', content);
-    }
-    return sql.slice(0, index) + template + sql.slice(index, sql.length);
-};
-
-/**
- * Add technology and platform filter for sql query.
- * @param {Object} sql - the sql object.
- * @param {Object} filter - the filter object.
- * @param {Object} helper - the helper object.
- * @param {Object} caller - the caller object.
- * @since 1.23
- */
-var addFilter = function (sql, filter, helper, caller) {
-    var platform, technology, challengeFilter;
-    if (_.isDefined(filter.platforms)) {
-        platform = filter.platforms.join(', ');
-        sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
-        sql.data = editSql(sql.data, PLATFORM_FILTER, platform);
-    }
-
-    if (_.isDefined(filter.technologies)) {
-        technology = filter.technologies.join(', ');
-        sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
-        sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
-    }
-
-    if (_.isDefined(filter.communityId)) {
-        // return challenges that in specific group.
-        challengeFilter = ' AND' + GROUP_PRIVATE_CHALLENGE_FILTER;
-    } else {
-        if (helper.isMember(caller)) {
-            // The caller information is set.
-            // return public + private that caller can access.
-            challengeFilter = ' AND ( NOT' + ALL_PRIVATE_CHALLENGE_FILTER + 'or ' + USER_PRIVATE_CHALLENGE_FILTER + ')';
-        } else {
-            // If the caller is anonymous then return all public challenges only.
-            challengeFilter = ' AND NOT' + ALL_PRIVATE_CHALLENGE_FILTER;
-        }
-    }
-    sql.count = editSql(sql.count, challengeFilter, null);
-    sql.data = editSql(sql.data, challengeFilter, null);
-
-    return sql;
-};
-
-/**
  * Handle get active challenges api.
  *
  * @param {Object} api - the api object.
@@ -3110,8 +3148,7 @@ var getChallenges = function (api, connection, listType, next) {
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms',
-            'private'],
+            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms'],
         dbConnectionMap = connection.dbConnectionMap,
         sqlParams = {},
         filter = {},
