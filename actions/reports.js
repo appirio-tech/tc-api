@@ -118,11 +118,9 @@ var getTrackStatistics = function (api, connection, next) {
             }
         },
         function (results, cb) {
-            var count = 0;
             if (track === 'data') {
                 result = helper.transferDBResults2Response(results.data)[0];
-                _.each(results.pastData, function (row) { count += Number(row.total_count); });
-                result.numberOfChallengesInGivenTime += count;
+                result.numberOfChallengesInGivenTime += _.reduce(results.pastData, function (memo, num) { return memo + num; }, 0);
             } else {
                 result = helper.transferDBResults2Response(results)[0];
             }

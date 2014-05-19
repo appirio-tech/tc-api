@@ -63,13 +63,13 @@ exports.searchSRMChallenges = {
             helper.handleNoConnection(api, connection, next);
             return;
         }
- 
+
         sortOrder = (params.sortOrder || "asc").toLowerCase();
         sortColumn = (params.sortColumn || "roundId").toLowerCase();
         // for now
         if (sortColumn === 'submissionenddate') {
             sortColumn = "roundid";
-        } 
+        }
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
 

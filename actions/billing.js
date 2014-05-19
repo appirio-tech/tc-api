@@ -26,7 +26,6 @@ var DATE_FORMAT = 'YYYY-M-D';
  */
 var newBilling = {
     companyId: 1,
-    active: 1,
     poBoxNumber: 'null',
     paymentTermId: 1,
     salestax: 0,
@@ -65,7 +64,7 @@ exports.action = {
     description: "create new billing account",
     inputs: {
         required: ["customerNumber", "billingAccountName"],
-        optional: ["startDate", "endDate", "billingAccountId"]
+        optional: ["startDate", "endDate", "billingAccountId", "active"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -81,6 +80,7 @@ exports.action = {
             startDate = connection.params.startDate,
             endDate = connection.params.endDate,
             projectId = connection.params.billingAccountId,
+            active = connection.params.active || 1,
             dbConnectionMap = connection.dbConnectionMap,
             existingClientId,
             error;
@@ -119,7 +119,8 @@ exports.action = {
                 }
 
                 error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
-                    || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
+                    || helper.validateDate(endDate, 'endDate', DATE_FORMAT)
+                    || helper.checkContains([0, 1], active, 'active');
                 if (error) {
                     cb(error);
                     return;
@@ -142,6 +143,7 @@ exports.action = {
                     billingAccountName: billingAccountName,
                     customerNumber: customerNumber,
                     startDate: startDate,
+                    active: active,
                     endDate: endDate
                 });
                 async.parallel({

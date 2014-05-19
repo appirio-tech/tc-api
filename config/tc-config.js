@@ -1,3 +1,5 @@
+"use strict";
+
 var config = {
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
     resetTokenPrefix: 'tokens-',
@@ -24,7 +26,7 @@ var config = {
 
     /**
      * The directory where uploaded files are stored.
-     * It can be relative to the current directory or can be absolute 
+     * It can be relative to the current directory or can be absolute
      */
     uploadsRootDirectory: process.env.UPLOADS_ROOT_DIRECTORY || "test/test_files/dev_download_submission",
     maxRSSLength: 1000,
@@ -63,7 +65,7 @@ var config = {
     thurgoodDownloadUsername: process.env.THURGOOD_DOWNLOAD_USERNAME || "iamthurgood",
     thurgoodDownloadPassword: process.env.THURGOOD_DOWNLOAD_PASSWORD || "secret",
 
-    //Max size of a submission. Currently set to 100M for now. 
+    //Max size of a submission. Currently set to 100M for now.
     submissionMaxSizeBytes: process.env.DEVELOP_SUBMISSION_MAX_SIZE || 104857600,
 
     //////Thurgood configurables///////
@@ -77,7 +79,7 @@ var config = {
     thurgoodTimeout: 5000,
 
     //API KEY for testing
-    //Can be overwritten by an environment variable of name THURGOOD_API_KEY 
+    //Can be overwritten by an environment variable of name THURGOOD_API_KEY
     thurgoodApiKey: process.env.THURGOOD_API_KEY || 'mock_api_key',
 
     //The base directory for design submission files. This directory must exist.
@@ -121,33 +123,33 @@ var config = {
         clientSecret: process.env.AUTH0_CLIENT_SECRET || '80LhxpoArWfAbgiIekJnDOpRVQcIrjBZ8DGnjDLUFdswwkCOI8zaUhGUZ5dr_2fg',
         redirectUrl: process.env.AUTH0_REDIRECT_URL || '/v2/auth0/callback'
     },
-    
-	watermark: {
-    	filePath: process.env.WATERMARK_FILE_PATH || '/home/studio/web/resources/studio/studio_logo_watermark.png',
-    	fileType: process.env.WATERMARK_FILE_TYPE || 'PNG',
-    	baseImageTransparency: process.env.WATERMARK_BASE_IMAGE_TRANSPARENCY || '50',
-    	overlayImageTransparency: process.env.WATERMARK_OVERLAY_IMAGE_TRANSPARENCY || '100',
-    	overlayImageRed: process.env.WATERMARK_OVERLAY_IMAGE_RED || '0',
-    	overlayImageGreen: process.env.WATERMARK_OVERLAY_IMAGE_GREEN || '0',
-    	overlayImageBlue: process.env.WATERMARK_OVERLAY_IMAGE_BLUE || '0'
-	},
 
-	galleryIds: [16, 17, 18, 20, 21, 22, 23, 30, 32],
+    watermark: {
+        filePath: process.env.WATERMARK_FILE_PATH || '/home/studio/web/resources/studio/studio_logo_watermark.png',
+        fileType: process.env.WATERMARK_FILE_TYPE || 'PNG',
+        baseImageTransparency: process.env.WATERMARK_BASE_IMAGE_TRANSPARENCY || '50',
+        overlayImageTransparency: process.env.WATERMARK_OVERLAY_IMAGE_TRANSPARENCY || '100',
+        overlayImageRed: process.env.WATERMARK_OVERLAY_IMAGE_RED || '0',
+        overlayImageGreen: process.env.WATERMARK_OVERLAY_IMAGE_GREEN || '0',
+        overlayImageBlue: process.env.WATERMARK_OVERLAY_IMAGE_BLUE || '0'
+    },
 
-	designSubmission: {
-    		sourcePrefix: 'source/',
-    		submissionPrefix: 'submission/'
-	},
+    galleryIds: [16, 17, 18, 20, 21, 22, 23, 30, 32],
 
-	jvm: {
-    		minMemory: '128m',
-    		maxMemory: '2048m'
-	}
+    designSubmission: {
+        sourcePrefix: 'source/',
+        submissionPrefix: 'submission/'
+    },
+
+    jvm: {
+        minMemory: '128m',
+        maxMemory: '2048m'
+    }
 };
 module.exports.tcConfig = config;
 
 exports.default = {
-    tcConfig: function(api) {
+    tcConfig: function () {
         return config;
     }
-}
+};
