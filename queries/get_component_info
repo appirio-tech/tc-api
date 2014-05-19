@@ -11,7 +11,7 @@ SELECT
     (select value from project_info where project_id = @challengeId@ AND project_info_type_id = 6 ) as project_name 
 FROM comp_versions c
     INNER JOIN project_info p ON c.component_id = p.value
-    INNER JOIN project_phase d ON d.project_id = @challengeId@
+    INNER JOIN project_phase d ON d.project_id = @challengeId@ and phase_type_id = 2
 WHERE
     p.project_info_type_id = 2 
     AND c.phase_id IN (112, 113)
