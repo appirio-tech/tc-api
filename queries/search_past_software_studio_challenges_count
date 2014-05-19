@@ -8,6 +8,7 @@ inner join project_info  challenge_name on challenge_name.project_id = p.project
 INNER JOIN project_status_lu pstatus ON p.project_status_id = pstatus.project_status_id
 
 INNER JOIN project_category_lu pcl on pcl.project_category_id = p.project_category_id
+LEFT JOIN project_info pi1 ON pi1.project_id = p.project_id AND pi1.project_info_type_id = 1
 WHERE  (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
   OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
                 WHERE x.login_id = 22655028 AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id

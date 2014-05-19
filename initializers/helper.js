@@ -772,10 +772,12 @@ helper.checkMaxNumber = function (obj, max, objName) {
  * @since 1.29
  */
 helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, cb) {
-    var value, res = [], i = 0;
+    var catalogValue, res = [], i = 0;
     async.waterfall([
         function (cbx) {
-            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (value) {
+            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (err, value) {
+                console.log("err: " + err);
+                console.log("values: " + value);
                 cbx(null, value);
             });
         },
@@ -783,14 +785,14 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
             if (!_.isDefined(value)) {
                 helper.api.dataAccess.executeQuery('get_data_' + catalogName, {}, dbConnectionMap, cbx);
             } else {
-                value = JSON.parse(value);
+                catalogValue = value;
                 cbx(null, null);
             }
         },
         function (res, cbx) {
             if (_.isDefined(res)) {
-                value = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
-                helper.api.cache.save(helper.api.config.general[catalogName + 'CacheKey'], value, helper.api.config.general.defaultCacheLifetime,
+                catalogValue = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
+                helper.api.cache.save(helper.api.config.general[catalogName + 'CacheKey'], catalogValue, helper.api.config.general.defaultCacheLifetime,
                     function (err) {
                         cbx(err);
                     });
@@ -804,7 +806,7 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
             // Check the catalog type here.
             var id;
             for (i; i < values.length; i += 1) {
-                id = value[values[i].trim().toLowerCase()];
+                id = catalogValue[values[i].trim().toLowerCase()];
                 if (_.isDefined(id)) {
                     res.push(id);
                 } else {

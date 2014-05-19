@@ -15,6 +15,7 @@ SELECT count(*) AS total
      , outer project_phase nd_phase
      , project_category_lu pcl
      , outer project_info pi4 --forum id
+     , outer project_info pi1
  WHERE 1=1
    AND p.project_status_id = pstatus.project_status_id
    AND p.project_id = pn.project_id
@@ -42,6 +43,8 @@ SELECT count(*) AS total
    AND pidr.project_info_type_id = 26  --digital run
    AND pi4.project_id = p.project_id
    AND pi4.project_info_type_id = 4  --forum id
+   AND pi1.project_info_type_id = 1 -- external reference id
+   AND pi1.project_id = p.project_id
    AND p.project_Id = nd_phase.project_id
    AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
    AND p.project_category_id = pcl.project_category_id
