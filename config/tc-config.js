@@ -1,3 +1,69 @@
+/*
+ * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
+ *
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
+ * @version 1.26
+ * changes in 1.1:
+ * - add defaultCacheLifetime parameter
+ * changes in 1.2:
+ * - add badgeProperties.
+ * changes in 1.3:
+ * - add oauthClientId and oauthClientSecret parameters
+ * changes in 1.4:
+ * - add oauthConnection and oauthDomain parameters
+ * - added submissionLink and finalFixLink
+ * changes in 1.5:
+ * - add jiraWsdlUrl, jiraUsername and jiraPassword parameters
+ * changes in 1.6:
+ * - add corporate_oltp in database mapping.
+ * changes in 1.7:
+ * - add downloadsRootDirectory parameter
+ * changes in 1.8:
+ * - add time_oltp and corporate_oltp in databaseMapping.
+ * - added uploadsRootDirectory, thurgoodDownloadUsername and thurgoodDownloadPassword parameters
+ * changes in 1.9:
+ * - add parameters for submission output directory, submission max size and thurgood endpoint parameters
+ * changes in 1.10:
+ * - add challengeCommunityLink and reviewAuctionDetailLink.
+ * Changes in 1.11:
+ * - add cachePrefix in config.general.
+ * - added designSubmissionsBasePath for design submissions
+ * changes in 1.12:
+ * - add defaultUserCacheLifetime property.
+ * changes in 1.13:
+ * - add jive in database mapping.
+ * - added the docusign object
+ * - add grantForumAccess property.
+ * Changes in 1.14:
+ * - add redis.cacheFileTypesKey, redis.cacheDefaultLifetime, designSubmissionTmpPath, designSubmissionsBasePath
+ * Changes in 1.15:
+ * - added configuration for Docusign integration.
+ * Changes in 1.16:
+ * - add welcome email property.
+ * Changes in 1.17:
+ * - add maxRSSLength.
+ * changes in 1.19:
+ * - add defaultResetPasswordTokenCacheLifetime property.
+ * - add resetPasswordTokenEmailSubject property.
+ * changes in 1.20:
+ * - add tcForumsServer property.
+ * - add studioForumsServer property.
+ * Changes in 1.21:
+ * - add minPasswordLength and maxPasswordLength
+ * - add resetTokenSuffix
+ * Changes in 1.22:
+ * - add auth0 configuration.
+ * Changes in 1.23:
+ * - Add member photo properties.
+ * Changes in 1.24:
+ * - Added 'watermark' configuration.
+ * - Added designSubmission group of properties" from the UnifiedSubmissionValidator submission.
+ * Changes in 1.25:
+ * - Move configuration contents in tc-config.js
+ * Changes in 1.26:
+ * - Add studioReview object for get studio review opportunities api.
+ */
+
 "use strict";
 
 var config = {
@@ -147,6 +213,11 @@ var config = {
     jvm: {
         minMemory: '128m',
         maxMemory: '2048m'
+    },
+
+    studioReview: {
+        specTerms: 'http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=',
+        reviewTerms: 'http://studio.topcoder.com/?module=ViewReviewTerms&ct='
     }
 };
 module.exports.tcConfig = config;
