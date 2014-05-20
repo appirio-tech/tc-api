@@ -563,6 +563,9 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                         };
                     if (reviewType === 'Spec Review') {
                         delete reviewOpp.round2ScheduledStartDate;
+                        reviewOpp.detailLink = api.config.tcConfig.studioReview.specTerms + reviewOpp.challengeId;
+                    } else {
+                        reviewOpp.detailLink = api.config.tcConfig.studioReview.reviewTerms + reviewOpp.challengeId;
                     }
                     result.data.push(reviewOpp);
                 });
