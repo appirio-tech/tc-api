@@ -790,7 +790,7 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
         function (res, cbx) {
             if (_.isDefined(res)) {
                 catalogValue = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
-                helper.api.cache.save(helper.api.config.tcConfig[catalogName + 'CacheKey'], catalogValue, helper.api.config.general.defaultCacheLifetime,
+                helper.api.cache.save(helper.api.config.tcConfig[catalogName + 'CacheKey'], catalogValue, helper.api.config.tcConfig.cacheDefaultLifetime,
                     function (err) {
                         cbx(err);
                     });
