@@ -120,7 +120,7 @@ exports.action = {
 
                 error = helper.validateDate(startDate, 'startDate', DATE_FORMAT)
                     || helper.validateDate(endDate, 'endDate', DATE_FORMAT)
-                    || helper.checkContains([0, 1], active, 'active');
+                    || helper.checkContains(["0", "1"], active, 'active');
                 if (error) {
                     cb(error);
                     return;
