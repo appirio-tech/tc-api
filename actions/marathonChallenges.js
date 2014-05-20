@@ -46,11 +46,11 @@ var MAX_INT = 2147483647;
 /**
  * Min date for sql query
  */
-var MIN_DATE = "1900-01-01";
+var MIN_DATE = "2009-01-01";
 /**
  * Max date for sql query
  */
-var MAX_DATE = "2199-01-01";
+var MAX_DATE = "2099-12-31";
 /**
  * This data format instance will transfer date to a string that can use in query.
  */

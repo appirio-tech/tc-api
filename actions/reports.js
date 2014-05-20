@@ -36,8 +36,8 @@ var DEFAULT_CHALLENGE_ID = 0;
  * Max and min date value for date parameter.
  * @type {string}
  */
-var MIN_DATE = '1900-1-1';
-var MAX_DATE = '9999-1-1';
+var MIN_DATE = '2009-1-1';
+var MAX_DATE = '2099-1-1';
 
 /**
  * The date format for input date parameter startDate and enDate.
@@ -628,8 +628,8 @@ var clientChallengeCosts = function (api, connection, next) {
         cmc = connection.params.sfdcAccountId || "",
         customerNumber = connection.params.customerNumber || "",
         type = (connection.params.type || 'ACTIVE').toUpperCase(),
-        startDate = connection.params.startDate || '1900-01-01',
-        endDate = connection.params.endDate || '2999-01-01',
+        startDate = connection.params.startDate || '2009-01-01',
+        endDate = connection.params.endDate || '2099-12-31',
         sqlParameters,
         costs;
 

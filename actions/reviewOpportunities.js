@@ -242,8 +242,8 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
  */
 var createDate = function (helper, params, dateName) {
     var type = (params[dateName + '.type'] || '').toUpperCase(), date, MIN_DATE, MAX_DATE, now;
-    MIN_DATE = '1900-01-01';
-    MAX_DATE = '2999-01-01';
+    MIN_DATE = '2009-01-01';
+    MAX_DATE = '2099-12-31';
     now = moment(new Date()).format('YYYY-MM-DD');
 
     // For the unset date filter just return the default date filter - between min date and max date.
