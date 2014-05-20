@@ -88,7 +88,7 @@ var config = {
     designSubmissionTmpPath: process.env.DESIGN_SUBMISSIONS_TMP_PATH || 'test/tmp/design_tmp_submissions/',
 
     cacheFileTypesKey: "file_types",
-    cacheDefaultLifetime: 1000 * 60 * 60 * 24,
+    defaultCacheLifetime : process.env.CACHE_EXPIRY || 1000 * 60 * 10, //10 min default
 
     technologiesCacheKey: "technologies",
     platformsCacheKey: 'platforms',

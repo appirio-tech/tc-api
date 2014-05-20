@@ -790,7 +790,7 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
         function (res, cbx) {
             if (_.isDefined(res)) {
                 catalogValue = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
-                helper.api.cache.save(helper.api.config.tcConfig[catalogName + 'CacheKey'], catalogValue, helper.api.config.tcConfig.cacheDefaultLifetime,
+                helper.api.cache.save(helper.api.config.tcConfig[catalogName + 'CacheKey'], catalogValue, helper.api.config.tcConfig.defaultCacheLifetime,
                     function (err) {
                         cbx(err);
                     });
@@ -1492,10 +1492,10 @@ helper.allTermsAgreed = function (terms) {
  */
 helper.getFileTypes = function (api, dbConnectionMap, callback) {
     var cacheFileTypesKey = api.config.tcConfig.cacheFileTypesKey,
-        cacheDefaultLifetime = api.config.tcConfig.cacheDefaultLifetime;
+        defaultCacheLifetime = api.config.tcConfig.defaultCacheLifetime;
 
     //Load from cache and perform rolling timeout
-    api.cache.load(cacheFileTypesKey, {expireTimeMS: cacheDefaultLifetime}, function (err, fileTypes) {
+    api.cache.load(cacheFileTypesKey, {expireTimeMS: defaultCacheLifetime}, function (err, fileTypes) {
         if (!err && fileTypes !== null) {
             //already exists in cache
             callback(null, fileTypes);
@@ -1506,7 +1506,7 @@ helper.getFileTypes = function (api, dbConnectionMap, callback) {
                     callback(err);
                     return;
                 }
-                api.cache.save(cacheFileTypesKey, fileTypes, cacheDefaultLifetime, function (err) {
+                api.cache.save(cacheFileTypesKey, fileTypes, defaultCacheLifetime, function (err) {
                     //Even if there is error in saving to cache, we just ignore and call the main callback anyway
                     callback(null, fileTypes);
                 });
