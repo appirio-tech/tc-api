@@ -90,6 +90,9 @@ var config = {
     cacheFileTypesKey: "file_types",
     cacheDefaultLifetime: 1000 * 60 * 60 * 24,
 
+    technologiesCacheKey: "technologies",
+    platformsCacheKey: 'platforms',
+
     //The configuration for the DocuSign integration
     docusign: {
         username: process.env.DOCUSIGN_USERNAME || '3c484022-cfd1-4be8-b199-951933a1e81b',

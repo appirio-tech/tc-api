@@ -775,7 +775,7 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
     var catalogValue, res = [], i = 0;
     async.waterfall([
         function (cbx) {
-            helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (err, value) {
+            helper.api.cache.load(helper.api.config.tcConfig[catalogName + 'CacheKey'], function (err, value) {
                 cbx(null, value);
             });
         },
@@ -790,7 +790,7 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
         function (res, cbx) {
             if (_.isDefined(res)) {
                 catalogValue = _.object(_.map(res, function (item) { return [item.name.toLowerCase(), item.id]; }));
-                helper.api.cache.save(helper.api.config.general[catalogName + 'CacheKey'], catalogValue, helper.api.config.general.defaultCacheLifetime,
+                helper.api.cache.save(helper.api.config.tcConfig[catalogName + 'CacheKey'], catalogValue, helper.api.config.general.defaultCacheLifetime,
                     function (err) {
                         cbx(err);
                     });
