@@ -65,7 +65,7 @@ FIRST @pageSize@
      , outer project_phase nd_phase
      , project_category_lu pcl
      , outer project_info pi4 --forum id
-     , outer project_info pi1
+     , project_info pi1
  WHERE 1=1
    AND p.project_status_id = pstatus.project_status_id
    AND p.project_id = pn.project_id
