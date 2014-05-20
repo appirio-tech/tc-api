@@ -776,8 +776,6 @@ helper.getCatalogCachedValue = function (values, dbConnectionMap, catalogName, c
     async.waterfall([
         function (cbx) {
             helper.api.cache.load(helper.api.config.general[catalogName + 'CacheKey'], function (err, value) {
-                console.log("err: " + err);
-                console.log("values: " + value);
                 cbx(null, value);
             });
         },

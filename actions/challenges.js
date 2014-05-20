@@ -882,6 +882,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             sqlParams.registration_phase_status = helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType];
             sqlParams.project_status_id = helper.LIST_TYPE_PROJECT_STATUS_MAP[listType];
             sqlParams.userId = caller.userId || 0;
+            sqlParams.user_id = caller.userId || 0;
 
             // Check the private challenge access
             api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
