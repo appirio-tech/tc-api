@@ -331,7 +331,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
     async.waterfall([
         function (cbx) {
             if (!_.isUndefined(query.challengeType)) {
-                helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, type, cbx);
+                helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, challengeType, cbx);
             } else {
                 cbx();
             }
