@@ -15,7 +15,7 @@ FIRST @page_size@
 , (SELECT COUNT(*) FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 1) AS num_registrants
 , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
 , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1) AS first_place_prize
-, (SELECT SUM(prize_amount) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15) AS total_prizes
+, (SELECT SUM(prize_amount) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15) AS total_prize
 , (SELECT SUM(prize_amount * number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14) AS checkpoint_total_prizes
 , NVL(pp1.actual_start_time, pp1.scheduled_start_time) AS registration_start_date
 , NVL(pp1.actual_end_time, pp1.scheduled_end_time) AS registration_end_date

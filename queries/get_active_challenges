@@ -21,7 +21,7 @@ SELECT
 , NVL(pp2.actual_end_time, pp2.scheduled_end_time) AS submission_end_date
 , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
 , (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS current_phase_remaining_time
-, pstatus.name AS current_status
+, pstatus.name AS status
 , (SELECT description FROM phase_type_lu WHERE phase_type_id = nd_phase.phase_type_id) AS current_phase_name
 , CASE WHEN pidr.value = 'On' THEN
   NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))

@@ -14,7 +14,7 @@ SELECT
 , pp1.scheduled_start_time AS registration_start_date
 , pp15.scheduled_end_time AS checkpoint_submission_end_date
 , pp2.scheduled_end_time AS submission_end_date
-, pstatus.name AS current_status
+, pstatus.name AS status
 , CASE WHEN pidr.value = 'On' THEN
   NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
   ELSE NULL END AS digital_run_points
