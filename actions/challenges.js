@@ -1844,7 +1844,8 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 challengeEndDate: infoRow.complete_date,
                 registrants: infoRow.num_registrations,
                 submissions: infoRow.num_submissions,
-                submissionsPassedScreening: infoRow.num_valid_submissions
+                submissionsPassedScreening: infoRow.num_valid_submissions,
+                drPoints: infoRow.dr_points
             });
 
             //This information is only for develop contests
@@ -1862,6 +1863,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     handle: el.handle,
                     placement: el.placed === 0 ? 'n/a' : el.placed,
                     submissionDate: el.submission_date,
+                    submissionStatus: el.submission_status,
                     registrationDate: el.registration_date
                 }, drRowFound;
 

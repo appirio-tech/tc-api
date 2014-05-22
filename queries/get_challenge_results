@@ -14,6 +14,7 @@ select
         ELSE 100.0 * NVL(num_submissions, 0) / num_registrations
     END as submission_percent,
     avg_raw_score,
-    avg_final_score
+    avg_final_score,
+    (SELECT amount FROM dr_points WHERE reference_id = @challengeId@) AS dr_points
 from project 
 where project_id = @challengeId@

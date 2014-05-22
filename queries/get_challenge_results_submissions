@@ -7,11 +7,13 @@ select 	s.submission_id,
 		NVL(s.screening_score, 0.0) as screening_score,
 		NVL(s.initial_score, 0.0) as initial_score,
        	s.create_date as submission_date,
+       	stl.name AS submission_status,
 		ri1.create_date as registration_date,
 		u.upload_id
 from
 	upload u,
     submission s,
+    submission_status_lu stl,
 	resource_info ri1,
 	resource_info ri2
 where u.project_id = @challengeId@
@@ -22,5 +24,6 @@ where u.project_id = @challengeId@
  and s.upload_id = u.upload_id
  and u.upload_type_id = 1
  and s.submission_type_id = 1
+ and stl.submission_status_id = s.submission_status_id
  and s.submission_status_id IN (1,2,3,4)
 order by s.final_score desc
