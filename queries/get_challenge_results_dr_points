@@ -1,5 +1,5 @@
 select
 	user_id,
-	NVL(final_points, 0) as dr_points 
-from project_result pr
-where pr.project_id = @challengeId@
+	NVL(amount, 0) as dr_points 
+from dr_points dr
+where dr.reference_id = @challengeId@
