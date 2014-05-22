@@ -11,7 +11,9 @@ SELECT DISTINCT(c.coder_id)
      , NVL(overallCR.rank, 0) AS overall_country_rank
      , NVL(overallSUR.rank, 0) AS overall_school_rank
      , NVL(ur.vol, 0) AS vol
+     , url.rating AS reliability
   FROM tcs_dw:user_rating ur
+      LEFT OUTER JOIN tcs_dw:user_reliability url ON url.phase_id = ur.phase_id AND url.user_id = ur.user_id
       LEFT OUTER JOIN tcs_dw:user_rank activeRank ON activeRank.phase_id = ur.phase_id AND activeRank.user_id = ur.user_id AND activeRank.user_rank_type_id = 2
       LEFT OUTER JOIN tcs_dw:country_user_rank activeCR ON activeCR.phase_id = ur.phase_id AND activeCR.user_id = ur.user_id AND activeCR.user_rank_type_id = 2
       LEFT OUTER JOIN tcs_dw:school_user_rank activeSUR ON activeSUR.phase_id = ur.phase_id AND activeSUR.user_id = ur.user_id AND activeSUR.user_rank_type_id = 2

@@ -894,46 +894,45 @@ exports.getSoftwareStatistics = {
                 var round2 = function (n) {
                     return Math.round(n * 100) / 100;
                 };
-                results.basics.forEach(function (track) {
-                    var type = helper.getPhaseName(track.category_id);
-                    result.Tracks[type] = {
-                        rating: track.rating,
-                        reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
-                        activePercentile: track.active_percentile.toFixed(2) + "%",
-                        activeRank: track.active_rank,
-                        activeCountryRank: track.active_country_rank,
-                        activeSchoolRank: track.active_school_rank,
-                        overallPercentile: track.overall_percentile.toFixed(2) + "%",
-                        overallRank: track.overall_rank,
-                        overallCountryRank: track.overall_country_rank,
-                        overallSchoolRank: track.overall_school_rank,
-                        volatility: track.vol
+                results.submissions.forEach(function (row) {
+                    result.Tracks[row.category_name] = {
+                        competitions: row.num_ratings,
+                        submissions: row.submissions,
+                        submissionRate: _.getPercent(row.submission_rate, 2),
+                        inquiries: row.num_ratings,
+                        passedScreening: row.passed_screening,
+                        screeningSuccessRate: _.getPercent(row.screening_success_rate, 2),
+                        passedReview: row.passed_review,
+                        reviewSuccessRate: _.getPercent(row.review_success_rate, 2),
+                        appeals: row.appeals,
+                        appealSuccessRate: _.getPercent(row.appeal_success_rate, 2),
+                        maximumScore: round2(row.max_score),
+                        minimumScore: round2(row.min_score),
+                        averageScore: round2(row.avg_score),
+                        averagePlacement: round2(row.avg_placement),
+                        wins: row.wins,
+                        winPercentage: _.getPercent(row.win_percent, 2)
                     };
                 });
-                results.submissions.forEach(function (row) {
-                    var data = result.Tracks[row.category_name];
-                    // NOTE: there are currently submissions without track data
+
+                results.basics.forEach(function (track) {
+                    var data = result.Tracks[helper.getPhaseName(track.category_id)];
                     if (data) {
                         _.extend(data, {
-                            competitions: row.num_ratings,
-                            submissions: row.submissions,
-                            submissionRate: _.getPercent(row.submission_rate, 2),
-                            inquiries: row.num_ratings,
-                            passedScreening: row.passed_screening,
-                            screeningSuccessRate: _.getPercent(row.screening_success_rate, 2),
-                            passedReview: row.passed_review,
-                            reviewSuccessRate: _.getPercent(row.review_success_rate, 2),
-                            appeals: row.appeals,
-                            appealSuccessRate: _.getPercent(row.appeal_success_rate, 2),
-                            maximumScore: round2(row.max_score),
-                            minimumScore: round2(row.min_score),
-                            averageScore: round2(row.avg_score),
-                            averagePlacement: round2(row.avg_placement),
-                            wins: row.wins,
-                            winPercentage: _.getPercent(row.win_percent, 2)
+                            rating: track.rating,
+                            reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
+                            activePercentile: track.active_percentile.toFixed(2) + "%",
+                            activeRank: track.active_rank,
+                            activeCountryRank: track.active_country_rank,
+                            activeSchoolRank: track.active_school_rank,
+                            overallPercentile: track.overall_percentile.toFixed(2) + "%",
+                            overallRank: track.overall_rank,
+                            overallCountryRank: track.overall_country_rank,
+                            overallSchoolRank: track.overall_school_rank,
+                            volatility: track.vol
                         });
                     } else {
-                        api.log("unable to update submission data. no track data for handle " + handle + " in category " + row.category_name, "warning");
+                        api.log("unable to update basic data. no track data for handle " + handle + " in category " + helper.getPhaseName(track.category_id), "warning");
                     }
                 });
 
