@@ -15,6 +15,6 @@ select
     END as submission_percent,
     avg_raw_score,
     avg_final_score,
-    (SELECT amount FROM dr_points WHERE reference_id = @challengeId@) AS dr_points
+    (SELECT sum(amount) FROM dr_points WHERE reference_id = @challengeId@) AS dr_points
 from project 
 where project_id = @challengeId@
