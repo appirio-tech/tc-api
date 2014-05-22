@@ -602,6 +602,7 @@ function formatDate(date) {
 function transferResult(src, helper) {
     var ret = [];
     src.forEach(function (row) {
+          
         var challenge = {
             challengeType : row.challenge_type,
             challengeName : row.challenge_name,
@@ -610,8 +611,8 @@ function transferResult(src, helper) {
             forumId : row.forum_id,
             eventId: row.event_id,
             eventName: row.event_name,
-            platforms: _.isDefined(row.platforms) ? row.platforms.split(', ') : [],
-            technologies: _.isDefined(row.technology) ? row.technology.split(', ') : [],
+            platforms: _.isDefined(row.platforms) && row.platforms !== '' ? row.platforms.split(', ') : [],
+            technologies: _.isDefined(row.technology) && row.technology !== '' ? row.technology.split(', ') : [],
             numSubmissions : row.num_submissions,
             numRegistrants : row.num_registrants,
             screeningScorecardId : row.screening_scorecard_id,
@@ -669,8 +670,8 @@ function transferResultV2(src, helper) {
     return _.map(src, function (row) {
         var challenge = _.object(_.chain(row).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(row));
 
-        challenge.platforms = _.isUndefined(row.platforms) ? [] : row.platforms.split(', ');
-        challenge.technologies = _.isUndefined(row.technologies) ? [] : row.technologies.split(', ');
+        challenge.platforms = _.isUndefined(row.platforms) || row.platforms === '' ? [] : row.platforms.split(', ');
+        challenge.technologies = _.isUndefined(row.technologies) || row.technologies === '' ? [] : row.technologies.split(', ');
 
         if (!_.isUndefined(challenge.forumId)) {
             challenge.forumId = Number(challenge.forumId);
@@ -1038,7 +1039,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 filetypesText,
                 filetypesArray,
                 mapPlatforms = function (results) {
-                    if (!_.isDefined(results)) {
+                    if (!_.isDefined(results || results === '')) {
                         return [];
                     }
                     var platforms = [];
@@ -1138,7 +1139,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 reliabilityBonus: helper.getReliabilityBonus(data.prize1),
                 challengeCommunity: challengeType.community,
                 directUrl : helper.getDirectProjectLink(data.challenge_id),
-                technology: data.technology.split(', '),
+                technology: _.isUndefined(data.technology) || data.technology === '' ? [] : data.technology.split(', '),
                 prize: mapPrize(data),
                 winners: mapWinners(results.winners)
             });
@@ -1475,9 +1476,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                             cb(err);
                             return;
                         }
-                        console.log('-------------------------------------------');
-                        console.log(stats.size + '\t' + api.config.tcConfig.submissionMaxSizeBytes);
-                        console.log('-------------------------------------------');
+      
 
                         if (stats.size > api.config.tcConfig.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
