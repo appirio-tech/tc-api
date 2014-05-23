@@ -188,6 +188,22 @@
             "minimumRating": 257
         },
         "Assembly": {
+            "competitions": 5,
+            "submissions": 4,
+            "submissionRate": "80.00%",
+            "inquiries": 5,
+            "passedScreening": 1,
+            "screeningSuccessRate": "25.00%",
+            "passedReview": 2,
+            "reviewSuccessRate": "50.00%",
+            "appeals": 30,
+            "appealSuccessRate": "53.33%",
+            "maximumScore": 98.57,
+            "minimumScore": 6.79,
+            "averageScore": 49.79,
+            "averagePlacement": 3,
+            "wins": 1,
+            "winPercentage": "25.00%",
             "rating": 428,
             "reliability": "n/a",
             "activePercentile": "28.09%",
@@ -198,7 +214,9 @@
             "overallRank": 1,
             "overallCountryRank": 1,
             "overallSchoolRank": 1,
-            "volatility": 476
+            "volatility": 476,
+            "maximumRating": 3231,
+            "minimumRating": 220
         },
         "UI Prototypes": {
             "rating": 505,
