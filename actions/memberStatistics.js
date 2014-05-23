@@ -895,7 +895,7 @@ exports.getSoftwareStatistics = {
                     return Math.round(n * 100) / 100;
                 };
                 results.submissions.forEach(function (row) {
-                    result.Tracks[row.category_name] = {
+                    result.Tracks[row.phase_id] = {
                         competitions: row.num_ratings,
                         submissions: row.submissions,
                         submissionRate: _.getPercent(row.submission_rate, 2),
@@ -916,7 +916,8 @@ exports.getSoftwareStatistics = {
                 });
 
                 results.basics.forEach(function (track) {
-                    var data = result.Tracks[helper.getPhaseName(track.category_id)];
+                    // Use the phase id to locate the data.
+                    var data = result.Tracks[track.category_id];
                     if (data) {
                         _.extend(data, {
                             rating: track.rating,
@@ -937,7 +938,8 @@ exports.getSoftwareStatistics = {
                 });
 
                 results.rating.forEach(function (row) {
-                    var data = result.Tracks[row.category_name];
+                    // Use phase id to locate the data.
+                    var data = result.Tracks[row.category_id];
                     // there may not be a track
                     if (data) {
                         _.extend(data, {
@@ -948,6 +950,9 @@ exports.getSoftwareStatistics = {
                         api.log("unable to update rating data. no track data for handle " + handle + " in category " + row.category_name, "warning");
                     }
                 });
+
+                // Transfer phase id to phase name here.
+                result.Tracks = _.object(_.chain(result.Tracks).keys().map(function (id) { return helper.getPhaseName(id); }).value(), _.values(result.Tracks));
 
                 cb();
             }
