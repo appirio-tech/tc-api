@@ -1,5 +1,5 @@
 SELECT
-  p.phase_id
+  p.phase_id - 111 AS category_id
 , p.phase_desc AS category_name
 , COUNT(*) AS num_ratings
 , NVL(SUM(submit_ind), 0) AS submissions
