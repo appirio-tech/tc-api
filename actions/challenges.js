@@ -602,7 +602,7 @@ function formatDate(date) {
 function transferResult(src, helper) {
     var ret = [];
     src.forEach(function (row) {
-          
+
         var challenge = {
             challengeType : row.challenge_type,
             challengeName : row.challenge_name,
@@ -995,6 +995,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             }
             sqlParams = {
                 challengeId: connection.params.challengeId,
+                challenge_id: connection.params.challengeId,
                 project_type_id: challengeType.category,
                 user_id: caller.userId || 0
             };
@@ -1017,14 +1018,16 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     details: execQuery('challenge_details'),
                     winners: execQuery("get_studio_challenge_detail_winners"),
                     platforms: execQuery('challenge_platforms'),
-                    documents: execQuery('challenge_documents')
+                    documents: execQuery('challenge_documents'),
+                    currentPhases: execQuery('challenge_current_phases')
                 }, cb);
             } else {
                 async.parallel({
                     details: execQuery('challenge_details'),
                     platforms: execQuery('challenge_platforms'),
                     documents: execQuery('challenge_documents'),
-                    copilot: execQuery('check_is_copilot')
+                    copilot: execQuery('check_is_copilot'),
+                    currentPhases: execQuery('challenge_current_phases')
                 }, cb);
             }
         }, function (results, cb) {
@@ -1038,6 +1041,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             var data = results.details[0], i = 0, prize = 0,
                 filetypesText,
                 filetypesArray,
+                currentPhase,
                 mapPlatforms = function (results) {
                     if (!_.isDefined(results || results === '')) {
                         return [];
@@ -1145,10 +1149,17 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             });
 
             if (!unified) {
+                if (!_.isUndefined(_.find(results.currentPhases, function (item) { return item.phase_type_id === 15; }))) {
+                    // If we have checkpoints submission in current open phases array then current phase should be checkpoint submission.
+                    currentPhase = _.find(results.currentPhases, function (item) { return item.phase_type_id === 15; });
+                } else {
+                    // If we don't have checkpoints submission then get use the max project_phase_id as current phase.
+                    currentPhase = results.currentPhase[0];
+                }
                 challenge = extend(challenge, {
-                    currentPhaseName : convertNull(data.current_phase_name),
-                    currentPhaseRemainingTime : data.current_phase_remaining_time,
-                    currentPhaseEndDate : formatDate(data.current_phase_end_date)
+                    currentPhaseName : convertNull(currentPhase.current_phase_name),
+                    currentPhaseRemainingTime : currentPhase.current_phase_remaining_time,
+                    currentPhaseEndDate : formatDate(currentPhase.current_phase_end_date)
                 });
             }
 
@@ -1476,7 +1487,6 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                             cb(err);
                             return;
                         }
-      
 
                         if (stats.size > api.config.tcConfig.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
@@ -3058,18 +3068,9 @@ var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
                 return;
             }
 
-            var execQuery = function (name) {
-                return function (cbx) {
-                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
-                };
-            };
-
-            async.parallel({
-                details: execQuery('challenge_phase_details'),
-                phases: execQuery('challenge_phases')
-            }, cb);
+            api.dataAccess.executeQuery('challenge_phases', sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
-            var data = results.details[0], mapPhases = function (results) {
+            var mapPhases = function (results) {
                 if (!_.isDefined(results)) {
                     return [];
                 }
@@ -3085,10 +3086,7 @@ var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
                 });
             };
             result = {
-                phases: mapPhases(results.phases),
-                currentPhaseEndDate : formatDate(data.current_phase_end_date),
-                currentPhaseName : convertNull(data.current_phase_name),
-                currentPhaseRemainingTime : data.current_phase_remaining_time
+                phases: mapPhases(results)
             };
             cb();
         }

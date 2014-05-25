@@ -1,0 +1,11 @@
+SELECT
+  ptl.phase_type_id
+, (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS current_phase_remaining_time
+, NVL(pp.actual_end_time, pp.scheduled_end_time) AS current_phase_end_date
+, ptl.description AS current_phase_name
+FROM project_phase pp
+INNER JOIN phase_type_lu ptl ON pp.phase_type_id = ptl.phase_type_id
+WHERE 1=1
+AND pp.project_id = @challenge_id@
+AND pp.phase_status_id = 2
+ORDER BY project_phase_id DESC
