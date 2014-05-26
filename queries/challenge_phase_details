@@ -14,4 +14,4 @@ SELECT
  WHERE 1=1
    AND p.project_id = @challengeId@
    AND p.project_Id = nd_phase.project_id
-   AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12,18))
+   AND nd_phase.phase_type_id = (SELECT MAX(phase_type_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id NOT IN (13, 14))

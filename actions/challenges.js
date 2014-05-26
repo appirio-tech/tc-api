@@ -602,7 +602,7 @@ function formatDate(date) {
 function transferResult(src, helper) {
     var ret = [];
     src.forEach(function (row) {
-          
+
         var challenge = {
             challengeType : row.challenge_type,
             challengeName : row.challenge_name,
@@ -1476,7 +1476,6 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                             cb(err);
                             return;
                         }
-      
 
                         if (stats.size > api.config.tcConfig.submissionMaxSizeBytes) {
                             cb(new RequestTooLargeError(
