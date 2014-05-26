@@ -12,7 +12,11 @@
             "overallRank": 1,
             "overallCountryRank": 1,
             "overallSchoolRank": 1,
-            "volatility": 102,
+            "volatility": 102
+        }
+    },
+    "CompetitionHistory": {
+        "Development": {
             "competitions": 5,
             "submissions": 4,
             "submissionRate": "80.00%",
