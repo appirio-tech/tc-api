@@ -1,5 +1,5 @@
 SELECT DISTINCT(c.coder_id)
-     , ur.phase_id AS category_id
+     , ur.phase_id
      , c.handle AS handle
      , NVL(ur.rating, 0.0) AS rating
      , NVL(activeRank.percentile, 0) AS active_percentile

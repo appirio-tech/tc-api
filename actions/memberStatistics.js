@@ -847,7 +847,8 @@ exports.getSoftwareStatistics = {
             },
             result = {
                 handle: handle,
-                Tracks: {}
+                Tracks: {},
+                CompetitionHistory: {}
             };
         if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -895,7 +896,7 @@ exports.getSoftwareStatistics = {
                     return Math.round(n * 100) / 100;
                 };
                 results.submissions.forEach(function (row) {
-                    result.Tracks[row.phase_id] = {
+                    result.CompetitionHistory[row.phase_id] = {
                         competitions: row.num_ratings,
                         submissions: row.submissions,
                         submissionRate: _.getPercent(row.submission_rate, 2),
@@ -917,29 +918,24 @@ exports.getSoftwareStatistics = {
 
                 results.basics.forEach(function (track) {
                     // Use the phase id to locate the data.
-                    var data = result.Tracks[track.category_id];
-                    if (data) {
-                        _.extend(data, {
-                            rating: track.rating,
-                            reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
-                            activePercentile: track.active_percentile.toFixed(2) + "%",
-                            activeRank: track.active_rank,
-                            activeCountryRank: track.active_country_rank,
-                            activeSchoolRank: track.active_school_rank,
-                            overallPercentile: track.overall_percentile.toFixed(2) + "%",
-                            overallRank: track.overall_rank,
-                            overallCountryRank: track.overall_country_rank,
-                            overallSchoolRank: track.overall_school_rank,
-                            volatility: track.vol
-                        });
-                    } else {
-                        api.log("unable to update basic data. no track data for handle " + handle + " in category " + helper.getPhaseName(track.category_id), "warning");
-                    }
+                    result.Tracks[track.phase_id] = {
+                        rating: track.rating,
+                        reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
+                        activePercentile: track.active_percentile.toFixed(2) + "%",
+                        activeRank: track.active_rank,
+                        activeCountryRank: track.active_country_rank,
+                        activeSchoolRank: track.active_school_rank,
+                        overallPercentile: track.overall_percentile.toFixed(2) + "%",
+                        overallRank: track.overall_rank,
+                        overallCountryRank: track.overall_country_rank,
+                        overallSchoolRank: track.overall_school_rank,
+                        volatility: track.vol
+                    };
                 });
 
                 results.rating.forEach(function (row) {
                     // Use phase id to locate the data.
-                    var data = result.Tracks[row.category_id];
+                    var data = result.CompetitionHistory[row.phase_id];
                     // there may not be a track
                     if (data) {
                         _.extend(data, {
@@ -947,12 +943,13 @@ exports.getSoftwareStatistics = {
                             minimumRating: row.min_rating
                         });
                     } else {
-                        api.log("unable to update rating data. no track data for handle " + handle + " in category " + row.category_name, "warning");
+                        api.log("unable to update rating data. no track data for handle " + handle + " in category " + row.phase_id, "warning");
                     }
                 });
 
                 // Transfer phase id to phase name here.
                 result.Tracks = _.object(_.chain(result.Tracks).keys().map(function (id) { return helper.getPhaseName(id); }).value(), _.values(result.Tracks));
+                result.CompetitionHistory = _.object(_.chain(result.CompetitionHistory).keys().map(function (id) { return helper.getPhaseName(id); }).value(), _.values(result.CompetitionHistory));
 
                 cb();
             }
