@@ -1,6 +1,5 @@
 SELECT
-  p.phase_id AS category_id
-, p.phase_desc AS category_name
+  p.phase_id
 , max(new_rating) AS max_rating
 , min(new_rating) AS min_rating
 FROM tcs_dw:project_result pr, tcs_dw:project p, coder cc
