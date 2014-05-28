@@ -1143,14 +1143,11 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 prize: mapPrize(data),
                 winners: mapWinners(results.winners)
             });
-
-            if (!unified) {
-                challenge = extend(challenge, {
-                    currentPhaseName : convertNull(data.current_phase_name),
-                    currentPhaseRemainingTime : data.current_phase_remaining_time,
-                    currentPhaseEndDate : formatDate(data.current_phase_end_date)
-                });
-            }
+            challenge = extend(challenge, {
+                currentPhaseName : convertNull(data.current_phase_name),
+                currentPhaseRemainingTime : data.current_phase_remaining_time,
+                currentPhaseEndDate : formatDate(data.current_phase_end_date)
+            });
 
             // Only show the documents to relevant user.
             if (isRelated) {
