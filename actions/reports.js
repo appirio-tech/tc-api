@@ -682,6 +682,18 @@ var clientChallengeCosts = function (api, connection, next) {
             costs = _.map(results, function (item) {
                 var cost = _.object(_.chain(item).keys().map(function (i) { return new S(i).camelize().s; }).value(), _.values(item));
 
+                if ([4, 5, 6, 8, 9, 10, 11].indexOf(item.challenge_status_id) > 0) {
+                    // The challenge is failed.
+                    if (_.isDefined(item.challenge_fee_percentage)) {
+                        cost.challengeFee = cost.challengeFee * Number(cost.challengeFeePercentage);
+                    } else {
+                        delete cost.challengeFee;
+                    }
+                }
+
+                delete cost.challengeStatusId;
+                delete cost.challengeFeePercentage;
+
                 cost.challengeDuration = parseFloat(item.challenge_duration.toFixed(1));
                 cost.postinDate = helper.formatDate(cost.postingDate, 'YYYY-MM-DD');
                 cost.completionDate = helper.formatDate(cost.completionDate, 'YYYY-MM-DD');
