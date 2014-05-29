@@ -95,7 +95,7 @@ exports.transaction = function (api, next) {
                         api.log("Database " + databaseName + " cannot be connected: " + err + " " + (err.stack || ''), 'error');
                         handleConnectionFailure(api, connection, actionTemplate, err, next);
                     } else {
-                        api.log("Database " + databaseName + " connected", 'info');
+                        api.log("Database " + databaseName + " connected", 'debug');
 
                         // if the action is transactional, start a transaction
                         if (actionTemplate.transaction === "write" && dbConnectionMap[databaseName].isConnected()) {
