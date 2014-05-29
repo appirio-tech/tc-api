@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author TCSASSEMBLER, Sky_, xjtufreeman
+ * @version 1.4
+ * @author TCSASSEMBLER, Sky_, xjtufreeman, muzehyun
  * change in 1.1:
  * - use before and after to setup and clean data
  * - use testHelper for data access
@@ -11,6 +11,8 @@
  * - fix tests to the latest code (new sequence generation)
  * change in 1.3:
  * - fix tests to the latest code
+ * change in 1.4:
+ * - add failure tests for containing invalid characters
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -381,6 +383,51 @@ describe('Test Register Member API', function () {
             .expect(200)
             .end(function (err) {
                 // examine the sent email manually
+                done(err);
+            });
+    });
+
+    /// Check if the firstName includes invalid charactor
+    it('should return errors: firstName includes invalid character', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo你好', lastName: 'barasd', handle: 'tesdleFooasd', email: 'testHandleFoo123@foobar.com', password: '123456', country: 'Romania', regSource: "source1" })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, ['First name contains invalid characters.'], "Invalid error message");
+                }
+                done(err);
+            });
+    });
+
+    /// Check if the lastName includes invalid charactor
+    it('should return errors: lastName includes invalid character', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar你好', handle: 'tesndleFoo', email: 'tesndleFoo@foobar.com', password: '123456', country: 'Romania', regSource: "source1" })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, ['Last name contains invalid characters.'], "Invalid error message");
+                }
+                done(err);
+            });
+    });
+
+    /// Check if the handle includes invalid charactor
+    it('should return errors: handle includes invalid character', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo你好', email: 'testHanFoo@foobar.com', password: '123456', country: 'Romania', regSource: "source1" })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, ['The handle may contain only letters, numbers and -_.{}[]'], "Invalid error message");
+                }
                 done(err);
             });
     });

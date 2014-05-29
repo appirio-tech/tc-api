@@ -1,7 +1,7 @@
 [
     "Country name is not valid.",
     "Email address is invalid",
-    "Last name is required",
+    "Last name contains invalid characters.",
     "Maximum length of first name is 64",
     "Social Email Verified can only be t or f",
     "Social Email address is invalid",

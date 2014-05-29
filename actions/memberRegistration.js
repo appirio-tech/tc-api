@@ -796,8 +796,12 @@ var validateHandle = function (api, handle, dbConnectionMap, next) {
  * @return {String} the error message or null if the name is valid.
  */
 var validateFirstName = function (firstName) {
-    if (isNullOrEmptyString(firstName) || !stringUtils.containsOnly(firstName, HANDLE_ALPHABET + ' ')) {
+    if (isNullOrEmptyString(firstName)) {
         return "First name is required";
+    }
+
+    if (!stringUtils.containsOnly(firstName, HANDLE_ALPHABET + ' ')) {
+        return "First name contains invalid characters."
     }
 
     if (firstName.length > MAX_GIVEN_NAME_LENGTH) {
@@ -817,8 +821,12 @@ var validateFirstName = function (firstName) {
  * @return {String} the error message or null if the name is valid.
  */
 var validateLastName = function (lastName) {
-    if (isNullOrEmptyString(lastName) || !stringUtils.containsOnly(lastName, HANDLE_ALPHABET + ' ')) {
+    if (isNullOrEmptyString(lastName)) {
         return "Last name is required";
+    }
+
+    if (!stringUtils.containsOnly(lastName, HANDLE_ALPHABET + ' ')) {
+        return "Last name contains invalid characters."
     }
 
     if (lastName.length > MAX_SURNAME_LENGTH) {
