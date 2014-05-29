@@ -962,10 +962,9 @@ describe('Test Challenges API', function () {
          */
         describe('-- Software Challenge Detail API --', function () {
             var SQL_DIR = __dirname + '/sqls/softwareChallengeDetail/',
-                heffan = 'ad|132456',
-                heffanAuthHeader = testHelper.generateAuthHeader({ sub: heffan }),
-                user = 'ad|132458',
-                userAuthHeader = testHelper.generateAuthHeader({ sub: user });
+                heffanAuthHeader = testHelper.generateAuthHeader({ sub: 'ad|132456' }),
+                superAuthHeader = testHelper.generateAuthHeader({ sub: 'ad|132457' }),
+                userAuthHeader = testHelper.generateAuthHeader({ sub: 'ad|132458' });
 
             function clearDb(done) {
                 testHelper.runSqlFile(SQL_DIR + "tcs_catalog__delete.sql", TCS_CATALOG, done);
@@ -1018,32 +1017,52 @@ describe('Test Challenges API', function () {
                     .expect('Content-Type', /json/)
                     .expect(200)
                     .end(function (err, res) {
-                        if (err) {
-                            done(err);
+                        if (!err) {
+                            assert.isDefined(res.body.copilotDetailedRequirements, 'copilotDetailedRequirements should returned');
                         }
-                        var expected = require('./test_files/expected_copilot_challenge_detail.json');
-                        delete res.body.serverInformation;
-                        delete res.body.requesterInformation;
-                        // The time in test data is not constant.
-                        delete res.body.postingDate;
-                        delete res.body.registrationEndDate;
-                        delete res.body.checkpointSubmissionEndDate;
-                        delete res.body.appealsEndDate;
-                        delete res.body.finalFixEndDate;
-                        delete res.body.submissionEndDate;
-                        delete res.body.currentPhaseEndDate;
-                        delete res.body.currentPhaseRemainingTime;
-                        delete res.body.registrants[0].registrationDate;
-                        delete res.body.submissions[0].submissionDate;
-                        assert.deepEqual(res.body, expected, 'Invalid response');
-                        done();
+                        done(err);
                     });
             });
 
             /**
              * develop/challenges/32500000
              */
-            it('should return Copilot Post details for copilot', function (done) {
+            it('should NOT return Copilot Post details for copilot', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/develop/challenges/' + '32500000')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', superAuthHeader)
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (!err) {
+                            assert.isUndefined(res.body.copilotDetailedRequirements, 'copilotDetailedRequirements should not returned');
+                        }
+                        done(err);
+                    });
+            });
+
+            /**
+             * develop/challenges/32500000
+             */
+            it('should NOT return Copilot Post details for anonymous call', function (done) {
+                request(API_ENDPOINT)
+                    .get('/v2/develop/challenges/' + '32500000')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (!err) {
+                            assert.isUndefined(res.body.copilotDetailedRequirements, 'copilotDetailedRequirements should not returned');
+                        }
+                        done(err);
+                    });
+            });
+
+            /**
+             * develop/challenges/32500000
+             */
+            it('should return Copilot Post details for a registered copilot', function (done) {
                 request(API_ENDPOINT)
                     .get('/v2/develop/challenges/' + '32500000')
                     .set('Accept', 'application/json')
@@ -1051,25 +1070,10 @@ describe('Test Challenges API', function () {
                     .expect('Content-Type', /json/)
                     .expect(200)
                     .end(function (err, res) {
-                        if (err) {
-                            done(err);
+                        if (!err) {
+                            assert.isDefined(res.body.copilotDetailedRequirements, 'copilotDetailedRequirements should returned');
                         }
-                        var expected = require('./test_files/expected_copilot_challenge_detail_2.json');
-                        delete res.body.serverInformation;
-                        delete res.body.requesterInformation;
-                        // The time in test data is not constant.
-                        delete res.body.postingDate;
-                        delete res.body.registrationEndDate;
-                        delete res.body.checkpointSubmissionEndDate;
-                        delete res.body.appealsEndDate;
-                        delete res.body.finalFixEndDate;
-                        delete res.body.submissionEndDate;
-                        delete res.body.currentPhaseEndDate;
-                        delete res.body.currentPhaseRemainingTime;
-                        delete res.body.registrants[0].registrationDate;
-                        delete res.body.submissions[0].submissionDate;
-                        assert.deepEqual(res.body, expected, 'Invalid response');
-                        done();
+                        done(err);
                     });
             });
 

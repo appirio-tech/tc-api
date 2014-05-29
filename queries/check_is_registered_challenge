@@ -1,0 +1,7 @@
+SELECT
+  COUNT(*) AS is_registered
+FROM resource r
+INNER JOIN resource_info ri1 ON ri1.resource_id = r.resource_id AND resource_info_type_id = 1
+WHERE r.project_id = @challengeId@
+AND r.resource_role_id = 1 -- submitter
+AND ri1.value = @user_id@

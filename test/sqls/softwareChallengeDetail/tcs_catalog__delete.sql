@@ -32,4 +32,4 @@ delete from project WHERE project_id >= 2000;
 delete from project_studio_specification;
 update project_category_lu SET project_catalog_id = null;
 delete from project_catalog_lu;
-delete from copilot_profile where copilot_profile_id=132458;
+delete from copilot_profile where copilot_profile_id IN (132458, 132457);
