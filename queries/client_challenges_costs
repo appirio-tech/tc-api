@@ -64,14 +64,35 @@ SELECT
                AND prz.prize_type_id IN (14, 15)), 0)
       ) AS challenge_member_cost,
       (
+             NVL((SELECT sum(total_amount)
+                  FROM  informixoltp:payment_detail pmd, informixoltp:payment pm
+                  WHERE pmd.component_project_id = p.project_id
+                  AND pmd.installment_number = 1
+                  AND pm.most_recent_detail_id = pmd.payment_detail_id
+                  AND pmd.payment_status_id = 53)
+             , 0)
+             +
+             NVL((SELECT sum(pmd2.total_amount)
+                  FROM  informixoltp:payment_detail pmd, informixoltp:payment pm
+                  LEFT OUTER JOIN informixoltp:payment_detail pmd2 on pm.payment_id = pmd2.parent_payment_id,
+                  informixoltp:payment pm2
+                  WHERE pmd.component_project_id = p.project_id
+                  AND pmd2.installment_number = 1
+                  AND pm.most_recent_detail_id = pmd.payment_detail_id
+                  AND pm2.most_recent_detail_id = pmd2.payment_detail_id
+                  AND pmd2.payment_status_id = 53)
+             , 0)
+      ) AS actual_member_cost,
+      (
         SELECT NVL(pit_31.value::DECIMAL(10,2), 0)
         FROM project_info pit_31
         WHERE pit_31.project_id = p.project_id
         AND   pit_31.project_info_type_id = 31
       )
        AS challenge_fee,
-
+      pi57.value AS challenge_fee_percentage,
       psl.name AS challenge_status,
+      psl.project_status_id AS challenge_status_id,
       a.cmc_account_id AS cmc_account_id,
       a.customer_number AS customer_number,
       b.project_id AS billing_account_id,
@@ -149,6 +170,7 @@ INNER JOIN project_category_lu pcl ON p.project_category_id = pcl.project_catego
 INNER JOIN project_status_lu psl ON psl.project_status_id = p.project_status_id
 INNER JOIN project_info pit_6 ON pit_6.project_id = p.project_id
 LEFT JOIN project_info pit_32 ON pit_32.project_id = p.project_id
+LEFT JOIN project_info pi57 ON pi57.project_id = p.project_id AND pi57.project_info_type_id = 57 AND pi57.value != '0'
 LEFT JOIN tc_direct_project tdp ON tdp.project_id = p.tc_direct_project_id
 LEFT JOIN project_phase reg_pp ON reg_pp.project_id = p.project_id
 LEFT JOIN project_phase sub_pp ON sub_pp.project_id = p.project_id
