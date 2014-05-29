@@ -257,7 +257,7 @@ exports.dataAccess = function (api, next) {
                     parameterizeQuery(sql, parameters, cb);
                 }, function (parametrizedQuery, cb) {
                     sql = parametrizedQuery;
-                    api.log("Database connected", 'info');
+                    api.log("Database connected", 'debug');
 
                     // the connection might have been closed due to other errors, so this check must be done
                     if (connection.isConnected()) {
