@@ -1,7 +1,45 @@
-SELECT
-  (rating / 100)::INT * 100 AS rating
-, COUNT(rating) AS number
-FROM algo_rating
-WHERE algo_rating_type_id = @algoRatingType@ AND num_ratings > 0
-GROUP BY 1
-ORDER BY 1 ASC
+SELECT NVL(sum(case when rating between 0000 and 0099 then 1 else 0 end), 0) as range_0000_0099
+ ,NVL(sum(case when rating between 0100 and 0199 then 1 else 0 end), 0) as range_0100_0199
+ ,NVL(sum(case when rating between 0200 and 0299 then 1 else 0 end), 0) as range_0200_0299
+ ,NVL(sum(case when rating between 0300 and 0399 then 1 else 0 end), 0) as range_0300_0399
+ ,NVL(sum(case when rating between 0400 and 0499 then 1 else 0 end), 0) as range_0400_0499
+ ,NVL(sum(case when rating between 0500 and 0599 then 1 else 0 end), 0) as range_0500_0599
+ ,NVL(sum(case when rating between 0600 and 0699 then 1 else 0 end), 0) as range_0600_0699
+ ,NVL(sum(case when rating between 0700 and 0799 then 1 else 0 end), 0) as range_0700_0799
+ ,NVL(sum(case when rating between 0800 and 0899 then 1 else 0 end), 0) as range_0800_0899
+ ,NVL(sum(case when rating between 0900 and 0999 then 1 else 0 end), 0) as range_0900_0999
+ ,NVL(sum(case when rating between 1000 and 1099 then 1 else 0 end), 0) as range_1000_1099
+ ,NVL(sum(case when rating between 1100 and 1199 then 1 else 0 end), 0) as range_1100_1199
+ ,NVL(sum(case when rating between 1200 and 1299 then 1 else 0 end), 0) as range_1200_1299
+ ,NVL(sum(case when rating between 1300 and 1399 then 1 else 0 end), 0) as range_1300_1399
+ ,NVL(sum(case when rating between 1400 and 1499 then 1 else 0 end), 0) as range_1400_1499
+ ,NVL(sum(case when rating between 1500 and 1599 then 1 else 0 end), 0) as range_1500_1599
+ ,NVL(sum(case when rating between 1600 and 1699 then 1 else 0 end), 0) as range_1600_1699
+ ,NVL(sum(case when rating between 1700 and 1799 then 1 else 0 end), 0) as range_1700_1799
+ ,NVL(sum(case when rating between 1800 and 1899 then 1 else 0 end), 0) as range_1800_1899
+ ,NVL(sum(case when rating between 1900 and 1999 then 1 else 0 end), 0) as range_1900_1999
+ ,NVL(sum(case when rating between 2000 and 2099 then 1 else 0 end), 0) as range_2000_2099
+ ,NVL(sum(case when rating between 2100 and 2199 then 1 else 0 end), 0) as range_2100_2199
+ ,NVL(sum(case when rating between 2200 and 2299 then 1 else 0 end), 0) as range_2200_2299
+ ,NVL(sum(case when rating between 2300 and 2399 then 1 else 0 end), 0) as range_2300_2399
+ ,NVL(sum(case when rating between 2400 and 2499 then 1 else 0 end), 0) as range_2400_2499
+ ,NVL(sum(case when rating between 2500 and 2599 then 1 else 0 end), 0) as range_2500_2599
+ ,NVL(sum(case when rating between 2600 and 2699 then 1 else 0 end), 0) as range_2600_2699
+ ,NVL(sum(case when rating between 2700 and 2799 then 1 else 0 end), 0) as range_2700_2799
+ ,NVL(sum(case when rating between 2800 and 2899 then 1 else 0 end), 0) as range_2800_2899
+ ,NVL(sum(case when rating between 2900 and 2999 then 1 else 0 end), 0) as range_2900_2999
+ ,NVL(sum(case when rating between 3000 and 3099 then 1 else 0 end), 0) as range_3000_3099
+ ,NVL(sum(case when rating between 3100 and 3199 then 1 else 0 end), 0) as range_3100_3199
+ ,NVL(sum(case when rating between 3200 and 3299 then 1 else 0 end), 0) as range_3200_3299
+ ,NVL(sum(case when rating between 3300 and 3399 then 1 else 0 end), 0) as range_3300_3399
+ ,NVL(sum(case when rating between 3400 and 3499 then 1 else 0 end), 0) as range_3400_3499
+ ,NVL(sum(case when rating between 3500 and 3599 then 1 else 0 end), 0) as range_3500_3599
+ ,NVL(sum(case when rating between 3600 and 3699 then 1 else 0 end), 0) as range_3600_3699
+ ,NVL(sum(case when rating between 3700 and 3799 then 1 else 0 end), 0) as range_3700_3799
+ ,NVL(sum(case when rating between 3800 and 3899 then 1 else 0 end), 0) as range_3800_3899
+ ,NVL(sum(case when rating between 3900 and 3999 then 1 else 0 end), 0) as range_3900_3999
+FROM coder c, algo_rating ar
+WHERE c.coder_id = ar.coder_id
+  AND status = 'A'
+  AND ar.num_ratings > 0
+  AND ar.algo_rating_type_id = @algoRatingType@

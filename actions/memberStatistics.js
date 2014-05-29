@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.17
+ * @version 1.18
  * @author Sky_, Ghost_141, muzehyun, hesibo, isv, LazyChild, jamestc, TCASSEMBLER
  * changes in 1.1:
  * - implement marathon statistics
@@ -43,6 +43,8 @@
  * Changes in 1.17:
  * - Added fields to get my user profile api.
  * - Added logic to update user profile.
+ * Changes in 1.18:
+ * - Update algorithm rating distribution logic.
  */
 "use strict";
 /*jslint node: true, stupid: true, unparam: true, plusplus: true */
@@ -778,7 +780,8 @@ exports.getMarathonStatistics = {
                     }
                 }, cb);
             }, function (results, cb) {
-                var details = results.details[0], history = results.history, distribution = results.distribution;
+                var details = results.details[0], history = results.history, distribution = results.distribution,
+                    dist_data, dist_keys;
                 if (results.details.length === 0) {
                     cb(new NotFoundError('statistics not found'));
                     return;
@@ -805,8 +808,17 @@ exports.getMarathonStatistics = {
                     "avgNumSubmissions": details.avg_num_submissions,
 
                     "History": mapHistory(history),
-                    "Distribution": mapDistribution(distribution)
+                    "Distribution": []
                 };
+                dist_data = distribution[0];
+                dist_keys = _.keys(dist_data);
+                dist_keys.sort();
+                dist_keys.forEach(function (key) {
+                    result.Distribution.push({
+                        "range": key.replace('range_', '').replace('_', '-'),
+                        "number": dist_data[key]
+                    });
+                });
                 cb();
             }
         ], function (err) {
@@ -1090,7 +1102,7 @@ exports.getAlgorithmStatistics = {
                     cb(new NotFoundError('statistics not found'));
                     return;
                 }
-                var details = results.basic[0],
+                var dist_data, dist_keys, details = results.basic[0],
                     getSuccess = function (failed, total) {
                         if (total === 0) {
                             return "0.00%";
@@ -1148,8 +1160,17 @@ exports.getAlgorithmStatistics = {
                         Levels: {}
                     },
                     History: mapHistory(results.history),
-                    Distribution: mapDistribution(results.distribution)
+                    Distribution: []
                 };
+                dist_data = results.distribution[0];
+                dist_keys = _.keys(dist_data);
+                dist_keys.sort();
+                dist_keys.forEach(function (key) {
+                    result.Distribution.push({
+                        "range": key.replace('range_', '').replace('_', '-'),
+                        "number": dist_data[key]
+                    });
+                });
                 results.div1.forEach(function (ele) {
                     result.Divisions["Division I"][ele.level_name] = mapLevel(ele);
                 });
