@@ -745,6 +745,7 @@ exports.getMarathonStatistics = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
@@ -847,6 +848,7 @@ exports.getSoftwareStatistics = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getSoftwareStatistics#run", 'debug');
@@ -991,6 +993,7 @@ exports.getStudioStatistics = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ["topcoder_dw", "tcs_catalog"],
     run: function (api, connection, next) {
         api.log("Execute getStudioStatistics#run", 'debug');
@@ -1062,6 +1065,7 @@ exports.getAlgorithmStatistics = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ["topcoder_dw"],
     run: function (api, connection, next) {
         api.log("Execute getAlgorithmStatistics#run", 'debug');
@@ -1221,6 +1225,7 @@ exports.getBasicUserProfile = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ['informixoltp', 'topcoder_dw', 'common_oltp'],
     run: function (api, connection, next) {
         if (!connection.dbConnectionMap) {
@@ -1412,6 +1417,7 @@ exports.getRecentWinningDesignSubmissions = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "topcoder_dw"],
     run: function (api, connection, next) {
