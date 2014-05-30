@@ -29,7 +29,7 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400007, 30400000, 2, 2, null, TO_DATE('20-01-2014','%d-%m-%Y') + -44640 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -36000 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400008, 30400000, 3, 1, null, TO_DATE('20-01-2014','%d-%m-%Y') + -36000 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -35280 UNITS MINUTE, null, null, 43200000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30400009, 30400000, 4, 1, null, TO_DATE('20-01-2014','%d-%m-%Y') + -35280 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
-INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date) VALUES (30400010, 1, 30400000, 30400007, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (30400010, 1, 30400000, 30400007, 132456, CURRENT, 132456, CURRENT, 132456);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) 
 VALUES (30400010, 1, '132456', 132456, CURRENT, 132456, CURRENT);
@@ -95,7 +95,7 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30500008, 30500000, 18, 2, null, TO_DATE('20-01-2014','%d-%m-%Y') + -35280 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (30500009, 30500000, 18, 1, null, TO_DATE('21-01-2014','%d-%m-%Y') + -35280 UNITS MINUTE, TO_DATE('21-01-2014','%d-%m-%Y') + -26640 UNITS MINUTE, null, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 
-INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date) VALUES (30500010, 1, 30500000, 30500007, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (30500010, 1, 30500000, 30500007, 132456, CURRENT, 132456, CURRENT, 132456);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) 
 VALUES (30500010, 1, '132456', 132456, CURRENT, 132456, CURRENT);
@@ -160,7 +160,7 @@ INSERT INTO prize (prize_id, place, prize_amount, prize_type_id, project_id, num
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (32500006, 32500000, 1, 3, TO_DATE('20-01-2014','%d-%m-%Y') + -44640 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -44640 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -41760 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -44540 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -41760 UNITS MINUTE, 172800000, 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES (32500007, 32500000, 2, 2, null, TO_DATE('20-01-2014','%d-%m-%Y') + -44640 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -36000 UNITS MINUTE, TO_DATE('20-01-2014','%d-%m-%Y') + -44640 UNITS MINUTE, null, 518400000, 132456, CURRENT, 132456, CURRENT);
 
-INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date) VALUES (32500010, 1, 32500000, 30500007, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (32500010, 1, 32500000, 30500007, 132456, CURRENT, 132456, CURRENT, 132456);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
 VALUES (32500010, 1, '132456', 132456, CURRENT, 132456, CURRENT);
@@ -171,6 +171,12 @@ VALUES (32500010, 4, '1800', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
 VALUES (32500010, 5, '100', 132456, CURRENT, 132456, CURRENT);
 
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, create_user, create_date, modify_user, modify_date, user_id)
+VALUES (32500011, 1, 32500000, 30500007, 132456, CURRENT, 132456, CURRENT, 132458);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES (32500011, 1, '132458', 132456, CURRENT, 132456, CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES (32500011, 2, 'user', 132456, CURRENT, 132456, CURRENT);
 
 INSERT INTO upload (upload_id, project_id, resource_id, upload_type_id, upload_status_id, parameter, create_user, create_date, modify_user, modify_date, project_phase_id) VALUES (32500011, 32500000, 32500010, 1, 1, '30010038_30010845_30010535.zip', 132456, '2013-07-10 18:27:31', 132456, CURRENT, 30500007);
 INSERT INTO submission (submission_id, upload_id, submission_status_id, screening_score, initial_score, final_score, placement, submission_type_id, create_user, create_date, modify_user, modify_date, prize_id) VALUES (32500012, 32500011, 1, 100, 80, 90, 1, 1, 132456, CURRENT, 132456, CURRENT, null);
@@ -188,6 +194,8 @@ INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, docu
 INSERT INTO copilot_profile(copilot_profile_id, user_id, copilot_profile_status_id, suspension_count, reliability, create_user, create_date, update_user, update_date)
 VALUES(132458, 132458, 1, 1, 50, 132456, CURRENT, 132456, CURRENT);
 
+INSERT INTO copilot_profile(copilot_profile_id, user_id, copilot_profile_status_id, suspension_count, reliability, create_user, create_date, update_user, update_date)
+VALUES(132457, 132457, 1, 1, 50, 132456, CURRENT, 132456, CURRENT);
 
 
 -- private challenge 2001

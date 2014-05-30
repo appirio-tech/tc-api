@@ -979,6 +979,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
     var challenge, error, helper = api.helper, sqlParams, challengeType = isStudio ? helper.studio : helper.software,
         caller = connection.caller,
         isRelated = false, // This variable represent if the caller is related with challenge.
+        isRegistered = false,// This variable represent if the caller is already registered this challenge.
+        isCopilotPosting = false,//This variable represent if the challenge is a copilot posting challenge.
+        copilotDetailedRequirements,
         unified = connection.action === "getChallenge",
         execQuery = function (name) {
             return function (cbx) {
@@ -1035,6 +1038,9 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             if (!isStudio && results.copilot.length) {
                 isCopilot = results.copilot[0].user_is_copilot;
             }
+            if (results.details[0].project_type === COPILOT_POSTING_PROJECT_TYPE) {
+                isCopilotPosting = true;
+            }
             var data = results.details[0], i = 0, prize = 0,
                 filetypesText,
                 filetypesArray,
@@ -1084,25 +1090,25 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     });
                 };
             challenge = {
-                challengeType : data.challenge_type,
-                challengeName : data.challenge_name,
-                challengeId : data.challenge_id,
-                projectId : data.project_id,
-                forumId : data.forum_id,
+                challengeType: data.challenge_type,
+                challengeName: data.challenge_name,
+                challengeId: data.challenge_id,
+                projectId: data.project_id,
+                forumId: data.forum_id,
                 introduction: data.introduction,
                 round1Introduction: data.round_one_introduction,
                 round2Introduction: data.round_two_introduction,
-                detailedRequirements : isStudio ? data.studio_detailed_requirements : data.software_detailed_requirements,
-                finalSubmissionGuidelines : data.final_submission_guidelines,
-                screeningScorecardId : data.screening_scorecard_id,
-                reviewScorecardId : data.review_scorecard_id,
-                cmcTaskId : convertNull(data.cmc_task_id),
-                numberOfCheckpointsPrizes : data.number_of_checkpoints_prizes,
-                topCheckPointPrize : convertNull(data.top_checkpoint_prize),
-                postingDate : formatDate(data.posting_date),
-                registrationEndDate : formatDate(data.registration_end_date),
-                checkpointSubmissionEndDate : formatDate(data.checkpoint_submission_end_date),
-                submissionEndDate : formatDate(data.submission_end_date)
+                detailedRequirements: isStudio ? data.studio_detailed_requirements : data.software_detailed_requirements,
+                finalSubmissionGuidelines: data.final_submission_guidelines,
+                screeningScorecardId: data.screening_scorecard_id,
+                reviewScorecardId: data.review_scorecard_id,
+                cmcTaskId: convertNull(data.cmc_task_id),
+                numberOfCheckpointsPrizes: data.number_of_checkpoints_prizes,
+                topCheckPointPrize: convertNull(data.top_checkpoint_prize),
+                postingDate: formatDate(data.posting_date),
+                registrationEndDate: formatDate(data.registration_end_date),
+                checkpointSubmissionEndDate: formatDate(data.checkpoint_submission_end_date),
+                submissionEndDate: formatDate(data.submission_end_date)
             };
 
             if (unified) {
@@ -1118,11 +1124,11 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 if (filetypesText) {
                     filetypesArray = filetypesText.split(',');
                 }
-                challenge.filetypes =  filetypesArray;
+                challenge.filetypes = filetypesArray;
             }
 
-            if (data.project_type === COPILOT_POSTING_PROJECT_TYPE && (isCopilot || helper.isAdmin(caller))) {
-                challenge.copilotDetailedRequirements = data.copilot_detailed_requirements;
+            if (isCopilotPosting) {
+                copilotDetailedRequirements = data.copilot_detailed_requirements;
             }
             if (data.appeals_end_date) {
                 challenge.appealsEndDate = formatDate(data.appeals_end_date);
@@ -1133,20 +1139,20 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 
             //use xtend to preserve ordering of attributes
             challenge = extend(challenge, {
-                submissionLimit : data.submission_limit,
-                currentStatus : data.current_status,
+                submissionLimit: data.submission_limit,
+                currentStatus: data.current_status,
                 digitalRunPoints: data.digital_run_points,
                 reliabilityBonus: helper.getReliabilityBonus(data.prize1),
                 challengeCommunity: challengeType.community,
-                directUrl : helper.getDirectProjectLink(data.challenge_id),
+                directUrl: helper.getDirectProjectLink(data.challenge_id),
                 technology: _.isUndefined(data.technology) || data.technology === '' ? [] : data.technology.split(', '),
                 prize: mapPrize(data),
                 winners: mapWinners(results.winners)
             });
             challenge = extend(challenge, {
-                currentPhaseName : convertNull(data.current_phase_name),
-                currentPhaseRemainingTime : data.current_phase_remaining_time,
-                currentPhaseEndDate : formatDate(data.current_phase_end_date)
+                currentPhaseName: convertNull(data.current_phase_name),
+                currentPhaseRemainingTime: data.current_phase_remaining_time,
+                currentPhaseEndDate: formatDate(data.current_phase_end_date)
             });
 
             // Only show the documents to relevant user.
@@ -1173,6 +1179,21 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             challenge.platforms = mapPlatforms(results.platforms);
             if (data.event_id !== 0) {
                 challenge.event = {id: data.event_id, description: data.event_description, shortDescription: data.event_short_desc};
+            }
+            if (isCopilotPosting) {
+                execQuery('check_is_registered_challenge')(cb);
+            } else {
+                cb(null, []);
+            }
+        }, function (rows, cb) {
+            console.log('isCopilotPosting: ' + isCopilotPosting);
+            console.log('rows: ' + rows);
+            if (rows.length > 0) {
+                isRegistered = rows[0].is_registered > 0;
+            }
+
+            if (isCopilotPosting && ((isCopilot && isRegistered) || helper.isAdmin(caller))) {
+                challenge.copilotDetailedRequirements = copilotDetailedRequirements;
             }
             cb();
         }, function (cb) {
