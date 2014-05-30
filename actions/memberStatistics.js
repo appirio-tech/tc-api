@@ -1536,6 +1536,7 @@ exports.getMyProfile = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
     transaction: 'read', // this action is read-only
     databases: ["informixoltp", "topcoder_dw", "common_oltp"],
     run: function (api, connection, next) {
