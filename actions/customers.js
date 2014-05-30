@@ -47,6 +47,101 @@ var dummyAddress = {
     zipCode: "06033"
 };
 
+/**
+ * Create a new client.
+ * @param api - the api object.
+ * @param connection - the connection object.
+ * @param cb - the callback function.
+ */
+var createClient = function (api, connection, cb) {
+    var dbConnectionMap = connection.dbConnectionMap;
+    async.waterfall([
+        function (cbx) {
+            //No more validations. Generate the ids for the client, contact, address
+            async.parallel({
+                clientId: function (callback) {
+                    api.idGenerator.getNextIDFromDb("CLIENT_SEQ", "time_oltp", dbConnectionMap, callback);
+                },
+                addressId: function (callback) {
+                    api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, callback);
+                },
+                contactId: function (callback) {
+                    api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, callback);
+                }
+            }, cbx);
+        },
+        function (generatedIds, cbx) {
+            _.extend(newClient, {
+                clientId: generatedIds.clientId,
+                userId: connection.caller.userId
+            });
+            _.extend(dummyContact, {
+                contactId: generatedIds.contactId,
+                userId: connection.caller.userId
+            });
+            _.extend(dummyAddress, {
+                addressId: generatedIds.addressId,
+                userId: connection.caller.userId
+            });
+
+            //Now save the new client, contact, address records
+            //These are inserted all in parallel, as there are no dependencies between these records.
+            async.parallel([
+                function (callback) {
+                    api.dataAccess.executeQuery("insert_client", newClient, dbConnectionMap, callback);
+                }, function (callback) {
+                    api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, callback);
+                }, function (callback) {
+                    api.dataAccess.executeQuery("insert_address", dummyAddress, dbConnectionMap, callback);
+                }
+            ], cbx);
+        },
+        function (notUsed, cbx) {
+            //Now save the address_relation and contact_relation records
+            var dummyAddressRelation = {
+                entityId: newClient.clientId,
+                addressTypeId: 2,
+                addressId: dummyAddress.addressId,
+                userId: connection.caller.userId
+            },  dummyContactRelation = {
+                entityId: newClient.clientId,
+                contactTypeId: 2,
+                contactId: dummyContact.contactId,
+                userId: connection.caller.userId
+            };
+            async.parallel([
+                function (callback) {
+                    api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation, dbConnectionMap, callback);
+                },
+                function (callback) {
+                    api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation, dbConnectionMap, callback);
+                }
+            ], cbx);
+        }
+
+    ], function (err) {
+        cb(err);
+    });
+
+};
+
+/**
+ * Update a client
+ * @param api - the api object.
+ * @param connection - the connection object.
+ * @param cb - the callback function.
+ */
+var updateClient = function (api, connection, cb) {
+    api.dataAccess.executeQuery('update_client',
+        {
+            clientName: connection.params.name,
+            userId: connection.caller.userId,
+            customerNumber: connection.params.customerNumber
+        }, connection.dbConnectionMap, function (err) {
+            cb(err);
+        });
+};
+
 /*
  * Exports the function which will be used to create a new customer
  * It expects name and customerNumber as required parameters
@@ -135,70 +230,14 @@ exports.action = {
                         cb(new IllegalArgumentError("Client with this name already exists."));
                         return;
                     }
+
                     if (rows[0].customer_number_exists) {
-                        cb(new IllegalArgumentError("Client with this customer number already exists."));
-                        return;
+                        // If the customer number exists then update the current client.
+                        updateClient(api, connection, cb);
                     }
+                } else {
+                    createClient(api, connection, cb);
                 }
-
-                //No more validations. Generate the ids for the client, contact, address
-                async.parallel({
-                    clientId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("CLIENT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
-                    addressId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, cb);
-                    },
-                    contactId: function (cb) {
-                        api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, cb);
-                    }
-                }, cb);
-            }, function (generatedIds, cb) {
-                _.extend(newClient, {
-                    clientId: generatedIds.clientId,
-                    userId: connection.caller.userId
-                });
-                _.extend(dummyContact, {
-                    contactId: generatedIds.contactId,
-                    userId: connection.caller.userId
-                });
-                _.extend(dummyAddress, {
-                    addressId: generatedIds.addressId,
-                    userId: connection.caller.userId
-                });
-
-                //Now save the new client, contact, address records
-                //These are inserted all in parallel, as there are no dependencies between these records.
-                async.parallel([
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_client", newClient, dbConnectionMap, cb);
-                    }, function (cb) {
-                        api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
-                    }, function (cb) {
-                        api.dataAccess.executeQuery("insert_address", dummyAddress, dbConnectionMap, cb);
-                    }
-                ], cb);
-            }, function (notUsed, cb) {
-                //Now save the address_relation and contact_relation records
-                var dummyAddressRelation = {
-                    entityId: newClient.clientId,
-                    addressTypeId: 2,
-                    addressId: dummyAddress.addressId,
-                    userId: connection.caller.userId
-                },  dummyContactRelation = {
-                    entityId: newClient.clientId,
-                    contactTypeId: 2,
-                    contactId: dummyContact.contactId,
-                    userId: connection.caller.userId
-                };
-                async.parallel([
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation, dbConnectionMap, cb);
-                    },
-                    function (cb) {
-                        api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation, dbConnectionMap, cb);
-                    }
-                ], cb);
             }
         ], function (err) {
             if (err) {

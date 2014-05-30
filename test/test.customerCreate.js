@@ -42,8 +42,7 @@ describe('Create new customer', function () {
      * @param {Object} user the user to authenticate
      */
     function getAuthHeader(user) {
-        var authHeader = "Bearer " + jwt.sign({sub: user}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
-        return authHeader;
+        return "Bearer " + jwt.sign({sub: user}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
     }
 
     /**
@@ -55,13 +54,12 @@ describe('Create new customer', function () {
      * @param {Number} expectedStatusCode the expected status code of the response
      */
     function getRequest(url, user, expectedStatusCode) {
-        var req = request(API_ENDPOINT)
+        return request(API_ENDPOINT)
             .post(url)
             .set('Accept', 'application/json')
             .set('Authorization', getAuthHeader(user))
             .expect('Content-Type', /json/)
             .expect(expectedStatusCode);
-        return req;
     }
 
 
@@ -226,19 +224,6 @@ describe('Create new customer', function () {
         req.send({ name: 'anotherExistingName', customerNumber: 'asdfhajdsfh'})
             .end(function (err, resp) {
                 assertError(err, resp, "Client with this name already exists.", done);
-            });
-    });
-
-    /**
-     * Test POST /v2/platform/customer when client with customerName already exists
-     * should return 400 error
-     */
-    it('should return 400 error when customerName already exists', function (done) {
-        var req = getRequest('/v2/platform/customer', user132456, 400);
-
-        req.send({ name: 'blahijsmshhs', customerNumber: 'anotherExistingCustomerNumber'})
-            .end(function (err, resp) {
-                assertError(err, resp, "Client with this customer number already exists.", done);
             });
     });
 
