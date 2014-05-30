@@ -878,6 +878,7 @@ exports.getTrackStatistics = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ['tcs_catalog', 'informixoltp', 'topcoder_dw'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
