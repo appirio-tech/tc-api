@@ -15,11 +15,11 @@ INSERT INTO project_info (project_id, project_info_type_id, value, create_user, 
 
 INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date) VALUES ('66904', '1', '0', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
 
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66911, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66912, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66913, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66914, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66915, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66911, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66912, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66913, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66914, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66915, 1, 66901, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (66911, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (66911, 2, 'Hung', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
@@ -70,9 +70,9 @@ INSERT INTO component_inquiry (component_inquiry_id, component_id, user_id, comm
 
 INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (66902, 4, 16, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66916, 1, 66902, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66917, 1, 66902, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66918, 1, 66902, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66916, 1, 66902, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66917, 1, 66902, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66918, 1, 66902, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (66916, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (66916, 2, 'twight', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
@@ -123,9 +123,9 @@ INSERT INTO project (project_id, project_status_id, project_category_id, create_
 INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(66913, 53, 'true', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 INSERT INTO project_info(project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES(66913, 54, 'true', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66920, 1, 66913, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66921, 1, 66913, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (66922, 1, 66913, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66920, 1, 66913, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66921, 1, 66913, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (66922, 1, 66913, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 132456);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (66920, 1, 124766, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (66920, 2, 'twight', 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');

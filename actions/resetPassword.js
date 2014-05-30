@@ -232,6 +232,7 @@ exports.generateResetToken = {
     databases: ["common_oltp"],
     run: function (api, connection, next) {
         api.log("Execute generateResetToken#run", 'debug');
+        var socialLoginProviderName;
         if (connection.dbConnectionMap) {
             async.waterfall([
                 function (cb) { // Find the user either by handle or by email
@@ -250,6 +251,9 @@ exports.generateResetToken = {
                         resolveUserByHandleOrEmail(handle, email, api, connection.dbConnectionMap, cb);
                     }
                 }, function (result, cb) {
+                    if (result.social_login_provider_name !== '') {
+                        socialLoginProviderName = result.social_login_provider_name;
+                    }
                     // Generate reset password token for user
                     generateResetToken(result.handle, result.email_address, api, cb);
 
@@ -257,6 +261,8 @@ exports.generateResetToken = {
             ], function (err, newToken) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
+                } else if (socialLoginProviderName) {
+                    connection.response = {socialProvider: socialLoginProviderName};
                 } else if (newToken) {
                     connection.response = {successful: true};
                 }
