@@ -1,5 +1,6 @@
 SELECT
   u.handle
+, NVL(slp.name, '') AS social_login_provider_name
 , e.address AS email_address
 FROM (
     SELECT u.user_id, 0 
