@@ -1,4 +1,5 @@
 INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (30400000, 1, 1, 132456, CURRENT, 132456, CURRENT, 30400001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 4, '30400000', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 6, 'this is DETAIL software ACTIVE/OPEN contest 01', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 26, 'On', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30400000, 30, '510.0', 132456, CURRENT, 132456, CURRENT);
@@ -65,6 +66,7 @@ INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, docu
 INSERT INTO comp_documentation(document_id, comp_vers_id, document_type_id, document_name, url) VALUES(30400002, 30400002, 25, 'document 3', 'test/document3.doc');
 
 INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id, project_studio_spec_id) VALUES (30500000, 1, 38, 132456, CURRENT, 132456, CURRENT, 30400001, null);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30500000, 4, '30500000', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30500000, 6, 'this is a F2F challenge', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30500000, 26, 'On', 132456, CURRENT, 132456, CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (30500000, 30, '510.0', 132456, CURRENT, 132456, CURRENT);

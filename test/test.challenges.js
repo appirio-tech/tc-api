@@ -31,6 +31,7 @@ var request = require('supertest');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var async = require('async');
+var S = require('string');
 var _ = require('underscore');
 var testHelper = require('./helpers/testHelper');
 
@@ -1389,6 +1390,32 @@ describe('Test Challenges API', function () {
                                 delete body.requesterInformation;
                                 delete expected.reliabilityBonus;
                                 assert.deepEqual(res.body, expected, 'Invalid response');
+                                cb();
+                            });
+                    }
+                ], function (err) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    done();
+                });
+            });
+
+            it('should return new fourm link', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlQuery('INSERT INTO project_info(project_id, project_info_type_id, value, create_user,create_date,modify_user,modify_date)' +
+                            "VALUES(10041, 78, 'Design', '132456', current, '132456', current);", 'tcs_catalog', cb);
+                    }, function (cb) {
+                        request(API_ENDPOINT)
+                            .get('/v2/design/challenges/10041')
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .end(function (err, res) {
+                                var config = require('../config/tc-config').tcConfig;
+                                assert.isTrue(new S(res.body.forumLink).startsWith(config.forumUrlPrefix));
                                 cb();
                             });
                     }

@@ -84,6 +84,7 @@ var config = {
     jiraPassword: process.env.JIRA_PASSWORD,
     tcForumsUrlPrefix: (process.env.TC_FORUMS_SERVER_NAME || "http://forums.topcoder.com/") + '?module=Category&categoryID=',
     studioForumsUrlPrefix: (process.env.STUDIO_FORUMS_SERVER_NAME || "http://studio.topcoder.com/forums") + '?module=ThreadList&forumID=',
+    forumUrlPrefix: 'http://apps.topcoder.com/forums/?module=ThreadList&forumID=',
     grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
     devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",

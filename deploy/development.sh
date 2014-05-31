@@ -73,7 +73,6 @@ export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
 # Forum settings
-export TC_FORUMS_SERVER_NAME="http://forums.topcoder.com/"
 export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
 export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
