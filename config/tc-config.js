@@ -68,6 +68,7 @@
 
 var config = {
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
+    pastChallengesCacheLifetime: 24 * 60 * 60 * 1000,
     resetTokenPrefix: 'tokens-',
     resetTokenSuffix: '-reset-token',
     minPasswordLength: 8,
