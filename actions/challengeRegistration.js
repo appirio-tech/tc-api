@@ -365,6 +365,8 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
 var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, challengeType, challengeId, dbConnectionMap, next) {
+    var user, projectName, documentationDetails, submitURL, forumURL, umlToolInfo;
+
     async.waterfall([
         function (cb) {
             api.dataAccess.executeQuery("get_user_email_and_handle", {
@@ -376,7 +378,6 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 cb(new NotFoundError("user's email and handle not found"));
                 return;
             }
-            var user, projectName, documentationDetails, submitURL, forumURL, umlToolInfo;
 
             user = result[0];
             projectName = componentInfo.project_name + api.helper.getPhaseName(componentInfo.phase_id) + ' Contest';
@@ -402,6 +403,25 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
+            if (challengeType === CHALLENGE_TYPE.DESIGN) {
+                // Get forum type
+                api.dataAccess.executeQuery('get_project_info',
+                    {
+                        challenge_id: challengeId,
+                        project_info_type_id: 78
+                    },
+                    dbConnectionMap,
+                    cb
+                    );
+            } else {
+                cb(null, []);
+            }
+        },
+        function (result, cb) {
+            if (result.length !== 0 && result[0].value === 'Design') {
+                // If the forum type is "Design" then use the new forum url.
+                forumURL = api.config.tcConfig.tcForumsUrlPrefix + activeForumCategoryId;
+            }
 
             api.tasks.enqueue("sendEmail", {
                 subject : projectName,
