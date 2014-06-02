@@ -1961,8 +1961,8 @@ Request
 
 #Group Software Challenges
 
-## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Get Review Opportunities [GET]
+##Develop Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get Develop Review Opportunities [GET]
 
 + Parameters
     + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern YYYY-MM-DD.
@@ -5160,8 +5160,16 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Review Opportunities [/design/reviewOpportunities]
-### Get Review Opportunities [GET]
+##Design Review Opportunities [/design/reviewOpportunities?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get Design Review Opportunities [GET]
+
++ Parameters
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern YYYY-MM-DD.
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
 
 + Response 200 (application/json)
 
@@ -5169,23 +5177,30 @@ Request
          "data": [
           {
             "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-            "challengetype": "Design",
+            "challengeId": 30005520,
+            "challengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "reviewType":"screening"
+            "reviewType":"screening",
+            "detailLink": "http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=30005520"
           },
           {
             "challengeName": "Cornell - Responsive Storyboard",
-            "ChallengeType": "Design",
+            "challengeId": 30005521,
+            "challengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "reviewType":"screening"
+            "reviewType":"screening",
+            "detailLink": "http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=30005521"
           }
-         ]
+         ],
+         "total": 2,
+         "pageIndex": 1,
+         "pageSize": 10
         }
 
 + Response 400 (application/json)
