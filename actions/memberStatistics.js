@@ -934,7 +934,7 @@ exports.getSoftwareStatistics = {
                     // Use the phase id to locate the data.
                     result.Tracks[track.phase_id] = {
                         rating: track.rating,
-                        reliability: track.reliability ? track.reliability.toFixed(2) + '%' : 'n/a',
+                        reliability: track.reliability ? track.reliability.toFixed(2) : 'n/a',
                         activePercentile: track.active_percentile.toFixed(2) + "%",
                         activeRank: track.active_rank,
                         activeCountryRank: track.active_country_rank,
