@@ -1320,6 +1320,7 @@ exports.getSoftwareRatingHistoryAndDistribution = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     transaction: 'read', // this action is read-only
     databases: ['tcs_dw', 'topcoder_dw'],
     run: function (api, connection, next) {
@@ -1446,6 +1447,7 @@ exports.getCopilotStatistics = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "topcoder_dw"],
     run: function (api, connection, next) {
