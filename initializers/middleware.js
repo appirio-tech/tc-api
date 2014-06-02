@@ -44,6 +44,14 @@ var calculateCacheKey = function (api, connection) {
     } else {
         key = "actions-" + connection.action + '-' + api.helper.createCacheKey(connection, false);
     }
+
+    // Hard code cache key for old challenges api listType past
+    if ((connection.action === 'searchStudioChallenges'
+        || connection.action === 'searchSoftwareAndStudioChallenges'
+        || connection.action === 'searchSoftwareChallenges')
+            && (connection.params.listType || '').toLowerCase() === 'past') {
+        key = 'actions-' + connection.action + '-past-' + api.helper.createCacheKey(connection, false);
+    }
     return key;
 };
 
@@ -340,6 +348,18 @@ exports.middleware = function (api, next) {
                 }
                 var response = _.clone(connection.response),
                     lifetime = actionTemplate.cacheLifetime || api.config.tcConfig.defaultCacheLifetime;
+
+                // Hard code lifetime for old challenges api.
+                if ((connection.action === 'searchStudioChallenges'
+                    || connection.action === 'searchSoftwareAndStudioChallenges'
+                    || connection.action === 'searchSoftwareChallenges')
+                        && (connection.params.listType || '').toLowerCase() === 'past') {
+                    lifetime = api.config.tcConfig.pastChallengesCacheLifetime;
+                }
+                console.log('----------------------------------------');
+                console.log("key: " + key);
+                console.log("lifetime: " + lifetime);
+
                 delete response.serverInformation;
                 delete response.requesterInformation;
                 api.cache.save(key, response, lifetime, cb);
