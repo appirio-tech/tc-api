@@ -5,18 +5,18 @@ VALUES(200001,200001,1,1000.0,15,1,'132456',CURRENT,'132456',CURRENT);
 INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
 VALUES(200002,200001,2,500.0,15,1,'132456',CURRENT,'132456',CURRENT);
 
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200001,1,200001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200002,1,200001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200003,1,200001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200004,1,200001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200005,1,200001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200006,1,200001,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200001,1,200001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200002,1,200001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200003,1,200001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200004,1,200001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200005,1,200001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200006,1,200001,'132456',CURRENT,'132456',CURRENT, 132456);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
 VALUES(200001,1,'132457','132456',CURRENT,'132456',CURRENT);
@@ -123,18 +123,18 @@ VALUES(200011,200011,1,1500.0,15,1,'132456',CURRENT,'132456',CURRENT);
 INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
 VALUES(200012,200011,2,750.0,15,1,'132456',CURRENT,'132456',CURRENT);
 
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200011,1,200011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200012,1,200011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200013,1,200011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200014,1,200011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200015,1,200011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date) 
-VALUES(200016,1,200011,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200011,1,200011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200012,1,200011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200013,1,200011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200014,1,200011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200015,1,200011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(200016,1,200011,'132456',CURRENT,'132456',CURRENT, 132456);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
 VALUES(200011,1,'132457','132456',CURRENT,'132456',CURRENT);
@@ -258,14 +258,14 @@ null,null,864000000,
 '132456',CURRENT,'132456',CURRENT);
 
 --registrants
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10001,1,10001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10002,1,10001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10003,1,10001,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10004,1,10001,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10001,1,10001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10002,1,10001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10003,1,10001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10004,1,10001,'132456',CURRENT,'132456',CURRENT, 132456);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10001,1,'132457','132456',CURRENT,'132456',CURRENT);
@@ -346,20 +346,20 @@ null,null,864000000,
 '132456',CURRENT,'132456',CURRENT);
 
 --registrants
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10011,1,10011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10012,1,10011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10013,1,10011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10014,1,10011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10015,1,10011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10016,1,10011,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10017,1,10011,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10011,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10012,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10013,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10014,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10015,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10016,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10017,1,10011,'132456',CURRENT,'132456',CURRENT, 132456);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10011,1,'132457','132456',CURRENT,'132456',CURRENT);
@@ -515,14 +515,14 @@ TO_DATE('2013-11-10 00:00:00','%Y-%m-%d %H:%M:%S'),TO_DATE('2013-11-30 00:00:00'
 '132456',CURRENT,'132456',CURRENT);
 
 --registrants
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10031,1,10031,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10032,1,10031,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10033,1,10031,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10034,1,10031,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10031,1,10031,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10032,1,10031,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10033,1,10031,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10034,1,10031,'132456',CURRENT,'132456',CURRENT, 132456);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10031,1,'132457','132456',CURRENT,'132456',CURRENT);
@@ -638,17 +638,17 @@ TO_DATE('2013-11-04 00:00:00','%Y-%m-%d %H:%M:%S'),TO_DATE('2013-11-05 00:00:00'
 '132456',CURRENT,'132456',CURRENT);
 
 --registrants
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10041,1,10041,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10042,1,10041,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10043,1,10041,'132456',CURRENT,'132456',CURRENT);
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10044,1,10041,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10041,1,10041,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10042,1,10041,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10043,1,10041,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10044,1,10041,'132456',CURRENT,'132456',CURRENT, 132456);
 
-INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date)
-VALUES(10045,20,10041,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id)
+VALUES(10045,20,10041,'132456',CURRENT,'132456',CURRENT, 132456);
 
 INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date) 
 VALUES(10041,1,'132457','132456',CURRENT,'132456',CURRENT);

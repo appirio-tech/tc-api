@@ -3,6 +3,8 @@
     "challengeName": "this is a F2F challenge",
     "challengeId": 30500000,
     "projectId": 30400001,
+    "forumId": 30500000,
+    "forumLink": "http://apps.topcoder.com/forums?module=Category&categoryID=30500000",
     "detailedRequirements": "detailed requirement content",
     "finalSubmissionGuidelines": "final submission guideline content",
     "reviewScorecardId": "1",
