@@ -1,11 +1,14 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
+ * @version 1.2
  * @author TCSASSEMBLER
  *
  * changes in 1.1:
  * add test for agree terms of use api
+ *
+ * changes in 1.2:
+ * add tests for retrieving docusign template id
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -335,6 +338,29 @@ describe('Terms Of Use API', function () {
             checkAPI('/v2/terms/detail/20963', user11, 'expected_terms_detail_20963', done);
         });
 
+        /**
+         * Test /v2/terms/detail/:termOfUseId for success with docusign template id
+         * should return the terms of use for the given id and the docusign tempalte id
+         */
+        it('should return the terms of use for the given id, which has docusign template', function (done) {
+            checkAPI('/v2/terms/detail/21114', user11, 'expected_terms_detail_21114', done);
+        });
+
+        /**
+         * Test /v2/terms/detail/:termOfUseId for failure with docusign template id
+         * should return an error indicating the docusign template id is missing
+         */
+        it('should return error when docusign template id is missing', function (done) {
+            var req = getRequest('/v2/terms/detail/21115', user11, 500);
+            req.end(function (err, resp) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.equal(resp.body.error.details, "Docusign template id is missing.");
+                done();
+            });
+        });
     });
 
     describe('Agree Terms Of Use API', function () {
@@ -456,7 +482,7 @@ describe('Terms Of Use API', function () {
          * The termsOfUseId is not a number, expect 400
          */
         it("should return error 400 when termsOfUseId is empty spaces", function (done) {
-            assertError("    ", 400, heffanAuthHeader, "termsOfUseId should be number.", done);
+            assertError("    ", 400, heffanAuthHeader, "termsOfUseId should be positive.", done);
         });
 
         /**
