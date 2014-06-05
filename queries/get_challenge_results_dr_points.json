@@ -1,5 +1,0 @@
-{
-    "name"    : "get_challenge_results_dr_points",
-    "db"      : "tcs_dw",
-    "sqlfile" : "get_challenge_results_dr_points"
-}

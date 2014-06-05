@@ -9,6 +9,7 @@ select 	s.submission_id,
        	s.create_date as submission_date,
        	stl.name AS submission_status,
 		ri1.create_date as registration_date,
+	    s.prize_id,
 		u.upload_id
 from
 	upload u,

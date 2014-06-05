@@ -1186,8 +1186,6 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 cb(null, []);
             }
         }, function (rows, cb) {
-            console.log('isCopilotPosting: ' + isCopilotPosting);
-            console.log('rows: ' + rows);
             if (rows.length > 0) {
                 isRegistered = rows[0].is_registered > 0;
             }
@@ -1840,13 +1838,15 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             async.parallel({
                 info: execQuery('get_challenge_results'),
                 results: execQuery("get_challenge_results_submissions"),
-                drPoints: execQuery("get_challenge_results_dr_points"),
                 finalFixes: execQuery("get_challenge_results_final_fixes"),
                 restrictions: execQuery("get_challenge_restrictions")
             }, cb);
 
         }, function (res, cb) {
-            var infoRow = res.info[0];
+            var infoRow = res.info[0],
+                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id); })['true'] || 0,
+                drPointsConfig = helper.DR_POINTS[prizedSubmissionCount],
+                drPoints = infoRow.dr_points || 0;
             if (!_.isDefined(infoRow)) {
                 cb(new BadRequestError('No Result Found'));
                 return;
@@ -1881,7 +1881,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     submissionDate: el.submission_date,
                     submissionStatus: el.submission_status,
                     registrationDate: el.registration_date
-                }, drRowFound;
+                }, rate;
 
                 if (!isStudio) {
                     _.extend(resEl, {
@@ -1895,12 +1895,8 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     });
                 }
 
-
-                //In the DR points resultset, find the row with same user_id and use it to set the DR points
-                drRowFound = _.find(res.drPoints, function (drEl) {
-                    return Number(drEl.user_id) === Number(el.user_id);
-                });
-                resEl.points = drRowFound === undefined ? 0 : drRowFound.dr_points;
+                rate = drPointsConfig[el.placed - 1] || 0;
+                resEl.points = Number((drPoints * rate).toFixed(2));
 
                 //Submission Links
                 if (isStudio) {

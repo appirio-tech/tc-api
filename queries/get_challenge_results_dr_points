@@ -1,5 +1,0 @@
-select
-	user_id,
-	NVL(amount, 0) as dr_points 
-from dr_points dr
-where dr.reference_id = @challengeId@

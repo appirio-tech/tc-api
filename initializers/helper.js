@@ -419,6 +419,18 @@ helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.UPCOMING] = [2];
 helper.LIST_TYPE_PROJECT_STATUS_MAP[helper.ListType.PAST] = [4, 5, 6, 7, 8, 9, 10, 11];
 
 /**
+ * The dr points configuration.
+ */
+helper.DR_POINTS = {
+    0: [0],
+    1: [1],
+    2: [0.7, 0.3],
+    3: [0.65, 0.25, 0.1],
+    4: [0.60, 0.22, 0.1, 0.08],
+    5: [0.56, 0.20, 0.10, 0.08, 0.06]
+};
+
+/**
  * Checks whether given object is defined.
  * @param {Object}obj the obj to check.
  * @param {String}objName  the object name
