@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author hesibo
+ * @version 1.1
+ * @author hesibo, snowone
+ *
+ * changes in 1.1:
+ *    add support for docusign template id for terms of use details api
  */
 "use strict";
 
@@ -68,16 +71,26 @@ var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
                 return;
             }
 
-            //We could just have result = rows[0]; but we need to change keys to camel case as per requirements
             var camelCaseMap = {
                 'agreeability_type': 'agreeabilityType',
                 'terms_of_use_id': 'termsOfUseId'
             };
+            // check whether this is for docusign template and that template exists
+            if (rows[0]['agreeability_type_id'] == 4) {
+                if (!rows[0]['docusign_template_id']) {
+                    cb(new Error('Docusign template id is missing.'));
+                    return;
+                }
+                camelCaseMap['docusign_template_id'] = 'docusignTemplateId';
+            } else {
+                delete rows[0]['docusign_template_id'];
+            }
+            delete rows[0]['agreeability_type_id'];
+
             _.each(rows[0], function (value, key) {
                 key = camelCaseMap[key] || key;
                 result[key] = value;
             });
-
             cb();
         }
     ], function (err) {

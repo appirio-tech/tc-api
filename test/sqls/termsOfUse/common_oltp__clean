@@ -6,3 +6,5 @@ delete from user_terms_of_use_xref where user_id = 400011;
 delete from user_status where user_id > 400010 and user_id < 400020;
 delete from security_user where login_id > 400010 and login_id < 400020;
 delete from user where user_id > 400010 and user_id < 400020;
+delete from terms_of_use_docusign_template_xref where terms_of_use_id = 21114;
+delete from terms_of_use where terms_of_use_id in (21114, 21115);

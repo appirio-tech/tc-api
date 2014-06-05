@@ -56,3 +56,8 @@ UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20493.txt' WHERE terms_
 UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20623.txt' WHERE terms_of_use_id = 20623;
 UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20713.txt' WHERE terms_of_use_id = 20713;
 UPDATE terms_of_use SET url = 'http://topcoder.com/terms/20963.txt' WHERE terms_of_use_id = 20963;
+
+-- terms of use 21114 has docusign template id 1, terms of use 231115 should have a docusign template id but it does not
+INSERT INTO terms_of_use VALUES (21114, NULL, 5, current, current, 'test template term', NULL, 4);
+INSERT INTO terms_of_use VALUES (21115, NULL, 5, current, current, 'test template term invalid', NULL, 4);
+INSERT INTO terms_of_use_docusign_template_xref VALUES (21114, 1);
