@@ -420,7 +420,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
         function (result, cb) {
             if (result.length !== 0 && result[0].value === 'Design') {
                 // If the forum type is "Design" then use the new forum url.
-                forumURL = api.config.tcConfig.tcForumsUrlPrefix + activeForumCategoryId;
+                forumURL = api.config.tcConfig.forumUrlPrefix + activeForumCategoryId;
             }
 
             api.tasks.enqueue("sendEmail", {
