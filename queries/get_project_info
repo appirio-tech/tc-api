@@ -1,0 +1,5 @@
+SELECT
+  value
+FROM project_info
+WHERE project_id = @challenge_id@
+AND project_info_type_id = @project_info_type_id@
