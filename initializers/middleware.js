@@ -356,9 +356,6 @@ exports.middleware = function (api, next) {
                         && (connection.params.listType || '').toLowerCase() === 'past') {
                     lifetime = api.config.tcConfig.pastChallengesCacheLifetime;
                 }
-                console.log('----------------------------------------');
-                console.log("key: " + key);
-                console.log("lifetime: " + lifetime);
 
                 delete response.serverInformation;
                 delete response.requesterInformation;
