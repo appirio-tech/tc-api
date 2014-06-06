@@ -848,6 +848,7 @@ exports.clientChallengeCosts = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled: false,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
