@@ -5,6 +5,7 @@
  * @author TCSASSEMBLER
  */
 "use strict";
+/*jslint unparam: true */
 
 var async = require('async');
 var _ = require('underscore');
@@ -74,7 +75,7 @@ function parseUserInfo(resp, helper) {
         socialAccount.socialUserId = resp.identities[0].user_id;
     }
 
-    helper.getProviderId(resp.user_id, function (tmp, providerId) {
+    helper.getProviderId(resp.user_id, function (notUsed, providerId) {
         socialAccount.providerId = providerId;
     });
     socialAccount = setName(resp, socialAccount, helper);

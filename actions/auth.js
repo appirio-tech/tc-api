@@ -5,6 +5,7 @@
  * @author Sky_
  */
 "use strict";
+/*jslint unparam: true */
 var async = require('async');
 var _ = require('underscore');
 var BadRequestError = require('../errors/BadRequestError');
@@ -39,7 +40,7 @@ exports.action = {
         async.waterfall([
             function (cb) {
                 request.post({url: url, form: form}, cb);
-            }, function (response, body, cb) {
+            }, function (notUsed, body, cb) {
                 var json;
                 try {
                     json = JSON.parse(body);
@@ -95,7 +96,7 @@ exports.refreshJwt = {
         async.waterfall([
             function (cb) {
                 request.post({url: url, form: form}, cb);
-            }, function (response, body, cb) {
+            }, function (notUsed, body, cb) {
                 var json;
                 try {
                     json = JSON.parse(body);
