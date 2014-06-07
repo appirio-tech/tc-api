@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
- * @author ecnu_haozi, bugbuka, Ghost_141
+ * @version 1.4
+ * @author ecnu_haozi, bugbuka, Ghost_141, muzehyun
  * Refactor common code out from challenge.js.
  *
  * changes in 1.1:
@@ -11,6 +11,8 @@
  * - Add new parameter in getChallengeTerms.
  * Changes in 1.3:
  * - Avoid undefined if rows[0].copilot_type is null.
+ * Changes in 1.4:
+ * - Add template id to challenge terms of use.
  */
 "use strict";
 
@@ -200,18 +202,16 @@ exports.challengeHelper = function (api, next) {
                     api.dataAccess.executeQuery("challenge_terms_of_use", sqlParams, dbConnectionMap, cb);
                 }, function (rows, cb) {
                     //We could just have down result.data = rows; but we need to change keys to camel case as per requirements
-                    var camelCaseMap = {
-                        'agreeability_type': 'agreeabilityType',
-                        'terms_of_use_id': 'termsOfUseId'
-                    };
                     result.terms = [];
                     _.each(rows, function (row) {
-                        var item = {};
-                        _.each(row, function (value, key) {
-                            key = camelCaseMap[key] || key;
-                            item[key] = value;
+                        result.terms.push({
+                            termsOfUseId: row.terms_of_use_id,
+                            title: row.title,
+                            url: row.url,
+                            agreeabilityType: row.agreeability_type,
+                            agreed: row.agreed,
+                            templateId: row.docusign_template_id
                         });
-                        result.terms.push(item);
                     });
                     cb();
                 }

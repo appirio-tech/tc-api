@@ -1,0 +1,11 @@
+{
+  "terms": [
+    {
+      "agreeabilityType": "DocuSignable",
+      "agreed": false,
+      "termsOfUseId": 400001,
+      "title": "title 1",
+      "templateId": "asdfasdf"
+    }
+  ]
+}

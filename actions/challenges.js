@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.26
+ * @version 1.27
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
- * @author isv
+ * @author isv, muzehyun
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -68,6 +68,8 @@
  * Changes in 1.26:
  * - Update submissions API.
  * - Remove checkpoints from get Software/Studio challenge detail api.
+ * Changes in 1.27:
+ * - Add template id to challenge terms of use.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -1751,7 +1753,7 @@ exports.getChallengeTerms = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getChallengeTerms#run", 'debug');
-            var challengeId = Number(connection.params.challengeId), role = connection.params.role;
+            var challengeId = Number(connection.params.challengeId), role = connection.params.role, error;
             async.waterfall([
                 function (cb) {
                     api.challengeHelper.getChallengeTerms(
@@ -1762,6 +1764,15 @@ exports.getChallengeTerms = {
                         connection.dbConnectionMap,
                         cb
                     );
+                }, function (results, cb) {
+                    var res = _.find(results, function (row) {
+                        return row.agreeabilityType === 'DocuSignable' && !row.templateId;
+                    });
+
+                    if (res) {
+                        error = new NotFoundError("Template Id is not exist");
+                    }
+                    cb(error, results);
                 }
             ], function (err, data) {
                 if (err) {
