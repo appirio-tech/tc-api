@@ -1127,14 +1127,12 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 challenge.filetypes = filetypesArray;
                 // if design, use the new forum
                 if (data.forum_type === 'Design') {
-                    challenge.forumLink = api.config.tcConfig.forumUrlPrefix + data.forum_id;
-                    
+                    challenge.forumLink = api.config.tcConfig.designForumUrlPrefix + data.forum_id;
                 } else {
                     challenge.forumLink = api.config.tcConfig.studioForumsUrlPrefix + data.forum_id;
                 }
-                
             } else {
-                challenge.forumLink = api.config.tcConfig.tcForumsUrlPrefix + data.forum_id;
+                challenge.forumLink = api.config.tcConfig.developForumsUrlPrefix + data.forum_id;
             }
 
             if (isCopilotPosting) {
