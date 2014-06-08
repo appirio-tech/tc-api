@@ -1,5 +1,3 @@
 [
-    "Handle testHandleFoo has already been taken",
-    "The email - testhandlefoo@foobar.com is already registered, please use another one.",
-    "social login already existed."
+    "The email - foo@fooonyou.com is already registered, please use another one."
 ]

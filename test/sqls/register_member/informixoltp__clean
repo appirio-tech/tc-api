@@ -5,3 +5,5 @@ delete from coder where coder_id = 22758847;
 delete from coder where coder_id = 22758848;
 delete from coder where coder_id = 22758849;
 delete from coder where coder_id = 22758850;
+
+DELETE from coder_referral WHERE referral_id = 40 AND coder_id >= 40000000 AND coder_id <= 50000000;

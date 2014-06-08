@@ -4,7 +4,7 @@
     "handle": "testHandleFoo",
     "status": "U",
     "last_name": "bar",
-    "utm_source": "some source", 
+    "utm_source": "heffan", 
     "utm_medium": "some medium",
-    "utm_campaign": "some campaign"
+    "utm_campaign": "ReferralProgram"
 }

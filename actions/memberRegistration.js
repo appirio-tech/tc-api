@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
+ * @version 1.6
  * @author mekanizumu, Sky_, xjtufreeman, muzehyun
  * changes in 1.1:
  * - disable cache for member register action
@@ -16,6 +16,8 @@
  * - Add validate handle api
  * Changes in 1.5:
  * - Update validateFirstName and validateLastName
+ * Changes in 1.6:
+ * - Add coder_referral insert
  */
 "use strict";
 
@@ -193,6 +195,7 @@ function getCode(coderId) {
  */
 var registerUser = function (user, api, dbConnectionMap, next) {
     var activationCode,
+        helper = api.helper,
         utm_source = user.utm_source || '',
         utm_medium = user.utm_medium || '',
         utm_campaign = user.utm_campaign || '';
@@ -205,6 +208,25 @@ var registerUser = function (user, api, dbConnectionMap, next) {
             var password = (user.password !== null && user.password !== undefined) ? user.password : api.config.tcConfig.defaultPassword;
             // perform a series of insert
             async.series([
+                function (callback) {
+                    if (utm_campaign === "ReferralProgram") {
+                        if (utm_source.length === 0) {
+                            callback(new BadRequestError("utm_source should be provided"));
+                        } else {
+                            api.dataAccess.executeQuery("check_user_handle_exist", { handle: utm_source }, dbConnectionMap, function (err, result) {
+                                if (err) {
+                                    callback(err);
+                                } else if (result && result[0] && result[0].handle_exist === 1) {
+                                    callback();
+                                } else {
+                                    callback(new IllegalArgumentError("utm_source (handle) is not exist"));
+                                }
+                            });
+                        }
+                    } else {
+                        callback();    
+                    }
+                },
                 function (callback) {
                     var status = 'U';
                     var regSource = user.regSource !== null && user.regSource !== undefined ? user.regSource : 'api';                    
@@ -244,6 +266,15 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     api.dataAccess.executeQuery("insert_coder", {coderId : user.id, compCountryCode : user.country}, dbConnectionMap, function (err, result) {
                         callback(err, result);
                     });
+                },
+                function (callback) {
+                    if (utm_campaign === "ReferralProgram") {
+                        api.dataAccess.executeQuery("insert_coder_referral", { userId: user.id, handle: utm_source }, dbConnectionMap, function (err, result) {
+                            callback(err, result);
+                        });
+                    } else {
+                        callback();
+                    }
                 },
                 function (callback) {
                     api.ldapHelper.addMemberProfileLDAPEntry({userId : user.id, handle : user.handle, password : password}, function (err, result) {                       

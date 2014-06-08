@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
+ * @version 1.5
  * @author TCSASSEMBLER, Sky_, xjtufreeman, muzehyun
  * change in 1.1:
  * - use before and after to setup and clean data
@@ -13,6 +13,8 @@
  * - fix tests to the latest code
  * change in 1.4:
  * - add failure tests for containing invalid characters
+ * change in 1.5:
+ * - add coder_referral test
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -71,7 +73,7 @@ describe('Test Register Member API', function () {
      * Generate tests data.
      * @param {Function<err>} done the callback
      */
-    before(function (done) {
+    beforeEach(function (done) {
         async.series({
             userId: function (cb) {
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__get_current_user_seq.json", true, cb);
@@ -94,7 +96,7 @@ describe('Test Register Member API', function () {
      * Clean up all data.
      * @param {Function<err>} done the callback
      */
-    after(function (done) {
+    afterEach(function (done) {
         async.series({
             userId: function (cb) {
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__get_current_user_seq.json", true, cb);
@@ -229,6 +231,10 @@ describe('Test Register Member API', function () {
             },
             userId: function (callback) {
                 testHelper.runSqlFromJSON(SQL_DIR + "common_oltp__get_current_user_seq.json", true, callback);
+            },
+            coderReferral: function (callback) {
+                var sql = "* FROM coder_referral cr, email e WHERE referral_id = 40 AND e.address = 'testHandleFoo@foobar.com' AND cr.coder_id = e.user_id";
+                testHelper.runSqlSelectQuery(sql, "informixoltp", callback);
             }
         }, function (err, results) {
             if (!err) {
@@ -263,6 +269,11 @@ describe('Test Register Member API', function () {
                 assert.deepEqual(userSocialExpected, social, "Invalid returned message");
 
                 assert.equal("123456", testHelper.decodePassword(security.password, PASSWORD_HASH_KEY), "Password is not correct");
+
+                assert.equal(results.coderReferral.length, 1);
+                assert.equal(results.coderReferral[0].other, 'heffan');
+                assert.equal(results.coderReferral[0].reference_id, 132456);
+
                 done(err);
             } else {
                 done(err);
@@ -274,7 +285,7 @@ describe('Test Register Member API', function () {
     it('should register successfully', function (done) {
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2, utm_source: "some source", utm_medium: "some medium", utm_campaign: "some campaign"})
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2, utm_source: "heffan", utm_medium: "some medium", utm_campaign: "ReferralProgram"})
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function (err, result) {
@@ -284,6 +295,36 @@ describe('Test Register Member API', function () {
                 }
                 assert.isNumber(JSON.parse(result.res.text).userId);
                 validateDatabase(done);
+            });
+    });
+
+    /// Check if the utm_campaign is ReferralProgram but utm_source is not provided
+    it('should return errors: utm_source should be provided when utm_campaign is ReferralProgram', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2, utm_medium: "some medium", utm_campaign: "ReferralProgram"})
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, 'utm_source should be provided', "Invalid error message");
+                }
+                done(err);
+            });
+    });
+
+    /// Check if the utm_campaign is ReferralProgram but utm_source is wrong
+    it('should return errors: utm_source should be existing handle when utm_campaign is ReferralProgram', function (done) {
+        supertest(API_ENDPOINT)
+            .post('/v2/users').set('Accept', 'application/json')
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'testHandleFoo@foobar.com', password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', regSource: "source1", "socialUserId": 2, utm_source: "invalidhandle1234", utm_medium: "some medium", utm_campaign: "ReferralProgram"})
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function (err, result) {
+                if (!err) {
+                    assert.deepEqual(JSON.parse(result.res.text).error.details, 'utm_source (handle) is not exist', "Invalid error message");
+                }
+                done(err);
             });
     });
 
@@ -363,7 +404,7 @@ describe('Test Register Member API', function () {
 
         supertest(API_ENDPOINT)
             .post('/v2/users').set('Accept', 'application/json')
-            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'TEstHandleFoo@foobar.com'.toLocaleLowerCase(), password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', "socialUserId": 2 })
+            .send({ firstName: 'foo', lastName: 'bar', handle: 'testHandleFoo', email: 'foo@fOOonyou.com'.toLocaleLowerCase(), password: '123456', country: 'Japan', socialProviderId: 1, socialUserName: "foobar", socialEmail: "foobar@foobar.com", socialEmailVerified: 't', "socialUserId": 2 })
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, result) {
