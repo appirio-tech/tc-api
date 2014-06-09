@@ -56,86 +56,6 @@ var OUTPUT_DATE_FORMAT = 'YYYY-MM-DD';
  */
 var VALID_TRACK = ['develop', 'design', 'data'];
 
-/**
- * Get Track Statistics API.
- * @param {Object} api - the api object.
- * @param {Object} connection - the connection object.
- * @param {Function} next - the callback function.
- * @since 1.3
- */
-var getTrackStatistics = function (api, connection, next) {
-    var helper = api.helper,
-        sqlParams,
-        result,
-        queryName,
-        track = connection.params.track.toLowerCase(),
-        startDate = MIN_DATE,
-        endDate = MAX_DATE;
-    async.waterfall([
-        function (cb) {
-            var error = helper.checkContains(VALID_TRACK, track, 'track');
-
-            if (!_.isUndefined(connection.params.startDate)) {
-                startDate = connection.params.startDate;
-                error = error || helper.validateDate(startDate, 'startDate', DATE_FORMAT);
-            }
-            if (!_.isUndefined(connection.params.endDate)) {
-                endDate = connection.params.endDate;
-                error = error || helper.validateDate(endDate, 'endDate', DATE_FORMAT);
-            }
-            if (!_.isUndefined(connection.params.startDate) && !_.isUndefined(connection.params.endDate)) {
-                error = error || helper.checkDates(startDate, endDate);
-            }
-
-            cb(error);
-        },
-        function (cb) {
-            sqlParams = {
-                start_date: startDate,
-                end_date: endDate
-            };
-            if (track === helper.software.community) {
-                sqlParams.challenge_type = helper.software.category;
-                queryName = 'get_develop_design_track_statistics';
-            } else if (track === helper.studio.community) {
-                sqlParams.challenge_type = helper.studio.category;
-                queryName = 'get_develop_design_track_statistics';
-            } else {
-                queryName = 'get_data_track_statistics';
-            }
-
-            if (track === 'data') {
-                async.parallel({
-                    data: function (cbx) {
-                        api.dataAccess.executeQuery(queryName, sqlParams, connection.dbConnectionMap, cbx);
-                    },
-                    pastData: function (cbx) {
-                        api.dataAccess.executeQuery('get_past_data_track_statistics', sqlParams, connection.dbConnectionMap, cbx);
-                    }
-                }, cb);
-            } else {
-                api.dataAccess.executeQuery(queryName, sqlParams, connection.dbConnectionMap, cb);
-            }
-        },
-        function (results, cb) {
-            if (track === 'data') {
-                result = helper.transferDBResults2Response(results.data)[0];
-                result.numberOfChallengesInGivenTime += _.reduce(results.pastData, function (memo, num) { return memo + num; }, 0);
-            } else {
-                result = helper.transferDBResults2Response(results)[0];
-            }
-            cb();
-        }
-    ], function (err) {
-        if (err) {
-            helper.handleError(api, connection, err);
-        } else {
-            connection.response = result;
-        }
-        next(connection, true);
-    });
-};
-
 var getChallengeCosts = function (api, connection, next) {
     var helper = api.helper, caller = connection.caller, error, challengeId, projectId, billingId, clientId, startDate,
         endDate, sqlParams, challengeCosts;
@@ -557,62 +477,6 @@ exports.getClientChallengeCosts = {
     }
 };
 
-/**
- * The API for getting active billing accounts
- */
-exports.getActiveBillingAccounts = {
-    name: "getActiveBillingAccounts",
-    description: "getActiveBillingAccounts",
-    inputs: {
-        required: [],
-        optional: []
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read',
-    databases: ["time_oltp"],
-    cacheEnabled: false,
-    run: function (api, connection, next) {
-        api.log("Execute getActiveBillingAccounts#run", 'debug');
-        var dbConnectionMap = connection.dbConnectionMap,
-            helper = api.helper,
-            result = {};
-        if (!dbConnectionMap) {
-            helper.handleNoConnection(api, connection, next);
-            return;
-        }
-        async.waterfall([
-            function (cb) {
-                cb(helper.checkAdmin(connection));
-            }, function (cb) {
-                api.dataAccess.executeQuery("get_active_billing_accounts", {}, dbConnectionMap, cb);
-            }, function (results, cb) {
-                result.activeBillingAccounts = _.map(results, function (item) {
-                    return {
-                        "clientName": item.client_name,
-                        "clientCustomerNumber": item.client_customer_number,
-                        "clientId": item.client_id,
-                        "billingAccountId": item.billing_account_id,
-                        "billingAccountName": item.billing_account_name,
-                        "subscriptionNumber": item.subscription_number,
-                        "projectStartDate": item.project_start_date,
-                        "projectEndDate": item.project_end_date,
-                        "poNumber": item.po_number
-                    };
-                });
-                cb();
-            }
-        ], function (err) {
-            if (err) {
-                helper.handleError(api, connection, err);
-            } else {
-                connection.response = result;
-            }
-            next(connection, true);
-        });
-    }
-}; // getActiveBillingAccounts
 
 
 /**
@@ -681,7 +545,7 @@ var clientChallengeCosts = function (api, connection, next) {
                 var cost = _.object(_.chain(item).keys().map(function (i) { return new S(i).camelize().s; }).value(), _.values(item));
 
                 if (_.isDefined(item.challenge_fee_percentage)) {
-                        cost.challengeFee = cost.challengeMemberCost * Number(cost.challengeFeePercentage);
+                    cost.challengeFee = cost.challengeMemberCost * Number(cost.challengeFeePercentage);
                 }
 
                 if ([4, 5, 6, 8, 9, 10, 11].indexOf(item.challenge_status_id) > 0) {
@@ -861,34 +725,6 @@ exports.clientChallengeCosts = {
 };
 
 /**
- * Track statistics API.
- *
- * @since 1.3
- */
-exports.getTrackStatistics = {
-    name: 'getTrackStatistics',
-    description: 'getTrackStatistics',
-    inputs: {
-        required: ['track'],
-        optional: ['startDate', 'endDate']
-    },
-    blockedConnectionTypes: [],
-    outputExample: {},
-    version: 'v2',
-    transaction: 'read',
-    cacheLifetime: 1000 * 60 * 60 * 24,
-    databases: ['tcs_catalog', 'informixoltp', 'topcoder_dw'],
-    run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
-            api.log("Execute getTrackStatistics#run", 'debug');
-            getTrackStatistics(api, connection, next);
-        } else {
-            api.helper.handleNoConnection(api, connection, next);
-        }
-    }
-};
-
-/**
  * Challenge Analyze API.
  * @since 1.3
  */
@@ -915,3 +751,5 @@ exports.getChallengeAnalyze = {
         }
     }
 };
+
+

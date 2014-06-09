@@ -76,16 +76,16 @@ var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
                 'terms_of_use_id': 'termsOfUseId'
             };
             // check whether this is for docusign template and that template exists
-            if (rows[0]['agreeability_type_id'] == 4) {
-                if (!rows[0]['docusign_template_id']) {
+            if (rows[0].agreeability_type_id === 4) {
+                if (!rows[0].docusign_template_id) {
                     cb(new Error('Docusign template id is missing.'));
                     return;
                 }
-                camelCaseMap['docusign_template_id'] = 'docusignTemplateId';
+                camelCaseMap.docusign_template_id = 'docusignTemplateId';
             } else {
-                delete rows[0]['docusign_template_id'];
+                delete rows[0].docusign_template_id;
             }
-            delete rows[0]['agreeability_type_id'];
+            delete rows[0].agreeability_type_id;
 
             _.each(rows[0], function (value, key) {
                 key = camelCaseMap[key] || key;
