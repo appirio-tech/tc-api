@@ -396,7 +396,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             }
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
-                forumURL = api.config.tcConfig.tcForumsUrlPrefix + activeForumCategoryId;
+                forumURL = api.config.tcConfig.developForumsUrlPrefix + activeForumCategoryId;
                 submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = api.config.tcConfig.studioForumsUrlPrefix + activeForumCategoryId;
@@ -420,7 +420,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
         function (result, cb) {
             if (result.length !== 0 && result[0].value === 'Design') {
                 // If the forum type is "Design" then use the new forum url.
-                forumURL = api.config.tcConfig.forumUrlPrefix + activeForumCategoryId;
+                forumURL = api.config.tcConfig.designForumUrlPrefix + activeForumCategoryId;
             }
 
             api.tasks.enqueue("sendEmail", {

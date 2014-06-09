@@ -1415,7 +1415,7 @@ describe('Test Challenges API', function () {
                             .expect(200)
                             .end(function (err, res) {
                                 var config = require('../config/tc-config').tcConfig;
-                                assert.isTrue(new S(res.body.forumLink).startsWith(config.forumUrlPrefix));
+                                assert.isTrue(new S(res.body.forumLink).startsWith(config.designForumUrlPrefix));
                                 cb();
                             });
                     }
