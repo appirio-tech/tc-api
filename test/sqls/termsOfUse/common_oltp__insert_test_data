@@ -5,6 +5,7 @@ INSERT into user (user_id, handle, status, timezone_id) values (400014, 'normal_
 INSERT into user (user_id, handle, status, timezone_id) values (400015, 'normal_user_15', 'A', 143);
 INSERT into user (user_id, handle, status, timezone_id) values (400016, 'normal_user_16', 'A', 143);
 INSERT into user (user_id, handle, status, timezone_id) values (400017, 'normal_user_17', 'A', 143);
+INSERT into user (user_id, handle, status, timezone_id) values (400018, 'normal_user_18', 'A', 143);
 
 INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400011', 400011, 1, 'user11');
 INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400012', 400012, 1, 'user12');
@@ -13,6 +14,7 @@ INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id,
 INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400015', 400015, 1, 'user15');
 INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400016', 400016, 1, 'user16');
 INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400017', 400017, 1, 'user17');
+INSERT INTO user_social_login(social_user_id, user_id, social_login_provider_id, social_user_name) VALUES ('fb400018', 400018, 1, 'user18');
 
 -- A UnitedStates address and a North Korea Address
 INSERT INTO 'informix'.address(address_id,address_type_id,address1,address2,city,state_code,zip,country_code,create_date,modify_date,address3,province) 
@@ -47,6 +49,17 @@ INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_o
 VALUES (40000001, 4, 20713, 4, 1);
 INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
 VALUES (40000001, 15, 20963, 5, 1);
+
+INSERT INTO terms_of_use (terms_of_use_id, terms_of_use_type_id, create_date, modify_date, title, terms_of_use_agreeability_type_id)
+    VALUES (400001, 5, CURRENT, CURRENT, 'title 1', 4);
+INSERT INTO terms_of_use (terms_of_use_id, terms_of_use_type_id, create_date, modify_date, title, terms_of_use_agreeability_type_id)
+    VALUES (400002, 5, CURRENT, CURRENT, 'title 2', 4);
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000015, 15, 400001, 5, 1);
+INSERT INTO project_role_terms_of_use_xref(project_id, resource_role_id, terms_of_use_id, sort_order, group_ind) 
+VALUES (40000016, 15, 400002, 5, 1);
+
+INSERT INTO terms_of_use_docusign_template_xref VALUES (400001, 'asdfasdf');
 
 INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES (400011, 20543);
 INSERT INTO user_terms_of_use_xref(user_id, terms_of_use_id) VALUES (400011, 20493);

@@ -2,7 +2,7 @@
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.2
- * @author TCSASSEMBLER
+ * @author TCSASSEMBLER, muzehyun
  *
  * changes in 1.1:
  * add test for agree terms of use api
@@ -45,7 +45,8 @@ describe('Terms Of Use API', function () {
             user12 = 'facebook|fb400012',
             user13 = 'facebook|fb400013',
             user14 = 'facebook|fb400014',
-            user17 = 'facebook|fb400017';
+            user17 = 'facebook|fb400017',
+            user18 = 'facebook|fb400018';
 
         /**
          * Creates a Request object using the given URL.
@@ -279,6 +280,24 @@ describe('Terms Of Use API', function () {
          */
         it('should return the terms for the challenge for user11', function (done) {
             checkAPI('/v2/terms/40000001', user11, 'expected_terms_for_challenge_40000001_user11', done);
+        });
+
+        /**
+         * Test /v2/terms/:challengeId for success
+         * should return the terms for the challenge with template id
+         */
+        it('should return the terms for the challenge for user18 with template id', function (done) {
+            checkAPI('/v2/terms/40000015', user18, 'expected_terms_for_challenge_40000015_user18', done);
+        });
+
+        /**
+         * Test /v2/terms/:challengeId for error
+         * should return 404 for the challenge with no template id
+         */
+        it('should return 404 when template id is not exisiting', function (done) {
+            getRequest('/v2/terms/40000016', user18, 404).end(function (err) {
+                done(err);
+            });
         });
 
         /**

@@ -1,10 +1,12 @@
 delete from user_social_login where user_id > 400010 and user_id < 400020;
 delete from user_address_xref where address_id > 40000000 and address_id < 40000010;
 delete from address where address_id > 40000000 and address_id < 40000010;
-delete from project_role_terms_of_use_xref where project_id = 40000001;
-delete from user_terms_of_use_xref where user_id = 400011;
+delete from project_role_terms_of_use_xref where project_id IN (40000001, 40000015, 40000016);
+delete from user_terms_of_use_xref where user_id IN (400011, 400018);
 delete from user_status where user_id > 400010 and user_id < 400020;
 delete from security_user where login_id > 400010 and login_id < 400020;
 delete from user where user_id > 400010 and user_id < 400020;
-delete from terms_of_use_docusign_template_xref where terms_of_use_id = 21114;
-delete from terms_of_use where terms_of_use_id in (21114, 21115);
+
+delete from terms_of_use_docusign_template_xref where terms_of_use_id IN (400001, 21114);
+
+delete from terms_of_use where terms_of_use_id IN (400001, 400002, 21114, 21115);

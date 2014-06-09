@@ -1,0 +1,7 @@
+INSERT INTO coder_referral
+VALUES (
+    '@userId@',
+    40,
+    (SELECT user_id FROM user WHERE handle_lower = '@handle@'),
+    '@handle@'
+);
