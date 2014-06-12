@@ -7685,6 +7685,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+# Challenges API
+
 ## Challenges RSS Output [/challenges/rss?listType={listType}&challengeType={challengeType}]
 ### Challenges RSS Output [GET]
 
@@ -7760,6 +7762,96 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+## My Submissions [/challenges/submissions/{challengeId}/mySubmissions]
+### My Submissions [GET]
+
++ Parameters
+    + challengeId (required, number, `30005520`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+            "submissions": [
+                {
+                    "submissionId": 2001,
+                    "submissionDate": "2014-06-13T04:43:25.000+0000",
+                    "submissionType": "final",
+                    "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2001"
+                },
+                {
+                    "submissionId": 2003,
+                    "submissionDate": "2014-06-13T04:43:28.000+0000",
+                    "submissionType": "checkpoint",
+                    "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2003"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"You need to login for this api."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"The challenge is not existed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 # Group Members API
 

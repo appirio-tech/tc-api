@@ -1,0 +1,14 @@
+SELECT
+  s.submission_id
+, s.create_date AS submission_date
+, s.submission_type_id
+, up.upload_id
+, s.user_rank AS ranking
+FROM submission s
+INNER JOIN upload up ON up.upload_id = s.upload_id
+INNER JOIN resource_info ri1 ON ri1.resource_id = up.resource_id
+WHERE up.project_id = @challengeId@
+AND ri1.resource_info_type_id = '1'
+AND ri1.value = @userId@
+AND s.submission_type_id IN (1, 3)
+AND s.submission_status_id != 5

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.44
+ * @version 1.45
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
  * @author panoptimum
  * 
@@ -104,6 +104,8 @@
  * - added routes for testing the designImageFileGenerator
  * - added routes for testing the unifiedSubmissionValidator
  * - add routes for apply design review api.
+ * Changes in 1.45:
+ * - Add route for get user submissions api.
  */
 
 /* ---------------------
@@ -179,6 +181,7 @@ exports.routes = {
     get: [
         { path: "/:apiVersion/logs", action: "getLogTail" },
         { path: "/:apiVersion/challenges/registrants/:challengeId", action: "getRegistrants" },
+        { path: "/:apiVersion/challenges/submissions/:challengeId/mySubmissions", action: "getUserSubmissions" },
         { path: "/:apiVersion/challenges/submissions/:challengeId", action: "getSubmissions" },
         { path: "/:apiVersion/challenges/phases/:challengeId", action: "getPhases" },
         { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },

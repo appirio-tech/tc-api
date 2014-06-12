@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.27
+ * @version 1.28
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
  * @author isv, muzehyun
  * @changes from 1.0
@@ -70,6 +70,8 @@
  * - Remove checkpoints from get Software/Studio challenge detail api.
  * Changes in 1.27:
  * - Add template id to challenge terms of use.
+ * Changes in 1.28:
+ * - Implement getUserSubmissions api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -3404,6 +3406,98 @@ exports.getPastChallenges = {
         if (connection.dbConnectionMap) {
             api.log("Execute getPastChallenges#run", 'debug');
             getChallenges(api, connection, api.helper.ListType.PAST, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Handle the get user submissions api.
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ * @since 1.28
+ */
+var getUserSubmissions = function (api, connection, next) {
+    var helper = api.helper,
+        result = {},
+        sqlParams,
+        isStudio,
+        caller = connection.caller,
+        challengeId = Number(connection.params.challengeId);
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkIdParameter(challengeId, "challengeId") ||
+                helper.checkMember(connection, "You need to login for this api.");
+            cb(error);
+        },
+        function (cb) {
+            sqlParams = {
+                challengeId: challengeId,
+                userId: caller.userId
+            };
+            //Check if the challenge is existed.
+            api.dataAccess.executeQuery("check_challenge_exists", sqlParams, connection.dbConnectionMap, cb);
+        },
+        function (res, cb) {
+            if (res.length === 0) {
+                cb(new NotFoundError("The challenge is not existed."));
+                return;
+            }
+            isStudio = res[0].is_studio;
+            api.dataAccess.executeQuery("get_user_submissions_for_challenge", sqlParams, connection.dbConnectionMap, cb);
+        },
+        function (res, cb) {
+            result.submissions = _.map(res, function (item) {
+                var submission = {
+                    submissionId: item.submission_id,
+                    submissionDate: item.submission_date,
+                    submissionType: item.submission_type_id === 1 ? "final" : "checkpoint",
+                    ranking: item.ranking
+                };
+                if (!isStudio) {
+                    submission.download = api.config.tcConfig.submissionLink + item.upload_id;
+                    delete submission.ranking;
+                } else {
+                    submission.download = api.config.tcConfig.designSubmissionLink + item.submission_id;
+                }
+                return submission;
+            });
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * The API for get user submissions.
+ * @since 1.28
+ */
+exports.getUserSubmissions = {
+    name: "getUserSubmissions",
+    description: "get caller's submission for a specific challenge",
+    inputs: {
+        required: ["challengeId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getUserSubmissions#run", 'debug');
+            getUserSubmissions(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

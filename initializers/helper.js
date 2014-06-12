@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.31
+ * @version 1.32
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -84,6 +84,8 @@
  * - Added copyFiles function.
  * Changes in 1.31:
  * - Add SUBMISSION_TYPE object.
+ * Changes in 1.32:
+ * - Add checkIdParameter function.
  */
 "use strict";
 
@@ -101,7 +103,6 @@ if (typeof String.prototype.startsWith !== 'function') {
 var async = require('async');
 var _ = require('underscore');
 var moment = require('moment-timezone');
-var stringUtils = require('../common/stringUtils');
 var S = require('string');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
@@ -681,6 +682,21 @@ helper.checkPositiveInteger = function (obj, objName) {
         result = new IllegalArgumentError(objName + " should be positive.");
     }
     return result;
+};
+
+/**
+ * Check the id parameter only.
+ * @param {Number} id - the id of object.
+ * @param {String} idName - The name of id parameter.
+ * @returns {Error} if input invalid.
+ * @since 1.32
+ */
+helper.checkIdParameter = function (id, idName) {
+    var result = helper.checkPositiveInteger(id, idName);
+    if (result) {
+        return result;
+    }
+    return helper.checkMaxInt(id, idName);
 };
 
 

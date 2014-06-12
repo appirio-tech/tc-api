@@ -1,0 +1,6 @@
+DELETE FROM submission WHERE submission_id >= 2001 AND submission_id <= 2010;
+DELETE FROM upload WHERE project_id IN (2001, 2002);
+DELETE FROM resource_info WHERE resource_id IN (2001, 2002);
+DELETE FROM resource WHERE project_id IN (2001, 2002);
+DELETE FROM project WHERE project_id IN (2001, 2002);
+DELETE FROM project_studio_specification WHERE project_studio_spec_id = 2002;
