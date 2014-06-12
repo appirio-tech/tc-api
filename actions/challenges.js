@@ -635,6 +635,9 @@ function transferResult(src, helper) {
         if (row.final_fix_end_date) {
             challenge.finalFixEndDate = formatDate(row.final_fix_end_date);
         }
+        if (row.is_studio) {
+            challenge.submissionsViewable = row.submissions_viewable;
+        }
 
         //use xtend to preserve ordering of attributes
         challenge = extend(challenge, {
@@ -683,6 +686,9 @@ function transferResultV2(src, helper) {
         }
         if (!_.isUndefined(challenge.reviewScorecardId)) {
             challenge.reviewScorecardId = Number(challenge.reviewScorecardId);
+        }
+        if (!challenge.isStudio) {
+            delete challenge.submissionsViewable;
         }
         challenge.checkpointSubmissionEndDate = formatDate(row.checkpoint_submission_end_date);
         challenge.reliabilityBonus = helper.getReliabilityBonus(row.first_place_prize);
