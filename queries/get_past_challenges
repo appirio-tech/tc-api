@@ -31,6 +31,7 @@ FIRST @page_size@
 , platform_list(p.project_id) AS platforms
 , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
 , NVL((SELECT CAST('t' AS boolean) FROM contest_eligibility WHERE contest_id = p.project_id), CAST('f' AS boolean)) AS is_private
+, (SELECT value FROM project_info pi53 WHERE project_id = p.project_id AND project_info_type_id = 53) AS submissions_viewable
 FROM project p
 INNER JOIN project_status_lu pstatus ON pstatus.project_status_id = p.project_status_id 
 INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id 
