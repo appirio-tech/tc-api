@@ -1,0 +1,16 @@
+{
+    "submissions": [
+        {
+            "submissionId": 2001,
+            "submissionDate": "2014-06-13T04:43:25.000+0000",
+            "submissionType": "final",
+            "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2001"
+        },
+        {
+            "submissionId": 2003,
+            "submissionDate": "2014-06-13T04:43:28.000+0000",
+            "submissionType": "checkpoint",
+            "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2003"
+        }
+    ]
+}
