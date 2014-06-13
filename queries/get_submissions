@@ -1,0 +1,16 @@
+ SELECT DISTINCT
+    submission.submission_id    AS submission_id,
+    submission.create_date      AS submission_create_date,
+    upload.upload_id            AS upload_id,
+    upload.resource_id          AS resource_id,
+	resource_info.value 		AS handle
+FROM   submission
+       INNER JOIN upload
+               ON upload.upload_id = submission.upload_id
+       INNER JOIN resource_info
+       		   ON upload.resource_id = resource_info.resource_id and resource_info_type_id = 2 -- Handle
+WHERE  upload.resource_id = Decode(@resourceId@, 0, upload.resource_id, @resourceId@)
+       AND upload.project_id = Decode(@challengeId@, 0, upload.project_id, @challengeId@)
+       AND submission.submission_type_id = @submissionTypeId@
+       AND submission.submission_status_id = 1
+ORDER  BY submission.create_date ASC  

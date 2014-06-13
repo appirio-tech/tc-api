@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
- * @version 1.26
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, bugbuka
+ * @version 1.27
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -62,6 +62,9 @@
  * - Move configuration contents in tc-config.js
  * Changes in 1.26:
  * - Add studioReview object for get studio review opportunities api.
+ * Changes in 1.27:
+ * - Add orChallengeDetailsUrl property for upload develop challenge submission api.
+ * - Add f2fSubmissionReuploadNotificationEmailSubjectPrefix property.
  */
 
 "use strict";
@@ -138,6 +141,12 @@ var config = {
 
     //////Thurgood configurables///////
     thurgoodCodeUrl: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=',
+
+    // The base url for challenge details in online review.
+    orChallengeDetailsUrl: 'https://software.topcoder.com/review/actions/ViewProjectDetails?pid=',
+
+    // The subject prefix of the F2F submission re-upload notification email
+    f2fSubmissionReuploadNotificationEmailSubjectPrefix: 'F2F submission re-uploaded: ',
 
     //API URL for production
     //config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs',

@@ -1,0 +1,8 @@
+SELECT DISTINCT
+resource.user_id as user_id,
+ue.address as email
+FROM resource
+INNER JOIN user u ON u.user_id = resource.user_id
+INNER JOIN email ue ON u.user_id = ue.user_id AND ue.email_type_id = 1 AND ue.primary_ind = 1
+WHERE resource.project_id = @challengeId@
+AND resource.resource_role_id = 21 -- Iterative Reviewer

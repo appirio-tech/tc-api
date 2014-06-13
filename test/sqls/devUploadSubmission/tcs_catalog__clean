@@ -1,6 +1,6 @@
 DELETE FROM resource_submission WHERE resource_id >= 1 AND resource_id <= 77799;
 DELETE FROM resource_info WHERE resource_id >= 1 AND resource_id <= 77799;
-DELETE FROM submission WHERE submission_id >= 1 AND submission_id <= 20000000;
+DELETE FROM submission WHERE submission_id >= 4000000 AND submission_id <= 20000000;
 DELETE FROM upload WHERE project_id >= 77700 AND project_id <= 77799;
 DELETE FROM resource WHERE resource_id >= 77700 AND resource_id <= 77799;
 DELETE FROM phase_criteria WHERE project_phase_id >= 77700 AND project_phase_id <= 77799;
@@ -11,3 +11,5 @@ DELETE FROM comp_versions WHERE comp_vers_id  > 77700 AND comp_vers_id <= 77799;
 DELETE FROM comp_catalog WHERE component_id  > 77700 AND component_id <= 77799;
 DELETE FROM contest_eligibility WHERE contest_id >= 77700 AND contest_id <= 77799;
 DELETE FROM project WHERE project_id >= 77700 AND project_id <= 77799;
+UPDATE email SET address = 'foo@fooonyou.com' WHERE user_id = 132456;
+UPDATE email SET address = 'foo@fooonyou.com' WHERE user_id = 124772;
