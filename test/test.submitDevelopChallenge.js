@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author kurtrips
+ * @version 1.1
+ * @author kurtrips, bugbuka
+ *
+ * changes in 1.1:
+ * Add tests for scenarios that when an F2F submission which is currently in review is being deleted by a member who uploads a new submission.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -19,14 +22,15 @@ var http = require('http');
 var _ = require('underscore');
 
 var testHelper = require('./helpers/testHelper');
+var config = require('../config/tc-config').tcConfig;
 var SQL_DIR = __dirname + "/sqls/devUploadSubmission/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId;
-var SECRET = require('../config/tc-config').tcConfig.oauthClientSecret;
+var CLIENT_ID = config.oauthClientId;
+var SECRET = config.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
 describe('Submit for develop challenge', function () {
@@ -485,6 +489,377 @@ describe('Submit for develop challenge', function () {
     });
 
     /**
+     * F2F challenge test 1, Test /v2/develop/challenges/:challengeId/submit for success
+     * 1) user124764 submitted user124764_sub1
+     * 2) user124764 submitted user124764_sub2
+     * Manually check tc-api server log, in step 2, one email was sent to reviewer1@gmail.com and reviewer2@gmail.com respectively.
+     */
+    it('should submit successfully, F2F challenge test 1, user124764 submitted two times', function (done) {
+        var u1s1uid,
+            u1s1sid,
+            u1s2uid,
+            u1s2sid;
+
+        async.series([
+            function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s1uid = resp.body.uploadId;
+                        u1s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s2uid = resp.body.uploadId;
+                        u1s2sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                //Now we test for correctness
+                var sql = "u.upload_id, u.upload_status_id, s.submission_id, s.submission_status_id from upload u, submission s where " +
+                    "u.upload_id = s.upload_id AND s.submission_id IN (" + u1s1sid + "," + u1s2sid + ")"
+                    + " AND u.upload_id IN (" + u1s1uid + "," + u1s2uid + ")";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    //The submission1 must be deleted
+                    var s1rec = _.findWhere(result, {upload_id: u1s1uid});
+                    assert.equal(s1rec.upload_status_id, 2);
+                    assert.equal(s1rec.submission_status_id, 5);
+
+                    //The submission2 must be active
+                    var s2rec = _.findWhere(result, {upload_id: u1s2uid});
+                    assert.equal(s2rec.upload_status_id, 1);
+                    assert.equal(s2rec.submission_status_id, 1);
+
+                    cb(err);
+                });
+            }
+        ], done);
+    });
+
+    /**
+     * F2F challenge test 2, Test /v2/develop/challenges/:challengeId/submit for success
+     * 1) user124764 submitted user124764_sub1
+     * 2) user124834 submitted user124834_sub1
+     * 3) user124834 submitted user124834_sub2
+     * Manually check tc-api server log, no email sent.
+     */
+    it('should submit successfully, F2F challenge test 2, user124764 submitted, then user124834 submitted two times', function (done) {
+        var u1s1uid,
+            u1s1sid,
+            u2s1uid,
+            u2s1sid,
+            u2s2uid,
+            u2s2sid;
+
+        async.series([
+            function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s1uid = resp.body.uploadId;
+                        u1s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124834, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u2s1uid = resp.body.uploadId;
+                        u2s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124834, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u2s2uid = resp.body.uploadId;
+                        u2s2sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                //Now we test for correctness
+                var sql = "u.upload_id, u.upload_status_id, s.submission_id, s.submission_status_id from upload u, submission s where " +
+                    "u.upload_id = s.upload_id AND s.submission_id IN (" + u1s1sid + "," + u2s1sid + "," + u2s2sid + ")"
+                    + " AND u.upload_id IN (" + u1s1uid +  "," + u2s1uid + "," + u2s2uid + ")";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    //The user124764_sub1 must be active
+                    var u1s1rec = _.findWhere(result, {upload_id: u1s1uid});
+                    assert.equal(u1s1rec.upload_status_id, 1);
+                    assert.equal(u1s1rec.submission_status_id, 1);
+
+                    //The user124834_sub1 must be deleted
+                    var u2s1rec = _.findWhere(result, {upload_id: u2s1uid});
+                    assert.equal(u2s1rec.upload_status_id, 2);
+                    assert.equal(u2s1rec.submission_status_id, 5);
+
+                    //The user124834_sub2 must be active
+                    var u2s2rec = _.findWhere(result, {upload_id: u2s2uid});
+                    assert.equal(u2s2rec.upload_status_id, 1);
+                    assert.equal(u2s2rec.submission_status_id, 1);
+
+                    cb(err);
+                });
+            }
+        ], done);
+    });
+
+    /**
+     * F2F challenge test 3, Test /v2/develop/challenges/:challengeId/submit for success
+     * 1) user124764 submitted user124764_sub1
+     * 2) user124834 submitted user124834_sub1
+     * 3) user124764 submitted user124764_sub2
+     * Manually check tc-api server log, in step 3, one email was sent to reviewer1@gmail.com and reviewer2@gmail.com respectively.
+     */
+    it('should submit successfully, F2F challenge test 3, user124764 submitted, user124834 submitted, then user124764 submitted', function (done) {
+        var u1s1uid,
+            u1s1sid,
+            u2s1uid,
+            u2s1sid,
+            u1s2uid,
+            u1s2sid;
+
+        async.series([
+            function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s1uid = resp.body.uploadId;
+                        u1s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124834, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u2s1uid = resp.body.uploadId;
+                        u2s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s2uid = resp.body.uploadId;
+                        u1s2sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                //Now we test for correctness
+                var sql = "u.upload_id, u.upload_status_id, s.submission_id, s.submission_status_id from upload u, submission s where " +
+                    "u.upload_id = s.upload_id AND s.submission_id IN (" + u1s1sid + "," + u2s1sid + "," + u1s2sid + ")"
+                    + " AND u.upload_id IN (" + u1s1uid +  "," + u2s1uid + "," + u1s2uid + ")";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    //The user124764_sub1 must be deleted
+                    var u1s1rec = _.findWhere(result, {upload_id: u1s1uid});
+                    assert.equal(u1s1rec.upload_status_id, 2);
+                    assert.equal(u1s1rec.submission_status_id, 5);
+
+                    //The user124834_sub1 must be active
+                    var u2s1rec = _.findWhere(result, {upload_id: u2s1uid});
+                    assert.equal(u2s1rec.upload_status_id, 1);
+                    assert.equal(u2s1rec.submission_status_id, 1);
+
+                    //The user124764_sub2 must be active
+                    var u1s2rec = _.findWhere(result, {upload_id: u1s2uid});
+                    assert.equal(u1s2rec.upload_status_id, 1);
+                    assert.equal(u1s2rec.submission_status_id, 1);
+
+                    cb(err);
+                });
+            }
+        ], done);
+    });
+
+
+    /**
+     * F2F challenge test 4, Test /v2/develop/challenges/:challengeId/submit for success
+     * 1) user124764 submitted user124764_sub1
+     * 2) user124834 submitted user124834_sub1
+     * 3) user124764 submitted user124764_sub2
+     * 4) user124764 submitted user124764_sub3
+     * Manually check tc-api server log, in step 3, one email was sent to reviewer1@gmail.com and reviewer2@gmail.com respectively.
+     * And no email sent in step 4.
+     */
+    it('should submit successfully, F2F challenge test 4, user124764 submitted, user124834 submitted, then user124764 submitted two times', function (done) {
+        var u1s1uid,
+            u1s1sid,
+            u2s1uid,
+            u2s1sid,
+            u1s2uid,
+            u1s2sid,
+            u1s3uid,
+            u1s3sid;
+
+        async.series([
+            function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s1uid = resp.body.uploadId;
+                        u1s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124834, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u2s1uid = resp.body.uploadId;
+                        u2s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s2uid = resp.body.uploadId;
+                        u1s2sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s3uid = resp.body.uploadId;
+                        u1s3sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                //Now we test for correctness
+                var sql = "u.upload_id, u.upload_status_id, s.submission_id, s.submission_status_id from upload u, submission s where " +
+                    "u.upload_id = s.upload_id AND s.submission_id IN (" + u1s1sid + "," + u2s1sid + "," + u1s2sid + "," + u1s3sid + ")"
+                    + " AND u.upload_id IN (" + u1s1uid +  "," + u2s1uid + "," + u1s2uid + "," + u1s3uid + ")";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    //The user124764_sub1 must be deleted
+                    var u1s1rec = _.findWhere(result, {upload_id: u1s1uid});
+                    assert.equal(u1s1rec.upload_status_id, 2);
+                    assert.equal(u1s1rec.submission_status_id, 5);
+
+                    //The user124834_sub1 must be active
+                    var u2s1rec = _.findWhere(result, {upload_id: u2s1uid});
+                    assert.equal(u2s1rec.upload_status_id, 1);
+                    assert.equal(u2s1rec.submission_status_id, 1);
+
+                    //The user124764_sub2 must be deleted
+                    var u1s2rec = _.findWhere(result, {upload_id: u1s2uid});
+                    assert.equal(u1s2rec.upload_status_id, 2);
+                    assert.equal(u1s2rec.submission_status_id, 5);
+
+                    //The user124764_sub3 must be active
+                    var u1s3rec = _.findWhere(result, {upload_id: u1s3uid});
+                    assert.equal(u1s3rec.upload_status_id, 1);
+                    assert.equal(u1s3rec.submission_status_id, 1);
+
+                    cb(err);
+                });
+            }
+        ], done);
+    });
+
+
+    /**
+     * F2F challenge test 5, Test /v2/develop/challenges/:challengeId/submit for success
+     * 1) user124764 submitted user124764_sub1
+     * 2) user124834 submitted user124834_sub1
+     * 3) user124764 submitted user124764_sub2
+     * 4) user124834 submitted user124834_sub2
+     * Manually check tc-api server log, in step 3, one email was sent to reviewer1@gmail.com and reviewer2@gmail.com respectively.
+     * And in step 4, another email was sent to reviewer1@gmail.com and reviewer2@gmail.com respectively.
+     */
+    it('should submit successfully, F2F challenge test 5, user124764 submitted, user124834 submitted, user124764 submitted, then user124834 submitted', function (done) {
+        var u1s1uid,
+            u1s1sid,
+            u2s1uid,
+            u2s1sid,
+            u1s2uid,
+            u1s2sid,
+            u2s2uid,
+            u2s2sid;
+
+        async.series([
+            function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s1uid = resp.body.uploadId;
+                        u1s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124834, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u2s1uid = resp.body.uploadId;
+                        u2s1sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124764, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u1s2uid = resp.body.uploadId;
+                        u1s2sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                var req = getRequest('/v2/develop/challenges/77710/submit', user124834, 200),
+                    buffer = fs.readFileSync(sampleSubmissionPath);
+                req.send({ fileName: 'sample_submission.zip', fileData: buffer.toString('base64') })
+                    .end(function (err, resp) {
+                        u2s2uid = resp.body.uploadId;
+                        u2s2sid = resp.body.submissionId;
+                        cb(err);
+                    });
+            }, function (cb) {
+                //Now we test for correctness
+                var sql = "u.upload_id, u.upload_status_id, s.submission_id, s.submission_status_id from upload u, submission s where " +
+                    "u.upload_id = s.upload_id AND s.submission_id IN (" + u1s1sid + "," + u2s1sid + "," + u1s2sid + "," + u2s2sid + ")"
+                    + " AND u.upload_id IN (" + u1s1uid +  "," + u2s1uid + "," + u1s2uid + "," + u2s2uid + ")";
+                testHelper.runSqlSelectQuery(sql, "tcs_catalog", function (err, result) {
+                    //The user124764_sub1 must be deleted
+                    var u1s1rec = _.findWhere(result, {upload_id: u1s1uid});
+                    assert.equal(u1s1rec.upload_status_id, 2);
+                    assert.equal(u1s1rec.submission_status_id, 5);
+
+                    //The user124834_sub1 must be deleted
+                    var u2s1rec = _.findWhere(result, {upload_id: u2s1uid});
+                    assert.equal(u2s1rec.upload_status_id, 2);
+                    assert.equal(u2s1rec.submission_status_id, 5);
+
+                    //The user124764_sub2 must be deleted
+                    var u1s2rec = _.findWhere(result, {upload_id: u1s2uid});
+                    assert.equal(u1s2rec.upload_status_id, 1);
+                    assert.equal(u1s2rec.submission_status_id, 1);
+
+                    //The user124834_sub2 must be active
+                    var u2s2rec = _.findWhere(result, {upload_id: u2s2uid});
+                    assert.equal(u2s2rec.upload_status_id, 1);
+                    assert.equal(u2s2rec.submission_status_id, 1);
+
+                    cb(err);
+                });
+            }
+        ], done);
+    });
+
+    /**
      * Test /v2/develop/challenges/:challengeId/submit when user is not logged-in
      * should return 401 error
      */
@@ -719,7 +1094,7 @@ describe('Submit for develop challenge', function () {
                     return;
                 }
                 assert.equal(resp.body.error.details,
-                    "The submission file size is greater than the max allowed size: " + (config.config.submissionMaxSizeBytes / 1024) + " KB.");
+                    "The submission file size is greater than the max allowed size: " + (config.submissionMaxSizeBytes / 1024) + " KB.");
                 done();
             });
     });

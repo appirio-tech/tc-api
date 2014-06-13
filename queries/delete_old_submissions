@@ -9,5 +9,5 @@ upload_id IN (
 	WHERE u.project_id = @challengeId@
 	AND r.resource_id = @resourceId@
 )
-AND submission_id != @submissionId@
+AND submission_id = @activeSubmissionId@
 AND submission_type_id = @submissionTypeId@;

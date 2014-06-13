@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.27
+ * @version 1.28
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
- * @author isv, muzehyun
+ * @author isv, muzehyun, bugbuka
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -70,6 +70,10 @@
  * - Remove checkpoints from get Software/Studio challenge detail api.
  * Changes in 1.27:
  * - Add template id to challenge terms of use.
+ * Changes in 1.28:
+ * - Updated submitForDevelopChallenge, add notification email for Iterative Reviewers when an F2F submission which is
+ * currently in review is being deleted by a member who uploads a new submission.
+ * - Fixed existing errors report by jsLint tool
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -295,12 +299,12 @@ function checkQueryParameterAndSortColumn(helper, type, queryString, sortColumn)
  */
 function validateInputParameter(helper, caller, challengeType, query, filter, pageIndex, pageSize, sortColumn, sortOrder, type, dbConnectionMap, callback) {
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
-            helper.checkPageIndex(pageIndex, "pageIndex") ||
-            helper.checkPositiveInteger(pageSize, "pageSize") ||
-            helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
-            helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-            helper.checkContains(helper.VALID_LIST_TYPE, type.toUpperCase(), "type") ||
-            checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
+        helper.checkPageIndex(pageIndex, "pageIndex") ||
+        helper.checkPositiveInteger(pageSize, "pageSize") ||
+        helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+        helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
+        helper.checkContains(helper.VALID_LIST_TYPE, type.toUpperCase(), "type") ||
+        checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
 
     if (_.isDefined(query.communityId)) {
         if (!_.isDefined(caller.userId)) {
@@ -1347,6 +1351,55 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 };
 
 /**
+ * add notification email for Iterative Reviewers
+ *
+ * @since 1.28
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Number} challengeId - The challenge id.
+ * @param {String} challengeName - The challenge name.
+ * @param {String} challengeVersion - The challenge version.
+ * @param {Number} submissionId - The submission id.
+ * @param {String} userHandle - The user handle.
+ * @param {Number} nextSubmissionId - The next submission id.
+ * @param {String} nextSubmitterHandle - The next submitter handle.
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var notifyIterativeReviewers = function (api, challengeId, challengeName, challengeVersion, submissionId, userHandle, nextSubmissionId, nextSubmitterHandle, dbConnectionMap, notifyCb) {
+    async.waterfall([
+        function (cb) {
+            api.dataAccess.executeQuery("get_challenge_iterative_reviewers_email", { challengeId: challengeId }, dbConnectionMap, cb);
+        },
+        function (iterativeReviewers, cb) {
+            if (iterativeReviewers.length === 0) {
+                notifyCb();
+            } else {
+                async.eachSeries(
+                    iterativeReviewers,
+                    function (iterativeReviewer, iterativeReviewerCb) {
+                        api.tasks.enqueue("sendEmail", {
+                            subject : api.config.tcConfig.f2fSubmissionReuploadNotificationEmailSubjectPrefix + challengeName + ' ' + challengeVersion,
+                            challengeName : challengeName,
+                            challengeVersion : challengeVersion,
+                            orLink : api.config.tcConfig.orChallengeDetailsUrl + challengeId,
+                            memberHandle : userHandle,
+                            submissionId : submissionId,
+                            nextSubmitterHandle : nextSubmitterHandle,
+                            nextSubmissionId : nextSubmissionId,
+                            template : 'notify_iterative_reviewers_email',
+                            toAddress : iterativeReviewer.email,
+                            senderName : "TC API"
+                        }, 'default');
+                        iterativeReviewerCb();
+                    },
+                    cb
+                );
+            }
+        }
+    ], notifyCb);
+};
+
+/**
  * This is the function that handles user's submission for a develop challenge.
  * It handles both checkpoint and final submissions
  * @since 1.9
@@ -1378,7 +1431,9 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.tcConfig.thurgoodApiKey,
         thurgoodJobId = null,
         multipleSubmissionPossible,
-        savedFilePath = null;
+        savedFilePath = null,
+        challengeName,
+        challengeVersion;
 
     async.waterfall([
         function (cb) {
@@ -1466,6 +1521,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
             userHandle = rows[0].user_handle;
             userEmail = rows[0].user_email;
             multipleSubmissionPossible = rows[0].multiple_submissions_possible;
+            challengeName = rows[0].challenge_name;
+            challengeVersion = rows[0].challenge_version;
 
             //All validations are now complete. Generate the new ids for the upload and submission
             async.parallel({
@@ -1598,40 +1655,81 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 cb();
             }
         }, function (cb) {
-            //Now we are ready to
-            //1) Insert into submission table
-            //2) Insert into resource_submission table
-            //3) Possibly delete older submissions and uploads by the user, if multiple submissions are not allowed
             _.extend(sqlParams, {
                 submissionId: submissionId,
                 thurgoodJobId: thurgoodJobId,
                 submissionTypeId: type === 'final' ? 1 : 3
             });
 
+            api.dataAccess.executeQuery("get_submissions", { challengeId: 0, resourceId: sqlParams.resourceId, submissionTypeId: sqlParams.submissionTypeId }, dbConnectionMap, cb);
+        }, function (activeSubmissions, cb) {
+
+            //Now we are ready to
+            //1) Insert into submission table
+            //2) Insert into resource_submission table
+            //3) Possibly delete older submissions and uploads by the user, if multiple submissions are not allowed
             async.series([
-                function (cb) {
-                    api.dataAccess.executeQuery("insert_submission", sqlParams, dbConnectionMap, function (err, result) {
-                        cb(err, result);
-                    });
-                }, function (cb) {
-                    api.dataAccess.executeQuery("insert_resource_submission", sqlParams, dbConnectionMap, function (err, result) {
-                        cb(err, result);
-                    });
-                }, function (cb) {
-                    if (!multipleSubmissionPossible) {
-                        api.dataAccess.executeQuery("delete_old_submissions", sqlParams, dbConnectionMap, function (err, result) {
-                            cb(err, result);
-                        });
+                function (cb2) {
+                    api.dataAccess.executeQuery("insert_submission", sqlParams, dbConnectionMap, cb2);
+                }, function (cb2) {
+                    api.dataAccess.executeQuery("insert_resource_submission", sqlParams, dbConnectionMap, cb2);
+                }, function (cb2) {
+                    if (activeSubmissions.length > 0 && !multipleSubmissionPossible) {
+                        var earliestSubmission,
+                            deletedEarliestSubmission = false;
+                        async.waterfall([
+                            function (activeSubmissionsCb) {
+                                api.dataAccess.executeQuery("get_submissions", { challengeId: sqlParams.challengeId, resourceId: 0, submissionTypeId: sqlParams.submissionTypeId }, dbConnectionMap, activeSubmissionsCb);
+                            },
+                            function (challengeSubmissions, activeSubmissionsCb) {
+                                earliestSubmission = challengeSubmissions[0];
+
+                                async.eachSeries(
+                                    activeSubmissions,
+                                    function (activeSubmission, activeSubmissionCb) {
+                                        _.extend(sqlParams, {
+                                            activeSubmissionId: activeSubmission.submission_id,
+                                            activeSubmissionUploadId: activeSubmission.upload_id
+                                        });
+                                        async.series([
+                                            function (deleteCb) {
+                                                api.dataAccess.executeQuery("delete_old_uploads", sqlParams, dbConnectionMap, deleteCb);
+                                            },
+                                            function (deleteCb) {
+                                                api.dataAccess.executeQuery("delete_old_submissions", sqlParams, dbConnectionMap, deleteCb);
+                                            },
+                                            function (deleteCb) {
+                                                if (earliestSubmission && earliestSubmission.submission_id === activeSubmission.submission_id) {
+                                                    deletedEarliestSubmission = true;
+                                                }
+                                                deleteCb();
+                                            }
+                                        ], activeSubmissionCb);
+                                    },
+                                    activeSubmissionsCb
+                                );
+                            },
+                            function (activeSubmissionsCb) {
+                                if (deletedEarliestSubmission) {
+                                    async.waterfall([
+                                        function (notifyCb) {
+                                            api.dataAccess.executeQuery("get_submissions", { challengeId: sqlParams.challengeId, resourceId: 0, submissionTypeId: sqlParams.submissionTypeId }, dbConnectionMap, notifyCb);
+                                        },
+                                        function (challengeSubmissions, notifyCb) {
+                                            var nextEarliestSubmission = challengeSubmissions[0];
+                                            notifyIterativeReviewers(api, challengeId, challengeName, challengeVersion, earliestSubmission.submission_id, userHandle, nextEarliestSubmission.submission_id, nextEarliestSubmission.handle, dbConnectionMap, notifyCb);
+                                        }
+                                    ], activeSubmissionsCb);
+
+                                } else {
+                                    activeSubmissionsCb();
+                                }
+                            }
+                        ], cb2);
+
+
                     } else {
-                        cb();
-                    }
-                }, function (cb) {
-                    if (!multipleSubmissionPossible) {
-                        api.dataAccess.executeQuery("delete_old_uploads", sqlParams, dbConnectionMap, function (err, result) {
-                            cb(err, result);
-                        });
-                    } else {
-                        cb();
+                        cb2();
                     }
                 }
             ], cb);
@@ -2882,22 +2980,22 @@ var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next)
             api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             var mapRegistrants = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
+                if (!_.isDefined(results)) {
+                    return [];
+                }
+                return _.map(results, function (item) {
+                    var registrant = {
+                        handle: item.handle,
+                        reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                        registrationDate: formatDate(item.inquiry_date)
+                    };
+                    if (!isStudio) {
+                        registrant.rating = item.rating;
+                        registrant.colorStyle = helper.getColorStyle(item.rating);
                     }
-                    return _.map(results, function (item) {
-                        var registrant = {
-                            handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date)
-                        };
-                        if (!isStudio) {
-                            registrant.rating = item.rating;
-                            registrant.colorStyle = helper.getColorStyle(item.rating);
-                        }
-                        return registrant;
-                    });
-                };
+                    return registrant;
+                });
+            };
             registrants = mapRegistrants(results);
             cb();
         }

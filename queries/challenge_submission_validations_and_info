@@ -10,6 +10,8 @@ SELECT
 	(NVL(piams.value, 'false') = 'true') as multiple_submissions_possible,
 	pithp.value as thurgood_platform,
 	pithl.value as thurgood_language,
+	pinam.value as challenge_name,
+	piver.value as challenge_version,
 	u.handle as user_handle,
 	ue.address as user_email
 FROM project p
@@ -24,6 +26,8 @@ LEFT JOIN (
 LEFT JOIN project_info piams ON piams.project_id = p.project_id AND piams.project_info_type_id = 28
 LEFT JOIN project_info pithp ON pithp.project_id = p.project_id AND pithp.project_info_type_id = 75
 LEFT JOIN project_info pithl ON pithl.project_id = p.project_id AND pithl.project_info_type_id = 76
+LEFT JOIN project_info pinam ON pinam.project_id = p.project_id AND pinam.project_info_type_id = 6   -- Challenge Name
+LEFT JOIN project_info piver ON piver.project_id = p.project_id AND piver.project_info_type_id = 7   -- Challenge Version
 INNER JOIN informix.user u ON u.user_id = @userId@
 INNER JOIN informix.email ue ON u.user_id = ue.user_id AND ue.email_type_id = 1
 WHERE p.project_id = @challengeId@;
