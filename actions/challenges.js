@@ -3497,6 +3497,7 @@ exports.getUserSubmissions = {
     },
     blockedConnectionTypes: [],
     outputExample: {},
+    cacheEnabled : false,
     version: 'v2',
     transaction: 'read',
     databases: ['tcs_catalog'],
