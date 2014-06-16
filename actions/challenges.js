@@ -3432,6 +3432,11 @@ var getUserSubmissions = function (api, connection, next) {
         sqlParams,
         isStudio,
         caller = connection.caller,
+        exeQuery = function (name) {
+            return function (cb) {
+                api.dataAccess.executeQuery(name, sqlParams, connection.dbConnectionMap, cb);
+            };
+        },
         challengeId = Number(connection.params.challengeId);
 
     async.waterfall([
@@ -3443,17 +3448,25 @@ var getUserSubmissions = function (api, connection, next) {
         function (cb) {
             sqlParams = {
                 challengeId: challengeId,
-                userId: caller.userId
+                userId: caller.userId,
+                user_id: caller.userId
             };
             //Check if the challenge is existed.
-            api.dataAccess.executeQuery("check_challenge_exists", sqlParams, connection.dbConnectionMap, cb);
+            async.parallel({
+                challengeCheck: exeQuery("check_challenge_exists"),
+                regCheck: exeQuery("check_is_registered_challenge")
+            }, cb);
         },
         function (res, cb) {
-            if (res.length === 0) {
+            if (res.challengeCheck.length === 0) {
                 cb(new NotFoundError("The challenge is not existed."));
                 return;
             }
-            isStudio = res[0].is_studio;
+            if (res.regCheck[0].is_registered === 0) {
+                cb(new BadRequestError("You didn't registered this challenge."))
+                return;
+            }
+            isStudio = res.challengeCheck[0].is_studio;
             api.dataAccess.executeQuery("get_user_submissions_for_challenge", sqlParams, connection.dbConnectionMap, cb);
         },
         function (res, cb) {
