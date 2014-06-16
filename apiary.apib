@@ -411,138 +411,8 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Client Challenge Costs [/reports/client/challenges/?clientid={clientId}&sfdcAccountId={cmc}&customerNumber={customerNumber}&type={type}&startDate={startDate}&endDate={endDate}]
-### Client Challenge Costs [GET]
-
-+ Parameters
-    + clientId (optional, number, `4310`) ... Client Id
-    + sfdcAccountId (optional, string, `4310`) ... CMC account ID
-    + customerNumber (optional, string, `4310`) ... Customer number
-    + type (optional, string, `4310`) ... The challenge status type
-    + startDate (optional, string, `4310`) ... The start date
-    + endDate (optional, string, `4310`) ... The end date
-
-+ Response 200 (application/json)
-
-{
-    "challenges": [
-        {
-            "customerName": "Client 9000001",
-            "customerNumber": "900000100",
-            "customerId": 9000001,
-            "billingAccountId": 9000001,
-            "billingAccountName": "Client 9000001 Billing Account 1",
-            "projectName": "Client 9000001 Billing Account 1 Project 2",
-            "challengeName": "Logo Design Contest 2",
-            "challengeId": 9000002,
-            "challengeType": "Logo Design",
-            "challengeStatus": "Active",
-            "postingDate": "2014-03-27",
-            "completionDate": "2014-03-29",
-            "challengeMemberCost": 0,
-            "challengeFee": 375,
-            "challengeTotalCost": 375,
-            "challengeDuration": 1.8,
-            "lastModificationDate": "2014-03-29",
-            "registrationEndDate": "2014-03-29",
-            "submissionEndDate": "2014-04-03",
-            "checkpointEndDate": "2014-03-30",
-            "currentPhase": "Checkpoint Screening",
-            "firstPrize": 1700,
-            "totalPrize": 1870,
-            "checkpointPrize": 170,
-            "registrantsCount": 2,
-            "submissionsCount": 0,
-            "checkpointSubmissionsCount": 2,
-            "challengeScheduledEndDate": "2014-04-08",
-            "reliability": 4
-        },
-        {
-            "customerName": "Client 9000001",
-            "customerNumber": "900000100",
-            "customerId": 9000001,
-            "billingAccountId": 9000002,
-            "billingAccountName": "Client 9000001 Billing Account 2",
-            "projectName": "Client 9000001 Billing Account 2 Project 1",
-            "challengeName": "Conceptualization Contest 3",
-            "challengeId": 9000003,
-            "challengeType": "Conceptualization",
-            "challengeStatus": "Active",
-            "postingDate": "2014-03-25",
-            "completionDate": "2014-03-29",
-            "challengeMemberCost": 0,
-            "challengeFee": 6001,
-            "challengeTotalCost": 6001,
-            "challengeDuration": 4.3,
-            "lastModificationDate": "2014-03-29",
-            "registrationEndDate": "2014-03-27",
-            "submissionEndDate": "2014-03-30",
-            "checkpointEndDate": "2014-03-28",
-            "currentPhase": "Submission",
-            "firstPrize": 1000,
-            "totalPrize": 1088,
-            "checkpointPrize": 88,
-            "registrantsCount": 3,
-            "submissionsCount": 0,
-            "checkpointSubmissionsCount": 3,
-            "challengeScheduledEndDate": "2014-04-10",
-            "reliability": 227
-        }
-    ]
-}
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-
-+ Response 403 (application/json)
-
-        {
-            "name":"Forbidden",
-            "value":"403",
-            "description":"The request is understood, but it has been refused or access is not allowed."
-        }
-
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"Client not found"
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
 ## Challenge Analyze [/reports/analyze]
-        
-## Challenge Analyze [/reports/analyze?projectId={projectId}&openRegistrationDateFrom={openRegistrationDateFrom}&openRegistrationDateTo={openRegistrationDateTo}&challengeType={challengeType}&challengeName={challengeName}&prizeLower={prizeLower}&prizeUpper={prizeUpper}]
 ### Challenge Analyze [GET]
-
-+ Parameters
-    + projectId (optional, string, `1245`) ... The project id.
-    + openRegistrationDateFrom (optional, string, `2014-04-01`) ... The open registration date from.
-    + openRegistrationDateTo (optional, string, `2014-04-05`) ... The open registration date to.
-    + challengeType (optional, string, `Wireframes`) ... The challenge type.
-    + challengeName (optional, string, `TC-API`) ... The challenge name.
-    + prizeLower (optional, number, `500`) ... The prize lower bound
-    + prizeUpper (optional, number, `1800`) ... The prize upper bound.
 
 + Response 200 (application/json)
 
@@ -557,12 +427,12 @@ Report APIs
                     "copilot": "iRabbit",
                     "csm": [
                         "nlouie"
-                    ]
+                    ],
                     "architect": "none",
                     "pm": [
                         "nlouie",
                         "Shannon"
-                    ]
+                    ],
                     "challengeStatus": "Active",
                     "currentPhase": "Registration",
                     "numberOfRegistrants": 15,
@@ -572,11 +442,12 @@ Report APIs
                     "openRegistrationDate": "2014-04-01",
                     "forumPosts": "11/25",
                     "numberOfUnansweredThread": 3,
-                    "1stPlacePrize": "1600/1400.0",
-                    "2ndPlacePrize": "750/800.0",
+                    "1stPlacePrize": "1600/50",
+                    "2ndPlacePrize": "750/25",
                     "numberOfDaysLive": "13.5/0.5",
                     "rating": "3/5/10",
-                    "numberOfRepost": 0
+                    "numberOfRepost": 0,
+                    "comments": "good resgirations"
                 }
              ]
         }
@@ -586,143 +457,15 @@ Report APIs
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"openRegistrationDateFrom is not a valid date."
+            "description":"This message will explain why the request is invalid or cannot be served."
         }
 
-+ Response 400 (application/json)
++ Response 404 (application/json)
 
         {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"openRegistrationDateTo is not a valid date."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"startDate should be earlier than endDate or at same date."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeLower should be greater or equal to 0"
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeLower should be number."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeLower should be less or equal to 2147483647."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeLower should be Integer."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeUpper should be greater or equal to 0"
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeUpper should be number."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeUpper should be less or equal to 2147483647."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"prizeUpper should be Integer."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"projectId should be positive."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"projectId should be number."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"projectId should be less or equal to 2147483647."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"projectId should be Integer."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"The challengeType parameter is not a correct project category value."
-        }
-
-+ Response 401 (application/json)
-
-        {
-            "name":"Unauthorized",
-            "value":"401",
-            "description":"Authorized information needed."
-        }
-
-+ Response 403 (application/json)
-
-        {
-            "name":"Forbidden",
-            "value":"403",
-            "description":"You don't have access to this api."
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
 
 + Response 500 (application/json)
@@ -825,7 +568,7 @@ Platform APIs
         }
 
 ## Active Billing Accounts [/platform/activeBillingAccounts]
-### Get Activity Summary [GET]
+### Active Billing Accounts [GET]
 
 + Response 200 (application/json)
 
@@ -966,7 +709,7 @@ Platform APIs
 ## Billing [/platform/billing]
 ### Create Billing [POST]
 + Parameters
-    + billingAccountName (required, string, `snABCD`) ... The billingAccountName of the project to create
+    + billingAccountName (required, string, `snABCD`) ... The billing account name of the project to create
     + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project
 
 + Response 200 (application/json)
@@ -997,6 +740,551 @@ Platform APIs
             "name":"Forbidden",
             "value":"403",
             "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Get Challenge Detail [/challenges/{challengeId}]
+### Get Challenge Detail [GET]
+
++ Parameters
+    + challengeId (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+          "challengeType": "Assembly Competition",
+          "type": "develop",
+          "challengeName": "Module Assembly - TopCoder NodeJS API Tests Improvement and Normalization",
+          "challengeId": 30036437,
+          "projectId": 6757,
+          "forumId": "19553",
+          "detailedRequirements": "<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Project Overview</span></h2>\n\n<p>TopCoder and the TopCoder community have worked hard to get the platform to its currently level of maturity, but we&#39;re far from done. It&#39;s time to take the platform to the next level. TopCoder is going to start taking some steps to open up the platform API to the outside and community developers so they could incorporate it in their websites, applications or build their own applications (web, mobile or desktop).</p>\n\n<p>The ultimate goal is to open up and build an &quot;API&quot; that is targeting all different type of audiences - Software and Studio Competitors, SRM/MM competitors, Copilots, Admins and TopCoder partners - each audience will have different interests and usages of the API, so it will be a huge project and we need to make sure that we are in the right direction from the beginning.</p>\n\n<p>Currently, we have run several contests to build the APIs and write tests for testing the APIs.&nbsp; All the tests can be found at https://github.com/cloudspokes/tc-api/tree/master/test</p>\n\n<p>Through these contests, we have found several problems for the tests part as following</p>\n\n<ol>\n\t<li>The tests are not properly named, we&#39;d like to follow the way like &#39;test.[api name].js&#39;, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> should be renamed to <u>test.register_member.js</u>.</span></li>\n\t<li>Some of the tests have to presetup the database manually, Some of the tests automically setup and clear the related database tables wisely.</li>\n\t<li>The tests can be passed if run separately, but failed when running togather.</li>\n</ol>\n\n<p>For this contest, we&#39;d like to improve and standarize the way to write tests, so it will be good for further addon and CI integration.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Competition Task Overview</span></h2>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /> <strong>Please raise questions as quick as you can, I am familiar with related database and code base, I can provide as much support as I can.</strong></span></span></p>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /></span><strong>The updated code must still deploy and work on heroku - any submission which can&#39;t be deployed on heroku successfully will be failed in screening phase - primary reviewer must check this.</strong></span></p>\n\n<p>The implementation will base on the node.js version of TC platform API - <span class=\"nobr\"><a href=\"https://github.com/cloudspokes/tc-api\" rel=\"nofollow\">https://github.com/cloudspokes/tc-api</a>.</span> <strong>Please follow the existing actionhero pattern for your development.</strong></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Clean State for Running Tests</span></h3>\n\n<p>Currently, some tests requires presetup the database, some tests automically setup and clear the related database tables.</p>\n\n<p>We&#39;d like to follow the approach to setup and clear the related database tables before and after running the tests.</p>\n\n<p>Currently, <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> used similar approach to setup the data before running tests. We&#39;d like to extra similar logic as utility methods, which can be used to execute a batch of sqls (for example, inside one file) or single sql against one database (Currently we can not do with multiple databases, due to the limitation of nodejs informix module).</span></p>\n\n<p>With this utility methods we can easily do setup and teardown databases.</p>\n\n<p><u>before, after, before each, after each hooks</u></p>\n\n<p>Utilize <code>before()</code>, <code>after()</code>, <code>beforeEach()</code>, <code>afterEach()</code>&nbsp; to setup the tests more wise. For detail information, please check http://visionmedia.github.io/mocha/</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Test Directory Restructure and Normalization</span></h3>\n\n<p>We&#39;d like to normalize the directory structure inside <a href=\"https://github.com/cloudspokes/tc-api/blob/master/test\">test</a> directory. Currently, it already gives good starting point, but we&#39;d like revise it as we are making the above changes. Here is the general rules to following</p>\n\n<ol>\n\t<li>All tests should be named like test.[api name].js, so normally, for each api, there should be separated test js files.</li>\n\t<li>All tests from contest winner, should be put directly under test directory.</li>\n\t<li>All reviewers tests should be put under corresponding directory under test directory, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory.</li>\n\t<li>All sql files used for tests presetup and teardown should be put under <u>sqls</u> directory, sqls files for accuray, failture, security tests, will be in different directory, directly under the <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory, like accuracy/sqls, failure/sqls etc.</li>\n\t<li>All other test related files will be still put under <u>test_files</u> directory.</li>\n</ol>\n\n<p><span style=\"color:#FF0000;\">If you have better idea and improvement to make the test directory well orginized, please suggest. This can be considered as improvement, reviewers and PMs will consider that.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Scope </span></h3>\n\n<p>All tests under test directory are in scope. If it tests didn&#39;t pass orignally, you should be responsible to fix that.</p>\n\n<p>The ultimate goal is we can run all tests or single test successfully. like</p>\n\n<p>Run a single test:&nbsp; <u>./node_modules/.bin/mocha ./test/test.tops.js</u></p>\n\n<p>Run all tests: <u>./node_modules/.bin/mocha ./test</u></p>\n\n<p>Following steps&nbsp; to run the tests.</p>\n\n<ol>\n\t<li>setup environment varibales: . deploy/development.sh</li>\n\t<li>start the local server: npm start</li>\n\t<li>run the tests: as above commands.</li>\n</ol>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Tests Creation Guide</span></h3>\n\n<p>Beside the above requirements for current tests normalization and improvement, we&#39;d like you to write a general guide which can be followed to further test creation. It just need to be easy to follow.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Testing</span></h3>\n\n<p><span style=\"font-size:12px;\">The API Framework supports tests. </span>Use <a href=\"https://github.com/visionmedia/supertest\">supertest</a> with <a href=\"http://visionmedia.github.io/mocha/\">mocha</a>. Don&#39;t install mocha globally.</p>\n\n<p><span style=\"color:#FF0000;\">you must use mocha BDD style (which is the default), within that, you can optionally use chai.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Code Format</span></h3>\n\n<p>All code must pass <a href=\"http://www.jslint.com/\">jslint</a>. You may use &quot;nomen: true&quot;.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Winner Only</span></h3>\n\n<p>Winner will create pull request against the main github repo in final fix phase and merge the code.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color:#FF0000;\">Virutal Machines (VMs)</span></h3>\n\n<p>VM specific information is found here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/docs/VM+Image+2.5\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/docs/VM+Image+2.5</a></span></p>\n\n<p>Upon registration as a submitter or reviewer you will need to request a VM based on the TopCoder systems image. The VM will be active through aggregation review, after which it will be terminated except for the winner&#39;s and the reviewers&#39;. To request your image, please post in contest forum.</p>\n\n<p>Before requesting your VM, you need to ensure that you have an SSH key created and in your member profile. Instructions to do so are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key</a></span>, and instructions to connect afterwards are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key</a></span>.</p>\n\n<p>Please realize that VMs are currently issued manually. We make every attempt to issue the VM as soon as it is requested, however, there may be delays of up to 12 hours depending on time of day when you request. We encourage everyone to request a VM as soon as possible to minimize any such delays.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Technology Overview</span></h2>\n\n<ul style=\"font-family: Arial, Helvetica, Verdana, sans-serif; font-size: 12px; line-height: 16px;\">\n\t<li>JavaScript</li>\n\t<li><span class=\"nobr\"><a href=\"http://nodejs.org/\" rel=\"nofollow\">Node.js 0.10.x</a></span></li>\n\t<li><a href=\"https://github.com/evantahler/actionHero\">actionhero.js framework</a></li>\n\t<li><a href=\"https://github.com/visionmedia/supertest\">supertest</a></li>\n\t<li><a href=\"http://visionmedia.github.io/mocha/\">mocha</a></li>\n</ul>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Documentation Provided</span></h2>\n\n<p>Please check the deployment guide in codebase for reference.</p>\n",
+          "finalSubmissionGuidelines": "<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Submission Deliverables</span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">A complete list of deliverables can be viewed in the TopCoder Assembly competition Tutorial at: </span><a href=\"http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials\">http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials</a></p>\n\n<p><span style=\"font-size:12px;\">Below is an overview of the deliverables:</span></p>\n\n<ul>\n\t<li>Source Code.</li>\n\t<li>Deployment guide to configure and verify the application.</li>\n\t<li>General Test Creation Guide</li>\n</ul>\n\n<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Final Submission </span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">For each member, the final submission should be uploaded to the Online Review Tool.</span></p>\n",
+          "screeningScorecardId": "30000412",
+          "reviewScorecardId": "30001470",
+          "cmcTaskId": "",
+          "numberOfCheckpointsPrizes": 0,
+          "topCheckPointPrize": "",
+          "postingDate": "2013-12-02T09:00:05.000Z",
+          "registrationEndDate": "2013-12-04T09:00:21.000Z",
+          "checkpointSubmissionEndDate": "-000001-11-30T00:00:00.000Z",
+          "submissionEndDate": "2013-12-06T21:20:56.000Z",
+          "appealsEndDate": "2013-12-09T07:05:33.000Z",
+          "finalFixEndDate": "2013-12-10T08:33:19.000Z",
+          "digitalRunPoints": 360,
+          "reliabilityBonus": 160,
+          "challengeCommunity": "develop",
+          "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30036437",
+          "technology": [
+            "Java",
+            "MySQL"
+          ],
+          "prize": [
+            800,
+            400
+          ],
+          "generalCheckpointFeedback": "This is general feedback from all competitors.",
+          "Documents": [
+            {
+               "documentName": "document 1",
+               "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400000"
+            },
+            {
+                "documentName": "document 2",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400001"
+            },
+            {
+                "documentName": "document 3",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30400002"
+            }
+          ],
+          "numberOfRegistrants": 18,
+          "numberOfSubmissions": 2,
+          "platforms": [
+              "AWS",
+              "Cloud Foundry"
+          ],
+         "event": {
+             "id": 3437,
+             "description": "TCO"
+         }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "challengeType": "First2Finish",
+            "type": "develop",
+            "challengeName": "this is a F2F challenge",
+            "challengeId": 30500000,
+            "projectId": 30400001,
+            "screeningScorecardId": "3",
+            "reviewScorecardId": "1",
+            "cmcTaskId": "ab",
+            "numberOfCheckpointsPrizes": 0,
+            "topCheckPointPrize": "",
+            "currentStatus": "Active",
+            "digitalRunPoints": 510,
+            "reliabilityBonus": 200,
+            "challengeCommunity": "develop",
+            "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=30500000",
+            "technology": ["Java", "MySQL"],
+            "prize": [
+            1000
+            ],
+            "Documents": [
+            {
+                "documentName": "document 1",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+            },
+            {
+                "documentName": "document 2",
+                "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+            }
+            ],
+            "numberOfSubmissions": 1,
+            "numberOfRegistrants": 1,
+            "platforms": [
+                "AWS",
+                "Cloud Foundry"
+            ],
+            "event": {
+                "id": 3437,
+                "description": "TCO"
+            }
+        }
++ Response 200 (application/json)
+
+        {
+            "challengeType": "Copilot Posting",
+            "type": "develop",
+            "challengeName": "this is a Copilot post challenge",
+            "challengeId": 32500000,
+            "projectId": 30400001,
+            "detailedRequirements": "detailed requirement content",
+            "finalSubmissionGuidelines": "final submission guideline content",
+            "cmcTaskId": "ab",
+            "numberOfCheckpointsPrizes": 0,
+            "topCheckPointPrize": "",
+            "copilotDetailedRequirements": "copilot private_description_text",
+            "currentStatus": "Active",
+            "digitalRunPoints": 510,
+            "reliabilityBonus": 200,
+            "challengeCommunity": "develop",
+            "directUrl": "https://www.topcoder.com/direct/contest/detail.action?projectId=32500000",
+            "technology": ["Java", "MySQL"],
+            "prize": [
+                1000
+            ],
+            "numberOfRegistrants": 1,
+            "Documents": [
+                {
+                    "documentName": "document 1",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500000"
+                },
+                {
+                    "documentName": "document 3",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=32500000"
+                },
+                {
+                    "documentName": "document 4",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=32500001"
+                },
+                {
+                    "documentName": "document 2",
+                    "url": "http://community.topcoder.com/tc?module=DownloadDocument&docid=30500001"
+                }
+            ],
+            "numberOfSubmissions": 1,
+            "platforms": [
+                "AWS",
+                "Cloud Foundry"
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+        
+## Get Challenge Registrants [/challenges/registrants/{challengeId}]
+### Get Challenge Registrants [GET]
+
++ Parameters
+    + challengeId (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+          "registrants": [
+            {
+              "handle": "Luca",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T09:09:08.000Z"
+            },
+            {
+              "handle": "freegod",
+              "reliability": "40%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T09:27:46.000Z"
+            },
+            {
+              "handle": "Ghost_141",
+              "reliability": "53%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T09:31:53.000Z"
+            },
+            {
+              "handle": "Gando19850304",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T09:56:15.000Z"
+            },
+            {
+              "handle": "saarixx",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T10:19:36.000Z"
+            },
+            {
+              "handle": "moulyg",
+              "reliability": "30%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T10:21:05.000Z"
+            },
+            {
+              "handle": "DanLazar",
+              "reliability": "13%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T12:09:28.000Z"
+            },
+            {
+              "handle": "Schpotsky",
+              "reliability": "100%",
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T12:27:50.000Z"
+            },
+            {
+              "handle": "Fantoccini",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T19:21:55.000Z"
+            },
+            {
+              "handle": "Standlove",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T19:50:41.000Z"
+            },
+            {
+              "handle": "brain_cn",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T21:41:37.000Z"
+            },
+            {
+              "handle": "phead",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-02T21:44:32.000Z"
+            },
+            {
+              "handle": "alfiya_Zi",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-03T00:49:54.000Z"
+            },
+            {
+              "handle": "sunbinbrother",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-03T02:13:48.000Z"
+            },
+            {
+              "handle": "muzehyun",
+              "reliability": "0%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-03T03:15:31.000Z"
+            },
+            {
+              "handle": "KeSyren",
+              "reliability": "13%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-03T05:39:21.000Z"
+            },
+            {
+              "handle": "Sky_",
+              "reliability": "100%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-03T06:18:30.000Z"
+            },
+            {
+              "handle": "woodjhon",
+              "reliability": "6%",
+              "rating": 1234,
+              "colorStyle": "color: #DDCC00",
+              "registrationDate": "2013-12-03T07:19:29.000Z"
+            }
+          ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "registrants": [
+            {
+                "handle": "heffan",
+                "reliability": "100%",
+                "rating": 1800,
+                "colorStyle": "color: #DDCC00"
+            }
+            ]
+        }
++ Response 200 (application/json)
+
+        {
+            "registrants": [
+                {
+                    "handle": "heffan",
+                    "reliability": "100%"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Get Challenge Submissions [/challenges/submissions/{challengeId}]
+### Get Challenge Submissions [GET]
+
++ Parameters
+    + challengeId (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+          "submissions": [
+            {
+              "handle": "Sky_",
+              "placement": 1,
+              "screeningScore": 100,
+              "initialScore": 98.98,
+              "finalScore": 99.95,
+              "points": 360,
+              "submissionStatus": "Active",
+              "submissionDate": "2013-12-06T08:12:59.000Z"
+            },
+            {
+              "handle": "Sky_",
+              "placement": "",
+              "screeningScore": null,
+              "initialScore": null,
+              "finalScore": null,
+              "points": 0,
+              "submissionStatus": "Deleted",
+              "submissionDate": "2013-12-05T12:22:07.000Z"
+            }
+          ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "submissions": [
+            {
+                "handle": "heffan",
+                "placement": 1,
+                "screeningScore": 100,
+                "initialScore": 80,
+                "finalScore": 90,
+                "points": 510,
+                "submissionStatus": "Active"
+            }
+            ]
+        }
++ Response 200 (application/json)
+
+        {
+            "submissions": [
+                {
+                    "handle": "heffan",
+                    "placement": 1,
+                    "screeningScore": 100,
+                    "initialScore": 80,
+                    "finalScore": 90,
+                    "points": 510,
+                    "submissionStatus": "Active"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Get Challenge Phases [/challenges/phases/{challengeId}]
+### Get Challenge Phases [GET]
+
++ Parameters
+    + challengeId (required, number, `30000000`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+          "currentPhaseEndDate": "-000001-11-30T00:00:00.000Z",
+          "currentStatus": "Completed",
+          "currentPhaseName": "",
+          "currentPhaseRemainingTime": 0,
+          "phases": [
+            {
+                "type": "Registration",
+                "status": "Open",
+                "scheduledStartTime": "2013-12-05T12:22:07.000Z",
+                "actualStartTime": "2013-12-05T12:22:07.000Z",
+                "scheduledEndTime": "2013-12-05T12:22:07.000Z",
+                "actualEndTime": null
+            },
+            {
+                "type": "Submission",
+                "status": "Scheduled",
+                "scheduledStartTime": "2013-12-05T12:22:07.000Z",
+                "actualStartTime": null,
+                "scheduledEndTime": "2013-12-05T12:22:07.000Z",
+                "actualEndTime": null
+            }
+           ]          
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
         }
 
 + Response 500 (application/json)
@@ -1539,53 +1827,6 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## My Profile [/user/profile]
-### My Profile [POST]
-+ Request
-
-    + Headers
-
-            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
-
-+ Response 200 (application/json)
-
-        {
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-            "details:":"User is not activated."
-        }
-
-+ Response 401 (application/json)
-
-        {
-            "name":"Unauthorized",
-            "value":"401",
-            "description":"This message will explain why the request is invalid or cannot be served."
-            "details:":"Authentication credential was missing."
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-        
 ## Validate Handle [/users/validate/{handle}]
 ### Validate Handle [GET]
 
@@ -1662,7 +1903,6 @@ Register a new user.
 ## Generate Reset Token  [/users/resetToken/?handle={handle}&email={email}]
 ### Generate Reset Token [GET]
 - return "successful" flag set to true
-- return social provider name for social login user
 
 + Parameters
     + handle (optional, string, `iRabbit`) ... Member Handle or Social Login Username
@@ -1672,12 +1912,6 @@ Register a new user.
 
         {
             "successful":"true"
-        }
-
-+ Response 200 (application/json)
-
-        {
-            "socialProvider":"Google"
         }
 
 + Response 400 (application/json)
@@ -1961,8 +2195,8 @@ Request
 
 #Group Software Challenges
 
-##Develop Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Get Develop Review Opportunities [GET]
+## Review Opportunities [/develop/reviewOpportunities/?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get Review Opportunities [GET]
 
 + Parameters
     + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern YYYY-MM-DD.
@@ -2424,36 +2658,11 @@ Request
                 "Development":
                 [
                     "rating": 1659,
-                    "reliability": "n/a",
+                    "percentile": 50%,
+                    "rank": 9999,
+                    "countryRank": 9999,
+                    "schoolRank": 9999,
                     "volatility": 280,
-                    "activePercentile": "28.09%",
-                    "activeRank": 1,
-                    "activeCountryRank": 1,
-                    "activeSchoolRank": 1,
-                    "overallPercentile": "8.15%",
-                    "overallRank": 1,
-                    "overallCountryRank": 1,
-                    "overallSchoolRank": 1
-                ],
-                "Assembly":
-                [
-                    "rating": 1659,
-                    "volatility": 280,
-                    "reliability": "n/a",
-                    "activePercentile": "28.09%",
-                    "activeRank": 1,
-                    "activeCountryRank": 1,
-                    "activeSchoolRank": 1,
-                    "overallPercentile": "8.15%",
-                    "overallRank": 1,
-                    "overallCountryRank": 1,
-                    "overallSchoolRank": 1
-                ]
-            },
-            "CompetitionHistory" :
-            {
-                "Development":
-                [
                     "competitions": 37,
                     "maximumRating": 1693,
                     "minimumRating": 1035,
@@ -2476,6 +2685,12 @@ Request
                 ],
                 "Assembly":
                 [
+                    "rating": 1659,
+                    "percentile": 50%,
+                    "rank": 9999,
+                    "countryRank": 9999,
+                    "schoolRank": 9999,
+                    "volatility": 280,
                     "competitions": 37,
                     "maximumRating": 1693,
                     "minimumRating": 1035,
@@ -2653,12 +2868,11 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-        
 ## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Software Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
     + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
@@ -2813,12 +3027,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Software Challenges [/develop/challenges/active?communityId={communityId}&private={private}]
+## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, string, `1`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -3270,12 +3489,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?communityId={communityId}&private={private}]
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, string, `true`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -3409,7 +3633,7 @@ Request
         }
 
 ## Get Software Challenge Detail [/develop/challenges/{challengeId}]
-### Get Software Challenge Information [GET]
+### Get Software Challenge Detail [GET]
 
 + Parameters
     + challengeId (required, number, `30000000`) ... The challenge id.
@@ -3422,7 +3646,6 @@ Request
           "challengeId": 30036437,
           "projectId": 6757,
           "forumId": "19553",
-          "forumLink": "http://apps.topcoder.com/forums/?module=ThreadList&forumID=19553", 
           "detailedRequirements": "<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Project Overview</span></h2>\n\n<p>TopCoder and the TopCoder community have worked hard to get the platform to its currently level of maturity, but we&#39;re far from done. It&#39;s time to take the platform to the next level. TopCoder is going to start taking some steps to open up the platform API to the outside and community developers so they could incorporate it in their websites, applications or build their own applications (web, mobile or desktop).</p>\n\n<p>The ultimate goal is to open up and build an &quot;API&quot; that is targeting all different type of audiences - Software and Studio Competitors, SRM/MM competitors, Copilots, Admins and TopCoder partners - each audience will have different interests and usages of the API, so it will be a huge project and we need to make sure that we are in the right direction from the beginning.</p>\n\n<p>Currently, we have run several contests to build the APIs and write tests for testing the APIs.&nbsp; All the tests can be found at https://github.com/cloudspokes/tc-api/tree/master/test</p>\n\n<p>Through these contests, we have found several problems for the tests part as following</p>\n\n<ol>\n\t<li>The tests are not properly named, we&#39;d like to follow the way like &#39;test.[api name].js&#39;, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> should be renamed to <u>test.register_member.js</u>.</span></li>\n\t<li>Some of the tests have to presetup the database manually, Some of the tests automically setup and clear the related database tables wisely.</li>\n\t<li>The tests can be passed if run separately, but failed when running togather.</li>\n</ol>\n\n<p>For this contest, we&#39;d like to improve and standarize the way to write tests, so it will be good for further addon and CI integration.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Competition Task Overview</span></h2>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /> <strong>Please raise questions as quick as you can, I am familiar with related database and code base, I can provide as much support as I can.</strong></span></span></p>\n\n<p><span style=\"color:#FF0000;\"><span style=\"font-size: 12px;\"><img align=\"absmiddle\" alt=\"\" border=\"0\" height=\"16\" src=\"http://apps.topcoder.com/wiki/images/icons/emoticons/warning.gif\" width=\"16\" /></span><strong>The updated code must still deploy and work on heroku - any submission which can&#39;t be deployed on heroku successfully will be failed in screening phase - primary reviewer must check this.</strong></span></p>\n\n<p>The implementation will base on the node.js version of TC platform API - <span class=\"nobr\"><a href=\"https://github.com/cloudspokes/tc-api\" rel=\"nofollow\">https://github.com/cloudspokes/tc-api</a>.</span> <strong>Please follow the existing actionhero pattern for your development.</strong></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Clean State for Running Tests</span></h3>\n\n<p>Currently, some tests requires presetup the database, some tests automically setup and clear the related database tables.</p>\n\n<p>We&#39;d like to follow the approach to setup and clear the related database tables before and after running the tests.</p>\n\n<p>Currently, <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/blob/master/test/register_member.js\" id=\"72636476fe496c69e8cc1d0569ffd550-ab6d2363c6933e23ee66bb7b92f4d07841ea286b\" title=\"register_member.js\">register_member.js</a> used similar approach to setup the data before running tests. We&#39;d like to extra similar logic as utility methods, which can be used to execute a batch of sqls (for example, inside one file) or single sql against one database (Currently we can not do with multiple databases, due to the limitation of nodejs informix module).</span></p>\n\n<p>With this utility methods we can easily do setup and teardown databases.</p>\n\n<p><u>before, after, before each, after each hooks</u></p>\n\n<p>Utilize <code>before()</code>, <code>after()</code>, <code>beforeEach()</code>, <code>afterEach()</code>&nbsp; to setup the tests more wise. For detail information, please check http://visionmedia.github.io/mocha/</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Test Directory Restructure and Normalization</span></h3>\n\n<p>We&#39;d like to normalize the directory structure inside <a href=\"https://github.com/cloudspokes/tc-api/blob/master/test\">test</a> directory. Currently, it already gives good starting point, but we&#39;d like revise it as we are making the above changes. Here is the general rules to following</p>\n\n<ol>\n\t<li>All tests should be named like test.[api name].js, so normally, for each api, there should be separated test js files.</li>\n\t<li>All tests from contest winner, should be put directly under test directory.</li>\n\t<li>All reviewers tests should be put under corresponding directory under test directory, like <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory.</li>\n\t<li>All sql files used for tests presetup and teardown should be put under <u>sqls</u> directory, sqls files for accuray, failture, security tests, will be in different directory, directly under the <span class=\"css-truncate css-truncate-target\"><a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/accuracy\" id=\"5d6db9a1dc722586187fc2db530f8388-a107215d06565a781a851de5573da8b935851c3f\" title=\"accuracy\">accuracy</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/failure\" id=\"3ee28fe1a60c95b89d29317f122c7021-420d711966add1044306cfaba7036b73d50f95e2\" title=\"failure\">failure</a>, <a class=\"js-directory-link\" href=\"https://github.com/cloudspokes/tc-api/tree/master/test/security\" id=\"e91e6348157868de9dd8b25c81aebfb9-8d796d458ceb76eb46407f9164ed17343d529bf6\" title=\"security\">security</a></span> directory, like accuracy/sqls, failure/sqls etc.</li>\n\t<li>All other test related files will be still put under <u>test_files</u> directory.</li>\n</ol>\n\n<p><span style=\"color:#FF0000;\">If you have better idea and improvement to make the test directory well orginized, please suggest. This can be considered as improvement, reviewers and PMs will consider that.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Scope </span></h3>\n\n<p>All tests under test directory are in scope. If it tests didn&#39;t pass orignally, you should be responsible to fix that.</p>\n\n<p>The ultimate goal is we can run all tests or single test successfully. like</p>\n\n<p>Run a single test:&nbsp; <u>./node_modules/.bin/mocha ./test/test.tops.js</u></p>\n\n<p>Run all tests: <u>./node_modules/.bin/mocha ./test</u></p>\n\n<p>Following steps&nbsp; to run the tests.</p>\n\n<ol>\n\t<li>setup environment varibales: . deploy/development.sh</li>\n\t<li>start the local server: npm start</li>\n\t<li>run the tests: as above commands.</li>\n</ol>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Tests Creation Guide</span></h3>\n\n<p>Beside the above requirements for current tests normalization and improvement, we&#39;d like you to write a general guide which can be followed to further test creation. It just need to be easy to follow.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Testing</span></h3>\n\n<p><span style=\"font-size:12px;\">The API Framework supports tests. </span>Use <a href=\"https://github.com/visionmedia/supertest\">supertest</a> with <a href=\"http://visionmedia.github.io/mocha/\">mocha</a>. Don&#39;t install mocha globally.</p>\n\n<p><span style=\"color:#FF0000;\">you must use mocha BDD style (which is the default), within that, you can optionally use chai.</span></p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Code Format</span></h3>\n\n<p>All code must pass <a href=\"http://www.jslint.com/\">jslint</a>. You may use &quot;nomen: true&quot;.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Winner Only</span></h3>\n\n<p>Winner will create pull request against the main github repo in final fix phase and merge the code.</p>\n\n<h3 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color:#FF0000;\">Virutal Machines (VMs)</span></h3>\n\n<p>VM specific information is found here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/docs/VM+Image+2.5\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/docs/VM+Image+2.5</a></span></p>\n\n<p>Upon registration as a submitter or reviewer you will need to request a VM based on the TopCoder systems image. The VM will be active through aggregation review, after which it will be terminated except for the winner&#39;s and the reviewers&#39;. To request your image, please post in contest forum.</p>\n\n<p>Before requesting your VM, you need to ensure that you have an SSH key created and in your member profile. Instructions to do so are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Generate+SSH+Key</a></span>, and instructions to connect afterwards are here: <span class=\"nobr\"><a href=\"http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key\" rel=\"nofollow\">http://www.topcoder.com/wiki/display/projects/Connect+Using+SSH+Key</a></span>.</p>\n\n<p>Please realize that VMs are currently issued manually. We make every attempt to issue the VM as soon as it is requested, however, there may be delays of up to 12 hours depending on time of day when you request. We encourage everyone to request a VM as soon as possible to minimize any such delays.</p>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Technology Overview</span></h2>\n\n<ul style=\"font-family: Arial, Helvetica, Verdana, sans-serif; font-size: 12px; line-height: 16px;\">\n\t<li>JavaScript</li>\n\t<li><span class=\"nobr\"><a href=\"http://nodejs.org/\" rel=\"nofollow\">Node.js 0.10.x</a></span></li>\n\t<li><a href=\"https://github.com/evantahler/actionHero\">actionhero.js framework</a></li>\n\t<li><a href=\"https://github.com/visionmedia/supertest\">supertest</a></li>\n\t<li><a href=\"http://visionmedia.github.io/mocha/\">mocha</a></li>\n</ul>\n\n<h2 style=\"font-family: Arial, Helvetica, Verdana, sans-serif; padding: 0px; margin: 0px; font-weight: bold;\"><span style=\"color: rgb(255, 0, 0);\">Documentation Provided</span></h2>\n\n<p>Please check the deployment guide in codebase for reference.</p>\n",
           "finalSubmissionGuidelines": "<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Submission Deliverables</span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">A complete list of deliverables can be viewed in the TopCoder Assembly competition Tutorial at: </span><a href=\"http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials\">http://apps.topcoder.com/wiki/display/tc/Assembly+Competition+Tutorials</a></p>\n\n<p><span style=\"font-size:12px;\">Below is an overview of the deliverables:</span></p>\n\n<ul>\n\t<li>Source Code.</li>\n\t<li>Deployment guide to configure and verify the application.</li>\n\t<li>General Test Creation Guide</li>\n</ul>\n\n<p><strong><span style=\"color:#FF0000;\"><span style=\"line-height: 1.6em;\">Final Submission </span></span></strong></p>\n\n<p><span style=\"font-size:12px;\">For each member, the final submission should be uploaded to the Online Review Tool.</span></p>\n",
           "screeningScorecardId": "30000412",
@@ -3932,8 +4155,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{challlengeid}]
-### Get Software Challenge Checkpoint Information [GET]
+## Get Software Challenge Checkpoint Detail [/develop/challenges/checkpoint/{challengeid}]
+### Get Software Challenge Checkpoint Detail [GET]
 
 + Parameters
     + challengeid (required, number, `30000000`) ... The submission id.
@@ -3998,11 +4221,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Software Challenge Upload Submission [/develop/challenges/{challlengeid}/submit]
+## Software Challenge Upload Submission [/develop/challenges/{challengeid}/submit]
 ### Upload a submission [POST]
 + Request (application/json)
-
+    
 + Parameters
+    + challengeid (required, number, `30000000`) ... The challenge id.
     + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
     + fileData (required, string, `SGVsbG8gV29ybGQ=`) ... The Base64 encoded content of the file being uploaded. The example value is 'Hello World' base64 encoded
     + type (optional, string, `checkpoint`) ... The type of submission. Can be 'final' or 'checkpoint'. If absent, 'final' is assumed.
@@ -4071,7 +4295,7 @@ Request
         }
 
 ## Design Challenge Upload Submission [/design/challenges/{challlengeId}/submit]
-### Upload a submission and generate preview and alternate presentations for submission [POST]
+### Upload a submission [POST]
 + Request (application/json)
 
 + Parameters
@@ -4148,7 +4372,7 @@ Request
 ### Top Ranked Members [GET]
 
 + Parameters
-    + contestType (required, string, `design`) ... Ranking Type, support "design", "development", "conceptualization", "specification", "architecture", "assembly", "test_suites", "test_scenarios", "ui_prototype", "ria_build", "content_creation"
+    + contestType (required, string, `design`) ... Contest Type, support "design", "development", "conceptualization", "specification", "architecture", "assembly", "test_suites", "test_scenarios", "ui_prototype", "ria_build", "content_creation"
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null. Default 1.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set. Default 50.
 
@@ -4224,7 +4448,7 @@ Request
 ### Search Studio Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
     + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -4346,12 +4570,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Studio Challenges [/design/challenges/active?communityId={communityId}&private={private}]
+## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Studio Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, string, `1`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -4705,12 +4934,17 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Studio Challenges [/design/challenges/upcoming?communityId={communityId}&private={private}]
+## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Studio Challenges [GET]
 
 + Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + communityId (optional, number, `1`) ... The community id.
-    + private (optional, private, `1`) ... The private flag.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
 
 + Response 200 (application/json)
 
@@ -4813,7 +5047,7 @@ Request
         }
 
 ## Get Studio Challenge Detail [/design/challenges/{challengeId}]
-### Get Studio Challenge Information [GET]
+### Get Studio Challenge Detail [GET]
 
 + Parameters
     + challengeId (required, number, `30000000`) ... The challenge id.
@@ -4826,7 +5060,6 @@ Request
           "challengeId": 30036283,
           "projectId": 6847,
           "forumId": "4076",
-          "forumLink" "http://apps.topcoder.com/forums/?module=ThreadList&forumID=4076 or http://studio.topcoder.com/forums?module=ThreadList&forumID=4076"
           "introduction": "This is the overview. It can contain HTML.",
           "round1Introduction": "Round 1 Intro",
           "round2Introduction": "Round 2 Intro",
@@ -5091,7 +5324,7 @@ Request
         }
 
 ## Get Studio Challenge Checkpoint Detail [/design/challenges/checkpoint/{challengeid}]
-### Get Studio Challenge Checkpoint Information [GET]
+### Get Studio Challenge Checkpoint Detail [GET]
 
 + Parameters
     + challengeid (required, number, `30000000`) ... The submission id.
@@ -5160,16 +5393,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-##Design Review Opportunities [/design/reviewOpportunities?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
-### Get Design Review Opportunities [GET]
-
-+ Parameters
-    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern YYYY-MM-DD.
-    + value (optional, string, `Development`) ... Value of the filter key-value pair
-    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
-    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+## Review Opportunities [/design/reviewOpportunities]
+### Get Review Opportunities [GET]
 
 + Response 200 (application/json)
 
@@ -5177,30 +5402,21 @@ Request
          "data": [
           {
             "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-            "challengeId": 30005520,
-            "challengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "reviewType":"screening",
-            "detailLink": "http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=30005520"
+            "reviewType":"screening"
           },
           {
             "challengeName": "Cornell - Responsive Storyboard",
-            "challengeId": 30005521,
-            "challengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "reviewType":"screening",
-            "detailLink": "http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=30005521"
+            "reviewType":"screening"
           }
-         ],
-         "total": 2,
-         "pageIndex": 1,
-         "pageSize": 10
+         ]
         }
 
 + Response 400 (application/json)
@@ -5825,7 +6041,7 @@ Request
 ### View Algorithm SRM Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be used.
     + filter (optional, string, `type`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -5919,7 +6135,7 @@ Request
 ### View Algorithm Marathon Challenges [GET]
 
 + Parameters
-    + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be should used.
+    + listType (optional, string, `Active`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Active' will be used.
     + filter (optional, string, `type`) ... Key of the filter key-value pair
     + value (optional, string, `Development`) ... Value of the filter key-value pair
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -5996,7 +6212,7 @@ Request
         }
 
 ## Get Algorithm Marathon Challenge Detail [/data/marathon/challenges/{id}]
-### Get Algorithm Marathon Information [GET]
+### Get Algorithm Marathon Detail [GET]
 
 + Parameters
     + id (required, number, `30000000`) ... The challenge id.
@@ -6093,7 +6309,7 @@ Request
         }
 
 ## Get Algorithm SRM Detail [/data/srm/challenges/{id}]
-### Get Algorithm SRM Information [GET]
+### Get Algorithm SRM Detail [GET]
 
 + Parameters
     + id (required, number, `30000000`) ... The challenge id.
@@ -7043,9 +7259,6 @@ Request
 ## Countries Collection [/data/countries]
 ### List of countries [GET]
 
-+ Parameters
-    + None
-
 + Response 200 (application/json)
 
         [
@@ -7253,7 +7466,6 @@ Request
                 "agreed": true,
                 "title": "NodeJS API Sample Term Of Use 1",
                 "termsOfUseId": 40000001,
-                "templateId": "",
                 "url": "http://topcoder.com/tou40000001.txt"
             },
             {
@@ -7261,7 +7473,6 @@ Request
                 "agreed": true,
                 "title": "NodeJS API Sample Term Of Use 2",
                 "termsOfUseId": 40000002,
-                "templateId": "",
                 "url": "http://topcoder.com/tou40000002.txt"
             },
             {
@@ -7269,7 +7480,6 @@ Request
                 "agreed": false,
                 "title": "NodeJS API Sample Term Of Use 3",
                 "termsOfUseId": 40000003,
-                "templateId": "",
                 "url": "http://topcoder.com/tou40000003.txt"
             },
             {
@@ -7277,7 +7487,6 @@ Request
                 "agreed": false,
                 "title": "NodeJS API Sample Term Of Use 4",
                 "termsOfUseId": 40000004,
-                "templateId": "",
                 "url": "http://topcoder.com/tou40000004.txt"
             },
             {
@@ -7285,7 +7494,6 @@ Request
                 "agreed": false,
                 "title": "NodeJS API Sample Term Of Use 5",
                 "termsOfUseId": 40000005,
-                "templateId": "",
                 "url": "http://topcoder.com/tou40000005.txt"
             }
         ]
@@ -7558,7 +7766,6 @@ Request
             "text": "This is the text of Term Of Use 1",
             "title": "NodeJS API Sample Term Of Use 1",
             "termsOfUseId": 40000001,
-            "templateId": "19D958E1-E2EC-4828-B270-CA8F14CF7BF4",
             "url": "http://topcoder.com/tou40000001.txt"
         }
 
@@ -7685,13 +7892,11 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-# Challenges API
-
 ## Challenges RSS Output [/challenges/rss?listType={listType}&challengeType={challengeType}]
 ### Challenges RSS Output [GET]
 
 + Parameters
-    + listType (optional, string, `Open`) ... The status of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be should used.
+    + listType (optional, string, `Open`) ... The status of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
     + challengeType (optional, string, `develop`) ... The type of challenges to search. It can only be 'develop', 'design' or 'data'.
 
 + Response 200 (application/json)
@@ -7763,99 +7968,9 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## My Submissions [/challenges/submissions/{challengeId}/mySubmissions]
-### My Submissions [GET]
-
-+ Parameters
-    + challengeId (required, number, `30005520`) ... The challenge id.
-
-+ Response 200 (application/json)
-
-        {
-            "submissions": [
-                {
-                    "submissionId": 2001,
-                    "submissionDate": "2014-06-13T04:43:25.000+0000",
-                    "submissionType": "final",
-                    "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2001"
-                },
-                {
-                    "submissionId": 2003,
-                    "submissionDate": "2014-06-13T04:43:28.000+0000",
-                    "submissionType": "checkpoint",
-                    "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2003"
-                }
-            ]
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeId should be number."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeId should be positive."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeId should be Integer."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeId should be less or equal to 2147483647."
-        }
-
-+ Response 401 (application/json)
-
-        {
-            "name":"Unauthorized",
-            "value":"401",
-            "description":"You need to login for this api."
-        }
-
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"The challenge is not existed."
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
-
 # Group Members API
 
-## Search members by handle [/users/search?handle={handle}]
+## Search members by handle [/users/search?handle={handle}&pageIndex={pageIndex}&pageSize={pageSize}&caseSensitive={caseSensitive}]
 ### Search members by handle [GET]
 
 + Parameters
@@ -8090,6 +8205,82 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Top Track Members [/users/tops/{trackType}?pageIndex={pageIndex}&pageSize={pageSize}]
+### Top Track Members [GET]
+
++ Parameters
+    + trackType (required, string, `develop`) ... Track Type, support "design", "develop", "data".
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null. Default 1.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set. Default 50.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data":
+            [
+                {
+                    "rank": 1,
+                    "handle": "Petr",
+                    "userId": 123457899,
+                    "color": "Red",
+                    "rating": 3000,
+                    "highestRatingType": "assembly"
+                },
+                {
+                    "rank": 2,
+                    "handle": "ACRush",
+                    "userId": 123457891,
+                    "color": "Red",
+                    "rating": 2500,
+                    "highestRatingType": "development"
+                },
+                {
+                    "rank": 3,
+                    "handle": "lympanda",
+                    "userId": 123457892,
+                    "color": "Yellow",
+                    "rating": 2000,
+                    "highestRatingType": "assembly"
+                }
+            ]
+        }
+
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 # Group Download API
 
@@ -8147,9 +8338,7 @@ Request
 
 + Parameters
     + submission (required, number, `123456`) ... The submission id.
-    + submissionType (required, string, `preview`) ... The submission type should be preview or original
-    + submissionImageTypeId (optional) ... The image type id, 25, 26, 28, 29, 30, 31 for tiny, thumb, small, medium and full
-    + submissionFileIndex (optional) ... THe file index
+    + submissionType (required, string, `preview`) ... The submission type could be tiny, small, medium, full, thumb, preview or original
 
 + Response 200 (application/octet-stream)
 
@@ -8760,104 +8949,4 @@ Payments APIs
             "name":"Internal Server Error",
             "value":"500",
             "description":"Fails to get user info from auth0."
-        }
-
-## Apply design review opportunity [/design/reviewOpportunities/:challengeId/apply]
-### Create Customer [POST]
-+ Parameters
-    + challengeId (required, string, `3001`) ... The challenge id
-    + isSpecReview (required, boolean, `true` or false) ... The spec review flag
-
-+ Response 200 (application/json)
-
-        {
-            "result": "Success"
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeId should be positive."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"challengeId should be less or equal to 2147483647."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"The isSpecReview flag should be true or false."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"The specified challenge doesn't exist."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"The specified challenge is not a design challenge."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"Sorry, you are not a member of the review board."
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"The specified Screening review position is already taken."
-        }
-
-+ Response 401 (application/json)
-
-        {
-            "name":"Unauthorized",
-            "value":"401",
-            "description":"Anonymous user don\'t have permission to access this api."
-        }
-
-+ Response 403 (application/json)
-
-        {
-            "name":"Forbidden",
-            "value":"403",
-            "description":"You should agree with all terms of use."
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
         }
