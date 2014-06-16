@@ -3463,7 +3463,7 @@ var getUserSubmissions = function (api, connection, next) {
                 return;
             }
             if (res.regCheck[0].is_registered === 0) {
-                cb(new BadRequestError("You didn't registered this challenge."))
+                cb(new BadRequestError("You are not registered for this challenge."))
                 return;
             }
             isStudio = res.challengeCheck[0].is_studio;
