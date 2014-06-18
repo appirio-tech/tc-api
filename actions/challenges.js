@@ -3328,6 +3328,7 @@ exports.getActiveChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheLifetime: 1000 * 60 * 10,
     transaction: 'read',
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
@@ -3381,6 +3382,7 @@ exports.getUpcomingChallenges = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3407,6 +3409,7 @@ exports.getPastChallenges = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
