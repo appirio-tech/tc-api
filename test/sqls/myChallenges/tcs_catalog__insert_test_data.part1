@@ -1,0 +1,591 @@
+INSERT INTO project_catalog_lu(project_catalog_id,name,display,create_user,create_date,modify_user,modify_date)
+VALUES(1,'catalog 1','t','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_catalog_lu(project_catalog_id,name,display,create_user,create_date,modify_user,modify_date) 
+VALUES(2,'catalog 2','t','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_catalog_lu(project_catalog_id,name,display,create_user,create_date,modify_user,modify_date) 
+VALUES(3,'catalog 3','t','132456',CURRENT,'132456',CURRENT);
+
+UPDATE project_category_lu SET project_catalog_id = 1 WHERE MOD(project_category_id,3) = 1 and project_type_id IN (1,2);
+UPDATE project_category_lu SET project_catalog_id = 2 WHERE MOD(project_category_id,3) = 2 and project_type_id IN (1,2);
+UPDATE project_category_lu SET project_catalog_id = 3 WHERE MOD(project_category_id,3) = 0 and project_type_id IN (1,2);
+
+INSERT INTO tc_direct_project(project_id,name,description,project_status_id,user_id,create_date) 
+VALUES(100001,'TC Direct Project 1','TC Direct Project 1',1,132456,CURRENT);
+INSERT INTO tc_direct_project(project_id,name,description,project_status_id,user_id,create_date) 
+VALUES(100002,'TC Direct Project 2','TC Direct Project 2',1,132456,CURRENT);
+
+INSERT INTO event (event_id, event_type_id, event_short_desc) VALUES (3437, 4, "TCO14");
+INSERT INTO event (event_id, event_type_id, event_short_desc) VALUES (3436, 4, "TCO13");
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(31500001, 'TCO', 3437, CURRENT);
+INSERT INTO contest(contest_id, contest_name, event_id, modify_date) VALUES(31500002, 'TCO', 3436, CURRENT);
+
+--first past contest with cmc, not private
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,7,13,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,6,'Past Contest 1 - Test Suites','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,30,'450','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 300001, CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,70,'cmc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,300001,1,1000.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(300002,300001,2,500.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300001,1,300001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300002,1,300001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300003,1,300001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300004,1,300001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300005,1,300001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300006,1,300001,'132456',CURRENT,'132456',CURRENT, 132456);
+
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300001,1,'132457','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300001,2,'super','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300002,1,'132458','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300002,2,'user','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300003,1,'124764','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300003,2,'Hung','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300004,1,'124772','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300004,2,'Partha','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300005,1,'124766','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300005,2,'twight','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300006,1,'124776','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300006,2,'sandking','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,300001,300005,1,1,'','132456',CURRENT,'132456',CURRENT);
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(300002,300001,300006,1,1,'','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,placement,screening_score,initial_score,final_score,create_user,create_date,modify_user,modify_date) 
+VALUES(300001,300001,1,1,1,100.0,92.34,95.34,'124766',TO_DATE('2013-12-02','%Y-%m-%d'),'132456',CURRENT);
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,placement,screening_score,initial_score,final_score,create_user,create_date,modify_user,modify_date) 
+VALUES(300002,300002,1,1,2,100.0,85.67,89.86,'124776',TO_DATE('2013-12-01','%Y-%m-%d'),'132456',CURRENT);
+
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300001,300001,1,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-02','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300002,300001,2,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-03','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--review phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300003,300001,4,3,86400000,
+TO_DATE('2013-12-03','%Y-%m-%d'),TO_DATE('2013-12-03','%Y-%m-%d'),TO_DATE('2013-12-04','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--final review
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,actual_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300004,300001,10,3,86400000,
+TO_DATE('2013-12-04','%Y-%m-%d'),TO_DATE('2013-12-04','%Y-%m-%d'),TO_DATE('2013-12-05','%Y-%m-%d'),TO_DATE('2013-12-05','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+-- second past contest. Failed review.
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,4,35,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,6,'Past Contest 2 - Content Creation','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,30,'450','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,70,'cmc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 300011, CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,300011,1,1000.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(300012,300011,2,500.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300011,1,300011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300012,1,300011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300013,1,300011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300014,1,300011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300015,1,300011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(300016,1,300011,'132456',CURRENT,'132456',CURRENT, 132456);
+
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300011,1,'132457','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300011,2,'super','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300012,1,'132458','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300012,2,'user','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300013,1,'124764','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300013,2,'Hung','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300014,1,'124772','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300014,2,'Partha','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300015,1,'124766','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300015,2,'twight','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300016,1,'124776','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(300016,2,'sandking','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,300011,300011,1,1,'','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,final_score,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,300011,3,1,95.34,'132456',CURRENT,'132456',CURRENT);
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300011,300011,1,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-02','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300012,300011,2,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-03','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--review phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300013,300011,4,3,86400000,
+TO_DATE('2013-12-03','%Y-%m-%d'),TO_DATE('2013-12-03','%Y-%m-%d'),TO_DATE('2013-12-04','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--final review
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,actual_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(300014,300011,10,3,86400000,
+TO_DATE('2013-12-04','%Y-%m-%d'),TO_DATE('2013-12-04','%Y-%m-%d'),TO_DATE('2013-12-05','%Y-%m-%d'),TO_DATE('2013-12-05','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+-- first upcoming contest with cmc, not private
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,2,24,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,1,'1,2,3','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,6,'Upcoming Contest 2 - RIA Build','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,7,'1.0','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,30,'450','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,36,'1000.0','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,70,'cmc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 400001, CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(400001,400001,1,1000.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(400002,400001,2,500.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(400001,400001,1,1,86400000,
+TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-02','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(400002,400001,2,1,86400000,
+TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-03','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+-- second upcoming contest with no cmc, not private
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,2,23,100002,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,1,'1,2,3','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,6,'Upcoming Contest 2 - Conceptualization','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,7,'1.0','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,30,'360','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,36,'800.0','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 400011, CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(400011,400011,1,800.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(400012,400011,2,400.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(400011,400011,1,1,86400000,
+TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-02','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(400012,400011,2,1,86400000,
+TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-01','%Y-%m-%d'),TO_DATE('2014-12-03','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+-- first active contest  with cmc value, not private
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,1,1,100001,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,6,'Active/Open Contest 1 - Design','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,30,'450','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 100001, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (100001, 1, 30400003, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400003, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400003, 30400003, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10003, 30400003, 3);
+
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100001, 4, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100001, 5, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,70,'cmc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,100001,1,1000.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100002,100001,2,500.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100003,100001,3,200.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100001,1,100001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100002,1,100001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100003,1,100001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100004,1,100001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100005,1,100001,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100006,1,100001,'132456',CURRENT,'132456',CURRENT, 132456);
+
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100001,1,'132457','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100001,2,'super','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100002,1,'132458','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100002,2,'user','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100003,1,'124764','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100003,2,'Hung','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100004,1,'124772','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100004,2,'Partha','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100005,1,'124766','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100005,2,'twight','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100006,1,'124776','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100006,2,'sandking','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,100001,100001,1,1,'','132456',CURRENT,'132456',CURRENT);
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(100002,100001,100002,1,1,'','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,create_user,create_date,modify_user,modify_date) 
+VALUES(100001,100001,1,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,create_user,create_date,modify_user,modify_date) 
+VALUES(100002,100002,1,1,'132456',CURRENT,'132456',CURRENT);
+
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100001,100001,1,2,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2014-12-01','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100002,100001,2,2,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2014-12-15','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100003,100001,10,1,86400000,
+TO_DATE('2014-12-16','%Y-%m-%d'),TO_DATE('2014-12-16','%Y-%m-%d'),TO_DATE('2014-12-30','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+
+
+-- second active contest with cmc but private
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,1,2,100001,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,6,'Active/Open Contest 2 - Development','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,30,'360','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,70,'cmc','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 100011, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (100011, 1, 30400005, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400005, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400005, 30400005, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10002, 30400005, 4);
+
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100011, 1, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (100011, 2, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,100011,1,800.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100012,100011,2,400.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100011,1,100011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100012,1,100011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100013,1,100011,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100014,1,100011,'132456',CURRENT,'132456',CURRENT, 132456);
+
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100011,1,'132457','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100011,2,'super','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100012,1,'132458','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100012,2,'user','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100013,1,'124764','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100013,2,'Hung','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100014,1,'124772','132456',CURRENT,'132456',CURRENT);
+INSERT INTO resource_info(resource_id,resource_info_type_id,value,create_user,create_date,modify_user,modify_date)  
+VALUES(100014,2,'Partha','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,100011,100011,1,1,'','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,create_user,create_date,modify_user,modify_date) 
+VALUES(100011,100011,1,1,'132456',CURRENT,'132456',CURRENT);
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100011,100011,1,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-02','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100012,100011,2,2,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2014-12-15','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100013,100011,10,1,86400000,
+TO_DATE('2014-12-16','%Y-%m-%d'),TO_DATE('2014-12-16','%Y-%m-%d'),TO_DATE('2014-12-30','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--third active contest, no cmc value, no submission
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(100021,1,14,100001,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100021,6,'Active Contest 3 - Assembly Competition','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100021,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100021,30,'360','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(100021,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500001, 100021, CURRENT);
+
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100021,100021,1,800.0,15,1,'132456',CURRENT,'132456',CURRENT);
+INSERT INTO prize(prize_id,project_id,place,prize_amount,prize_type_id,number_of_submissions,create_user,create_date,modify_user,modify_date) 
+VALUES(100022,100021,2,400.0,15,1,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100021,1,100021,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100022,1,100021,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100023,1,100021,'132456',CURRENT,'132456',CURRENT, 132456);
+INSERT INTO resource(resource_id,resource_role_id,project_id,create_user,create_date,modify_user,modify_date, user_id) 
+VALUES(100024,1,100021,'132456',CURRENT,'132456',CURRENT, 132456);
+
+--registration phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100021,100021,1,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-02','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+--submission phase
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100022,100021,2,3,86400000,
+TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-01','%Y-%m-%d'),TO_DATE('2013-12-5','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_phase(project_phase_id,project_id,phase_type_id,phase_status_id,duration,
+fixed_start_time,scheduled_start_time,scheduled_end_time,
+create_user,create_date,modify_user,modify_date) 
+VALUES(100023,100021,10,1,86400000,
+TO_DATE('2014-12-16','%Y-%m-%d'),TO_DATE('2014-12-16','%Y-%m-%d'),TO_DATE('2014-12-30','%Y-%m-%d'),
+'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO common_oltp:contest_eligibility(contest_eligibility_id,contest_id,is_studio) VALUES(1,100021,0);
+
+-- first open contest, with cmc, not private
+INSERT INTO project(project_id,project_status_id,project_category_id,tc_direct_project_id,create_user,create_date,modify_user,modify_date) 
+VALUES(200001,1,9,100001,'132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(200001,6,'Active/Open Contest 1 - Bug Hunt','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(200001,26,'On','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(200001,30,'450','132456',CURRENT,'132456',CURRENT);
+INSERT INTO project_info(project_id,project_info_type_id,value,create_user,create_date,modify_user,modify_date) 
+VALUES(200001,45,'true','132456',CURRENT,'132456',CURRENT);
+
+INSERT INTO contest_project_xref(contest_id, project_id, create_date) VALUES(31500002, 200001, CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (200001, 1, 30400002, 132456, CURRENT, 132456, CURRENT);
+
+INSERT INTO comp_catalog (component_id, current_version, short_desc, component_name, description, function_desc, create_time, status_id, root_category_id, modify_date, public_ind)
+VALUES (30400002, 1, 'a', 'b', 'c', 'd', CURRENT, 1, 27202903, CURRENT, 1);
+INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, create_time, phase_id, phase_time, price, comments, modify_date, suspended_ind)
+VALUES (30400002, 30400002, 1, '1.0', CURRENT, 147, CURRENT, 1000.0, 'Comments for version #1', CURRENT, 0);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10000, 30400002, 2);
+INSERT INTO comp_technology(comp_tech_id, comp_vers_id, technology_type_id) VALUES(10001, 30400002, 27167850);
+
+
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (200001, 1, 132456, CURRENT, 132456, CURRENT);
+INSERT INTO project_platform (project_id, project_platform_id, create_user, create_date, modify_user, modify_date) VALUES (200001, 6, 132456, CURRENT, 132456, CURRENT);
+
