@@ -1220,9 +1220,14 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     async.parallel({
                         registrants: execQuery('challenge_registrants'),
                         submissions: function (cbx) {
-                            api.dataAccess.executeQuery('get_studio_challenge_detail_submissions',
-                                _.chain(sqlParams).clone().extend({ submission_type: helper.SUBMISSION_TYPE.challenge.id }).value(),
-                                dbConnectionMap, cbx);
+                            // If the challenge is still active and caller is not admin.
+                            if (challenge.currentStatus === "Active" && !helper.isAdmin(caller)) {
+                                cbx(null, []);
+                            } else {
+                                api.dataAccess.executeQuery('get_studio_challenge_detail_submissions',
+                                    _.chain(sqlParams).clone().extend({ submission_type: helper.SUBMISSION_TYPE.challenge.id }).value(),
+                                    dbConnectionMap, cbx);
+                            }
                         },
                         checkpoints: function (cbx) {
                             api.dataAccess.executeQuery('get_studio_challenge_detail_submissions',
@@ -1235,7 +1240,13 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     sqlParams.submission_type = [helper.SUBMISSION_TYPE.challenge.id, helper.SUBMISSION_TYPE.checkpoint.id];
                     async.parallel({
                         registrants: execQuery('challenge_registrants'),
-                        submissions: execQuery('challenge_submissions'),
+                        submissions: function (cbx) {
+                            if (challenge.currentStatus === "Active" && !helper.isAdmin(caller)) {
+                                cbx(null, []);
+                            } else {
+                                execQuery('challenge_submissions')(cbx);
+                            }
+                        },
                         phases: execQuery('challenge_phases')
                     }, cb);
                 }
@@ -2950,7 +2961,12 @@ exports.getRegistrants = {
 
 var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next) {
     var error, sqlParams, helper = api.helper, challengeType = helper.both,
-        caller = connection.caller, finalSubmissions, checkpointSubmissions;
+        caller = connection.caller, finalSubmissions, checkpointSubmissions,
+        execQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
+        };
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(Number(connection.params.challengeId), 'challengeId') ||
@@ -2966,20 +2982,21 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                 submission_type: [helper.SUBMISSION_TYPE.challenge.id, helper.SUBMISSION_TYPE.checkpoint.id]
             };
 
-            // Do the private check.
-            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
+            async.parallel({
+                privateCheck: execQuery("check_is_related_with_challenge"),
+                challengeStatus: execQuery("get_challenge_status")
+            }, cb);
         }, function (result, cb) {
-            if (result[0].is_private && !result[0].has_access) {
+            if (result.privateCheck[0].is_private && !result.privateCheck[0].has_access) {
                 cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
                 return;
             }
 
-            var execQuery = function (name) {
-                return function (cbx) {
-                    api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
-                };
-            };
-
+            // If the caller is not admin and challenge status is still active.
+            if (!helper.isAdmin(caller) && result.challengeStatus[0].challenge_status_id === 1) {
+                cb(new BadRequestError("The challenge is not finished."));
+                return;
+            }
 
             async.parallel({
                 submissions: execQuery('challenge_submissions'),
