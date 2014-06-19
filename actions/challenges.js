@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.28
+ * @version 1.29
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
  * @author isv, muzehyun
  * @changes from 1.0
@@ -72,6 +72,8 @@
  * - Add template id to challenge terms of use.
  * Changes in 1.28:
  * - Implement getUserSubmissions api.
+ * Changes in 1.29:
+ * - Implement getMyChallenges api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -3194,6 +3196,11 @@ exports.getPhases = {
 };
 
 /**
+ * The valid my challenges types
+ */
+var VALID_GET_MY_CHALLENGES_TYPES = ['ACTIVE', 'PAST'];
+
+/**
  * Handle get active challenges api.
  *
  * @param {Object} api - the api object.
@@ -3202,7 +3209,7 @@ exports.getPhases = {
  * @param {Function} next - the callback function.
  * @since 1.21
  */
-var getChallenges = function (api, connection, listType, next) {
+var getChallenges = function (api, connection, listType, isMyChallenges, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
@@ -3219,7 +3226,8 @@ var getChallenges = function (api, connection, listType, next) {
         type,
         result = {},
         total,
-        challenges;
+        challenges,
+        index;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
@@ -3230,6 +3238,12 @@ var getChallenges = function (api, connection, listType, next) {
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 50);
+
+    if (isMyChallenges) {
+        index = copyToFilter.indexOf('type');
+        copyToFilter.splice(index, 1);
+        api.log(copyToFilter);
+    }
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
@@ -3247,6 +3261,16 @@ var getChallenges = function (api, connection, listType, next) {
 
     async.waterfall([
         function (cb) {
+            if (isMyChallenges) {
+                sqlParams.myUserId = connection.caller.userId;
+                var error = helper.checkMember(connection, 'You need to login for this api.') ||
+                    helper.checkContains(VALID_GET_MY_CHALLENGES_TYPES, listType, 'type');
+                cb(error);
+            } else {
+                sqlParams.myUserId = 0;
+                cb();
+            }
+        }, function (cb) {
             validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
             if (pageIndex === -1) {
@@ -3351,7 +3375,7 @@ exports.getActiveChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getActiveChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.ACTIVE, next);
+            getChallenges(api, connection, api.helper.ListType.ACTIVE, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3377,7 +3401,7 @@ exports.getOpenChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getOpenChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.OPEN, next);
+            getChallenges(api, connection, api.helper.ListType.OPEN, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3404,7 +3428,7 @@ exports.getUpcomingChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getUpcomingChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.UPCOMING, next);
+            getChallenges(api, connection, api.helper.ListType.UPCOMING, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3431,7 +3455,7 @@ exports.getPastChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getPastChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.PAST, next);
+            getChallenges(api, connection, api.helper.ListType.PAST, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3538,6 +3562,37 @@ exports.getUserSubmissions = {
         if (connection.dbConnectionMap) {
             api.log("Execute getUserSubmissions#run", 'debug');
             getUserSubmissions(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for get my challenges
+ * @since 1.29
+ */
+exports.getMyChallenges = {
+    name: "getMyChallenges",
+    description: "get my challenges api",
+    inputs: {
+        required: ['type'],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getActiveChallenges#run", 'debug');
+            var type = connection.params.type;
+            if (type) {
+                type = type.toUpperCase();
+            }
+            delete connection.params.type;
+            getChallenges(api, connection, type, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
