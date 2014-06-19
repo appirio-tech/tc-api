@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.46
+ * @version 1.45
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
  * @author panoptimum
  * 
@@ -106,8 +106,6 @@
  * - add routes for apply design review api.
  * Changes in 1.45:
  * - Add route for get user submissions api.
- * Changes in 1.46:
- * - Add route for get my challenges api.
  */
 
 /* ---------------------
@@ -272,8 +270,6 @@ exports.routes = {
 
         { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
         { path: "/:apiVersion/payments", action: "getPaymentList" },
-
-        { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
 
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
