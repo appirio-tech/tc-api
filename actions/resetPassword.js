@@ -83,7 +83,7 @@ function resetPassword(api, connection, next) {
         },
         function (result, cb) {
             if (result.length === 0) {
-                cb(new NotFoundError('The user is not exist.'));
+                cb(new NotFoundError('This handle does not exist.'));
                 return;
             }
             userId = result[0].user_id;
@@ -93,7 +93,7 @@ function resetPassword(api, connection, next) {
         function (cache, cb) {
             if (!_.isDefined(cache)) {
                 // The token is either not assigned or is expired.
-                cb(new BadRequestError('The token is expired or not existed. Please apply a new one.'));
+                cb(new BadRequestError('This token is incorrect or expired. Please enter a new one.'));
                 return;
             }
             if (cache !== token) {
@@ -106,7 +106,7 @@ function resetPassword(api, connection, next) {
         },
         function (count, cb) {
             if (count !== 1) {
-                cb(new Error('password is not updated successfully'));
+                cb(new Error('Password update unsuccessful.'));
                 return;
             }
             ldapEntryParams = {
@@ -161,8 +161,8 @@ var generateResetToken = function (userHandle, userEmailAddress, api, callback) 
             callback(err);
         } else if (token) {
             // Non-expired token already exists for this user - raise an error
-            callback(new BadRequestError("You have already requested the reset token, please find it in your email inbox."
-                + " If it's not there. Please contact support@topcoder.com."));
+            callback(new BadRequestError("You have already requested the reset token. Please find it in your email inbox."
+                + " If it's not there, please contact support@topcoder.com."));
         } else {
             // There is no token - generate new one
             var newToken = stringUtils.generateRandomString(TOKEN_ALPHABET, 6),
