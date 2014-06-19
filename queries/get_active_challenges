@@ -33,6 +33,27 @@ SELECT
 , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
 , NVL((SELECT CAST('t' AS boolean) FROM contest_eligibility WHERE contest_id = p.project_id), CAST('f' AS boolean)) AS is_private
 , (SELECT value FROM project_info pi53 WHERE project_id = p.project_id AND project_info_type_id = 53) AS submissions_viewable
+
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 1 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_submitter
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 2 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_primary_screener
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 3 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_screener
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 4 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 5 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_accuracy_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 6 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_failure_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 7 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_stress_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 8 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_aggregator
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 9 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_final_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 10 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_approver
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 11 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_designer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 14 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_copilot
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 15 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_client_manager
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 16 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_post_mortem_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 17 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_specification_submitter
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 18 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_specification_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 19 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_checkpoint_screener
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 20 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_checkpoint_reviewer
+, CASE WHEN EXISTS (SELECT r.resource_id FROM resource r WHERE r.project_id = p.project_id AND r.resource_role_id = 21 AND r.user_id = @myUserId@) THEN 1 ELSE 0 END AS is_iterative_reviewer
+
 FROM project p
 , project_status_lu pstatus
 , project_phase pp1 --registration phase
@@ -80,5 +101,12 @@ AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'co
 AND pp1.phase_status_id IN (2, 3)
 AND pi1.project_info_type_id = 1 -- external reference id
 AND pi1.project_id = p.project_id
+
+AND EXISTS (SELECT r.resource_id
+            FROM resource r
+            WHERE r.resource_id NOT IN (12, 13)     -- exclude manager and observer
+              AND r.project_id = p.project_id
+              AND r.user_id = DECODE(@myUserId@, 0, r.user_id, @myUserId@)
+            )
 
 ORDER BY NVL(pp2.actual_end_time, pp2.scheduled_end_time) ASC
