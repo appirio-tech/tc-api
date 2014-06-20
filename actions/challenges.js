@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.28
+ * @version 1.29
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
- * @author isv, muzehyun
+ * @author isv, muzehyun, bugbuka
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -72,6 +72,9 @@
  * - Add template id to challenge terms of use.
  * Changes in 1.28:
  * - Implement getUserSubmissions api.
+ * Changes in 1.29:
+ * - Implement uploadForDevelopChallenge action, using direct file upload for develop challenges
+ * - Fixed existing errors report by jsLint tool.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -1360,6 +1363,385 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 };
 
 /**
+ * Gets the file type based on the file name extension. Return null if not found.
+ * @since 1.14
+ *
+ * @param {Object} fileName - The file name
+ * @param {Object} fileTypes - The file types from which to read
+ */
+var getFileType = function (fileName, fileTypes) {
+    var lastIndexOfDot = fileName.lastIndexOf('.'),
+        extension,
+        fileType;
+    if (lastIndexOfDot > 0) {
+        extension = fileName.substr(lastIndexOfDot + 1).toLowerCase();
+        fileType = _.find(fileTypes, function (fileType) {
+            return fileType.extension.toLowerCase() === extension;
+        });
+        if (!_.isUndefined(fileType)) {
+            return fileType;
+        }
+    }
+    return null;
+};
+
+/**
+ * Performs basic submission file validation. Returns non-null value if error exists
+ * @since 1.14
+ *
+ * @param {Object} file - The file to validate
+ * @param {Object} fileTypes - The file types from which to read
+ * @param {Object} submissionFormat - 'zip' or 'image' based on the file to validate
+ */
+var basicSubmissionValidation = function (file, fileTypes, submissionFormat) {
+    var err = null,
+        fileName = file.name,
+        fileType;
+    if (_.isNull(file.type) || new S(file.type).isEmpty()) {
+        err = 'File Content Type is not included.'; //actually actionhero automatically throws error in such case
+    }
+    //Validation for the size of the fileName. It should be 256 chars as this is max length of parameter field in submission table.
+    if (fileName.length > 256) {
+        err = 'The file name is too long. It must be 256 characters or less.';
+    }
+    if (!err && file.size === 0) {
+        err = 'File is empty.'; //actually actionhero automatically throws error in such case
+    }
+    fileType = getFileType(fileName, fileTypes);
+    if (!err && fileType === null) {
+        err = 'Unknown file type submitted.';
+    }
+    if (!err && submissionFormat === 'zip' && !fileType.bundled_file) {
+        err = 'Invalid file type submitted.';
+    }
+    if (!err && submissionFormat === 'image' && !fileType.image_file) {
+        err = 'Invalid file type submitted.';
+    }
+    if (!err && submissionFormat === 'zip' && new AdmZip(file.path).getEntries().length === 0) {
+        err = 'Empty zip file provided.';
+    }
+    return err;
+};
+
+/**
+ * This is the function that handles user's submission for a develop challenge.
+ * It handles both checkpoint and final submissions
+ * @since 1.9
+ *
+ * @param {Object} api - The api object that is used to access the global infrastructure
+ * @param {Object} connection - The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next - The callback to be called after this function is done
+ */
+var uploadForDevelopChallenge = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        ret = {},
+        userId = connection.caller.userId,
+        challengeId = Number(connection.params.challengeId),
+        fileName = connection.params.fileName,
+        submissionFile = connection.params.submissionFile,
+        type = connection.params.type,
+        error,
+        resourceId,
+        userEmail,
+        userHandle,
+        submissionPhaseId,
+        checkpointSubmissionPhaseId,
+        uploadId,
+        submissionId,
+        thurgoodLanguage,
+        thurgoodPlatform,
+        thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.tcConfig.thurgoodApiKey,
+        thurgoodJobId = null,
+        multipleSubmissionPossible,
+        savedFilePath = null,
+        fileTypes;
+
+    async.waterfall([
+        function (cb) {
+            //Check if the user is logged-in
+            if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
+                    _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
+                cb(new UnauthorizedError("Authentication details missing or incorrect."));
+                return;
+            }
+
+            if (submissionFile.constructor.name !== 'File') {
+                cb(new IllegalArgumentError("submissionFile must be a File"));
+                return;
+            }
+
+            //Simple validations of the incoming parameters
+            error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+
+            //Get file types used for validation of the zip files
+            helper.getFileTypes(api, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            fileTypes = rows;
+
+            //Perform basic validation of submission file
+            error = error ||
+                basicSubmissionValidation(submissionFile, fileTypes, 'zip');
+
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            //Validation for the type parameter
+            if (_.isNull(type) || _.isUndefined(type)) {
+                type = 'final';
+            } else {
+                type = type.toLowerCase();
+                if (type !== 'final' && type !== 'checkpoint') {
+                    cb(new BadRequestError("type can either be final or checkpoint."));
+                    return;
+                }
+            }
+
+            //All basic validations now pass.
+            fileName = submissionFile.name;
+
+            //Check if the backend validations for submitting to the challenge are passed
+            sqlParams.userId = userId;
+            sqlParams.challengeId = challengeId;
+
+            api.dataAccess.executeQuery("challenge_submission_validations_and_info", sqlParams, dbConnectionMap, cb);
+        }, function (rows, cb) {
+            if (rows.length === 0) {
+                cb(new NotFoundError('No such challenge exists.'));
+                return;
+            }
+
+            if (!rows[0].is_develop_challenge) {
+                cb(new BadRequestError('Non-develop challenges are not supported.'));
+                return;
+            }
+
+            if (!rows[0].is_submission_open && type === 'final') {
+                cb(new BadRequestError('Submission phase for this challenge is not open.'));
+                return;
+            }
+
+            if (!rows[0].is_checkpoint_submission_open && type === 'checkpoint') {
+                cb(new BadRequestError('Checkpoint submission phase for this challenge is not open.'));
+                return;
+            }
+
+            if (_.contains([27, 29], rows[0].project_category_id)) {
+                cb(new BadRequestError('Submission to Marathon Matches and Spec Reviews are not supported.'));
+                return;
+            }
+
+            //Note 1 - this will also cover the case where user is not registered,
+            //as the corresponding resource with role = Submitter will be absent in DB.
+            //Note 2 - this will also cover the case of private challenges
+            //User will have role Submitter only if the user belongs to group of private challenge and is registered.
+            if (!rows[0].is_user_submitter_for_challenge) {
+                cb(new ForbiddenError('You cannot submit for this challenge as you are not a Submitter.'));
+                return;
+            }
+
+            resourceId = rows[0].resource_id;
+            submissionPhaseId = rows[0].submission_phase_id;
+            checkpointSubmissionPhaseId = rows[0].checkpoint_submission_phase_id;
+            thurgoodPlatform = rows[0].thurgood_platform;
+            thurgoodLanguage = rows[0].thurgood_language;
+            userHandle = rows[0].user_handle;
+            userEmail = rows[0].user_email;
+            multipleSubmissionPossible = rows[0].multiple_submissions_possible;
+
+            //All validations are now complete. Generate the new ids for the upload and submission
+            async.parallel({
+                submissionId: function (cb) {
+                    api.idGenerator.getNextID("SUBMISSION_SEQ", dbConnectionMap, cb);
+                },
+                uploadId: function (cb) {
+                    api.idGenerator.getNextID("UPLOAD_SEQ", dbConnectionMap, cb);
+                }
+            }, cb);
+        }, function (generatedIds, cb) {
+            uploadId = generatedIds.uploadId;
+            submissionId = generatedIds.submissionId;
+
+            var submissionPath,
+                filePathToSave,
+                decodedFileData;
+
+            //The file output dir should be overwritable by environment variable
+            submissionPath = api.config.tcConfig.submissionDir;
+
+            //The path to save is the folder with the name as <base submission path>
+            //The name of the file is the <generated upload id>_<original file name>
+            filePathToSave = submissionPath + "/" + uploadId + "_" + fileName;
+
+            //Decode the base64 encoded file data
+            decodedFileData = fs.readFileSync(submissionFile.path);
+
+            //Write the submission to file
+            fs.writeFile(filePathToSave, decodedFileData, function (err) {
+                if (err) {
+                    cb(err);
+                    return;
+                }
+
+                //Check the max length of the submission file (if there is a limit)
+                if (api.config.tcConfig.submissionMaxSizeBytes > 0) {
+                    fs.stat(filePathToSave, function (err, stats) {
+                        if (err) {
+                            cb(err);
+                            return;
+                        }
+
+                        if (stats.size > api.config.tcConfig.submissionMaxSizeBytes) {
+                            cb(new RequestTooLargeError(
+                                "The submission file size is greater than the max allowed size: " + (api.config.tcConfig.submissionMaxSizeBytes / 1024) + " KB."
+                            ));
+                            return;
+                        }
+                        savedFilePath = filePathToSave;
+                        cb();
+                    });
+                } else {
+                    savedFilePath = filePathToSave;
+                    cb();
+                }
+            });
+        }, function (cb) {
+            //Now insert into upload table
+            _.extend(sqlParams, {
+                uploadId: uploadId,
+                userId: userId,
+                challengeId: challengeId,
+                projectPhaseId: type === 'final' ? submissionPhaseId : checkpointSubmissionPhaseId,
+                resourceId: resourceId,
+                fileName: uploadId + "_" + fileName
+            });
+            api.dataAccess.executeQuery("insert_upload", sqlParams, dbConnectionMap, cb);
+        }, function (notUsed, cb) {
+            //Now check if the contest is a CloudSpokes one and if it needs to submit the thurgood job
+            if (!_.isUndefined(thurgoodPlatform) && !_.isUndefined(thurgoodLanguage) && type === 'final') {
+                //Make request to the thurgood job api url
+
+                //Prepare the options for the request
+                var options = {
+                    url: api.config.tcConfig.thurgoodApiUrl,
+                    timeout: api.config.tcConfig.thurgoodTimeout,
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Token: token=' + thurgoodApiKey
+                    },
+                    form: {
+                        'email': userEmail,
+                        'thurgoodLanguage': thurgoodLanguage,
+                        'userId': userHandle,
+                        'notification': 'email',
+                        'codeUrl': api.config.tcConfig.thurgoodCodeUrl + uploadId,
+                        'platform': thurgoodPlatform
+                    }
+                };
+
+                //Make the actual request
+                request(options, function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        var respJson = JSON.parse(body);
+                        if (_.has(respJson, 'success') && respJson.success.toLowerCase() === 'true'
+                                && _.has(respJson, 'data') && _.has(respJson.data, '_id') && String(respJson.data._id) !== '') {
+                            thurgoodJobId = String(respJson.data._id);
+                        }
+                    }
+                    //Even if the request fails, we don't mind. This follows from the strategy used in current code.
+                    //In case of error, thurgoodJobId will just be null and the next call will not be made.
+                    cb();
+                });
+            } else {
+                cb();
+            }
+        }, function (cb) {
+            //If we created a thurgood job id, then we now submit it.
+            if (!_.isNull(thurgoodJobId)) {
+                //Make request to the submit thurgood job id api url
+
+                //Prepare the options for the request
+                var options = {
+                    url: api.config.tcConfig.thurgoodApiUrl + '/' + thurgoodJobId + '/submit',
+                    timeout: api.config.tcConfig.thurgoodTimeout,
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Token: token=' + thurgoodApiKey
+                    }
+                };
+
+                //Make the actual request
+                request(options, function () {
+                    //Even if the request fails, we don't mind. This follows from the strategy used in current code.
+                    //Although this seems counter-intuitive, this is how it is implemented currently in code, and so we stick with it.
+                    cb();
+                });
+            } else {
+                cb();
+            }
+        }, function (cb) {
+            //Now we are ready to
+            //1) Insert into submission table
+            //2) Insert into resource_submission table
+            //3) Possibly delete older submissions and uploads by the user, if multiple submissions are not allowed
+            _.extend(sqlParams, {
+                submissionId: submissionId,
+                thurgoodJobId: thurgoodJobId,
+                submissionTypeId: type === 'final' ? 1 : 3
+            });
+
+            async.series([
+                function (cb) {
+                    api.dataAccess.executeQuery("insert_submission", sqlParams, dbConnectionMap, function (err, result) {
+                        cb(err, result);
+                    });
+                }, function (cb) {
+                    api.dataAccess.executeQuery("insert_resource_submission", sqlParams, dbConnectionMap, function (err, result) {
+                        cb(err, result);
+                    });
+                }, function (cb) {
+                    if (!multipleSubmissionPossible) {
+                        api.dataAccess.executeQuery("delete_old_submissions", sqlParams, dbConnectionMap, function (err, result) {
+                            cb(err, result);
+                        });
+                    } else {
+                        cb();
+                    }
+                }, function (cb) {
+                    if (!multipleSubmissionPossible) {
+                        api.dataAccess.executeQuery("delete_old_uploads", sqlParams, dbConnectionMap, function (err, result) {
+                            cb(err, result);
+                        });
+                    } else {
+                        cb();
+                    }
+                }
+            ], cb);
+        }
+    ], function (err) {
+        if (err) {
+            //If file has been written before error, delete it
+            if (!_.isNull(savedFilePath)) {
+                //If we are unable to delete, we cannot do anything
+                fs.unlink(savedFilePath, null);
+            }
+            helper.handleError(api, connection, err);
+        } else {
+            ret = {
+                submissionId: submissionId,
+                uploadId: uploadId
+            };
+            connection.response = ret;
+        }
+        next(connection, true);
+    });
+};
+
+/**
  * This is the function that handles user's submission for a develop challenge.
  * It handles both checkpoint and final submissions
  * @since 1.9
@@ -2198,6 +2580,31 @@ exports.submitForDevelopChallenge = {
 };
 
 /**
+ * The API for posting submission to software challenge, using direct file upload
+ * @since 1.29
+ */
+exports.uploadForDevelopChallenge = {
+    name: "uploadForDevelopChallenge",
+    description: "uploadForDevelopChallenge",
+    inputs: {
+        required: ["challengeId", "submissionFile"],
+        optional: ["type"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    cacheEnabled : false,
+    databases: ["tcs_catalog", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute uploadForDevelopChallenge#run", 'debug');
+            uploadForDevelopChallenge(api, connection, connection.dbConnectionMap, next);
+        }
+    }
+};
+
+/**
  * Generic API for getting challenge results for studio contests
  */
 exports.getStudioChallengeResults = {
@@ -2279,62 +2686,6 @@ exports.getStudioCheckpoint = {
  * @since 1.14
  */
 var DEFAULT_FONT_URL = 'community.topcoder.com/studio/the-process/font-policy/';
-
-/**
- * Gets the file type based on the file name extension. Return null if not found.
- * @since 1.14
- *
- * @param {Object} fileName - The file name
- * @param {Object} fileTypes - The file types from which to read
- */
-var getFileType = function (fileName, fileTypes) {
-    var lastIndexOfDot = fileName.lastIndexOf('.'),
-        extension,
-        fileType;
-    if (lastIndexOfDot > 0) {
-        extension = fileName.substr(lastIndexOfDot + 1).toLowerCase();
-        fileType = _.find(fileTypes, function (fileType) {
-            return fileType.extension.toLowerCase() === extension;
-        });
-        if (!_.isUndefined(fileType)) {
-            return fileType;
-        }
-    }
-    return null;
-};
-
-/**
- * Performs basic submission file validation. Returns non-null value if error exists
- * @since 1.14
- *
- * @param {Object} file - The file to validate
- * @param {Object} fileTypes - The file types from which to read
- * @param {Object} submissionFormat - 'zip' or 'image' based on the file to validate
- */
-var basicSubmissionValidation = function (file, fileTypes, submissionFormat) {
-    var err = null,
-        fileType;
-    if (_.isNull(file.type) || new S(file.type).isEmpty()) {
-        err = 'File Content Type is not included.'; //actually actionhero automatically throws error in such case
-    }
-    if (!err && file.size === 0) {
-        err = 'File is empty.'; //actually actionhero automatically throws error in such case
-    }
-    fileType = getFileType(file.name, fileTypes);
-    if (!err && fileType === null) {
-        err = 'Unknown file type submitted.';
-    }
-    if (!err && submissionFormat === 'zip' && !fileType.bundled_file) {
-        err = 'Invalid file type submitted.';
-    }
-    if (!err && submissionFormat === 'image' && !fileType.image_file) {
-        err = 'Invalid file type submitted.';
-    }
-    if (!err && submissionFormat === 'zip' && new AdmZip(file.path).getEntries().length === 0) {
-        err = 'Empty zip file provided.';
-    }
-    return err;
-};
 
 /**
  * Processes and validates font parameters and returns the result
@@ -3483,7 +3834,7 @@ var getUserSubmissions = function (api, connection, next) {
                 return;
             }
             if (res.regCheck[0].is_registered === 0) {
-                cb(new BadRequestError("You are not registered for this challenge."))
+                cb(new BadRequestError("You are not registered for this challenge."));
                 return;
             }
             isStudio = res.challengeCheck[0].is_studio;

@@ -7,9 +7,9 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES ('432001', '1', '432001', '132456', '2010-05-21 07:26:30.0', '132456', '2010-05-21 07:26:30.0');
 
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (432011, 1, 432001, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (432012, 1, 432001, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (432013, 2, 432001, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (432011, 1, 432001, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 124764);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (432012, 1, 432001, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 124772);
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (432013, 2, 432001, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 124766);
 
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (432011, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (432012, 1, 124772, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
@@ -39,5 +39,5 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) VALUES (432006, 1, 16, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('432061', '432006', '1', '3', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', '2010-05-27 09:00:00.0', '2010-06-01 09:00:00.0', '259200000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date) VALUES ('432062', '432006', '2', '2', '2010-05-27 09:00:00.0', '2010-05-27 09:00:00.0', '2210-06-07 09:00:00.0', NULL, NULL, '604800000', '132457', '2010-05-21 07:26:30.0', '132457', '2010-05-21 07:26:30.0');
-INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date) VALUES (432061, 1, 432006, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');
+INSERT INTO resource (resource_id, resource_role_id, project_id, create_user, create_date, modify_user, modify_date, user_id) VALUES (432061, 1, 432006, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00', 124764);
 INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date) VALUES (432061, 1, 124764, 132456, '2013-12-12 00:00:00', 132456, '2013-12-12 00:00:00');

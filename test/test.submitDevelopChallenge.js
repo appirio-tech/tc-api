@@ -19,17 +19,18 @@ var http = require('http');
 var _ = require('underscore');
 
 var testHelper = require('./helpers/testHelper');
+var config = require('../config/tc-config').tcConfig;
 var SQL_DIR = __dirname + "/sqls/devUploadSubmission/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
 
 /**
  * Objects and values required for generating the OAuth token
  */
-var CLIENT_ID = require('../config/tc-config').tcConfig.oauthClientId;
-var SECRET = require('../config/tc-config').tcConfig.oauthClientSecret;
+var CLIENT_ID = config.oauthClientId;
+var SECRET = config.oauthClientSecret;
 var jwt = require('jsonwebtoken');
 
-describe('Submit for develop challenge', function () {
+describe('Submit for develop challenge, using base64 encoding for submitting file', function () {
 
     /**
     * Users that we have setup.
@@ -719,7 +720,7 @@ describe('Submit for develop challenge', function () {
                     return;
                 }
                 assert.equal(resp.body.error.details,
-                    "The submission file size is greater than the max allowed size: " + (config.config.submissionMaxSizeBytes / 1024) + " KB.");
+                    "The submission file size is greater than the max allowed size: " + (config.submissionMaxSizeBytes / 1024) + " KB.");
                 done();
             });
     });

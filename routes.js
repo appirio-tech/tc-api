@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.45
+ * @version 1.46
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
- * @author panoptimum
+ * @author panoptimum, bugbuka
  * 
  * Changes in 1.1:
  * - add routes for search challenges
@@ -106,6 +106,8 @@
  * - add routes for apply design review api.
  * Changes in 1.45:
  * - Add route for get user submissions api.
+ * Changes in 1.46:
+ * - Add route for submitting develop challenge by direct file upload.
  */
 
 /* ---------------------
@@ -290,6 +292,7 @@ exports.routes = {
         { path: "/:apiVersion/users/photo", action: "uploadMemberPhoto" },
         { path: "/:apiVersion/users", action: "memberRegister" },
         { path: "/:apiVersion/develop/challenges/:challengeId/submit", action: "submitForDevelopChallenge" },
+        { path: "/:apiVersion/develop/challenges/:challengeId/upload", action: "uploadForDevelopChallenge" },
         { path: "/:apiVersion/design/challenges/:challengeId/submit", action: "submitForDesignChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/register", action: "registerChallenge" },
         { path: "/:apiVersion/challenges/:challengeId/unregister", action: "unregisterChallenge" },
