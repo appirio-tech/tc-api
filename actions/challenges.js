@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.28
+ * @version 1.29
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
- * @author isv, muzehyun
+ * @author isv, muzehyun, bugbuka
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -72,6 +72,9 @@
  * - Add template id to challenge terms of use.
  * Changes in 1.28:
  * - Implement getUserSubmissions api.
+ * Changes in 1.29:
+ * - Implement uploadForDevelopChallenge action, using direct file upload for develop challenges
+ * - Fixed existing errors report by jsLint tool.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -1360,16 +1363,79 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 };
 
 /**
+ * Gets the file type based on the file name extension. Return null if not found.
+ * @since 1.14
+ *
+ * @param {Object} fileName - The file name
+ * @param {Object} fileTypes - The file types from which to read
+ */
+var getFileType = function (fileName, fileTypes) {
+    var lastIndexOfDot = fileName.lastIndexOf('.'),
+        extension,
+        fileType;
+    if (lastIndexOfDot > 0) {
+        extension = fileName.substr(lastIndexOfDot + 1).toLowerCase();
+        fileType = _.find(fileTypes, function (fileType) {
+            return fileType.extension.toLowerCase() === extension;
+        });
+        if (!_.isUndefined(fileType)) {
+            return fileType;
+        }
+    }
+    return null;
+};
+
+/**
+ * Performs basic submission file validation. Returns non-null value if error exists
+ * @since 1.14
+ *
+ * @param {Object} file - The file to validate
+ * @param {Object} fileTypes - The file types from which to read
+ * @param {Object} submissionFormat - 'zip' or 'image' based on the file to validate
+ */
+var basicSubmissionValidation = function (file, fileTypes, submissionFormat) {
+    var err = null,
+        fileName = file.name,
+        fileType;
+    if (_.isNull(file.type) || new S(file.type).isEmpty()) {
+        err = 'File Content Type is not included.'; //actually actionhero automatically throws error in such case
+    }
+    //Validation for the size of the fileName. It should be 256 chars as this is max length of parameter field in submission table.
+    if (fileName.length > 256) {
+        err = 'The file name is too long. It must be 256 characters or less.';
+    }
+    if (!err && file.size === 0) {
+        err = 'File is empty.'; //actually actionhero automatically throws error in such case
+    }
+    fileType = getFileType(fileName, fileTypes);
+    if (!err && fileType === null) {
+        err = 'Unknown file type submitted.';
+    }
+    if (!err && submissionFormat === 'zip' && !fileType.bundled_file) {
+        err = 'Invalid file type submitted.';
+    }
+    if (!err && submissionFormat === 'image' && !fileType.image_file) {
+        err = 'Invalid file type submitted.';
+    }
+    if (!err && submissionFormat === 'zip' && new AdmZip(file.path).getEntries().length === 0) {
+        err = 'Empty zip file provided.';
+    }
+    return err;
+};
+
+
+/**
  * This is the function that handles user's submission for a develop challenge.
  * It handles both checkpoint and final submissions
  * @since 1.9
  *
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
+ * @param {Boolean} isDirectFileUpload true if uploading file directly, false if using base64 encoding for submitting files
  * @param {Object} dbConnectionMap The database connection map for the current request
  * @param {Function<connection, render>} next - The callback to be called after this function is done
  */
-var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next) {
+var submitForDevelopChallenge = function (api, connection, isDirectFileUpload, dbConnectionMap, next) {
     var helper = api.helper,
         sqlParams = {},
         ret = {},
@@ -1377,6 +1443,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         challengeId = Number(connection.params.challengeId),
         fileName = connection.params.fileName,
         fileData = connection.params.fileData,
+        submissionFile = connection.params.submissionFile,
         type = connection.params.type,
         error,
         resourceId,
@@ -1391,7 +1458,8 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
         thurgoodApiKey = process.env.THURGOOD_API_KEY || api.config.tcConfig.thurgoodApiKey,
         thurgoodJobId = null,
         multipleSubmissionPossible,
-        savedFilePath = null;
+        savedFilePath = null,
+        fileTypes;
 
     async.waterfall([
         function (cb) {
@@ -1402,11 +1470,38 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
                 return;
             }
 
+            if (isDirectFileUpload && submissionFile.constructor.name !== 'File') {
+                cb(new IllegalArgumentError("submissionFile must be a File"));
+                return;
+            }
+
             //Simple validations of the incoming parameters
             error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
-                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId') ||
-                helper.checkStringPopulated(fileName, 'fileName') ||
-                helper.checkStringPopulated(fileData, 'fileData');
+                helper.checkMaxNumber(challengeId, MAX_INT, 'challengeId');
+
+            if (!isDirectFileUpload) {
+                error = error ||
+                    helper.checkStringPopulated(fileName, 'fileName') ||
+                    helper.checkStringPopulated(fileData, 'fileData');
+            } else {
+                async.waterfall([
+                    function (isDirectFileUploadCb) {
+                        //Get file types used for validation of the zip files
+                        helper.getFileTypes(api, dbConnectionMap, isDirectFileUploadCb);
+                    }, function (rows, isDirectFileUploadCb) {
+                        fileTypes = rows;
+
+                        //Perform basic validation of submission file
+                        error = error ||
+                            basicSubmissionValidation(submissionFile, fileTypes, 'zip');
+                    }
+                ], function (err) {
+                    if (err) {
+                        cb(err);
+                        return;
+                    }
+                });
+            }
 
             if (error) {
                 cb(error);
@@ -1425,12 +1520,16 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
             }
 
             //Validation for the size of the fileName parameter. It should be 256 chars as this is max length of parameter field in submission table.
-            if (fileName.length > 256) {
+            if (!isDirectFileUpload && fileName.length > 256) {
                 cb(new BadRequestError("The file name is too long. It must be 256 characters or less."));
                 return;
             }
 
             //All basic validations now pass.
+            if (isDirectFileUpload) {
+                fileName = submissionFile.name;
+            }
+
             //Check if the backend validations for submitting to the challenge are passed
             sqlParams.userId = userId;
             sqlParams.challengeId = challengeId;
@@ -1502,10 +1601,14 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
 
             //The path to save is the folder with the name as <base submission path>
             //The name of the file is the <generated upload id>_<original file name>
-            filePathToSave = submissionPath + "/" + uploadId + "_" + connection.params.fileName;
+            filePathToSave = submissionPath + "/" + uploadId + "_" + fileName;
 
             //Decode the base64 encoded file data
-            decodedFileData = new Buffer(connection.params.fileData, 'base64');
+            if (!isDirectFileUpload) {
+                decodedFileData = new Buffer(fileData, 'base64');
+            } else {
+                decodedFileData = fs.readFileSync(submissionFile.path);
+            }
 
             //Write the submission to file
             fs.writeFile(filePathToSave, decodedFileData, function (err) {
@@ -2192,7 +2295,32 @@ exports.submitForDevelopChallenge = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute submitForDevelopChallenge#run", 'debug');
-            submitForDevelopChallenge(api, connection, connection.dbConnectionMap, next);
+            submitForDevelopChallenge(api, connection, false, connection.dbConnectionMap, next);
+        }
+    }
+};
+
+/**
+ * The API for posting submission to software challenge, using direct file upload
+ * @since 1.29
+ */
+exports.uploadForDevelopChallenge = {
+    name: "uploadForDevelopChallenge",
+    description: "uploadForDevelopChallenge",
+    inputs: {
+        required: ["challengeId", "submissionFile"],
+        optional: ["type"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    cacheEnabled : false,
+    databases: ["tcs_catalog", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute uploadForDevelopChallenge#run", 'debug');
+            submitForDevelopChallenge(api, connection, true, connection.dbConnectionMap, next);
         }
     }
 };
@@ -2279,62 +2407,6 @@ exports.getStudioCheckpoint = {
  * @since 1.14
  */
 var DEFAULT_FONT_URL = 'community.topcoder.com/studio/the-process/font-policy/';
-
-/**
- * Gets the file type based on the file name extension. Return null if not found.
- * @since 1.14
- *
- * @param {Object} fileName - The file name
- * @param {Object} fileTypes - The file types from which to read
- */
-var getFileType = function (fileName, fileTypes) {
-    var lastIndexOfDot = fileName.lastIndexOf('.'),
-        extension,
-        fileType;
-    if (lastIndexOfDot > 0) {
-        extension = fileName.substr(lastIndexOfDot + 1).toLowerCase();
-        fileType = _.find(fileTypes, function (fileType) {
-            return fileType.extension.toLowerCase() === extension;
-        });
-        if (!_.isUndefined(fileType)) {
-            return fileType;
-        }
-    }
-    return null;
-};
-
-/**
- * Performs basic submission file validation. Returns non-null value if error exists
- * @since 1.14
- *
- * @param {Object} file - The file to validate
- * @param {Object} fileTypes - The file types from which to read
- * @param {Object} submissionFormat - 'zip' or 'image' based on the file to validate
- */
-var basicSubmissionValidation = function (file, fileTypes, submissionFormat) {
-    var err = null,
-        fileType;
-    if (_.isNull(file.type) || new S(file.type).isEmpty()) {
-        err = 'File Content Type is not included.'; //actually actionhero automatically throws error in such case
-    }
-    if (!err && file.size === 0) {
-        err = 'File is empty.'; //actually actionhero automatically throws error in such case
-    }
-    fileType = getFileType(file.name, fileTypes);
-    if (!err && fileType === null) {
-        err = 'Unknown file type submitted.';
-    }
-    if (!err && submissionFormat === 'zip' && !fileType.bundled_file) {
-        err = 'Invalid file type submitted.';
-    }
-    if (!err && submissionFormat === 'image' && !fileType.image_file) {
-        err = 'Invalid file type submitted.';
-    }
-    if (!err && submissionFormat === 'zip' && new AdmZip(file.path).getEntries().length === 0) {
-        err = 'Empty zip file provided.';
-    }
-    return err;
-};
 
 /**
  * Processes and validates font parameters and returns the result
@@ -3483,7 +3555,7 @@ var getUserSubmissions = function (api, connection, next) {
                 return;
             }
             if (res.regCheck[0].is_registered === 0) {
-                cb(new BadRequestError("You are not registered for this challenge."))
+                cb(new BadRequestError("You are not registered for this challenge."));
                 return;
             }
             isStudio = res.challengeCheck[0].is_studio;
