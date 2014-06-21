@@ -57,19 +57,6 @@ var translateLdapError = function (err) {
 };
 
 /**
- * This function is used to check the existence of 
- * given parameters and ensure it not be empty
- * 
- * @param {Object} params - a object of parameters
- * @param {String} name - the name of the to-be-checked parameter
- * @return {Boolean} true if params contains the given parameter
- *                      and it is not empty; false otherwise.
- */
-var checkParameter = function (params, name) {
-    return params.hasOwnProperty(name) && (params[name].toString().trim().length >= 1);
-};
-
-/**
  * Function used to create a client
  */
 var createClient = function () {
@@ -168,7 +155,7 @@ var passwordModify = function (api, client, params, callback) {
     writer.writeString(np, LDAP_TAG_EXOP_X_MODIFY_PASSWD_NEW);
     writer.endSequence();
 
-    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err, result) {
+    client.exop(LDAP_EXOP_X_MODIFY_PASSWD, writer.buffer, function (err) {
         if (err) {
             client.unbind();
             callback('cannot modify password for user', translateLdapError(err));
