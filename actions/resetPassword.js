@@ -188,6 +188,69 @@ var generateResetToken = function (userHandle, userEmailAddress, api, callback) 
     });
 };
 
+
+/**
+ * Update the password
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.1
+ */
+var updatePassword = function (api, connection, next) {
+    var helper = api.helper, newPasswordEnc, oldPasswordEnc,
+        oldPassword = connection.params.oldPassword,
+        newPassword = connection.params.newPassword,
+        caller = connection.caller,
+        result;
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkMember(connection, 'Authorization information needed.') ||
+                helper.validatePassword(newPassword);
+            if (error) {
+                cb(error);
+                return;
+            }
+
+            newPasswordEnc = helper.encodePassword(newPassword, helper.PASSWORD_HASH_KEY);
+            oldPasswordEnc = helper.encodePassword(oldPassword, helper.PASSWORD_HASH_KEY);
+            api.dataAccess.executeQuery('update_password_by_old_password',
+                { new_password: newPasswordEnc, handle: caller.handle, old_password: oldPasswordEnc },
+                connection.dbConnectionMap, cb);
+        },
+        function (count, cb) {
+            if (count === 0) {
+                cb(new ForbiddenError('The oldPassword is not correct.'));
+                return;
+            }
+
+            if (count !== 1) {
+                cb(new Error('password is not updated successfully'));
+                return;
+            }
+            var ldapEntryParams = {
+                userId: caller.userId,
+                handle: caller.handle,
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            };
+            api.ldapHelper.updateMemberPasswordLDAPEntry(ldapEntryParams, cb);
+        },
+        function (cb) {
+            result = {
+                description: 'Your password has been reset!'
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
 /**
  * Reset password API.
  */
@@ -268,6 +331,33 @@ exports.generateResetToken = {
                 }
                 next(connection, true);
             });
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Update password API
+ * @since 1.1
+ */
+exports.updatePassword = {
+    name: 'updatePassword',
+    description: 'update user password to new password',
+    inputs: {
+        required: ['oldPassword', 'newPassword'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version : 'v2',
+    cacheEnabled : false,
+    transaction : 'write',
+    databases : ['common_oltp'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('Execute updatePassword#run', 'debug');
+            updatePassword(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

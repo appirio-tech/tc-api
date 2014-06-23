@@ -42,7 +42,8 @@
     "mkdirp": "0.3.x",
     "archiver": "~0.6.1",
     "redis": "0.10.x",
-    "temp": "0.7.0"
+    "temp": "0.7.0",
+    "ssha": "*"
   },
   "devDependencies": {
     "supertest": "0.8.x",

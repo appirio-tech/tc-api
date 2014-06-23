@@ -286,6 +286,7 @@ exports.routes = {
         // Stub API
 
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
+        { path: "/:apiVersion/users/password", action: "updatePassword" },
         { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
         { path: "/:apiVersion/terms/docusignCallback", action: "docusignCallback" },
         { path: "/:apiVersion/terms/:termsOfUseId/agree", action: "agreeTermsOfUse" },
