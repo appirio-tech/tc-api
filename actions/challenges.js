@@ -2374,7 +2374,7 @@ exports.getSoftwareChallenge = {
     description: "getSoftwareChallenge",
     inputs: {
         required: ["challengeId"],
-        optional: ["refresh"]
+        optional: ["refresh", "viewableSubmissions"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -2399,7 +2399,7 @@ exports.getStudioChallenge = {
     description: "getStudioChallenge",
     inputs: {
         required: ["challengeId"],
-        optional: ["refresh"]
+        optional: ["refresh", "viewableSubmissions"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -2426,7 +2426,7 @@ exports.getChallenge = {
     description: "getStudioChallenge",
     inputs: {
         required: ["challengeId"],
-        optional: ["refresh"]
+        optional: ["refresh", "viewableSubmissions"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
