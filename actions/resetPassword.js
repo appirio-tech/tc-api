@@ -63,7 +63,7 @@ function resetPassword(api, connection, next) {
     var result, helper = api.helper, sqlParams, userId, ldapEntryParams,
         dbConnectionMap = connection.dbConnectionMap,
         token = connection.params.token,
-        handle = decodeURI(connection.params.handle).toLowerCase(),
+        handle = decodeURI(connection.params.handle),
         newPassword = connection.params.password,
         tokenKey = api.config.tcConfig.resetTokenPrefix + handle + api.config.tcConfig.resetTokenSuffix;
 
