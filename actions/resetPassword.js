@@ -65,7 +65,7 @@ function resetPassword(api, connection, next) {
         token = connection.params.token,
         handle = decodeURI(connection.params.handle),
         newPassword = connection.params.password,
-        tokenKey = api.config.tcConfig.resetTokenPrefix + handle + api.config.tcConfig.resetTokenSuffix;
+        tokenKey = api.config.tcConfig.resetTokenPrefix + handle.toLowerCase() + api.config.tcConfig.resetTokenSuffix;
 
     async.waterfall([
         function (cb) {
@@ -150,7 +150,7 @@ function resetPassword(api, connection, next) {
  * @param {Function<err>} callback - the callback function.
  */
 var generateResetToken = function (userHandle, userEmailAddress, api, callback) {
-    var tokenCacheKey = api.config.tcConfig.resetTokenPrefix + userHandle + api.config.tcConfig.resetTokenSuffix,
+    var tokenCacheKey = api.config.tcConfig.resetTokenPrefix + userHandle.toLowerCase() + api.config.tcConfig.resetTokenSuffix,
         current,
         expireDate,
         expireDateString,
