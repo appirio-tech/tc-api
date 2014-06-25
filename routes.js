@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.46
+ * @version 1.47
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
- * @author panoptimum, bugbuka
+ * @author panoptimum, bugbuka, TCSASSEMBLER
  * 
  * Changes in 1.1:
  * - add routes for search challenges
@@ -108,6 +108,8 @@
  * - Add route for get user submissions api.
  * Changes in 1.46:
  * - Add route for submitting develop challenge by direct file upload.
+ * Changes in 1.47:
+ * - Add route for billing account permission api.
  */
 
 /* ---------------------
@@ -299,6 +301,7 @@ exports.routes = {
         { path: "/:apiVersion/challenges/:challengeId/unregister", action: "unregisterChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
+        { path: "/:apiVersion/platform/billings/:billingAccountId/users", action: "billingAccountsPermission" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },

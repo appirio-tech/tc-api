@@ -1,0 +1,13 @@
+{
+    "unauthorized": "You need to login for this api.",
+    "forbidden": "You don't have enough authority to access this api.",
+    "billingAccountId" : {
+        "notNumber": "billingAccountId should be number.",
+        "notPositive": "billingAccountId should be positive.",
+        "notInteger": "billingAccountId should be Integer.",
+        "tooBig": "billingAccountId should be less or equal to 2147483647.",
+        "notExist": "The billingAccountId does not exist in Topcoder system."
+    },
+    "notExistedUser": "All these users are not in topcoder system.",
+    "invalidUser": "The users are all invalid."
+}

@@ -1,0 +1,16 @@
+DELETE FROM address_relation WHERE address_id >= 10000000;
+DELETE FROM address WHERE address_id >= 10000000;
+
+DELETE FROM contact_relation WHERE contact_id >= 10000000;
+DELETE FROM contact WHERE contact_id >= 10000000;
+
+DELETE FROM project_manager_audit WHERE project_id = 2001;
+DELETE FROM project_manager WHERE project_id = 2001;
+
+DELETE FROM user_account_audit WHERE user_account_id >= 10000000;
+DELETE FROM user_account WHERE user_account_id >= 10000000;
+
+DELETE FROM project WHERE project_id = 2001;
+
+DELETE FROM user_type WHERE user_type_id = 2;
+DELETE FROM user_status WHERE user_status_id = 2;
