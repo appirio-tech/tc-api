@@ -3580,7 +3580,7 @@ var getChallenges = function (api, connection, listType, next) {
     sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 200);
+    pageSize = Number(query.pagesize || 150);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
