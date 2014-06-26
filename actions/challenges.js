@@ -107,7 +107,7 @@ var SORT_COLUMN = "sortColumn";
 /**
  * Represents the default sort column.
  */
-var DEFAULT_SORT_COLUMN = "challengeName";
+var DEFAULT_SORT_COLUMN = "subMissionEndDate";
 
 /**
  * The path that store all query files.
@@ -863,7 +863,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         break;
     }
 
-    sortOrder = query.sortorder || "asc";
+    sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
@@ -3577,10 +3577,10 @@ var getChallenges = function (api, connection, listType, next) {
         }
     }
 
-    sortOrder = query.sortorder || "asc";
+    sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 50);
+    pageSize = Number(query.pagesize || 200);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
