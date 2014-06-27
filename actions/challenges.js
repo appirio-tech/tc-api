@@ -158,7 +158,7 @@ var MY_CHALLENGES_FILTER = 'AND EXISTS ' +
     '(SELECT r.resource_id ' +
     'FROM resource r ' +
     'INNER JOIN resource_info ri1 ON ri1.resource_id = r.resource_id AND ri1.resource_info_type_id = 1 ' +
-    'WHERE r.resource_id NOT IN (12, 13) AND r.project_id = p.project_id AND ri1.value = @myUserId@)';
+    'WHERE r.resource_role_id NOT IN (12, 13) AND r.project_id = p.project_id AND ri1.value = "@myUserId@") \n';
 
 /**
  * Represents a predefined list of valid query parameter for all challenge types.
@@ -762,6 +762,8 @@ var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
     if (isMyChallenges) {
         sql.count = editSql(sql.count, MY_CHALLENGES_FILTER, null);
         sql.data = editSql(sql.data, MY_CHALLENGES_FILTER, null);
+
+        console.log(sql.data);
     }
 
     if (_.isDefined(filter.communityId)) {
