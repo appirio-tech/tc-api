@@ -672,12 +672,33 @@ function transferResult(src, helper) {
  * Transfer the database results to api response.
  * @param {Array} src - the database results.
  * @param {Object} helper - the helper object.
+ * @param {Bool} isMyChallenges - the helper object.
  * @returns {Array} - the api response array.
  * @since 1.21
  */
-function transferResultV2(src, helper) {
+function transferResultV2(src, helper, isMyChallenges) {
     return _.map(src, function (row) {
-        var challenge = _.object(_.chain(row).keys().map(function (item) { return new S(item).camelize().s; }).value(), _.values(row));
+
+        var challenge = _.object(_.chain(row).keys().map(function (item) {
+            var ret;
+            if (new S(item).startsWith('is_role_')) {
+                ret = 'not_valid';
+            } else {
+                ret = new S(item).camelize().s;
+            }
+            return ret;
+        }).value(), _.values(row));
+
+        delete challenge.not_valid;
+
+        if (isMyChallenges) {
+            challenge.roles = [];
+            _.each(row, function (value, key) {
+                if (new S(key).startsWith('is_role_') && value === 1) {
+                    challenge.roles.push(new S(key.substring(8)).humanize().s);
+                }
+            });
+        }
 
         challenge.platforms = _.isUndefined(row.platforms) || row.platforms === '' ? [] : row.platforms.split(', ');
         challenge.technologies = _.isUndefined(row.technologies) || row.technologies === '' ? [] : row.technologies.split(', ');
@@ -3189,6 +3210,7 @@ var VALID_GET_MY_CHALLENGES_TYPES = ['ACTIVE', 'PAST'];
  * @param {Object} api - the api object.
  * @param {Object} connection - the connection object.
  * @param {Object} listType - which type of challenges to get.
+ * @param {Bool} isMyChallenges - whether this is for my challenges api.
  * @param {Function} next - the callback function.
  * @since 1.21
  */
@@ -3308,7 +3330,15 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
                     }
                 },
                 data: function (cbx) {
-                    api.dataAccess.executeSqlQuery(sql.data, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
+                    if (isMyChallenges) {
+                        if (listType === helper.ListType.ACTIVE) {
+                            api.dataAccess.executeQuery('get_my_active_challenges', sqlParams, dbConnectionMap, cbx);
+                        } else {
+                            api.dataAccess.executeQuery('get_my_past_challenges', sqlParams, dbConnectionMap, cbx);
+                        }
+                    } else {
+                        api.dataAccess.executeSqlQuery(sql.data, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
+                    }
                 }
             }, cb);
         }, function (results, cb) {
@@ -3321,7 +3351,7 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
             if (challenges.length === 0) {
                 result.data = [];
             } else {
-                result.data = transferResultV2(challenges, helper);
+                result.data = transferResultV2(challenges, helper, isMyChallenges);
             }
             result.total = total;
             result.pageIndex = pageIndex;
