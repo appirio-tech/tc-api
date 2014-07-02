@@ -1,0 +1,164 @@
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30001, "Contest 1", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30002, "Contest 2", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30003, "Contest 3", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40001, 30001, "Round 1", "A", 6, 'short name 1', 1, 32, 0);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40002, 30001, "Round 2", "A", 7, 'short name 2', 2, 64, 1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40003, 30001, "Round 3", "A", 8, 'short name 3', 3, 128, 2);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40004, 30001, "Round 4", "A", 9, 'short name 4', 4, 256, 3);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40005, 30001, "Round 5", "A", 10, 'short name 5', 1, 512, 4);
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40006, 30002, "Round 6", "A", 11, 'short name 6', 1, 0, 5);
+INSERT INTO SURVEY(survey_id, name, start_date, end_date, status_id, text)
+       VALUES (40006, 'survey1', '2013-10-09 01:50:00', '2013-10-09 02:50:00', 1, 'text 1');
+INSERT INTO round_room_assignment (round_id, coders_per_room, algorithm, by_division, final, by_region, p)
+       VALUES (40006, 20, 1, 1, 1, 1, 200);
+INSERT INTO round_event (round_id, event_id, event_name, registration_url)
+       VALUES (40006, 60001, 'event name 1', 'url 1');
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40006, 1);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40006, 2);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40006, 3);
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40006, 1, '2013-10-09 01:50:00', '2013-10-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40006, 2, '2013-11-09 01:50:00', '2013-11-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40006, 3, '2013-12-09 01:50:00', '2013-12-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40006, 4, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40006, 5, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'D');
+
+
+
+
+
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30004, "Contest 4", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30005, "Contest 5", "A", -1);
+
+
+
+
+
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30006, "Contest 6", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30007, "Contest 7", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30008, "Contest 8", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30009, "Contest 9", "A", -1);
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40055, 30006, "Round 7", "A", 11, 'short name 7', 1, 0, 5);
+INSERT INTO SURVEY(survey_id, name, start_date, end_date, status_id, text)
+       VALUES (40055, 'survey2', '2013-10-09 01:50:00', '2013-10-09 02:50:00', 1, 'text 2');
+INSERT INTO round_room_assignment (round_id, coders_per_room, algorithm, by_division, final, by_region, p)
+       VALUES (40055, 20, 1, 1, 1, 1, 200);
+INSERT INTO round_event (round_id, event_id, event_name, registration_url)
+       VALUES (40055, 60002, 'event name 2', 'url 2');
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40055, 1);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40055, 2);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40055, 3);
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40055, 1, '2013-10-09 01:50:00', '2013-10-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40055, 2, '2013-11-09 01:50:00', '2013-11-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40055, 3, '2013-12-09 01:50:00', '2013-12-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40055, 4, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40055, 5, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'D');
+INSERT INTO room (room_id, round_id, name, division_id, room_type_id) VALUES (499154, 40055, "Admin Room", -1, 1);
+
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (40060, 30009, "Round 8", "A", 11, 'short name 8', 1, 0, 5);
+INSERT INTO SURVEY(survey_id, name, start_date, end_date, status_id, text)
+       VALUES (40060, 'survey3', '2013-10-09 01:50:00', '2013-10-09 02:50:00', 1, 'text 3');
+INSERT INTO round_room_assignment (round_id, coders_per_room, algorithm, by_division, final, by_region, p)
+       VALUES (40060, 20, 1, 1, 1, 1, 200);
+INSERT INTO round_event (round_id, event_id, event_name, registration_url)
+       VALUES (40060, 60003, 'event name 3', 'url 3');
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40060, 1);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40060, 2);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (40060, 3);
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40060, 1, '2013-10-09 01:50:00', '2013-10-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40060, 2, '2013-11-09 01:50:00', '2013-11-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40060, 3, '2013-12-09 01:50:00', '2013-12-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40060, 4, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (40060, 5, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'D');
+INSERT INTO room (room_id, round_id, name, division_id, room_type_id) VALUES (399154, 40060, "Admin Room", -1, 1);
+
+
+
+
+
+
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30010, "Contest 10", "A", -1);
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (30011, "Contest 11", "A", -1);
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (41001, 30010, "Round 1", "A", 6, 'short name 1', 1, 32, 0);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (41002, 30010, "Round 2", "A", 7, 'short name 2', 2, 64, 1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (41003, 30010, "Round 3", "A", 8, 'short name 3', 3, 128, 2);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (41004, 30010, "Round 4", "A", 9, 'short name 4', 4, 256, 3);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (41005, 30010, "Round 5", "A", 10, 'short name 5', 1, 512, 4);
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, short_name, region_id, registration_limit, invitational)
+       VALUES (41006, 30011, "Round 6", "A", 11, 'short name 6', 1, 0, 5);
+INSERT INTO SURVEY(survey_id, name, start_date, end_date, status_id, text)
+       VALUES (41006, 'survey1', '2013-10-09 01:50:00', '2013-10-09 02:50:00', 1, 'text 1');
+INSERT INTO round_room_assignment (round_id, coders_per_room, algorithm, by_division, final, by_region, p)
+       VALUES (41006, 20, 1, 1, 1, 1, 200);
+INSERT INTO round_event (round_id, event_id, event_name, registration_url)
+       VALUES (41006, 61001, 'event name 11', 'url 11');
+INSERT INTO round_language (round_id, language_id)
+       VALUES (41006, 1);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (41006, 2);
+INSERT INTO round_language (round_id, language_id)
+       VALUES (41006, 3);
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (41006, 1, '2013-10-09 01:50:00', '2013-10-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (41006, 2, '2013-11-09 01:50:00', '2013-11-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (41006, 3, '2013-12-09 01:50:00', '2013-12-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (41006, 4, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'A');
+INSERT INTO round_segment (round_id, segment_id, start_time, end_time, status)
+       VALUES (41006, 5, '2014-01-09 01:50:00', '2014-01-09 02:50:00', 'D');
+
+
+DELETE FROM round_room_assignment WHERE round_id = 600000;
+DELETE FROM round_event WHERE round_id = 600000;
+DELETE FROM round_language WHERE round_id = 600000;
+DELETE FROM round_segment WHERE round_id = 600000;
+DELETE FROM survey WHERE survey_id = 600000;
+DELETE FROM room WHERE round_id = 600000;
+DELETE FROM round WHERE round_id = 600000;
+DELETE FROM contest WHERE contest_id = 600000;

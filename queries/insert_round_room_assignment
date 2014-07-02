@@ -1,0 +1,1 @@
+INSERT INTO round_room_assignment (round_id) VALUES (@round_id@);

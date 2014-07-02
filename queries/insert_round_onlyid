@@ -1,0 +1,1 @@
+INSERT INTO round (round_id, name) VALUES (@round_id@, '@name@');

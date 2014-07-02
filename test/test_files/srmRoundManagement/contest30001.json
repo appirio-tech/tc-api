@@ -1,0 +1,142 @@
+{
+  "total": 5,
+  "data": [
+    {
+      "contest": {
+        "id": 30001
+      },
+      "id": 40001,
+      "name": "Round 1",
+      "status": "A",
+      "registrationLimit": 32,
+      "invitationalType": 0,
+      "short_name": "short name 1",
+      "type": {
+        "id": 6,
+        "desc": "Screening Tool Problem Sets"
+      },
+      "languages": {
+        "roundId": 40001,
+        "languages": []
+      },
+      "roomAssignment": {
+        "roundId": 40001
+      },
+      "region": {
+        "region_id": 1,
+        "region_name": "Alpha"
+      }
+    },
+    {
+      "contest": {
+        "id": 30001
+      },
+      "id": 40002,
+      "name": "Round 2",
+      "status": "A",
+      "registrationLimit": 64,
+      "invitationalType": 1,
+      "short_name": "short name 2",
+      "type": {
+        "id": 7,
+        "desc": "Team Single Round Match"
+      },
+      "languages": {
+        "roundId": 40002,
+        "languages": []
+      },
+      "roomAssignment": {
+        "roundId": 40002
+      },
+      "region": {
+        "region_id": 2,
+        "region_name": "Beta"
+      }
+    },
+    {
+      "contest": {
+        "id": 30001
+      },
+      "id": 40003,
+      "name": "Round 3",
+      "status": "A",
+      "registrationLimit": 128,
+      "invitationalType": 2,
+      "short_name": "short name 3",
+      "type": {
+        "id": 8,
+        "desc": "Team Tournament Round"
+      },
+      "languages": {
+        "roundId": 40003,
+        "languages": []
+      },
+      "roomAssignment": {
+        "roundId": 40003
+      },
+      "region": {
+        "region_id": 3,
+        "region_name": "Gamma"
+      }
+    },
+    {
+      "contest": {
+        "id": 30001
+      },
+      "id": 40004,
+      "name": "Round 4",
+      "status": "A",
+      "registrationLimit": 256,
+      "invitationalType": 3,
+      "short_name": "short name 4",
+      "type": {
+        "id": 9,
+        "desc": "Team Practice Round"
+      },
+      "languages": {
+        "roundId": 40004,
+        "languages": []
+      },
+      "roomAssignment": {
+        "roundId": 40004
+      },
+      "region": {
+        "region_id": 4,
+        "region_name": "Delta"
+      }
+    },
+    {
+      "contest": {
+        "id": 30001
+      },
+      "id": 40005,
+      "name": "Round 5",
+      "status": "A",
+      "registrationLimit": 512,
+      "invitationalType": 4,
+      "short_name": "short name 5",
+      "type": {
+        "id": 10,
+        "desc": "Long Round"
+      },
+      "segments": {
+        "roundId": 40005,
+        "registrationLength": 0,
+        "codingLength": 450,
+        "intermissionLength": 0,
+        "challengeLength": 0
+      },
+      "languages": {
+        "roundId": 40005,
+        "languages": []
+      },
+      "roomAssignment": {
+        "roundId": 40005
+      },
+      "region": {
+        "region_id": 1,
+        "region_name": "Alpha"
+      }
+    }
+  ]
+}

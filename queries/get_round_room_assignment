@@ -1,0 +1,1 @@
+SELECT round_id from round_room_assignment where round_id=@round_id@;

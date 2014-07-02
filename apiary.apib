@@ -864,7 +864,6 @@ Platform APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
-
 ## Get Challenge Detail [/challenges/{challengeId}]
 ### Get Challenge Detail [GET]
 
@@ -6389,6 +6388,366 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## List Round for a Contest [/data/srm/rounds/{contestId}]
+### List Round for a Contest [GET]
+
++ Parameters
+    + contestId (required, integer) ... contest's id for listing
+
++ Response 200 (application/json)
+
+
+        {
+          "total": 5,
+          "data": [
+            {
+              "id": 40001,
+              "contest_id": 30001,
+              "name": "Round 1",
+              "status": "A",
+              "registrationLimit": 32,
+              "invitationalType": 0,
+              "short_name": "short name 1",
+              "type": {
+                "id": 6,
+                "desc": "Screening Tool Problem Sets"
+              },
+              "languages": [],
+              "region": {
+                "region_id": 1,
+                "region_name": "Alpha"
+              }
+            },
+            {
+              "id": 40002,
+              "contest_id": 30001,
+              "name": "Round 2",
+              "status": "A",
+              "registrationLimit": 64,
+              "invitationalType": 1,
+              "short_name": "short name 2",
+              "type": {
+                "id": 7,
+                "desc": "Team Single Round Match"
+              },
+              "languages": [],
+              "region": {
+                "region_id": 2,
+                "region_name": "Beta"
+              }
+            },
+            {
+              "id": 40003,
+              "contest_id": 30001,
+              "name": "Round 3",
+              "status": "A",
+              "registrationLimit": 128,
+              "invitationalType": 2,
+              "short_name": "short name 3",
+              "type": {
+                "id": 8,
+                "desc": "Team Tournament Round"
+              },
+              "languages": {
+                     "roundId": 40006,
+                     “languages” [
+                         {
+                           "id": 1,
+                           "description": "Java"
+                         },
+                         {
+                           "id": 3,
+                           "description": "C++"
+                         },
+                         {
+                           "id": 2,
+                           "description": "XML"
+                         }
+                     ]
+                 },
+              "region": {
+                "region_id": 3,
+                "region_name": "Gamma"
+              }
+            },
+            {
+              "id": 40004,
+              "contest_id": 30001,
+              "name": "Round 4",
+              "status": "A",
+              "registrationLimit": 256,
+              "invitationalType": 3,
+              "short_name": "short name 4",
+              "type": {
+                "id": 9,
+                "desc": "Team Practice Round"
+              },
+              "languages": [],
+              "region": {
+                "region_id": 4,
+                "region_name": "Delta"
+              }
+            },
+            {
+              "id": 40005,
+              "contest_id": 30001,
+              "name": "Round 5",
+              "status": "A",
+              "registrationLimit": 512,
+              "invitationalType": 4,
+              "short_name": "short name 5",
+              "type": {
+                "id": 10,
+                "desc": "Long Round"
+              },
+              "segments": {
+                "registrationLength": 0,
+                "codingLength": 450,
+                "intermissionLength": 0,
+                "challengeLength": 0
+              },
+              "languages": [],
+              "region": {
+                "region_id": 1,
+                "region_name": "Alpha"
+              }
+            }
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Create SRM Contest Round API [/data/srm/rounds/create]
+### Create SRM Contest Round API [POST] (application/json)
+
++ Parameters
+    + contest_id (required, integer) round's contest_id
+    + id (required, integer) round's id
+    + invitaitonalType (required, integer) round's invitaitonalType
+    + registrationLimit (required, integer) round's registrationLimit
+    + name (required, string) round's name
+    + short_name (required, string) round's short_name
+    + status (required, string) round's status
+    * type (required, object) round's type, it's id should be set.
+    * region (required, object) round's region, it's id should be set.
+    * roomAssignment (required, object) round's roomAssginment, with field codersPerRoom(integer), type(integer), isByDivision, isByRegion, isFinal(boolean), p(Number).
+
++ Response 200 (application/json)
+
+        {
+            "message": "ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Modify SRM Contest Round API [/data/srm/rounds/{oldRoundId}/edit]
+### Modify SRM Contest Round API [POST] (application/json)
+
++ Parameters
+    + contest_id (required, integer) round's contest_id
+    + oldRoundId (required, integer) modifying round's id
+    + id (required, integer) round's id
+    + invitaitonalType (required, integer) round's invitaitonalType
+    + registrationLimit (required, integer) round's registrationLimit
+    + name (required, string) round's name
+    + short_name (required, string) round's short_name
+    + status (required, string) round's status
+    * type (required, object) round's type, it's id should be set.
+    * region (required, object) round's region, it's id should be set.
+    * roomAssignment (required, object) round's roomAssginment, with field codersPerRoom(integer), type(integer), isByDivision, isByRegion, isFinal(boolean), p(Number).
+
++ Response 200 (application/json)
+
+        {
+            "message": "ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Delete SRM Contest Round API [/data/srm/rounds/{id}/delete]
+### Delet SRM Contest Round API [POST]
+
++ Parameters
+    + id (required, integer) deleting round's id
+
++ Response 200 (application/json)
+
+        {
+            "message": "ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 ## Get Algorithm Marathon Challenge Detail [/data/marathon/challenges/{id}]
 ### Get Algorithm Marathon Detail [GET]
