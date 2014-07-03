@@ -498,13 +498,6 @@ function validateInputParameterV2(helper, caller, type, query, filter, pageIndex
     }
     async.waterfall([
         function (cbx) {
-            if (!_.isUndefined(query.challengeType)) {
-                helper.isChallengeTypeValid(query.challengeType, dbConnectionMap, type, cbx);
-            } else {
-                cbx();
-            }
-        },
-        function (cbx) {
             if (!_.isUndefined(filter.technologies)) {
                 helper.getCatalogCachedValue(filter.technologies.split(','), dbConnectionMap, 'technologies', cbx);
             } else {
@@ -547,9 +540,6 @@ function setFilterV2(filter, sqlParams) {
     sqlParams.submission_end_from = MIN_DATE;
     sqlParams.submission_end_to = MAX_DATE;
 
-    if (!_.isUndefined(filter.challengeType)) {
-        sqlParams.challenge_type = filter.challengeType.toLowerCase();
-    }
     if (!_.isUndefined(filter.challengeName)) {
         sqlParams.challenge_name = "%" + filter.challengeName.toLowerCase() + "%";
     }
@@ -731,7 +721,7 @@ var editSql = function (sql, template, content) {
  * @since 1.23
  */
 var addFilter = function (sql, filter, helper, caller) {
-    var platform, technology, challengeFilter;
+    var platform, technology, challengeFilter, challengeTypeFilter;
     if (_.isDefined(filter.platforms)) {
         platform = filter.platforms.join(', ');
         sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
@@ -742,6 +732,20 @@ var addFilter = function (sql, filter, helper, caller) {
         technology = filter.technologies.join(', ');
         sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
         sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+    }
+
+    if (_.isDefined(filter.challengeType)) {
+        challengeTypeFilter =
+            " AND (" +
+            filter.challengeType
+            .split(",")
+            .map(function (item) {
+                return "LOWER(pcl.description) = LOWER('" + item.trim().toLowerCase() + "')";
+            })
+            .join(" OR ")
+            + ")\n";
+        sql.count = editSql(sql.count, challengeTypeFilter, null);
+        sql.data = editSql(sql.data, challengeTypeFilter, null);
     }
 
     if (_.isDefined(filter.communityId)) {
