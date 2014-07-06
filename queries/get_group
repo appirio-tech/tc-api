@@ -1,0 +1,1 @@
+SELECT group_desc FROM group WHERE group_id = @groupId@;

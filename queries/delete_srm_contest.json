@@ -1,0 +1,5 @@
+{
+  "name"    : "delete_srm_contest",
+  "db"      : "informixoltp",
+  "sqlfile" : "delete_srm_contest"
+}
