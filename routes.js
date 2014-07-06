@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.46
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
- * @author panoptimum, bugbuka
- * 
+ * @version 1.47
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
+ * @author panoptimum, bugbuka, TCSASSEMBLER
+ *
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -108,8 +108,11 @@
  * - Add route for get user submissions api.
  * Changes in 1.46:
  * - Add route for submitting develop challenge by direct file upload.
+ * Changes in 1.47:
+ * - Add routes for SRM Contest Management APIs
  */
-
+/*jslint node:true, nomen: true */
+"use strict";
 /* ---------------------
 routes.js
 
@@ -247,6 +250,7 @@ exports.routes = {
 
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
+        { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
@@ -304,6 +308,8 @@ exports.routes = {
         { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
         { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" },
         { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
-        { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" }
+        { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" },
+        { path: "/:apiVersion/data/srm/contests/:id/edit", action: "updateSRMContest"},
+        { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"}
     ]
 };

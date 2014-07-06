@@ -1,0 +1,5 @@
+{
+  "name"    : "get_group",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_group"
+}
