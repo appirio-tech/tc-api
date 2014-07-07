@@ -1,0 +1,14 @@
+UPDATE contest SET
+name=@name@,
+start_date=@startDate@,
+end_date=@endDate@,
+status=@status@,
+group_id=@groupId@,
+ad_text=@adText@,
+ad_start=@adStart@,
+ad_end=@adEnd@,
+ad_task=@adTask@,
+ad_command=@adCommand@,
+activate_menu=@activateMenu@,
+season_id=@seasonId@
+WHERE contest_id=@contestId@;

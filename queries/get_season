@@ -1,0 +1,1 @@
+SELECT name FROM season WHERE season_id = @seasonId@;
