@@ -1,0 +1,5 @@
+{
+    "name"    : "check_user_activated",
+    "db"      : "common_oltp",
+    "sqlfile" : "check_user_activated"
+}

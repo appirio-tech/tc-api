@@ -333,7 +333,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                                 reliability = result[0].rating;
                             }
                             if (!_.isNull(reliability) && !_.isUndefined(reliability)) {
-                                persistResourceInfo(api, resourceId, 5, reliability, userId, dbConnectionMap, cbk);
+                                persistResourceInfo(api, resourceId, 5, reliability * 100, userId, dbConnectionMap, cbk);
                             } else {
                                 cbk();
                             }

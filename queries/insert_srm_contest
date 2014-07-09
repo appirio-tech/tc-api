@@ -1,0 +1,5 @@
+INSERT INTO contest
+ (contest_id,name,start_date,end_date,status,group_id,ad_text,ad_start,ad_end,
+  ad_task,ad_command,activate_menu,season_id)
+VALUES (@contestId@, @name@, @startDate@,@endDate@,@status@,@groupId@,@adText@,@adStart@,@adEnd@,
+        @adTask@,@adCommand@,@activateMenu@,@seasonId@);

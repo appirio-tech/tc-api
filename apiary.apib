@@ -3134,7 +3134,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
@@ -3145,6 +3145,9 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
 
 + Response 200 (application/json)
 
@@ -3292,7 +3295,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Open Software Challenges [GET]
 
 + Parameters
@@ -3303,6 +3306,10 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
+    
 
 + Response 200 (application/json)
 
@@ -3450,7 +3457,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Past Software Challenges [GET]
 
 + Parameters
@@ -3461,6 +3468,9 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
 
 + Response 200 (application/json)
 
@@ -3596,7 +3606,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
@@ -3607,6 +3617,9 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
 
 + Response 200 (application/json)
 
@@ -9129,3 +9142,794 @@ Payments APIs
             "value":"500",
             "description":"Fails to get user info from auth0."
         }
+# SRM Contests
+Managing SRM Contests APIs
+
+## List all Contests [/data/srm/contests]
+
+### List all Contests [GET]
+
++ Response 200 (application/json)
+
+[
+    {
+        "contestId": 1000,
+        "name": "SRM 67 DIV 2",
+        "startDate": null,
+        "endDate": null,
+        "status": "A",
+        "groupId": -1,
+        "adText": null,
+        "adStart": null,
+        "adEnd": null,
+        "adTask": null,
+        "adCommand": null,
+        "activateMenu": null,
+        "season": null
+    },
+    {
+        "contestId": 1001,
+        "name": "Name 1",
+        "startDate": "2014-06-02 09:00",
+        "endDate": "2014-06-12 09:00",
+        "status": "A",
+        "groupId": -1,
+        "adText": "Ad Text 1",
+        "adStart": "2014-06-03 09:00",
+        "adEnd": "2014-06-08 09:00",
+        "adTask": "Ad Task 1",
+        "adCommand": "Ad Command 1",
+        "activateMenu": 0,
+        "season": {
+            "seasonId": 3001,
+            "name": "Season 1"
+        }
+    }
+]
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized access only."
+          }
+}
+
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
+## Create New Contest [/data/srm/contests/create]
+
+### Create New Contest [POST]
+
++ Parameters
+  + name (required, string, `Name`) ... The contest name.
+  + contestId (required, number, `123456`) ... The contest id.
+  + startDate (string, `2014-06-01 09:00`) ... The contest start date.
+  + endDate (string, `2014-06-01 09:00`) ...   The contest end date.
+  + status (string, has length 1, `A`) ... The contest status.
+  + groupId (number, `1`) ... The group id.
+  + adText (string, max length 250, `Ad Text`) ... The ad text.
+  + adStart (string, `2014-06-01 09:00`) ... The ad start.
+  + adEnd (string, `2014-06-01 09:00`) ... The ad end.
+  + adTask (string, max length 30 ,`Ad Task`) ... The ad task.
+  + adCommand (string, max length 30, `Ad Command`) ... The ad command.
+  + activateMenu (number, `0`) ... The activate menu flag.
+  + seasonId (number, `123456`) ... The season id.
+
++ Response 200 (application/json)
+
+{"success": true}
+
++ Response 400 (application/json)
+
+{
+      "error": {
+          "name": "Bad Request",
+          "value": 400,
+          "description": "The request was invalid. An accompanying message will explain why.",
+          "details": "contestId should be number."
+      }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "contestId is already in use."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of name must not exceed 50 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate is not a valid date."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "endDate is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate does not precede endDate."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status should be string."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status must be of length 1"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId is unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adText must not exceed 250 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adEnd is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart does not precede adEnd."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adTask must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adCommand must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "activateMenu should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId is unknown."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized access only."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
+## Modify Contest [/data/srm/contests/{id}/edit]
+
+### Modify Contest [POST]
+
++ Parameters
+  + id (required, number, `123456`) ... The id of the contest to be modified.
+  + name (required, string, `Name`) ... The new contest name.
+  + contestId (required, number, `123456`) ... The new contest id.
+  + startDate (string, `2014-06-01 09:00`) ... The new contest start date.
+  + endDate (string, `2014-06-01 09:00`) ...   The new contest end date.
+  + status (string, has length 1, `A`) ... The new contest status.
+  + groupId (number, `1`) ... The new group id.
+  + adText (string, max length 250, `Ad Text`) ... The new ad text.
+  + adStart (string, `2014-06-01 09:00`) ... The new ad start.
+  + adEnd (string, `2014-06-01 09:00`) ... The new ad end.
+  + adTask (string, max length 30 ,`Ad Task`) ... The new ad task.
+  + adCommand (string, max length 30, `Ad Command`) ... The new ad command.
+  + activateMenu (number, `0`) ... The new activate menu flag.
+  + seasonId (number, `123456`) ... The new season id.
+
++ Response 200 (application/json)
+
+{"success": true}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "id should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "id is unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+      "error": {
+          "name": "Bad Request",
+          "value": 400,
+          "description": "The request was invalid. An accompanying message will explain why.",
+          "details": "contestId should be number."
+      }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of name must not exceed 50 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate is not a valid date."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "endDate is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate does not precede endDate."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status should be string."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status must be of length 1"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId is unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adText must not exceed 250 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adEnd is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart does not precede adEnd."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adTask must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adCommand must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "activateMenu should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId is unknown."
+    }
+}
+
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized access only."
+          }
+}
+
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}

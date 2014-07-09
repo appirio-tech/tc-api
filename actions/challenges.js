@@ -107,7 +107,7 @@ var SORT_COLUMN = "sortColumn";
 /**
  * Represents the default sort column.
  */
-var DEFAULT_SORT_COLUMN = "challengeName";
+var DEFAULT_SORT_COLUMN = "subMissionEndDate";
 
 /**
  * The path that store all query files.
@@ -863,7 +863,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         break;
     }
 
-    sortOrder = query.sortorder || "asc";
+    sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
@@ -1121,7 +1121,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 postingDate: formatDate(data.posting_date),
                 registrationEndDate: formatDate(data.registration_end_date),
                 checkpointSubmissionEndDate: formatDate(data.checkpoint_submission_end_date),
-                submissionEndDate: formatDate(data.submission_end_date)
+                submissionEndDate: formatDate(data.submission_end_date),
+                submissionsViewable: data.submissions_viewable
             };
 
             if (unified) {
@@ -1196,6 +1197,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.round1Introduction;
                 delete challenge.round2Introduction;
                 delete challenge.submissionLimit;
+                delete challenge.submissionsViewable;
             }
             challenge.platforms = mapPlatforms(results.platforms);
             if (data.event_id !== 0) {
@@ -3577,10 +3579,10 @@ var getChallenges = function (api, connection, listType, next) {
         }
     }
 
-    sortOrder = query.sortorder || "asc";
+    sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 50);
+    pageSize = Number(query.pagesize || 150);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {

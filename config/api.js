@@ -28,7 +28,7 @@ exports.default = {
             // disables the whitelisting of client params
             disableParamScrubbing: false,
             // params you would like hidden from any logs
-            filteredParams: ['password'],
+            filteredParams: ['password', 'oldPassword', 'newPassword'],
             // The default filetype to server when a user requests a directory
             directoryFileType : 'index.html',
             // configuration for your actionhero project structure

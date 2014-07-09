@@ -1,0 +1,550 @@
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3001,
+'Season 1'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1001,
+ 'Name 1',
+ '2014-06-02 09:00:00',
+ '2014-06-12 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 1',
+ '2014-06-03 09:00:00',
+ '2014-06-08 09:00:00',
+ 'Ad Task 1',
+ 'Ad Command 1',
+  0,
+  3001
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4001,
+  1001,
+ 'Round 1'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3002,
+'Season 2'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1002,
+ 'Name 2',
+ '2014-06-03 09:00:00',
+ '2014-06-13 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 2',
+ '2014-06-04 09:00:00',
+ '2014-06-09 09:00:00',
+ 'Ad Task 2',
+ 'Ad Command 2',
+  0,
+  3002
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4002,
+  1002,
+ 'Round 2'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3003,
+'Season 3'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1003,
+ 'Name 3',
+ '2014-06-04 09:00:00',
+ '2014-06-14 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 3',
+ '2014-06-05 09:00:00',
+ '2014-06-10 09:00:00',
+ 'Ad Task 3',
+ 'Ad Command 3',
+  0,
+  3003
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4003,
+  1003,
+ 'Round 3'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3004,
+'Season 4'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1004,
+ 'Name 4',
+ '2014-06-05 09:00:00',
+ '2014-06-15 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 4',
+ '2014-06-06 09:00:00',
+ '2014-06-11 09:00:00',
+ 'Ad Task 4',
+ 'Ad Command 4',
+  0,
+  3004
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4004,
+  1004,
+ 'Round 4'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3005,
+'Season 5'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1005,
+ 'Name 5',
+ '2014-06-06 09:00:00',
+ '2014-06-16 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 5',
+ '2014-06-07 09:00:00',
+ '2014-06-12 09:00:00',
+ 'Ad Task 5',
+ 'Ad Command 5',
+  0,
+  3005
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4005,
+  1005,
+ 'Round 5'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3006,
+'Season 6'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1006,
+ 'Name 6',
+ '2014-06-07 09:00:00',
+ '2014-06-17 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 6',
+ '2014-06-08 09:00:00',
+ '2014-06-13 09:00:00',
+ 'Ad Task 6',
+ 'Ad Command 6',
+  0,
+  3006
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4006,
+  1006,
+ 'Round 6'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3007,
+'Season 7'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1007,
+ 'Name 7',
+ '2014-06-08 09:00:00',
+ '2014-06-18 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 7',
+ '2014-06-09 09:00:00',
+ '2014-06-14 09:00:00',
+ 'Ad Task 7',
+ 'Ad Command 7',
+  0,
+  3007
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4007,
+  1007,
+ 'Round 7'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3008,
+'Season 8'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1008,
+ 'Name 8',
+ '2014-06-09 09:00:00',
+ '2014-06-19 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 8',
+ '2014-06-10 09:00:00',
+ '2014-06-15 09:00:00',
+ 'Ad Task 8',
+ 'Ad Command 8',
+  0,
+  3008
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4008,
+  1008,
+ 'Round 8'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3009,
+'Season 9'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1009,
+ 'Name 9',
+ '2014-06-10 09:00:00',
+ '2014-06-20 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 9',
+ '2014-06-11 09:00:00',
+ '2014-06-16 09:00:00',
+ 'Ad Task 9',
+ 'Ad Command 9',
+  0,
+  3009
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4009,
+  1009,
+ 'Round 9'
+);
+INSERT INTO season
+(
+ season_id,
+ name
+)
+VALUES
+(
+ 3010,
+'Season 10'
+);
+
+INSERT INTO contest
+(
+ contest_id,
+ name,
+ start_date,
+ end_date,
+ status,
+ group_id,
+ ad_text,
+ ad_start,
+ ad_end,
+ ad_task,
+ ad_command,
+ activate_menu,
+ season_id)
+VALUES
+(
+  1010,
+ 'Name 10',
+ '2014-06-11 09:00:00',
+ '2014-06-21 09:00:00',
+ 'A',
+  -1,
+ 'Ad Text 10',
+ '2014-06-12 09:00:00',
+ '2014-06-17 09:00:00',
+ 'Ad Task 10',
+ 'Ad Command 10',
+  0,
+  3010
+ );
+
+INSERT INTO round
+(
+ round_id,
+ contest_id,
+ name
+)
+VALUES
+(
+  4010,
+  1010,
+ 'Round 10'
+);

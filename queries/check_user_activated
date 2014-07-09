@@ -1,0 +1,1 @@
+SELECT status FROM user WHERE handle_lower = LOWER('@handle@')
