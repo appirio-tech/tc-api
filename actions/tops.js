@@ -566,39 +566,71 @@ exports.getTopTrackMembers = {
                 result.data = [];
                 sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
                 sqlParams.pageSize = pageSize;
+
+                if (trackType === "data") {
+                    sqlParams.pageSize = 2 * pageIndex * pageSize;
+                }
                 // Retrieves paged and ordered top members for the given track.
                 api.dataAccess.executeQuery('get_top_members_' + trackType, sqlParams, dbConnectionMap, cb);
             }, function (rows, cb) {
-                var rank = (pageIndex - 1) * pageSize + 1;
+                var rank = (pageIndex - 1) * pageSize + 1,
+                    handleArr = [],
+                    data;
                 if (rows.length === 0) {
                     cb(new NotFoundError('No results found'));
                     return;
                 }
-                rows.forEach(function (row) {
-                    var color, highestRatingType;
-                    switch (trackType) {
-                    case 'design':
-                        color = 'N/A';
-                        break;
-                    case 'develop':
-                        color = helper.getCoderColor(row.rating);
-                        highestRatingType = helper.getPhaseName(row.phase_id);
-                        break;
-                    case 'data':
-                        color = helper.getCoderColor(row.rating);
-                        highestRatingType = row.challenge_type.trim();
-                        break;
-                    }
-                    result.data.push({
-                        rank: rank,
-                        handle: row.handle,
-                        userId: row.coder_id,
-                        color: color,
-                        rating: row.rating,
-                        highestRatingType: highestRatingType
+                if (trackType === "data") {
+                    // The original data contains many duplicate data.
+                    // For example if a user has algorithm and marathon rating, we just need the highest one from the query results.
+                    // Since we sort the query results by its rating in desc then we just need to filter out all item that its handle shows up second time.
+                    data = _.filter(rows, function (r) {
+                        if (handleArr.indexOf(r.handle) > 0) {
+                            return false;
+                        }
+                        handleArr.push(r.handle);
+                        return true;
                     });
-                    rank = rank + 1;
-                });
+                    // pagination
+                    data = data.slice(sqlParams.firstRowIndex, sqlParams.firstRowIndex + pageSize);
+
+                    result.data = data.map(function (item) {
+                        return {
+                            handle: item.handle,
+                            userId: item.user_id,
+                            color: helper.getCoderColor(item.rating),
+                            rating: item.rating,
+                            highestRatingType: item.challenge_type.trim()
+                        };
+                    });
+                } else {
+                    rows.forEach(function (row) {
+                        var color, highestRatingType;
+                        switch (trackType) {
+                        case 'design':
+                            color = 'N/A';
+                            break;
+                        case 'develop':
+                            color = helper.getCoderColor(row.rating);
+                            highestRatingType = helper.getPhaseName(row.phase_id);
+                            break;
+                        case 'data':
+                            color = helper.getCoderColor(row.rating);
+                            highestRatingType = row.challenge_type.trim();
+                            break;
+                        }
+                        result.data.push({
+                            rank: rank,
+                            handle: row.handle,
+                            userId: row.coder_id,
+                            color: color,
+                            rating: row.rating,
+                            highestRatingType: highestRatingType
+                        });
+                        rank = rank + 1;
+                    });
+                }
+
                 cb();
             }
         ], function (err) {

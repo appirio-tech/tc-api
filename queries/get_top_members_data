@@ -1,10 +1,10 @@
-SELECT 
-  SKIP @firstRowIndex@
-  FIRST @pageSize@
-  NVL(r1.coder_id, r3.coder_id) AS coder_id
-  , (SELECT handle FROM coder WHERE coder.coder_id = NVL(r1.coder_id, r3.coder_id)) AS handle
-  , (CASE WHEN NVL(r1.rating, 0) > NVL(r3.rating, 0) THEN 'algorithm' ELSE 'marathon' END) AS challenge_type
-  , (CASE WHEN NVL(r1.rating, 0) > NVL(r3.rating, 0) THEN r1.rating ELSE r3.rating END) AS rating
-FROM (SELECT coder_id, rating FROM algo_rating r WHERE r.algo_rating_type_id = 1) AS r1
-  FULL OUTER JOIN (SELECT coder_id, rating FROM algo_rating r WHERE r.algo_rating_type_id = 3) AS r3 ON r1.coder_id = r3.coder_id
-ORDER BY rating DESC, handle ASC
+SELECT
+FIRST @pageSize@
+  coder_id AS user_id
+, (SELECT handle FROM coder c WHERE c.coder_id = ar.coder_id) AS handle
+, rating
+, (CASE WHEN algo_rating_type_id = 1 THEN 'algorithm' ELSE 'marathon' END) AS challenge_type
+FROM algo_rating ar
+WHERE ar.algo_rating_type_id = 1 
+OR ar.algo_rating_type_id = 3
+ORDER BY rating DESC
