@@ -3188,7 +3188,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Open Software Challenges [GET]
 
 + Parameters
@@ -3199,6 +3199,10 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
+    
 
 + Response 200 (application/json)
 
@@ -3346,7 +3350,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Past Software Challenges [GET]
 
 + Parameters
@@ -3357,6 +3361,9 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
 
 + Response 200 (application/json)
 
@@ -3492,7 +3499,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}&technologies={technologies}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
@@ -3503,6 +3510,9 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Heroku,Google`) ... The challenge platforms.
+    + technologies (optional, string, `Java,Python`) ... The challenge technologies.
 
 + Response 200 (application/json)
 
