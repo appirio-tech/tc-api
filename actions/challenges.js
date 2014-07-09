@@ -1327,7 +1327,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                             var registrant = {
                                 handle: item.handle,
                                 reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                                registrationDate: formatDate(item.inquiry_date)
+                                registrationDate: formatDate(item.inquiry_date),
+                                submissionDate: formatDate(item.submission_date)
                             };
                             if (!isStudio) {
                                 registrant.rating = item.rating;
@@ -3253,7 +3254,8 @@ var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next)
                         var registrant = {
                             handle: item.handle,
                             reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date)
+                            registrationDate: formatDate(item.inquiry_date),
+                            submissionDate: formatDate(item.submission_date)
                         };
                         if (!isStudio) {
                             registrant.rating = item.rating;

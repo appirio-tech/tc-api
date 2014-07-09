@@ -1,6 +1,10 @@
 select 
       u.handle as handle
      , rur.create_date as inquiry_date
+    , (select max(s.create_date) from submission s, upload u
+                 where u.project_id = p.project_id and s.upload_id = u.upload_id       
+                 and upload_status_id !=2 and s.submission_status_id != 5
+                 and u.resource_id = rur.resource_id) as submission_date
      , decode(ri4.value, 'N/A', '0', ri4.value)::int as rating
      , ri5.value::int as reliability
   from resource rur
