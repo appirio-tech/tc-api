@@ -1121,7 +1121,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 postingDate: formatDate(data.posting_date),
                 registrationEndDate: formatDate(data.registration_end_date),
                 checkpointSubmissionEndDate: formatDate(data.checkpoint_submission_end_date),
-                submissionEndDate: formatDate(data.submission_end_date)
+                submissionEndDate: formatDate(data.submission_end_date),
+                submissionsViewable: data.submissions_viewable
             };
 
             if (unified) {
@@ -1196,6 +1197,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 delete challenge.round1Introduction;
                 delete challenge.round2Introduction;
                 delete challenge.submissionLimit;
+                delete challenge.submissionsViewable;
             }
             challenge.platforms = mapPlatforms(results.platforms);
             if (data.event_id !== 0) {
