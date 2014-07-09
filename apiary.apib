@@ -3027,7 +3027,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&types={types}&platforms={platforms}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
@@ -3038,6 +3038,8 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + types (optional, string, `assembly competition,development`) ... The challenge types.
+    + platforms (optional, string, `Java,Python`) ... The challenge platforms.
 
 + Response 200 (application/json)
 
