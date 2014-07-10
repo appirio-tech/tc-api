@@ -1,0 +1,50 @@
+DELETE FROM round WHERE round_id = 4001;
+DELETE FROM contest WHERE contest_id = 1001;
+DELETE FROM season WHERE season_id = 3001;
+
+
+DELETE FROM round WHERE round_id = 4002;
+DELETE FROM contest WHERE contest_id = 1002;
+DELETE FROM season WHERE season_id = 3002;
+
+
+DELETE FROM round WHERE round_id = 4003;
+DELETE FROM contest WHERE contest_id = 1003;
+DELETE FROM season WHERE season_id = 3003;
+
+
+DELETE FROM round WHERE round_id = 4004;
+DELETE FROM contest WHERE contest_id = 1004;
+DELETE FROM season WHERE season_id = 3004;
+
+
+DELETE FROM round WHERE round_id = 4005;
+DELETE FROM contest WHERE contest_id = 1005;
+DELETE FROM season WHERE season_id = 3005;
+
+
+DELETE FROM round WHERE round_id = 4006;
+DELETE FROM contest WHERE contest_id = 1006;
+DELETE FROM season WHERE season_id = 3006;
+
+
+DELETE FROM round WHERE round_id = 4007;
+DELETE FROM contest WHERE contest_id = 1007;
+DELETE FROM season WHERE season_id = 3007;
+
+
+DELETE FROM round WHERE round_id = 4008;
+DELETE FROM contest WHERE contest_id = 1008;
+DELETE FROM season WHERE season_id = 3008;
+
+
+DELETE FROM round WHERE round_id = 4009;
+DELETE FROM contest WHERE contest_id = 1009;
+DELETE FROM season WHERE season_id = 3009;
+
+
+DELETE FROM round WHERE round_id = 4010;
+DELETE FROM contest WHERE contest_id = 1010;
+DELETE FROM season WHERE season_id = 3010;
+
+DELETE FROM contest WHERE contest_id = 1011;

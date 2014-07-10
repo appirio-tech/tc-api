@@ -1,0 +1,1 @@
+UPDATE round SET contest_id=@contestId@ WHERE contest_id=@id@;

@@ -1,0 +1,5 @@
+{
+  "name"    : "get_srm_contest",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_srm_contest"
+}

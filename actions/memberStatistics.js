@@ -262,7 +262,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
     async.waterfall([
         function (cb) {
             if (privateInfoEligibility) {
-                checkCoderActivated(handle, api, dbConnectionMap, function (err, result) {
+                checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
                     if (err) {
                         cb(err);
                     } else {
