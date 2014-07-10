@@ -1,4 +1,5 @@
 SELECT
   user_account_id
 , LOWER(user_name) AS handle_lower
+, user_name as handle
 FROM user_account WHERE LOWER(user_name) IN (@users@)
