@@ -678,18 +678,29 @@ exports.createCustomer = {
                 api.dataAccess.executeQuery("new_client_validations", newClient, dbConnectionMap, cb);
             }, function (rows, cb) {
                 if (rows.length > 0) {
-                    if (rows[0].name_exists && rows[0].customer_number_exists) {
-                        cb(new IllegalArgumentError("Client with this name and customer number already exists."));
-                        return;
-                    }
-                    if (rows[0].name_exists) {
+                    if (rows[0].customer_number_exists) {
+                        var nameNotExistInOtherRow = true;
+
+                        if(! rows[0].name_exists) {
+                            //unique key violation if we try to update with name which is already exist in another row
+                            for(var i=1; i<rows.length; i++) {
+                                if(rows[i].name_exists) {
+                                    nameNotExistInOtherRow = false;
+                                }
+                            }
+                        }
+
+                        //skip update if name exists in another row
+                        if(nameNotExistInOtherRow) {
+                            // If the customer number exists then update the current client.
+                            updateClient(api, connection, cb);
+                        } else {
+                            cb(new IllegalArgumentError("Client with this name already linked with another customer number."));
+                        }
+                    } else if (rows[0].name_exists) {
+                        //Otherwise if only name exists then throw error
                         cb(new IllegalArgumentError("Client with this name already exists."));
                         return;
-                    }
-
-                    if (rows[0].customer_number_exists) {
-                        // If the customer number exists then update the current client.
-                        updateClient(api, connection, cb);
                     }
                 } else {
                     createClient(api, connection, cb);
