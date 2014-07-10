@@ -1,0 +1,5 @@
+{
+    "name"    : "check_billing_account_exist",
+    "db"      : "time_oltp",
+    "sqlfile" : "check_billing_account_exist"
+}

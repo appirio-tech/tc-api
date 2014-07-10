@@ -1,0 +1,5 @@
+{
+    "name"    : "get_user_accounts",
+    "db"      : "time_oltp",
+    "sqlfile" : "get_user_accounts"
+}

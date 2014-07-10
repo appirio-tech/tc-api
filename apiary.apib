@@ -758,6 +758,113 @@ Platform APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Billing Account Permission [/platform/billings/{billingAccountId}/users]
+### Update Billing Account Permission [POST]
++ Request (application/json)
+
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
+    [users]["users1,users2"]
+
++ Parameters
+    + billingAccountId (required, number, `300001`) ... The billing account id that account to update
+    + users (required, string, `heffan,shannon`) ... The users to attach to billing account
+
++ Response 200 (application/json)
+
+        {
+            "success": [
+                "twight"
+            ],
+            "failed": [
+                "noOne"
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The billingAccountId is not exist in Topcoder system."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"All these users are not in topcoder system."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"You need to login for this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You don't have enough authority to access this api."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 ## Get Challenge Detail [/challenges/{challengeId}]
 ### Get Challenge Detail [GET]
 
@@ -948,7 +1055,7 @@ Platform APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-
+        
 ## Get Challenge Registrants [/challenges/registrants/{challengeId}]
 ### Get Challenge Registrants [GET]
 
@@ -1268,7 +1375,7 @@ Platform APIs
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-           ]
+           ]          
         }
 
 + Response 400 (application/json)
@@ -4224,7 +4331,7 @@ Request
 ## Software Challenge Upload Submission [/develop/challenges/{challengeid}/submit]
 ### Upload a submission by using base64 encoding[POST]
 + Request (application/json)
-
+    
 + Parameters
     + challengeid (required, number, `30000000`) ... The challenge id.
     + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
@@ -8277,7 +8384,7 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-
+        
 ## Top Track Members [/users/tops/{trackType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Track Members [GET]
 
