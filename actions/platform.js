@@ -358,7 +358,7 @@ function billingAccountsPermission(api, connection, next) {
                 return;
             }
 
-            var us = existHandle.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
+            us = existHandle.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
 
             api.dataAccess.executeQuery("get_user_accounts", { users: us }, dbConnectionMap, cb);
         }, function (res, cb) {
