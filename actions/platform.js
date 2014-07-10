@@ -307,6 +307,7 @@ function billingAccountsPermission(api, connection, next) {
         notExistHandle = [],
         userAccountIds = [],
         existHandle = [],
+        us = [],
         newToUserAccount = [],
         result;
 
