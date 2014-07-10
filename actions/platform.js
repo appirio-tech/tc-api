@@ -307,7 +307,6 @@ function billingAccountsPermission(api, connection, next) {
         notExistHandle = [],
         userAccountIds = [],
         existHandle = [],
-        us = [],
         newToUserAccount = [],
         result;
 
@@ -359,12 +358,12 @@ function billingAccountsPermission(api, connection, next) {
                 return;
             }
 
-            us = existHandle.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
+            var us = existHandle.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
 
             api.dataAccess.executeQuery("get_user_accounts", { users: us }, dbConnectionMap, cb);
         }, function (res, cb) {
             userAccountIds = _.pluck(res, "user_account_id");
-            newToUserAccount = _.difference(us, _.pluck(res, "handle_lower"));
+            newToUserAccount = _.difference(existHandle, _.pluck(res, "handle"));
 
             // insert user into user_account table
             // insert dummy address contact also.
