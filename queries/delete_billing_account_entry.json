@@ -1,0 +1,5 @@
+{
+    "name"    : "delete_billing_account_entry",
+    "db"      : "time_oltp",
+    "sqlfile" : "delete_billing_account_entry"
+}

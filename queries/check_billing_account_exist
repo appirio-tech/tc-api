@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS count FROM project WHERE project_id = @billingAccountId@

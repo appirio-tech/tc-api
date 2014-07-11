@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
+ * @version 1.1
  * @author kurtrips, KeSyren, Ghost_141, TCSASSEMBLER
+ * Changes in 1.1:
+ * - Implement the billing account permission api.
  */
 
 /*jslint unparam: true */
@@ -15,6 +17,7 @@ var moment = require('moment');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var NotFoundError = require('../errors/NotFoundError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
 
 /**
@@ -287,6 +290,186 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
 
     });
 };
+
+/**
+ * Handle the billing account permission api here.
+ * @param {Object} api - the api object.
+ * @param {Object} connection - the connection object.
+ * @param {Function} next - the callback function.
+ * @since 1.1
+ */
+function billingAccountsPermission(api, connection, next) {
+    var helper = api.helper,
+        billingAccountId = Number(connection.params.billingAccountId),
+        users,
+        userHandles,
+        dbConnectionMap = connection.dbConnectionMap,
+        notExistHandle = [],
+        userAccountIds = [],
+        existHandle = [],
+        newToUserAccount = [],
+        result;
+
+    // Get the users from request
+    // filter the empty string since they make no sense.
+    users = _.chain(connection.params.users.split(","))
+        .map(function (item) { return item.trim(); })
+        .uniq()
+        .filter(function (item) { return item.length > 0; })
+        .value();
+
+    // Wrap the user handle with double quotation and transfer it to lowercase.
+    userHandles = users.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkIdParameter(billingAccountId, "billingAccountId") ||
+                helper.checkAdmin(connection, "You need to login for this api.",
+                    "You don't have enough authority to access this api.");
+
+            if (users.length === 0) {
+                error = error || new IllegalArgumentError("The users are all invalid.");
+            }
+
+            cb(error);
+        },
+        function (cb) {
+            // Check billing account exist.
+            api.dataAccess.executeQuery("check_billing_account_exist", { billingAccountId: billingAccountId },
+                dbConnectionMap, cb);
+        },
+        function (res, cb) {
+            if (res[0].count === 0) {
+                // The billing account is not existed.
+                cb(new BadRequestError("The billingAccountId does not exist in Topcoder system."));
+            } else {
+                cb();
+            }
+        },
+        function (cb) {
+            // Check user exists.
+            api.dataAccess.executeQuery("get_user_handles", { users: userHandles }, dbConnectionMap, cb);
+        }, function (res, cb) {
+            existHandle = _.pluck(res, "handle");
+            notExistHandle = _.difference(users, existHandle);
+            if (notExistHandle.length === users.length) {
+                // All user are not existed in system. Return an error message for this circumstance.
+                cb(new BadRequestError("All these users are not in topcoder system."));
+                return;
+            }
+
+            var us = existHandle.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
+
+            api.dataAccess.executeQuery("get_user_accounts", { users: us }, dbConnectionMap, cb);
+        }, function (res, cb) {
+            userAccountIds = _.pluck(res, "user_account_id");
+            newToUserAccount = _.difference(existHandle, _.pluck(res, "handle"));
+
+            // insert user into user_account table
+            // insert dummy address contact also.
+            async.each(newToUserAccount, function (handle, cbx) {
+                var userAccountId, contact, address;
+                async.waterfall([
+                    function (callback) {
+                        async.parallel({
+                            userAccountId: function (next) {
+                                api.idGenerator.getNextIDFromDb("USER_ACCOUNT_SEQ", "time_oltp", dbConnectionMap, next);
+                            },
+                            addressId: function (next) {
+                                api.idGenerator.getNextIDFromDb("ADDRESS_SEQ", "time_oltp", dbConnectionMap, next);
+                            },
+                            contactId: function (next) {
+                                api.idGenerator.getNextIDFromDb("CONTACT_SEQ", "time_oltp", dbConnectionMap, next);
+                            }
+                        }, callback);
+                    },
+                    function (ids, callback) {
+                        userAccountId = ids.userAccountId;
+                        // Add user account id into array so we can delete old entry for this billing account and user account.
+                        // Also we need this user account id to insert new entry for this billing account.
+                        userAccountIds.push(userAccountId);
+                        contact = _.extend(_.clone(dummyContact), {
+                            contactId: ids.contactId,
+                            userId: connection.caller.userId
+                        });
+                        address = _.extend(_.clone(dummyAddress), {
+                            addressId: ids.addressId,
+                            userId: connection.caller.userId
+                        });
+
+                        async.parallel([
+                            function (next) {
+                                api.dataAccess.executeQuery("insert_user_account",
+                                    { handle: handle, userAccountId: userAccountId}, dbConnectionMap, next);
+                            }, function (next) {
+                                api.dataAccess.executeQuery("insert_contact", contact, dbConnectionMap, next);
+                            }, function (next) {
+                                api.dataAccess.executeQuery("insert_address", address, dbConnectionMap, next);
+                            }
+                        ], callback);
+                    },
+                    function (notUsed, callback) {
+                        var dummyAddressRelation = {
+                            entityId: userAccountId,
+                            addressTypeId: 4,
+                            addressId: address.addressId,
+                            userId: connection.caller.userId
+                        },  dummyContactRelation = {
+                            entityId: userAccountId,
+                            contactTypeId: 4,
+                            contactId: contact.contactId,
+                            userId: connection.caller.userId
+                        };
+                        async.parallel([
+                            function (next) {
+                                api.dataAccess.executeQuery("insert_contact_relation", dummyContactRelation,
+                                    dbConnectionMap, next);
+                            },
+                            function (next) {
+                                api.dataAccess.executeQuery("insert_address_relation", dummyAddressRelation,
+                                    dbConnectionMap, next);
+                            }
+                        ], callback);
+                    }
+                ], cbx);
+            }, cb);
+        },
+        function (cb) {
+            // Delete all entry for current billing account and user account.
+            // If there is no entry for account and user it doesn't matter, the query will simply delete 0 rows in database.
+            api.dataAccess.executeQuery("delete_billing_account_entry",
+                { billingAccountId: billingAccountId }, dbConnectionMap, function (err) {
+                    cb(err);
+                });
+        },
+        function (cb) {
+            // insert new entry into project_manager table for users.
+            async.each(userAccountIds, function (userAccountId, cbx) {
+                api.dataAccess.executeQuery("insert_project_manager",
+                    {
+                        userAccountId: userAccountId,
+                        billingAccountId: billingAccountId
+                    }, dbConnectionMap, function (err) {
+                        cbx(err);
+                    });
+            }, cb);
+        },
+        function (cb) {
+            result = {
+                success: existHandle,
+                failed: notExistHandle
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = result;
+        }
+        next(connection, true);
+    });
+}
 
 /**
  * The API for getting TC Direct Facts
@@ -717,3 +900,29 @@ exports.createCustomer = {
     }
 };
 
+/**
+ * The billing account permission api.
+ * @since 1.1
+ */
+exports.billingAccountsPermission = {
+    name: 'billingAccountsPermission',
+    description: 'attach existing Billing Accounts with Users',
+    inputs: {
+        required: ["billingAccountId", "users"],
+        optional: []
+    },
+    cacheEnabled : false,
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["time_oltp", "common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute billingAccountsPermission#run", 'debug');
+            billingAccountsPermission(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
