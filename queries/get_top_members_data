@@ -1,10 +1,10 @@
 SELECT
 FIRST @pageSize@
-  coder_id AS user_id
-, (SELECT handle FROM coder c WHERE c.coder_id = ar.coder_id) AS handle
+  c.coder_id AS user_id
+, handle
 , rating
 , (CASE WHEN algo_rating_type_id = 1 THEN 'algorithm' ELSE 'marathon' END) AS challenge_type
-FROM algo_rating ar
-WHERE ar.algo_rating_type_id = 1 
-OR ar.algo_rating_type_id = 3
+FROM algo_rating ar, coder c
+WHERE ar.algo_rating_type_id in (1, 3)
+AND c.coder_id = ar.coder_id
 ORDER BY rating DESC
