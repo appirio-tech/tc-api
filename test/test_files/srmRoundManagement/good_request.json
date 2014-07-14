@@ -1,0 +1,19 @@
+{
+    "contest_id": 30004,
+    "id": 40011,
+    "type": {"id": 9},
+    "invitationalType": 1,
+    "region": {"region_id": 1},
+    "registrationLimit": 1111,
+    "roomAssignment": {
+        "codersPerRoom": 50,
+        "type": 2,
+        "isByDivision": 1,
+        "isByRegion": 1,
+        "isFinal": 1,
+        "p": 500.1
+    },
+    "name": "create round",
+    "status": "A",
+    "short_name": "create round short name"
+}

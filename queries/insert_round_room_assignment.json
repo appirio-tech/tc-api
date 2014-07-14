@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_round_room_assignment",
+  "db"      : "informixoltp",
+  "sqlfile" : "insert_round_room_assignment"
+}

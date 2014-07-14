@@ -1,0 +1,26 @@
+SELECT
+  r.contest_id,
+  r.round_id,
+  r.name,
+  r.round_type_id,
+  rt.round_type_desc,
+  r.status,
+  r.registration_limit,
+  r.invitational,
+  r.short_name,
+  r.region_id,
+  reg.region_name,
+  ra.coders_per_room,
+  ra.algorithm,
+  ra.by_division,
+  ra.final,
+  ra.by_region,
+  ra.p
+ FROM (round r
+      LEFT OUTER JOIN round_type_lu rt
+        ON r.round_type_id=rt.round_type_id
+      LEFT OUTER JOIN round_room_assignment ra
+        ON r.round_id=ra.round_id
+      LEFT OUTER JOIN region reg
+        ON r.region_id=reg.region_id)
+ WHERE r.contest_id=@contestId@;

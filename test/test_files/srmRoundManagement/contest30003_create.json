@@ -1,0 +1,37 @@
+{
+  "total": 1,
+  "data": [
+    {
+      "id": 40010,
+      "contest": {
+          "id": 30003
+      },
+      "name": "create round",
+      "status": "A",
+      "registrationLimit": 1111,
+      "invitationalType": 1,
+      "short_name": "create round short name",
+      "type": {
+        "id": 9,
+        "desc": "Team Practice Round"
+      },
+      "roomAssignment": {
+        "roundId": 40010,
+        "codersPerRoom": 50,
+        "type": 2,
+        "isByDivision": 1,
+        "isFinal": 1,
+        "isByRegion": 1,
+        "p": 500.1
+      },
+      "languages": {
+          "roundId": 40010,
+          "languages": []
+      },
+      "region": {
+        "region_id": 1,
+        "region_name": "Alpha"
+      }
+    }
+  ]
+}

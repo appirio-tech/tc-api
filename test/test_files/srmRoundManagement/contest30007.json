@@ -1,0 +1,81 @@
+{
+  "data": [
+    {
+      "contest": {
+        "id": 30007
+      },
+      "event": {
+        "eventId": 60002,
+        "eventName": "event name 2",
+        "registrationUrl": "url 2",
+        "roundId": 40055
+      },
+      "id": 40055,
+      "invitationalType": 12,
+      "languages": {
+        "languages": [
+          {
+            "description": "Java",
+            "id": 1
+          },
+          {
+            "description": "C++",
+            "id": 3
+          },
+          {
+            "description": "XML",
+            "id": 2
+          }
+        ],
+        "roundId": 40055
+      },
+      "name": "modified round",
+      "region": {
+        "region_id": 2,
+        "region_name": "Beta"
+      },
+      "registrationLimit": 2222,
+      "roomAssignment": {
+        "codersPerRoom": 150,
+        "isByDivision": 0,
+        "isByRegion": 0,
+        "isFinal": 0,
+        "p": 1000.1,
+        "roundId": 40055,
+        "type": 3
+      },
+      "segments": {
+        "challengeLength": 60,
+        "challengeStatus": "A",
+        "codingLength": 60,
+        "codingStart": "Nov 08, 2013 20:50 EST",
+        "codingStatus": "A",
+        "intermissionLength": 60,
+        "intermissionStatus": "A",
+        "registrationLength": 60,
+        "registrationStart": "Oct 08, 2013 21:50 EDT",
+        "registrationStatus": "A",
+        "roundId": 40055,
+        "systemTestStatus": "D"
+      },
+      "short_name": "modified short name",
+      "status": "F",
+      "survey": {
+        "length": 60,
+        "name": "survey2",
+        "roundId": 40055,
+        "startDate": "Oct 08, 2013 21:50 EDT",
+        "status": {
+          "desc": "ACTIVE",
+          "id": 1
+        },
+        "surveyText": "text 2"
+      },
+      "type": {
+        "desc": "Marathon Match Tournament Round",
+        "id": 19
+      }
+    }
+  ],
+  "total": 1
+}

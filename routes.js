@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.48
+ * @version 1.49
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
- * @author panoptimum, bugbuka
+ * @author panoptimum, bugbuka, Easyhard
  *
  * Changes in 1.1:
  * - add routes for search challenges
@@ -112,6 +112,8 @@
  * - Add routes for SRM Contest Management APIs
  * Changes in 1.48:
  * - Add route for billing account permission api.
+ * Changes in 1.49:
+ * - Add contest rounds management APIs (list, modify, create and delete)
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -241,6 +243,7 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
@@ -249,7 +252,6 @@ exports.routes = {
         { path: "/:apiVersion/data/countries", action: "countries" },
         { path: "/:apiVersion/data/platforms", action: "getPlatforms" },
         { path: "/:apiVersion/data/technologies", action: "getTechnologies" },
-
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
         { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
@@ -314,6 +316,9 @@ exports.routes = {
         { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
         { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" },
         { path: "/:apiVersion/data/srm/contests/:id/edit", action: "updateSRMContest"},
-        { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"}
+        { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/delete", action: "deleteSRMContestRound" },
+        { path: "/:apiVersion/data/srm/rounds/:oldRoundId/edit", action: "modifySRMContestRound" },
+        { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" }
     ]
 };

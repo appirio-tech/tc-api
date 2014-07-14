@@ -1,0 +1,10 @@
+UPDATE round SET
+       contest_id=@contest_id@,
+       name='@name@',
+       round_type_id=@round_type_id@,
+       status='@status@',
+       registration_limit=@registration_limit@,
+       invitational=@invitational@,
+       short_name='@short_name@',
+       region_id=@region_id@
+ WHERE round_id=@round_id@

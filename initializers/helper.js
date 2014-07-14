@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.32
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, TCASSEMBLER
+ * @version 1.33
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -86,6 +86,8 @@
  * - Add SUBMISSION_TYPE object.
  * Changes in 1.32:
  * - Add checkIdParameter function.
+ * Changes in 1.33:
+ * - Add checkBoolean and checkNonNegativeInteger function.
  */
 "use strict";
 
@@ -680,6 +682,37 @@ helper.checkPositiveInteger = function (obj, objName) {
     }
     if (obj <= 0) {
         result = new IllegalArgumentError(objName + " should be positive.");
+    }
+    return result;
+};
+
+/**
+ * Check non-negative Integer valid or not.
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if input not valid.
+ */
+helper.checkNonNegativeInteger = function (obj, objName) {
+    var result = helper.checkInteger(obj, objName);
+    if (result) {
+        return result;
+    }
+    if (obj < 0) {
+        result = new IllegalArgumentError(objName + " should be non-negative.");
+    }
+    return result;
+};
+
+/**
+ * Check boolean (true, false, 0 or 1)
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if input not valid.
+ */
+helper.checkBoolean = function (obj, objName) {
+    var result = null;
+    if (obj !== 0 && obj !== 1 && obj !== true && obj !== false) {
+        result = new IllegalArgumentError(objName + " should be 0, 1, true or false.");
     }
     return result;
 };

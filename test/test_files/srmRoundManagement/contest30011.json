@@ -1,0 +1,82 @@
+{
+  "total": 1,
+    "data": [
+    {
+      "contest": {
+        "id": 30011
+      },
+      "event": {
+        "eventId": 61001,
+        "eventName": "event name 11",
+        "registrationUrl": "url 11",
+        "roundId": 41006
+      },
+      "id": 41006,
+      "invitationalType": 5,
+      "languages": {
+        "languages": [
+          {
+            "description": "Java",
+            "id": 1
+          },
+          {
+            "description": "C++",
+            "id": 3
+          },
+          {
+            "description": "XML",
+            "id": 2
+          }
+        ],
+        "roundId": 41006
+      },
+      "name": "Round 6",
+      "region": {
+        "region_id": 1,
+        "region_name": "Alpha"
+      },
+      "registrationLimit": 0,
+      "roomAssignment": {
+        "codersPerRoom": 20,
+        "isByDivision": 1,
+        "isByRegion": 1,
+        "isFinal": 1,
+        "p": 200,
+        "roundId": 41006,
+        "type": 1
+      },
+      "segments": {
+        "challengeLength": 60,
+        "challengeStatus": "A",
+        "codingLength": 60,
+        "codingStart": "Nov 08, 2013 20:50 EST",
+        "codingStatus": "A",
+        "intermissionLength": 60,
+        "intermissionStatus": "A",
+        "registrationLength": 60,
+        "registrationStart": "Oct 08, 2013 21:50 EDT",
+        "registrationStatus": "A",
+        "roundId": 41006,
+        "systemTestStatus": "D"
+      },
+      "short_name": "short name 6",
+      "status": "A",
+      "survey": {
+        "length": 60,
+        "name": "survey1",
+        "roundId": 41006,
+        "startDate": "Oct 08, 2013 21:50 EDT",
+        "status": {
+          "desc": "ACTIVE",
+          "id": 1
+        },
+        "surveyText": "text 1"
+      },
+      "type": {
+        "desc": "Weakest Link Round",
+        "id": 11
+      }
+    }
+
+  ]
+}
