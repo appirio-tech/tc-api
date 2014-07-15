@@ -13,7 +13,7 @@ AND pp2.phase_type_id = 2  --submission phase
 AND p.project_category_id = pcl.project_category_id
 AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND pcl.project_type_id IN (@track@)
-AND pp1.phase_status_id = 3
+AND pp1.phase_status_id in (2,3)
 and pp2.actual_end_time > '2012-01-01 00:00:00'
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
 -- start of parameters
