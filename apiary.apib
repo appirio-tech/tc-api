@@ -863,6 +863,86 @@ Platform APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Leaderboard [/platform/leaderboard]
+### Get Leaderboard [GET]
++ Parameters
+    + type (required, string, `referral`) ... The leaderboard type
+    + referralType (optional, string, `member`) ... The referral type
+    + utm_medium (optional, string, `Appirio`) ... The referral type
+    + utm_campaign (optional, string, `ReferralProgram`) ... The referral type
+    + utm_source (optional, string, `iRabbit`) ... The referral type
+
++ Response 200 (application/json)
+
+        {
+            "entries": 2,
+            "result": 
+            [
+                {
+                    "handle": "iRabbit",
+                    "score": 97.5,
+                    "photo": "http://community.topcoder.com/i/m/iRabbit.jpeg",
+                    "memberSince": "2007-01-01",
+                    "country": "China",
+                    "ratingType": "red",
+                    "description" : "The leaderbaord returns all non-appirio members that have referred at least one new member in the last 6 month",
+                    "score_type": "points",
+                    "score_label: "points"
+                },
+                {
+                    "handle": "tcs",
+                    "score": 97.5,
+                    "photo": "http://community.topcoder.com/i/m/iRabbit.jpeg",
+                    "memberSince": "2007-01-01",
+                    "country": "China",
+                    "ratingType": "red",
+                    "description" : "The leaderbaord returns all non-appirio members that have referred at least one new member in the last 6 month",
+                    "score_type": "points",
+                    "score_label: "points"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## Get Challenge Detail [/challenges/{challengeId}]
 ### Get Challenge Detail [GET]
