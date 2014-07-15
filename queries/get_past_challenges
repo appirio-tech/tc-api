@@ -65,7 +65,7 @@ AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (@track@)
 and pp2.actual_end_time > '2012-01-01 00:00:00'
 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 -- Filter out the challenge that user is not belong to.
-AND pp1.phase_status_id = 3
+AND pp1.phase_status_id in (2,3)
 AND pn.value LIKE('@challenge_name@')
 -- start of parameters
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
