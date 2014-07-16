@@ -1,1 +1,1 @@
-SELECT handle FROM user where handle_lower IN (@users@)
+SELECT handle, handle_lower FROM user where handle_lower IN (@users@)

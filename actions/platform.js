@@ -350,7 +350,7 @@ function billingAccountsPermission(api, connection, next) {
             // Check user exists.
             api.dataAccess.executeQuery("get_user_handles", { users: userHandles }, dbConnectionMap, cb);
         }, function (res, cb) {
-            existHandle = _.pluck(res, "handle");
+            existHandle = _.pluck(res, "handle_lower");
             notExistHandle = _.difference(users, existHandle);
             if (notExistHandle.length === users.length) {
                 // All user are not existed in system. Return an error message for this circumstance.
