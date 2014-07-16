@@ -64,7 +64,7 @@ AND pi4.project_info_type_id = 4  --forum id
 AND pi32.project_id = p.project_id
 AND pi32.project_info_type_id = 32
 AND pcl.project_type_id IN (@track@)
-AND p.project_status_id = 2
+AND p.project_status_id in (1,2)
 AND pp1.phase_status_id = 1
 AND pi32.value != '0'
 AND p.project_category_id = pcl.project_category_id
