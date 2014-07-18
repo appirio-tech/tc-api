@@ -302,6 +302,7 @@ function billingAccountsPermission(api, connection, next) {
     var helper = api.helper,
         billingAccountId = Number(connection.params.billingAccountId),
         users,
+        usersLowerCase,
         userHandles,
         dbConnectionMap = connection.dbConnectionMap,
         notExistHandle = [],
@@ -320,6 +321,7 @@ function billingAccountsPermission(api, connection, next) {
 
     // Wrap the user handle with double quotation and transfer it to lowercase.
     userHandles = users.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
+    usersLowerCase = users.map(function(handle) { return handle.toLowerCase(); });
 
     async.waterfall([
         function (cb) {
@@ -351,8 +353,8 @@ function billingAccountsPermission(api, connection, next) {
             api.dataAccess.executeQuery("get_user_handles", { users: userHandles }, dbConnectionMap, cb);
         }, function (res, cb) {
             existHandle = _.pluck(res, "handle_lower");
-            notExistHandle = _.difference(users, existHandle);
-            if (notExistHandle.length === users.length) {
+            notExistHandle = _.difference(usersLowerCase, existHandle);
+            if (notExistHandle.length === usersLowerCase.length) {
                 // All user are not existed in system. Return an error message for this circumstance.
                 cb(new BadRequestError("All these users are not in topcoder system."));
                 return;
