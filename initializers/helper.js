@@ -1490,6 +1490,27 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 };
 
 /**
+ * Check whether given user is activated.
+ * @param {String} handle - the handle to check.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err>} callback - the callback function
+ */
+helper.checkUserActivated = function (handle, api, dbConnectionMap, callback) {
+    api.dataAccess.executeQuery('check_user_activated', { handle: handle }, dbConnectionMap, function (err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        if (result && result[0] && result[0].status === 'A') {
+            callback(err, null);
+        } else {
+            callback(err, new BadRequestError('User is not activated.'));
+        }
+    });
+};
+
+/**
  * Validate the given password value.
  * @param {String} password - the password value.
  * @returns {Object} - Return error if the given password is invalid.

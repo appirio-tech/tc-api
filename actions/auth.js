@@ -9,6 +9,7 @@
 var async = require('async');
 var _ = require('underscore');
 var BadRequestError = require('../errors/BadRequestError');
+var NotFoundError = require('../errors/NotFoundError');
 var request = require('request');
 
 
@@ -26,7 +27,13 @@ exports.action = {
     outputExample: {},
     version: 'v2',
     cacheEnabled: false,
+    transaction: 'read',
+    databases: ["common_oltp"],
     run: function (api, connection, next) {
+        if (!_.isDefined(connection.dbConnectionMap)) {
+            api.helper.handleNoConnection(api, connection, next);
+            return;
+        }
         api.log("Execute generateJwt#run", 'debug');
         var form = {
             grant_type: "password",
@@ -38,6 +45,23 @@ exports.action = {
         },
             url = "https://" + api.config.tcConfig.oauthDomain + ".auth0.com/oauth/ro";
         async.waterfall([
+            function (cb) {
+                // Check user activated or not.
+                api.helper.checkUserActivated(connection.params.username, api, connection.dbConnectionMap, function (err, userUnactivatedError) {
+                    if (err) {
+                        // The server internal error. It should be connection error at most of time.
+                        cb(err);
+                    } else {
+                        if (_.isDefined(userUnactivatedError)) {
+                            // The user is not activated.
+                            cb(new NotFoundError("The user is not activated."));
+                        } else {
+                            // The user is activated.
+                            cb();
+                        }
+                    }
+                });
+            },
             function (cb) {
                 request.post({url: url, form: form}, cb);
             }, function (notUsed, body, cb) {
