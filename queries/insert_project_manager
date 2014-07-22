@@ -1,3 +1,3 @@
 INSERT INTO project_manager(project_id, user_account_id, pay_rate, cost, active, creation_date, creation_user,
     modification_date, modification_user)
-VALUES(@billingAccountId@, @userAccountId@, 0, 0, 1, current, "api", current, "api")
+VALUES(@billingAccountId@, @userAccountId@, 0, 0, 1, current, "@userId@", current, "@userId@")
