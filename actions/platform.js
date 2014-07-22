@@ -365,7 +365,7 @@ function billingAccountsPermission(api, connection, next) {
             api.dataAccess.executeQuery("get_user_accounts", { users: us }, dbConnectionMap, cb);
         }, function (res, cb) {
             userAccountIds = _.pluck(res, "user_account_id");
-            newToUserAccount = _.difference(existHandle, _.pluck(res, "handle"));
+            newToUserAccount = _.difference(existHandle, _.pluck(res, "handle_lower"));
 
             // insert user into user_account table
             // insert dummy address contact also.
