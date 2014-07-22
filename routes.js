@@ -307,7 +307,7 @@ exports.routes = {
         { path: "/:apiVersion/challenges/:challengeId/unregister", action: "unregisterChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
-        { path: "/:apiVersion/platform/billings/:billingAccountId/users", action: "billingAccountsPermission" },
+        { path: "/:apiVersion/platform/billings/users", action: "billingAccountsPermission" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
