@@ -1,0 +1,5 @@
+{
+  "name"    : "get_srm_assigned_problems",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_srm_assigned_problems"
+}

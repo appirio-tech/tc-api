@@ -8606,3 +8606,494 @@ Payments APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## List SRM Problems API [/data/srm/problems]
+
+### List Problems API [GET]
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "problems": [
+        {
+            "id": 10194,
+            "name": "BlackAndWhiteGame",
+            "type": {
+                "id": 3,
+                "description": "Long"
+            },
+            "status": {
+                "id": 90,
+                "description": "Used"
+            }
+        },
+        {
+            "id": 10195,
+            "name": "TestProblem",
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 90,
+                "description": "Used"
+            }
+        }
+    ]
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## List Round Problems API [/data/srm/rounds/:roundId/problems]
+
+### List Round Problems API [GET]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "assignedProblems": [
+        {
+            "division": {
+                "id": 1,
+                "desc": "Division-I"
+            },
+            "problemData": {
+                "id": 10194,
+                "name": "BlackAndWhiteGame",
+                "type": {
+                    "id": 3,
+                    "description": "Long"
+                },
+                "status": {
+                    "id": 90,
+                    "description": "Used"
+                }
+            }
+        },
+        {
+            "division": {
+                "id": 2,
+                "desc": "Division-II"
+            },
+            "problemData": {
+                "id": 10195,
+                "name": "TestProblem",
+                "type": {
+                    "id": 1,
+                    "description": "Single"
+                },
+                "status": {
+                    "id": 90,
+                    "description": "Used"
+                }
+            }
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## List Round Problem Components API [/data/srm/rounds/:roundId/components]
+
+### List Round Problem Components API [GET]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+  + problemId (optional, number, `10194`) ... The id of the problem to get.
+  + divisionId (optional, number, `2020`) ... The id of the division to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "components": [
+        {
+            "difficulty": {
+                "id": 1,
+                "desc": "Level One"
+            },
+            "division": {
+                "id": 1,
+                "desc": "Division-I"
+            },
+            "openOrder": 0,
+            "pointValue": 500,
+            "componentData": {
+                "id": 2020,
+                "problemId": 10194,
+                "className": "BlackAndWhiteGame",
+                "methodName": "displayTestCase",
+                "resultType": "String",
+                "paramTypes": [
+                    "String"
+                ],
+                "type": {
+                    "id": 2,
+                    "description": "Supporting Component"
+                }
+            },
+            "submitOrder": 0
+        },
+        {
+            "difficulty": {
+                "id": 1,
+                "desc": "Level One"
+            },
+            "division": {
+                "id": 2,
+                "desc": "Division-II"
+            },
+            "openOrder": 0,
+            "pointValue": 250,
+            "componentData": {
+                "id": 2021,
+                "problemId": 10195,
+                "className": "TestProblem",
+                "methodName": "sum",
+                "resultType": "int",
+                "paramTypes": [
+                    "int",
+                    "int"
+                ],
+                "type": {
+                    "id": 1,
+                    "description": "Main Component"
+                }
+            },
+            "submitOrder": 0
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Both problemId and divisionId should be provided if you provided one of them."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}

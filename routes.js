@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.43
+ * @version 1.44
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
  *         panoptimum, TCASSEMBLER
  * Changes in 1.1:
@@ -99,6 +99,8 @@
  * - add routes for update user profile api.
  * Changes in 1.43:
  * - add routes for apply design review api.
+ * Changes in 1.44:
+ * - Add routes for SRM Round Problems and Components APIs
  */
 
 /* ---------------------
@@ -260,6 +262,10 @@ exports.routes = {
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
+        
+        { path: "/:apiVersion/data/srm/problems", action: "listSRMProblems" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/problems", action: "listRoundProblems" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
 
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
     ].concat(testMethods.get),

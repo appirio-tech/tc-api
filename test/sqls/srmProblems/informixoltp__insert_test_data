@@ -1,0 +1,2 @@
+﻿
+INSERT INTO 'informix'.round_component(round_id, component_id, submit_order, division_id, difficulty_id, points, open_order) VALUES(13672, 2020, 0, 1, 1, 500, 0);
