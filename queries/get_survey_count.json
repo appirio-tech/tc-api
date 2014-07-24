@@ -1,0 +1,5 @@
+{
+    "name"    : "get_survey_count",
+    "db"      : "informixoltp",
+    "sqlfile" : "get_survey_count"
+}

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.49
+ * @version 1.50
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -114,6 +114,8 @@
  * - Add route for billing account permission api.
  * Changes in 1.49:
  * - Add contest rounds management APIs (list, modify, create and delete)
+ * Changes in 1.50:
+ * - Add route for srm round questions / answers / survey api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -287,6 +289,10 @@ exports.routes = {
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
+        
+        { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "getRoundQuestions" },
+        { path: "/:apiVersion/data/srm/rounds/:questionId/answers", action: "getRoundQuestionAnswers" },
+
 
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
     ].concat(testMethods.get),
@@ -320,5 +326,11 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/delete", action: "deleteSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:oldRoundId/edit", action: "modifySRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" }
+        { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
+        { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"}
+    ],
+    put: [
+        { path: "/:apiVersion/data/srm/rounds/:roundId/setSurvey", action: "setRoundSurvey"},
+        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"}
     ]
 };

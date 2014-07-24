@@ -1,0 +1,9 @@
+INSERT INTO question (
+question_id,
+question_text,
+keyword,
+question_type_id,
+question_style_id,
+status_id, 
+is_required 
+) VALUES (@questionId@, '@text@', '@keyword@', @typeId@, @styleId@, @statusId@, @isRequired@)

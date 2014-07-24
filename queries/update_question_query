@@ -1,0 +1,7 @@
+UPDATE question SET 
+question_text='@text@',
+keyword='@keyword@',
+question_type_id=@typeId@,
+question_style_id=@styleId@,
+status_id=@statusId@
+WHERE question_id=@questionId@

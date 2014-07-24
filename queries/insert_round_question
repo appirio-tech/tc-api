@@ -1,0 +1,2 @@
+INSERT INTO round_question (round_id,question_id) VALUES (@roundId@, @questionId@);
+INSERT INTO survey_question (survey_id,question_id) VALUES (@roundId@, @questionId@);

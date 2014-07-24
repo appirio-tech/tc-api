@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_question_query",
+    "db"      : "informixoltp",
+    "sqlfile" : "insert_question_query"
+}

@@ -1,0 +1,1 @@
+select question_type_id from question_type where question_type_id = @typeId@

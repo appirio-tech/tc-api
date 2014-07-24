@@ -1,0 +1,1 @@
+SELECT question_id FROM question WHERE question_id = @questionId@

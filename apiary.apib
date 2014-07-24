@@ -10355,3 +10355,1102 @@ Managing SRM Contests APIs
                  "details": "Admin access only."
           }
 }
+
+## Set Survey API [/data/srm/rounds/:roundId/setSurvey]
+
+### Set Survey API [PUT]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Get Round Questions API [/data/srm/rounds/:roundId/questions]
+
+### Get Round Questions API [GET]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "questions": [
+        {
+            "id": 1000032,
+            "keyword": "keyword1",
+            "status": {
+                "id": 1,
+                "description": "ACTIVE"
+            },
+            "style": {
+                "id": 1,
+                "description": "Single Choice"
+            },
+            "text": "text2",
+            "type": {
+                "id": 1,
+                "description": "SRM Survey"
+            },
+            "isRequired": true
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Add Round Question API [/data/srm/rounds/:roundId/questions]
+
+### Add Round Question API [POST]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to set.
+  + text (required, text, `text1`) ... The text parameter.
+  + styleId (required, number, 1) ... The id of the style to set.
+  + typeId (required, number, 1) ... The id of the type to set.
+  + statusId (required, number, 1) ... The id of the status to set.
+  + keyword (optional, text, `keyword1`) ... The keyword parameter.
+  + isRequired (optional, boolean, true) ... The required flag.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text should be string.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text exceeds 2048 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword exceeds 64 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The isRequired should be boolean type."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The statusId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The typeId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The styleId does not exist in database."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Modify Round Question API [/data/srm/rounds/:questionId/questions]
+
+### Modify Round Question API [PUT]
+
++ Parameters
+  + questionId (required, number, `1000001`) ... The id of the question to set.
+  + text (required, text, `text1`) ... The text parameter.
+  + styleId (required, number, 1) ... The id of the style to set.
+  + typeId (required, number, 1) ... The id of the type to set.
+  + statusId (required, number, 1) ... The id of the status to set.
+  + keyword (optional, text, `keyword1`) ... The keyword parameter.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text should be string.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text exceeds 2048 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword exceeds 64 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The statusId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The typeId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The styleId does not exist in database."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Get Round Question Answers API [/data/srm/rounds/:questionId/answers]
+
+### Get Round Question Answers API [GET]
+
++ Parameters
+  + questionId (required, number, `13672`) ... The id of the question to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "answers": [
+        {
+            "id": 1000033,
+            "text": "text2",
+            "sortOrder": 1,
+            "correct": true
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Add Round Question Answer API [/data/srm/questions/:questionId/answers]
+
+### Add Round Question Answer API [POST]
+
++ Parameters
+  + questionId (required, number, `1000001`) ... The id of the question to set.
+  + text (required, text, `text1`) ... The text parameter.
+  + sortOrder (optional, number, 1) ... The sort order to set.
+  + correct (optional, boolean, true) ... The correct parameter.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text should be string.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text exceeds 2048 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "sortOrder should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "sortOrder should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "sortOrder should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The correct should be boolean type."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
