@@ -110,15 +110,15 @@ var createClient = function (api, connection, cb) {
         function (generatedIds, cbx) {
             _.extend(newClient, {
                 clientId: generatedIds.clientId,
-                userId: connection.caller.userId
+                handle: connection.caller.handle
             });
             _.extend(dummyContact, {
                 contactId: generatedIds.contactId,
-                userId: connection.caller.userId
+                handle: connection.caller.handle
             });
             _.extend(dummyAddress, {
                 addressId: generatedIds.addressId,
-                userId: connection.caller.userId
+                handle: connection.caller.handle
             });
 
             //Now save the new client, contact, address records
@@ -139,12 +139,12 @@ var createClient = function (api, connection, cb) {
                 entityId: newClient.clientId,
                 addressTypeId: 2,
                 addressId: dummyAddress.addressId,
-                userId: connection.caller.userId
+                handle: connection.caller.handle
             },  dummyContactRelation = {
                 entityId: newClient.clientId,
                 contactTypeId: 2,
                 contactId: dummyContact.contactId,
-                userId: connection.caller.userId
+                handle: connection.caller.handle
             };
             async.parallel([
                 function (callback) {
@@ -172,7 +172,7 @@ var updateClient = function (api, connection, cb) {
     api.dataAccess.executeQuery('update_client',
         {
             clientName: connection.params.name,
-            userId: connection.caller.userId,
+            handle: connection.caller.handle,
             customerNumber: connection.params.customerNumber
         }, connection.dbConnectionMap, function (err) {
             cb(err);
@@ -393,11 +393,11 @@ function billingAccountsPermission(api, connection, next) {
                         userAccountIds.push(userAccountId);
                         contact = _.extend(_.clone(dummyContact), {
                             contactId: ids.contactId,
-                            userId: caller.userId
+                            handle: connection.caller.handle
                         });
                         address = _.extend(_.clone(dummyAddress), {
                             addressId: ids.addressId,
-                            userId: caller.userId
+                            handle: connection.caller.handle
                         });
 
                         async.parallel([
@@ -416,12 +416,12 @@ function billingAccountsPermission(api, connection, next) {
                             entityId: userAccountId,
                             addressTypeId: 4,
                             addressId: address.addressId,
-                            userId: caller.userId
+                            handle: connection.caller.handle
                         },  dummyContactRelation = {
                             entityId: userAccountId,
                             contactTypeId: 4,
                             contactId: contact.contactId,
-                            userId: caller.userId
+                            handle: connection.caller.handle
                         };
                         async.parallel([
                             function (next) {
@@ -719,7 +719,7 @@ exports.createBilling = {
             }, function (generatedIds, cb) {
                 _.extend(newBilling, {
                     projectId: projectId || generatedIds.projectId,
-                    userId: connection.caller.userId
+                    handle: connection.caller.handle
                 });
 
                 //Now save the new billing, contact, address records
@@ -730,11 +730,11 @@ exports.createBilling = {
                 if (!projectId) {
                     _.extend(dummyContact, {
                         contactId: generatedIds.contactId,
-                        userId: connection.caller.userId
+                        handle: connection.caller.handle
                     });
                     _.extend(dummyAddress, {
                         addressId: generatedIds.addressId,
-                        userId: connection.caller.userId
+                        handle: connection.caller.handle
                     });
                     parallels.push(function (cb) {
                         api.dataAccess.executeQuery("insert_contact", dummyContact, dbConnectionMap, cb);
@@ -751,12 +751,12 @@ exports.createBilling = {
                         entityId: newBilling.projectId,
                         addressTypeId: 1,
                         addressId: dummyAddress.addressId,
-                        userId: connection.caller.userId
+                        handle: connection.caller.handle
                     }, dummyContactRelation = {
                         entityId: newBilling.projectId,
                         contactTypeId: 1,
                         contactId: dummyContact.contactId,
-                        userId: connection.caller.userId
+                        handle: connection.caller.handle
                     };
                     async.parallel([
                         function (cb) {

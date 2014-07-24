@@ -1,2 +1,2 @@
 INSERT INTO contact(contact_id, first_name, last_name, phone, email, creation_date, creation_user, modification_date, modification_user) 
-VALUES (@contactId@, '@firstName@', '@lastName@', '@phone@', '@email@', CURRENT, '@userId@', CURRENT, '@userId@')
+VALUES (@contactId@, '@firstName@', '@lastName@', '@phone@', '@email@', CURRENT, '@handle@', CURRENT, '@handle@')
