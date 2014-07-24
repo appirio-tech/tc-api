@@ -301,6 +301,7 @@ var getTcDirectFacts = function (api, connection, dbConnectionMap, next) {
 function billingAccountsPermission(api, connection, next) {
     var helper = api.helper,
         billingAccountId = Number(connection.params.billingAccountId),
+        caller = connection.caller,
         users,
         usersLowerCase,
         userHandles,
@@ -321,7 +322,7 @@ function billingAccountsPermission(api, connection, next) {
 
     // Wrap the user handle with double quotation and transfer it to lowercase.
     userHandles = users.map(function (handle) { return '"' + handle.toLowerCase() + '"'; });
-    usersLowerCase = users.map(function(handle) { return handle.toLowerCase(); });
+    usersLowerCase = users.map(function (handle) { return handle.toLowerCase(); });
 
     async.waterfall([
         function (cb) {
@@ -392,17 +393,17 @@ function billingAccountsPermission(api, connection, next) {
                         userAccountIds.push(userAccountId);
                         contact = _.extend(_.clone(dummyContact), {
                             contactId: ids.contactId,
-                            userId: connection.caller.userId
+                            userId: caller.userId
                         });
                         address = _.extend(_.clone(dummyAddress), {
                             addressId: ids.addressId,
-                            userId: connection.caller.userId
+                            userId: caller.userId
                         });
 
                         async.parallel([
                             function (next) {
                                 api.dataAccess.executeQuery("insert_user_account",
-                                    { handle: handle, userAccountId: userAccountId}, dbConnectionMap, next);
+                                    { handle: handle, userAccountId: userAccountId }, dbConnectionMap, next);
                             }, function (next) {
                                 api.dataAccess.executeQuery("insert_contact", contact, dbConnectionMap, next);
                             }, function (next) {
@@ -415,12 +416,12 @@ function billingAccountsPermission(api, connection, next) {
                             entityId: userAccountId,
                             addressTypeId: 4,
                             addressId: address.addressId,
-                            userId: connection.caller.userId
+                            userId: caller.userId
                         },  dummyContactRelation = {
                             entityId: userAccountId,
                             contactTypeId: 4,
                             contactId: contact.contactId,
-                            userId: connection.caller.userId
+                            userId: caller.userId
                         };
                         async.parallel([
                             function (next) {
@@ -450,7 +451,8 @@ function billingAccountsPermission(api, connection, next) {
                 api.dataAccess.executeQuery("insert_project_manager",
                     {
                         userAccountId: userAccountId,
-                        billingAccountId: billingAccountId
+                        billingAccountId: billingAccountId,
+                        handle: caller.handle
                     }, dbConnectionMap, function (err) {
                         cbx(err);
                     });
@@ -863,16 +865,14 @@ exports.createCustomer = {
                 api.dataAccess.executeQuery("new_client_validations", newClient, dbConnectionMap, cb);
             }, function (rows, cb) {
                 if (rows.length > 0) {
-                    if(rows.length == 1) {
+                    if (rows.length === 1) {
                         if (rows[0].customer_number_exists) {
                             updateClient(api, connection, cb);
                         } else {
                             cb(new IllegalArgumentError("Client with this name already exists."));
-                            return;
                         }
                     } else {
                         cb(new IllegalArgumentError("Client with this name already linked with another customer number."));
-                        return;
                     }
                 } else {
                     createClient(api, connection, cb);
