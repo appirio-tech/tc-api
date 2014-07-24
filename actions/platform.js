@@ -403,7 +403,7 @@ function billingAccountsPermission(api, connection, next) {
                         async.parallel([
                             function (next) {
                                 api.dataAccess.executeQuery("insert_user_account",
-                                    { handle: handle, userAccountId: userAccountId, userId: caller.userId }, dbConnectionMap, next);
+                                    { handle: handle, userAccountId: userAccountId }, dbConnectionMap, next);
                             }, function (next) {
                                 api.dataAccess.executeQuery("insert_contact", contact, dbConnectionMap, next);
                             }, function (next) {
@@ -452,7 +452,7 @@ function billingAccountsPermission(api, connection, next) {
                     {
                         userAccountId: userAccountId,
                         billingAccountId: billingAccountId,
-                        userId: caller.userId
+                        handle: caller.handle
                     }, dbConnectionMap, function (err) {
                         cbx(err);
                     });
