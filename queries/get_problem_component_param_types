@@ -1,0 +1,10 @@
+SELECT 
+c.problem_id AS problem_id,
+c.component_id AS component_id,
+dt.data_type_desc AS data_type_desc,
+pa.sort_order AS sort_order
+FROM component c 
+INNER JOIN problem p ON p.problem_id = c.problem_id 
+LEFT OUTER JOIN parameter pa ON pa.component_id = c.component_id 
+LEFT OUTER JOIN data_type dt ON pa.data_type_id = dt.data_type_id 
+WHERE p.problem_id IN (@porblemIdList@) ORDER BY c.component_id, pa.sort_order

@@ -1,0 +1,40 @@
+{
+    "assignedProblems": [
+         {
+            "division": {
+                "id": 1,
+                "desc": "Division-I"
+            },
+            "problemData": {
+                "id": 10194,
+                "name": "BlackAndWhiteGame",
+                "type": {
+                    "id": 3,
+                    "description": "Long"
+                },
+                "status": {
+                    "id": 75,
+                    "description": "Final Testing"
+                }
+            }
+        },
+        {
+            "division": {
+                "id": 2,
+                "desc": "Division-II"
+            },
+            "problemData": {
+                "id": 10195,
+                "name": "TestProblem",
+                "type": {
+                    "id": 1,
+                    "description": "Single"
+                },
+                "status": {
+                    "id": 75,
+                    "description": "Final Testing"
+                }
+            }
+        }
+    ]
+}
