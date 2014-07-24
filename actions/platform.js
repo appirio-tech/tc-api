@@ -719,7 +719,7 @@ exports.createBilling = {
             }, function (generatedIds, cb) {
                 _.extend(newBilling, {
                     projectId: projectId || generatedIds.projectId,
-                    userId: connection.caller.userId
+                    handle: connection.caller.handle
                 });
 
                 //Now save the new billing, contact, address records

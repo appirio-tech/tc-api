@@ -1,2 +1,2 @@
 INSERT INTO project(project_id, company_id, name, payment_terms_id, active, sales_tax, po_box_number, description, start_date, end_date, creation_date, creation_user, modification_date, modification_user, is_manual_prize_setting) 
-VALUES (@projectId@, @companyId@, '@billingAccountName@', @paymentTermId@, @active@, @salestax@, '@poBoxNumber@', '@billingAccountName@', '@startDate@ 00:00:00', '@endDate@ 00:00:00', CURRENT, '@userId@', CURRENT, '@userId@', @isManualPrizeSetting@)
+VALUES (@projectId@, @companyId@, '@billingAccountName@', @paymentTermId@, @active@, @salestax@, '@poBoxNumber@', '@billingAccountName@', '@startDate@ 00:00:00', '@endDate@ 00:00:00', CURRENT, '@handle@', CURRENT, '@handle@', @isManualPrizeSetting@)
