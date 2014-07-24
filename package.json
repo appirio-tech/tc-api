@@ -25,7 +25,7 @@
     "bcrypt": "0.7.x",
     "bigdecimal": "0.6.x",
     "bignum": "0.6.x",
-    "java": "0.x",
+    "java": "0.3.x",
     "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#ae513d6c27d14acaef52092165831dcf23fc83dd",
     "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#12b57be495c2e10431173522bc9eff60e0575959",
     "asn1": "*",
