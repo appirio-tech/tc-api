@@ -612,7 +612,7 @@ exports.createBilling = {
             startDate = connection.params.startDate,
             endDate = connection.params.endDate,
             projectId = connection.params.billingAccountId,
-            active = connection.params.active || 1,
+            active = connection.params.active || "1",
             dbConnectionMap = connection.dbConnectionMap,
             existingClientId,
             error;
