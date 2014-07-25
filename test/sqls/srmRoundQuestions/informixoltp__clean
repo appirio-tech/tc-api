@@ -1,0 +1,5 @@
+﻿DELETE FROM survey_question WHERE survey_id = 13673;
+DELETE FROM round_question WHERE round_id = 13673;
+DELETE FROM answer WHERE answer_id > 100000;
+DELETE FROM question WHERE question_id > 100000;
+DELETE FROM survey WHERE survey_id = 13673;

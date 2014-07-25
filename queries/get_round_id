@@ -1,0 +1,3 @@
+SELECT 
+    r.round_id
+FROM contest c JOIN round r ON r.contest_id = c.contest_id WHERE r.round_id = @roundId@

@@ -1,12 +1,12 @@
-/*jslint node: true, nomen: true */
+/*jslint node: true, nomen: true, unparam: true, plusplus: true, bitwise: true */
 /**
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  */
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, TCASSEMBLER
- * @version 1.33
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
+ * @version 1.34
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -88,6 +88,9 @@
  * - Add checkIdParameter function.
  * Changes in 1.33:
  * - Add checkBoolean and checkNonNegativeInteger function.
+ * Changes in 1.34:
+ * - Add checkStringParameter function.
+ * - Fixed some jslint issue.
  */
 "use strict";
 
@@ -730,6 +733,24 @@ helper.checkIdParameter = function (id, idName) {
         return result;
     }
     return helper.checkMaxInt(id, idName);
+};
+
+/**
+ * Check the string value with max length.
+ *
+ * @param obj - the string object
+ * @param objName - the object name
+ * @param maxLength - the max length
+ * @returns {Error} if input is invalid.
+ */
+helper.checkStringParameter = function (obj, objName, maxLength) {
+    var error = helper.checkString(obj, objName);
+
+    if (!error && obj.length > maxLength) {
+        error = new IllegalArgumentError(objName + " exceeds " + maxLength + " characters.");
+    }
+
+    return error;
 };
 
 

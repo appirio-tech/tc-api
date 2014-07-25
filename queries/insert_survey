@@ -1,0 +1,13 @@
+INSERT INTO survey (
+survey_id,
+name,
+status_id,
+start_date,
+end_date 
+) SELECT 
+r.round_id,
+c.name || ' ' || r.name || ' survey',
+0,
+c.start_date,
+c.end_date 
+FROM contest c JOIN round r ON r.contest_id = c.contest_id WHERE r.round_id = @roundId@
