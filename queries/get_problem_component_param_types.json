@@ -1,0 +1,5 @@
+{
+  "name"    : "get_problem_component_param_types",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_problem_component_param_types"
+}

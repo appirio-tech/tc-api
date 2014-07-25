@@ -1,0 +1,21 @@
+SELECT 
+c.component_id AS component_id,
+c.class_name AS class_name,
+c.method_name AS method_name,
+dt.data_type_desc AS data_type_desc,
+c.component_type_id AS component_type_id,
+ct.component_type_desc AS component_type_desc,
+rc.points AS points,
+rc.division_id AS division_id,
+div.division_desc AS division_desc,
+rc.difficulty_id AS difficulty_id,
+diff.difficulty_desc AS difficulty_desc,
+rc.open_order AS open_order,
+rc.submit_order AS submit_order
+FROM (component c INNER JOIN problem p ON p.problem_id = c.problem_id 
+ LEFT OUTER JOIN data_type dt ON c.result_type_id=dt.data_type_id 
+ LEFT OUTER JOIN round_component rc ON c.component_id=rc.component_id AND rc.round_id=@roundId@ AND rc.division_id= @divisionId@
+ LEFT OUTER JOIN division div ON rc.division_id=div.division_id 
+ LEFT OUTER JOIN difficulty diff ON rc.difficulty_id=diff.difficulty_id) 
+ LEFT OUTER JOIN component_type_lu ct ON ct.component_type_id = c.component_type_id 
+WHERE p.problem_id= @problemId@

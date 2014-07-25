@@ -1,0 +1,28 @@
+{
+    "problems": [
+        {
+            "id": 10194,
+            "name": "BlackAndWhiteGame",
+            "type": {
+                "id": 3,
+                "description": "Long"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10195,
+            "name": "TestProblem",
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        }
+    ]
+}

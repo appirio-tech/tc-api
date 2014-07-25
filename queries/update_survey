@@ -1,0 +1,7 @@
+UPDATE survey SET 
+name='@name@',
+start_date='@startDate@',
+end_date='@endDate@',
+text='@surveyText@',
+status_id=@statusId@
+WHERE survey_id=@roundId@
