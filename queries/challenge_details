@@ -44,9 +44,10 @@ SELECT
      , NVL(pp9.actual_end_time, pp9.scheduled_end_time) AS final_fix_end_date
      , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
      , pstatus.name AS current_status
-     , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
+     , CASE WHEN (nd_phase.phase_type_id IS NOT NULL) THEN
                 (SELECT phase_type_lu.description FROM phase_type_lu
                 WHERE phase_type_id = nd_phase.phase_type_id)
+            WHEN (nd_phase.phase_type_id IS NULL AND pp1.phase_status_id in (2,3)) THEN 'Stalled'
             ELSE NULL
             END AS current_phase_name
      , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
