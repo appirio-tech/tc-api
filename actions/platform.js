@@ -403,7 +403,7 @@ function billingAccountsPermission(api, connection, next) {
                         async.parallel([
                             function (next) {
                                 api.dataAccess.executeQuery("insert_user_account",
-                                    { handle: handle, userAccountId: userAccountId }, dbConnectionMap, next);
+                                    { handle: connection.caller.handle, username: handle, userAccountId: userAccountId }, dbConnectionMap, next);
                             }, function (next) {
                                 api.dataAccess.executeQuery("insert_contact", contact, dbConnectionMap, next);
                             }, function (next) {
