@@ -1,0 +1,8 @@
+INSERT INTO round_event (round_id,event_id,event_name,registration_url)
+VALUES
+(
+@roundId@,
+@eventId@,
+@eventName@,
+@registrationUrl@
+);

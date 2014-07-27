@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author Sky_, TCSASSEMBLER, freegod, panoptimum
+ * @version 1.4
+ * @author Sky_, freegod, panoptimum
  * changes in 1.1:
  * - implement srm API
  * changes in 1.2:
@@ -12,6 +12,12 @@
  *   - list SRM contests
  *   - create SRM contest
  *   - update SRM contest
+ * changes in 1.4
+ * - implement admin APIs for SRM round configuration:
+ *   - set room assignment api
+ *   - set round language api
+ *   - set round events api
+ *   - load round access api
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -33,10 +39,114 @@ var ALLOWABLE_SORT_COLUMN = [
 ];
 
 /**
+ * Contest Constants
+ */
+var CONTEST_CONSTANTS = {
+    RANDOM_SEEDING: 1,
+    IRON_MAN_SEEDING: 2,
+    NCAA_STYLE: 3,
+    EMPTY_ROOM_SEEDING: 4,
+    WEEKEST_LINK_SEEDING: 5,
+    ULTRA_RANDOM_SEEDING: 6,
+    TCO05_SEEDING: 7,
+    DARTBOARD_SEEDING: 8,
+    TCHS_SEEDING: 9,
+    ULTRA_RANDOM_DIV2_SEEDING: 10,
+    /** Represents a single round match round. */
+    SRM_ROUND_TYPE_ID: 1,
+
+    /** Represents a algorithm tournament round. */
+    TOURNAMENT_ROUND_TYPE_ID: 2,
+
+    /** Represents a algorithm practice round. */
+    PRACTICE_ROUND_TYPE_ID: 3,
+
+    /** Represents a lobby. */
+    LOBBY_ROUND_TYPE_ID: 4,
+
+    /** Represents a moderated lobby. */
+    MODERATED_CHAT_ROUND_TYPE_ID: 5,
+
+    /** Represents a single round match round with teams. */
+    TEAM_SRM_ROUND_TYPE_ID: 7,
+
+    /** Represents a tournament round with teams. */
+    TEAM_TOURNAMENT_ROUND_TYPE_ID: 8,
+
+    /** Represents a algorithm practice round with teams. */
+    TEAM_PRACTICE_ROUND_TYPE_ID: 9,
+
+    /** Represents a 24-hour algorithm round (for TCO qualifications). */
+    LONG_ROUND_TYPE_ID: 10,
+
+    /** Represents a special algorithm round. */
+    WEAKEST_LINK_ROUND_TYPE_ID: 11,
+
+    /** Represents a customer-labeled tournament round (e.g. Google Code Jam). */
+    PRIVATE_LABEL_TOURNAMENT_ROUND_TYPE_ID: 12,
+
+    /** Represents a marathon round. */
+    LONG_PROBLEM_ROUND_TYPE_ID: 13,
+
+    /** Represents a marathon practice round. */
+    LONG_PROBLEM_PRACTICE_ROUND_TYPE_ID: 14,
+
+    /** Represents a marathon round for Intel. */
+    INTEL_LONG_PROBLEM_ROUND_TYPE_ID: 15,
+
+    /** Represents a marathon practice round for Intel. */
+    INTEL_LONG_PROBLEM_PRACTICE_ROUND_TYPE_ID: 16,
+
+    /** Represents a highschool single round match round. */
+    HS_SRM_ROUND_TYPE_ID: 17,
+
+    /** Represents a highschool algorithm tournament round. */
+    HS_TOURNAMENT_ROUND_TYPE_ID: 18,
+
+    /** Represents a marathon tournament round. */
+    LONG_PROBLEM_TOURNAMENT_ROUND_TYPE_ID: 19,
+
+    /** Represents a college tour round. */
+    INTRO_EVENT_ROUND_TYPE_ID: 20,
+
+    /** Represents an education round. */
+    EDUCATION_ALGO_ROUND_TYPE_ID: 21,
+
+    /** Represents a marathon round for AMD. */
+    AMD_LONG_PROBLEM_ROUND_TYPE_ID: 22,
+
+    /** Represents a marathon practice round for AMD. */
+    AMD_LONG_PROBLEM_PRACTICE_ROUND_TYPE_ID: 23,
+
+    /** Represents a marathon round for CUDA. */
+    CUDA_LONG_PROBLEM_ROUND_TYPE_ID: 25,
+
+    /** Represents a marathon practice round for CUDA. */
+    CUDA_LONG_PROBLEM_PRACTICE_ROUND_TYPE_ID: 26,
+
+    /** Represents a marathon round for QA. */
+    LONG_PROBLEM_QA_ROUND_TYPE_ID: 27,
+
+    /** Represents a single round match qa round. */
+    SRM_QA_ROUND_TYPE_ID: 28,
+
+    /** Represents a forwarded algorithm round used for onsite matches. */
+    FORWARDER_ROUND_TYPE_ID: -1,
+
+    /** Represents a forwarded marathon round used for onsite matches. */
+    FORWARDER_LONG_ROUND_TYPE_ID: -2
+};
+
+/**
+ * Maximum possible value for id fields
+ */
+var MAX_ID = 999999999;
+
+/**
  * The date format for input date parameter for input date parameter
  * startDate, endDate, adStart, adEnd
  */
-var DATE_FORMAT = "YYYY-MM-DD hh:mm";
+var DATE_FORMAT = "YYYY-MM-DD HH:mm";
 /**
  * Max value for integer
  */
@@ -994,6 +1104,608 @@ exports.updateSRMContest = {
                     api.helper.handleError(api, connection, error);
                 } else {
                     connection.response = {success: true};
+                }
+                next(connection, true);
+            }
+        );
+    }
+};
+
+/**
+ * Returns an asynchronous function that creates a sqlParams map
+ * @param {Array} params - list of parameter names
+ * @param {Object} escape - map of the form parameterName -> Boolean to indicate
+ *                          which parameters are strings that need to be put into quotes
+ * @param {Object} date - map of the form parameterName -> Boolean to indicate which parameters
+ *                        are strings
+ * @return {Function} - the function that creates the sqlParams
+ */
+function sqlParams(params, escape, date) {
+    return function (cb, results) {
+        cb(null, _.reduce(
+            params,
+            function (memo, item) {
+                if (_.isNull(results[item]) || _.isUndefined(results[item])) {
+                    memo[item] = "NULL";
+                } else {
+                    if (escape[item]) {
+                        // normalize seconds in dates
+                        memo[item] = '"' + results[item] + (date[item] ? ":00" : "")  + '"';
+                    } else {
+                        memo[item] = results[item];
+                    }
+                }
+                return memo;
+            },
+            {}
+        ));
+    };
+}
+
+/**
+ * The API to set a round room assignment
+ */
+exports.setRoundRoomAssignment = {
+    name: "setRoundRoomAssignment",
+    description: "Set a round room assignment",
+    inputs: {
+        required: ['roundId'
+                  ],
+        optional: [
+            'codersPerRoom',
+            'type',
+            'isByDivision',
+            'isByRegion',
+            'isFinal',
+            'p'
+        ]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        api.log("Execute setRoundRoomAssignment#run", 'debug');
+        var helper = api.helper,
+            params = connection.params,
+            dbConnectionMap = connection.dbConnectionMap,
+            sqlparams = [
+                'roundId',
+                'codersPerRoom',
+                'type',
+                'isByDivision',
+                'isByRegion',
+                'isFinal',
+                'p'
+            ],
+        /**
+         * Return an asynchronous function that checks if a object corresponds
+         * to an integer with value 0 or 1
+         *
+         * @param {Object} obj - the object to be checked
+         * @param {String} name - the name of the object
+         *
+         * @return {Function} - the checker
+         */
+            checkFlag = function (obj, name) {
+                return function (cb) {
+                    var flag = parseInt(obj, 10),
+                        error = helper.checkContains([0, 1], flag, name);
+                    cb(error, flag);
+                };
+            };
+        async.auto(
+            {
+                admin: function (cb) {
+                    cb(helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                },
+                roundId: [
+                    'admin',
+                    function (cb) {
+                        var roundId = parseInt(params.roundId, 10),
+                            error = helper.checkIdParameter(roundId, "roundId")
+                                 || helper.checkMaxNumber(roundId, MAX_ID, "roundId");
+                        cb(error, roundId);
+                    }
+                ],
+                exists: [
+                    'roundId',
+                    function (cb, results) {
+                        async.series(
+                            [
+                                _.bind(
+                                    api.dataAccess.executeQuery,
+                                    api.dataAccess,
+                                    "check_round_room_assignment_exist",
+                                    {roundId: results.roundId},
+                                    dbConnectionMap
+                                )
+                            ],
+                            function (error, results) {
+                                if (error) {
+                                    cb(error);
+                                } else {
+                                    if (results[0][0].round_room_assignment_exist === 0) {
+                                        cb(new IllegalArgumentError("roundId does not have a round room assignment."));
+                                    } else {
+                                        cb(null, null);
+                                    }
+                                }
+                            }
+                        );
+                    }
+                ],
+                codersPerRoom: [
+                    'admin',
+                    function (cb) {
+                        var codersPerRoom = parseInt(params.codersPerRoom, 10),
+                            error = helper.checkPositiveInteger(codersPerRoom, "codersPerRoom")
+                                    || helper.checkMaxNumber(codersPerRoom, 9999, "codersPerRoom");
+                        cb(error, codersPerRoom);
+                    }
+                ],
+                type: [
+                    'admin',
+                    function (cb) {
+                        var seedings = _.values(
+                                _.pick(
+                                    CONTEST_CONSTANTS,
+                                    "RANDOM_SEEDING",
+                                    "IRON_MAN_SEEDING",
+                                    "NCAA_STYLE",
+                                    "EMPTY_ROOM_SEEDING",
+                                    "WEEKEST_LINK_SEEDING",
+                                    "ULTRA_RANDOM_SEEDING",
+                                    "TCO05_SEEDING",
+                                    "DARTBOARD_SEEDING",
+                                    "TCHS_SEEDING",
+                                    "ULTRA_RANDOM_DIV2_SEEDING"
+                                )
+                            ),
+                            type = parseInt(params.type, 10),
+                            error = helper.checkPositiveInteger(type, "type")
+                                    || helper.checkContains(seedings, type, "type");
+                        cb(error, type);
+                    }
+                ],
+                isByDivision: [
+                    'admin',
+                    checkFlag(params.isByDivision, "isByDivision")
+                ],
+                isByRegion: [
+                    'admin',
+                    checkFlag(params.isByRegion, "isByRegion")
+                ],
+                isFinal: [
+                    'admin',
+                    checkFlag(params.isFinal, "isFinal")
+                ],
+                p: [
+                    'admin',
+                    function (cb) {
+                        var min = -0.9999999999499999e8,
+                            max = 0.9999999999499999e8,
+                            p = parseFloat(params.p),
+                            error = _.isNaN(p) ? new IllegalArgumentError("p must be a floating point number.")
+                                    : min <= p && p <= max ? null
+                                        : new IllegalArgumentError("Precision of p must not exceed (10,2).");
+                        cb(error, p);
+                    }
+                ],
+                sqlParams: _.flatten(
+                    [
+                        sqlparams,
+                        sqlParams(sqlparams, {}, {})
+                    ]
+                ),
+                update: [
+                    'exists',
+                    'sqlParams',
+                    function (cb, results) {
+                        api.dataAccess.executeQuery(
+                            "srm_update_room_assignment",
+                            results.sqlParams,
+                            dbConnectionMap,
+                            cb
+                        );
+                    }
+                ]
+            },
+            function (error) {
+                if (error) {
+                    api.helper.handleError(api, connection, error);
+                } else {
+                    connection.response = {success: true};
+                }
+                next(connection, true);
+            }
+        );
+    }
+};
+
+
+/**
+ * The API to set round languages
+ */
+exports.setRoundLanguages = {
+    name: "setRoundLanguages",
+    description: "Set round languages.",
+    inputs: {
+        required: ['roundId', 'languages'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        api.log("Execute setRoundLanguages#run", 'debug');
+        var helper = api.helper,
+            dbConnectionMap = connection.dbConnectionMap,
+            params = connection.params,
+            PARALLELIZATION_LIMIT = 3;
+        async.auto(
+            {
+                admin: function (cb) {
+                    cb(helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                },
+                roundId: [
+                    'admin',
+                    function (cb) {
+                        var roundId = parseInt(params.roundId, 10),
+                            error = helper.checkIdParameter(roundId, "roundId")
+                                 || helper.checkMaxNumber(roundId, MAX_ID, "roundId");
+                        cb(error, roundId);
+                    }
+                ],
+                exists: [
+                    'roundId',
+                    function (cb, results) {
+                        async.series(
+                            [
+                                _.bind(
+                                    api.dataAccess.executeQuery,
+                                    api.dataAccess,
+                                    "check_round_exist",
+                                    {roundId: results.roundId},
+                                    dbConnectionMap
+                                )
+                            ],
+                            function (error, results) {
+                                if (error) {
+                                    cb(error);
+                                } else {
+                                    if (results[0][0].round_exist === 0) {
+                                        cb(new IllegalArgumentError("roundId unknown."));
+                                    } else {
+                                        cb(null, null);
+                                    }
+                                }
+                            }
+                        );
+                    }
+                ],
+                knownLanguages: [
+                    'admin',
+                    function (cb) {
+                        api.dataAccess.executeQuery(
+                            "srm_get_all_languages",
+                            {},
+                            dbConnectionMap,
+                            cb
+                        );
+                    }
+                ],
+                languages: [
+                    'knownLanguages',
+                    function (cb, results) {
+                        var knownLanguages = _.pluck(results.knownLanguages, 'language_id'),
+                            languages = params.languages,
+                            error = !_.isArray(languages)
+                                  ? new IllegalArgumentError("languages must be an array.")
+                                  : languages.length > knownLanguages.length
+                                  ? new IllegalArgumentError("Array size exceeds number of known languages.")
+                                  : null;
+                        if (error) {
+                            cb(error);
+                        } else {
+                            if (
+                                _.find(
+                                    languages,
+                                    function (language) {
+                                        error = helper.checkContains(knownLanguages, language, "language");
+                                        return error;
+                                    }
+                                )
+                            ) {
+                                cb(error);
+                            } else {
+                                // remove duplicates
+                                cb(null, _.uniq(languages.sort(), true));
+                            }
+                        }
+                    }
+
+                ],
+                clear: [
+                    'exists',
+                    'languages',
+                    function (cb, results) {
+                        api.dataAccess.executeQuery(
+                            "srm_clear_round_languages",
+                            {roundId: results.roundId},
+                            dbConnectionMap,
+                            cb
+                        );
+                    }
+                ],
+                insert: [
+                    'clear',
+                    function (cb, results) {
+                        async.eachLimit(
+                            results.languages,
+                            PARALLELIZATION_LIMIT,
+                            function (language, cbx) {
+                                api.dataAccess.executeQuery(
+                                    "srm_insert_round_language",
+                                    {roundId: results.roundId, languageId: language},
+                                    dbConnectionMap,
+                                    cbx
+                                );
+                            },
+                            cb
+                        );
+                    }
+                ]
+            },
+            function (error) {
+                if (error) {
+                    api.helper.handleError(api, connection, error);
+                } else {
+                    connection.response = {success: true};
+                }
+                next(connection, true);
+            }
+        );
+    }
+};
+
+
+/**
+ * The API to set round events
+ */
+exports.setRoundEvents = {
+    name: "setRoundEvents",
+    description: "Set round events.",
+    inputs: {
+        required: ['roundId', 'eventId'],
+        optional: ['eventName', 'registrationUrl']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        api.log("Execute setRoundEvents#run", 'debug');
+        var helper = api.helper,
+            dbConnectionMap = connection.dbConnectionMap,
+            sqlparams = ['roundId', 'eventId', 'eventName', 'registrationUrl'],
+            params = connection.params;
+
+        async.auto(
+            {
+                admin: function (cb) {
+                    cb(helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                },
+                roundId: [
+                    'admin',
+                    function (cb) {
+                        var roundId = parseInt(params.roundId, 10),
+                            error = helper.checkIdParameter(roundId, "roundId")
+                                 || helper.checkMaxNumber(roundId, MAX_ID, "roundId");
+                        cb(error, roundId);
+                    }
+                ],
+                exists: [
+                    'roundId',
+                    function (cb, results) {
+                        async.series(
+                            [
+                                _.bind(
+                                    api.dataAccess.executeQuery,
+                                    api.dataAccess,
+                                    "check_round_exist",
+                                    {roundId: results.roundId},
+                                    dbConnectionMap
+                                )
+                            ],
+                            function (error, results) {
+                                if (error) {
+                                    cb(error);
+                                } else {
+                                    if (results[0][0].round_exist === 0) {
+                                        cb(new IllegalArgumentError("roundId unknown."));
+                                    } else {
+                                        cb(null, null);
+                                    }
+                                }
+                            }
+                        );
+                    }
+                ],
+                eventId: [
+                    'admin',
+                    function (cb) {
+                        var eventId = parseInt(params.eventId, 10),
+                            error = helper.checkIdParameter(eventId, "eventId")
+                                 || helper.checkMaxNumber(eventId, MAX_ID, "eventId");
+                        cb(error, eventId);
+                    }
+                ],
+                eventName: [
+                    'admin',
+                    function (cb) {
+                        var eventName = _.isUndefined(params.eventName) ? null : params.eventName,
+                            error = _.isNull(eventName) ? null
+                                  : helper.checkStringPopulated(eventName, "eventName")
+                                    || helper.checkMaxNumber(eventName.length, 50, "Length of eventName")
+                                    || checkIllegalCharacters(eventName, "eventName");
+                        cb(error, eventName);
+                    }
+                ],
+                registrationUrl: [
+                    'admin',
+                    function (cb) {
+                        var registrationUrl = _.isUndefined(params.registrationUrl) ? null : params.registrationUrl,
+                            error = _.isNull(registrationUrl) ? null
+                                  : helper.checkStringPopulated(registrationUrl, "registrationUrl")
+                                    || helper.checkMaxNumber(registrationUrl.length, 255, "Length of registrationUrl")
+                                    || checkIllegalCharacters(registrationUrl, "registrationUrl");
+                        cb(error, registrationUrl);
+                    }
+                ],
+                sqlParams: _.flatten(
+                    [
+                        sqlparams,
+                        sqlParams(
+                            sqlparams,
+                            {
+                                eventName: true,
+                                registrationUrl: true
+                            },
+                            {}
+                        )
+                    ]
+                ),
+                clean: [
+                    'roundId',
+                    'exists',
+                    function (cb, results) {
+                        api.dataAccess.executeQuery(
+                            "srm_clear_round_events",
+                            {roundId: results.roundId},
+                            dbConnectionMap,
+                            cb
+                        );
+                    }
+                ],
+                insert: [
+                    'clean',
+                    'sqlParams',
+                    function (cb, results) {
+                        api.dataAccess.executeQuery(
+                            "srm_insert_round_event",
+                            results.sqlParams,
+                            dbConnectionMap,
+                            cb
+                        );
+                    }
+                ]
+            },
+            function (error) {
+                if (error) {
+                    api.helper.handleError(api, connection, error);
+                } else {
+                    connection.response = {success: true};
+                }
+                next(connection, true);
+            }
+        );
+    }
+};
+
+/**
+ * The API to load round access.
+ */
+exports.loadRoundAccess = {
+    name: "loadRoundAccess",
+    description: "Load round access.",
+    inputs: {
+        required: [],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        api.log("Execute loadRoundAccess#run", 'debug');
+        var formatDate = function (date) {
+            var result = null;
+            if (_.isString(date)) {
+                result =  moment(date).format(DATE_FORMAT);
+            }
+            return result;
+        };
+        async.series(
+            [
+                function (cb) {
+                    cb(api.helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                },
+                function (cb) {
+                    var roundTypes = _.values(
+                        _.pick(
+                            CONTEST_CONSTANTS,
+                            'SRM_ROUND_TYPE_ID',
+                            'TOURNAMENT_ROUND_TYPE_ID',
+                            'SRM_QA_ROUND_TYPE_ID',
+                            'PRIVATE_LABEL_TOURNAMENT_ROUND_TYPE_ID',
+                            'LONG_ROUND_TYPE_ID',
+                            'TEAM_SRM_ROUND_TYPE_ID',
+                            'TEAM_TOURNAMENT_ROUND_TYPE_ID',
+                            'WEAKEST_LINK_ROUND_TYPE_ID',
+                            'HS_SRM_ROUND_TYPE_ID',
+                            'HS_TOURNAMENT_ROUND_TYPE_ID',
+                            'MODERATED_CHAT_ROUND_TYPE_ID',
+                            'LONG_PROBLEM_ROUND_TYPE_ID',
+                            'LONG_PROBLEM_QA_ROUND_TYPE_ID',
+                            'INTRO_EVENT_ROUND_TYPE_ID',
+                            'LONG_PROBLEM_TOURNAMENT_ROUND_TYPE_ID',
+                            'EDUCATION_ALGO_ROUND_TYPE_ID',
+                            'AMD_LONG_PROBLEM_ROUND_TYPE_ID'
+                        )
+                    ).join();
+                    api.dataAccess.executeQuery(
+                        "srm_get_accessible_rounds",
+                        {roundTypes: roundTypes},
+                        connection.dbConnectionMap,
+                        cb
+                    );
+                }
+
+            ],
+            function (error, results) {
+                if (error) {
+                    api.helper.handleError(api, connection, error);
+                } else {
+                    if (results[1] && results[1].length > 0) {
+                        connection.response = {
+                            accessibleRounds: _.map(
+                                results[1],
+                                function (round) {
+                                    return _.reduce(
+                                        {
+                                            roundId: (_.isNull(round.round_id) || _.isUndefined(round.round_id))
+                                                  ? null : round.round_id,
+                                            name: round.name,
+                                            startDate: formatDate(round.start_time)
+                                        },
+                                        function (memo, value, key) {
+                                            if (!_.isNull(value)) {memo[key] = value; }
+                                            return memo;
+                                        },
+                                        {}
+                                    );
+                                }
+                            )
+                        };
+                    } else {
+                        connection.response = [];
+                    }
                 }
                 next(connection, true);
             }
