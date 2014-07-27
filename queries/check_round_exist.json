@@ -1,0 +1,5 @@
+{
+    "name"    : "check_round_exist",
+    "db"      : "informixoltp",
+    "sqlfile" : "check_round_exist"
+}

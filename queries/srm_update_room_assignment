@@ -1,0 +1,10 @@
+UPDATE round_room_assignment
+   SET
+     coders_per_room = @codersPerRoom@,
+     algorithm = @type@,
+     by_division = @isByDivision@,
+     by_region = @isByRegion@,
+     final = @isFinal@,
+     p = @p@
+   WHERE
+     round_id = @roundId@;
