@@ -121,6 +121,7 @@
  */
 /*jslint node:true, nomen: true */
 "use strict";
+require('newrelic');
 /* ---------------------
 routes.js
 
@@ -330,7 +331,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/delete", action: "deleteSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:oldRoundId/edit", action: "modifySRMContestRound" },
-        { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" }
+        { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
         { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"}
     ],
