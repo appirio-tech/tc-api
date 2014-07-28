@@ -832,65 +832,121 @@ Platform APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Leaderboard [/platform/leaderboard]
 ### Get Leaderboard [GET]
 + Parameters
     + type (required, string, `referral`) ... The leaderboard type
-    + utmMedium (optional, string, `Appirio`) ... The referral type
-    + utmCampaign (optional, string, `ReferralProgram`) ... The referral type
-    + utmSource (optional, string, `iRabbit`) ... The referral type
+    + utmMedium (optional, string, `""`, `Appirio`, `__ALL__`) ... The referral type
+
++ Response 200 (application/json)
+
+{
+    "entries": 9,
+    "description": "The leaderbaord returns all  members that have referred at least one new member in the last 6 months.",
+    "scoreType": "points",
+    "scoreLabel": "referrals",
+    "result": [
+        {
+            "handle": "Referral9",
+            "score": 9,
+            "photo": "http://community.topcoder.com/i/m/Image9.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral8",
+            "score": 8,
+            "photo": "http://community.topcoder.com/i/m/Image8.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral6",
+            "score": 6,
+            "photo": "http://community.topcoder.com/i/m/Image6.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States Minor Outlying Islands",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral2",
+            "score": 1,
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Black"
+        },
+        {
+            "handle": "Referral7",
+            "score": 7,
+            "photo": "http://community.topcoder.com/i/m/Image7.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral10",
+            "score": 10,
+            "photo": "http://community.topcoder.com/i/m/Image10.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral5",
+            "score": 5,
+            "photo": "http://community.topcoder.com/i/m/Image5.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral4",
+            "score": 4,
+            "photo": "http://community.topcoder.com/i/m/Image4.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral3",
+            "score": 2,
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        }
+    ]
+}
 
 + Response 200 (application/json)
 
         {
-            "entries": 2,
-            "description" : "The leaderbaord returns all non-appirio members that have referred at least one new member in the last 6 month",
-            "score_type": "points",
-            "score_label: "points",
-            "result": 
-            [
-                {
-                    "handle": "iRabbit",
-                    "score": 97.5,
-                    "photo": "http://community.topcoder.com/i/m/iRabbit.jpeg",
-                    "memberSince": "2007-01-01",
-                    "country": "China",
-                    "ratingType": "red",
-                },
-                {
-                    "handle": "tcs",
-                    "score": 97.5,
-                    "photo": "http://community.topcoder.com/i/m/iRabbit.jpeg",
-                    "memberSince": "2007-01-01",
-                    "country": "China",
-                    "ratingType": "red",
-                }
-            ]
+            "error": "Error: type is a required parameter for this action"
         }
 
 + Response 400 (application/json)
 
         {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "type should be an element of referral."
+            }
         }
 
-+ Response 401 (application/json)
+
++ Response 400 (application/json)
 
         {
-            "name":"Unauthorized",
-            "value":"401",
-            "description":"Authentication credentials were missing or incorrect."
-        }
-
-+ Response 403 (application/json)
-
-        {
-            "name":"Forbidden",
-            "value":"403",
-            "description":"The request is understood, but it has been refused or access is not allowed."
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "utmMedium should be an element of __all__,appirio."
+            }
         }
 
 + Response 500 (application/json)
@@ -1099,7 +1155,7 @@ Platform APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Get Challenge Registrants [/challenges/registrants/{challengeId}]
 ### Get Challenge Registrants [GET]
 
@@ -1419,7 +1475,7 @@ Platform APIs
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-           ]          
+           ]
         }
 
 + Response 400 (application/json)
@@ -4384,7 +4440,7 @@ Request
 ## Software Challenge Upload Submission [/develop/challenges/{challengeid}/submit]
 ### Upload a submission by using base64 encoding[POST]
 + Request (application/json)
-    
+
 + Parameters
     + challengeid (required, number, `30000000`) ... The challenge id.
     + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
@@ -8778,7 +8834,7 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Top Track Members [/users/tops/{trackType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Track Members [GET]
 

@@ -1,0 +1,727 @@
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4001,
+ 840
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4001,
+'Image1.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4001,
+ 4001,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4001,
+ 1,
+ 1607
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4001,
+ 3,
+ 1625
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4002,
+ 826
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4002,
+'Image2.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4002,
+ 4002,
+ 0
+);
+
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4003,
+ 840
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4003,
+ 1,
+ 2284
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4003,
+ 3,
+ 2008
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4004,
+ 784
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4004,
+'Image4.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4004,
+ 4004,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4004,
+ 1,
+ 2102
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4004,
+ 3,
+ 1826
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4005,
+ 840
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4005,
+'Image5.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4005,
+ 4005,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4005,
+ 1,
+ 1706
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4005,
+ 3,
+ 1316
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4006,
+ 581
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4006,
+'Image6.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4006,
+ 4006,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4006,
+ 1,
+ 1294
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4006,
+ 3,
+ 1082
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4007,
+ 840
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4007,
+'Image7.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4007,
+ 4007,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4007,
+ 1,
+ 1574
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4007,
+ 3,
+ 1942
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4008,
+ 826
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4008,
+'Image8.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4008,
+ 4008,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4008,
+ 1,
+ 1667
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4008,
+ 3,
+ 1442
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4009,
+ 840
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4009,
+'Image9.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4009,
+ 4009,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4009,
+ 1,
+ 984
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4009,
+ 3,
+ 933
+);
+
+insert into coder (coder_id, home_country_code)
+values
+(
+ 4010,
+ 784
+);
+insert into image (image_id, file_name, image_type_id, path_id)
+values
+(
+ 4010,
+'Image10.jpg',
+ 1,
+ 1
+);
+insert into coder_image_xref (coder_id, image_id, display_flag)
+values
+(
+ 4010,
+ 4010,
+ 1
+);
+
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4010,
+ 1,
+ 2247
+);
+insert into algo_rating (coder_id, algo_rating_type_id, rating)
+values
+(
+ 4010,
+ 3,
+ 1268
+);
+
+
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5001,
+ current - interval (123) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5002,
+ current - interval (119) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5003,
+ current - interval (52) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5004,
+ current - interval (74) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5005,
+ current - interval (113) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5006,
+ current - interval (136) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5007,
+ current - interval (171) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5008,
+ current - interval (7) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5009,
+ current - interval (102) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5010,
+ current - interval (112) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5011,
+ current - interval (32) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5012,
+ current - interval (147) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5013,
+ current - interval (132) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5014,
+ current - interval (172) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5015,
+ current - interval (72) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5016,
+ current - interval (89) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5017,
+ current - interval (58) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5018,
+ current - interval (129) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5019,
+ current - interval (48) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5020,
+ current - interval (161) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5021,
+ current - interval (71) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5022,
+ current - interval (95) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5023,
+ current - interval (40) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5024,
+ current - interval (151) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5025,
+ current - interval (31) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5026,
+ current - interval (24) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5027,
+ current - interval (164) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5028,
+ current - interval (120) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5029,
+ current - interval (96) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5030,
+ current - interval (88) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5031,
+ current - interval (157) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5032,
+ current - interval (80) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5033,
+ current - interval (118) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5034,
+ current - interval (107) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5035,
+ current - interval (69) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5036,
+ current - interval (130) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5037,
+ current - interval (122) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5038,
+ current - interval (150) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5039,
+ current - interval (136) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5040,
+ current - interval (65) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5041,
+ current - interval (45) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5042,
+ current - interval (96) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5043,
+ current - interval (155) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5044,
+ current - interval (25) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5045,
+ current - interval (164) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5046,
+ current - interval (146) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5047,
+ current - interval (12) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5048,
+ current - interval (15) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5049,
+ current - interval (5) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5050,
+ current - interval (105) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5051,
+ current - interval (71) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5052,
+ current - interval (190) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5053,
+ current - interval (168) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5054,
+ current - interval (45) day(3) to day
+);
+
+insert into coder (coder_id, member_since)
+values
+(
+ 5055,
+  current - interval (92) day(3) to day
+);
