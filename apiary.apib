@@ -9192,8 +9192,8 @@ Payments APIs
 
 ### Payment Preference [POST]
 + Parameters
-     + paymentMethod (mandatory, string, `Western Union`) ... Payment Method: PayPal, Western Union, Payoneer
-     + paypalAccountEmail (mandatory, string, if paymentMethods === "PayPal", else prohibited, must not exceed 100 characters, `heffan@gmail.com`) ... Email address of PayPal account
+     + paymentMethod (required, string, `Western Union`) ... Payment Method: PayPal, Western Union, Payoneer
+     + paypalAccountEmail (optional, string, if paymentMethods === "PayPal", else prohibited, must not exceed 100 characters, `heffan@gmail.com`) ... Email address of PayPal account
      + paymentAccrualAmount (optional, integer, must be greater than or equal to 25, `100`) ... Accrual amount to be paid
 
 + Response 200 (application/json)
