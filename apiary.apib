@@ -213,13 +213,15 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}]
+## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}&sfdcAccountId={sfdcAccountId}&customerNumber={customerNumer}]
 ### Client Challenge Costs [GET]
 
 + Parameters
-    + startDate (optional, string, `2013-07-01`) ... Start Date
-    + endDate (optional, string, `2013-12-01`) ... End Date
+    + startDate (required, string, `2013-07-01`) ... Start Date
+    + endDate (required, string, `2013-12-01`) ... End Date
     + clientId (optional, number, `4310`) ... Client Id
+    + sfdcAccountId (optional, string, `4310`) ... SFDC Account Id
+    + customerNumber (optional, string, `4310`) ... Customer Number
 
 + Response 200 (application/json)
 
