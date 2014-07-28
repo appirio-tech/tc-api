@@ -1,0 +1,78 @@
+{
+    "entries": 9,
+    "description": "The leaderbaord returns all members that have referred at least one new member in the last 6 months.",
+    "scoreType": "points",
+    "scoreLabel": "referrals",
+    "result": [
+        {
+            "handle": "Referral9",
+            "score": 9,
+            "photo": "http://community.topcoder.com/i/m/Image9.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral8",
+            "score": 8,
+            "photo": "http://community.topcoder.com/i/m/Image8.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral6",
+            "score": 6,
+            "photo": "http://community.topcoder.com/i/m/Image6.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States Minor Outlying Islands",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral2",
+            "score": 1,
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Black"
+        },
+        {
+            "handle": "Referral7",
+            "score": 7,
+            "photo": "http://community.topcoder.com/i/m/Image7.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral10",
+            "score": 10,
+            "photo": "http://community.topcoder.com/i/m/Image10.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral5",
+            "score": 5,
+            "photo": "http://community.topcoder.com/i/m/Image5.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral4",
+            "score": 4,
+            "photo": "http://community.topcoder.com/i/m/Image4.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral3",
+            "score": 2,
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        }
+    ]
+}

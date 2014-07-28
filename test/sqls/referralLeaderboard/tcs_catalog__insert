@@ -1,0 +1,126 @@
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4001,
+1,
+988
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4001,
+2,
+1800
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4003,
+1,
+1477
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4003,
+2,
+1275
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4004,
+1,
+1410
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4004,
+2,
+1418
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4005,
+1,
+2234
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4005,
+2,
+1586
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4006,
+1,
+1965
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4006,
+2,
+1788
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4007,
+1,
+2308
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4007,
+2,
+1016
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4008,
+1,
+1486
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4008,
+2,
+1668
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4009,
+1,
+2104
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4009,
+2,
+2379
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4010,
+1,
+2055
+);
+insert into user_rating (user_id, phase_id, rating)
+values
+(
+4010,
+2,
+1537
+);

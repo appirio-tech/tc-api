@@ -1,0 +1,621 @@
+insert into user (user_id, handle, status)
+values
+(
+ 4001,
+'Referral1',
+'I'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4002,
+'Referral2',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4003,
+'Referral3',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4004,
+'Referral4',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4005,
+'Referral5',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4006,
+'Referral6',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4007,
+'Referral7',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4008,
+'Referral8',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4009,
+'Referral9',
+'A'
+);
+insert into user (user_id, handle, status)
+values
+(
+ 4010,
+'Referral10',
+'A'
+);
+
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5001,
+'Referrer1',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5002,
+'Referrer2',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5003,
+'Referrer3',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5004,
+'Referrer4',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5005,
+'Referrer5',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5006,
+'Referrer6',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5007,
+'Referrer7',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5008,
+'Referrer8',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5009,
+'Referrer9',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5010,
+'Referrer10',
+'A',
+'Referral10',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5011,
+'Referrer11',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5012,
+'Referrer12',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5013,
+'Referrer13',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5014,
+'Referrer14',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5015,
+'Referrer15',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5016,
+'Referrer16',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5017,
+'Referrer17',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5018,
+'Referrer18',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5019,
+'Referrer19',
+'A',
+'Referral9',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5020,
+'Referrer20',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5021,
+'Referrer21',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5022,
+'Referrer22',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5023,
+'Referrer23',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5024,
+'Referrer24',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5025,
+'Referrer25',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5026,
+'Referrer26',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5027,
+'Referrer27',
+'A',
+'Referral8',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5028,
+'Referrer28',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5029,
+'Referrer29',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5030,
+'Referrer30',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5031,
+'Referrer31',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5032,
+'Referrer32',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5033,
+'Referrer33',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5034,
+'Referrer34',
+'A',
+'Referral7',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5035,
+'Referrer35',
+'A',
+'Referral6',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5036,
+'Referrer36',
+'A',
+'Referral6',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5037,
+'Referrer37',
+'A',
+'Referral6',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5038,
+'Referrer38',
+'A',
+'Referral6',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5039,
+'Referrer39',
+'A',
+'Referral6',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5040,
+'Referrer40',
+'A',
+'Referral6',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5041,
+'Referrer41',
+'A',
+'Referral5',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5042,
+'Referrer42',
+'A',
+'Referral5',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5043,
+'Referrer43',
+'A',
+'Referral5',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5044,
+'Referrer44',
+'A',
+'Referral5',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5045,
+'Referrer45',
+'A',
+'Referral5',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5046,
+'Referrer46',
+'A',
+'Referral4',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5047,
+'Referrer47',
+'A',
+'Referral4',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5048,
+'Referrer48',
+'A',
+'Referral4',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5049,
+'Referrer49',
+'A',
+'Referral4',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5050,
+'Referrer50',
+'A',
+'Referral3',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5051,
+'Referrer51',
+'A',
+'Referral3',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5052,
+'Referrer52',
+'A',
+'Referral3',
+'Appirio',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5053,
+'Referrer53',
+'A',
+'Referral2',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5054,
+'Referrer54',
+'I',
+'Referral2',
+'',
+'ReferralProgram'
+);
+insert into user (user_id, handle, status, utm_source, utm_medium, utm_campaign)
+values
+(
+ 5055,
+'Referrer55',
+'A',
+'Referral1',
+'Appirio',
+'ReferralProgram'
+);
