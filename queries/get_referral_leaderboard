@@ -1,0 +1,32 @@
+SELECT
+u.handle AS handle,
+c.member_since AS member_since,
+(SELECT "http://community.topcoder.com" || p.path || i.file_name AS image_path
+ FROM
+ informixoltp:coder_image_xref cix, informixoltp:image i, informixoltp:path p
+ WHERE
+ cix.coder_id = u.user_id
+ AND cix.display_flag = 1
+ AND cix.image_id = i.image_id
+ AND i.image_type_id = 1
+ AND i.path_id = p.path_id
+) AS photo,
+(SELECT country_name FROM country WHERE country_code = c.home_country_code) AS country,
+(SELECT MAX(rating)
+ FROM
+ (SELECT rating FROM tcs_catalog:user_rating ur WHERE ur.user_id = u.user_id
+  UNION ALL
+  SELECT rating FROM informixoltp:algo_rating ar
+  WHERE ar.coder_id = u.user_id
+)) AS rating,
+COUNT(ur.utm_source) AS score
+FROM user u
+JOIN informixoltp:coder c ON u.user_id = c.coder_id
+JOIN user ur ON ur.utm_source = u.handle
+JOIN informixoltp:coder cr ON ur.user_id = cr.coder_id
+WHERE u.status = 'A'
+AND cr.member_since > (CURRENT YEAR TO FRACTION - INTERVAL (6) MONTH(9) TO MONTH)
+AND ur.utm_campaign = 'ReferralProgram'
+AND ur.status = 'A' AND ("@utmMedium@" = "__ALL__" OR ur.utm_medium @comparator@ "Appirio")
+GROUP BY 1, 2, 3, 4, 5
+HAVING COUNT(ur.utm_source) > 0;

@@ -1,0 +1,10 @@
+delete from user_rating where user_id = 4001;
+delete from user_rating where user_id = 4002;
+delete from user_rating where user_id = 4003;
+delete from user_rating where user_id = 4004;
+delete from user_rating where user_id = 4005;
+delete from user_rating where user_id = 4006;
+delete from user_rating where user_id = 4007;
+delete from user_rating where user_id = 4008;
+delete from user_rating where user_id = 4009;
+delete from user_rating where user_id = 4010;
