@@ -1,0 +1,47 @@
+{
+    "entries": 5,
+    "description": "The leaderbaord returns all non-appirio members that have referred at least one new member in the last 6 months.",
+    "scoreType": "points",
+    "scoreLabel": "referrals",
+    "result": [
+        {
+            "handle": "Referral2",
+            "score": 1,
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Black"
+        },
+        {
+            "handle": "Referral4",
+            "score": 4,
+            "photo": "http://community.topcoder.com/i/m/Image4.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral10",
+            "score": 10,
+            "photo": "http://community.topcoder.com/i/m/Image10.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral8",
+            "score": 8,
+            "photo": "http://community.topcoder.com/i/m/Image8.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral6",
+            "score": 6,
+            "photo": "http://community.topcoder.com/i/m/Image6.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United States Minor Outlying Islands",
+            "ratingType": "Yellow"
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "entries": 4,
+    "description": "The leaderbaord returns all appirio members that have referred at least one new member in the last 6 months.",
+    "scoreType": "points",
+    "scoreLabel": "referrals",
+    "result": [
+        {
+            "handle": "Referral3",
+            "score": 2,
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral9",
+            "score": 9,
+            "photo": "http://community.topcoder.com/i/m/Image9.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral7",
+            "score": 7,
+            "photo": "http://community.topcoder.com/i/m/Image7.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral5",
+            "score": 5,
+            "photo": "http://community.topcoder.com/i/m/Image5.jpg",
+            "memberSince": "2014-07-21T08:52:58.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        }
+    ]
+}

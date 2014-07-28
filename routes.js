@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.49
+ * @version 1.50
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -114,6 +114,8 @@
  * - Add route for billing account permission api.
  * Changes in 1.49:
  * - Add contest rounds management APIs (list, modify, create and delete)
+ * Changes in 1.50:
+ * - Add route for generic leaderboard api
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -262,6 +264,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+        { path: "/:apiVersion/platform/leaderboard", action: "getLeaderboard"},
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
