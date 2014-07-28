@@ -121,7 +121,7 @@
  */
 /*jslint node:true, nomen: true */
 "use strict";
-require('newrelic');
+
 /* ---------------------
 routes.js
 
