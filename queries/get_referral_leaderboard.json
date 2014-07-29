@@ -1,0 +1,5 @@
+{
+  "name"    : "get_referral_leaderboard",
+  "db"      : "common_oltp",
+  "sqlfile" : "get_referral_leaderboard"
+}

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.51
+ * @version 1.52
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -118,6 +118,8 @@
  * - Add route for srm round questions / answers / survey api.
  * Changes in 1.51:
  * - Add routes for SRM Round Problems and Components APIs
+ * Changes in 1.52:
+ * - Add route for generic leaderboard api
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -266,6 +268,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+        { path: "/:apiVersion/platform/leaderboard", action: "getLeaderboard"},
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
@@ -291,7 +294,7 @@ exports.routes = {
         { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
-        
+
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "getRoundQuestions" },
         { path: "/:apiVersion/data/srm/rounds/:questionId/answers", action: "getRoundQuestionAnswers" },
 

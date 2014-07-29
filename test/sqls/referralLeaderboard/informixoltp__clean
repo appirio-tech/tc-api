@@ -1,0 +1,236 @@
+
+delete from coder_image_xref where coder_id = 4001;
+delete from image where image_id = 4001;
+delete from algo_rating where coder_id = 4001;
+delete from coder where coder_id = 4001;
+
+
+
+delete from coder_image_xref where coder_id = 4002;
+delete from image where image_id = 4002;
+delete from algo_rating where coder_id = 4002;
+delete from coder where coder_id = 4002;
+
+
+
+delete from coder_image_xref where coder_id = 4003;
+delete from image where image_id = 4003;
+delete from algo_rating where coder_id = 4003;
+delete from coder where coder_id = 4003;
+
+
+
+delete from coder_image_xref where coder_id = 4004;
+delete from image where image_id = 4004;
+delete from algo_rating where coder_id = 4004;
+delete from coder where coder_id = 4004;
+
+
+
+delete from coder_image_xref where coder_id = 4005;
+delete from image where image_id = 4005;
+delete from algo_rating where coder_id = 4005;
+delete from coder where coder_id = 4005;
+
+
+
+delete from coder_image_xref where coder_id = 4006;
+delete from image where image_id = 4006;
+delete from algo_rating where coder_id = 4006;
+delete from coder where coder_id = 4006;
+
+
+
+delete from coder_image_xref where coder_id = 4007;
+delete from image where image_id = 4007;
+delete from algo_rating where coder_id = 4007;
+delete from coder where coder_id = 4007;
+
+
+
+delete from coder_image_xref where coder_id = 4008;
+delete from image where image_id = 4008;
+delete from algo_rating where coder_id = 4008;
+delete from coder where coder_id = 4008;
+
+
+
+delete from coder_image_xref where coder_id = 4009;
+delete from image where image_id = 4009;
+delete from algo_rating where coder_id = 4009;
+delete from coder where coder_id = 4009;
+
+
+
+delete from coder_image_xref where coder_id = 4010;
+delete from image where image_id = 4010;
+delete from algo_rating where coder_id = 4010;
+delete from coder where coder_id = 4010;
+
+
+
+
+delete from coder where coder_id = 5001;
+
+
+delete from coder where coder_id = 5002;
+
+
+delete from coder where coder_id = 5003;
+
+
+delete from coder where coder_id = 5004;
+
+
+delete from coder where coder_id = 5005;
+
+
+delete from coder where coder_id = 5006;
+
+
+delete from coder where coder_id = 5007;
+
+
+delete from coder where coder_id = 5008;
+
+
+delete from coder where coder_id = 5009;
+
+
+delete from coder where coder_id = 5010;
+
+
+delete from coder where coder_id = 5011;
+
+
+delete from coder where coder_id = 5012;
+
+
+delete from coder where coder_id = 5013;
+
+
+delete from coder where coder_id = 5014;
+
+
+delete from coder where coder_id = 5015;
+
+
+delete from coder where coder_id = 5016;
+
+
+delete from coder where coder_id = 5017;
+
+
+delete from coder where coder_id = 5018;
+
+
+delete from coder where coder_id = 5019;
+
+
+delete from coder where coder_id = 5020;
+
+
+delete from coder where coder_id = 5021;
+
+
+delete from coder where coder_id = 5022;
+
+
+delete from coder where coder_id = 5023;
+
+
+delete from coder where coder_id = 5024;
+
+
+delete from coder where coder_id = 5025;
+
+
+delete from coder where coder_id = 5026;
+
+
+delete from coder where coder_id = 5027;
+
+
+delete from coder where coder_id = 5028;
+
+
+delete from coder where coder_id = 5029;
+
+
+delete from coder where coder_id = 5030;
+
+
+delete from coder where coder_id = 5031;
+
+
+delete from coder where coder_id = 5032;
+
+
+delete from coder where coder_id = 5033;
+
+
+delete from coder where coder_id = 5034;
+
+
+delete from coder where coder_id = 5035;
+
+
+delete from coder where coder_id = 5036;
+
+
+delete from coder where coder_id = 5037;
+
+
+delete from coder where coder_id = 5038;
+
+
+delete from coder where coder_id = 5039;
+
+
+delete from coder where coder_id = 5040;
+
+
+delete from coder where coder_id = 5041;
+
+
+delete from coder where coder_id = 5042;
+
+
+delete from coder where coder_id = 5043;
+
+
+delete from coder where coder_id = 5044;
+
+
+delete from coder where coder_id = 5045;
+
+
+delete from coder where coder_id = 5046;
+
+
+delete from coder where coder_id = 5047;
+
+
+delete from coder where coder_id = 5048;
+
+
+delete from coder where coder_id = 5049;
+
+
+delete from coder where coder_id = 5050;
+
+
+delete from coder where coder_id = 5051;
+
+
+delete from coder where coder_id = 5052;
+
+
+delete from coder where coder_id = 5053;
+
+
+delete from coder where coder_id = 5054;
+
+
+delete from coder where coder_id = 5055;
+
