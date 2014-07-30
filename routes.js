@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.48
+ * @version 1.49
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka
  *
@@ -112,6 +112,12 @@
  * - Add routes for SRM Contest Management APIs
  * Changes in 1.48:
  * - Add route for billing account permission api.
+ * Changes in 1.49
+ * - Add routes for:
+ *   - Set Round Room Assignment API
+ *   - Set Round Language API
+ *   - Set Round Events API
+ *   - Load Round Access API
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -241,6 +247,7 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/srm/roundAccess", action: "loadRoundAccess"},
         { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
@@ -314,6 +321,9 @@ exports.routes = {
         { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
         { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" },
         { path: "/:apiVersion/data/srm/contests/:id/edit", action: "updateSRMContest"},
-        { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"}
+        { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/roomAssignment", action: "setRoundRoomAssignment"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/languages", action: "setRoundLanguages"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"}
     ]
 };

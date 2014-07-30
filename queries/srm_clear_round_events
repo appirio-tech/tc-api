@@ -1,0 +1,1 @@
+DELETE FROM round_event WHERE round_id = @roundId@;
