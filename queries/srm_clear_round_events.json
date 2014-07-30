@@ -1,0 +1,5 @@
+{
+    "name"    : "srm_clear_round_events",
+    "db"      : "informixoltp",
+    "sqlfile" : "srm_clear_round_events"
+}

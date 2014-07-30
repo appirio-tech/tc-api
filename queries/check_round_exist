@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS round_exist FROM round WHERE round_id = @roundId@;
