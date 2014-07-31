@@ -1,0 +1,9 @@
+SELECT
+r.round_id,
+c.name || ' ' || r.name AS name,
+rs.start_time
+FROM (contest c JOIN round r ON c.contest_id=r.contest_id
+LEFT OUTER JOIN round_segment rs ON rs.round_id = r.round_id )
+WHERE r.round_type_id IN (@roundTypes@)
+AND (rs.segment_id = 1 OR rs.segment_id IS NULL)
+ORDER BY rs.start_time DESC;

@@ -1,0 +1,1 @@
+INSERT INTO round_language (round_id, language_id) VALUES (@roundId@, @languageId@);

@@ -1,0 +1,5 @@
+{
+    "name"    : "srm_get_accessible_rounds",
+    "db"      : "informixoltp",
+    "sqlfile" : "srm_get_accessible_rounds"
+}

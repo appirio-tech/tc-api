@@ -1,0 +1,5 @@
+{
+    "name"    : "srm_update_room_assignment",
+    "db"      : "informixoltp",
+    "sqlfile" : "srm_update_room_assignment"
+}

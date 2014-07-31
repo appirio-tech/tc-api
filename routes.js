@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.52
+ * @version 1.53
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -120,6 +120,12 @@
  * - Add routes for SRM Round Problems and Components APIs
  * Changes in 1.52:
  * - Add route for generic leaderboard api
+ * Changes in 1.53:
+ * - Add routes for:
+ *   - Set Round Room Assignment API
+ *   - Set Round Language API
+ *   - Set Round Events API
+ *   - Load Round Access API
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -250,6 +256,8 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
+        { path: "/:apiVersion/data/srm/roundAccess", action: "loadRoundAccess"},
+
         { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
@@ -334,6 +342,9 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/delete", action: "deleteSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:oldRoundId/edit", action: "modifySRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/roomAssignment", action: "setRoundRoomAssignment"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/languages", action: "setRoundLanguages"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
         { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"}
     ],

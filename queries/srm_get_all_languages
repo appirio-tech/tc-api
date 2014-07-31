@@ -1,0 +1,1 @@
+SELECT language_id FROM language WHERE status = 'Y' ORDER BY language_id;

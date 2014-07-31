@@ -1,0 +1,5 @@
+{
+    "name"    : "check_round_room_assignment_exist",
+    "db"      : "informixoltp",
+    "sqlfile" : "check_round_room_assignment_exist"
+}
