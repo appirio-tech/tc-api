@@ -311,6 +311,7 @@ exports.generateDocusignViewURL = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled : false,
     databases: ["informixoltp", "common_oltp"],
     inputs: {
         required: ["templateId"],
