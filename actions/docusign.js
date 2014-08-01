@@ -415,6 +415,8 @@ exports.generateDocusignViewURL = {
                         });
                     }
 
+                    textTabs.push({tabLabel :'TopCoder Handle', value: user.handle});
+
                     //Prepare the POST parameters
                     reqParams = {
                         templateId: templateId,
