@@ -75,6 +75,21 @@ function createGetRequest(data) {
     return result;
 }
 
+/**
+ * Create and return PUT reqeust.
+ * @param {Object} data the data to be queried
+ * @return {Object} request object
+ */
+function createPutRequest(data) {
+    var result = request(API_ENDPOINT)
+        .put(data.route)
+        .set('Accept', 'application/json');
+    if (data.handle) {
+        result.set('Authorization', generateAuthHeader(data.handle));
+    }
+    return result;
+}
+
 
 /**
  * Create and return POST request
@@ -102,6 +117,17 @@ function assertResponse(verb, testData) {
     var status = testData.status,
         responseData = testData.response,
         createRequest = verb === "post" ? createPostRequest : createGetRequest;
+    switch (verb) {
+    case "put":
+        createRequest = createPutRequest;
+        break;
+    case "post":
+        createRequest = createPostRequest;
+        break;
+    case "get":
+        createRequest = createGetRequest;
+        break;
+    }
     return function (done) {
         createRequest(testData)
             .expect(status)
@@ -259,7 +285,7 @@ function create(request, response, status, handle) {
             request: request,
             response: response,
             status: status,
-            route: ROUTE + "/create"
+            route: ROUTE
         });
     } else {
         result = function (done) {
@@ -270,7 +296,7 @@ function create(request, response, status, handle) {
                         request: request,
                         response: response,
                         status: status,
-                        route: ROUTE + "/create"
+                        route: ROUTE
                     }),
                     async.apply(getContest, request.contestId)
                 ],
@@ -320,7 +346,7 @@ function modify(request, response, status, handle, id) {
             request: request,
             response: response,
             status: status,
-            route: ROUTE + "/" + id + "/edit"
+            route: ROUTE + "/" + id
         });
     } else if (request.contestId === id) {
         result = function (done) {
@@ -331,7 +357,7 @@ function modify(request, response, status, handle, id) {
                         request: request,
                         response: response,
                         status: status,
-                        route: ROUTE + "/" + id + "/edit"
+                        route: ROUTE + "/" + id
                     }),
                     async.apply(getContest, request.contestId)
                 ],
@@ -373,7 +399,7 @@ function modify(request, response, status, handle, id) {
                         request: request,
                         response: response,
                         status: status,
-                        route: ROUTE + "/" + id + "/edit"
+                        route: ROUTE + "/" + id
                     }),
                     async.apply(getContest, request.contestId),
                     async.apply(getRound, request.contestId)

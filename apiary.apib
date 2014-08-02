@@ -6619,8 +6619,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Modify SRM Contest Round API [/data/srm/rounds/{oldRoundId}/edit]
-### Modify SRM Contest Round API [POST] (application/json)
+## Modify SRM Contest Round API [/data/srm/rounds/{oldRoundId}]
+### Modify SRM Contest Round API [PUT] (application/json)
 
 + Parameters
     + contest_id (required, integer) round's contest_id
@@ -6689,8 +6689,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Delete SRM Contest Round API [/data/srm/rounds/{roundId}/delete]
-### Delet SRM Contest Round API [POST]
+## Delete SRM Contest Round API [/data/srm/rounds/{roundId}]
+### Delet SRM Contest Round API [DELETE]
 
 + Parameters
     + roundId (required, integer) deleting round's id
@@ -10007,9 +10007,9 @@ Managing SRM Contests APIs
           }
 }
 
-## Modify Contest [/data/srm/contests/{id}/edit]
+## Modify Contest [/data/srm/contests/{id}]
 
-### Modify Contest [POST]
+### Modify Contest [PUT]
 
 + Parameters
   + id (required, number, `123456`) ... The id of the contest to be modified.
@@ -10376,9 +10376,9 @@ Managing SRM Contests APIs
           }
 }
 
-## Set Survey API [/data/srm/rounds/:roundId/setSurvey]
+## Set Survey API [/data/srm/rounds/:roundId/survey]
 
-### Set Survey API [PUT]
+### Set Survey API [POST]
 
 + Parameters
   + roundId (required, number, `13672`) ... The id of the round to get.
