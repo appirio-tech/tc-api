@@ -214,7 +214,7 @@ var config = {
 
     jvm: {
         minMemory: '128m',
-        maxMemory: '2048m'
+        maxMemory: process.env.TC_API_MAX_MEMORY || '2048m'
     },
 
     studioReview: {
