@@ -126,9 +126,17 @@
  *   - Set Round Language API
  *   - Set Round Events API
  *   - Load Round Access API
+ * Changes in 1.54:
+ * - Add a line for NewRelic
  */
 /*jslint node:true, nomen: true */
 "use strict";
+
+/* use NewRelic */
+try {
+  require('newrelic');
+} catch(e) {}
+
 /* ---------------------
 routes.js
 
