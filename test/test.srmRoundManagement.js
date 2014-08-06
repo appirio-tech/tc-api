@@ -275,7 +275,7 @@ describe('SRM Round Management APIs', function () {
              */
             function assertFail(roundId, params, done) {
                 var r = request(API_ENDPOINT)
-                        .post('/v2/data/srm/rounds/' + roundId + '/delete')
+                        .post('/v2/data/srm/rounds/' + roundId)
                         .set('Accept', 'application/json')
                         .expect('Content-Type', /json/)
                         .expect(params.status);
@@ -379,7 +379,7 @@ describe('SRM Round Management APIs', function () {
                 async.waterfall([
                     function (cb) {
                         request(API_ENDPOINT)
-                            .post('/v2/data/srm/rounds/' + roundId + '/delete')
+                            .post('/v2/data/srm/rounds/' + roundId)
                             .set('Accept', 'application/json')
                             .set('Authorization', 'Bearer ' + testHelper.getAdminJwt())
                             .expect('Content-Type', /json/)
@@ -480,7 +480,7 @@ describe('SRM Round Management APIs', function () {
                     function (cb) {
                         request(API_ENDPOINT)
                         // deleting something not existed
-                            .post('/v2/data/srm/rounds/600000/delete')
+                            .post('/v2/data/srm/rounds/600000')
                             .set('Accept', 'application/json')
                             .set('Authorization', 'bearer ' + testHelper.getAdminJwt())
                             .expect('Content-Type', /json/)

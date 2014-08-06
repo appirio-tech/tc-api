@@ -59,24 +59,6 @@ function createRequest(queryString, user) {
 
     return req;
 }
-/**
- * Create post request and return it.
- *
- * @param queryString - the query string
- * @param user - the user handle
- * @returns {*} request
- */
-function createPostRequest(queryString, user) {
-    var req = request(API_ENDPOINT)
-        .post(queryString)
-        .set("Accept", "application/json")
-        .expect("Content-Type", /json/);
-    if (user) {
-        req.set('Authorization', generateAuthHeader(user));
-    }
-
-    return req;
-}
 
 /**
  * Create put request and return it.
@@ -85,7 +67,7 @@ function createPostRequest(queryString, user) {
  * @param user - the user handle
  * @returns {*} request
  */
-function createPutRequest(queryString, user) {
+function createPostRequest(queryString, user) {
     var req = request(API_ENDPOINT)
         .put(queryString)
         .set("Accept", "application/json")
@@ -95,31 +77,6 @@ function createPutRequest(queryString, user) {
     }
 
     return req;
-}
-
-/**
- * Assert post response detail.
- *
- * @param queryString - the query string
- * @param user - the user handle
- * @param obj - the JSON object
- * @param statusCode - the expected status code
- * @param errorDetail - the error detail.
- * @param done the callback function
- */
-function assertPutError(queryString, user, obj, statusCode, errorDetail, done) {
-    createPutRequest(queryString, user).expect(statusCode).send(obj).end(function (err, res) {
-        if (err) {
-            done(err);
-            return;
-        }
-        if (statusCode === 200) {
-            assert.equal(res.body.error, errorDetail, "Invalid error detail");
-        } else {
-            assert.equal(res.body.error.details, errorDetail, "Invalid error detail");
-        }
-        done();
-    });
 }
 
 /**
@@ -276,83 +233,83 @@ describe('SRM Round Questions APIs', function () {
 
         var validRequest = {"name": "name1", "statusId" : 0, "startDate": "2014-01-01 11:22", "length": 100, "surveyText": "aaa"};
         it("No anonymous access.", function (done) {
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", null, validRequest, 401, "Authorized information needed.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", null, validRequest, 401, "Authorized information needed.", done);
         });
 
         it("Admin access only.", function (done) {
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'user', validRequest, 403, "Admin access only.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'user', validRequest, 403, "Admin access only.", done);
         });
 
         it("roundId should be number.", function (done) {
-            assertPutError("/v2/data/srm/rounds/aaa/setSurvey", 'heffan', validRequest, 400, "roundId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/aaa/survey", 'heffan', validRequest, 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
-            assertPutError("/v2/data/srm/rounds/1367.3/setSurvey", 'heffan', validRequest, 400, "roundId should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/1367.3/survey", 'heffan', validRequest, 400, "roundId should be Integer.", done);
         });
 
         it("roundId should be positive.", function (done) {
-            assertPutError("/v2/data/srm/rounds/-13673/setSurvey", 'heffan', validRequest, 400, "roundId should be positive.", done);
+            assertPostError("/v2/data/srm/rounds/-13673/survey", 'heffan', validRequest, 400, "roundId should be positive.", done);
         });
 
         it("roundId should be less or equal to 2147483647.", function (done) {
-            assertPutError("/v2/data/srm/rounds/111111111111111111111111111/setSurvey", 'heffan', validRequest, 400,
+            assertPostError("/v2/data/srm/rounds/111111111111111111111111111/survey", 'heffan', validRequest, 400,
                 "roundId should be less or equal to 2147483647.", done);
         });
 
         it("name should be string.", function (done) {
             validRequest.name = 1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "name should be string.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "name should be string.", done);
         });
 
         it("name exceeds 50 characters.", function (done) {
             validRequest.name = getLongText(51);
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "name exceeds 50 characters.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "name exceeds 50 characters.", done);
         });
 
         it("statusId should be number.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = "name1";
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "statusId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "statusId should be number.", done);
         });
 
         it("statusId should be Integer.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = 1.1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "statusId should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "statusId should be Integer.", done);
         });
 
         it("statusId should be greater or equal to 0.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = -1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "statusId should be greater or equal to 0", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "statusId should be greater or equal to 0", done);
         });
 
         it("The statusId does not exist in database.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = 111;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "The statusId does not exist in database.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "The statusId does not exist in database.", done);
         });
 
         it("length should be number.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = 1;
             validRequest.length = "aaa";
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "length should be number.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "length should be number.", done);
         });
 
         it("length should be Integer.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = 1;
             validRequest.length = 1.1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "length should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "length should be Integer.", done);
         });
 
         it("length should be greater or equal to 0.", function (done) {
             validRequest.name = "name1";
             validRequest.statusId = 1;
             validRequest.length = -1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "length should be greater or equal to 0", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "length should be greater or equal to 0", done);
         });
 
         it("surveyText should be string.", function (done) {
@@ -360,7 +317,7 @@ describe('SRM Round Questions APIs', function () {
             validRequest.statusId = 1;
             validRequest.length = 1;
             validRequest.surveyText = 1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "surveyText should be string.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "surveyText should be string.", done);
         });
 
         it("surveyText exceeds 2048 characters.", function (done) {
@@ -368,7 +325,7 @@ describe('SRM Round Questions APIs', function () {
             validRequest.name = "name1";
             validRequest.statusId = 1;
             validRequest.length = 1;
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "surveyText exceeds 2048 characters.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "surveyText exceeds 2048 characters.", done);
         });
 
         it("startDate is not a valid date.", function (done) {
@@ -377,7 +334,7 @@ describe('SRM Round Questions APIs', function () {
             validRequest.length = 1;
             validRequest.surveyText = "aaa";
             validRequest.startDate = "2011-01-01aaa";
-            assertPutError("/v2/data/srm/rounds/13673/setSurvey", 'heffan', validRequest, 400, "startDate is not a valid date.", done);
+            assertPostError("/v2/data/srm/rounds/13673/survey", 'heffan', validRequest, 400, "startDate is not a valid date.", done);
         });
     });
 
@@ -571,110 +528,110 @@ describe('SRM Round Questions APIs', function () {
         var validRequest = {"text": "text2", "styleId": 1, "typeId": 1, "statusId": 1, "keyword": "keyword1"};
 
         it("No anonymous access.", function (done) {
-            assertPutError("/v2/data/srm/rounds/306/question", null, validRequest, 401, "Authorized information needed.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", null, validRequest, 401, "Authorized information needed.", done);
         });
 
         it("Admin access only.", function (done) {
-            assertPutError("/v2/data/srm/rounds/306/question", 'user', validRequest, 403, "Admin access only.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'user', validRequest, 403, "Admin access only.", done);
         });
 
         it("questionId should be number.", function (done) {
-            assertPutError("/v2/data/srm/rounds/aaa/question", 'heffan', validRequest, 400, "questionId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/aaa/question", 'heffan', validRequest, 400, "questionId should be number.", done);
         });
 
         it("questionId should be Integer.", function (done) {
-            assertPutError("/v2/data/srm/rounds/30.6/question", 'heffan', validRequest, 400, "questionId should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/30.6/question", 'heffan', validRequest, 400, "questionId should be Integer.", done);
         });
 
         it("questionId should be positive.", function (done) {
-            assertPutError("/v2/data/srm/rounds/-306/question", 'heffan', validRequest, 400, "questionId should be positive.", done);
+            assertPostError("/v2/data/srm/rounds/-306/question", 'heffan', validRequest, 400, "questionId should be positive.", done);
         });
 
         it("questionId should be less or equal to 2147483647.", function (done) {
-            assertPutError("/v2/data/srm/rounds/111111111111111111111111111/question", 'heffan', validRequest, 400,
+            assertPostError("/v2/data/srm/rounds/111111111111111111111111111/question", 'heffan', validRequest, 400,
                 "questionId should be less or equal to 2147483647.", done);
         });
 
         it("text should be string.", function (done) {
             validRequest.text = 1;
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "text should be string.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "text should be string.", done);
         });
 
         it("text exceeds 2048 characters.", function (done) {
             validRequest.text = getLongText(2049);
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "text exceeds 2048 characters.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "text exceeds 2048 characters.", done);
         });
 
         it("keyword should be string.", function (done) {
             validRequest.keyword = 1;
             validRequest.text = "text";
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "keyword should be string.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "keyword should be string.", done);
         });
 
         it("keyword exceeds 64 characters.", function (done) {
             validRequest.keyword = getLongText(65);
             validRequest.text = "text";
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "keyword exceeds 64 characters.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "keyword exceeds 64 characters.", done);
         });
 
         it("statusId should be number.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": 1, "statusId": "aa", "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "statusId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "statusId should be number.", done);
         });
 
         it("statusId should be Integer.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": 1, "statusId": 1.1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "statusId should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "statusId should be Integer.", done);
         });
 
         it("statusId should be greater or equal to 0.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": 1, "statusId": -1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "statusId should be greater or equal to 0", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "statusId should be greater or equal to 0", done);
         });
 
         it("The statusId does not exist in database.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": 1, "statusId": 111, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "The statusId does not exist in database.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "The statusId does not exist in database.", done);
         });
 
         it("typeId should be number.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": "aa", "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "typeId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "typeId should be number.", done);
         });
 
         it("typeId should be Integer.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": 1.1, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "typeId should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "typeId should be Integer.", done);
         });
 
         it("typeId should be greater or equal to 0.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": -1, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "typeId should be greater or equal to 0", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "typeId should be greater or equal to 0", done);
         });
 
         it("The typeId does not exist in database.", function (done) {
             validRequest = {"text": "text2", "styleId": 1, "typeId": 111, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "The typeId does not exist in database.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "The typeId does not exist in database.", done);
         });
 
         it("styleId should be number.", function (done) {
             validRequest = {"text": "text2", "styleId": "aa", "typeId": 1, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "styleId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "styleId should be number.", done);
         });
 
         it("styleId should be Integer.", function (done) {
             validRequest = {"text": "text2", "styleId": 1.1, "typeId": 1, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "styleId should be Integer.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "styleId should be Integer.", done);
         });
 
         it("styleId should be greater or equal to 0.", function (done) {
             validRequest = {"text": "text2", "styleId": -1, "typeId": 1, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "styleId should be greater or equal to 0", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "styleId should be greater or equal to 0", done);
         });
 
         it("The styleId does not exist in database.", function (done) {
             validRequest = {"text": "text2", "styleId": 111, "typeId": 1, "statusId": 1, "keyword": "keyword1"};
-            assertPutError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "The styleId does not exist in database.", done);
+            assertPostError("/v2/data/srm/rounds/306/question", 'heffan', validRequest, 400, "The styleId does not exist in database.", done);
         });
     });
 
@@ -683,7 +640,7 @@ describe('SRM Round Questions APIs', function () {
         it("Valid set survey.", function (done) {
             var validRequest = {"name": "name1", "statusId": 0, "startDate": "2014-01-01 11:22", "length": 100, "surveyText": "aaa"};
 
-            createPutRequest("/v2/data/srm/rounds/13673/setSurvey", 'heffan').expect(200).send(validRequest).end(function (err, res) {
+            createPostRequest("/v2/data/srm/rounds/13673/survey", 'heffan').expect(200).send(validRequest).end(function (err, res) {
                 if (err) {
                     done(err);
                     return;
@@ -768,7 +725,7 @@ describe('SRM Round Questions APIs', function () {
                     });
                 }, function (questionId, cb) {
                     validRequest = {"text": "text1", "styleId": 2, "typeId": 2, "statusId": 0, "keyword": "keyword2"};
-                    createPutRequest("/v2/data/srm/rounds/" + questionId + "/question",
+                    createPostRequest("/v2/data/srm/rounds/" + questionId + "/question",
                         'heffan').expect(200).send(validRequest).end(function (err, res) {
                         if (err) {
                             cb(err);

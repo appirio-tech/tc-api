@@ -337,19 +337,24 @@ exports.routes = {
         { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" },
         { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
         { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" },
-        { path: "/:apiVersion/data/srm/contests/:id/edit", action: "updateSRMContest"},
-        { path: "/:apiVersion/data/srm/contests/create", action: "createSRMContest"},
-        { path: "/:apiVersion/data/srm/rounds/:roundId/delete", action: "deleteSRMContestRound" },
-        { path: "/:apiVersion/data/srm/rounds/:oldRoundId/edit", action: "modifySRMContestRound" },
+
+        { path: "/:apiVersion/data/srm/contests", action: "createSRMContest"},
+
         { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/roomAssignment", action: "setRoundRoomAssignment"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/languages", action: "setRoundLanguages"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/survey", action: "setRoundSurvey"},
         { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"}
     ],
     put: [
-        { path: "/:apiVersion/data/srm/rounds/:roundId/setSurvey", action: "setRoundSurvey"},
+
+        { path: "/:apiVersion/data/srm/contests/:id", action: "updateSRMContest"},
+        { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"}
+    ],
+    delete: [
+        { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" }
     ]
 };
