@@ -866,8 +866,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
     sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
-    pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 50);
+    pageIndex = Number(query.pageIndex || 1);
+    pageSize = Number(query.pageSize || 50);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
@@ -3583,8 +3583,8 @@ var getChallenges = function (api, connection, listType, next) {
 
     sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
-    pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 150);
+    pageIndex = Number(query.pageIndex || 1);
+    pageSize = Number(query.pageSize || 150);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
