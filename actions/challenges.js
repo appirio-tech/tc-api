@@ -867,7 +867,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageIndex || 1);
-    pageSize = Number(query.pageSize || 50);
+    pageSize = Number(query.pagesize || 50);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
@@ -3584,7 +3584,7 @@ var getChallenges = function (api, connection, listType, next) {
     sortOrder = query.sortorder || "desc";
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageIndex || 1);
-    pageSize = Number(query.pageSize || 150);
+    pageSize = Number(query.pagesize || 120);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
