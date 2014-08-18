@@ -66,7 +66,7 @@ and NVL(pp2.actual_end_time, pp2.scheduled_end_time) > '2012-01-01 00:00:00'
 AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submission_end_from@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submission_end_to@ 23:59:59', '%Y-%m-%d %H:%M:%S')
 -- Filter out the challenge that user is not belong to.
 AND pp1.phase_status_id in (2,3)
-AND pn.value LIKE('@challenge_name@')
+AND LOWER(pn.value) LIKE('@challenge_name@')
 -- start of parameters
 AND LOWER(pcl.description) = DECODE('@challenge_type@', '', LOWER(pcl.description), '@challenge_type@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
