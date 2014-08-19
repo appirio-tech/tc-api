@@ -12772,3 +12772,411 @@ Managing SRM Round Configuration APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+## Add Round Components API [/data/srm/rounds/:roundId/components]
+
+### Set Round Components API [POST]
+
++ Parameters
+  + roundId (required, number, `1000001`) ... The id of the round to set.
+  + components (required, JSON object, a JSON object) ... The components parameter.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "components should be Array."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "componentId should not be null or undefined"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "points should not be null or undefined"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should not be null or undefined"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "difficultyId should not be null or undefined"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "openOrder should not be null or undefined"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "submitOrder should not be null or undefined"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "componentId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "points should be greater or equal to 0"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "difficultyId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "openOrder should be non-negative."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "submitOrder should be non-negative."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The componentId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The divisionId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The difficultyId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The componentId and divisionId group should be unique."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Set Round Terms API [/data/srm/rounds/:roundId/terms]
+
+### Set Round Terms API [POST]
+
++ Parameters
+  + roundId (required, number, `1000001`) ... The id of the round to set.
+  + terms (required, String, 'test terms') ... The terms parameter.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The round terms should not be empty."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}

@@ -1,0 +1,4 @@
+INSERT INTO 
+    round_component (round_id, component_id, points, division_id, difficulty_id, open_order, submit_order ) 
+VALUES 
+    (@round_id@, @component_id@, @points@, @division_id@, @difficulty_id@, @open_order@, @submit_order@)

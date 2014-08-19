@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.53
+ * @version 1.55
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
- * @author panoptimum, bugbuka, Easyhard
+ * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
  *
  * Changes in 1.1:
  * - add routes for search challenges
@@ -128,14 +128,16 @@
  *   - Load Round Access API
  * Changes in 1.54:
  * - Add a line for NewRelic
+ * Changes in 1.55:
+ * - Add routes for set round components and terms.
  */
 /*jslint node:true, nomen: true */
 "use strict";
 
 /* use NewRelic */
 try {
-  require('newrelic');
-} catch(e) {}
+    require('newrelic');
+} catch (ignore) { }
 
 /* ---------------------
 routes.js
@@ -354,7 +356,10 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/survey", action: "setRoundSurvey"},
-        { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"}
+        { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"},
+
+        { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "setRoundComponents"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"}
     ],
     put: [
 

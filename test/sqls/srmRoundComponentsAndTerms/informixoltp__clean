@@ -1,0 +1,2 @@
+﻿DELETE FROM round_component WHERE round_id = 13673;
+DELETE FROM round_terms WHERE round_id = 13673;

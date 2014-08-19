@@ -1,0 +1,3 @@
+SELECT 
+    difficulty_id
+FROM difficulty WHERE difficulty_id = @difficulty_id@

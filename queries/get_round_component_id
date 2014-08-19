@@ -1,0 +1,3 @@
+SELECT 
+    component_id
+FROM component WHERE component_id = @component_id@

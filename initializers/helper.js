@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.34
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCASSEMBLER
+ * @version 1.35
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -91,6 +91,8 @@
  * Changes in 1.34:
  * - Add checkStringParameter function.
  * - Fixed some jslint issue.
+ * Changes in 1.35:
+ * - Added updateTextColumn() method.
  */
 "use strict";
 
@@ -1614,6 +1616,41 @@ helper.getFileTypes = function (api, dbConnectionMap, callback) {
                     callback(null, fileTypes);
                 });
             });
+        }
+    });
+};
+
+/**
+ * Execute the sql to update the fields including text/clob/blob type.
+ *
+ * @param api the api instance.
+ * @param query the sql query
+ * @param databaseName the database name
+ * @param params the parameter
+ * @param callback the callback method
+ */
+helper.updateTextColumn = function (api, query, databaseName, params, callback) {
+    var connection = api.dataAccess.createConnection(databaseName).initialize();
+
+    connection.connect(function (err, result) {
+        if (err) {
+            connection.disconnect();
+            callback(err, result);
+        } else {
+            connection.query(query, function (err, result) {
+                if (err) {
+                    connection.disconnect();
+                }
+                callback(err, result);
+                connection.disconnect();
+            }, {
+                start: function (q) {
+                    return;
+                },
+                finish: function (f) {
+                    return;
+                }
+            }).execute(params);
         }
     });
 };
