@@ -1,0 +1,5 @@
+{
+    "name"    : "get_data_challenge_types",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_data_challenge_types"
+}

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.29
+ * @version 1.30
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
  * @author isv, muzehyun, bugbuka
  * @changes from 1.0
@@ -75,6 +75,8 @@
  * Changes in 1.29:
  * - Implement uploadForDevelopChallenge action, using direct file upload for develop challenges
  * - Fixed existing errors report by jsLint tool.
+ * Changes in 1.30:
+ * - Update challenge type filter.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -128,6 +130,12 @@ var TECHNOLOGY_FILTER = ' AND EXISTS (SELECT DISTINCT 1 FROM comp_technology ct 
  */
 var PLATFORM_FILTER = ' AND EXISTS (SELECT 1 FROM project_platform pp WHERE pp.project_platform_id IN (@filter@) ' +
     'AND p.project_id = pp.project_id)';
+
+/**
+ * The challenge type filter for challenges api.
+ * @since 1.30
+ */
+var CHALLENGE_TYPE_FILTER = ' AND p.project_category_id IN (@filter@)';
 
 /**
  * This filter will return all private challenges.
@@ -498,6 +506,19 @@ function validateInputParameterV2(helper, caller, type, query, filter, pageIndex
     }
     async.waterfall([
         function (cbx) {
+            if (!_.isUndefined(query.challengeType)) {
+                helper.getCatalogCachedValue(query.challengeType.split(','), dbConnectionMap, 'challenge_types', cbx);
+            } else {
+                cbx(null, null);
+            }
+        },
+        function (challengeTypeId, cbx) {
+            if (_.isDefined(challengeTypeId)) {
+                filter.challengeType = challengeTypeId;
+            }
+            cbx();
+        },
+        function (cbx) {
             if (!_.isUndefined(filter.technologies)) {
                 helper.getCatalogCachedValue(filter.technologies.split(','), dbConnectionMap, 'technologies', cbx);
             } else {
@@ -721,7 +742,7 @@ var editSql = function (sql, template, content) {
  * @since 1.23
  */
 var addFilter = function (sql, filter, helper, caller) {
-    var platform, technology, challengeFilter, challengeTypeFilter;
+    var platform, technology, challengeFilter, challengeType;
     if (_.isDefined(filter.platforms)) {
         platform = filter.platforms.join(', ');
         sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
@@ -735,17 +756,9 @@ var addFilter = function (sql, filter, helper, caller) {
     }
 
     if (_.isDefined(filter.challengeType)) {
-        challengeTypeFilter =
-            " AND (" +
-            filter.challengeType
-            .split(",")
-            .map(function (item) {
-                return "LOWER(pcl.description) = LOWER('" + item.trim().toLowerCase() + "')";
-            })
-            .join(" OR ")
-            + ")\n";
-        sql.count = editSql(sql.count, challengeTypeFilter, null);
-        sql.data = editSql(sql.data, challengeTypeFilter, null);
+        challengeType = filter.challengeType.join(', ');
+        sql.count = editSql(sql.count, CHALLENGE_TYPE_FILTER, challengeType);
+        sql.data = editSql(sql.data, CHALLENGE_TYPE_FILTER, challengeType);
     }
 
     if (_.isDefined(filter.communityId)) {

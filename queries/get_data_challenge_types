@@ -1,0 +1,6 @@
+SELECT
+  name
+, project_category_id AS id
+FROM  project_category_lu pcl
+where display = 't'
+ORDER BY name ASC
