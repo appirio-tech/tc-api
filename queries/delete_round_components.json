@@ -1,0 +1,5 @@
+{
+    "name"    : "delete_round_components",
+    "db"      : "informixoltp",
+    "sqlfile" : "delete_round_components"
+}
