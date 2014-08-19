@@ -539,7 +539,7 @@ var clientChallengeCosts = function (api, connection, next) {
                 return;
             }
             if(type === ListType.ACTIVE) {
-                api.dataAccess.executeQuery("client_challenges_costs", sqlParameters, dbConnectionMap, cb);
+                api.dataAccess.executeQuery("active_client_challenges_costs", sqlParameters, dbConnectionMap, cb);
             } else {
                 api.dataAccess.executeQuery("past_client_challenges_costs", sqlParameters, dbConnectionMap, cb);
             }
