@@ -199,6 +199,6 @@ AND   pit_32.project_info_type_id = 32
 AND   c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
 AND   NVL(a.cmc_account_id, '') = DECODE('@cmc_account_id@', '', NVL(a.cmc_account_id, ''), '@cmc_account_id@')
 AND   NVL(a.customer_number, '') = DECODE('@customer_number@', '', NVL(a.customer_number, ''), '@customer_number@')
-AND (SELECT NVL(MAX(actual_end_time), MAX(scheduled_end_time)) FROM project_phase pp WHERE pp.project_id = p.project_id)) BETWEEN
+AND (SELECT NVL(MAX(actual_end_time), MAX(scheduled_end_time)) FROM project_phase pp WHERE pp.project_id = p.project_id)BETWEEN
     TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S')
     AND TO_DATE('@end_date@ 00:00:00', '%Y-%m-%d %H:%M:%S')

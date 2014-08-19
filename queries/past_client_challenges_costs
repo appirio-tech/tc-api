@@ -11,10 +11,7 @@ SELECT
       WHERE all_pp.project_id = p.project_id
       )::INTERVAL SECOND(9) TO SECOND::CHAR(20)::INT / 3600 / 24)::decimal(10,2) AS challenge_duration,
       NVL(reg_pp.actual_start_time, sub_pp.actual_start_time) AS posting_date,
-      ( SELECT all_pp.actual_end_time from
-        project_phase all_pp
-        WHERE all_pp.project_phase_id = (select max(pq.project_phase_id) from project_phase pq
-        WHERE pq.project_id = p.project_id)
+      (SELECT TO_DATE(substr(value, 0, 10), '%m.%d.%Y') FROM project_info WHERE project_id = p.project_id and  project_info_Type_id =21 AND value is not null
       )
       AS completion_date,
       (
@@ -196,10 +193,9 @@ LEFT JOIN tt_client a ON a.client_id = c.client_id
 WHERE p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND   pit_6.project_info_type_id = 6
 AND   pit_32.project_info_type_id = 32
-AND   c.client_id = DECODE(0, 0, c.client_id, 0)
+AND   c.client_id = DECODE(@clientid@, 0, c.client_id, @clientid@)
 AND   NVL(a.cmc_account_id, '') = DECODE('@cmc_account_id@', '', NVL(a.cmc_account_id, ''), '@cmc_account_id@')
 AND   NVL(a.customer_number, '') = DECODE('@customer_number@', '', NVL(a.customer_number, ''), '@customer_number@')
-AND (SELECT NVL(actual_end_time, scheduled_end_time) FROM project_phase pp WHERE pp.project_phase_id =
-             (SELECT MAX(pq.project_phase_id) from project_phase pq WHERE pq.project_id=p.project_id)) BETWEEN
-    TO_DATE('@start_date@ 00:00:00', '%Y-%m-%d %H:%M:%S')
-    AND TO_DATE('@end_date@ 00:00:00', '%Y-%m-%d %H:%M:%S')
+AND (SELECT TO_DATE(substr(value, 0, 10), '%m.%d.%Y') FROM project_info WHERE project_id = p.project_id and project_info_Type_id =21 AND value is not null) BETWEEN
+    TO_DATE('@start_date@', '%Y-%m-%d')
+    AND TO_DATE('@end_date@', '%Y-%m-%d')
