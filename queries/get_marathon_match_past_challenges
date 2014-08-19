@@ -9,6 +9,8 @@ SELECT
 , co.handle AS winner_handle
 , lcr.system_point_total AS winner_score
 , (SELECT problem_id FROM problem WHERE round_id = r.round_id) AS problem_id
+,(SELECT count(*) FROM long_comp_result WHERE round_id = r.round_id AND attended = 'Y') AS registrants_count
+,(SELECT sum(num_submissions) FROM long_comp_result WHERE round_id = r.round_id AND attended = 'Y') AS submission_count
 FROM 
   round r
 , contest c
