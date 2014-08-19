@@ -44,9 +44,10 @@ SELECT
      , NVL(pp9.actual_end_time, pp9.scheduled_end_time) AS final_fix_end_date
      , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
      , pstatus.name AS current_status
-     , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
+     , CASE WHEN (nd_phase.phase_type_id IS NOT NULL) THEN
                 (SELECT phase_type_lu.description FROM phase_type_lu
                 WHERE phase_type_id = nd_phase.phase_type_id)
+            WHEN (nd_phase.phase_type_id IS NULL AND pp1.phase_status_id in (2,3)) THEN 'Stalled'
             ELSE NULL
             END AS current_phase_name
      , CASE WHEN (nd_phase.scheduled_end_time IS NOT NULL) THEN
@@ -61,6 +62,7 @@ SELECT
      , (SELECT event_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_description
      , (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_short_desc
      , pi52.value AS allow_stock_art
+     , (SELECT value FROM project_info pi53 WHERE project_id = p.project_id AND project_info_type_id = 53) AS submissions_viewable
      , REPLACE(
                  REPLACE(
                     REPLACE(
@@ -138,7 +140,7 @@ SELECT
    AND pi78.project_info_type_id = 78 -- forum type
    AND pi78.project_id = p.project_id
    AND p.project_Id = nd_phase.project_id
-   AND nd_phase.phase_type_id = (SELECT MAX(phase_type_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id not in (13,14))
+   AND nd_phase.phase_type_id = (SELECT MIN(phase_type_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id not in (13,14))
    AND p.project_category_id = pcl.project_category_id
    AND pcl.project_type_id IN (@project_type_id@)
    AND ps.project_id = p.project_id

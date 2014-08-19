@@ -213,13 +213,15 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}]
+## Client Challenge Costs [/reports/client/costs/?startDate={startDate}&endDate={endDate}&clientid={clientId}&sfdcAccountId={sfdcAccountId}&customerNumber={customerNumer}]
 ### Client Challenge Costs [GET]
 
 + Parameters
-    + startDate (optional, string, `2013-07-01`) ... Start Date
-    + endDate (optional, string, `2013-12-01`) ... End Date
+    + startDate (required, string, `2013-07-01`) ... Start Date
+    + endDate (required, string, `2013-12-01`) ... End Date
     + clientId (optional, number, `4310`) ... Client Id
+    + sfdcAccountId (optional, string, `4310`) ... SFDC Account Id
+    + customerNumber (optional, string, `4310`) ... Customer Number
 
 + Response 200 (application/json)
 
@@ -411,8 +413,17 @@ Report APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Challenge Analyze [/reports/analyze]
+## Challenge Analyze [/reports/analyze?projectId={projectId}&openRegistrationDateFrom={openRegistrationDateFrom}&openRegistrationDateTo={openRegistrationDateTo}&challengeType={challengeType}&challengeName={challengeName}&prizeLower={prizeLower}&prizeUpper={prizeUpper}]
 ### Challenge Analyze [GET]
+
++ Parameters
+    + projectId (optional, string, `1245`) ... The project id.
+    + openRegistrationDateFrom (optional, string, `2014-04-01`) ... The open registration date from.
+    + openRegistrationDateTo (optional, string, `2014-04-05`) ... The open registration date to.
+    + challengeType (optional, string, `Wireframes`) ... The challenge type.
+    + challengeName (optional, string, `TC-API`) ... The challenge name.
+    + prizeLower (optional, number, `500`) ... The prize lower bound
+    + prizeUpper (optional, number, `1800`) ... The prize upper bound.
 
 + Response 200 (application/json)
 
@@ -427,12 +438,12 @@ Report APIs
                     "copilot": "iRabbit",
                     "csm": [
                         "nlouie"
-                    ],
+                    ]
                     "architect": "none",
                     "pm": [
                         "nlouie",
                         "Shannon"
-                    ],
+                    ]
                     "challengeStatus": "Active",
                     "currentPhase": "Registration",
                     "numberOfRegistrants": 15,
@@ -442,12 +453,11 @@ Report APIs
                     "openRegistrationDate": "2014-04-01",
                     "forumPosts": "11/25",
                     "numberOfUnansweredThread": 3,
-                    "1stPlacePrize": "1600/50",
-                    "2ndPlacePrize": "750/25",
+                    "1stPlacePrize": "1600/1400.0",
+                    "2ndPlacePrize": "750/800.0",
                     "numberOfDaysLive": "13.5/0.5",
                     "rating": "3/5/10",
-                    "numberOfRepost": 0,
-                    "comments": "good resgirations"
+                    "numberOfRepost": 0
                 }
              ]
         }
@@ -457,15 +467,23 @@ Report APIs
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"openRegistrationDateFrom is not a valid date."
         }
 
-+ Response 404 (application/json)
++ Response 401 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorized information needed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You don't have access to this api."
         }
 
 + Response 500 (application/json)
@@ -658,6 +676,10 @@ Platform APIs
 + Parameters
     + subscriptionNumber (required, string, `snABCD`) ... The subscription number of the project to create
     + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project
+    + startDate (optional, string, `cnDEFG`) ... The billing account start date
+    + endDate (optional, string, `cnDEFG`) ... The billing account end date
+    + billingAccountId (optional, number, `1234`) ... The billing account id
+    + active (optional, number, `1`) ... billing account active status (1 - active, 0 - inactive)
 
 + Response 200 (application/json)
 
@@ -705,17 +727,30 @@ Platform APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Billing Account Permission [/platform/billings/{billingAccountId}/users]
+### Update Billing Account Permission [POST]
++ Request (application/json)
 
-## Billing [/platform/billing]
-### Create Billing [POST]
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
+    [users]["users1,users2"]
+
 + Parameters
-    + billingAccountName (required, string, `snABCD`) ... The billing account name of the project to create
-    + customerNumber (required, string, `cnDEFG`) ... The customer number of the client with which to associate the project
+    + billingAccountId (required, number, `300001`) ... The billing account id that account to update
+    + users (required, string, `heffan,shannon`) ... The users to attach to billing account
 
 + Response 200 (application/json)
 
         {
-             "billingAccountId": "1000021"
+            "success": [
+                "twight"
+            ],
+            "failed": [
+                "noOne"
+            ]
         }
 
 + Response 400 (application/json)
@@ -723,7 +758,47 @@ Platform APIs
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"billingAccountId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"billingAccountId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The billingAccountId is not exist in Topcoder system."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"All these users are not in topcoder system."
         }
 
 + Response 401 (application/json)
@@ -731,7 +806,7 @@ Platform APIs
         {
             "name":"Unauthorized",
             "value":"401",
-            "description":"Authentication credentials were missing or incorrect."
+            "description":"You need to login for this api."
         }
 
 + Response 403 (application/json)
@@ -739,7 +814,7 @@ Platform APIs
         {
             "name":"Forbidden",
             "value":"403",
-            "description":"The request is understood, but it has been refused or access is not allowed."
+            "description":"You don't have enough authority to access this api."
         }
 
 + Response 500 (application/json)
@@ -757,7 +832,139 @@ Platform APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
+## Leaderboard [/platform/leaderboard]
+### Get Leaderboard [GET]
++ Parameters
+    + type (required, string, `referral`) ... The leaderboard type
+    + utmMedium (optional, string, `""`, `Appirio`, `__ALL__`) ... The referral type
+
++ Response 200 (application/json)
+
+{
+    "entries": 9,
+    "description": "The leaderbaord returns all  members that have referred at least one new member in the last 6 months.",
+    "scoreType": "points",
+    "scoreLabel": "referrals",
+    "result": [
+        {
+            "handle": "Referral9",
+            "score": 9,
+            "photo": "http://community.topcoder.com/i/m/Image9.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral8",
+            "score": 8,
+            "photo": "http://community.topcoder.com/i/m/Image8.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral6",
+            "score": 6,
+            "photo": "http://community.topcoder.com/i/m/Image6.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States Minor Outlying Islands",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral2",
+            "score": 1,
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Kingdom",
+            "ratingType": "Black"
+        },
+        {
+            "handle": "Referral7",
+            "score": 7,
+            "photo": "http://community.topcoder.com/i/m/Image7.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral10",
+            "score": 10,
+            "photo": "http://community.topcoder.com/i/m/Image10.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral5",
+            "score": 5,
+            "photo": "http://community.topcoder.com/i/m/Image5.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        },
+        {
+            "handle": "Referral4",
+            "score": 4,
+            "photo": "http://community.topcoder.com/i/m/Image4.jpg",
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United Arab Emirates",
+            "ratingType": "Yellow"
+        },
+        {
+            "handle": "Referral3",
+            "score": 2,
+            "memberSince": "2014-07-21T00:57:05.000+0200",
+            "country": "United States",
+            "ratingType": "Red"
+        }
+    ]
+}
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: type is a required parameter for this action"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "type should be an element of referral."
+            }
+        }
+
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "utmMedium should be an element of __all__,appirio."
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Get Challenge Detail [/challenges/{challengeId}]
 ### Get Challenge Detail [GET]
 
@@ -948,7 +1155,7 @@ Platform APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Get Challenge Registrants [/challenges/registrants/{challengeId}]
 ### Get Challenge Registrants [GET]
 
@@ -1268,7 +1475,7 @@ Platform APIs
                 "scheduledEndTime": "2013-12-05T12:22:07.000Z",
                 "actualEndTime": null
             }
-           ]          
+           ]
         }
 
 + Response 400 (application/json)
@@ -1827,6 +2034,53 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## My Profile [/user/profile]
+### My Profile [POST]
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+        {
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"User is not activated."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"Authentication credential was missing."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Validate Handle [/users/validate/{handle}]
 ### Validate Handle [GET]
 
@@ -2016,7 +2270,7 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Update Password [/users/updatePassword]
+## Update Password [/users/password]
 ### Update Password [POST]
 
 + Parameters
@@ -2569,6 +2823,106 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Apply Design Review Opportunity [/design/reviewOpportunities/:challengeId/apply]
+### Apply Design Review Opportunity [POST]
++ Parameters
+    + challengeId (required, string, `3001`) ... The challenge id
+    + isSpecReview (required, boolean, `true` or false) ... The spec review flag
+
++ Response 200 (application/json)
+
+        {
+            "result": "Success"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The isSpecReview flag should be true or false."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified challenge doesn't exist."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified challenge is not a design challenge."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Sorry, you are not a member of the review board."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The specified Screening review position is already taken."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Anonymous user don\'t have permission to access this api."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"You should agree with all terms of use."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 ## Challenge Reviewers Collection [/develop/reviewers/{contestType}]
 ### List reviewers of current challenge type [GET]
@@ -2868,166 +3222,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
-### Search Software Challenges [GET]
 
-+ Parameters
-    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-
-+ Response 200 (application/json)
-
-        {
-            "total": 30,
-            "pageIndex": 1,
-            "pageSize": 3,
-            "data": [
-                {
-                    "challengeType": "Web Design",
-                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "challengeId": 30036096,
-                    "projectId": 6789,
-                    "forumId": 1001,
-                    "eventId": 1,
-                    "eventName": "TCO14",
-                    "platforms": [ "Heroku", "NodeJS"],
-                    "technologies": [ "JavaScript", "Node.js" ],
-                    "numSubmissions": 16,
-                    "numRegistrants": 27,
-                    "screeningScorecardId": 1001,
-                    "reviewScorecardId": 1001,
-                    "registrationEndDate": "10.31.2013 10:10 EDT",
-                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
-                    "submissionEndDate": "10.31.2013 10:09 EDT",
-                    "appealsEndDate": "10.31.2013 10:10 EDT",
-                    "finalFixEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseRemainingTime": 500,
-                    "currentStatus": "Active",
-                    "currentPhaseName": "Submission",
-                    "challengeCommunity": "Develop",
-                    "prize": [1250, 500],
-                    "reliabilityBonus": 0,
-                    "digitalRunPoints": 500,
-                    "cmcTaskId": "ab",
-                    "numberOfCheckpointsPrizes": 2,
-                    "topCheckPointPrize": 200,
-                    "postingDate": "10.31.2013 10:10 EDT"
-                },
-                {
-                    "challengeType": "UI Prototype Competition",
-                    "challengeName": "Corningstone App UI Prototype 2",
-                    "challengeId": 30036099,
-                    "projectId": 6484,
-                    "forumId": 1001,
-                    "eventId": 1,
-                    "eventName": "TCO14",
-                    "platforms": [ "Heroku", "NodeJS"],
-                    "technologies": [ "JavaScript", "Node.js" ],
-                    "numSubmissions": 16,
-                    "numRegistrants": 27,
-                    "screeningScorecardId": 1001,
-                    "reviewScorecardId": 1001,
-                    "registrationEndDate": "10.31.2013 10:10 EDT",
-                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
-                    "submissionEndDate": "10.31.2013 10:09 EDT",
-                    "appealsEndDate": "10.31.2013 10:10 EDT",
-                    "finalFixEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseRemainingTime": 500,
-                    "currentStatus": "Active",
-                    "currentPhaseName": "Submission",
-                    "challengeCommunity": "Develop",
-                    "prize": [1250, 500],
-                    "reliabilityBonus": 660,
-                    "digitalRunPoints": 990,
-                    "cmcTaskId": "ab",
-                    "numberOfCheckpointsPrizes": 2,
-                    "topCheckPointPrize": 200,
-                    "postingDate": "10.31.2013 10:10 EDT"
-                },
-                {
-                    "challengeType": "Content Creation",
-                    "challengeName": "Crowdsourced Application Security Standards and Review",
-                    "challengeId": 30036091,
-                    "projectId": 6778,
-                    "forumId": 1001,
-                    "eventId": 1,
-                    "eventName": "TCO14",
-                    "platforms": [ "Heroku", "NodeJS"],
-                    "technologies": [ "JavaScript", "Node.js" ],
-                    "numSubmissions": 16,
-                    "numRegistrants": 27,
-                    "screeningScorecardId": 1001,
-                    "reviewScorecardId": 1001,
-                    "registrationEndDate": "10.31.2013 10:10 EDT",
-                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
-                    "submissionEndDate": "10.31.2013 10:09 EDT",
-                    "appealsEndDate": "10.31.2013 10:10 EDT",
-                    "finalFixEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseRemainingTime": 500,
-                    "currentStatus": "Active",
-                    "currentPhaseName": "Submission",
-                    "challengeCommunity": "Develop",
-                    "prize": [1250, 500],
-                    "reliabilityBonus": 360,
-                    "digitalRunPoints": 0,
-                    "cmcTaskId": "ab",
-                    "numberOfCheckpointsPrizes": 2,
-                    "topCheckPointPrize": 200,
-                    "postingDate": "10.31.2013 10:10 EDT"
-                }
-            ]
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
-        }
-
-+ Response 406 (application/json)
-
-        {
-            "name":"Not Acceptable",
-            "value":"406",
-            "description":"This message will explain why the Search parameters are invalid."
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
-## Search Active Software Challenges [/develop/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Software Challenges [/challenges/active?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&type={type}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
 ### Search Active Software Challenges [GET]
 
 + Parameters
@@ -3038,6 +3234,11 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + type (optional, string, `assembly') ... challenge type
+    + platforms (optional, string, `google,heroku`) ... platforms filter
+    + technologies (optional, string, `java,javascript`) ... technologies filter
+    + prizeLowerBound (optional, number, `1000`) ... prize lowerbound
+    + prizeUpperBound (optional, number, `1200`) ... prize upperbound
 
 + Response 200 (application/json)
 
@@ -3185,7 +3386,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Open Software Challenges [/develop/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Open Software Challenges [/challenges/open?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&type={type}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
 ### Search Open Software Challenges [GET]
 
 + Parameters
@@ -3196,6 +3397,11 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + type (optional, string, `assembly') ... challenge type
+    + platforms (optional, string, `google,heroku`) ... platforms filter
+    + technologies (optional, string, `java,javascript`) ... technologies filter
+    + prizeLowerBound (optional, number, `1000`) ... prize lowerbound
+    + prizeUpperBound (optional, number, `1200`) ... prize upperbound
 
 + Response 200 (application/json)
 
@@ -3343,7 +3549,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Past Software Challenges [/develop/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Past Software Challenges [/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&type={type}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
 ### Search Past Software Challenges [GET]
 
 + Parameters
@@ -3354,6 +3560,11 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + type (optional, string, `assembly') ... challenge type
+    + platforms (optional, string, `google,heroku`) ... platforms filter
+    + technologies (optional, string, `java,javascript`) ... technologies filter
+    + prizeLowerBound (optional, number, `1000`) ... prize lowerbound
+    + prizeUpperBound (optional, number, `1200`) ... prize upperbound
 
 + Response 200 (application/json)
 
@@ -3489,7 +3700,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Software Challenges [/develop/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Software Challenges [/challenges/upcoming?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&type={type}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
 ### Search Upcoming Software Challenges [GET]
 
 + Parameters
@@ -3500,6 +3711,11 @@ Request
     + communityId (optional, number, `1`) ... The community id.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + type (optional, string, `assembly') ... challenge type
+    + platforms (optional, string, `google,heroku`) ... platforms filter
+    + technologies (optional, string, `java,javascript`) ... technologies filter
+    + prizeLowerBound (optional, number, `1000`) ... prize lowerbound
+    + prizeUpperBound (optional, number, `1200`) ... prize upperbound
 
 + Response 200 (application/json)
 
@@ -3632,7 +3848,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Software Challenge Detail [/develop/challenges/{challengeId}]
+## Get Software Challenge Detail [/challenges/{challengeId}]
 ### Get Software Challenge Detail [GET]
 
 + Parameters
@@ -4224,7 +4440,7 @@ Request
 ## Software Challenge Upload Submission [/develop/challenges/{challengeid}/submit]
 ### Upload a submission by using base64 encoding[POST]
 + Request (application/json)
-    
+
 + Parameters
     + challengeid (required, number, `30000000`) ... The challenge id.
     + fileName (required, string, `abcd.zip`) ... The name of the file that is being uploaded
@@ -4516,133 +4732,7 @@ Request
 
 # Group Studio Challenges
 
-## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
-### Search Studio Challenges [GET]
-
-+ Parameters
-    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
-    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
-    + value (optional, string, `Development`) ... Value of the filter key-value pair
-    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
-    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
-    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
-    + communityId (optional, number, `1`) ... The community id.
-    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
-    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-
-+ Response 200 (application/json)
-
-        {
-            "total": 30,
-            "pageIndex": 1,
-            "pageSize": 2,
-            "data":
-            [
-                {
-                    "challengeType": "Web Design",
-                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "challengeId": 30036096,
-                    "projectId": 6789,
-                    "forumId": 1001,
-                    "eventId": 1,
-                    "eventName": "TCO14",
-                    "numSubmissions": 16,
-                    "numRegistrants": 27,
-                    "screeningScorecardId": 1001,
-                    "reviewScorecardId": 1001,
-                    "registrationEndDate": "10.31.2013 10:10 EDT",
-                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
-                    "submissionEndDate": "10.31.2013 10:09 EDT",
-                    "appealsEndDate": "10.31.2013 10:10 EDT",
-                    "finalFixEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseRemainingTime": 500,
-                    "currentStatus": "Active",
-                    "currentPhaseName": "Submission",
-                    "challengeCommunity": "Develop",
-                    "prize": [1250, 500],
-                    "reliabilityBonus": 0,
-                    "digitalRunPoints": 500,
-                    "cmcTaskId": "ab",
-                    "numberOfCheckpointsPrizes": 2,
-                    "topCheckPointPrize": 200,
-                    "postingDate": "10.31.2013 10:10 EDT"
-                },
-                {
-                    "challengeType": "Web Design",
-                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
-                    "challengeId": 30036096,
-                    "projectId": 6789,
-                    "forumId": 1001,
-                    "eventId": 1,
-                    "eventName": "TCO14",
-                    "numSubmissions": 16,
-                    "numRegistrants": 27,
-                    "screeningScorecardId": 1001,
-                    "reviewScorecardId": 1001,
-                    "registrationEndDate": "10.31.2013 10:10 EDT",
-                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
-                    "submissionEndDate": "10.31.2013 10:09 EDT",
-                    "appealsEndDate": "10.31.2013 10:10 EDT",
-                    "finalFixEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
-                    "currentPhaseRemainingTime": 500,
-                    "currentStatus": "Active",
-                    "currentPhaseName": "Submission",
-                    "challengeCommunity": "Develop",
-                    "prize": [1250, 500],
-                    "reliabilityBonus": 0,
-                    "digitalRunPoints": 500,
-                    "cmcTaskId": "ab",
-                    "numberOfCheckpointsPrizes": 2,
-                    "topCheckPointPrize": 200,
-                    "postingDate": "10.31.2013 10:10 EDT"
-                }
-            ]
-        }
-
-+ Response 400 (application/json)
-
-        {
-            "name":"Bad Request",
-            "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
-        }
-
-+ Response 404 (application/json)
-
-        {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
-        }
-
-+ Response 406 (application/json)
-
-        {
-            "name":"Not Acceptable",
-            "value":"406",
-            "description":"This message will explain why the Search parameters are invalid."
-        }
-
-+ Response 500 (application/json)
-
-        {
-            "name":"Internal Server Error",
-            "value":"500",
-            "description":"Unknown server error. Please contact support."
-        }
-
-+ Response 503 (application/json)
-
-        {
-            "name":"Service Unavailable",
-            "value":"503",
-            "description":"Servers are up but overloaded. Try again later."
-        }
-
-## Search Active Studio Challenges [/design/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Active Studio Challenges [/challenges/active?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Active Studio Challenges [GET]
 
 + Parameters
@@ -4766,7 +4856,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Open Studio Challenges [/design/challenges/open?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Open Studio Challenges [/challenges/open?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Open Studio Challenges [GET]
 
 + Parameters
@@ -4890,7 +4980,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Past Studio Challenges [/design/challenges/past?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Past Studio Challenges [/challenges/past?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Past Studio Challenges [GET]
 
 + Parameters
@@ -5006,7 +5096,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Search Upcoming Studio Challenges [/design/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## Search Upcoming Studio Challenges [/challenges/upcoming?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### Search Upcoming Studio Challenges [GET]
 
 + Parameters
@@ -5118,7 +5208,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Studio Challenge Detail [/design/challenges/{challengeId}]
+## Get Studio Challenge Detail [/challenges/{challengeId}]
 ### Get Studio Challenge Detail [GET]
 
 + Parameters
@@ -5316,11 +5406,11 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Get Studio Challenge Result [/design/challenges/result/{id}]
+## Get Studio Challenge Result [/design/challenges/result/{challengeId}]
 ### Get Studio Challenge Result [GET]
 
 + Parameters
-    + id (required, number, `30000000`) ... The challenge id.
+    + challengeId (required, number, `30000000`) ... The challenge id.
 
 + Response 200 (application/json)
 
@@ -5465,8 +5555,16 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Review Opportunities [/design/reviewOpportunities]
-### Get Review Opportunities [GET]
+##Design Review Opportunities [/design/reviewOpportunities?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get Design Review Opportunities [GET]
+
++ Parameters
+    + filter (optional, string, `type`) ... You can set multi key=value pair parameters to set the filter parameters. The filter parameter can only be following key: reviewType, challengeName, challengeType, reviewStartDate.type, reviewStartDate.firstDate, reviewStartDate.secondDate, reviewEndDate.type, reviewEndDate.firstDate, reviewEndDate.secondDate, reviewPaymentLowerBound, reviewPaymentUpperBound. For the reviewStartDate and reviewEndDate's type, it can only be(case sensitive) BEFORE, AFTER, ON, BETWEEN_DATES, BEFORE_CURRENT_DATE, AFTER_CURRENT_DATE. When the type is BETWEEN_DATES, the secondDate should be provided. The date value should follow this pattern YYYY-MM-DD.
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `50`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
 
 + Response 200 (application/json)
 
@@ -5474,21 +5572,30 @@ Request
          "data": [
           {
             "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+            "challengeId": 30005520,
+            "challengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "reviewType":"screening"
+            "reviewType":"screening",
+            "detailLink": "http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=30005520"
           },
           {
             "challengeName": "Cornell - Responsive Storyboard",
+            "challengeId": 30005521,
+            "challengeType": "Design",
             "round1ScheduledStartDate": "11.01.2013 11:01 EDT",
             "round2ScheduledStartDate": "11.01.2013 11:01 EDT",
             "reviewerPayment": 442,
             "reviewer": "leben",
-            "reviewType":"screening"
+            "reviewType":"screening",
+            "detailLink": "http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=30005521"
           }
-         ]
+         ],
+         "total": 2,
+         "pageIndex": 1,
+         "pageSize": 10
         }
 
 + Response 400 (application/json)
@@ -5753,7 +5860,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Studio Member Recent Winning Submissions [/users/{handle}/statistics/design/recentWins]
+## Studio Member Recent Winning Submissions [/users/{handle}/statistics/design/recentWins?numberOfRecentWins={numberOfRecentWins}]
 ### Studio Member Recent Winning Submissions [GET]
 
 + Parameters
@@ -6282,6 +6389,366 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## List Round for a Contest [/data/srm/rounds/{contestId}]
+### List Round for a Contest [GET]
+
++ Parameters
+    + contestId (required, integer) ... contest's id for listing
+
++ Response 200 (application/json)
+
+
+        {
+          "total": 5,
+          "data": [
+            {
+              "id": 40001,
+              "contest_id": 30001,
+              "name": "Round 1",
+              "status": "A",
+              "registrationLimit": 32,
+              "invitationalType": 0,
+              "short_name": "short name 1",
+              "type": {
+                "id": 6,
+                "desc": "Screening Tool Problem Sets"
+              },
+              "languages": [],
+              "region": {
+                "region_id": 1,
+                "region_name": "Alpha"
+              }
+            },
+            {
+              "id": 40002,
+              "contest_id": 30001,
+              "name": "Round 2",
+              "status": "A",
+              "registrationLimit": 64,
+              "invitationalType": 1,
+              "short_name": "short name 2",
+              "type": {
+                "id": 7,
+                "desc": "Team Single Round Match"
+              },
+              "languages": [],
+              "region": {
+                "region_id": 2,
+                "region_name": "Beta"
+              }
+            },
+            {
+              "id": 40003,
+              "contest_id": 30001,
+              "name": "Round 3",
+              "status": "A",
+              "registrationLimit": 128,
+              "invitationalType": 2,
+              "short_name": "short name 3",
+              "type": {
+                "id": 8,
+                "desc": "Team Tournament Round"
+              },
+              "languages": {
+                     "roundId": 40006,
+                     “languages” [
+                         {
+                           "id": 1,
+                           "description": "Java"
+                         },
+                         {
+                           "id": 3,
+                           "description": "C++"
+                         },
+                         {
+                           "id": 2,
+                           "description": "XML"
+                         }
+                     ]
+                 },
+              "region": {
+                "region_id": 3,
+                "region_name": "Gamma"
+              }
+            },
+            {
+              "id": 40004,
+              "contest_id": 30001,
+              "name": "Round 4",
+              "status": "A",
+              "registrationLimit": 256,
+              "invitationalType": 3,
+              "short_name": "short name 4",
+              "type": {
+                "id": 9,
+                "desc": "Team Practice Round"
+              },
+              "languages": [],
+              "region": {
+                "region_id": 4,
+                "region_name": "Delta"
+              }
+            },
+            {
+              "id": 40005,
+              "contest_id": 30001,
+              "name": "Round 5",
+              "status": "A",
+              "registrationLimit": 512,
+              "invitationalType": 4,
+              "short_name": "short name 5",
+              "type": {
+                "id": 10,
+                "desc": "Long Round"
+              },
+              "segments": {
+                "registrationLength": 0,
+                "codingLength": 450,
+                "intermissionLength": 0,
+                "challengeLength": 0
+              },
+              "languages": [],
+              "region": {
+                "region_id": 1,
+                "region_name": "Alpha"
+              }
+            }
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Create SRM Contest Round API [/data/srm/rounds/create]
+### Create SRM Contest Round API [POST] (application/json)
+
++ Parameters
+    + contest_id (required, integer) round's contest_id
+    + id (required, integer) round's id
+    + invitaitonalType (required, integer) round's invitaitonalType
+    + registrationLimit (required, integer) round's registrationLimit
+    + name (required, string) round's name
+    + short_name (required, string) round's short_name
+    + status (required, string) round's status
+    * type (required, object) round's type, it's id should be set.
+    * region (required, object) round's region, it's id should be set.
+    * roomAssignment (required, object) round's roomAssginment, with field codersPerRoom(integer), type(integer), isByDivision, isByRegion, isFinal(boolean), p(Number).
+
++ Response 200 (application/json)
+
+        {
+            "message": "ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Modify SRM Contest Round API [/data/srm/rounds/{oldRoundId}]
+### Modify SRM Contest Round API [PUT] (application/json)
+
++ Parameters
+    + contest_id (required, integer) round's contest_id
+    + oldRoundId (required, integer) modifying round's id
+    + id (required, integer) round's id
+    + invitaitonalType (required, integer) round's invitaitonalType
+    + registrationLimit (required, integer) round's registrationLimit
+    + name (required, string) round's name
+    + short_name (required, string) round's short_name
+    + status (required, string) round's status
+    * type (required, object) round's type, it's id should be set.
+    * region (required, object) round's region, it's id should be set.
+    * roomAssignment (required, object) round's roomAssginment, with field codersPerRoom(integer), type(integer), isByDivision, isByRegion, isFinal(boolean), p(Number).
+
++ Response 200 (application/json)
+
+        {
+            "message": "ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Delete SRM Contest Round API [/data/srm/rounds/{roundId}]
+### Delet SRM Contest Round API [DELETE]
+
++ Parameters
+    + roundId (required, integer) deleting round's id
+
++ Response 200 (application/json)
+
+        {
+            "message": "ok"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"The request is understood, but it has been refused or access is not allowed."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 ## Get Algorithm Marathon Challenge Detail [/data/marathon/challenges/{id}]
 ### Get Algorithm Marathon Detail [GET]
@@ -7529,6 +7996,7 @@ Request
 
 + Parameters
     + challengeId (required, number, `1234567`) ... The challenge for which to get terms of use
+    + role (optional, string, 'copilot') ... The role of the user
 
 + Response 200 (application/json)
 
@@ -8040,6 +8508,95 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## My Submissions [/challenges/submissions/{challengeId}/mySubmissions]
+### My Submissions [GET]
+
++ Parameters
+    + challengeId (required, number, `30005520`) ... The challenge id.
+
++ Response 200 (application/json)
+
+        {
+            "submissions": [
+                {
+                    "submissionId": 2001,
+                    "submissionDate": "2014-06-13T04:43:25.000+0000",
+                    "submissionType": "final",
+                    "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2001"
+                },
+                {
+                    "submissionId": 2003,
+                    "submissionDate": "2014-06-13T04:43:28.000+0000",
+                    "submissionType": "checkpoint",
+                    "download": "https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=2003"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeId should be less or equal to 2147483647."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"You need to login for this api."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"The challenge is not existed."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 # Group Members API
 
 ## Search members by handle [/users/search?handle={handle}&pageIndex={pageIndex}&pageSize={pageSize}&caseSensitive={caseSensitive}]
@@ -8277,7 +8834,7 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## Top Track Members [/users/tops/{trackType}?pageIndex={pageIndex}&pageSize={pageSize}]
 ### Top Track Members [GET]
 
@@ -8410,7 +8967,9 @@ Request
 
 + Parameters
     + submission (required, number, `123456`) ... The submission id.
-    + submissionType (required, string, `preview`) ... The submission type could be tiny, small, medium, full, thumb, preview or original
+    + submissionType (required, string, `preview`) ... The submission type should be preview or original
+    + submissionImageTypeId (optional) ... The image type id, 25, 26, 28, 29, 30, 31 for tiny, thumb, small, medium and full
+    + submissionFileIndex (optional) ... THe file index
 
 + Response 200 (application/octet-stream)
 
@@ -8459,6 +9018,8 @@ Request
 
 + Parameters
     + submission (required, number, `123456`) ... The submission id.
+    + username (optional, string, `tc-user`) ... The submission id.
+    + password (optional, string, `123456`) ... The submission id.
 
 + Response 200 (application/octet-stream)
 
@@ -8561,8 +9122,8 @@ Payments APIs
 
 ### Payment Preference [POST]
 + Parameters
-     + paymentMethod (mandatory, string, `Western Union`) ... Payment Method: PayPal, Western Union, Payoneer
-     + paypalAccountEmail (mandatory, string, if paymentMethods === "PayPal", else prohibited, must not exceed 100 characters, `heffan@gmail.com`) ... Email address of PayPal account
+     + paymentMethod (required, string, `Western Union`) ... Payment Method: PayPal, Western Union, Payoneer
+     + paypalAccountEmail (optional, string, if paymentMethods === "PayPal", else prohibited, must not exceed 100 characters, `heffan@gmail.com`) ... Email address of PayPal account
      + paymentAccrualAmount (optional, integer, must be greater than or equal to 25, `100`) ... Accrual amount to be paid
 
 + Response 200 (application/json)
@@ -9021,4 +9582,3193 @@ Payments APIs
             "name":"Internal Server Error",
             "value":"500",
             "description":"Fails to get user info from auth0."
+        }
+
+# Group SRM Contests
+Managing SRM Contests APIs
+
+## List all Contests [/data/srm/contests]
+
+### List all Contests [GET]
+
++ Response 200 (application/json)
+
+[
+    {
+        "contestId": 1000,
+        "name": "SRM 67 DIV 2",
+        "startDate": null,
+        "endDate": null,
+        "status": "A",
+        "groupId": -1,
+        "adText": null,
+        "adStart": null,
+        "adEnd": null,
+        "adTask": null,
+        "adCommand": null,
+        "activateMenu": null,
+        "season": null
+    },
+    {
+        "contestId": 1001,
+        "name": "Name 1",
+        "startDate": "2014-06-02 09:00",
+        "endDate": "2014-06-12 09:00",
+        "status": "A",
+        "groupId": -1,
+        "adText": "Ad Text 1",
+        "adStart": "2014-06-03 09:00",
+        "adEnd": "2014-06-08 09:00",
+        "adTask": "Ad Task 1",
+        "adCommand": "Ad Command 1",
+        "activateMenu": 0,
+        "season": {
+            "seasonId": 3001,
+            "name": "Season 1"
+        }
+    }
+]
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized access only."
+          }
+}
+
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
+## Create New Contest [/data/srm/contests/create]
+
+### Create New Contest [POST]
+
++ Parameters
+  + name (required, string, `Name`) ... The contest name.
+  + contestId (required, number, `123456`) ... The contest id.
+  + startDate (string, `2014-06-01 09:00`) ... The contest start date.
+  + endDate (string, `2014-06-01 09:00`) ...   The contest end date.
+  + status (string, has length 1, `A`) ... The contest status.
+  + groupId (number, `1`) ... The group id.
+  + adText (string, max length 250, `Ad Text`) ... The ad text.
+  + adStart (string, `2014-06-01 09:00`) ... The ad start.
+  + adEnd (string, `2014-06-01 09:00`) ... The ad end.
+  + adTask (string, max length 30 ,`Ad Task`) ... The ad task.
+  + adCommand (string, max length 30, `Ad Command`) ... The ad command.
+  + activateMenu (number, `0`) ... The activate menu flag.
+  + seasonId (number, `123456`) ... The season id.
+
++ Response 200 (application/json)
+
+{"success": true}
+
++ Response 400 (application/json)
+
+{
+      "error": {
+          "name": "Bad Request",
+          "value": 400,
+          "description": "The request was invalid. An accompanying message will explain why.",
+          "details": "contestId should be number."
+      }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "contestId is already in use."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of name must not exceed 50 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate is not a valid date."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "endDate is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate does not precede endDate."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status should be string."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status must be of length 1"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId is unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adText must not exceed 250 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adEnd is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart does not precede adEnd."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adTask must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adCommand must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "activateMenu should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId is unknown."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized access only."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
+## Modify Contest [/data/srm/contests/{id}]
+
+### Modify Contest [PUT]
+
++ Parameters
+  + id (required, number, `123456`) ... The id of the contest to be modified.
+  + name (required, string, `Name`) ... The new contest name.
+  + contestId (required, number, `123456`) ... The new contest id.
+  + startDate (string, `2014-06-01 09:00`) ... The new contest start date.
+  + endDate (string, `2014-06-01 09:00`) ...   The new contest end date.
+  + status (string, has length 1, `A`) ... The new contest status.
+  + groupId (number, `1`) ... The new group id.
+  + adText (string, max length 250, `Ad Text`) ... The new ad text.
+  + adStart (string, `2014-06-01 09:00`) ... The new ad start.
+  + adEnd (string, `2014-06-01 09:00`) ... The new ad end.
+  + adTask (string, max length 30 ,`Ad Task`) ... The new ad task.
+  + adCommand (string, max length 30, `Ad Command`) ... The new ad command.
+  + activateMenu (number, `0`) ... The new activate menu flag.
+  + seasonId (number, `123456`) ... The new season id.
+
++ Response 200 (application/json)
+
+{"success": true}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "id should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "id is unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+      "error": {
+          "name": "Bad Request",
+          "value": 400,
+          "description": "The request was invalid. An accompanying message will explain why.",
+          "details": "contestId should be number."
+      }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of name must not exceed 50 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate is not a valid date."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "endDate is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "startDate does not precede endDate."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status should be string."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status must be of length 1"
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "status unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "groupId is unknown."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adText must not exceed 250 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adText contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adEnd is not a valid date."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adStart does not precede adEnd."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adTask must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adTask contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Length of adCommand must not exceed 30 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "adCommand contains unescaped quotes."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "activateMenu should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "seasonId is unknown."
+    }
+}
+
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized access only."
+          }
+}
+
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
+## Set Survey API [/data/srm/rounds/:roundId/survey]
+
+### Set Survey API [POST]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Get Round Questions API [/data/srm/rounds/:roundId/questions]
+
+### Get Round Questions API [GET]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "questions": [
+        {
+            "id": 1000032,
+            "keyword": "keyword1",
+            "status": {
+                "id": 1,
+                "description": "ACTIVE"
+            },
+            "style": {
+                "id": 1,
+                "description": "Single Choice"
+            },
+            "text": "text2",
+            "type": {
+                "id": 1,
+                "description": "SRM Survey"
+            },
+            "isRequired": true
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Add Round Question API [/data/srm/rounds/:roundId/questions]
+
+### Add Round Question API [POST]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to set.
+  + text (required, text, `text1`) ... The text parameter.
+  + styleId (required, number, 1) ... The id of the style to set.
+  + typeId (required, number, 1) ... The id of the type to set.
+  + statusId (required, number, 1) ... The id of the status to set.
+  + keyword (optional, text, `keyword1`) ... The keyword parameter.
+  + isRequired (optional, boolean, true) ... The required flag.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text should be string.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text exceeds 2048 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword exceeds 64 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The isRequired should be boolean type."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The statusId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The typeId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The styleId does not exist in database."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Modify Round Question API [/data/srm/rounds/:questionId/questions]
+
+### Modify Round Question API [PUT]
+
++ Parameters
+  + questionId (required, number, `1000001`) ... The id of the question to set.
+  + text (required, text, `text1`) ... The text parameter.
+  + styleId (required, number, 1) ... The id of the style to set.
+  + typeId (required, number, 1) ... The id of the type to set.
+  + statusId (required, number, 1) ... The id of the status to set.
+  + keyword (optional, text, `keyword1`) ... The keyword parameter.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text should be string.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text exceeds 2048 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "keyword exceeds 64 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "statusId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The statusId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "typeId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The typeId does not exist in database."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "styleId should be greater or equal to 0."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The styleId does not exist in database."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Get Round Question Answers API [/data/srm/rounds/:questionId/answers]
+
+### Get Round Question Answers API [GET]
+
++ Parameters
+  + questionId (required, number, `13672`) ... The id of the question to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "answers": [
+        {
+            "id": 1000033,
+            "text": "text2",
+            "sortOrder": 1,
+            "correct": true
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## Add Round Question Answer API [/data/srm/questions/:questionId/answers]
+
+### Add Round Question Answer API [POST]
+
++ Parameters
+  + questionId (required, number, `1000001`) ... The id of the question to set.
+  + text (required, text, `text1`) ... The text parameter.
+  + sortOrder (optional, number, 1) ... The sort order to set.
+  + correct (optional, boolean, true) ... The correct parameter.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text should be string.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "text exceeds 2048 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "sortOrder should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "sortOrder should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "sortOrder should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "The correct should be boolean type."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+
+
+## List SRM Problems API [/data/srm/problems]
+
+### List Problems API [GET]
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "problems": [
+        {
+            "id": 10194,
+            "name": "BlackAndWhiteGame",
+            "type": {
+                "id": 3,
+                "description": "Long"
+            },
+            "status": {
+                "id": 90,
+                "description": "Used"
+            }
+        },
+        {
+            "id": 10195,
+            "name": "TestProblem",
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 90,
+                "description": "Used"
+            }
+        }
+    ]
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## List Round Problems API [/data/srm/rounds/:roundId/problems]
+
+### List Round Problems API [GET]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "assignedProblems": [
+        {
+            "division": {
+                "id": 1,
+                "desc": "Division-I"
+            },
+            "problemData": {
+                "id": 10194,
+                "name": "BlackAndWhiteGame",
+                "type": {
+                    "id": 3,
+                    "description": "Long"
+                },
+                "status": {
+                    "id": 90,
+                    "description": "Used"
+                }
+            }
+        },
+        {
+            "division": {
+                "id": 2,
+                "desc": "Division-II"
+            },
+            "problemData": {
+                "id": 10195,
+                "name": "TestProblem",
+                "type": {
+                    "id": 1,
+                    "description": "Single"
+                },
+                "status": {
+                    "id": 90,
+                    "description": "Used"
+                }
+            }
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+## List Round Problem Components API [/data/srm/rounds/:roundId/components]
+
+### List Round Problem Components API [GET]
+
++ Parameters
+  + roundId (required, number, `13672`) ... The id of the round to get.
+  + problemId (optional, number, `10194`) ... The id of the problem to get.
+  + divisionId (optional, number, `2020`) ... The id of the division to get.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "components": [
+        {
+            "difficulty": {
+                "id": 1,
+                "desc": "Level One"
+            },
+            "division": {
+                "id": 1,
+                "desc": "Division-I"
+            },
+            "openOrder": 0,
+            "pointValue": 500,
+            "componentData": {
+                "id": 2020,
+                "problemId": 10194,
+                "className": "BlackAndWhiteGame",
+                "methodName": "displayTestCase",
+                "resultType": "String",
+                "paramTypes": [
+                    "String"
+                ],
+                "type": {
+                    "id": 2,
+                    "description": "Supporting Component"
+                }
+            },
+            "submitOrder": 0
+        },
+        {
+            "difficulty": {
+                "id": 1,
+                "desc": "Level One"
+            },
+            "division": {
+                "id": 2,
+                "desc": "Division-II"
+            },
+            "openOrder": 0,
+            "pointValue": 250,
+            "componentData": {
+                "id": 2021,
+                "problemId": 10195,
+                "className": "TestProblem",
+                "methodName": "sum",
+                "resultType": "int",
+                "paramTypes": [
+                    "int",
+                    "int"
+                ],
+                "type": {
+                    "id": 1,
+                    "description": "Main Component"
+                }
+            },
+            "submitOrder": 0
+        }
+    ]
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "problemId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "divisionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "Both problemId and divisionId should be provided if you provided one of them."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
+# Group SRM Round Configuration APIs
+Managing SRM Round Configuration APIs
+
+## Set Round Room Assignment [/data/srm/rounds/{roundId}/roomAssignment]
+
+### Set Round Room Assignment [POST]
+
++ Parameters
+  + roundId (required, number, `123456`) ... The round id for the room to be assigned
+  + isByDivision (number, `1`) ... The isByDivision flag
+  + isByRegion (number, `1`) ... The isByRegion flag
+  + isFinal (number, `1`) ... The isFinal flag
+  + type (number, `1`) ... The algorithm seeding
+  + seasonId (number, `10`) ... The number of coders per room
+  + p (number, `1.1`) ... The p value
+
+
++ Response 200 (application/json)
+
+{
+    success: true
+}
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be number.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be positive.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId does not have a round room assignment.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be less or equal to 999999999.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'codersPerRoom should be number.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'codersPerRoom should be positive.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'codersPerRoom should be less or equal to 9999.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'type should be number.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'type should be positive.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'type should be an element of 1,2,3,4,5,6,7,8,9,10.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'isByDivision should be an element of 0,1.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'isByRegion should be an element of 0,1.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'isFinal should be an element of 0,1.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'p must be a floating point number.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'Precision of p must not exceed (10,2).' } }
+
+
++ Response 401 (application/json)
+
+{ error:
+   { name: 'Unauthorized',
+     value: 401,
+     description: 'Authentication credentials were missing or incorrect.',
+     details: 'Authorized access only.' } }
+
+
++ Response 403 (application/json)
+
+{ error:
+   { name: 'Forbidden',
+     value: 403,
+     description: 'The request is understood, but it has been refused or access is not allowed.',
+     details: 'Admin access only.' } }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Set Round Language [/data/srm/rounds/{roundId}/languages]
+
+### Set Round Room Language [POST]
+
++ Parameters
+  + roundId (required, number, `123456`) ... The round id
+  + languages (required, Array, [1, 3]) ... The array of language ids to be assigened to the room
+
+
++ Response 200 (application/json)
+
+{
+        success: true
+}
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be number.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be positive.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId unknown.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be less or equal to 999999999.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'languages must be an array.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'language should be an element of 1,3,4,5,6,7.' } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'Array size exceeds number of known languages.' } }
+
+
+
++ Response 401 (application/json)
+
+{ error:
+   { name: 'Unauthorized',
+     value: 401,
+     description: 'Authentication credentials were missing or incorrect.',
+     details: 'Authorized access only.' } }
+
+
++ Response 403 (application/json)
+
+{ error:
+   { name: 'Forbidden',
+     value: 403,
+     description: 'The request is understood, but it has been refused or access is not allowed.',
+     details: 'Admin access only.' } }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Set Round Events [/data/srm/rounds/{roundId}/events]
+
+### Set Round Events [POST]
+
++ Parameters
+  + roundId (required, number, `123456`) ... The round id
+  + eventId (required, number, `123456`) ... The event id
+  + eventName (string, max length 50, `Event `) ... The name of the event
+  + registrationUrl (string, max length 255, `http://www.topcoder.com`) ... The registration url for the event
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be number.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be positive.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId unknown.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'roundId should be less or equal to 999999999.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'eventId should be number.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'eventId should be positive.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'eventId should be less or equal to 999999999.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'eventName should be string.' } }
+
++ Response 400 (application/json)
+
+{
+  "error": {
+    "name": "Bad Request",
+    "value": 400,
+    "description": "The request was invalid. An accompanying message will explain why.",
+    "details": "eventName contains unescaped quotes."
+  } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'Length of eventName should be less or equal to 50.' } }
+
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'registrationUrl should be string.' } }
+
++ Response 400 (application/json)
+
+{
+  "error": {
+    "name": "Bad Request",
+    "value": 400,
+    "description": "The request was invalid. An accompanying message will explain why.",
+    "details": "registrationUrl contains unescaped quotes."
+  } }
+
++ Response 400 (application/json)
+
+{ error:
+   { name: 'Bad Request',
+     value: 400,
+     description: 'The request was invalid. An accompanying message will explain why.',
+     details: 'Length of registrationUrl should be less or equal to 255.' } }
+
++ Response 401 (application/json)
+
+{ error:
+   { name: 'Unauthorized',
+     value: 401,
+     description: 'Authentication credentials were missing or incorrect.',
+     details: 'Authorized access only.' } }
+
+
++ Response 403 (application/json)
+
+{ error:
+   { name: 'Forbidden',
+     value: 403,
+     description: 'The request is understood, but it has been refused or access is not allowed.',
+     details: 'Admin access only.' } }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Load Round Access [/data/srm/roundAccess]
+
+### Load Round Access [GET]
+
++ Response 200 (application/json)
+
+{ accessibleRounds:
+   [ { roundId: 13672,
+       name: 'Test SRM Test SRM Round',
+       startDate: '2014-07-13 20:22' },
+     { roundId: 13673,
+       name: 'Test MM Test MM Round',
+       startDate: '2014-07-13 20:22' },
+     { roundId: 4010,
+       name: 'Contest 2 Round 10',
+       startDate: '2014-07-12 09:05' },
+     { roundId: 4009,
+       name: 'Contest 1 Round 9',
+       startDate: '2014-07-11 09:05' },
+     { roundId: 4007,
+       name: 'Contest 1 Round 7',
+       startDate: '2014-07-09 09:05' },
+     { roundId: 4006,
+       name: 'Contest 2 Round 6',
+       startDate: '2014-07-08 09:05' },
+     { roundId: 4002,
+       name: 'Contest 2 Round 2',
+       startDate: '2014-07-04 09:05' },
+     { roundId: 4001,
+       name: 'Contest 1 Round 1',
+       startDate: '2014-07-03 09:05' } ] }
+
+
++ Response 401 (application/json)
+
+{ error:
+   { name: 'Unauthorized',
+     value: 401,
+     description: 'Authentication credentials were missing or incorrect.',
+     details: 'Authorized access only.' } }
+
+
++ Response 403 (application/json)
+
+{ error:
+   { name: 'Forbidden',
+     value: 403,
+     description: 'The request is understood, but it has been refused or access is not allowed.',
+     details: 'Admin access only.' } }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+# Group Deprecated APIs
+
+## Search Software Challenges [/develop/challenges?listType={listType}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Software Challenges [GET]
+
++ Parameters
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
+                    "projectId": 6484,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 660,
+                    "digitalRunPoints": 990,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
+                    "projectId": 6778,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 360,
+                    "digitalRunPoints": 0,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Search Studio Challenges [/design/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### Search Studio Challenges [GET]
+
++ Parameters
+    + listType (optional, string, `Open`) ... The type of challenges to search. It can only be 'ACTIVE', 'OPEN', 'PAST' or 'UPCOMING'. If it's null, 'Open' will be used.
+    + filter (optional, string, `challengeType`) ... Key of the filter key-value pair
+    + value (optional, string, `Development`) ... Value of the filter key-value pair
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 2,
+            "data":
+            [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "appealsEndDate": "10.31.2013 10:10 EDT",
+                    "finalFixEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "prize": [1250, 500],
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "topCheckPointPrize": 200,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
         }

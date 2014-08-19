@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.46
- * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, bugbuka, isv, flytoj2ee,
- * @author panoptimum, bugbuka
- * 
+ * @version 1.53
+ * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
+ * @author panoptimum, bugbuka, Easyhard
+ *
  * Changes in 1.1:
  * - add routes for search challenges
  * Changes in 1.2:
@@ -108,7 +108,34 @@
  * - Add route for get user submissions api.
  * Changes in 1.46:
  * - Add route for submitting develop challenge by direct file upload.
+ * Changes in 1.47:
+ * - Add routes for SRM Contest Management APIs
+ * Changes in 1.48:
+ * - Add route for billing account permission api.
+ * Changes in 1.49:
+ * - Add contest rounds management APIs (list, modify, create and delete)
+ * Changes in 1.50:
+ * - Add route for srm round questions / answers / survey api.
+ * Changes in 1.51:
+ * - Add routes for SRM Round Problems and Components APIs
+ * Changes in 1.52:
+ * - Add route for generic leaderboard api
+ * Changes in 1.53:
+ * - Add routes for:
+ *   - Set Round Room Assignment API
+ *   - Set Round Language API
+ *   - Set Round Events API
+ *   - Load Round Access API
+ * Changes in 1.54:
+ * - Add a line for NewRelic
  */
+/*jslint node:true, nomen: true */
+"use strict";
+
+/* use NewRelic */
+try {
+  require('newrelic');
+} catch(e) {}
 
 /* ---------------------
 routes.js
@@ -236,6 +263,9 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
+        { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
+        { path: "/:apiVersion/data/srm/roundAccess", action: "loadRoundAccess"},
+
         { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
         { path: "/:apiVersion/data/marathon/challenges", action: "searchMarathonChallenges" },
@@ -244,9 +274,9 @@ exports.routes = {
         { path: "/:apiVersion/data/countries", action: "countries" },
         { path: "/:apiVersion/data/platforms", action: "getPlatforms" },
         { path: "/:apiVersion/data/technologies", action: "getTechnologies" },
-
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
+        { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
@@ -254,6 +284,7 @@ exports.routes = {
         { path: "/:apiVersion/platform/statistics/:track", action: "getTrackStatistics" },
         { path: "/:apiVersion/platform/statistics", action: "tcDirectFacts" },
         { path: "/:apiVersion/platform/activeBillingAccounts", action: "getActiveBillingAccounts" },
+        { path: "/:apiVersion/platform/leaderboard", action: "getLeaderboard"},
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
@@ -280,6 +311,13 @@ exports.routes = {
         { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
         { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
 
+        { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "getRoundQuestions" },
+        { path: "/:apiVersion/data/srm/rounds/:questionId/answers", action: "getRoundQuestionAnswers" },
+
+        { path: "/:apiVersion/data/srm/problems", action: "listSRMProblems" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/problems", action: "listRoundProblems" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
+
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
     ].concat(testMethods.get),
     post: [
@@ -299,12 +337,32 @@ exports.routes = {
         { path: "/:apiVersion/challenges/:challengeId/unregister", action: "unregisterChallenge" },
         { path: "/:apiVersion/auth", action: "generateJwt" },
         { path: "/:apiVersion/reauth", action: "refreshJwt" },
+        { path: "/:apiVersion/platform/billings/users", action: "billingAccountsPermission" },
         { path: "/:apiVersion/platform/billing", action: "createBilling" },
         { path: "/:apiVersion/platform/customer", action: "createCustomer" },
         { path: "/:apiVersion/data/marathon/challenges/:roundId/register", action: "registerMarathonChallenge" },
         { path: "/:apiVersion/terms/docusign/viewURL", action: "generateDocusignViewURL"},
         { path: "/:apiVersion/payments/preference", action: "setPaymentPreference" },
         { path: "/:apiVersion/user/profile", action: "updateMyProfile" },
-        { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" }
+        { path: "/:apiVersion/design/reviewOpportunities/:challengeId/apply", action: "applyDesignReviewOpportunity" },
+
+        { path: "/:apiVersion/data/srm/contests", action: "createSRMContest"},
+
+        { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/roomAssignment", action: "setRoundRoomAssignment"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/languages", action: "setRoundLanguages"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/survey", action: "setRoundSurvey"},
+        { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"}
+    ],
+    put: [
+
+        { path: "/:apiVersion/data/srm/contests/:id", action: "updateSRMContest"},
+        { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" },
+        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"}
+    ],
+    delete: [
+        { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" }
     ]
 };

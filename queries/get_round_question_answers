@@ -1,0 +1,6 @@
+SELECT 
+answer_id,
+answer_text,
+sort_order,
+correct 
+ FROM answer WHERE question_id= @questionId@

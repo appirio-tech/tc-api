@@ -1,0 +1,7 @@
+INSERT INTO answer (
+answer_id,
+question_id,
+answer_text,
+sort_order,
+correct 
+) VALUES (@answerId@,@questionId@,'@answerText@',@sortOrder@,@correct@)

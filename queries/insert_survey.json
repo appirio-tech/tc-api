@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_survey",
+    "db"      : "informixoltp",
+    "sqlfile" : "insert_survey"
+}

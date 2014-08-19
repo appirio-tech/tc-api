@@ -1,2 +1,2 @@
 INSERT INTO client(client_id, name, company_id, payment_term_id, status, salestax, start_date, end_date, creation_date, creation_user, modification_date, modification_user, customer_number) 
-VALUES (@clientId@, '@clientName@', @companyId@, @paymentTermId@, @status@, @salestax@, CURRENT, CURRENT + @durationInYears@ UNITS YEAR, CURRENT, @userId@, CURRENT, @userId@, '@customerNumber@')
+VALUES (@clientId@, '@clientName@', @companyId@, @paymentTermId@, @status@, @salestax@, CURRENT, CURRENT + @durationInYears@ UNITS YEAR, CURRENT, '@handle@', CURRENT, '@handle@', '@customerNumber@')

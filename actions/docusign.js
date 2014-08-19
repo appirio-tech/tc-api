@@ -311,6 +311,7 @@ exports.generateDocusignViewURL = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheEnabled : false,
     databases: ["informixoltp", "common_oltp"],
     inputs: {
         required: ["templateId"],
@@ -413,6 +414,8 @@ exports.generateDocusignViewURL = {
                             value: tabs[x][1]
                         });
                     }
+
+                    textTabs.push({tabLabel :'TopCoder Handle', value: user.handle});
 
                     //Prepare the POST parameters
                     reqParams = {

@@ -1,0 +1,7 @@
+SELECT
+ segment_id
+ , start_time
+ , end_time
+ , status
+ FROM round_segment
+ WHERE round_id=@round_id@

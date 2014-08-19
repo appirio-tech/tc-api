@@ -1,2 +1,2 @@
 INSERT INTO contact_relation(entity_id, contact_type_id, contact_id, creation_date, creation_user, modification_date, modification_user) 
-VALUES (@entityId@, @contactTypeId@, @contactId@, CURRENT, '@userId@', CURRENT, '@userId@')
+VALUES (@entityId@, @contactTypeId@, @contactId@, CURRENT, '@handle@', CURRENT, '@handle@')

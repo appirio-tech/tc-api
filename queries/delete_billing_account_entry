@@ -1,0 +1,1 @@
+DELETE FROM project_manager WHERE project_id = @billingAccountId@

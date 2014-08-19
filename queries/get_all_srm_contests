@@ -1,0 +1,19 @@
+SELECT
+c.contest_id,
+c.name AS contest_name,
+c.start_date,
+c.end_date,
+c.status,
+c.group_id,
+c.ad_text,
+c.ad_start,
+c.ad_end,
+c.ad_task,
+c.ad_command,
+c.activate_menu,
+c.season_id,
+s.name AS season_name
+FROM (contest c
+LEFT OUTER JOIN season s
+ON c.season_id = s.season_id)
+ORDER BY c.contest_id;

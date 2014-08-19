@@ -1,0 +1,37 @@
+{
+    "data": [
+        {
+            "contest": {
+                "id": 30008
+            },
+            "id": 40065,
+            "invitationalType": 12,
+            "languages": {
+                "languages": [],
+                "roundId": 40065
+            },
+            "name": "modified round",
+            "region": {
+                "region_id": 2,
+                "region_name": "Beta"
+            },
+            "registrationLimit": 2222,
+            "roomAssignment": {
+                "codersPerRoom": 150,
+                "isByDivision": 0,
+                "isByRegion": 0,
+                "isFinal": 0,
+                "p": 1000.1,
+                "roundId": 40065,
+                "type": 3
+            },
+            "short_name": "modified short name",
+            "status": "F",
+            "type": {
+                "desc": "Marathon Match Tournament Round",
+                "id": 19
+            }
+        }
+    ],
+    "total": 1
+}

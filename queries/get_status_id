@@ -1,0 +1,1 @@
+select status_id from status_lu where status_id = @statusId@

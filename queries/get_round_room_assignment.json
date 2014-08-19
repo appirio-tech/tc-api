@@ -1,0 +1,6 @@
+
+{
+  "name"    : "get_round_room_assignment",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_round_room_assignment"
+}

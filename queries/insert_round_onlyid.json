@@ -1,0 +1,6 @@
+
+{
+  "name"    : "insert_round_onlyid",
+  "db"      : "informixoltp",
+  "sqlfile" : "insert_round_onlyid"
+}

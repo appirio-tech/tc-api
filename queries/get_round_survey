@@ -1,0 +1,9 @@
+SELECT
+ survey.name,
+ survey.start_date,
+ survey.end_date,
+ survey.text,
+ survey.status_id,
+ status_lu.status_desc
+ FROM survey LEFT OUTER JOIN status_lu ON survey.status_id=status_lu.status_id
+ WHERE survey.survey_id=@round_id@;

@@ -1,12 +1,12 @@
-/*jslint node: true, nomen: true */
+/*jslint node: true, nomen: true, unparam: true, plusplus: true, bitwise: true */
 /**
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  */
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum
- * @version 1.32
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
+ * @version 1.34
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -86,6 +86,11 @@
  * - Add SUBMISSION_TYPE object.
  * Changes in 1.32:
  * - Add checkIdParameter function.
+ * Changes in 1.33:
+ * - Add checkBoolean and checkNonNegativeInteger function.
+ * Changes in 1.34:
+ * - Add checkStringParameter function.
+ * - Fixed some jslint issue.
  */
 "use strict";
 
@@ -685,6 +690,37 @@ helper.checkPositiveInteger = function (obj, objName) {
 };
 
 /**
+ * Check non-negative Integer valid or not.
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if input not valid.
+ */
+helper.checkNonNegativeInteger = function (obj, objName) {
+    var result = helper.checkInteger(obj, objName);
+    if (result) {
+        return result;
+    }
+    if (obj < 0) {
+        result = new IllegalArgumentError(objName + " should be non-negative.");
+    }
+    return result;
+};
+
+/**
+ * Check boolean (true, false, 0 or 1)
+ * @param {Object} obj the obj to check.
+ * @param {String} objName the obj name.
+ * @return {Error} if input not valid.
+ */
+helper.checkBoolean = function (obj, objName) {
+    var result = null;
+    if (obj !== 0 && obj !== 1 && obj !== true && obj !== false) {
+        result = new IllegalArgumentError(objName + " should be 0, 1, true or false.");
+    }
+    return result;
+};
+
+/**
  * Check the id parameter only.
  * @param {Number} id - the id of object.
  * @param {String} idName - The name of id parameter.
@@ -697,6 +733,24 @@ helper.checkIdParameter = function (id, idName) {
         return result;
     }
     return helper.checkMaxInt(id, idName);
+};
+
+/**
+ * Check the string value with max length.
+ *
+ * @param obj - the string object
+ * @param objName - the object name
+ * @param maxLength - the max length
+ * @returns {Error} if input is invalid.
+ */
+helper.checkStringParameter = function (obj, objName, maxLength) {
+    var error = helper.checkString(obj, objName);
+
+    if (!error && obj.length > maxLength) {
+        error = new IllegalArgumentError(objName + " exceeds " + maxLength + " characters.");
+    }
+
+    return error;
 };
 
 
@@ -1452,6 +1506,27 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
         } else {
             api.log("There is a hit in users cache for [" + handle + "].", "debug");
             callback(err, null);
+        }
+    });
+};
+
+/**
+ * Check whether given user is activated.
+ * @param {String} handle - the handle to check.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err>} callback - the callback function
+ */
+helper.checkUserActivated = function (handle, api, dbConnectionMap, callback) {
+    api.dataAccess.executeQuery('check_user_activated', { handle: handle }, dbConnectionMap, function (err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        if (result && result[0] && result[0].status === 'A') {
+            callback(err, null);
+        } else {
+            callback(err, new BadRequestError('User is not activated.'));
         }
     });
 };

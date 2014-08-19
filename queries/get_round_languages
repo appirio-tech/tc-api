@@ -1,0 +1,3 @@
+SELECT l.language_id, l.language_name
+ FROM round_language rl, language l
+ WHERE rl.round_id=@round_id@ AND l.language_id = rl.language_id;

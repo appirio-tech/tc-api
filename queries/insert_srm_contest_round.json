@@ -1,0 +1,6 @@
+
+{
+  "name"    : "insert_srm_contest_round",
+  "db"      : "informixoltp",
+  "sqlfile" : "insert_srm_contest_round"
+}

@@ -1,0 +1,5 @@
+SELECT
+COUNT(*) AS round_room_assignment_exist
+FROM
+round_room_assignment
+WHERE round_id = @roundId@;

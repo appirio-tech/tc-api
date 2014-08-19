@@ -306,9 +306,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                 function (cb) {
                     //Rating
                     var rating = componentInfo.rating;
-                    if (!isRatingSuitableDevelopment(componentInfo.phase_id, componentInfo.project_category_id)) {
-                        rating = 0; //the rating can not apply in this challenge.
-                    }
+                    
                     if (rating > 0) {
                         persistResourceInfo(api, resourceId, 4, componentInfo.rating, userId, dbConnectionMap, cb);
                     } else {

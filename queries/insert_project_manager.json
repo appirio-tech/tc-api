@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_project_manager",
+    "db"      : "time_oltp",
+    "sqlfile" : "insert_project_manager"
+}

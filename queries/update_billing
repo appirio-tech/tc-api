@@ -9,6 +9,6 @@ UPDATE project SET
     start_date='@startDate@ 00:00:00',
     end_date='@endDate@ 00:00:00',
     modification_date=CURRENT,
-    modification_user='@userId@',
+    modification_user='@handle@',
     is_manual_prize_setting=@isManualPrizeSetting@
 WHERE project_id=@projectId@

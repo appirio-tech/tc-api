@@ -1,1 +1,1 @@
-SELECT project_status_id FROM project WHERE project_id = @challenge_id@
+SELECT project_status_id FROM project WHERE project_id = @challengeId@

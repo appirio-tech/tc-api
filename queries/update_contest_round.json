@@ -1,0 +1,6 @@
+
+{
+  "name"    : "update_contest_round",
+  "db"      : "informixoltp",
+  "sqlfile" : "update_contest_round"
+}

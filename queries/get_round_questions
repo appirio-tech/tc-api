@@ -1,0 +1,15 @@
+SELECT 
+q.question_id AS question_id,
+q.keyword AS keyword,
+q.question_text AS question_text,
+q.question_type_id AS question_type_id,
+qt.question_type_desc AS question_type_desc,
+q.question_style_id AS question_style_id,
+s.question_style_desc AS question_style_desc,
+q.status_id AS status_id,
+status_lu.status_desc AS status_desc
+ FROM question q LEFT OUTER JOIN round_question rq ON q.question_id = rq.question_id 
+LEFT OUTER JOIN question_type qt ON q.question_type_id = qt.question_type_id 
+LEFT OUTER JOIN question_style s ON q.question_style_id = s.question_style_id 
+LEFT OUTER JOIN status_lu ON q.status_id = status_lu.status_id 
+WHERE rq.round_id = @roundId@

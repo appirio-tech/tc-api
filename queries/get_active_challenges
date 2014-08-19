@@ -22,7 +22,7 @@ SELECT
 , NVL(nd_phase.actual_end_time, nd_phase.scheduled_end_time) AS current_phase_end_date
 , (( nd_phase.scheduled_end_time - CURRENT)::interval second(9) to second)::char(10)::int8 AS current_phase_remaining_time
 , pstatus.name AS status
-, (SELECT description FROM phase_type_lu WHERE phase_type_id = nd_phase.phase_type_id) AS current_phase_name
+, nvl((SELECT description FROM phase_type_lu WHERE phase_type_id = nd_phase.phase_type_id), 'Stalled') AS current_phase_name
 , CASE WHEN pidr.value = 'On' THEN
   NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
   ELSE NULL END AS digital_run_points
@@ -70,7 +70,7 @@ AND pidr.project_info_type_id = 26  --digital run
 AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
 AND p.project_Id = nd_phase.project_id
-AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
+AND nd_phase.project_phase_id = (SELECT MIN(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
 AND p.project_category_id = pcl.project_category_id
 AND p.project_status_id = 1
 AND pcl.project_type_id IN (@track@)

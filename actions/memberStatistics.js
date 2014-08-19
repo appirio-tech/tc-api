@@ -84,26 +84,26 @@ function checkCoderActivated(handle, api, dbConnectionMap, callback) {
     });
 }
 
-/**
- * Check whether given user is activated.
- * @param {String} handle - the handle to check.
- * @param {Object} api - the action hero api object
- * @param {Object} dbConnectionMap - the database connection map
- * @param {Function<err>} callback - the callback function
- */
-function checkUserActivated(handle, api, dbConnectionMap, callback) {
-    api.dataAccess.executeQuery('check_user_activated', { handle: handle }, dbConnectionMap, function (err, result) {
-        if (err) {
-            callback(err, null);
-            return;
-        }
-        if (result && result[0] && result[0].status === 'A') {
-            callback(err, null);
-        } else {
-            callback(err, new BadRequestError('User is not activated.'));
-        }
-    });
-}
+///**
+// * Check whether given user is activated.
+// * @param {String} handle - the handle to check.
+// * @param {Object} api - the action hero api object
+// * @param {Object} dbConnectionMap - the database connection map
+// * @param {Function<err>} callback - the callback function
+// */
+//function checkUserActivated(handle, api, dbConnectionMap, callback) {
+//    api.dataAccess.executeQuery('check_user_activated', { handle: handle }, dbConnectionMap, function (err, result) {
+//        if (err) {
+//            callback(err, null);
+//            return;
+//        }
+//        if (result && result[0] && result[0].status === 'A') {
+//            callback(err, null);
+//        } else {
+//            callback(err, new BadRequestError('User is not activated.'));
+//        }
+//    });
+//}
 
 /**
  * Update user preference.
@@ -262,7 +262,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
     async.waterfall([
         function (cb) {
             if (privateInfoEligibility) {
-                checkCoderActivated(handle, api, dbConnectionMap, function (err, result) {
+                helper.checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
                     if (err) {
                         cb(err);
                     } else {
@@ -2095,7 +2095,7 @@ function updateUserProfile(api, handle, dbConnectionMap, connection, next) {
 
     async.waterfall([
         function (cb) {
-            checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
+            helper.checkUserActivated(handle, api, dbConnectionMap, function (err, result) {
                 if (err) {
                     cb(err);
                 } else {

@@ -1,0 +1,4 @@
+INSERT INTO user_account(user_account_id, company_id, account_status_id, user_name, password, creation_date, creation_user,
+    modification_date, modification_user, user_status_id, user_type_id, billable_type)
+VALUES(@userAccountId@, 1, 1, '@username@', "password", current, '@handle@', current, '@handle@', 2, 2, 1)
+

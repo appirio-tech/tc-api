@@ -1,0 +1,16 @@
+SELECT
+c.contest_id,
+c.name AS contest_name,
+c.start_date,
+c.end_date,
+c.status,
+c.group_id,
+c.ad_text,
+c.ad_start,
+c.ad_end,
+c.ad_task,
+c.ad_command,
+c.activate_menu,
+c.season_id
+FROM contest c
+WHERE c.contest_id = @contestId@;

@@ -1,0 +1,7 @@
+UPDATE round_registration set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;
+UPDATE room set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;
+UPDATE round_room_assignment set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;
+UPDATE room_result set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;
+UPDATE component_state set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;
+UPDATE system_test_result set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;
+UPDATE challenge set round_id=@newRoundId@ WHERE round_id=@oldRoundId@;

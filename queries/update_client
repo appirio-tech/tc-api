@@ -1,5 +1,5 @@
 UPDATE client SET
     name = '@clientName@',
     modification_date = CURRENT,
-    modification_user = @userId@
+    modification_user = '@handle@'
 WHERE customer_number = '@customerNumber@'

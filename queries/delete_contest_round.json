@@ -1,0 +1,6 @@
+
+{
+  "name"    : "delete_contest_round",
+  "db"      : "informixoltp",
+  "sqlfile" : "delete_contest_round"
+}

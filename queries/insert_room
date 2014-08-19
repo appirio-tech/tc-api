@@ -1,0 +1,7 @@
+INSERT INTO room (
+       room_id,
+       round_id,
+       name,
+       division_id,
+       room_type_id)
+VALUES (@room_id@, @round_id@, '@name@', @division_id@, @room_type_id@)
