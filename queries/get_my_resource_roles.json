@@ -1,0 +1,5 @@
+{
+    "name"    : "get_my_resource_roles",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "get_my_resource_roles"
+}

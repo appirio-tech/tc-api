@@ -1,0 +1,22 @@
+SELECT
+  rrl.name
+, p.project_id AS challenge_id
+FROM project p
+, project_phase pp1 --registration phase
+, project_category_lu pcl
+, resource r
+, resource_info ri1
+, resource_role_lu rrl
+WHERE 1=1
+AND pp1.project_id = p.project_id
+AND pp1.phase_type_id = 1  --registration phase
+AND p.project_category_id = pcl.project_category_id
+AND p.project_status_id = 1
+AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
+AND ri1.resource_id = r.resource_id 
+AND ri1.resource_info_type_id = 1
+AND ri1.value = @myUserId@
+AND r.project_id = p.project_id
+AND r.resource_role_id = rrl.resource_role_id
+AND r.resource_role_id NOT IN (12, 13)
+AND pp1.phase_status_id IN (2, 3)

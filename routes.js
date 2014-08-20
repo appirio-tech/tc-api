@@ -244,6 +244,8 @@ exports.routes = {
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
 
+        { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
+
         { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
 

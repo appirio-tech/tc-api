@@ -152,6 +152,15 @@ var GROUP_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT 1 FROM contest_eligibility
     'AND p.project_id = ce.contest_id)\n';
 
 /**
+ * This filter will return challenges that caller associate with.
+ */
+var MY_CHALLENGES_FILTER = 'AND EXISTS ' +
+    '(SELECT r.resource_id ' +
+    'FROM resource r ' +
+    'INNER JOIN resource_info ri1 ON ri1.resource_id = r.resource_id AND ri1.resource_info_type_id = 1 ' +
+    'WHERE r.resource_role_id NOT IN (12, 13) AND r.project_id = p.project_id AND ri1.value = "@myUserId@") \n';
+
+/**
  * Represents a predefined list of valid query parameter for all challenge types.
  */
 var ALLOWABLE_QUERY_PARAMETER = [
@@ -254,6 +263,11 @@ var CHALLENGES_QUERY = {
         count: 'get_past_challenges_count'
     }
 };
+
+/**
+  * The valid my challenges types
+  */
+var VALID_GET_MY_CHALLENGES_TYPES = ['ACTIVE', 'PAST'];
 
 /**
  * This method will used to check the query parameter and sort column of the request.
@@ -726,11 +740,12 @@ var editSql = function (sql, template, content) {
  * Add technology and platform filter for sql query.
  * @param {Object} sql - the sql object.
  * @param {Object} filter - the filter object.
+ * @param {Boolean} isMyChallenges - the flag that represent if the request is the my challenges api.
  * @param {Object} helper - the helper object.
  * @param {Object} caller - the caller object.
  * @since 1.23
  */
-var addFilter = function (sql, filter, helper, caller) {
+var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
     var platform, technology, challengeFilter;
     if (_.isDefined(filter.platforms)) {
         platform = filter.platforms.join(', ');
@@ -742,6 +757,13 @@ var addFilter = function (sql, filter, helper, caller) {
         technology = filter.technologies.join(', ');
         sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
         sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+    }
+
+    if (isMyChallenges) {
+        sql.count = editSql(sql.count, MY_CHALLENGES_FILTER, null);
+        sql.data = editSql(sql.data, MY_CHALLENGES_FILTER, null);
+
+        console.log(sql.data);
     }
 
     if (_.isDefined(filter.communityId)) {
@@ -3549,15 +3571,16 @@ exports.getPhases = {
 };
 
 /**
- * Handle get active challenges api.
+ * Handle both get challenges api and my challenges api.
  *
  * @param {Object} api - the api object.
  * @param {Object} connection - the connection object.
  * @param {Object} listType - which type of challenges to get.
+ * @param {Boolean} isMyChallenges - the flag that represent if the request is my challenges api.
  * @param {Function} next - the callback function.
  * @since 1.21
  */
-var getChallenges = function (api, connection, listType, next) {
+var getChallenges = function (api, connection, listType, isMyChallenges, next) {
     var helper = api.helper,
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
@@ -3574,7 +3597,8 @@ var getChallenges = function (api, connection, listType, next) {
         type,
         result = {},
         total,
-        challenges;
+        challenges,
+        index;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
@@ -3585,6 +3609,12 @@ var getChallenges = function (api, connection, listType, next) {
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 150);
+
+    if (isMyChallenges) {
+        index = copyToFilter.indexOf('type');
+        copyToFilter.splice(index, 1);
+        api.log(copyToFilter);
+    }
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
@@ -3601,6 +3631,15 @@ var getChallenges = function (api, connection, listType, next) {
     }
 
     async.waterfall([
+        function (cb) {
+            if (isMyChallenges) {
+                var error = helper.checkMember(connection, "You need to login for this api.") ||
+                    helper.checkContains(VALID_GET_MY_CHALLENGES_TYPES, listType, "type");
+                cb(error);
+            } else {
+                cb();
+            }
+        },
         function (cb) {
             validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
         }, function (cb) {
@@ -3622,6 +3661,10 @@ var getChallenges = function (api, connection, listType, next) {
                 user_id: caller.userId || 0,
                 userId: caller.userId || 0
             });
+
+            if (isMyChallenges) {
+                sqlParams.myUserId = caller.userId;
+            }
 
             // Check the private challenge access
             api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
@@ -3646,7 +3689,7 @@ var getChallenges = function (api, connection, listType, next) {
                 }
             }, cb);
         }, function (sql, cb) {
-            sql = addFilter(sql, filter, helper, caller);
+            sql = addFilter(sql, filter, isMyChallenges, helper, caller);
             async.parallel({
                 count: function (cbx) {
                     if (listType === helper.ListType.ACTIVE || listType === helper.ListType.UPCOMING) {
@@ -3657,6 +3700,13 @@ var getChallenges = function (api, connection, listType, next) {
                 },
                 data: function (cbx) {
                     api.dataAccess.executeSqlQuery(sql.data, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
+                },
+                roles: function (cbx) {
+                    if (isMyChallenges) {
+                        api.dataAccess.executeQuery("get_my_resource_roles", sqlParams, dbConnectionMap, cbx);
+                    } else {
+                        cbx();
+                    }
                 }
             }, cb);
         }, function (results, cb) {
@@ -3671,6 +3721,19 @@ var getChallenges = function (api, connection, listType, next) {
             } else {
                 result.data = transferResultV2(challenges, helper);
             }
+
+            if (isMyChallenges) {
+                result.data = _.map(result.data, function (c) {
+                    c.roles = _.chain(results.roles)
+                        .filter(function (item) {
+                            return item.challenge_id === c.challengeId;
+                        })
+                        .pluck("name")
+                        .value();
+                    return c;
+                });
+            }
+
             result.total = total;
             result.pageIndex = pageIndex;
             result.pageSize = pageIndex === -1 ? total : pageSize;
@@ -3706,7 +3769,7 @@ exports.getActiveChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getActiveChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.ACTIVE, next);
+            getChallenges(api, connection, api.helper.ListType.ACTIVE, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3732,7 +3795,7 @@ exports.getOpenChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getOpenChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.OPEN, next);
+            getChallenges(api, connection, api.helper.ListType.OPEN, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3759,7 +3822,7 @@ exports.getUpcomingChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getUpcomingChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.UPCOMING, next);
+            getChallenges(api, connection, api.helper.ListType.UPCOMING, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3786,7 +3849,7 @@ exports.getPastChallenges = {
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getPastChallenges#run", 'debug');
-            getChallenges(api, connection, api.helper.ListType.PAST, next);
+            getChallenges(api, connection, api.helper.ListType.PAST, false, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
@@ -3893,6 +3956,37 @@ exports.getUserSubmissions = {
         if (connection.dbConnectionMap) {
             api.log("Execute getUserSubmissions#run", 'debug');
             getUserSubmissions(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+  * The API for get my challenges
+  * @since 1.29
+  */
+exports.getMyChallenges = {
+    name: "getMyChallenges",
+    description: "get my challenges api",
+    inputs: {
+        required: ['type'],
+        optional: SPLIT_API_ALLOWABLE_QUERY_PARAMETER
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getActiveChallenges#run", 'debug');
+            var type = connection.params.type;
+            if (type) {
+                type = type.toUpperCase();
+            }
+            delete connection.params.type;
+            getChallenges(api, connection, type, true, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
