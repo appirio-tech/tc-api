@@ -11,8 +11,9 @@ WHERE 1=1
 AND pp1.project_id = p.project_id
 AND pp1.phase_type_id = 1  --registration phase
 AND p.project_category_id = pcl.project_category_id
-AND p.project_status_id = 1
+AND p.project_status_id IN (@challengeStatus@)
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
+AND pcl.project_type_id IN (@track@)
 AND ri1.resource_id = r.resource_id 
 AND ri1.resource_info_type_id = 1
 AND ri1.value = @myUserId@

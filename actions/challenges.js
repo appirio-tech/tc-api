@@ -278,6 +278,16 @@ var CHALLENGES_QUERY = {
 var VALID_GET_MY_CHALLENGES_TYPES = ['ACTIVE', 'PAST'];
 
 /**
+ * The active challenge status id.
+ */
+var ACTIVE_CHALLENGE_STATUS = [1];
+
+/**
+ * The past challenge status id.
+ */
+var PAST_CHALLENGE_STATUS = [4, 5, 6, 7, 8, 9, 10, 11];
+
+/**
  * This method will used to check the query parameter and sort column of the request.
  *
  * @param {Object} helper - the helper.
@@ -3681,6 +3691,11 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
 
             if (isMyChallenges) {
                 sqlParams.myUserId = caller.userId;
+                if (listType === helper.ListType.ACTIVE) {
+                    sqlParams.challengeStatus = ACTIVE_CHALLENGE_STATUS;
+                } else {
+                    sqlParams.challengeStatus = PAST_CHALLENGE_STATUS;
+                }
             }
 
             // Check the private challenge access
@@ -3997,7 +4012,7 @@ exports.getMyChallenges = {
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute getActiveChallenges#run", 'debug');
+            api.log("Execute getMyChallenges#run", 'debug');
             var type = connection.params.type;
             if (type) {
                 type = type.toUpperCase();
