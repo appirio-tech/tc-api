@@ -1,0 +1,5 @@
+{
+  "name"    : "get_srm_schedule",
+  "db"      : "informixoltp",
+  "sqlfile" : "get_srm_schedule"
+}
