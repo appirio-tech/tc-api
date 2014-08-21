@@ -2080,6 +2080,170 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## Search My Challenges [/user/challenges?type={type}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&challengeType={challengeType}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
+### Search My Challenges [GET]
+
++ Parameters
+    + type (required, string, `develop`) ... type (design or develop)
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + communityId (optional, number, `1`) ... The community id.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + challengeType (optional, string, `assembly') ... challenge type
+    + platforms (optional, string, `google,heroku`) ... platforms filter
+    + technologies (optional, string, `java,javascript`) ... technologies filter
+    + prizeLowerBound (optional, number, `1000`) ... prize lowerbound
+    + prizeUpperBound (optional, number, `1200`) ... prize upperbound
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Web Design",
+                    "challengeName": "Cornell - Responsive Storyboard Economics Department Site Redesign Contest",
+                    "challengeId": 30036096,
+                    "projectId": 6789,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 0,
+                    "digitalRunPoints": 500,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "UI Prototype Competition",
+                    "challengeName": "Corningstone App UI Prototype 2",
+                    "challengeId": 30036099,
+                    "projectId": 6484,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 660,
+                    "digitalRunPoints": 990,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Content Creation",
+                    "challengeName": "Crowdsourced Application Security Standards and Review",
+                    "challengeId": 30036091,
+                    "projectId": 6778,
+                    "forumId": 1001,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "platforms": [ "Heroku", "NodeJS"],
+                    "technologies": [ "JavaScript", "Node.js" ],
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "screeningScorecardId": 1001,
+                    "reviewScorecardId": 1001,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "registrationEndDate": "10.31.2013 10:10 EDT",
+                    "checkpointSubmissionEndDate": "10.31.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "currentPhaseEndDate": "10.31.2013 10:10 EDT",
+                    "currentPhaseRemainingTime": 500,
+                    "currentStatus": "Active",
+                    "currentPhaseName": "Submission",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "totalCheckpointPrize": 400,
+                    "reliabilityBonus": 360,
+                    "digitalRunPoints": 0,
+                    "cmcTaskId": "ab",
+                    "numberOfCheckpointsPrizes": 2,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }        
 
 ## Validate Handle [/users/validate/{handle}]
 ### Validate Handle [GET]
