@@ -269,6 +269,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/data/srm/roundAccess", action: "loadRoundAccess"},
+        { path: "/:apiVersion/data/srm/schedule", action: "getSRMSchedule"},
 
         { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },

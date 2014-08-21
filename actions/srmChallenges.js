@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
+ * @version 1.5
  * @author Sky_, freegod, panoptimum
  * changes in 1.1:
  * - implement srm API
@@ -18,6 +18,8 @@
  *   - set round language api
  *   - set round events api
  *   - load round access api
+ * changes in 1.5
+ * - added API for retrieving SRM schedule
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -300,6 +302,134 @@ exports.searchSRMChallenges = {
     }
 };
 
+/* API to retrieve SRM schedule */
+exports.getSRMSchedule = {
+    name: "getSRMSchedule",
+    description: "getSRMSchedule",
+    inputs: {
+        required: [],
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        api.log("Execute getSRMSchedule#run", 'debug');
+        var helper = api.helper, params = connection.params, sqlParams,
+            pageIndex, pageSize, sortColumn, sortOrder, error, result,
+            dbConnectionMap = connection.dbConnectionMap;
+        if (!dbConnectionMap) {
+            helper.handleNoConnection(api, connection, next);
+            return;
+        }
+
+        sortOrder = (params.sortOrder || "asc").toLowerCase();
+        sortColumn = (params.sortColumn || "roundId").toLowerCase();
+
+        pageIndex = Number(params.pageIndex || 1);
+        pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
+
+        if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
+            sortOrder = "desc";
+        }
+
+        async.waterfall([
+            function (cb) {
+                var allowedSort = helper.getLowerCaseList(ALLOWABLE_SORT_COLUMN);
+                if (_.isDefined(params.pageIndex) && pageIndex !== -1) {
+                    error = helper.checkDefined(params.pageSize, "pageSize");
+                }
+                error = error ||
+                    helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
+                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkPageIndex(pageIndex, "pageIndex") ||
+                    helper.checkPositiveInteger(pageSize, "pageSize") ||
+                    helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
+                    helper.checkContains(allowedSort, sortColumn, "sortColumn");
+                if (error) {
+                    cb(error);
+                    return;
+                }
+
+                if (pageIndex === -1) {
+                    pageIndex = 1;
+                    pageSize = MAX_INT;
+                }
+                sqlParams = {
+                    firstRowIndex: (pageIndex - 1) * pageSize,
+                    pageSize: pageSize,
+                    sortColumn: helper.getSortColumnDBName(sortColumn),
+                    sortOrder: sortOrder
+                };
+
+                async.parallel({
+                    count: function (cbx) {
+                        api.dataAccess.executeQuery("get_srm_schedule_count",
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    },
+                    data: function (cbx) {
+                        api.dataAccess.executeQuery("get_srm_schedule",
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    }
+                }, cb);
+            }, function (results, cb) {
+                if (results.data.length === 0) {
+                    result = {
+                        total: 0,
+                        pageIndex: pageIndex,
+                        pageSize: Number(params.pageIndex) === -1 ? 0 : pageSize,
+                        data: []
+                    };
+                    cb();
+                    return;
+                }
+                var total = results.count[0].total_count;
+                result = {
+                    total: total,
+                    pageIndex: pageIndex,
+                    pageSize: Number(params.pageIndex) === -1 ? total : pageSize,
+                    data: []
+                };
+                results.data.forEach(function (item) {
+                    var challenge = {
+                        roundId: item.round_id,
+                        contestId: item.contest_id,
+                        contestName: item.name,
+                        roundType: item.round_type,
+                        startDate: item.start_date,
+                        endDate: item.end_date,
+                        registrationStartTime: item.registration_start_time,
+                        registrationEndTime: item.registration_end_time,
+                        codingStartTime: item.coding_start_time,
+                        codingEndTime: item.coding_end_time,
+                        intermissionStartTime: item.intermission_start_time,
+                        intermissionEndTime: item.intermission_end_time,
+                        challengeStartTime: item.challenge_start_time,
+                        challengeEndTime: item.challenge_end_time,
+                        systestStartTime: item.systest_start_time,
+                        systestEndTime: item.systest_end_time,
+                    };
+
+                    result.data.push(challenge);
+                });
+                cb();
+            }
+        ], function (err) {
+            if (err) {
+                helper.handleError(api, connection, err);
+            } else {
+                connection.response = result;
+            }
+            next(connection, true);
+        });
+    }
+};
 
 /**
 * The API for getting SRM challenge
