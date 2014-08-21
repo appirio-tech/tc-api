@@ -538,8 +538,13 @@ var clientChallengeCosts = function (api, connection, next) {
                 cb(new NotFoundError('Client not found'));
                 return;
             }
+            if(type === helper.ListType.ACTIVE) {
+                api.dataAccess.executeQuery("active_client_challenges_costs", sqlParameters, dbConnectionMap, cb);
+            } else {
+                api.dataAccess.executeQuery("past_client_challenges_costs", sqlParameters, dbConnectionMap, cb);
+            }
 
-            api.dataAccess.executeQuery("client_challenges_costs", sqlParameters, dbConnectionMap, cb);
+
         }, function (results, cb) {
             costs = _.map(results, function (item) {
                 var cost = _.object(_.chain(item).keys().map(function (i) { return new S(i).camelize().s; }).value(), _.values(item));

@@ -1,0 +1,1 @@
+DELETE FROM round_component WHERE round_id = @round_id@

@@ -1,0 +1,3 @@
+SELECT 
+    division_id
+FROM division WHERE division_id = @division_id@
