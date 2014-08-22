@@ -202,20 +202,20 @@ var SPLIT_API_ALLOWABLE_SORT_COLUMN = {
     'ACTIVE': [
         "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
         "submissionEndDate", "firstPlacePrize", "currentStatus", "digitalRunPoints",
-        "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName"
+        "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "totalPrize"
     ],
     'OPEN': [
         "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
         "submissionEndDate", "firstPlacePrize", "currentStatus", "digitalRunPoints",
-        "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName"
+        "numSubmissions", "numRegistrants", "currentPhaseRemainingTime", "currentPhaseName", "totalPrize"
     ],
     'UPCOMING': [
         "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
-        "submissionEndDate", "firstPlacePrize", "digitalRunPoints", "numSubmissions", "numRegistrants"
+        "submissionEndDate", "firstPlacePrize", "digitalRunPoints", "numSubmissions", "numRegistrants", "totalPrize"
     ],
     'PAST': [
         "challengeName", "challengeType", "challengeId", "cmcTaskId", "registrationEndDate",
-        "submissionEndDate", "firstPlacePrize", "digitalRunPoints", "numSubmissions", "numRegistrants"
+        "submissionEndDate", "firstPlacePrize", "digitalRunPoints", "numSubmissions", "numRegistrants", "totalPrize"
     ]
 };
 

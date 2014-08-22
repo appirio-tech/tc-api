@@ -235,7 +235,8 @@ var apiName2dbNameMap = {
     numregistrants: 'num_registrants',
     currentphaseremainingtime: 'current_phase_remaining_time',
     currentphasename: 'current_phase_name',
-    registrationopen: 'registration_open'
+    registrationopen: 'registration_open',
+    totalPrize: 'total_prize'
 };
 
 /**
