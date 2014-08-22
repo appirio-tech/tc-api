@@ -42,7 +42,6 @@ describe('Get SRM Challenges API', function () {
         clearDb(done);
     });
 
-
     describe("Search Challenges", function () {
 
         /**
@@ -596,4 +595,63 @@ describe('Get SRM Challenges API', function () {
             assert400("10000000000000000", done);
         });
     });
+
+
+     describe("Get Challenges Schedule", function () {
+
+        /**
+         * Clear database
+         * @param {Function<err>} done the callback
+         */
+        function clearDb(done) {
+            testHelper.runSqlFile(SQL_DIR + "informixoltp_clear", "informixoltp", done);
+        }
+
+        /**
+         * This function is run before all tests.
+         * Generate tests data.
+         * @param {Function<err>} done the callback
+         */
+        before(function (done) {
+            async.waterfall([
+                function (cb) {
+                    clearDb(cb);
+                }, function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + "informixoltp_insert_challenges", "informixoltp", cb);
+                }
+            ], done);
+        });
+
+        /**
+         * Create request to search challenges API and assert 400 http code
+         * @param {String} challengeId - the challenge id
+         * @param {Function} done - the callback function
+         */
+        function assert400(challengeId, done) {
+            request(API_ENDPOINT)
+                .get('/v2/data/srm/challenges/' + challengeId)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(400)
+                .end(done);
+        }
+
+        /**
+         * /v2/data/srm/challenges/10041
+         */
+        it("should return challenge schedule", function (done) {
+            request(API_ENDPOINT)
+                .get('/v2/data/srm/schedule')
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    testHelper.assertResponse(err,
+                        res,
+                        "test_files/expected_get_srm_schedule.json",
+                        done);
+                });
+        });
+    });
+
 });

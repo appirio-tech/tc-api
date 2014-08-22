@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "challengeEndTime": "2014-08-13T18:00:00.000-0500",
+      "challengeStartTime": "2014-08-13T17:00:00.000-0500",
+      "codingEndTime": "2014-08-13T18:00:00.000-0500",
+      "codingStartTime": "2014-08-13T17:00:00.000-0500",
+      "contestId": 888,
+      "contestName": "srm challenge tc-api test",
+      "endDate": "2014-08-13T18:00:00.000-0500",
+      "intermissionEndTime": "2014-08-13T18:00:00.000-0500",
+      "intermissionStartTime": "2014-08-13T17:00:00.000-0500",
+      "registrationEndTime": "2014-08-13T18:00:00.000-0500",
+      "registrationStartTime": "2014-08-13T17:00:00.000-0500",
+      "roundId": 888,
+      "roundType": "Single Round Match",
+      "startDate": "2014-08-13T17:00:00.000-0500",
+      "systestEndTime": "2014-08-13T18:00:00.000-0500",
+      "systestStartTime": "2014-08-13T17:00:00.000-0500"
+    }
+  ],
+  "pageIndex": 1,
+  "pageSize": 50,
+  "total": 4
+}

@@ -1,0 +1,9 @@
+INSERT INTO CONTEST (contest_id, name, start_date, end_date) values (888, 'srm challenge tc-api test', '2014-08-13 17:00:00.000', '2014-08-13 18:00:00.000');
+
+INSERT INTO ROUND (round_id, name, contest_id, status, round_type_id) values (888, 'srm round tc-api test', 888, 'A', 1);
+
+INSERT INTO ROUND_SEGMENT (status, segment_id, round_id, start_time, end_time) VALUES ('A', 1, 888, '2014-08-13 17:00:00.000', '2014-08-13 18:00:00.000');
+INSERT INTO ROUND_SEGMENT (status, segment_id, round_id, start_time, end_time) VALUES ('A', 2, 888, '2014-08-13 17:00:00.000', '2014-08-13 18:00:00.000');
+INSERT INTO ROUND_SEGMENT (status, segment_id, round_id, start_time, end_time) VALUES ('A', 3, 888, '2014-08-13 17:00:00.000', '2014-08-13 18:00:00.000');
+INSERT INTO ROUND_SEGMENT (status, segment_id, round_id, start_time, end_time) VALUES ('A', 4, 888, '2014-08-13 17:00:00.000', '2014-08-13 18:00:00.000');
+INSERT INTO ROUND_SEGMENT (status, segment_id, round_id, start_time, end_time) VALUES ('A', 7, 888, '2014-08-13 17:00:00.000', '2014-08-13 18:00:00.000');

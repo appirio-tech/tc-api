@@ -1,0 +1,31 @@
+select SKIP @firstRowIndex@ FIRST @pageSize@
+  r.round_id AS round_id
+  , c.contest_id AS contest_id
+  , c.name AS name
+  , rt.round_type_desc AS round_type
+  , c.start_date AS start_date
+  , c.end_date AS end_date
+  , reg.start_time AS registration_start_time
+  , reg.end_time AS registration_end_time
+  , coding.start_time AS coding_start_time
+  , coding.end_time AS coding_end_time
+  , intermission.start_time AS intermission_start_time
+  , intermission.end_time AS intermission_end_time
+  , challenge.start_time AS challenge_start_time
+  , challenge.end_time AS challenge_end_time
+  , systest.start_time AS systest_start_time
+  , systest.end_time AS systest_end_time
+FROM  
+  contest c
+  INNER JOIN round AS r ON r.contest_id = c.contest_id AND r.status='A'
+  INNER JOIN round_type_lu AS rt ON rt.round_type_id = r.round_type_id
+  LEFT JOIN round_segment AS reg ON reg.round_id = r.round_id AND reg.segment_id = 1
+  LEFT JOIN round_segment AS coding ON coding.round_id = r.round_id AND coding.segment_id = 2
+  LEFT JOIN round_segment AS intermission ON intermission.round_id = r.round_id AND intermission.segment_id = 3
+  LEFT JOIN round_segment AS challenge ON challenge.round_id = r.round_id AND challenge.segment_id = 4
+  LEFT JOIN round_segment AS systest ON systest.round_id = r.round_id AND systest.segment_id = 7
+WHERE  
+  r.round_type_id in (1, 2, 10)
+ORDER BY 
+  @sortColumn@ @sortOrder@, 
+  round_id desc
