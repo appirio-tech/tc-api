@@ -225,7 +225,11 @@ exports.searchMarathonChallenges = {
                 }
                 switch (listType) {
                 case ListType.ACTIVE:
-                    dbConnectionMap.topcoder_dw.disconnect(); //Solution for multiple connection bug
+                    try {
+                        dbConnectionMap.topcoder_dw.disconnect(); //Solution for multiple connection bug
+                    } catch (e) {
+                        api.log("Error in close db connection in searchMarathonChallenges", 'info');
+                    }
                     scriptName = "get_marathon_match_active_challenges";
                     break;
                 case ListType.PAST:
