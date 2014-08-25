@@ -1295,11 +1295,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                     async.parallel({
                         registrants: execQuery('challenge_registrants'),
                         submissions: function (cbx) {
-                            if (challenge.currentStatus === "Active" && !helper.isAdmin(caller)) {
-                                cbx(null, []);
-                            } else {
-                                execQuery('challenge_submissions')(cbx);
-                            }
+                            execQuery('challenge_submissions')(cbx);
                         },
                         phases: execQuery('challenge_phases')
                     }, cb);
@@ -1391,9 +1387,13 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 
                 challenge = extend(challenge, {
                     registrants: mapRegistrants(results.registrants),
-                    submissions: mapSubmissions(results),
                     phases: mapPhases(results.phases)
                 });
+                if (challenge.currentStatus === "Active" && !helper.isAdmin(caller)) {
+                    challenge.submissions = [];
+                } else {
+                    challenge.submissions = mapSubmissions(results);
+                }
                 if (isStudio) {
                     challenge = extend(challenge, {
                         checkpoints: mapCheckPoints(results.checkpoints)
