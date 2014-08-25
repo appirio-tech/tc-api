@@ -3,7 +3,7 @@ SELECT
 , NVL(rr.num_registrants, 0) AS current_no_of_registrants
 FROM
 round r 
-LEFT JOIN (
+INNER JOIN (
   SELECT 
     rs.start_time + (((rr.timestamp - rs.start_time)::INTERVAL HOUR(9) TO HOUR) + 1 Units HOUR) AS date
   , rr.round_id

@@ -6,7 +6,7 @@ SELECT
 , uu.handle AS top_user_handle
 FROM
 round r 
-LEFT JOIN (
+INNER JOIN (
   SELECT
     rs.start_time + (((dbinfo("UTC_TO_DATETIME", ls.submit_time/1000) - rs.start_time)::INTERVAL HOUR(9) TO HOUR) + 1 UNITS HOUR) AS date
   , lcs.round_id
@@ -24,7 +24,7 @@ LEFT JOIN (
   AND rs.round_id = lcs.round_id
   GROUP BY 1, 2
 ) sub ON sub.round_id = r.round_id
-LEFT JOIN (
+INNER JOIN (
   SELECT 
     u.handle
   , ls.submission_points

@@ -530,7 +530,7 @@ exports.getMarathonChallenge = {
                         color: p.color,
                         numberOfMembers: p.number_of_members
                     };
-                    ret.color = ret.color.trim();
+                    ret.color = ret.color ? ret.color.trim() : '';
                     return ret;
                 });
                 cb();
