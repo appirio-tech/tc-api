@@ -315,7 +315,7 @@ exports.generateDocusignViewURL = {
     databases: ["informixoltp", "common_oltp"],
     inputs: {
         required: ["templateId"],
-        optional: ["tabs"]
+        optional: ["tabs", "returnUrl"]
     },
     run: function (api, connection, next) {
         var baseURL,
@@ -477,7 +477,8 @@ exports.generateDocusignViewURL = {
                 var url, returnURL, reqParams;
 
                 //Create the return url
-                returnURL = _.template(api.config.tcConfig.docusign.returnURL)({envelopeId: envelopeId});
+                returnURL = _.template(connection.params.returnUrl ? 
+                                           connection.params.returnUrl : api.config.tcConfig.docusign.returnURL)({envelopeId: envelopeId});
 
                 //Request recipient view
                 url = baseURL + "/envelopes/" + envelopeId + "/views/recipient";
