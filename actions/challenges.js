@@ -992,7 +992,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
                 }
             }, cb);
         }, function (queries, cb) {
-            var sql = addFilter(queries, filter, helper, caller);
+            var sql = addFilter(queries, filter, false, helper, caller);
             async.parallel({
                 count: function (cbx) {
                     api.dataAccess.executeSqlQuery(sql.count, sqlParams, 'tcs_catalog', dbConnectionMap, cbx);
