@@ -6,6 +6,8 @@ FIRST @page_size@
 , p.tc_direct_project_id AS project_id
 , ps.detailed_requirements_text AS software_detailed_requirements
 , sps.contest_description_text AS studio_detailed_requirements
+, NVL(pp1.actual_start_date, pp1.scheduled_start_date) AS registration_start_date
+, p.project_type_id
 FROM project p
 INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
 INNER JOIN project_info pi ON pi.project_info_type_id = 6 AND p.project_id = pi.project_id
