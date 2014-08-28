@@ -8,6 +8,8 @@ FROM
   , c.name AS challenge_name
   , c.name AS detailed_requirements
   , r.round_id AS challenge_id
+  , "data" AS challenge_community
+  , c.start_date AS registration_start_date
   FROM
     round r
   , contest c
@@ -28,6 +30,8 @@ FROM
   , r.short_name AS challenge_name
   , r.short_name AS detailed_requirements
   , r.round_id AS challenge_id
+  , "data" AS challenge_community
+  , c.start_date AS registration_start_date
   FROM  contest c
   JOIN round AS r ON r.contest_id = c.contest_id AND r.failed = 0 AND r.status='A'
   WHERE  r.round_type_id in (1, 2, 10)
