@@ -6557,6 +6557,112 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## View Data Science Challenges [/data/data-science/challenges/{status}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### View Data Science Challenges [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `challengeName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
+    + status (optional, string, `active`) ... challenge status (active, upcoming or past)
+
++ Response 200 (application/json)
+
+        {
+            "total": 30,
+            "pageIndex": 1,
+            "pageSize": 3,
+            "data": [
+                {
+                    "challengeType": "Marathon",
+                    "challengeName": "Topcoder Marathon 1",
+                    "challengeId": 30036096,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Data",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "SRM",
+                    "challengeName": "Topcoder SRM 1",
+                    "challengeId": 30036099,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Data",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
+                {
+                    "challengeType": "Code",
+                    "challengeName": "Science Data Java Processor",
+                    "challengeId": 30036091,
+                    "eventId": 1,
+                    "eventName": "TCO14",
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "firstPlaceprize": 1250,
+                    "totalPrize": 1800,
+                    "postingDate": "10.31.2013 10:10 EDT"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 406 (application/json)
+
+        {
+            "name":"Not Acceptable",
+            "value":"406",
+            "description":"This message will explain why the Search parameters are invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## List Round for a Contest [/data/srm/rounds/{contestId}]
 ### List Round for a Contest [GET]
