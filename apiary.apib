@@ -6557,8 +6557,8 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## View Data Science Challenges [/data/data-science/challenges/{status}?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
-### View Data Science Challenges [GET]
+## View Past Data Science Challenges [/data/data-science/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### View Past Data Science Challenges [GET]
 
 + Parameters
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
@@ -6567,7 +6567,6 @@ Request
     + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
     + submissionEndFrom (optional, string, `2014-03-01`) ... submission end date from value.
     + submissionEndTo (optional, string, `2014-03-15`) ... submission end date to value.
-    + status (optional, string, `active`) ... challenge status (active, upcoming or past)
 
 + Response 200 (application/json)
 
