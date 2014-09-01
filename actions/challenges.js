@@ -1291,15 +1291,19 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                         phases: execQuery('challenge_phases')
                     }, cb);
                 } else {
-                    sqlParams.submission_type = [helper.SUBMISSION_TYPE.challenge.id, helper.SUBMISSION_TYPE.checkpoint.id];
                     async.parallel({
                         registrants: execQuery('challenge_registrants'),
                         submissions: function (cbx) {
-                            if (challenge.currentStatus === "Active" && !helper.isAdmin(caller)) {
-                                cbx(null, []);
-                            } else {
-                                execQuery('challenge_submissions')(cbx);
-                            }
+                            api.dataAccess.executeQuery('challenge_submissions',
+                                _.chain(sqlParams).clone()
+                                    .extend({ submission_type: helper.SUBMISSION_TYPE.challenge.id }).value(),
+                                dbConnectionMap, cbx);
+                        },
+                        checkpoints: function (cbx) {
+                            api.dataAccess.executeQuery('challenge_submissions',
+                                _.chain(sqlParams).clone()
+                                    .extend({ submission_type: helper.SUBMISSION_TYPE.checkpoint.id }).value(),
+                                dbConnectionMap, cbx);
                         },
                         phases: execQuery('challenge_phases')
                     }, cb);
@@ -1391,16 +1395,18 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
 
                 challenge = extend(challenge, {
                     registrants: mapRegistrants(results.registrants),
-                    submissions: mapSubmissions(results),
                     phases: mapPhases(results.phases)
                 });
-                if (isStudio) {
-                    challenge = extend(challenge, {
-                        checkpoints: mapCheckPoints(results.checkpoints)
-                    });
+                if (challenge.currentStatus === "Active" && !helper.isAdmin(caller)) {
+                    challenge.submissions = [];
+                    challenge.checkpoints = [];
+                } else {
+                    challenge.submissions = mapSubmissions(results);
+                    challenge.checkpoints = mapCheckPoints(results.checkpoints);
                 }
                 challenge.numberOfRegistrants = results.registrants.length;
                 challenge.numberOfSubmissions = results.submissions.length;
+                challenge.numberOfCheckpointSubmissions = results.checkpoints.length;
             }
             cb();
         }
