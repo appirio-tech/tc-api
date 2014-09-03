@@ -12,7 +12,7 @@ FROM project p
 INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_category_id
 INNER JOIN project_info pi ON pi.project_info_type_id = 6 AND p.project_id = pi.project_id
 INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1
-LEFT JOIN project_spec ps ON ps.project_id = p.project_id
+LEFT JOIN project_spec ps ON ps.project_id = p.project_id and ps.version = (select max(version) from project_spec where project_id = p.project_id)
 LEFT JOIN project_studio_specification sps ON sps.project_studio_spec_id = p.project_studio_spec_id
 WHERE 1=1
 AND p.project_status_id IN (@project_status_id@)
