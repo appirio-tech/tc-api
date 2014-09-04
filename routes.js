@@ -309,13 +309,6 @@ exports.routes = {
         { path: "/:apiVersion/payments/preference", action: "getPaymentPreference" },
         { path: "/:apiVersion/payments", action: "getPaymentList" },
 
-        //Stubs APIs
-        { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
-        { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
-        { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
-        { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
-        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" },
-
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "getRoundQuestions" },
         { path: "/:apiVersion/data/srm/rounds/:questionId/answers", action: "getRoundQuestionAnswers" },
 
@@ -323,11 +316,16 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/problems", action: "listRoundProblems" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
 
-        { path: "/:apiVersion/auth0/callback", action: "auth0Callback" }
+        { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
+        
+        //Stubs APIs
+        { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
+        { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
+        { path: "/:apiVersion/software/reviewers/:contestType", action: "getChallengeReviewers" },
+        { path: "/:apiVersion/design/statistics/tops/:challengeType", action: "getStudioTops" },
+        { path: "/:apiVersion/data/challengetypes", action: "algorithmsChallengeTypes" }
     ].concat(testMethods.get),
     post: [
-        // Stub API
-
         { path: "/:apiVersion/users/resetPassword/:handle", action: "resetPassword" },
         { path: "/:apiVersion/users/password", action: "updatePassword" },
         { path: "/:apiVersion/develop/reviewOpportunities/:challengeId/apply", action: "applyDevelopReviewOpportunity" },
