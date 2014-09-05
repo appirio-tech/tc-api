@@ -1,6 +1,7 @@
 -- spec review
 SELECT
   ra.review_auction_id
+, ratl.review_auction_category_id
 , ra.project_id AS challenge_id
 , pi.value AS challenge_name
 , pcl.name AS challenge_type
@@ -40,6 +41,7 @@ UNION ALL
 -- contest
 SELECT
   ra.review_auction_id
+, ratl.review_auction_category_id
 , ra.project_id AS challenge_id
 , pi.value AS challenge_name
 , pcl.name AS challenge_type
@@ -79,6 +81,7 @@ UNION ALL
 -- iterative 
 SELECT
   ra.review_auction_id
+, ratl.review_auction_category_id
 , ra.project_id AS challenge_id
 , pi.value AS challenge_name
 , pcl.name AS challenge_type
