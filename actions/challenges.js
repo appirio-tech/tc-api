@@ -2492,7 +2492,7 @@ exports.getChallenge = {
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
-        var error = api.helper.checkPositiveInteger(connection.params.challengeId);
+        var error = api.helper.checkIdParameter(connection.params.challengeId, "challengeId");
 
         if (error) {
             api.helper.handleError(api, connection, new NotFoundError("Challenge Id Not Valid."));
