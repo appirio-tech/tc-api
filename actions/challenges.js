@@ -2492,7 +2492,13 @@ exports.getChallenge = {
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
-        if (connection.dbConnectionMap) {
+        var error = api.helper.checkPositiveInteger(connection.params.challengeId);
+
+        if (error) {
+            api.helper.handleError(api, connection, new NotFoundError("Challenge Id Not Valid."));
+            next(connection, true)
+        }
+        else if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
             api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
