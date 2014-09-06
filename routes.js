@@ -351,7 +351,7 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/contests", action: "createSRMContest"},
 
-        { path: "/:apiVersion/data/srm/rounds/create", action: "createSRMContestRound" },
+        { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/roomAssignment", action: "setRoundRoomAssignment"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/languages", action: "setRoundLanguages"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"},
