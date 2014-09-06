@@ -507,7 +507,7 @@ describe('SRM Round Management APIs', function () {
          */
         function createPostRequest(expectStatus, postData, cb) {
             var req = request(API_ENDPOINT)
-                    .post('/v2/data/srm/rounds/create')
+                    .post('/v2/data/srm/rounds')
                     .set('Accept', 'application/json')
                     .set('Content-Type', 'application/json')
                     .set('Authorization', 'Bearer ' + testHelper.getAdminJwt())
@@ -524,7 +524,7 @@ describe('SRM Round Management APIs', function () {
          */
         function assertFail(params, done) {
             var req = request(API_ENDPOINT)
-                    .post('/v2/data/srm/rounds/create')
+                    .post('/v2/data/srm/rounds')
                     .set('Accept', 'application/json')
                     .set('Content-Type', 'application/json')
                     .expect('Content-Type', /json/);
