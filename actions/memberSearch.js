@@ -23,7 +23,7 @@ var searchUsers = function (api, connection, dbConnectionMap, next) {
         sqlParams = {},
         pageIndex = Number(connection.params.pageIndex || 1),
         pageSize = Number(connection.params.pageSize || 10),
-        caseSensitive = (connection.params.caseSensitive || "true").toLowerCase(),
+        caseSensitive = (connection.params.caseSensitive || "false").toLowerCase(),
         handle = connection.params.handle;
 
     async.waterfall([
