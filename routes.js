@@ -351,16 +351,17 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/contests", action: "createSRMContest"},
 
-        { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/roomAssignment", action: "setRoundRoomAssignment"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/languages", action: "setRoundLanguages"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/events", action: "setRoundEvents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/questions", action: "addRoundQuestion"},
+        { path: "/:apiVersion/data/srm/rounds/:roundId/segments", action: "setRoundSegments"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/survey", action: "setRoundSurvey"},
         { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"},
 
         { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "setRoundComponents"},
-        { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"}
+        { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"},
+        { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" }
     ],
     put: [
 

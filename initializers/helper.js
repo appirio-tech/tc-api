@@ -93,6 +93,8 @@
  * - Fixed some jslint issue.
  * Changes in 1.35:
  * - Added updateTextColumn() method.
+ * Change in 1.36
+ * - Add SEGMENTS_ID_MAP field.
  */
 "use strict";
 
@@ -437,6 +439,20 @@ helper.DR_POINTS = {
     3: [0.65, 0.25, 0.1],
     4: [0.60, 0.22, 0.1, 0.08],
     5: [0.56, 0.20, 0.10, 0.08, 0.06]
+};
+
+/**
+ * The segments id of phases.
+ * @type {{REGISTRATION_PHASE: number, ROOM_ASSIGNMENT_PHASE: number, CODING_PHASE: number, INTERMISSION_PHASE: number, CHALLENGE_PHASE: number, SYSTEM_TEST_PHASE: number}}
+ * @since 1.36
+ */
+helper.SEGMENTS_ID_MAP = {
+    REGISTRATION_PHASE: 1,
+    ROOM_ASSIGNMENT_PHASE: 7,
+    CODING_PHASE: 2,
+    INTERMISSION_PHASE: 3,
+    CHALLENGE_PHASE: 4,
+    SYSTEM_TEST_PHASE: 5
 };
 
 /**

@@ -1,0 +1,5 @@
+{
+  "name"    : "delete_round_segments",
+  "db"      : "informixoltp",
+  "sqlfile" : "delete_round_segments"
+}

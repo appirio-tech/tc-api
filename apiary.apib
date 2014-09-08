@@ -12517,6 +12517,7 @@ Managing SRM Round Configuration APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+
 ## Set Round Events [/data/srm/rounds/{roundId}/events]
 
 ### Set Round Events [POST]
@@ -12677,6 +12678,332 @@ Managing SRM Round Configuration APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Set Round Segments [/data/srm/rounds/{roundId}/segments]
+
+### Set Round Segments [POST]
+
++ Parameters
+  + roundId (required, number, `123456`) ... The round id.
+  + registrationStart (required, string, `2014-06-01 09:00:00`) ... The registration start time.
+  + registrationLength (required, number, `10`) ... The registration duration minutes.
+  + codingStart (required, string, `2014-06-01 13:00:00`) ... The coding start time.
+  + codingLength (required, number, `100`) ... The coding duration minutes.
+  + intermissionLength (required, number, `10`) ... The intermission duration minutes.
+  + challengeLength (required, number, `10`) ... The challenge duration minutes.
+  + registrationStatus (required, string, `F`) ... The registration status for the round, max length 1.
+  + codingStatus (required, string, `F`) ... The coding status for the round, max length 1.
+  + intermissionStatus (required, string, `F`) ... The intermission status for the round, max length 1.
+  + challengeStatus (required, string, `F`) ... The challenge status for the round, max length 1.
+  + systemTestStatus (required, string, `F`) ... The system test status for the round, max length 1.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "roundId should be less or equal to 2147483647."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "registrationStart should be a valid date.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "registrationLength should be number.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "registrationLength should be Integer.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "registrationLength should be positive.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "codingStart should be a valid date.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "codingLength should be number.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "codingLength should be Integer.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "codingLength should be positive.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "intermissionLength should be number.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "intermissionLength should be Integer.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "intermissionLength should be positive.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "challengeLength should be number.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "challengeLength should be Integer.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "challengeLength should be positive.."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "registrationStatus exceeds 1 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "codingStatus exceeds 1 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "intermissionStatus exceeds 1 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "challengeStatus exceeds 1 characters."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "systemTestStatus exceeds 1 characters."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
 
 
 ## Load Round Access [/data/srm/roundAccess]
