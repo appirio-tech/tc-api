@@ -2323,13 +2323,20 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
         }, function (res, cb) {
             var infoRow = res.info[0],
                 prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id); })['true'] || 0,
-                drPointsConfig = helper.DR_POINTS[prizedSubmissionCount],
+                drPointsConfig, // = helper.DR_POINTS[prizedSubmissionCount],
                 drPoints = infoRow.dr_points || 0;
             if (!_.isDefined(infoRow)) {
                 cb(new BadRequestError('No Result Found'));
                 return;
 
             }
+
+            if (prizedSubmissionCount > 5) {
+                drPointsConfig = helper.DR_POINTS[5];
+            } else {
+                drPointsConfig = helper.DR_POINTS[prizedSubmissionCount];
+            }
+            
             _.extend(result, {
                 challengeType: infoRow.project_category_name,
                 challengeName: infoRow.component_name,
