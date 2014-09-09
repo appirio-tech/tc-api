@@ -2,7 +2,6 @@
   "total": 1,
   "data": [
     {
-      "id": 40010,
       "contest": {
           "id": 30003
       },
@@ -16,7 +15,6 @@
         "desc": "Team Practice Round"
       },
       "roomAssignment": {
-        "roundId": 40010,
         "codersPerRoom": 50,
         "type": 2,
         "isByDivision": 1,
@@ -25,7 +23,6 @@
         "p": 500.1
       },
       "languages": {
-          "roundId": 40010,
           "languages": []
       },
       "region": {

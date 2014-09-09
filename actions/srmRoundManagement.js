@@ -391,7 +391,7 @@ exports.createSRMContestRound = {
     name: "createSRMContestRound",
     description: "createSRMContestRound",
     inputs: {
-        required: ['contest_id', 'id', 'type', 'invitationalType', 'region',
+        required: ['contest_id', 'type', 'invitationalType', 'region',
                    'registrationLimit', 'roomAssignment', 'name', 'status', 'short_name'],
         optional: []
     },
@@ -412,25 +412,38 @@ exports.createSRMContestRound = {
         }
         async.series([
             function (cb) {
+                /*
+                 * Set this dummy round id for first parameter check
+                 * It will be generated from round_seq.
+                 */
+                params.id = MAX_INT;
                 var error =
                         checkContestRound(helper, params) ||
                         helper.checkAdmin(connection, "You need to be authorized first.", "You are forbidden for this API.");
                 cb(error);
             },
             function (cb) {
-                api.dataAccess.executeQuery('insert_srm_contest_round',
-                    {
-                        contest_id: params.contest_id,
-                        round_id: params.id,
-                        round_type_id: params.type.id,
-                        registration_limit: params.registrationLimit,
-                        invitational: params.invitationalType,
-                        region_id: params.region.region_id,
-                        name: params.name,
-                        status: params.status,
-                        short_name: params.short_name
+                async.waterfall([
+                    function (cbx) {
+                        api.idGenerator.getNextIDFromDb("ROUND_SEQ", "informixoltp", dbConnectionMap, cbx);
                     },
-                    dbConnectionMap, cb);
+                    function (roundId, cbx) {
+                        params.id = roundId;
+                        api.dataAccess.executeQuery('insert_srm_contest_round',
+                        {
+                            contest_id: params.contest_id,
+                            round_id: params.id,
+                            round_type_id: params.type.id,
+                            registration_limit: params.registrationLimit,
+                            invitational: params.invitationalType,
+                            region_id: params.region.region_id,
+                            name: params.name,
+                            status: params.status,
+                            short_name: params.short_name
+                        },
+                        dbConnectionMap, cbx);
+                    }
+                ], cb);
             },
             function (cb) {
                 api.dataAccess.executeQuery('insert_round_room_assignment',
@@ -546,7 +559,7 @@ exports.createSRMContestRound = {
                     helper.handleError(api, connection, err);
                 } else {
                     connection.response = {
-                        message: "ok"
+                        roundId: params.id
                     };
                 }
                 next(connection, true);
@@ -590,6 +603,7 @@ exports.modifySRMContestRound = {
         }
         async.series([
             function (cb) {
+                console.log("oldRoundId = " + oldRoundId);
                 var error =
                     helper.checkIdParameter(oldRoundId, 'oldRoundId') ||
                     checkContestRound(helper, params) ||

@@ -102,6 +102,11 @@ var GET_ROOM_FROM_ROUND = "* FROM " +
         "LEFT OUTER JOIN room ON rd.round_id=room.round_id " +
         "WHERE rd.round_id=";
 
+/**
+ * Get round seq
+ */
+var GET_ROUND_SEQ_SQL = "SEQUENCE_ROUND_SEQ.NEXTVAL as next_id from table(set{1})";
+
 describe('SRM Round Management APIs', function () {
     var i;
     this.timeout(80000);     // The api with testing remote db could be quit slow
@@ -275,7 +280,7 @@ describe('SRM Round Management APIs', function () {
              */
             function assertFail(roundId, params, done) {
                 var r = request(API_ENDPOINT)
-                        .post('/v2/data/srm/rounds/' + roundId)
+                        .del('/v2/data/srm/rounds/' + roundId)
                         .set('Accept', 'application/json')
                         .expect('Content-Type', /json/)
                         .expect(params.status);
@@ -379,7 +384,7 @@ describe('SRM Round Management APIs', function () {
                 async.waterfall([
                     function (cb) {
                         request(API_ENDPOINT)
-                            .post('/v2/data/srm/rounds/' + roundId)
+                            .del('/v2/data/srm/rounds/' + roundId)
                             .set('Accept', 'application/json')
                             .set('Authorization', 'Bearer ' + testHelper.getAdminJwt())
                             .expect('Content-Type', /json/)
@@ -480,7 +485,7 @@ describe('SRM Round Management APIs', function () {
                     function (cb) {
                         request(API_ENDPOINT)
                         // deleting something not existed
-                            .post('/v2/data/srm/rounds/600000')
+                            .del('/v2/data/srm/rounds/600000')
                             .set('Accept', 'application/json')
                             .set('Authorization', 'bearer ' + testHelper.getAdminJwt())
                             .expect('Content-Type', /json/)
@@ -546,27 +551,28 @@ describe('SRM Round Management APIs', function () {
         /**
          * Create request to create round API and assert 200 http code
          * @param {object} json - the post data
+         * @param {Integer} roundId - the expected roundId
          * @param {Function} done - the callback function
          */
-        function assert200(json, done) {
-
+        function assert200(json, roundId, done) {
             createPostRequest(200, json, function (err, res) {
                 if (err) {
                     done(err);
                     return;
                 }
-                assert.equal(res.body.message, 'ok');
-                done();
+                assert.equal(res.body.roundId, roundId);
+                done(null, roundId);
             });
         }
 
         /**
          * Helper method for validating result for current test data
          * @param {int} contestId - the contest id
+         * @param {int} expectRoundId - the expected round id
          * @param {String} expectFile - the filename of expected json.
          * @param {Function} done - the callback function
          */
-        function validateResult(contestId, expectFile, done) {
+        function validateResult(contestId, expectRoundId, expectFile, done) {
             request(API_ENDPOINT)
                 .get('/v2/data/srm/rounds/' + contestId)
                 .set('Accept', 'application/json')
@@ -582,6 +588,11 @@ describe('SRM Round Management APIs', function () {
                         expected = require("./test_files/srmRoundManagement/" + expectFile);
                     delete results.serverInformation;
                     delete results.requesterInformation;
+                    if (expectRoundId) {
+                        expected.data[0].id = expectRoundId;
+                        expected.data[0].roomAssignment.roundId = expectRoundId;
+                        expected.data[0].languages.roundId = expectRoundId;
+                    }
                     assert.deepEqual(results, expected, "unexpected response");
                     done();
                 });
@@ -677,52 +688,6 @@ describe('SRM Round Management APIs', function () {
                     message: 'contest_id should be positive.'
                 }, done);
             });
-
-
-            /**
-             * Check 400 response if id NaN
-             */
-            it("should return 400 when id not a number", function (done) {
-                var rrequest = requestClone(goodRequest);
-                rrequest.id = 'abc';
-                assertFail({
-                    json: rrequest,
-                    auth: testHelper.getAdminJwt(),
-                    status: 400,
-                    message: 'id should be number.'
-                }, done);
-            });
-
-
-            /**
-             * Check 400 response if id too big
-             */
-            it("should return 400 when id not a number", function (done) {
-                var rrequest = requestClone(goodRequest);
-                rrequest.id = 12345678901234;
-                assertFail({
-                    json: rrequest,
-                    auth: testHelper.getAdminJwt(),
-                    status: 400,
-                    message: 'id should be less or equal to 2147483647.'
-                }, done);
-            });
-
-
-            /**
-             * Check 400 response if id is negative
-             */
-            it("should return 400 when id is negative", function (done) {
-                var rrequest = requestClone(goodRequest);
-                rrequest.id = -1;
-                assertFail({
-                    json: rrequest,
-                    auth: testHelper.getAdminJwt(),
-                    status: 400,
-                    message: 'id should be positive.'
-                }, done);
-            });
-
 
             /**
              * Check 400 response if type is not object
@@ -1165,14 +1130,23 @@ describe('SRM Round Management APIs', function () {
              * Create a round for a contest and list it.
              */
             it('should create new round for contest', function (done) {
-                async.series([
-                    validateResult.bind(undefined, 30003, 'contest30003.json'),
+                async.waterfall([
                     function (cb) {
+                        validateResult(30003, undefined, 'contest30003.json', cb);
+                    },
+                    function (cb) {
+                        testHelper.runSqlSelectQuery(GET_ROUND_SEQ_SQL, "informixoltp", cb);
+                    },
+                    function (results, cb) {
+                        //the round id is generated from ROUND_SEQ
+                        var roundId = results[0].next_id + 1;
                         var round = requestClone(newRound);
                         round.contest_id = newRound.contest.id;
-                        assert200(round, cb);
+                        assert200(round, roundId, cb);
                     },
-                    validateResult.bind(undefined, 30003, 'contest30003_create.json')
+                    function (roundId, cb) {
+                        validateResult(30003, roundId, 'contest30003_create.json', cb);
+                    }
                 ], done);
             });
 
@@ -1181,122 +1155,148 @@ describe('SRM Round Management APIs', function () {
              */
             _.each(typeList, function (typeid) {
                 it('should be able to create round type ' + typeid, function (done) {
-                    var request = _.clone(goodRequest);
-                    request.contest_id = 30004;
-                    request.id = 40020 + typeid;
-                    request.type.id = typeid;
-                    assert200(request, done);
+                    async.waterfall([
+                        function (cb) {
+                            testHelper.runSqlSelectQuery(GET_ROUND_SEQ_SQL, "informixoltp", cb);
+                        },
+                        function (results, cb) {
+                            //the round id is generated from ROUND_SEQ
+                            var roundId = results[0].next_id + 1;
+                            var request = _.clone(goodRequest);
+                            request.contest_id = 30004;
+                            request.type.id = typeid;
+                            assert200(request, roundId, cb);
+                        }
+                    ], done);
                 });
             });
 
             it('check room for MODERATED_CHAT_ROUND_TYPE', function (done) {
-                var request = _.clone(goodRequest);
-                request.contest_id = 30004;
-                request.id = 41120;
-                request.type.id = MODERATED_CHAT_ROUND_TYPE_ID;
                 async.waterfall([
                     function (cb) {
-                        assert200(request, cb);
+                        testHelper.runSqlSelectQuery(GET_ROUND_SEQ_SQL, "informixoltp", cb);
                     },
-                    function (cb) {
-                        testHelper.runSqlSelectQuery(
-                            GET_ROOM_FROM_ROUND + request.id,
-                            'informixoltp',
-                            cb
-                        );
-                    },
-                    function (result, cb) {
-                        assert.equal(result.length, 1, 'create one room');
-                        assert.equal(result[0].room_type_id, MODERATED_CHAT_ROOM_TYPE_ID, 'moderated room type');
-                        cb();
+                    function (results, cb) {
+                        //the round id is generated from ROUND_SEQ
+                        var roundId = results[0].next_id + 1;
+                        var request = _.clone(goodRequest);
+                        request.contest_id = 30004;
+                        request.type.id = MODERATED_CHAT_ROUND_TYPE_ID;
+                        async.waterfall([
+                            function (cbx) {
+                                assert200(request, roundId, cbx);
+                            },
+                            function (roundId, cbx) {
+                                testHelper.runSqlSelectQuery(
+                                    GET_ROOM_FROM_ROUND + roundId,
+                                    'informixoltp',
+                                    cbx
+                                );
+                            },
+                            function (result, cbx) {
+                                assert.equal(result.length, 1, 'create one room');
+                                assert.equal(result[0].room_type_id, MODERATED_CHAT_ROOM_TYPE_ID, 'moderated room type');
+                                cbx();
+                            }
+                        ], cb);
                     }
                 ], done);
             });
 
             it('check room for practice round', function (done) {
-                var request = _.clone(goodRequest);
-                request.contest_id = 30004;
-                request.id = 41121;
-                request.type.id = PRACTICE_ROUND_TYPE_ID;
                 async.waterfall([
                     function (cb) {
-
-                        assert200(request, cb);
+                        testHelper.runSqlSelectQuery(GET_ROUND_SEQ_SQL, "informixoltp", cb);
                     },
-                    function (cb) {
-                        testHelper.runSqlSelectQuery(
-                            GET_ROOM_FROM_ROUND + request.id,
-                            'informixoltp',
-                            cb
-                        );
-                    },
-                    function (result, cb) {
-                        assert.equal(result.length, 1, 'create one room');
-                        assert.equal(result[0].room_type_id, PRACTICE_ROOM_TYPE_ID, 'practice room type');
-                        cb();
+                    function (results, cb) {
+                        //the round id is generated from ROUND_SEQ
+                        var roundId = results[0].next_id + 1;
+                        var request = _.clone(goodRequest);
+                        request.contest_id = 30004;
+                        request.type.id = PRACTICE_ROUND_TYPE_ID;
+                        async.waterfall([
+                            function (cbx) {
+                                assert200(request, roundId, cbx);
+                            },
+                            function (roundId, cbx) {
+                                testHelper.runSqlSelectQuery(
+                                    GET_ROOM_FROM_ROUND + roundId,
+                                    'informixoltp',
+                                    cbx
+                                );
+                            },
+                            function (result, cbx) {
+                                assert.equal(result.length, 1, 'create one room');
+                                assert.equal(result[0].room_type_id, PRACTICE_ROOM_TYPE_ID, 'practice room type');
+                                cbx();
+                            }
+                        ], cb);
                     }
                 ], done);
             });
 
             it('check room for normal round', function (done) {
-                var request = _.clone(goodRequest);
-                request.contest_id = 30004;
-                request.id = 41122;
-                request.type.id = SINGLE_ROUND_TYPE;
                 async.waterfall([
                     function (cb) {
-                        assert200(request, cb);
+                        testHelper.runSqlSelectQuery(GET_ROUND_SEQ_SQL, "informixoltp", cb);
                     },
-                    function (cb) {
-                        testHelper.runSqlSelectQuery(
-                            GET_ROOM_FROM_ROUND + request.id,
-                            'informixoltp',
-                            cb
-                        );
-                    },
-                    function (result, cb) {
-                        assert.equal(result.length, 1, 'create one room');
-                        assert.equal(result[0].room_type_id, ADMIN_ROOM_TYPE_ID, 'admin room type');
-                        cb();
+                    function (results, cb) {
+                        //the round id is generated from ROUND_SEQ
+                        var roundId = results[0].next_id + 1;
+                        var request = _.clone(goodRequest);
+                        request.contest_id = 30004;
+                        request.type.id = SINGLE_ROUND_TYPE;
+                        async.waterfall([
+                            function (cbx) {
+                                assert200(request, roundId, cbx);
+                            },
+                            function (roundId, cbx) {
+                                testHelper.runSqlSelectQuery(
+                                    GET_ROOM_FROM_ROUND + roundId,
+                                    'informixoltp',
+                                    cbx
+                                );
+                            },
+                            function (result, cbx) {
+                                assert.equal(result.length, 1, 'create one room');
+                                assert.equal(result[0].room_type_id, ADMIN_ROOM_TYPE_ID, 'admin room type');
+                                cbx();
+                            }
+                        ], cb);
                     }
                 ], done);
             });
 
             it('check room for long round', function (done) {
-                var request = _.clone(goodRequest);
-                request.contest_id = 30004;
-                request.id = 41123;
-                request.type.id = LONG_ROUND_TYPE_ID;
                 async.waterfall([
                     function (cb) {
-                        assert200(request, cb);
+                        testHelper.runSqlSelectQuery(GET_ROUND_SEQ_SQL, "informixoltp", cb);
                     },
-                    function (cb) {
-                        testHelper.runSqlSelectQuery(
-                            GET_ROOM_FROM_ROUND + request.id,
-                            'informixoltp',
-                            cb
-                        );
-                    },
-                    function (result, cb) {
-                        assert.equal(result.length, 2, 'create two room');
-                        assert.equal(result[0].room_type_id, ADMIN_ROOM_TYPE_ID, 'admin room type');
-                        assert.equal(result[1].name, "Room 1", 'div1 room');
-                        cb();
+                    function (results, cb) {
+                        //the round id is generated from ROUND_SEQ
+                        var roundId = results[0].next_id + 1;
+                        var request = _.clone(goodRequest);
+                        request.contest_id = 30004;
+                        request.type.id = LONG_ROUND_TYPE_ID;
+                        async.waterfall([
+                            function (cbx) {
+                                assert200(request, roundId, cbx);
+                            },
+                            function (roundId, cbx) {
+                                testHelper.runSqlSelectQuery(
+                                    GET_ROOM_FROM_ROUND + roundId,
+                                    'informixoltp',
+                                    cbx
+                                );
+                            },
+                            function (result, cbx) {
+                                assert.equal(result.length, 2, 'create two room');
+                                assert.equal(result[0].room_type_id, ADMIN_ROOM_TYPE_ID, 'admin room type');
+                                assert.equal(result[1].name, "Room 1", 'div1 room');
+                                cbx();
+                            }
+                        ], done);
                     }
-                ], done);
-            });
-
-            /**
-             * create round with duplicate round id should failed
-             */
-            it('should fail when create two round with same id', function (done) {
-                var request = _.clone(goodRequest);
-                request.contest_id = 30005;
-                request.id = 40015;
-                async.series([
-                    assert200.bind(undefined, request),
-                    createPostRequest.bind(undefined, 500, request)
                 ], done);
             });
         });
@@ -1314,9 +1314,9 @@ describe('SRM Round Management APIs', function () {
          * @param {Object} postData - the data post to api.
          * @param {Function} cb - the call back function.
          */
-        function createPostRequest(oldRoundId, expectStatus, postData, cb) {
+        function createPutRequest(oldRoundId, expectStatus, postData, cb) {
             var req = request(API_ENDPOINT)
-                    .post('/v2/data/srm/rounds/' + oldRoundId + '/edit')
+                    .put('/v2/data/srm/rounds/' + oldRoundId)
                     .set('Accept', 'application/json')
                     .set('Content-Type', 'application/json')
                     .set('Authorization', 'Bearer ' + testHelper.getAdminJwt())
@@ -1333,7 +1333,7 @@ describe('SRM Round Management APIs', function () {
          */
         function assertFail(params, done) {
             var req = request(API_ENDPOINT)
-                    .post('/v2/data/srm/rounds/' + params.oldRoundId + '/edit')
+                    .put('/v2/data/srm/rounds/' + params.oldRoundId)
                     .set('Accept', 'application/json')
                     .set('Content-Type', 'application/json')
                     .expect('Content-Type', /json/);
@@ -1392,7 +1392,7 @@ describe('SRM Round Management APIs', function () {
             return result;
         }
 
-        var goodRequest = require('./test_files/srmRoundManagement/good_request.json');
+        var goodRequest = require('./test_files/srmRoundManagement/good_modify_request.json');
 
         describe('Invalid Request', function () {
 
@@ -2147,7 +2147,7 @@ describe('SRM Round Management APIs', function () {
                         fields = _.map(result, function (x) { return _.omit(x, touchingFields); });
                         cb();
                     },
-                    createPostRequest.bind(undefined, round.id, 200, round),
+                    createPutRequest.bind(undefined, round.id, 200, round),
                     function (res, cb) {
                         assert.equal(res.body.message, 'ok');
                         validateResult(round.contest_id, 'contest' + round.contest_id + '.json', cb);
@@ -2207,7 +2207,7 @@ describe('SRM Round Management APIs', function () {
                         fields = _.map(result, function (x) { return _.omit(x, touchingFields); });
                         cb();
                     },
-                    createPostRequest.bind(undefined, 40060, 200, round),
+                    createPutRequest.bind(undefined, 40060, 200, round),
                     function (res, cb) {
                         assert.equal(res.body.message, 'ok');
                         validateResult(round.contest_id, 'contest' + round.contest_id + '.json', cb);
