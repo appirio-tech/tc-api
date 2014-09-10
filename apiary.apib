@@ -6574,7 +6574,22 @@ Request
             "total": 30,
             "pageIndex": 1,
             "pageSize": 3,
+            "sortColumn": "challengeType",
+            "sortOrder": "asc",
+            "submissionEndFrom": "2001-01-01",
+            "submissionEndTo": "2015-01-01",
             "data": [
+                {
+                    "challengeType": "Code",
+                    "challengeName": "Science Data Java Processor",
+                    "challengeId": 30036091,
+                    "numSubmissions": 16,
+                    "numRegistrants": 27,
+                    "registrationStartDate": "10.27.2013 10:10 EDT",
+                    "submissionEndDate": "10.31.2013 10:09 EDT",
+                    "challengeCommunity": "Develop",
+                    "postingDate": "10.31.2013 10:10 EDT"
+                },
                 {
                     "challengeType": "Marathon",
                     "challengeName": "Topcoder Marathon 1",
@@ -6596,17 +6611,6 @@ Request
                     "submissionEndDate": "10.31.2013 10:09 EDT",
                     "challengeCommunity": "Data",
                     "postingDate": "10.31.2013 10:10 EDT"
-                },
-                {
-                    "challengeType": "Code",
-                    "challengeName": "Science Data Java Processor",
-                    "challengeId": 30036091,
-                    "numSubmissions": 16,
-                    "numRegistrants": 27,
-                    "registrationStartDate": "10.27.2013 10:10 EDT",
-                    "submissionEndDate": "10.31.2013 10:09 EDT",
-                    "challengeCommunity": "Develop",
-                    "postingDate": "10.31.2013 10:10 EDT"
                 }
             ]
         }
@@ -6616,23 +6620,87 @@ Request
         {
             "name":"Bad Request",
             "value":"400",
-            "description":"This message will explain why the request is invalid or cannot be served."
+            "description":"pageIndex should be equal to -1 or greater than 0"
         }
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Found",
-            "value":"404",
-            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be number."
         }
 
-+ Response 406 (application/json)
++ Response 400 (application/json)
 
         {
-            "name":"Not Acceptable",
-            "value":"406",
-            "description":"This message will explain why the Search parameters are invalid."
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortColumn should be an element of challengetype,challengename,challengeid,numsubmissions,numregistrants,registrationstartdate,submissionenddate,challengecommunity,postingdate."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndFrom. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndTo. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"submissionEndFrom must be before submissionEndTo"
         }
 
 + Response 500 (application/json)
@@ -6818,11 +6886,12 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Create SRM Contest Round API [/data/srm/rounds]
+## Create SRM Contest Round API [/data/srm/rounds/create]
 ### Create SRM Contest Round API [POST] (application/json)
 
 + Parameters
     + contest_id (required, integer) round's contest_id
+    + id (required, integer) round's id
     + invitaitonalType (required, integer) round's invitaitonalType
     + registrationLimit (required, integer) round's registrationLimit
     + name (required, string) round's name
@@ -6835,7 +6904,7 @@ Request
 + Response 200 (application/json)
 
         {
-            "roundId": 132678
+            "message": "ok"
         }
 
 + Response 400 (application/json)
