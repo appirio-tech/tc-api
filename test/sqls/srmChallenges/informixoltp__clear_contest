@@ -1,0 +1,1 @@
+DELETE FROM CONTEST WHERE contest_id >= 1000000;

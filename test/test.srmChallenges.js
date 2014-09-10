@@ -15,10 +15,28 @@ var fs = require('fs');
 var request = require('supertest');
 var assert = require('chai').assert;
 var async = require("async");
-
+var _ = require('underscore');
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/srmChallenges/";
 var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080';
+
+/**
+ * Get round seq
+ */
+var GET_CONTEST_SEQ_SQL = "SEQUENCE_CONTEST_SEQ.NEXTVAL as next_id from table(set{1})";
+/**
+ * Create a long text.
+ *
+ * @param length - the text length
+ * @returns {string} created text.
+ */
+function getLongText(length) {
+    var i, result = "";
+    for (i = 0; i < length; i++) {
+        result = result + "a";
+    }
+    return result;
+}
 
 describe('Get SRM Challenges API', function () {
     this.timeout(30000);     // The api with testing remote db could be quit slow
@@ -654,4 +672,463 @@ describe('Get SRM Challenges API', function () {
         });
     });
 
+    describe("Create New Contest", function () {
+        var simpleRequest = {name: "contest1", startDate: "2014-06-01 09:00", endDate: "2014-09-01 09:00",
+            adStart: "2014-06-01 09:00", adEnd: "2014-09-01 09:00", adText: "this is ad text", groupId: -1,
+            status: "A", adTask: "this is ad task", adCommand: "this is ad command", activateMenu: 0};
+        /**
+         * Clear database
+         * @param {Function<err>} done the callback
+         */
+        function clearDb(done) {
+            testHelper.runSqlFile(SQL_DIR + "informixoltp__clear_contest", "informixoltp", done);
+        }
+
+        /**
+         * This function is run after each test case.
+         * Clean up all data.
+         * @param {Function<err>} done the callback
+         */
+        after(function (done) {
+            clearDb(done);
+        });
+        /**
+         * Helper method to do deep clone for request.
+         * @param {Object} request request to be cloned
+         * @return {Object} cloned request
+         */
+        function requestClone(request) {
+            var result = _.clone(request);
+            return result;
+        }
+        /**
+         * Create request to modify round API and assert status code and error message.
+         * @param {object} params - params to configure
+         * @param {Function} done - the callback function
+         */
+        function assertFail(params, done) {
+            var req = request(API_ENDPOINT)
+                .post('/v2/data/srm/contests')
+                .set('Accept', 'application/json')
+                .set('Content-Type', 'application/json')
+                .expect('Content-Type', /json/);
+            if (params.auth) {
+                req.set('Authorization', 'Bearer ' + params.auth);
+            }
+            req.expect(params.status)
+                .send(params.json)
+                .end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        assert.equal(res.body.error.details, params.message);
+                        done();
+                    }
+                });
+        }
+
+        /**
+         * create a http request with auth header and test it.
+         * @param {Number} expectStatus - the expected response status code.
+         * @param {Object} postData - the data post to api.
+         * @param {Function} cb - the call back function.
+         */
+        function createPostRequest(expectStatus, postData, cb) {
+            var req = request(API_ENDPOINT)
+                .post('/v2/data/srm/contests')
+                .set('Accept', 'application/json')
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + testHelper.getAdminJwt())
+                .expect('Content-Type', /json/);
+            req.expect(expectStatus)
+                .send(postData)
+                .end(cb);
+        }
+        /**
+         * Create request to create round API and assert 200 http code
+         * @param {object} json - the post data
+         * @param {Integer} contest - the expected contest id.
+         * @param {Function} done - the callback function
+         */
+        function assert200(json, contestId, done) {
+            createPostRequest(200, json, function (err, res) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.equal(res.body.contestId, contestId);
+                done(null, contestId);
+            });
+        }
+        /**
+         * Helper method for validating result for current test data
+         * @param {int} contestId - the contest id
+         * @param {String} expectFile - the filename of expected json.
+         * @param {Function} done - the callback function
+         */
+        function validateResult(contestId, done) {
+            request(API_ENDPOINT)
+                .get('/v2/data/srm/contests')
+                .set('Accept', 'application/json')
+                .set('Authorization', 'Bearer ' + testHelper.getAdminJwt())
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    var results = res.body,
+                        result = {},
+                        expected = _.clone(simpleRequest);
+                    delete results.serverInformation;
+                    delete results.requesterInformation;
+                    _.each(results, function (item) {
+                        if (item.contestId && item.contestId === contestId) {
+                            expected.contestId = contestId;
+                            result = item;
+                        }
+                    });
+
+                    assert.deepEqual(result, expected, "unexpected response");
+                    done();
+                });
+        }
+        describe('Invalid Request', function () {
+            it('should 401 if anonymous', function (done) {
+                assertFail({
+                    json: simpleRequest,
+                    status: 401,
+                    message: 'Authorized access only.'
+                }, done);
+            });
+
+            it('should 403 if member', function (done) {
+                assertFail({
+                    json: simpleRequest,
+                    auth: testHelper.getMemberJwt(),
+                    status: 403,
+                    message: 'Admin access only.'
+                }, done);
+            });
+
+            it("should return 400 when name not a string", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.name = 123;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'name should be string.'
+                }, done);
+            });
+
+            it("should return 400 when name is empty", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.name = "     ";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'name should be non-null and non-empty string.'
+                }, done);
+            });
+
+            it("should return 400 when name is too long", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.name = getLongText(51);
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'Length of name must not exceed 50 characters.'
+                }, done);
+            });
+
+            it("should return 400 when name contains special character", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.name = '"';
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'name contains unescaped quotes.'
+                }, done);
+            });
+
+            it("should return 400 when startDate is not a valid date", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.startDate = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'startDate is not a valid date.'
+                }, done);
+            });
+
+            it("should return 400 when endDate is not a valid date", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.endDate = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'endDate is not a valid date.'
+                }, done);
+            });
+
+            it("should return 400 when endDate is preceded with startDate", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.endDate = "2013-06-01 09:00";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'startDate does not precede endDate.'
+                }, done);
+            });
+
+            it("should return 400 when status is not a string", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.status = 1;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'status should be string.'
+                }, done);
+            });
+
+            it("should return 400 when status length is not 1", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.status = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'status must be of length 1'
+                }, done);
+            });
+
+            it("should return 400 when status is not [AFPI]", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.status = "K";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'status unknown.'
+                }, done);
+            });
+
+            it("should return 400 when groupId is not a number", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.groupId = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'groupId should be number.'
+                }, done);
+            });
+
+            it("should return 400 when groupId is unknow", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.groupId = -10000;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'groupId is unknown.'
+                }, done);
+            });
+
+            it("should return 400 when adText should be string", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adText = 123;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adText should be string.'
+                }, done);
+            });
+
+            it("should return 400 when adText is too long", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adText = getLongText(251);
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'Length of adText must not exceed 250 characters.'
+                }, done);
+            });
+
+            it("should return 400 when adText contains unescape character", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adText = '"';
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adText contains unescaped quotes.'
+                }, done);
+            });
+
+            it("should return 400 when adStart is not a valid date", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adStart = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adStart is not a valid date.'
+                }, done);
+            });
+
+            it("should return 400 when adEnd is not a valid date", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adEnd = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adEnd is not a valid date.'
+                }, done);
+            });
+
+            it("should return 400 when adEnd is preceded with adStart", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adEnd = "2013-06-01 09:00";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adStart does not precede adEnd.'
+                }, done);
+            });
+
+            it("should return 400 when adTask should be string", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adTask = 123;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adTask should be string.'
+                }, done);
+            });
+
+            it("should return 400 when adTask is too long", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adTask = getLongText(31);
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'Length of adTask must not exceed 30 characters.'
+                }, done);
+            });
+
+            it("should return 400 when adTask contains unescape character", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adTask = '"';
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adTask contains unescaped quotes.'
+                }, done);
+            });
+
+            it("should return 400 when adCommand should be string", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adCommand = 123;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adCommand should be string.'
+                }, done);
+            });
+
+            it("should return 400 when adCommand is too long", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adCommand = getLongText(31);
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'Length of adCommand must not exceed 30 characters.'
+                }, done);
+            });
+
+            it("should return 400 when adCommand contains unescape character", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.adCommand = '"';
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'adCommand contains unescaped quotes.'
+                }, done);
+            });
+
+            it("should return 400 when activateMenu should be number", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.activateMenu = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'activateMenu should be number.'
+                }, done);
+            });
+
+            it("should return 400 when seasonId should be number", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.seasonId = "abc";
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'seasonId should be number.'
+                }, done);
+            });
+
+            it("should return 400 when seasonId should be valid", function (done) {
+                var rrequest = requestClone(simpleRequest);
+                rrequest.seasonId = 999999;
+                assertFail({
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'seasonId is unknown.'
+                }, done);
+            });
+        });
+
+        describe('Valid Request', function () {
+            /**
+             * Create a round for a contest and list it.
+             */
+            it('should create a new contest', function (done) {
+                async.waterfall([
+                    function (cb) {
+                        testHelper.runSqlSelectQuery(GET_CONTEST_SEQ_SQL, "informixoltp", cb);
+                    },
+                    function (results, cb) {
+                        //the contest id is generated from CONTEST_SEQ
+                        var contestId = results[0].next_id + 1;
+                        assert200(simpleRequest, contestId, cb);
+                    },
+                    function (contestId, cb) {
+                        validateResult(contestId, cb);
+                    }
+                ], done);
+            });
+        });
+    });
 });

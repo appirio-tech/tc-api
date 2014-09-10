@@ -413,7 +413,7 @@ exports.getSRMSchedule = {
                         challengeStartTime: item.challenge_start_time,
                         challengeEndTime: item.challenge_end_time,
                         systestStartTime: item.systest_start_time,
-                        systestEndTime: item.systest_end_time,
+                        systestEndTime: item.systest_end_time
                     };
 
                     result.data.push(challenge);
@@ -999,7 +999,7 @@ exports.createSRMContest = {
     name: "createSRMContest",
     description: "Create a SRM Contest",
     inputs: {
-        required: ['name', 'contestId'],
+        required: ['name'],
         optional: [
             'startDate',
             'endDate',
@@ -1022,6 +1022,7 @@ exports.createSRMContest = {
     run: function (api, connection, next) {
         api.log("Execute createSRMContest#run", 'debug');
         var helper = api.helper,
+            genContestId = MAX_INT,
             dbConnectionMap = connection.dbConnectionMap;
         async.auto(
             {
@@ -1033,7 +1034,6 @@ exports.createSRMContest = {
                     validateAndPrepareSRMContestApiArguments(
                         [
                             'name',
-                            'contestId',
                             'startDate',
                             'endDate',
                             'status',
@@ -1050,40 +1050,29 @@ exports.createSRMContest = {
                         connection
                     )
                 ],
-                validate : [ // do validations only required by this api
+                generateContestId : [ // generate the contestId from CONTEST_SEQ
                     'common',
                     function (cb, results) {
                         var validate = results.common;
-                        async.parallel(
-                            {
-                                contestExists: _.bind(
-                                    api.dataAccess.executeQuery,
-                                    api.dataAccess,
-                                    "get_srm_contest",
-                                    {contestId: validate.contestId},
-                                    dbConnectionMap
-                                )
+                        async.waterfall([
+                            function (cbx) {
+                                api.idGenerator.getNextIDFromDb("CONTEST_SEQ", "informixoltp", dbConnectionMap, cbx);
                             },
-                            function (error, results) {
-                                if (error) {
-                                    cb(error);
-                                } else {
-                                    if (results.contestExists.length > 0) {
-                                        cb(new IllegalArgumentError("contestId is already in use."));
-                                    } else {
-                                        cb(null, validate);
-                                    }
-                                }
+                            function (contestId, cbx) {
+                                genContestId = contestId;
+                                validate.sqlParams.contestId = contestId;
+                                cbx();
                             }
-                        );
+                        ], cb);
                     }
                 ],
                 insert: [
-                    'validate',
+                    'generateContestId',
                     function (cb, results) {
+                        console.log(JSON.stringify(results));
                         api.dataAccess.executeQuery(
                             "insert_srm_contest",
-                            results.validate.sqlParams,
+                            results.common.sqlParams,
                             dbConnectionMap,
                             cb
                         );
@@ -1094,7 +1083,7 @@ exports.createSRMContest = {
                 if (error) {
                     api.helper.handleError(api, connection, error);
                 } else {
-                    connection.response = {success: true};
+                    connection.response = {contestId: genContestId};
                 }
                 next(connection, true);
             }

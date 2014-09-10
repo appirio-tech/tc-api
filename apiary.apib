@@ -9918,7 +9918,6 @@ Managing SRM Contests APIs
 
 + Parameters
   + name (required, string, `Name`) ... The contest name.
-  + contestId (required, number, `123456`) ... The contest id.
   + startDate (string, `2014-06-01 09:00`) ... The contest start date.
   + endDate (string, `2014-06-01 09:00`) ...   The contest end date.
   + status (string, has length 1, `A`) ... The contest status.
@@ -9933,18 +9932,9 @@ Managing SRM Contests APIs
 
 + Response 200 (application/json)
 
-{"success": true}
-
-+ Response 400 (application/json)
-
-{
-      "error": {
-          "name": "Bad Request",
-          "value": 400,
-          "description": "The request was invalid. An accompanying message will explain why.",
-          "details": "contestId should be number."
-      }
-}
+    {
+        "contestId": 132678
+    }
 
 + Response 400 (application/json)
 
@@ -9953,7 +9943,7 @@ Managing SRM Contests APIs
         "name": "Bad Request",
         "value": 400,
         "description": "The request was invalid. An accompanying message will explain why.",
-        "details": "contestId is already in use."
+        "details": "name should be defined."
     }
 }
 
@@ -9965,6 +9955,17 @@ Managing SRM Contests APIs
         "value": 400,
         "description": "The request was invalid. An accompanying message will explain why.",
         "details": "name should be string."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "name should be non-null and non-empty string."
     }
 }
 
