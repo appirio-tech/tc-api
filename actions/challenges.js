@@ -2323,7 +2323,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
         }, function (res, cb) {
             var infoRow = res.info[0],
                 challengeInfo = res.challengeInfo[0],
-                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id); })['true'] || 0,
+                prizedSubmissionCount = 0,
                 drPointsConfig,
                 drPoints = infoRow.dr_points || 0;
             if (!_.isDefined(infoRow)) {
@@ -2333,7 +2333,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             // Calculate the submission count.
             if (challengeInfo.is_studio === 0) {
                 // The design challenge need to count submission that has prize.
-                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id); })['true'] || 0;
+                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id) && item.mark_for_purchase === false; })['true'] || 0;
             } else {
                 // The develop challenge need to count submission that pass minim review score.
                 prizedSubmissionCount = _.countBy(res.results, function (item) { return item.final_score > challengeInfo.pass_review_score; })['true'] || 0;
