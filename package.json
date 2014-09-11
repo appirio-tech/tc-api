@@ -26,7 +26,7 @@
     "bigdecimal": "0.6.x",
     "bignum": "0.6.x",
     "java": "0.3.x",
-    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#effd53fb53788d4667b9dfed0780d0b6af776964",
+    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#33e1a9a1a8131b4a9580ca959f8b597ae22351d3",
     "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#12b57be495c2e10431173522bc9eff60e0575959",
     "asn1": "*",
     "crypto": "0.0.x",
