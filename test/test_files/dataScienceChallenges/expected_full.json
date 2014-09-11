@@ -1,0 +1,33 @@
+{
+    "total": 2,
+    "data": [
+        {
+            "challengeType": "Code",
+            "challengeName": "Data Science Challenge N1",
+            "challengeId": 1000000,
+            "numSubmissions": 2,
+            "numRegistrants": 5,
+            "registrationStartDate": "2014-01-01 08:00 EST",
+            "submissionEndDate": "2014-01-05 09:00 EST",
+            "challengeCommunity": "Develop",
+            "postingDate": "2014-01-01 08:00 EST"
+        },
+        {
+            "challengeType": "Code",
+            "challengeName": "Data Science Challenge N2",
+            "challengeId": 1000001,
+            "numSubmissions": 2,
+            "numRegistrants": 5,
+            "registrationStartDate": "2014-02-01 18:00 EST",
+            "submissionEndDate": "2014-02-05 23:00 EST",
+            "challengeCommunity": "Develop",
+            "postingDate": "2014-02-01 18:00 EST"
+        }
+    ],
+    "pageIndex": "1",
+    "pageSize": "3",
+    "sortColumn": "challengeId",
+    "sortOrder": "asc",
+    "submissionEndFrom": "2014-01-01",
+    "submissionEndTo": "2015-01-01"
+}
