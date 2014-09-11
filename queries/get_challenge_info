@@ -9,4 +9,4 @@ left join project_info ppvc ON p.project_id = ppvc.project_id AND ppvc.project_i
 LEFT JOIN project_phase pp4 ON p.project_id = pp4.project_id AND pp4.phase_type_id = 4
 LEFT JOIN phase_criteria pc4 ON pp4.project_phase_id = pc4.project_phase_id AND pc4.phase_criteria_type_id = 1
 LEFT JOIN scorecard sc ON sc.scorecard_id ||'' = pc4.parameter
-where p.project_id = 2001;
+where p.project_id = @challengeId@;
