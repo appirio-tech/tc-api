@@ -184,9 +184,9 @@ var config = {
 
     welcomeEmail: {
         template: 'welcome_email',
-        subject: 'Welcome to [topcoder]',
+        subject: 'Welcome to topcoder',
         fromAddress: process.env.TC_EMAIL_FROM,
-        senderName: '[topcoder] API'
+        senderName: 'Topcoder API'
     },
 
     auth0: {
