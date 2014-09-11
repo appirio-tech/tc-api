@@ -1,0 +1,50 @@
+{
+    "total": 4,
+    "data": [
+        {
+            "challengeType": "SRM",
+            "challengeName": "SRM Match 1",
+            "challengeId": 3000000,
+            "numSubmissions": 46,
+            "numRegistrants": 70,
+            "registrationStartDate": "2010-06-16 08:00 EDT",
+            "submissionEndDate": "2010-06-16 10:00 EDT",
+            "challengeCommunity": "Data",
+            "postingDate": "2010-06-16 00:00 EDT"
+        },
+        {
+            "challengeType": "Code",
+            "challengeName": "Data Science Challenge N2",
+            "challengeId": 1000001,
+            "numSubmissions": 2,
+            "numRegistrants": 5,
+            "registrationStartDate": "2014-02-01 18:00 EST",
+            "submissionEndDate": "2014-02-05 23:00 EST",
+            "challengeCommunity": "Develop",
+            "postingDate": "2014-02-01 18:00 EST"
+        },
+        {
+            "challengeType": "Code",
+            "challengeName": "Data Science Challenge N1",
+            "challengeId": 1000000,
+            "numSubmissions": 2,
+            "numRegistrants": 5,
+            "registrationStartDate": "2014-01-01 08:00 EST",
+            "submissionEndDate": "2014-01-05 09:00 EST",
+            "challengeCommunity": "Develop",
+            "postingDate": "2014-01-01 08:00 EST"
+        },
+        {
+            "challengeType": "Marathon",
+            "challengeName": "MM Contest 1 Long Round 1",
+            "challengeId": 2000000,
+            "numSubmissions": 1,
+            "numRegistrants": 1,
+            "registrationStartDate": "2010-06-19 08:00 EDT",
+            "submissionEndDate": "2010-06-26 08:00 EDT",
+            "challengeCommunity": "Data",
+            "postingDate": "2010-06-19 00:00 EDT"
+        }
+    ],
+    "sortColumn": "numRegistrants"
+}

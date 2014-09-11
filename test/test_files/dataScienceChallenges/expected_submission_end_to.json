@@ -1,0 +1,28 @@
+{
+    "total": 2,
+    "data": [
+        {
+            "challengeType": "Marathon",
+            "challengeName": "MM Contest 1 Long Round 1",
+            "challengeId": 2000000,
+            "numSubmissions": 1,
+            "numRegistrants": 1,
+            "registrationStartDate": "2010-06-19 08:00 EDT",
+            "submissionEndDate": "2010-06-26 08:00 EDT",
+            "challengeCommunity": "Data",
+            "postingDate": "2010-06-19 00:00 EDT"
+        },
+        {
+            "challengeType": "SRM",
+            "challengeName": "SRM Match 1",
+            "challengeId": 3000000,
+            "numSubmissions": 46,
+            "numRegistrants": 70,
+            "registrationStartDate": "2010-06-16 08:00 EDT",
+            "submissionEndDate": "2010-06-16 10:00 EDT",
+            "challengeCommunity": "Data",
+            "postingDate": "2010-06-16 00:00 EDT"
+        }
+    ],
+    "submissionEndTo": "2014-01-01"
+}
