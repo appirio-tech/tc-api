@@ -103,7 +103,7 @@ describe('Test Past Data Science Challenges API', function () {
         }
 
         request(API_ENDPOINT)
-            .get('/v2/data-science/challenges/past' + queryParams)
+            .get('/v2/dataScience/challenges/past' + queryParams)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(expectedStatusCode)
@@ -154,7 +154,7 @@ describe('Test Past Data Science Challenges API', function () {
         }
 
         request(API_ENDPOINT)
-            .get('/v2/data-science/challenges/past' + queryParams)
+            .get('/v2/dataScience/challenges/past' + queryParams)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)

@@ -284,7 +284,7 @@ exports.routes = {
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
         { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
-        { path: "/:apiVersion/data-science/challenges/past", action: "pastDataScienceChallenges"},
+        { path: "/:apiVersion/dataScience/challenges/past", action: "pastDataScienceChallenges"},
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
