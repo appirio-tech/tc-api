@@ -6886,12 +6886,11 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## Create SRM Contest Round API [/data/srm/rounds/create]
+## Create SRM Contest Round API [/data/srm/rounds]
 ### Create SRM Contest Round API [POST] (application/json)
 
 + Parameters
     + contest_id (required, integer) round's contest_id
-    + id (required, integer) round's id
     + invitaitonalType (required, integer) round's invitaitonalType
     + registrationLimit (required, integer) round's registrationLimit
     + name (required, string) round's name
@@ -6904,7 +6903,7 @@ Request
 + Response 200 (application/json)
 
         {
-            "message": "ok"
+            "roundId": 132678
         }
 
 + Response 400 (application/json)
