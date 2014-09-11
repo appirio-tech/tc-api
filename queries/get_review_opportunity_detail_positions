@@ -3,8 +3,10 @@ SELECT
 , rarl.review_application_role_id
 , rarl.positions AS num_positions
 , rarl.order_index
+, ratl.review_auction_category_id
 FROM review_auction ra
 INNER JOIN project p ON p.project_id = @challenge_id@ AND ra.project_id = @challenge_id@
 INNER JOIN review_auction_type_lu ratl ON ratl.review_auction_type_id = ra.review_auction_type_id
 INNER JOIN review_application_role_lu rarl ON rarl.review_auction_type_id = ra.review_auction_type_id
 ORDER BY rarl.order_index ASC
+-- TODO: The current will return positions of multiple review auctions. We may still need to have an review auction id here.
