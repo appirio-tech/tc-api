@@ -2317,21 +2317,30 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 info: execQuery('get_challenge_results'),
                 results: execQuery("get_challenge_results_submissions"),
                 finalFixes: execQuery("get_challenge_results_final_fixes"),
-                restrictions: execQuery("get_challenge_restrictions")
+                challengeInfo: execQuery("get_challenge_info")
             }, cb);
 
         }, function (res, cb) {
-            // TODO: The logic of calculating dr points of each submissions need to be updated.
             var infoRow = res.info[0],
-                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id); })['true'] || 0,
+                challengeInfo = res.challengeInfo[0],
+                prizedSubmissionCount = 0,
                 drPointsConfig,
                 drPoints = infoRow.dr_points || 0;
             if (!_.isDefined(infoRow)) {
                 cb(new BadRequestError('No Result Found'));
                 return;
-
             }
+            // Calculate the submission count.
+            if (challengeInfo.is_studio === 0) {
+                // The design challenge need to count submission that has prize.
+                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id) && item.mark_for_purchase === false; })['true'] || 0;
+            } else {
+                // The develop challenge need to count submission that pass minim review score.
+                prizedSubmissionCount = _.countBy(res.results, function (item) { return item.final_score > challengeInfo.pass_review_score; })['true'] || 0;
+            }
+
             if (prizedSubmissionCount > 5) {
+                // The design challenge may have more than 5 prized submissions and we only give dr points for first 5 of them.
                 drPointsConfig = helper.DR_POINTS[5];
             } else {
                 drPointsConfig = helper.DR_POINTS[prizedSubmissionCount];
@@ -2385,7 +2394,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
 
                 //Submission Links
                 if (isStudio) {
-                    if (res.restrictions[0].show_submissions) {
+                    if (challengeInfo.show_submissions) {
                         resEl.submissionDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id;
                         resEl.previewDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id + "&sbt=small";
                     }
@@ -2395,7 +2404,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
 
                 //Handle
                 if (isStudio) {
-                    if (res.restrictions[0].show_coders) {
+                    if (challengeInfo.show_coders) {
                         resEl.handle = el.handle;
                     }
                 } else {
@@ -2407,7 +2416,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
 
             //Populate the final fixes
             if (isStudio) {
-                if (res.restrictions[0].show_submissions) {
+                if (challengeInfo.show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
                         return api.config.tcConfig.designSubmissionLink + ff.submission_id;
                     });
@@ -2503,9 +2512,8 @@ exports.getChallenge = {
 
         if (error) {
             api.helper.handleError(api, connection, new NotFoundError("Challenge Id Not Valid."));
-            next(connection, true)
-        }
-        else if (connection.dbConnectionMap) {
+            next(connection, true);
+        } else if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
             api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
