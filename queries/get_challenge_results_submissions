@@ -1,22 +1,24 @@
-select 	s.submission_id,
-		ri1.value as user_id,
-       	ri2.value as handle,
-       	NVL(s.placement, 0) as placed,
-       	s.mark_for_purchase,
-       	NVL(s.final_score, 0.0) as final_score,
-		NVL(s.screening_score, 0.0) as screening_score,
-		NVL(s.initial_score, 0.0) as initial_score,
-       	s.create_date as submission_date,
-       	stl.name AS submission_status,
-		ri1.create_date as registration_date,
-	    s.prize_id,
-		u.upload_id
+select  s.submission_id,
+        ri1.value as user_id,
+        ri2.value as handle,
+        NVL(s.placement, 0) as placed,
+        s.mark_for_purchase,
+        NVL(s.final_score, 0.0) as final_score,
+        NVL(s.screening_score, 0.0) as screening_score,
+        NVL(s.initial_score, 0.0) as initial_score,
+        s.create_date as submission_date,
+        stl.name AS submission_status,
+        ri1.create_date as registration_date,
+        s.prize_id,
+        u.upload_id,
+        dp.amount AS dr_points
 from
-	upload u,
+    upload u,
     submission s,
     submission_status_lu stl,
-	resource_info ri1,
-	resource_info ri2
+    resource_info ri1,
+    resource_info ri2,
+    outer dr_points dp
 where u.project_id = @challengeId@
  and ri1.resource_id = u.resource_id 
  and ri1.resource_info_type_id = '1' 
@@ -27,4 +29,6 @@ where u.project_id = @challengeId@
  and s.submission_type_id = 1
  and stl.submission_status_id = s.submission_status_id
  and s.submission_status_id IN (1,2,3,4)
+ and dp.reference_id = @challengeId@
+ and dp.user_id = ri1.value
 order by s.final_score desc
