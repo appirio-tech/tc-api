@@ -1,0 +1,6 @@
+DELETE FROM round_division WHERE round_id BETWEEN 2000000 AND 3999999;
+DELETE FROM long_comp_result WHERE round_id BETWEEN 2000000 AND 3999999;
+DELETE FROM round WHERE round_id BETWEEN 2000000 AND 3999999;
+DELETE FROM contest WHERE contest_id BETWEEN 2000000 AND 3999999;
+DELETE FROM round_type_lu WHERE round_type_id IN (1, 2, 10, 13, 15, 19, 22, 24, 25, 27);
+DELETE FROM division_lu WHERE division_id IN (1, 2);

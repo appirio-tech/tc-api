@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCASSEMBLER
- * @version 1.35
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
+ * @version 1.37
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -95,6 +95,10 @@
  * - Added updateTextColumn() method.
  * Change in 1.36
  * - Add SEGMENTS_ID_MAP field.
+ * Changes in 1.37:
+ * - Updated apiName2dbNameMap to add entries for registration_start_date and challenge_community columns
+ * - Updated formatDateWithTimezone function to accept optional 'format' parameter.
+ * - Updated checkDates function to accept optional 'errorMessage' parameter.
  */
 "use strict";
 
@@ -238,7 +242,9 @@ var apiName2dbNameMap = {
     currentphaseremainingtime: 'current_phase_remaining_time',
     currentphasename: 'current_phase_name',
     registrationopen: 'registration_open',
-    totalPrize: 'total_prize'
+    totalPrize: 'total_prize',
+    registrationstartdate: 'registration_start_date',
+    challengecommunity: 'challenge_community'
 };
 
 /**
@@ -1410,10 +1416,14 @@ helper.validateDate = function (dateVal, dateName, format) {
  * Check dates. Check if the start date is after the end date or the start date and end date are same date.
  * @param {String} startDate - the start date value.
  * @param {String} endDate - the end date value.
+ * @param {String} errorMessage - error message in case dates are wrong, optional.
  * @since 1.8
  */
-helper.checkDates = function (startDate, endDate) {
+helper.checkDates = function (startDate, endDate, errorMessage) {
     if (moment(startDate).isAfter(endDate) || moment(startDate).isSame(endDate)) {
+        if (errorMessage) {
+            return new IllegalArgumentError(errorMessage);
+        }
         return new IllegalArgumentError('startDate should be earlier than endDate or at same date.');
     }
     return null;
@@ -1447,10 +1457,14 @@ var DEFAULT_DATE_FORMAT_WITH_TIMEZONE = 'MMM DD, YYYY HH:mm z';
  * Format the date value to default timezone format.
  * Will return empty string if the date is null.
  * @param {String} date - the date value.
+ * @param {String} format - format for the date, optional.
  * @since 1.8
  */
-helper.formatDateWithTimezone = function (date) {
+helper.formatDateWithTimezone = function (date, format) {
     if (date) {
+        if (format) {
+            return moment(date).tz(DEFAULT_TIME_ZONE).format(format);
+        }
         return moment(date).tz(DEFAULT_TIME_ZONE).format(DEFAULT_DATE_FORMAT_WITH_TIMEZONE);
     }
     return '';

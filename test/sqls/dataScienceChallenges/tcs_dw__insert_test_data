@@ -1,0 +1,12 @@
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name)
+       VALUES (1000000, 7, 'Data Science Challenge N1', 2, 5, '2014-01-01 08:00:00', '2014-01-05 09:00:00', 'Code');
+INSERT INTO project_technology (project_id, project_technology_id, name) VALUES (1000000, 99999, 'Data Science');       
+
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name)
+       VALUES (1000001, 7, 'Data Science Challenge N2', 2, 5, '2014-02-01 18:00:00', '2014-02-05 23:00:00', 'Code');
+INSERT INTO project_technology (project_id, project_technology_id, name) VALUES (1000001, 99999, 'Data Science');       
+
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name)
+       VALUES (1000002, 1, 'Data Science Challenge N3', 0, 0, '2014-02-01 18:00:00', '2014-02-05 23:00:00', 'Code');
+INSERT INTO project_technology (project_id, project_technology_id, name) VALUES (1000002, 99999, 'Data Science');       
+
