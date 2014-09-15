@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.30
+ * @version 1.31
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
  * @author isv, muzehyun, bugbuka
  * @changes from 1.0
@@ -77,6 +77,8 @@
  * - Fixed existing errors report by jsLint tool.
  * Changes in 1.30:
  * - Update challenge type filter.
+ * Changes in 1.31:
+ * - Remove screeningScorecardId and reviewScorecardId from search challenges api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -720,12 +722,6 @@ function transferResultV2(src, helper) {
 
         if (!_.isUndefined(challenge.forumId)) {
             challenge.forumId = Number(challenge.forumId);
-        }
-        if (!_.isUndefined(challenge.screeningScorecardId)) {
-            challenge.screeningScorecardId = Number(challenge.screeningScorecardId);
-        }
-        if (!_.isUndefined(challenge.reviewScorecardId)) {
-            challenge.reviewScorecardId = Number(challenge.reviewScorecardId);
         }
         if (!challenge.isStudio) {
             delete challenge.submissionsViewable;
