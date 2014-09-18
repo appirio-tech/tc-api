@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
+ * @version 1.6
  * @author Sky_, Ghost_141, flytoj2ee
  * changes in 1.1
  * - Implement the studio review opportunities.
@@ -15,6 +15,8 @@
  * - add VALID_REVIEW_APPLICATION_ROLE_ID and REVIEW_APPLICATION_STATUS.
  * Changes in 1.5:
  * - Implement the applyStudioReviewOpportunity api.
+ * Changes in 1.6:
+ * - Fix bug in review opportunities api.
  */
 'use strict';
 /*jslint node: true, stupid: true, unparam: true, plusplus: true */
@@ -149,6 +151,24 @@ var CHECKPOINT_SCREENING_PHASE_TYPE_ID = 16;
  * @since 1.5
  */
 var TIMELINE_NOTIFICATION_ID = 1;
+
+/**
+ * The review category id for challenge review(contest review).
+ * @since 1.6
+ */
+var CHALLENGE_REVIEW__AUCTION_CATEGORY_ID = 1;
+
+/**
+ * The review category id for spec review.
+ * @since 1.6
+ */
+var SPEC_REVIEW_AUCTION_CATEGORY_ID = 2;
+
+/**
+ * The iterative review category id.
+ * @since 1.6
+ */
+var ITER_REVIEW_AUCTION_CATEGORY_ID = 3;
 
 /**
  * Format the date value to a specific pattern.
@@ -670,7 +690,19 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             result.positions = [];
             result.applications = [];
 
-            var numberOfReviewersRequired = basic.reviewers_required,
+            var numberOfReviewersRequired,
+                getReviewersRequired = function (rows, reviewCategoryId) {
+                    var info = _.find(rows, function (row) {
+                        return row.review_auction_category_id === reviewCategoryId;
+                    });
+                    if (_.isUndefined(info)) {
+                        return 0;
+                    }
+                    return info.reviewers_required;
+                },
+                specReviewersRequired = getReviewersRequired(results.basic, SPEC_REVIEW_AUCTION_CATEGORY_ID),
+                challengeReviewersRequired = getReviewersRequired(results.basic, CHALLENGE_REVIEW__AUCTION_CATEGORY_ID),
+                iterReviewersRequired = getReviewersRequired(results.basic, ITER_REVIEW_AUCTION_CATEGORY_ID),
                 payment = calculatePayment(results.basic, adjustPayment);
 
             phases.forEach(function (row) {
@@ -691,6 +723,16 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                     i,
                     reviewApplicationRole = _.filter(results.basic, function (item) { return item.review_application_role_id === row.review_application_role_id; });
 
+                console.log('position: ' + row.review_auction_category_id);
+                // Set the correct number of reviewers required.
+                if (row.review_auction_category_id === SPEC_REVIEW_AUCTION_CATEGORY_ID) {
+                    numberOfReviewersRequired = specReviewersRequired;
+                } else if (row.review_auction_category_id === CHALLENGE_REVIEW__AUCTION_CATEGORY_ID) {
+                    numberOfReviewersRequired = challengeReviewersRequired;
+                } else {
+                    numberOfReviewersRequired = iterReviewersRequired;
+                }
+
                 for (i = 0; i < reviewApplicationRole.length; i += 1) {
                     if (!isClosed && reviewApplicationRole[i].is_unique && assignedResource.indexOf(reviewApplicationRole[i].resource_role_id) >= 0) {
                         isClosed = true;
@@ -707,6 +749,13 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                 if (positionOpen <= 0) {
                     // No open positions for this role.
                     numberOfReviewersRequired -= row.num_positions;
+                    if (row.review_auction_category_id === SPEC_REVIEW_AUCTION_CATEGORY_ID) {
+                        specReviewersRequired = numberOfReviewersRequired;
+                    } else if (row.review_auction_category_id === CHALLENGE_REVIEW__AUCTION_CATEGORY_ID) {
+                        challengeReviewersRequired = numberOfReviewersRequired;
+                    } else {
+                        iterReviewersRequired = numberOfReviewersRequired;
+                    }
                     return;
                 }
                 result.positions.push({
@@ -716,6 +765,13 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
                 });
 
                 numberOfReviewersRequired -= positionOpen;
+                if (row.review_auction_category_id === SPEC_REVIEW_AUCTION_CATEGORY_ID) {
+                    specReviewersRequired = numberOfReviewersRequired;
+                } else if (row.review_auction_category_id === CHALLENGE_REVIEW__AUCTION_CATEGORY_ID) {
+                    challengeReviewersRequired = numberOfReviewersRequired;
+                } else {
+                    iterReviewersRequired = numberOfReviewersRequired;
+                }
             });
 
             applications.forEach(function (row) {

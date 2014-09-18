@@ -11,7 +11,7 @@ exports.default = {
             // A unique token to your application that servers will use to authenticate to each other
             serverToken: 'not-used',
             // The welcome message seen by TCP and webSocket clients upon connection
-            welcomeMessage: 'Hello! Welcome to the [topcoder] api',
+            welcomeMessage: 'Hello! Welcome to the topcoder api',
             // The body message to accompany 404 (file not found) errors regarding flat files
             flatFileNotFoundMessage: 'Sorry, that file is not found :(',
             // The message to accompany 500 errors (internal server errors)

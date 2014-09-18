@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.55
+ * @version 1.56
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
- * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
+ * @author panoptimum, bugbuka, Easyhard
  *
  * Changes in 1.1:
  * - add routes for search challenges
@@ -130,6 +130,8 @@
  * - Add a line for NewRelic
  * Changes in 1.55:
  * - Add routes for set round components and terms.
+ * Changes in 1.56:
+ * - Add route for Data Science Past Challenges API.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -282,6 +284,7 @@ exports.routes = {
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
         { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
+        { path: "/:apiVersion/dataScience/challenges/past", action: "pastDataScienceChallenges"},
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },
@@ -317,7 +320,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
 
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
-        
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },

@@ -2321,20 +2321,11 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             }, cb);
 
         }, function (res, cb) {
-            // TODO: The logic of calculating dr points of each submissions need to be updated.
             var infoRow = res.info[0],
-                prizedSubmissionCount = _.countBy(res.results, function (item) { return _.isDefined(item.prize_id); })['true'] || 0,
-                drPointsConfig,
-                drPoints = infoRow.dr_points || 0;
+                challengeRestrictions = res.restrictions[0];
             if (!_.isDefined(infoRow)) {
                 cb(new BadRequestError('No Result Found'));
                 return;
-
-            }
-            if (prizedSubmissionCount > 5) {
-                drPointsConfig = helper.DR_POINTS[5];
-            } else {
-                drPointsConfig = helper.DR_POINTS[prizedSubmissionCount];
             }
 
             _.extend(result, {
@@ -2365,8 +2356,9 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     placement: el.placed === 0 ? 'n/a' : el.placed,
                     submissionDate: el.submission_date,
                     submissionStatus: el.submission_status,
-                    registrationDate: el.registration_date
-                }, rate;
+                    registrationDate: el.registration_date,
+                    points: el.dr_points
+                };
 
                 if (!isStudio) {
                     _.extend(resEl, {
@@ -2380,12 +2372,9 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                     });
                 }
 
-                rate = drPointsConfig[el.placed - 1] || 0;
-                resEl.points = Number((drPoints * rate).toFixed(2));
-
                 //Submission Links
                 if (isStudio) {
-                    if (res.restrictions[0].show_submissions) {
+                    if (challengeRestrictions.show_submissions) {
                         resEl.submissionDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id;
                         resEl.previewDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id + "&sbt=small";
                     }
@@ -2395,7 +2384,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
 
                 //Handle
                 if (isStudio) {
-                    if (res.restrictions[0].show_coders) {
+                    if (challengeRestrictions.show_coders) {
                         resEl.handle = el.handle;
                     }
                 } else {
@@ -2407,7 +2396,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
 
             //Populate the final fixes
             if (isStudio) {
-                if (res.restrictions[0].show_submissions) {
+                if (challengeRestrictions.show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
                         return api.config.tcConfig.designSubmissionLink + ff.submission_id;
                     });
@@ -2503,9 +2492,8 @@ exports.getChallenge = {
 
         if (error) {
             api.helper.handleError(api, connection, new NotFoundError("Challenge Id Not Valid."));
-            next(connection, true)
-        }
-        else if (connection.dbConnectionMap) {
+            next(connection, true);
+        } else if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
             api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {

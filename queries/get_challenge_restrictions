@@ -1,6 +1,6 @@
 select
-	(NVL(ppvs.value, 'false') = 'true') as show_submissions,
-	(NVL(ppvc.value, 'false') = 'true') as show_coders
+    (NVL(ppvs.value, 'false') = 'true') as show_submissions,
+    (NVL(ppvc.value, 'false') = 'true') as show_coder
 from project p
 left join project_info ppvs ON p.project_id = ppvs.project_id AND ppvs.project_info_type_id = 53
 left join project_info ppvc ON p.project_id = ppvc.project_id AND ppvc.project_info_type_id = 54

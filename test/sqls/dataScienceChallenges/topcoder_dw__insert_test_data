@@ -1,0 +1,32 @@
+INSERT INTO division_lu (division_id) VALUES (1);
+INSERT INTO division_lu (division_id) VALUES (2);
+
+INSERT INTO round_type_lu (round_type_id) VALUES (1);
+INSERT INTO round_type_lu (round_type_id) VALUES (2);
+INSERT INTO round_type_lu (round_type_id) VALUES (10);
+INSERT INTO round_type_lu (round_type_id) VALUES (13);
+INSERT INTO round_type_lu (round_type_id) VALUES (15);
+INSERT INTO round_type_lu (round_type_id) VALUES (19);
+INSERT INTO round_type_lu (round_type_id) VALUES (22);
+INSERT INTO round_type_lu (round_type_id) VALUES (24);
+INSERT INTO round_type_lu (round_type_id) VALUES (25);
+INSERT INTO round_type_lu (round_type_id) VALUES (27);
+
+INSERT INTO contest (contest_id, name, start_date, end_date) VALUES (2000000, 'MM Contest 1', '2010-06-19 08:00:00.000', '2010-06-26 08:00:00.000');
+INSERT INTO round (round_id, name, short_name, contest_id, calendar_id, round_type_id, failed)
+       VALUES (2000000, 'Long Round 1', 'Long Round 1', 2000000, 3457, 10, 0);
+INSERT INTO long_comp_result (round_id, coder_id, num_submissions, attended) VALUES (2000000, 131456, 1, 'Y');       
+INSERT INTO long_comp_result (round_id, coder_id, num_submissions, attended) VALUES (2000000, 132457, 2, 'N');       
+
+INSERT INTO contest (contest_id, name, start_date, end_date) VALUES (3000000, 'SRM Contest 1', '2010-06-16 08:00:00.000', '2010-06-16 10:00:00.000');
+INSERT INTO round (round_id, name, short_name, contest_id, calendar_id, round_type_id, failed, status)
+       VALUES (3000000, 'SRM Match 1', 'SRM Match 1', 3000000, 3454, 1, 0, 'P');
+INSERT INTO round_division (round_id, division_id, num_coders, problems_submitted) VALUES (3000000, 1, 20, 12);
+INSERT INTO round_division (round_id, division_id, num_coders, problems_submitted) VALUES (3000000, 2, 50, 34);
+
+INSERT INTO contest (contest_id, name, start_date, end_date) VALUES (3000001, 'SRM Contest 2', '2010-06-16 08:00:00.000', '2010-06-16 10:00:00.000');
+INSERT INTO round (round_id, name, short_name, contest_id, calendar_id, round_type_id, failed, status)
+       VALUES (3000001, 'SRM Match 2', 'SRM Match 2', 3000001, 3454, 1, 0, 'A');
+INSERT INTO round_division (round_id, division_id, num_coders, problems_submitted) VALUES (3000001, 1, 12, 2);
+INSERT INTO round_division (round_id, division_id, num_coders, problems_submitted) VALUES (3000001, 2, 23, 4);
+
