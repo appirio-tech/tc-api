@@ -609,7 +609,7 @@ helper.checkArray = function (obj, objName, allowEmpty) {
 helper.checkNumber = function (obj, objName) {
     try {
         var n = Number(obj);
-        if (!_.isNumber(n) || _.isNaN(obj) || !_.isFinite(obj)) {
+        if (!_.isNumber(n) || _.isNaN(n) || !_.isFinite(n)) {
             return new IllegalArgumentError(objName + " should be number.");
         }
         return null;
