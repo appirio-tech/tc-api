@@ -607,10 +607,15 @@ helper.checkArray = function (obj, objName, allowEmpty) {
  * @return {Error} if invalid or null if valid.
  */
 helper.checkNumber = function (obj, objName) {
-    if (!_.isNumber(obj) || _.isNaN(obj) || !_.isFinite(obj)) {
+    try {
+        var n = Number(obj);
+        if (!_.isNumber(n) || _.isNaN(obj) || !_.isFinite(obj)) {
+            return new IllegalArgumentError(objName + " should be number.");
+        }
+        return null;
+    } catch (err) {
         return new IllegalArgumentError(objName + " should be number.");
     }
-    return null;
 };
 
 /**
