@@ -1,0 +1,20 @@
+{
+    "pageIndex": {
+        "negative": "pageIndex should be equal to -1 or greater than 0",
+        "notInteger": "pageIndex should be Integer.",
+        "notNumber": "pageIndex should be number.",
+        "tooBig": "pageIndex should be less or equal to 2147483647."
+    },
+    "pageSize": {
+        "negative": "pageSize should be positive.",
+        "notInteger": "pageSize should be Integer.",
+        "notNumber": "pageSize should be number.",
+        "tooBig": "pageSize should be less or equal to 2147483647."
+    },
+    "unauthorized": "Only logged in user can access to this endpoint.",
+    "invalidSortOrder": "sortOrder should be an element of asc,desc.",
+    "invalidStatus": "The statuses can only contains following elements: new,viewed,solved.",
+    "invalidDifficulty": "The difficulty can only contains following elements: easy,medium,hard.",
+    "invalidProblemTypes": "The problemTypes can only contains following elements: single,team,long.",
+    "invalidSortColumn": "The sort column 'abc' is invalid, it should be element of problemId,problemName,problemType,difficulty,points,status,myPoints."
+}

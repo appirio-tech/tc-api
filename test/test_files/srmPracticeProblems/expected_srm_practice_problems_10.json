@@ -1,0 +1,15 @@
+{
+    "pageIndex": 1,
+    "pageSize": 10,
+    "total": 1,
+    "data": [
+        {
+            "myPoints": 100,
+            "problemType": "Long",
+            "problemId": 2004,
+            "status": "Solved",
+            "problemName": "Problem 2004",
+            "points": 450
+        }
+    ]
+}
