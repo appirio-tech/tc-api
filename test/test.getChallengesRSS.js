@@ -1,8 +1,10 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
+ * @version 1.1
  * @author  Ghost_141
+ * Changes in 1.1:
+ * - Add test case for technologies and platforms filter.
  */
 'use strict';
 /*global describe, it, before, beforeEach, after, afterEach */
