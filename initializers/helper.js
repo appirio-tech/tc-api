@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.37
+ * @version 1.38
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -99,6 +99,8 @@
  * - Updated apiName2dbNameMap to add entries for registration_start_date and challenge_community columns
  * - Updated formatDateWithTimezone function to accept optional 'format' parameter.
  * - Updated checkDates function to accept optional 'errorMessage' parameter.
+ * Changes in 1.38:
+ * - Add method editSql, readQuery and constant QUERY_PATH.
  */
 "use strict";
 
@@ -1697,6 +1699,41 @@ helper.checkSortColumn = function (sortColumns, sortColumn) {
         return new IllegalArgumentError("The sort column '" + sortColumn + "' is invalid, it should be element of " + sortColumns + ".");
     }
     return null;
+};
+
+/**
+ * Add template into sql.
+ * @param {String} sql - the sql query.
+ * @param {String} template - the template that will insert into sql
+ * @param {String} content - the content that need in template.
+ * @since 1.38
+ */
+helper.editSql = function (sql, template, content) {
+    // For empty sql just return it.
+    if (sql.length === 0) {
+        return sql;
+    }
+    var index = sql.toLowerCase().indexOf('order by');
+    if (!_.isUndefined(template)) {
+        template = template.replace('@filter@', content);
+    }
+    return sql.slice(0, index) + template + sql.slice(index, sql.length);
+};
+
+/**
+ * The path that store all query files.
+ * @since 1.38
+ */
+helper.QUERY_PATH = './queries/';
+
+/**
+ * Read the query from file name.
+ * @param {String} name - The file that store the query under queries folder.
+ * @param {Function} cb - The callback function.
+ * @since 1.38
+ */
+helper.readQuery = function (name, cb) {
+    fs.readFile(helper.QUERY_PATH + name, 'utf8', cb);
 };
 
 /*
