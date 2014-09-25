@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.30
+ * @version 1.31
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
  * @author isv, muzehyun, bugbuka
  * @changes from 1.0
@@ -77,6 +77,8 @@
  * - Fixed existing errors report by jsLint tool.
  * Changes in 1.30:
  * - Update challenge type filter.
+ * Changes in 1.31:
+ * - Remove screeningScorecardId and reviewScorecardId from search challenges api.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true */
@@ -720,12 +722,6 @@ function transferResultV2(src, helper) {
 
         if (!_.isUndefined(challenge.forumId)) {
             challenge.forumId = Number(challenge.forumId);
-        }
-        if (!_.isUndefined(challenge.screeningScorecardId)) {
-            challenge.screeningScorecardId = Number(challenge.screeningScorecardId);
-        }
-        if (!_.isUndefined(challenge.reviewScorecardId)) {
-            challenge.reviewScorecardId = Number(challenge.reviewScorecardId);
         }
         if (!challenge.isStudio) {
             delete challenge.submissionsViewable;
@@ -1598,7 +1594,7 @@ var uploadForDevelopChallenge = function (api, connection, dbConnectionMap, next
             //Note 2 - this will also cover the case of private challenges
             //User will have role Submitter only if the user belongs to group of private challenge and is registered.
             if (!rows[0].is_user_submitter_for_challenge) {
-                cb(new ForbiddenError('You cannot submit for this challenge as you are not a Submitter.'));
+                cb(new ForbiddenError('You cannot submit for this challenge as you are not a submitter.'));
                 return;
             }
 
@@ -2488,14 +2484,15 @@ exports.getChallenge = {
     transaction: 'read', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
-        var error = api.helper.checkIdParameter(connection.params.challengeId, "challengeId");
+        var challengeId = Number(connection.params.challengeId),
+            error = api.helper.checkIdParameter(challengeId, "challengeId");
 
         if (error) {
             api.helper.handleError(api, connection, new NotFoundError("Challenge Id Not Valid."));
             next(connection, true);
         } else if (connection.dbConnectionMap) {
             api.log("Execute getChallenge#run", 'debug');
-            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: connection.params.challengeId}, connection.dbConnectionMap, function (err, result) {
+            api.dataAccess.executeQuery('check_challenge_exists', {challengeId: challengeId}, connection.dbConnectionMap, function (err, result) {
                 if (err) {
                     api.helper.handleError(api, connection, err);
                     next(connection, true);
