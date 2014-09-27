@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.5
- * @author Sky_, freegod, panoptimum
+ * @version 1.6
+ * @author Sky_, freegod, panoptimum, Ghost_141
  * changes in 1.1:
  * - implement srm API
  * changes in 1.2:
@@ -20,6 +20,8 @@
  *   - load round access api
  * changes in 1.5
  * - added API for retrieving SRM schedule
+ * Changes in 1.6:
+ * - Update search srm challenges api to use informixoltp database.
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -177,17 +179,17 @@ exports.searchSRMChallenges = {
     description: "searchSRMChallenges",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder"]
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "listType"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
     transaction: 'read', // this action is read-only
-    databases: ["topcoder_dw"],
+    databases: ["informixoltp"],
     run: function (api, connection, next) {
         api.log("Execute searchSRMChallenges#run", 'debug');
-        var helper = api.helper, params = connection.params, sqlParams,
-            pageIndex, pageSize, sortColumn, sortOrder, error, result,
+        var helper = api.helper, params = connection.params, sqlParams, listType,
+            pageIndex, pageSize, sortColumn, sortOrder, error, result, status,
             dbConnectionMap = connection.dbConnectionMap;
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -202,9 +204,16 @@ exports.searchSRMChallenges = {
         }
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
+        listType = (params.listType || 'ACTIVE').toUpperCase();
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
             sortOrder = "desc";
+        }
+
+        if (listType === helper.ListType.ACTIVE) {
+            status = 'A';
+        } else {
+            status = 'F';
         }
 
         async.waterfall([
@@ -219,6 +228,7 @@ exports.searchSRMChallenges = {
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
+                    helper.checkContains([helper.ListType.ACTIVE, helper.ListType.UPCOMING], listType, 'listType') ||
                     helper.checkContains(allowedSort, sortColumn, "sortColumn");
                 if (error) {
                     cb(error);
@@ -233,7 +243,8 @@ exports.searchSRMChallenges = {
                     firstRowIndex: (pageIndex - 1) * pageSize,
                     pageSize: pageSize,
                     sortColumn: helper.getSortColumnDBName(sortColumn),
-                    sortOrder: sortOrder
+                    sortOrder: sortOrder,
+                    status: status
                 };
 
                 async.parallel({
