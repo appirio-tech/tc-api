@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * Version: 1.3
+ * Version: 1.4
  * Author: TCSASSEMBLER, muzehyun, Ghost_141
  * changes in 1.1
  * - add retrieveMemberProfileLDAPEntry
@@ -11,6 +11,8 @@
  * - updateMemberPasswordLDAPEntry for update member password.
  * Changes in 1.3:
  * - add resetMemberPasswordLDAPEntry for reset member password.
+ * Changes in 1.4:
+ * - Add generateUserDN and generateLDAPUid method.
  */
 "use strict";
 
@@ -69,6 +71,16 @@ var createClient = function () {
 };
 
 /**
+ * Generate user dn for ldap server.
+ * @param {Number} userId - The user id.
+ * @returns {String} The user id(dn) in LDAP server.
+ * @since 1.4
+ */
+var generateUserDN = function (userId) {
+    return 'uid=' + userId + ', ' + topcoder_member_base_dn;
+};
+
+/**
  * Function used to bind a ldap server
  * 
  * @param {Object} api - object used to access infrastructure
@@ -96,7 +108,7 @@ var bindClient = function (api, client, callback) {
  * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var addClient = function (api, client, params, callback) {
-    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
+    var dn = generateUserDN(params.userId),
         entry = {
             uid: params.userId,
             handle: params.handle,
@@ -124,7 +136,7 @@ var addClient = function (api, client, params, callback) {
  * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var removeClient = function (api, client, userId, callback) {
-    var dn = 'uid=' + userId + ', ' + topcoder_member_base_dn;
+    var dn = generateUserDN(userId);
     client.del(dn, function (err) {
         if (err) {
             client.unbind();
@@ -145,7 +157,7 @@ var removeClient = function (api, client, userId, callback) {
  * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var passwordModify = function (api, client, params, callback) {
-    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
+    var dn = generateUserDN(params.userId),
         op = params.oldPassword || params.password,
         np = params.newPassword || params.password,
         writer = new Ber.Writer();
@@ -176,7 +188,7 @@ var passwordModify = function (api, client, params, callback) {
  * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var resetPassword = function (api, client, params, callback) {
-    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
+    var dn = generateUserDN(params.userId),
         np = params.newPassword || params.password,
         writer = new Ber.Writer();
     writer.startSequence();
@@ -204,7 +216,7 @@ var resetPassword = function (api, client, params, callback) {
  * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var modifyClient = function (api, client, params, callback) {
-    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn,
+    var dn = generateUserDN(params.userId),
         change = new ldap.Change({
             operation: 'replace',
             modification: {
@@ -231,7 +243,7 @@ var modifyClient = function (api, client, params, callback) {
  * @param {Function} callback - a async callback function with prototype like callback(err, results)
  */
 var retrieveClient = function (api, client, params, callback) {
-    var dn = 'uid=' + params.userId + ', ' + topcoder_member_base_dn;
+    var dn = generateUserDN(params.userId);
     client.search(dn, {}, function (err, res) {
         if (err) {
             client.unbind();
@@ -270,6 +282,17 @@ var retrieveClient = function (api, client, params, callback) {
  */
 exports.ldapHelper = function (api, next) {
     api.ldapHelper = {
+
+        /**
+         * Function for get LDAP user id based on given userId.
+         * @param {Number} userId - The user id.
+         * @return the user id (dn) in LDAP server.
+         * @since 1.4
+         */
+        generateLDAPUid: function (userId) {
+            return generateUserDN(userId);
+        },
+
          /**
          * Main function of addMemberProfileLDAPEntry
          *
