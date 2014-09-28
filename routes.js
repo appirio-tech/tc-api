@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.56
+ * @version 1.57
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -132,6 +132,8 @@
  * - Add routes for set round components and terms.
  * Changes in 1.56:
  * - Add route for Data Science Past Challenges API.
+ * Changes in 1.57:
+ * - Add route for user activation email api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -247,6 +249,7 @@ exports.routes = {
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
 
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
+        { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
 
         { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },

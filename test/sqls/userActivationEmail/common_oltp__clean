@@ -1,0 +1,2 @@
+DELETE FROM email WHERE email_id IN (100326, 100325);
+DELETE FROM user WHERE user_id IN (100326, 100325);
