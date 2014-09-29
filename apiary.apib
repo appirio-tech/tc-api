@@ -6511,7 +6511,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## View Past Data Science Challenges [/data/dataScience/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## View Past Data Science Challenges [/dataScience/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### View Past Data Science Challenges [GET]
 
 + Parameters
@@ -6672,6 +6672,209 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## View Active Data Science Challenges [/dataScience/challenges/active?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### View Active Data Science Challenges [GET]
+
++ Parameters
+    + submissionEndFrom (optional, string, `2014-01-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-06-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+           "total": 3,
+           "data": [
+                {
+                  "challengeType": "Code",
+                  "challengeName": "project",
+                  "challengeId": 10011,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-05-27 03:00 EDT",
+                  "submissionEndDate": "2014-06-07 03:00 EDT",
+                  "challengeCommunity": "Develop",
+                  "postingDate": "2014-05-27 03:00 EDT"
+                },
+                {
+                  "challengeType": "Marathon",
+                  "challengeName": "Test MM Test MM Round",
+                  "challengeId": 23672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                },
+                {
+                  "challengeType": "SRM",
+                  "challengeName": "Test SRM Round",
+                  "challengeId": 33672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                }
+            ],
+            "submissionEndFrom": "2014-01-01",
+            "submissionEndTo": "2014-01-05"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndFrom. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndTo. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"submissionEndFrom must be before submissionEndTo"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## View Upcoming Data Science Challenges [/dataScience/challenges/upcoming?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### View Upcoming Data Science Challenges [GET]
+
++ Parameters
+    + submissionEndFrom (optional, string, `2014-01-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-11-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+           "total": 5,
+              "data": [
+                {
+                  "challengeType": "SRM",
+                  "challengeName": "Test SRM Round",
+                  "challengeId": 13672,
+                  "numSubmissions": 0,
+                  "numRegistrants": 0,
+                  "registrationStartDate": "2014-09-15 00:54 EDT",
+                  "submissionEndDate": "2014-09-15 01:19 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-09-15 00:54 EDT"
+                },
+                {
+                  "challengeType": "Marathon",
+                  "challengeName": "Test MM Test MM Round",
+                  "challengeId": 13673,
+                  "numSubmissions": 0,
+                  "numRegistrants": 0,
+                  "registrationStartDate": "2014-09-15 00:54 EDT",
+                  "submissionEndDate": "2014-10-15 00:54 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-09-15 00:54 EDT"
+                },
+                {
+                  "challengeType": "Code",
+                  "challengeName": "project",
+                  "challengeId": 20011,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-11-27 03:00 EDT",
+                  "submissionEndDate": "2014-12-07 03:00 EDT",
+                  "challengeCommunity": "Develop",
+                  "postingDate": "2014-11-27 03:00 EDT"
+                },
+                {
+                  "challengeType": "Marathon",
+                  "challengeName": "Test MM Test MM Round",
+                  "challengeId": 43672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                },
+                {
+                  "challengeType": "SRM",
+                  "challengeName": "Test SRM Round",
+                  "challengeId": 53672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                }
+            ],
+            "submissionEndFrom": "2014-01-01",
+            "submissionEndTo": "2014-01-05"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndFrom. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndTo. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"submissionEndFrom must be before submissionEndTo"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 ## List Round for a Contest [/data/srm/rounds/{contestId}]
 ### List Round for a Contest [GET]

@@ -1,0 +1,8 @@
+DELETE FROM long_submission WHERE long_component_state_id in (60001, 50001);
+DELETE FROM long_component_state WHERE round_id in (43672, 23672);
+DELETE FROM round_registration WHERE round_id in (53672, 43672, 33672, 23672);
+DELETE FROM room_result WHERE round_id in (53672, 43672, 33672, 23672);
+DELETE FROM room WHERE round_id in (53672, 43672, 33672, 23672);
+DELETE FROM round_segment WHERE round_id in (53672, 43672, 33672, 23672);
+DELETE FROM round WHERE round_id in (53672, 43672, 33672, 23672);
+DELETE FROM contest WHERE contest_id in (52917, 42917, 32917, 22917);
