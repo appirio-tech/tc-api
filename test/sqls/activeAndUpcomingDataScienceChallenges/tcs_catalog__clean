@@ -1,0 +1,7 @@
+DELETE FROM submission WHERE upload_id IN (300011, 300012);
+DELETE FROM upload WHERE project_id IN (10011, 20011);
+DELETE FROM resource WHERE project_id IN (10011, 20011);
+DELETE FROM project_phase WHERE project_id IN (10011, 20011);
+DELETE FROM project_info WHERE project_id IN (10011, 20011);
+DELETE FROM project WHERE project_id IN (10011, 20011);
+DELETE FROM technology_types WHERE technology_type_id = 10001;
