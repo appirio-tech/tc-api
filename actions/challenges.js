@@ -3434,6 +3434,7 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                             finalScore: item.final_score,
                             points: 0,
                             submissionStatus: item.submission_status,
+                            submissionId: item.submission_id,
                             submissionDate: formatDate(item.submission_date)
                         };
                         if (submission.placement && drTable.length >= submission.placement) {
