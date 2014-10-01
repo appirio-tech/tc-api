@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.7
  * @author Sky_, freegod, panoptimum, Ghost_141
  * changes in 1.1:
  * - implement srm API
@@ -22,6 +22,8 @@
  * - added API for retrieving SRM schedule
  * Changes in 1.6:
  * - Update search srm challenges api to use informixoltp database.
+ * Changes in 1.7:
+ * - Update search srm challenges api. Add challengeName filter.
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -179,7 +181,7 @@ exports.searchSRMChallenges = {
     description: "searchSRMChallenges",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "listType"]
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "listType", "challengeName"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -189,7 +191,7 @@ exports.searchSRMChallenges = {
     run: function (api, connection, next) {
         api.log("Execute searchSRMChallenges#run", 'debug');
         var helper = api.helper, params = connection.params, sqlParams, listType,
-            pageIndex, pageSize, sortColumn, sortOrder, error, result, status,
+            pageIndex, pageSize, sortColumn, sortOrder, error, result, status, challengeName,
             dbConnectionMap = connection.dbConnectionMap;
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -205,6 +207,7 @@ exports.searchSRMChallenges = {
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
         listType = (params.listType || 'ACTIVE').toUpperCase();
+        challengeName = '%' + params.challengeName.toLowerCase() + '%' || '%';
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
             sortOrder = "desc";
@@ -229,6 +232,7 @@ exports.searchSRMChallenges = {
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
                     helper.checkContains([helper.ListType.ACTIVE, helper.ListType.UPCOMING], listType, 'listType') ||
+                    _.checkArgument(challengeName.length <= 32, 'The challengeName should less than 32 characters.') ||
                     helper.checkContains(allowedSort, sortColumn, "sortColumn");
                 if (error) {
                     cb(error);
@@ -244,6 +248,7 @@ exports.searchSRMChallenges = {
                     pageSize: pageSize,
                     sortColumn: helper.getSortColumnDBName(sortColumn),
                     sortOrder: sortOrder,
+                    challengeName: challengeName,
                     status: status
                 };
 
