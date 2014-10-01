@@ -56,7 +56,7 @@ exports.default = {
                 returnErrorCodes: false
                 ,
                 // http(s).Server#timeout
-                timeout: 10 * 60 * 1000
+                timeout: 4 * 60 * 1000
             };
         }
     }
