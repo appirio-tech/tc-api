@@ -1,5 +1,4 @@
 SELECT COUNT(*) AS total_count
-FROM contest AS c 
-JOIN round r ON c.contest_id = r.contest_id AND r.failed = 0 AND r.status='A'
-JOIN calendar AS cal ON cal.calendar_id = r.calendar_id
-WHERE r.round_type_id IN (1,2,10)
+FROM round r
+WHERE r.status = '@status@'
+AND r.round_type_id IN (1, 2, 10)
