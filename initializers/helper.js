@@ -100,8 +100,7 @@
  * - Updated formatDateWithTimezone function to accept optional 'format' parameter.
  * - Updated checkDates function to accept optional 'errorMessage' parameter.
  * Changes in 1.38:
- * - Add QUERY_PATH constants.
- * - Add readQuery and editSql method.
+ * - Add method editSql, readQuery and constant QUERY_PATH.
  */
 "use strict";
 
@@ -200,12 +199,6 @@ helper.MAX_INT = 2147483647;
  * @since 1.23
  */
 helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
-
-/**
- * The path that store all query files.
- * @since 1.38
- */
-helper.QUERY_PATH = './queries/';
 
 /**
  * The name in api response to database name map.

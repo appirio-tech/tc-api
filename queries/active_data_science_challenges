@@ -1,0 +1,14 @@
+SELECT  challenge_type,
+        challenge_name,
+        challenge_id,
+        num_submissions,
+        num_registrants,
+        registration_start_date,
+        submission_end_date,
+        challenge_community,
+        posting_date
+FROM
+    active_data_science_challenges
+WHERE
+    submission_end_date BETWEEN TO_DATE('@submitByFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submitByTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')     
+ORDER BY challenge_id

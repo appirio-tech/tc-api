@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.8
  * @author Sky_, freegod, panoptimum, Ghost_141
  * changes in 1.1:
  * - implement srm API
@@ -21,6 +21,10 @@
  * changes in 1.5
  * - added API for retrieving SRM schedule
  * Changes in 1.6:
+ * - Update search srm challenges api to use informixoltp database.
+ * Changes in 1.7:
+ * - Update search srm challenges api. Add challengeName filter.
+ * Changes in 1.8:
  * - Implement get srm practice problems api.
  */
 /*jslint node: true, nomen: true */
@@ -179,17 +183,17 @@ exports.searchSRMChallenges = {
     description: "searchSRMChallenges",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder"]
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "listType", "challengeName"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
     transaction: 'read', // this action is read-only
-    databases: ["topcoder_dw"],
+    databases: ["informixoltp"],
     run: function (api, connection, next) {
         api.log("Execute searchSRMChallenges#run", 'debug');
-        var helper = api.helper, params = connection.params, sqlParams,
-            pageIndex, pageSize, sortColumn, sortOrder, error, result,
+        var helper = api.helper, params = connection.params, sqlParams, listType,
+            pageIndex, pageSize, sortColumn, sortOrder, error, result, status, challengeName,
             dbConnectionMap = connection.dbConnectionMap;
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -204,9 +208,17 @@ exports.searchSRMChallenges = {
         }
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
+        listType = (params.listType || 'ACTIVE').toUpperCase();
+        challengeName = '%' + params.challengeName.toLowerCase() + '%' || '%';
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
             sortOrder = "desc";
+        }
+
+        if (listType === helper.ListType.ACTIVE) {
+            status = 'A';
+        } else {
+            status = 'F';
         }
 
         async.waterfall([
@@ -221,6 +233,8 @@ exports.searchSRMChallenges = {
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
+                    helper.checkContains([helper.ListType.ACTIVE, helper.ListType.UPCOMING], listType, 'listType') ||
+                    _.checkArgument(challengeName.length <= 32, 'The challengeName should less than 32 characters.') ||
                     helper.checkContains(allowedSort, sortColumn, "sortColumn");
                 if (error) {
                     cb(error);
@@ -235,7 +249,9 @@ exports.searchSRMChallenges = {
                     firstRowIndex: (pageIndex - 1) * pageSize,
                     pageSize: pageSize,
                     sortColumn: helper.getSortColumnDBName(sortColumn),
-                    sortOrder: sortOrder
+                    sortOrder: sortOrder,
+                    challengeName: challengeName,
+                    status: status
                 };
 
                 async.parallel({
@@ -1836,80 +1852,80 @@ exports.loadRoundAccess = {
 
 /**
  * The problem id filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var PROBLEM_ID_FILTER = " AND problem_id = @filter@\n";
 
 /**
  * The problem name filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var PROBLEM_NAME_FILTER = " AND LOWER(problem_name) LIKE LOWER('@filter@')\n";
 
 /**
  * The problem type filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var PROBLEM_TYPE_FILTER = " AND LOWER(problem_type) IN (@filter@)\n";
 
 /**
  * Difficulty filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var DIFFICULTY_FILTER = " AND LOWER(difficulty) IN (@filter@)\n";
 
 /**
  * The points lower bound filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var POINTS_LOWER_BOUND_FILTER = " AND points >= @filter@\n";
 
 /**
  * The points upper bound filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var POINTS_UPPER_BOUND_FILTER = " AND points <= @filter@\n";
 
 /**
  * The status filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var STATUS_FILTER = " AND LOWER(srp.status) IN (@filter@)\n";
 
 /**
  * The myPoints lower bound filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var MY_POINTS_UPPER_BOUND_FILTER = "AND srp.my_points <= @filter@\n";
 
 /**
  * The myPoints lower bound filter for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var MY_POINTS_LOWER_BOUND_FILTER = " AND srp.my_points >= @filter@\n";
 
 /**
  * Valid sort column array for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var VALID_PRACTICE_PROBLEMS_SORT_COLUMN = ['problemId', 'problemName', 'problemType', 'difficulty', 'points', 'status',
     'myPoints'];
 
 /**
  * Valid status value for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var VALID_PRACTICE_PROBLEMS_STATUS = ['new', 'viewed', 'solved'];
 
 /**
  * Valid difficulty value for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var VALID_PRACTICE_PROBLEMS_DIFFICULTY = ['easy', 'medium', 'hard'];
 
 /**
  * Valid type value for srm practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 var VALID_PRACTICE_PROBLEMS_TYPE = ['single', 'team', 'long'];
 
@@ -1921,7 +1937,7 @@ var VALID_PRACTICE_PROBLEMS_TYPE = ['single', 'team', 'long'];
  * @param {Object} parameters - The input parameters.
  * @param {Object} helper - The helper object.
  * @return {String} The query with additional filter.
- * @since 1.6
+ * @since 1.8
  */
 function addFilter(query, parameters, helper) {
     if (!_.isUndefined(parameters.problemId)) {
@@ -1974,7 +1990,7 @@ function addFilter(query, parameters, helper) {
  * @param {Object} api - The api object.
  * @param {Object} connection - The connection object.
  * @param {Function} next - The callback function.
- * @since 1.6
+ * @since 1.8
  */
 function getPracticeProblems(api, connection, next) {
     var helper = api.helper,
@@ -2097,7 +2113,7 @@ function getPracticeProblems(api, connection, next) {
 
 /**
  * Get practice problems api.
- * @since 1.6
+ * @since 1.8
  */
 exports.getPracticeProblems = {
     name: "getPracticeProblems",

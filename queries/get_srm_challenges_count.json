@@ -1,5 +1,5 @@
 {
   "name"    : "get_srm_challenges_count",
-  "db"      : "topcoder_dw",
+  "db"      : "informixoltp",
   "sqlfile" : "get_srm_challenges_count"
 }
