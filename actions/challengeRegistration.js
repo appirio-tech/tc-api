@@ -363,7 +363,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
  * @param {Function<err, data>} next The callback to be called after this function is done.
  */
 var sendNotificationEmail = function (api, componentInfo, userId, activeForumCategoryId, challengeType, challengeId, dbConnectionMap, next) {
-    var user, projectName, documentationDetails, submitURL, forumURL, umlToolInfo;
+    var user, projectName, documentationDetails, submitURL, forumURL, umlToolInfo, reviewURL, template;
 
     async.waterfall([
         function (cb) {
@@ -380,7 +380,8 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             user = result[0];
             projectName = componentInfo.project_name + api.helper.getPhaseName(componentInfo.phase_id) + ' Contest';
             documentationDetails = '';
-            submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review';
+            submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/';
+            reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review';
 
             if (componentInfo.phase_id === 112) {
                 documentationDetails = '(see the Design Phase Documents thread)';
@@ -395,13 +396,15 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = api.config.tcConfig.developForumsUrlPrefix + activeForumCategoryId;
-                submitURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
+                reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = api.config.tcConfig.studioForumsUrlPrefix + activeForumCategoryId;
-                submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
+                reviewURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
 
+            template = 'registration_notification_email';
             if (challengeType === CHALLENGE_TYPE.DESIGN) {
+                template = 'design_registration_notification_email';
                 // Get forum type
                 api.dataAccess.executeQuery('get_project_info',
                     {
@@ -430,7 +433,8 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 umlToolInfo : umlToolInfo,
                 deadlineDate : api.helper.formatDateWithTimezone(componentInfo.initial_submission_date),
                 submitURL : submitURL,
-                template : 'registration_notification_email',
+                reviewURL : reviewURL,
+                template : template,
                 toAddress : user.email,
                 senderName : "TC API"
             }, 'default');
