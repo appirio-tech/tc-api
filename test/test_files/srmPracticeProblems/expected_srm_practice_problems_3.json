@@ -1,15 +1,55 @@
 {
     "pageIndex": 1,
     "pageSize": 10,
-    "total": 1,
+    "total": 4,
     "data": [
         {
             "myPoints": 0,
             "problemType": "Long",
             "problemId": 2001,
+            "componentId": 3001,
             "status": "Solved",
+            "roundId": 5001,
+            "roomId": 5001,
             "problemName": "Problem 2001",
-            "points": 400
+            "points": 500,
+            "divisionId": 1
+        },
+        {
+            "myPoints": 200,
+            "problemType": "Long",
+            "problemId": 2001,
+            "componentId": 3001,
+            "status": "Solved",
+            "roundId": 5002,
+            "roomId": 5002,
+            "problemName": "Problem 2001",
+            "points": 250,
+            "divisionId": 1
+        },
+        {
+            "myPoints": 50,
+            "problemType": "Long",
+            "problemId": 2001,
+            "componentId": 3002,
+            "status": "Solved",
+            "roundId": 5004,
+            "roomId": 5004,
+            "problemName": "Problem 2001",
+            "points": 300,
+            "divisionId": 1
+        },
+        {
+            "myPoints": 100,
+            "problemType": "Long",
+            "problemId": 2001,
+            "componentId": 3002,
+            "status": "Solved",
+            "roundId": 5003,
+            "roomId": 5003,
+            "problemName": "Problem 2001",
+            "points": 400,
+            "divisionId": 1
         }
     ]
 }

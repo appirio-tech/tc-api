@@ -246,7 +246,7 @@ describe('Test SRM Practice Problems API', function () {
      * Test problemName filter.
      */
     it('should return success results. Test problemName filter.', function (done) {
-        assertResponse('?problemName=problem', heffan, 'expected_srm_practice_problems_4', done);
+        assertResponse('?problemName=problem 2002', heffan, 'expected_srm_practice_problems_4', done);
     });
 
     /**
