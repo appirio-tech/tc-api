@@ -1362,6 +1362,7 @@ Platform APIs
             {
               "handle": "Sky_",
               "placement": 1,
+              "submissionId": 190032,
               "screeningScore": 100,
               "initialScore": 98.98,
               "finalScore": 99.95,
@@ -1372,6 +1373,7 @@ Platform APIs
             {
               "handle": "Sky_",
               "placement": "",
+              "submissionId": 190038,
               "screeningScore": null,
               "initialScore": null,
               "finalScore": null,
@@ -2081,6 +2083,63 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }
         
+## My Profile [/user/activation-email]
+### My Profile [GET]
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+        {
+            success: true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"You're already activated."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"Sorry, you already reached the limit of resend times. Please contact for support."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"This message will explain why the request is invalid or cannot be served."
+            "details:":"You must login for this endpoint."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## Search My Challenges [/user/challenges?type={type}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&challengeType={challengeType}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
 ### Search My Challenges [GET]
 
@@ -6473,6 +6532,187 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get SRM Practice Problems [/data/srm/practice/problems?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&problemId={problemId}&problemName={problemName}&problemTypes={problemTypes}&statuses={statuses}&myPointsLowerBound={myPointsLowerBound}&myPointsUpperBound={myPointsUpperBound}&pointsUpperBound={pointsUpperBound}&pointsLowerBound={pointsLowerBound}]
+### Get SRM Practice Problems [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `problemName`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + problemId (optional, number, `10194`) ... The problem id.
+    + problemName (optional, String, `DoubleLetter`) ... The name of problem.
+    + problemTypes (optional, String, `single,team`) ... The type of problem. It support multiple values in the request. Like 'problemTypes=single,team'.
+    + statuses (optional, String, `New`) ... The status of problem. The value can only be 'New', 'Viewed', 'Solved' or the combination of these values, like 'new,viewed'.
+    + myPointsLowerBound (optional, number, `100`) ... The lower bound for my points field.
+    + myPointsUpperBound (optional, number, `500`) ... The upper bound for my points field.
+    + difficulty (optional, string, `easy`) ... The difficulty of problem. The value can be 'Easy', 'Medium', 'Hard' or the combination of these values, like 'easy, hard'.
+    + pointsUpperBound (optional, number, `200`) ... The upper bound for points field.
+    + pointsLowerBound (optional, number, `600`) ... The lower bound for points field.
+
++ Response 200 (application/json)
+
+        {
+                "total": 450,
+                "pageIndex": 1,
+                "pageSize": 2,
+                "data": [
+                {
+                    "problemId": 10194,
+                    "problemName": "DoubleLetter",
+                    "component_id": 30305,
+                    "room_id": 28,
+                    "round_id": 9873,
+                    "division_id": 2,
+                    "problemType": "Single",
+                    "points": 500,
+                    "difficulty": "Medium",
+                    "status": "Viewed",
+                    "myPoints": 120
+                },
+                {
+                    "problemId": 10195,
+                    "problemName": "BlackAndWhite",
+                    "component_id": 30309,
+                    "room_id": 30,
+                    "round_id": 9877,
+                    "division_id": 2,
+                    "problemType": "Team",
+                    "points": 800,
+                    "difficulty": "Hard",
+                    "status": "New",
+                    "myPoints": 0
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be less or equal to 2147483647."
+        }
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The problemTypes can only contain following elements: single,team,long."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The sort column 'abc' is invalid, it should be element of problemId,problemName,problemType,difficulty,points,status,myPoints."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"status should be an element of new,viewed,solved."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"difficulty should be an element of easy,medium,hard."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Only logged in user can access to this endpoint."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## View Algorithm Marathon Challenges [/data/marathon/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm Marathon Challenges [GET]
 
@@ -6553,7 +6793,7 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
-## View Past Data Science Challenges [/data/dataScience/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+## View Past Data Science Challenges [/dataScience/challenges/past?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### View Past Data Science Challenges [GET]
 
 + Parameters
@@ -6714,6 +6954,209 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+        
+## View Active Data Science Challenges [/dataScience/challenges/active?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### View Active Data Science Challenges [GET]
+
++ Parameters
+    + submissionEndFrom (optional, string, `2014-01-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-06-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+           "total": 3,
+           "data": [
+                {
+                  "challengeType": "Code",
+                  "challengeName": "project",
+                  "challengeId": 10011,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-05-27 03:00 EDT",
+                  "submissionEndDate": "2014-06-07 03:00 EDT",
+                  "challengeCommunity": "Develop",
+                  "postingDate": "2014-05-27 03:00 EDT"
+                },
+                {
+                  "challengeType": "Marathon",
+                  "challengeName": "Test MM Test MM Round",
+                  "challengeId": 23672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                },
+                {
+                  "challengeType": "SRM",
+                  "challengeName": "Test SRM Round",
+                  "challengeId": 33672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                }
+            ],
+            "submissionEndFrom": "2014-01-01",
+            "submissionEndTo": "2014-01-05"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndFrom. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndTo. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"submissionEndFrom must be before submissionEndTo"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## View Upcoming Data Science Challenges [/dataScience/challenges/upcoming?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
+### View Upcoming Data Science Challenges [GET]
+
++ Parameters
+    + submissionEndFrom (optional, string, `2014-01-01`) ... submission end date from value.
+    + submissionEndTo (optional, string, `2014-11-15`) ... submission end date to value.
+
++ Response 200 (application/json)
+
+        {
+           "total": 5,
+              "data": [
+                {
+                  "challengeType": "SRM",
+                  "challengeName": "Test SRM Round",
+                  "challengeId": 13672,
+                  "numSubmissions": 0,
+                  "numRegistrants": 0,
+                  "registrationStartDate": "2014-09-15 00:54 EDT",
+                  "submissionEndDate": "2014-09-15 01:19 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-09-15 00:54 EDT"
+                },
+                {
+                  "challengeType": "Marathon",
+                  "challengeName": "Test MM Test MM Round",
+                  "challengeId": 13673,
+                  "numSubmissions": 0,
+                  "numRegistrants": 0,
+                  "registrationStartDate": "2014-09-15 00:54 EDT",
+                  "submissionEndDate": "2014-10-15 00:54 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-09-15 00:54 EDT"
+                },
+                {
+                  "challengeType": "Code",
+                  "challengeName": "project",
+                  "challengeId": 20011,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-11-27 03:00 EDT",
+                  "submissionEndDate": "2014-12-07 03:00 EDT",
+                  "challengeCommunity": "Develop",
+                  "postingDate": "2014-11-27 03:00 EDT"
+                },
+                {
+                  "challengeType": "Marathon",
+                  "challengeName": "Test MM Test MM Round",
+                  "challengeId": 43672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                },
+                {
+                  "challengeType": "SRM",
+                  "challengeName": "Test SRM Round",
+                  "challengeId": 53672,
+                  "numSubmissions": 1,
+                  "numRegistrants": 1,
+                  "registrationStartDate": "2014-01-02 18:00 EDT",
+                  "submissionEndDate": "2014-01-02 18:25 EDT",
+                  "challengeCommunity": "Data",
+                  "postingDate": "2014-01-02 18:00 EDT"
+                }
+            ],
+            "submissionEndFrom": "2014-01-01",
+            "submissionEndTo": "2014-01-05"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndFrom. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"Invalid submissionEndTo. Expected format is YYYY-MM-DD"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"submissionEndFrom must be before submissionEndTo"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 ## List Round for a Contest [/data/srm/rounds/{contestId}]
 ### List Round for a Contest [GET]

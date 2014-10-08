@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author isv
+ * Changes in version 1.1 (Module Assembly - Topcoder NodeJS Active and Upcoming Data Science Challenge API):
+ *  - Added the logic for active / upcoming data science challenges.
+ *
+ * @version 1.1
+ * @author isv, TCASSEMBLER
  */
 /*jslint node: true, nomen: true */
 
@@ -35,14 +38,14 @@ var PAST_CHALLENGES_DATA_COLUMN_NAMES = ['challengetype', 'challengename', 'chal
     'numregistrants', 'registrationstartdate', 'submissionenddate', 'challengecommunity', 'postingdate'];
 
 /**
- * A format for the dates for Past Data Science Challenges filter.
+ * A format for the dates for Data Science Challenges filter.
  */
-var PAST_CHALLENGES_FILTER_DATE_FORMAT = 'YYYY-MM-DD';
+var CHALLENGES_FILTER_DATE_FORMAT = 'YYYY-MM-DD';
 
 /**
- * A format for the dates for Past Data Science Challenges output.
+ * A format for the dates for Data Science Challenges output.
  */
-var PAST_CHALLENGES_OUTPUT_DATE_FORMAT = 'YYYY-MM-DD HH:mm z';
+var CHALLENGES_OUTPUT_DATE_FORMAT = 'YYYY-MM-DD HH:mm z';
 
 /**
  * Maximum value for integer number.
@@ -103,6 +106,138 @@ function pastDataScienceChallenges(pageIndex, pageSize, sortingColumnName, sorti
     });
 }
 
+/**
+ * Populate the result.
+ * @param data - the data value
+ * @param helper - the helper instance
+ * @param response - the response.
+ * @returns {*} - the response
+ * @since 1.1
+ */
+function populateResult(data, helper, response) {
+    _.each(data, function (row) {
+        var challenge = {
+            challengeType: row.challenge_type,
+            challengeName: row.challenge_name,
+            challengeId: row.challenge_id,
+            numSubmissions: row.num_submissions,
+            numRegistrants: row.num_registrants,
+            registrationStartDate: helper.formatDateWithTimezone(row.registration_start_date, CHALLENGES_OUTPUT_DATE_FORMAT),
+            submissionEndDate: helper.formatDateWithTimezone(row.submission_end_date, CHALLENGES_OUTPUT_DATE_FORMAT),
+            challengeCommunity: row.challenge_community,
+            postingDate: helper.formatDateWithTimezone(row.posting_date, CHALLENGES_OUTPUT_DATE_FORMAT)
+        };
+        response.data.push(challenge);
+    });
+
+    return response;
+}
+
+/**
+ * Sets the submission dates.
+ * @param connection - the connection instance.
+ * @param response - the response instance.
+ * @returns {*} the response instance
+ * @since 1.1
+ */
+function setSubmissionDates(connection, response) {
+    if (_.isDefined(connection.params.submissionEndFrom)) {
+        response.submissionEndFrom = connection.params.submissionEndFrom;
+    }
+    if (_.isDefined(connection.params.submissionEndTo)) {
+        response.submissionEndTo = connection.params.submissionEndTo;
+    }
+
+    return response;
+}
+
+/**
+ * Get data science challenges from database.
+ * @param isActive - the active flag.
+ * @param submissionEndFrom - the submission from date.
+ * @param submissionEndTo - the submission to date.
+ * @param api - the api instance
+ * @param connection - the connection instance
+ * @param callback - the callback function
+ * @since 1.1
+ */
+function getDataScienceChallenges(isActive, submissionEndFrom, submissionEndTo, api, connection, callback) {
+    var sqlParams = {};
+    sqlParams.submitByFrom = submissionEndFrom;
+    sqlParams.submitByTo = submissionEndTo;
+
+    async.waterfall([
+        function (cb) {
+            api.dataAccess.executeQuery((isActive ? 'active' : 'upcoming') + '_data_science_challenges', sqlParams, connection.dbConnectionMap, cb);
+        }
+    ], function (err, results) {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, results.length, results);
+        }
+    });
+}
+
+/**
+ * Set the default submission from date.
+ * @param connection - the connection instance
+ * @returns {*} the submission from date.
+ * @since 1.1
+ */
+function setSubmissionEndFromDefault(connection) {
+    var submissionEndFrom;
+    if (_.isDefined(connection.params.submissionEndFrom)) {
+        submissionEndFrom = connection.params.submissionEndFrom;
+    } else {
+        submissionEndFrom = '1900-01-01';
+    }
+
+    return submissionEndFrom;
+}
+
+/**
+ * Set the default submission to date.
+ * @param connection - the connection instance
+ * @returns {*} the submission to date
+ * @since 1.1
+ */
+function setSubmissionEndToDefault(connection) {
+    var submissionEndTo;
+    if (_.isDefined(connection.params.submissionEndTo)) {
+        submissionEndTo = connection.params.submissionEndTo;
+    } else {
+        submissionEndTo = '2999-12-31';
+    }
+    return submissionEndTo;
+}
+
+/**
+ * Validates the submission dates.
+ * @param submissionEndFrom - the submission from date
+ * @param submissionEndTo - the submission to date
+ * @param helper - the helper instance
+ * @returns {*} the validation result
+ * @since 1.1
+ */
+function validateSubmissionDates(submissionEndFrom, submissionEndTo, helper) {
+    var err = helper.checkDateFormat(submissionEndFrom, CHALLENGES_FILTER_DATE_FORMAT, 'submissionEndFrom');
+    if (err) {
+        return err;
+    }
+
+    err = helper.checkDateFormat(submissionEndTo, CHALLENGES_FILTER_DATE_FORMAT, 'submissionEndTo');
+    if (err) {
+        return err;
+    }
+
+    err = helper.checkDates(submissionEndFrom, submissionEndTo, 'submissionEndFrom must be before submissionEndTo');
+    if (err) {
+        return err;
+    }
+    return null;
+}
+
 
 /**
  * View Past Data Science Challenges API.
@@ -150,31 +285,10 @@ exports.pastDataScienceChallenges = {
                         return;
                     }
 
-                    if (_.isDefined(connection.params.submissionEndFrom)) {
-                        err = helper.checkDateFormat(connection.params.submissionEndFrom,
-                            PAST_CHALLENGES_FILTER_DATE_FORMAT, 'submissionEndFrom');
-                        if (err) {
-                            cb(err);
-                            return;
-                        }
-                        submissionEndFrom = connection.params.submissionEndFrom;
-                    } else {
-                        submissionEndFrom = '1900-01-01';
-                    }
-                    if (_.isDefined(connection.params.submissionEndTo)) {
-                        err = helper.checkDateFormat(connection.params.submissionEndTo,
-                            PAST_CHALLENGES_FILTER_DATE_FORMAT, 'submissionEndTo');
-                        if (err) {
-                            cb(err);
-                            return;
-                        }
-                        submissionEndTo = connection.params.submissionEndTo;
-                    } else {
-                        submissionEndTo = '2999-12-31';
-                    }
+                    submissionEndFrom = setSubmissionEndFromDefault(connection);
+                    submissionEndTo = setSubmissionEndToDefault(connection);
+                    err = validateSubmissionDates(submissionEndFrom, submissionEndTo, helper);
 
-                    err = helper.checkDates(submissionEndFrom, submissionEndTo,
-                        'submissionEndFrom must be before submissionEndTo');
                     if (err) {
                         cb(err);
                         return;
@@ -207,33 +321,111 @@ exports.pastDataScienceChallenges = {
                     if (_.isDefined(connection.params.sortOrder)) {
                         response.sortOrder = connection.params.sortOrder;
                     }
-                    if (_.isDefined(connection.params.submissionEndFrom)) {
-                        response.submissionEndFrom = connection.params.submissionEndFrom;
-                    }
-                    if (_.isDefined(connection.params.submissionEndTo)) {
-                        response.submissionEndTo = connection.params.submissionEndTo;
-                    }
-                    // Convert the rows returned from DB into format suitable for response 
-                    _.each(data, function (row) {
-                        var challenge = {
-                            challengeType: row.challenge_type,
-                            challengeName: row.challenge_name,
-                            challengeId: row.challenge_id,
-                            numSubmissions: row.num_submissions,
-                            numRegistrants: row.num_registrants,
-                            registrationStartDate: helper.formatDateWithTimezone(row.registration_start_date, PAST_CHALLENGES_OUTPUT_DATE_FORMAT),
-                            submissionEndDate: helper.formatDateWithTimezone(row.submission_end_date, PAST_CHALLENGES_OUTPUT_DATE_FORMAT),
-                            challengeCommunity: row.challenge_community,
-                            postingDate: helper.formatDateWithTimezone(row.posting_date, PAST_CHALLENGES_OUTPUT_DATE_FORMAT)
-                        };
-                        response.data.push(challenge);
-                    });
 
-
-                    connection.response = response;
+                    response = setSubmissionDates(connection, response);
+                    connection.response = populateResult(data, helper, response);
                 }
                 next(connection, true);
             });
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Processes the data science challenges.
+ * @param isActive - the active flag, if the active is false, it means upcoming type.
+ * @param api - the api instance
+ * @param connection - the connection instance
+ * @param next - the callback function
+ * @since 1.1
+ */
+function processDataScienceChallenges(isActive, api, connection, next) {
+    var submissionEndFrom,
+        submissionEndTo,
+        err,
+        helper = api.helper;
+
+    async.waterfall([
+        function (cb) { // Parse and validate request parameters
+            submissionEndFrom = setSubmissionEndFromDefault(connection);
+            submissionEndTo = setSubmissionEndToDefault(connection);
+            err = validateSubmissionDates(submissionEndFrom, submissionEndTo, helper);
+
+            if (err) {
+                cb(err);
+                return;
+            }
+
+            cb();
+        }, function (cb) { // Get the data based on requested parameters once provided parameters are valid
+            getDataScienceChallenges(isActive, submissionEndFrom, submissionEndTo, api, connection, cb);
+        }
+    ], function (err, total, data) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            var response = {};
+            response.total = total;
+            response.data = [];
+
+            response = setSubmissionDates(connection, response);
+
+            connection.response = populateResult(data, helper, response);
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * View Active Data Science Challenges API.
+ * @since 1.1
+ */
+exports.activeDataScienceChallenges = {
+    name: 'activeDataScienceChallenges',
+    description: 'Get the list of active Data Science challenges',
+    inputs: {
+        required: [],
+        optional: ['submissionEndFrom', 'submissionEndTo']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('Execute activeDataScienceChallenges#run', 'debug');
+            processDataScienceChallenges(true, api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * View Upcoming Data Science Challenges API.
+ * @since 1.1
+ */
+exports.upcomingDataScienceChallenges = {
+    name: 'upcomingDataScienceChallenges',
+    description: 'Get the list of upcoming Data Science challenges',
+    inputs: {
+        required: [],
+        optional: ['submissionEndFrom', 'submissionEndTo']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    cacheEnabled: false,
+    transaction: 'read',
+    databases: ['tcs_catalog'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('Execute upcomingDataScienceChallenges#run', 'debug');
+            processDataScienceChallenges(false, api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

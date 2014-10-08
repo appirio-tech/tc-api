@@ -1,0 +1,54 @@
+{
+    "total": 5,
+    "data": [
+        {
+          "challengeType": "SRM",
+          "challengeName": "Test SRM Round",
+          "challengeId": 13672,
+          "numSubmissions": 0,
+          "numRegistrants": 0,
+          "challengeCommunity": "Data"
+        },
+        {
+          "challengeType": "Marathon",
+          "challengeName": "Test MM Test MM Round",
+          "challengeId": 13673,
+          "numSubmissions": 0,
+          "numRegistrants": 0,
+          "challengeCommunity": "Data"
+        },
+        {
+          "challengeType": "Assembly Competition",
+          "challengeName": "project",
+          "challengeId": 20011,
+          "numSubmissions": 1,
+          "numRegistrants": 1,
+          "registrationStartDate": "2014-11-27 03:00 EST",
+          "submissionEndDate": "2014-12-07 03:00 EST",
+          "challengeCommunity": "Develop",
+          "postingDate": "2014-11-27 03:00 EST"
+        },
+        {
+          "challengeType": "Marathon",
+          "challengeName": "Test MM Test MM Round",
+          "challengeId": 43672,
+          "numSubmissions": 1,
+          "numRegistrants": 1,
+          "registrationStartDate": "2014-01-02 18:00 EST",
+          "submissionEndDate": "2014-01-02 18:25 EST",
+          "challengeCommunity": "Data",
+          "postingDate": "2014-01-02 18:00 EST"
+        },
+        {
+          "challengeType": "SRM",
+          "challengeName": "Test SRM Round",
+          "challengeId": 53672,
+          "numSubmissions": 1,
+          "numRegistrants": 1,
+          "registrationStartDate": "2014-01-02 18:00 EST",
+          "submissionEndDate": "2014-01-02 18:25 EST",
+          "challengeCommunity": "Data",
+          "postingDate": "2014-01-02 18:00 EST"
+        }
+    ]
+}

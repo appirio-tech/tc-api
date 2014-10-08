@@ -1903,7 +1903,7 @@ var submitForDevelopChallenge = function (api, connection, dbConnectionMap, next
             //Note 2 - this will also cover the case of private challenges
             //User will have role Submitter only if the user belongs to group of private challenge and is registered.
             if (!rows[0].is_user_submitter_for_challenge) {
-                cb(new ForbiddenError('You cannot submit for this challenge as you are not a Submitter.'));
+                cb(new ForbiddenError('You cannot submit for this challenge as you are not a submitter.'));
                 return;
             }
 
@@ -3434,6 +3434,7 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                             finalScore: item.final_score,
                             points: 0,
                             submissionStatus: item.submission_status,
+                            submissionId: item.submission_id,
                             submissionDate: formatDate(item.submission_date)
                         };
                         if (submission.placement && drTable.length >= submission.placement) {

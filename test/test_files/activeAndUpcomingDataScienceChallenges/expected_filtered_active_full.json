@@ -1,0 +1,29 @@
+{
+    "total": 2,
+    "data": [
+        {
+          "challengeType": "Marathon",
+          "challengeName": "Test MM Test MM Round",
+          "challengeId": 23672,
+          "numSubmissions": 1,
+          "numRegistrants": 1,
+          "registrationStartDate": "2014-01-02 18:00 EST",
+          "submissionEndDate": "2014-01-02 18:25 EST",
+          "challengeCommunity": "Data",
+          "postingDate": "2014-01-02 18:00 EST"
+        },
+        {
+          "challengeType": "SRM",
+          "challengeName": "Test SRM Round",
+          "challengeId": 33672,
+          "numSubmissions": 1,
+          "numRegistrants": 1,
+          "registrationStartDate": "2014-01-02 18:00 EST",
+          "submissionEndDate": "2014-01-02 18:25 EST",
+          "challengeCommunity": "Data",
+          "postingDate": "2014-01-02 18:00 EST"
+        }
+    ],
+    "submissionEndFrom": "2014-01-01",
+    "submissionEndTo": "2014-01-05"
+}
