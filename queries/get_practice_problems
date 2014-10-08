@@ -68,7 +68,8 @@ SELECT
     ), 0) AS my_points
 FROM problem p
 INNER JOIN component c ON c.problem_id = p.problem_id
-INNER JOIN round_component rc ON rc.component_id = c.component_id 
+INNER JOIN round_component rc ON rc.component_id = c.component_id
+INNER JOIN round r ON r.round_id = rc.round_id AND r.status = 'A'
 INNER JOIN room ro ON ro.round_id = rc.round_id AND ro.room_type_id = 3 -- practice room
 INNER JOIN problem_type_lu ptl ON ptl.problem_type_id = p.problem_type_id
 WHERE p.status_id = 90
