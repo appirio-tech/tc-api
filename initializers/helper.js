@@ -201,6 +201,12 @@ helper.MAX_INT = 2147483647;
 helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
 /**
+ * The path that store all query files.
+ * @since 1.38
+ */
+helper.QUERY_PATH = './queries/';
+
+/**
  * The name in api response to database name map.
  */
 var apiName2dbNameMap = {
