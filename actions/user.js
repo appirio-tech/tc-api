@@ -2,7 +2,7 @@
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
  * @version 1.1
- * @author muzehyun, TCSASSEMBLER
+ * @author muzehyun, Ghost_141
  * Changes in 1.1:
  * - Implement user activation email api.
  */

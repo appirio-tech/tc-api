@@ -1,0 +1,55 @@
+INSERT INTO technology_types (technology_type_id, technology_name, description, status_id) VALUES (10001, 'Data Science', 'Data Science', 1);
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES ('10011', '1', '14', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('10011', '1', '10001', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('10011', '6', 'project', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('10011', '10011', '1', '2', '2014-05-27 09:00:00.0', '2014-05-27 09:00:00.0', '2014-06-01 09:00:00.0', NULL, NULL, '259200000', '132458', '2014-05-21 07:26:30.0', '132458', '2014-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('10012', '10011', '2', '1', '2014-05-27 09:00:00.0', '2014-05-27 09:00:00.0', '2014-06-07 09:00:00.0', NULL, NULL, '604800000', '132458', '2014-05-21 07:26:30.0', '132458', '2014-05-21 07:26:30.0');
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES ('10011', '1', '10011', NULL, 132458, '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES ('10012', '2', '10011', NULL, 132458, '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,10011,10012,1,1,'','132456',CURRENT,'132456',CURRENT);
+
+
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,placement,screening_score,initial_score,final_score,create_user,create_date,modify_user,modify_date) 
+VALUES(300011,300011,1,1,1,100.0,92.34,95.34,'124766',TO_DATE('2013-12-02','%Y-%m-%d'),'132456',CURRENT);
+
+
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date)
+VALUES ('20011', '1', '14', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('20011', '1', '10001', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES ('20011', '6', 'project', '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('20011', '20011', '1', '1', '2014-11-27 09:00:00.0', '2014-11-27 09:00:00.0', '2014-12-01 09:00:00.0', NULL, NULL, '259200000', '132458', '2014-05-21 07:26:30.0', '132458', '2014-05-21 07:26:30.0');
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, fixed_start_time, scheduled_start_time, scheduled_end_time, actual_start_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+VALUES ('20012', '20011', '2', '1', '2014-11-27 09:00:00.0', '2014-11-27 09:00:00.0', '2014-12-07 09:00:00.0', NULL, NULL, '604800000', '132458', '2014-05-21 07:26:30.0', '132458', '2014-05-21 07:26:30.0');
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES ('20011', '1', '20011', NULL, 132458, '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES ('20012', '2', '20011', NULL, 132458, '132458', '2010-05-21 07:26:30.0', '132458', '2010-05-21 07:26:30.0');
+
+INSERT INTO upload(upload_id,project_id,resource_id,upload_type_id,upload_status_id,parameter,create_user,create_date,modify_user,modify_date) 
+VALUES(300012,20011,20012,1,1,'','132456',CURRENT,'132456',CURRENT);
+
+
+INSERT INTO submission(submission_id,upload_id,submission_status_id,submission_type_id,placement,screening_score,initial_score,final_score,create_user,create_date,modify_user,modify_date) 
+VALUES(300012,300012,1,1,1,100.0,92.34,95.34,'124766',TO_DATE('2013-12-02','%Y-%m-%d'),'132456',CURRENT);

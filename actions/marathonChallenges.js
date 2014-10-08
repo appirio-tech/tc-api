@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
+ * @version 1.5
  * @author Sky_, TCSASSEMBLER, freegod, Ghost_141, hesibo
  * changes in 1.1:
  * - implement marathon API
@@ -12,6 +12,8 @@
  * changes in 1.4:
  * - Implement the get marathon match challenge register info API
  * - refactor register marathon match challenge API
+ * Changes in 1.5:
+ * - Update search marathon match challenges. Add challengeName filter.
  */
 "use strict";
 var async = require('async');
@@ -62,6 +64,7 @@ var databaseDateFormat = "yyyy-MM-dd";
 var FILTER_COLUMS = [
     "roundId",
     "fullName",
+    "challengeName",
     "shortName",
     "startDate.type",
     "startDate.firstDate",
@@ -163,6 +166,7 @@ exports.searchMarathonChallenges = {
         );
         filter.roundId = params.roundId ? Number(params.roundId) : null;
         filter.fullName = params.fullName;
+        filter.challengeName = params.challengeName;
         filter.shortName = params.shortName;
         filter.winnerHandle = params.winnerHandle;
         filter.winnerScoreLowerBound = Number(params.winnerScoreLowerBound || 0);
@@ -207,7 +211,7 @@ exports.searchMarathonChallenges = {
                     sortColumn: helper.getSortColumnDBName(sortColumn),
                     sortOrder: sortOrder,
                     round_id: filter.roundId || 0,
-                    full_name: filter.fullName || "",
+                    full_name: filter.challengeName || filter.fullName || "",
                     short_name: filter.shortName || "",
                     winner_handle: filter.winnerHandle || "",
                     score_lower: filter.winnerScoreLowerBound,

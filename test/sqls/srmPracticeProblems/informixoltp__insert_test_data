@@ -1,0 +1,115 @@
+INSERT INTO problem(problem_id, name, status_id, problem_type_id, proposed_difficulty_id) VALUES(2001, 'Problem 2001', 90, 3, 3);
+
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3001, 2001, 18, 'method_1', 'problem_class1', 1, 1);
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3002, 2001, 1, 'method_2', 'TestProblem', 2, 1);
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4001, "SRM 4001", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5001, 4001, "Practice 4001", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5001, 5001, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5001, 3001, 2, 1, 500);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7001, 5001, 132456, 3001, 0, 120, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7002, 5001, 132457, 3001, 0, 110, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5001, 1, '2014-09-20 00:00:00', '2014-09-21 00:00:00', 'P');
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4002, "SRM 4002", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5002, 4002, "Practice 4002", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5002, 5002, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5002, 3001, 2, 1, 250);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7003, 5002, 132456, 3001, 200, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7004, 5002, 132457, 3001, 0, 110, 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5002, 1, '2014-09-15 00:00:00', '2014-09-18 00:00:00', 'P');
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4003, "SRM 4003", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5003, 4003, "Practice 4003", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5003, 5003, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5003, 3002, 2, 1, 400);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7005, 5003, 132456, 3002, 100, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7006, 5003, 132457, 3002, 0, 160, 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5003, 1, '2014-09-25 00:00:00', '2014-09-26 00:00:00', 'P');
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4004, "SRM 4004", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5004, 4004, "Practice 4004", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5004, 5004, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5004, 3002, 2, 1, 300);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7007, 5004, 132456, 3002, 50, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7008, 5004, 132457, 3002, 300, 150, 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5004, 1, '2014-09-1 00:00:00', '2014-09-5 00:00:00', 'P');
+
+
+INSERT INTO problem(problem_id, name, status_id, problem_type_id, proposed_difficulty_id) VALUES(2002, 'Problem 2002', 90, 1, 1);
+
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3003, 2002, 18, 'method_2', 'problem_class2', 1, 1);
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4005, "SRM 4005", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5005, 4005, "Practice 4005", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5005, 5005, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5005, 3003, 2, 1, 200);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7009, 5005, 132456, 3003, 0, 120, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7010, 5005, 132457, 3003, 20, 150, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5005, 1, '2014-09-20 00:00:00', '2014-09-21 00:00:00', 'P');
+
+
+INSERT INTO problem(problem_id, name, status_id, problem_type_id, proposed_difficulty_id) VALUES(2003, 'Problem 2003', 90, 3, 2);
+
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3004, 2003, 18, 'method_3', 'problem_class3', 1, 1);
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3005, 2003, 1, 'method_4', 'TestProblem', 2, 1);
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4006, "SRM 4006", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5006, 4006, "Practice 4006", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5006, 5006, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5006, 3004, 2, 1, 100);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7011, 5006, 132456, 3004, 80, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7012, 5006, 132457, 3004, 0, 130, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5006, 1, '2014-09-20 00:00:00', '2014-09-21 00:00:00', 'P');
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4007, "SRM 4007", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5007, 4007, "Practice 4007", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5007, 5007, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5007, 3005, 2, 1, 450);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7013, 5007, 132456, 3005, 100, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7014, 5007, 132457, 3005, 0, 110, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5007, 1, '2014-09-25 00:00:00', '2014-09-26 00:00:00', 'P');
+
+
+
+INSERT INTO problem(problem_id, name, status_id, problem_type_id, proposed_difficulty_id) VALUES(2004, 'Problem 2004', 90, 3, 2);
+
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3006, 2004, 18, 'method_3', 'problem_class3', 1, 1);
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3007, 2004, 1, 'method_4', 'TestProblem', 2, 1);
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4008, "SRM 4008", "A", -1);
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5008, 4008, "Practice 4008", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5008, 5008, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5008, 3006, 2, 1, 100);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7015, 5008, 132456, 3006, 80, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7016, 5008, 132457, 3006, 0, 130, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5008, 1, '2014-09-20 00:00:00', '2014-09-21 00:00:00', 'P');
+
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5009, 4008, "Practice 4008", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5009, 5009, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5009, 3006, 2, 1, 100);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7017, 5009, 132456, 3006, 80, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7018, 5009, 132457, 3006, 0, 130, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5009, 1, '2014-09-20 00:00:00', '2014-09-21 00:00:00', 'P');
+
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4009, "SRM 4009", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5010, 4009, "Practice 4009", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5010, 5010, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5010, 3007, 2, 1, 450);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7019, 5010, 132456, 3007, 100, 150, 1);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id, submission_number) VALUES(7020, 5010, 132457, 3007, 0, 110, 1, 001);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5010, 1, '2014-09-25 00:00:00', '2014-09-26 00:00:00', 'P');
+
+
+INSERT INTO problem(problem_id, name, status_id, problem_type_id, proposed_difficulty_id) VALUES(2005, 'Problem 2005', 90, 1, 1);
+
+INSERT INTO component(component_id, problem_id, result_type_id, method_name, class_name, component_type_id, status_id) VALUES (3008, 2005, 18, 'method_2', 'problem_class2', 1, 1);
+
+INSERT INTO contest (contest_id, name, status, group_id) VALUES (4010, "SRM 4010", "A", -1);
+INSERT INTO round (round_id, contest_id, name, status, round_type_id, rated_ind) VALUES (5011, 4010, "Practice 4010", "A", 2, 0);
+INSERT INTO room(room_id, round_id, name, room_type_id) VALUES(5011, 5011, 'room ', 3);
+INSERT INTO round_component(round_id, component_id, difficulty_id, division_id, points) VALUES(5011, 3008, 2, 1, 200);
+INSERT INTO practice_component_state(component_state_id, round_id, coder_id, component_id, points, status_id, language_id) VALUES(7020, 5011, 132456, 3008, 0, 110, 1);
+INSERT INTO round_segment(round_id, segment_id, start_time, end_time, status) VALUES(5011, 1, '2014-09-20 00:00:00', '2014-09-21 00:00:00', 'P');

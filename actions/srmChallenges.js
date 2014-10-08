@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
+ * @version 1.8
  * @author Sky_, freegod, panoptimum, Ghost_141
  * changes in 1.1:
  * - implement srm API
@@ -22,6 +22,10 @@
  * - added API for retrieving SRM schedule
  * Changes in 1.6:
  * - Update search srm challenges api to use informixoltp database.
+ * Changes in 1.7:
+ * - Update search srm challenges api. Add challengeName filter.
+ * Changes in 1.8:
+ * - Implement get srm practice problems api.
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -179,7 +183,7 @@ exports.searchSRMChallenges = {
     description: "searchSRMChallenges",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "listType"]
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "listType", "challengeName"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -189,7 +193,7 @@ exports.searchSRMChallenges = {
     run: function (api, connection, next) {
         api.log("Execute searchSRMChallenges#run", 'debug');
         var helper = api.helper, params = connection.params, sqlParams, listType,
-            pageIndex, pageSize, sortColumn, sortOrder, error, result, status,
+            pageIndex, pageSize, sortColumn, sortOrder, error, result, status, challengeName,
             dbConnectionMap = connection.dbConnectionMap;
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
@@ -205,6 +209,7 @@ exports.searchSRMChallenges = {
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
         listType = (params.listType || 'ACTIVE').toUpperCase();
+        challengeName = '%' + params.challengeName.toLowerCase() + '%' || '%';
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
             sortOrder = "desc";
@@ -229,6 +234,7 @@ exports.searchSRMChallenges = {
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
                     helper.checkContains([helper.ListType.ACTIVE, helper.ListType.UPCOMING], listType, 'listType') ||
+                    _.checkArgument(challengeName.length <= 32, 'The challengeName should less than 32 characters.') ||
                     helper.checkContains(allowedSort, sortColumn, "sortColumn");
                 if (error) {
                     cb(error);
@@ -244,6 +250,7 @@ exports.searchSRMChallenges = {
                     pageSize: pageSize,
                     sortColumn: helper.getSortColumnDBName(sortColumn),
                     sortOrder: sortOrder,
+                    challengeName: challengeName,
                     status: status
                 };
 
@@ -1840,5 +1847,293 @@ exports.loadRoundAccess = {
                 next(connection, true);
             }
         );
+    }
+};
+
+/**
+ * The problem id filter for srm practice problems api.
+ * @since 1.8
+ */
+var PROBLEM_ID_FILTER = " AND problem_id = @filter@\n";
+
+/**
+ * The problem name filter for srm practice problems api.
+ * @since 1.8
+ */
+var PROBLEM_NAME_FILTER = " AND LOWER(problem_name) LIKE LOWER('@filter@')\n";
+
+/**
+ * The problem type filter for srm practice problems api.
+ * @since 1.8
+ */
+var PROBLEM_TYPE_FILTER = " AND LOWER(problem_type) IN (@filter@)\n";
+
+/**
+ * Difficulty filter for srm practice problems api.
+ * @since 1.8
+ */
+var DIFFICULTY_FILTER = " AND LOWER(difficulty) IN (@filter@)\n";
+
+/**
+ * The points lower bound filter for srm practice problems api.
+ * @since 1.8
+ */
+var POINTS_LOWER_BOUND_FILTER = " AND points >= @filter@\n";
+
+/**
+ * The points upper bound filter for srm practice problems api.
+ * @since 1.8
+ */
+var POINTS_UPPER_BOUND_FILTER = " AND points <= @filter@\n";
+
+/**
+ * The status filter for srm practice problems api.
+ * @since 1.8
+ */
+var STATUS_FILTER = " AND LOWER(srp.status) IN (@filter@)\n";
+
+/**
+ * The myPoints lower bound filter for srm practice problems api.
+ * @since 1.8
+ */
+var MY_POINTS_UPPER_BOUND_FILTER = "AND srp.my_points <= @filter@\n";
+
+/**
+ * The myPoints lower bound filter for srm practice problems api.
+ * @since 1.8
+ */
+var MY_POINTS_LOWER_BOUND_FILTER = " AND srp.my_points >= @filter@\n";
+
+/**
+ * Valid sort column array for srm practice problems api.
+ * @since 1.8
+ */
+var VALID_PRACTICE_PROBLEMS_SORT_COLUMN = ['problemId', 'problemName', 'problemType', 'difficulty', 'points', 'status',
+    'myPoints'];
+
+/**
+ * Valid status value for srm practice problems api.
+ * @since 1.8
+ */
+var VALID_PRACTICE_PROBLEMS_STATUS = ['new', 'viewed', 'solved'];
+
+/**
+ * Valid difficulty value for srm practice problems api.
+ * @since 1.8
+ */
+var VALID_PRACTICE_PROBLEMS_DIFFICULTY = ['easy', 'medium', 'hard'];
+
+/**
+ * Valid type value for srm practice problems api.
+ * @since 1.8
+ */
+var VALID_PRACTICE_PROBLEMS_TYPE = ['single', 'team', 'long'];
+
+/**
+ * Add filter for query based on given connection parameters.
+ * This method will add additional filter into sql query based on input parameters of srm practice problems api.
+ *
+ * @param {String} query - The sql query that will be executed.
+ * @param {Object} parameters - The input parameters.
+ * @param {Object} helper - The helper object.
+ * @return {String} The query with additional filter.
+ * @since 1.8
+ */
+function addFilter(query, parameters, helper) {
+    if (!_.isUndefined(parameters.problemId)) {
+        query = helper.editSql(query, PROBLEM_ID_FILTER, Number(parameters.problemId));
+    }
+    if (!_.isUndefined(parameters.problemName)) {
+        query = helper.editSql(query, PROBLEM_NAME_FILTER, '%' + parameters.problemName.toLowerCase() + '%');
+    }
+
+    if (!_.isUndefined(parameters.problemTypes)) {
+        query = helper.editSql(query, PROBLEM_TYPE_FILTER,
+            parameters.problemTypes.split(',').map(function (s) { return "'" + s.toLowerCase().trim() + "'"; }).join(','));
+    }
+
+    if (!_.isUndefined(parameters.difficulty)) {
+        query = helper.editSql(query, DIFFICULTY_FILTER,
+            parameters.difficulty.split(',').map(function (s) { return "'" + s.toLowerCase().trim() + "'"; }).join(','));
+    }
+
+    if (!_.isUndefined(parameters.pointsLowerBound)) {
+        query = helper.editSql(query, POINTS_LOWER_BOUND_FILTER, Number(parameters.pointsLowerBound));
+    }
+
+    if (!_.isUndefined(parameters.pointsUpperBound)) {
+        query = helper.editSql(query, POINTS_UPPER_BOUND_FILTER, Number(parameters.pointsUpperBound));
+    }
+
+    if (!_.isUndefined(parameters.statuses)) {
+        query = helper.editSql(query, STATUS_FILTER,
+            parameters.statuses.split(',').map(function (s) { return "'" + s.toLowerCase().trim() + "'"; }).join(','));
+    }
+
+    if (!_.isUndefined(parameters.myPointsLowerBound)) {
+        query = helper.editSql(query, MY_POINTS_LOWER_BOUND_FILTER, Number(parameters.myPointsLowerBound));
+    }
+
+    if (!_.isUndefined(parameters.myPointsUpperBound)) {
+        query = helper.editSql(query, MY_POINTS_UPPER_BOUND_FILTER, Number(parameters.myPointsUpperBound));
+    }
+
+    return query;
+}
+
+
+/**
+ * Handle the get srm practice problems api.
+ * This method will validate input parameters for srm practice problems api and return error if the input parameters
+ * are invalid.
+ * Then executing query based on input filter and put the response in connection object.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The connection object.
+ * @param {Function} next - The callback function.
+ * @since 1.8
+ */
+function getPracticeProblems(api, connection, next) {
+    var helper = api.helper,
+        sqlParams,
+        response,
+        pointsLowerBound,
+        pointsUpperBound,
+        myPointsLowerBound,
+        myPointsUpperBound,
+        caller = connection.caller,
+        pageIndex = Number(connection.params.pageIndex || 1),
+        pageSize = Number(connection.params.pageSize || 10),
+        sortColumn = connection.params.sortColumn || 'problemId',
+        sortOrder = connection.params.sortOrder || helper.consts.ASCENDING,
+        exeQuery = function (query) {
+            return function (cbx) {
+                api.dataAccess.executeSqlQuery(query, sqlParams, 'informixoltp', connection.dbConnectionMap, cbx);
+            };
+        };
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPageIndex(pageIndex, 'pageIndex') ||
+                helper.checkPositiveInteger(pageSize, 'pageSize') ||
+                helper.checkMaxInt(pageSize, 'pageSize') ||
+                helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), 'sortOrder') ||
+                helper.checkSortColumn(VALID_PRACTICE_PROBLEMS_SORT_COLUMN, sortColumn.toLowerCase()) ||
+                helper.checkMember(connection, 'Only logged in user can access to this endpoint.');
+            if (!_.isUndefined(connection.params.statuses)) {
+                error = error || helper.checkSubset(connection.params.statuses.split(','),
+                    VALID_PRACTICE_PROBLEMS_STATUS, 'statuses');
+            }
+
+            if (!_.isUndefined(connection.params.problemName)) {
+                if (connection.params.problemName.length > 32) {
+                    error = error || new IllegalArgumentError('The problemName should less than 32 characters.');
+                }
+            }
+
+            if (!_.isUndefined(connection.params.difficulty)) {
+                error = error || helper.checkSubset(connection.params.difficulty.split(','),
+                    VALID_PRACTICE_PROBLEMS_DIFFICULTY, 'difficulty');
+            }
+
+            if (!_.isUndefined(connection.params.problemTypes)) {
+                error = error || helper.checkSubset(connection.params.problemTypes.split(','),
+                    VALID_PRACTICE_PROBLEMS_TYPE, 'problemTypes');
+            }
+
+            if (!_.isUndefined(connection.params.pointsLowerBound) || !_.isUndefined(connection.params.pointsUpperBound)) {
+                pointsLowerBound = Number(connection.params.pointsLowerBound || 0);
+                pointsUpperBound = Number(connection.params.pointsUpperBound || helper.MAX_INT);
+                error = error || helper.checkMaxInt(pointsLowerBound, 'pointsLowerBound')
+                    || helper.checkNonNegativeInteger(pointsLowerBound, 'pointsLowerBound')
+                    || helper.checkPositiveInteger(pointsUpperBound, 'pointsUpperBound')
+                    || helper.checkMaxInt(pointsUpperBound, 'pointsUpperBound');
+                if (pointsLowerBound > pointsUpperBound) {
+                    error = error || new IllegalArgumentError('The pointsLowerBound should less than pointsUpperBound or max value of integer.');
+                }
+            }
+
+            if (!_.isUndefined(connection.params.myPointsLowerBound) || !_.isUndefined(connection.params.myPointsUpperBound)) {
+                myPointsLowerBound = Number(connection.params.myPointsLowerBound || 0);
+                myPointsUpperBound = Number(connection.params.myPointsUpperBound || helper.MAX_INT);
+                error = error || helper.checkNonNegativeInteger(myPointsLowerBound, 'myPointsLowerBound')
+                    || helper.checkMaxInt(myPointsLowerBound, 'myPointsLowerBound')
+                    || helper.checkPositiveInteger(myPointsUpperBound, 'myPointsUpperBound')
+                    || helper.checkMaxInt(myPointsUpperBound, 'myPointsUpperBound');
+                if (myPointsLowerBound > myPointsUpperBound) {
+                    error = error || new IllegalArgumentError('The myPointsLowerBound should less than myPointsUpperBound or max value of integer.');
+                }
+            }
+
+            cb(error);
+        },
+        function (cb) {
+            async.parallel({
+                data: function (cbx) {
+                    helper.readQuery('get_practice_problems', cbx);
+                },
+                count: function (cbx) {
+                    helper.readQuery('get_practice_problems_count', cbx);
+                }
+            }, cb);
+        },
+        function (q, cb) {
+            sqlParams = {
+                firstRowIndex: (pageIndex - 1) * pageSize,
+                pageSize: pageSize,
+                sortColumn: helper.getSortColumnDBName(sortColumn.toLowerCase()),
+                sortOrder: sortOrder.toLowerCase(),
+                userId: caller.userId
+            };
+
+            q.data = addFilter(q.data, connection.params, helper);
+            q.count = addFilter(q.count, connection.params, helper);
+
+            async.parallel({
+                data: exeQuery(q.data),
+                count: exeQuery(q.count)
+            }, cb);
+        },
+        function (results, cb) {
+            response = {
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                total: results.count[0].total_count,
+                data: helper.transferDBResults2Response(results.data)
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * Get practice problems api.
+ * @since 1.8
+ */
+exports.getPracticeProblems = {
+    name: "getPracticeProblems",
+    description: "Get SRM Practice Problems",
+    inputs: {
+        required: [],
+        optional: ['pageIndex', 'pageSize', 'sortColumn', 'sortOrder', 'problemId', 'problemName', 'problemTypes',
+            'statuses', 'myPointsLowerBound', 'myPointsUpperBound', 'pointsUpperBound', 'pointsLowerBound', 'difficulty']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getPracticeProblems#run", 'debug');
+            getPracticeProblems(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };

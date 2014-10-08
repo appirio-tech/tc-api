@@ -7,10 +7,10 @@
             "challengeId": 1000001,
             "numSubmissions": 2,
             "numRegistrants": 5,
-            "registrationStartDate": "2014-02-01 18:00 EST",
-            "submissionEndDate": "2014-02-05 23:00 EST",
             "challengeCommunity": "Develop",
-            "postingDate": "2014-02-01 18:00 EST"
+            "postingDate": "2014-02-01 12:00 EST",
+            "registrationStartDate": "2014-02-01 12:00 EST",
+            "submissionEndDate": "2014-02-05 17:00 EST"
         },
         {
             "challengeType": "Code",
@@ -18,10 +18,10 @@
             "challengeId": 1000000,
             "numSubmissions": 2,
             "numRegistrants": 5,
-            "registrationStartDate": "2014-01-01 08:00 EST",
-            "submissionEndDate": "2014-01-05 09:00 EST",
             "challengeCommunity": "Develop",
-            "postingDate": "2014-01-01 08:00 EST"
+            "postingDate": "2014-01-01 02:00 EST",
+            "registrationStartDate": "2014-01-01 02:00 EST",
+            "submissionEndDate": "2014-01-05 03:00 EST"
         }
     ],
     "submissionEndFrom": "2014-01-01"
