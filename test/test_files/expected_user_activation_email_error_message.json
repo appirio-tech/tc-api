@@ -1,0 +1,5 @@
+{
+    "unauthorized": "You must login for this endpoint.",
+    "alreadyActivated": "You're already activated.",
+    "reachLimit": "Sorry, you already reached the limit of resend times. Please contact for support."
+}
