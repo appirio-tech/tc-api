@@ -281,7 +281,7 @@ function getUserIdentity(api, connection, next) {
             response = {
                 uid: api.ldapHelper.generateLDAPUid(caller.userId),
                 handle: rs[0].handle,
-                email: rs[0].email
+                email: rs[0].address
             };
             cb();
         }
