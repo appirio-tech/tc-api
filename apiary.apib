@@ -2301,6 +2301,48 @@ Register a new user.
             "description":"Servers are up but overloaded. Try again later."
         }        
 
+## get User Identity Information [/user/identity]
+### Search My Challenges [GET]
+
+Request
+
++ Headers
+    Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTM3MDM1NzEsImF1ZCI6
+
++ Response 200 (application/json)
+
+        {
+            "uid": "uid=132456, ou=members, dc=topcoder, dc=com",
+            "handle": "heffan",
+            "email": "foo@fooonyou.com"
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authentication credentials were missing or incorrect.",
+            "details": "You need login for this endpoint."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }        
+
+
 ## Validate Handle [/users/validate/{handle}]
 ### Validate Handle [GET]
 

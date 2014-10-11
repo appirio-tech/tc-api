@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.59
+ * @version 1.60
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -138,6 +138,8 @@
  * - Add routes for SRM practice problems API.
  * Changes in 1.59:
  * - Add route for user activation email api.
+ * Changes in 1.60:
+ * - Add route for get user identity api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -254,6 +256,7 @@ exports.routes = {
 
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
         { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
+        { path: "/:apiVersion/user/identity", action: "getUserIdentity" },
 
         { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
