@@ -11,4 +11,5 @@ FROM
     active_data_science_challenges
 WHERE
     submission_end_date BETWEEN TO_DATE('@submitByFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submitByTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')     
+    AND CURRENT BETWEEN registration_start_date AND submission_end_date
 ORDER BY challenge_id

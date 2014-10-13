@@ -1,8 +1,12 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author muzehyun
+ * @version 1.2
+ * @author muzehyun, Ghost_141
+ * Changes in 1.1:
+ * - Implement user activation email api.
+ * Changes in 1.2:
+ * - Implement get user identity api.
  */
 'use strict';
 var async = require('async');
@@ -11,6 +15,18 @@ var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+
+/**
+ * The activation email subject.
+ * @since 1.1
+ */
+var activationEmailSubject = "Topcoder User Registration Activation";
+
+/**
+ * The activation email sender name.
+ * @since 1.1
+ */
+var activationEmailSenderName = "Topcoder API";
 
 /**
  * It validates activation code and retrieves user id from activation code
@@ -25,6 +41,16 @@ function getCoderId(activationCode, helper) {
         return coderId;
     }
     return 0;
+}
+
+/**
+ * Get cache key for user resend times in cache.
+ * @param {String} handle - The handle of user.
+ * @returns {string} The cache key.
+ * @since 1.1
+ */
+function getCacheKeyForResendTimes(handle) {
+    return 'user-activation-' + handle;
 }
 
 /**
@@ -121,8 +147,12 @@ exports.activateUser = {
                 };
                 // send email
                 api.tasks.enqueue("sendEmail", emailParams, 'default');
+
                 result = { success: true };
-                cb();
+                // Remove cache from resend times from server.
+                api.cache.destroy(getCacheKeyForResendTimes(handle), function () {
+                    cb();
+                });
             }
         ], function (err) {
             if (err) {
@@ -132,5 +162,163 @@ exports.activateUser = {
             }
             next(connection, true);
         });
+    }
+};
+
+/**
+ * Handle user activation email here.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The database connection object map.
+ * @param {Function} next - The callback function.
+ * @since 1.1
+ */
+function userActivationEmail(api, connection, next) {
+    var helper = api.helper, caller = connection.caller, currentResendTimes, activationCode,
+        dbConnectionMap = connection.dbConnectionMap,
+        cacheKey = 'user-activation-' + caller.handle;
+
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkMember(connection, 'You must login for this endpoint.'));
+        },
+        function (cb) {
+            api.dataAccess.executeQuery('check_user_activated', { handle: caller.handle }, dbConnectionMap, cb);
+        },
+        function (rs, cb) {
+            if (rs[0].status === 'A') {
+                cb(new BadRequestError("You're already activated."));
+                return;
+            }
+            helper.getCachedValue(cacheKey, cb);
+        },
+        function (resendTimes, cb) {
+            if (_.isUndefined(resendTimes)) {
+                // We need to send the activation email and store the resend times.
+                currentResendTimes = 0;
+            } else {
+                if (resendTimes >= api.config.tcConfig.userActivationResendLimit) {
+                    cb(new BadRequestError('Sorry, you already reached the limit of resend times. Please contact for support.'));
+                    return;
+                }
+                currentResendTimes = resendTimes;
+            }
+            api.dataAccess.executeQuery('get_user_email_and_handle', { userId: caller.userId }, dbConnectionMap, cb);
+        },
+        function (rs, cb) {
+            activationCode = helper.generateActivationCode(caller.userId);
+            api.tasks.enqueue("sendEmail",
+                {
+                    subject : activationEmailSubject,
+                    activationCode : activationCode,
+                    template : 'activation_email',
+                    toAddress : rs[0].address,
+                    fromAddress : process.env.TC_EMAIL_ACCOUNT,
+                    senderName : activationEmailSenderName,
+                    url : process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode,
+                    userHandle : rs[0].handle
+                }, 'default');
+            api.cache.save(cacheKey, currentResendTimes + 1, api.config.tcConfig.userActivationCacheLifeTime,
+                function (err) {
+                    cb(err);
+                });
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {
+                success: true
+            };
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The API for activate user email.
+ * @since 1.1
+ */
+exports.userActivationEmail = {
+    name: 'userActivationEmail',
+    description: 'Trigger sending user activation email.',
+    inputs: {
+        required: [],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['common_oltp'],
+    cacheEnabled: false,
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('Execute userActivationEmail#run', 'debug');
+            userActivationEmail(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Get user identity information api.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The database connection map object.
+ * @param {Function} next - The callback function.
+ * @since 1.2
+ */
+function getUserIdentity(api, connection, next) {
+    var helper = api.helper, caller = connection.caller, dbConnectionMap = connection.dbConnectionMap, response;
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkMember(connection, 'You need login for this endpoint.'));
+        },
+        function (cb) {
+            api.dataAccess.executeQuery('get_user_email_and_handle', { userId: caller.userId }, dbConnectionMap, cb);
+        },
+        function (rs, cb) {
+            response = {
+                uid: caller.userId,
+                handle: rs[0].handle,
+                email: rs[0].address
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+
+}
+
+/**
+ * The API for activate user
+ * @since 1.2
+ */
+exports.getUserIdentity = {
+    name: 'getUserIdentity',
+    description: 'Get user identity information',
+    inputs: {
+        required: [],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['common_oltp'],
+    cacheEnabled: false,
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('getUserIdentity#run', 'debug');
+            getUserIdentity(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
     }
 };
