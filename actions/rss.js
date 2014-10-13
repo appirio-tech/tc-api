@@ -113,17 +113,17 @@ function getChallengesRSS(api, connection, next) {
         },
         function (cb) {
             if (!_.isUndefined(technologies)) {
-                helper.getCatalogCachedValue(technologies.split(',').map(function (s) { return s.toLowerCase().toString(); }), dbConnectionMap, 'technologies', cb);
+                helper.getCatalogCachedValue(technologies.split(','), dbConnectionMap, 'technologies', cb);
             } else {
                 cb(null, null);
             }
         },
         function (id, cb) {
-            if (_.isDefined(id)) {
+            if (_.isDefined(techId)) {
                 techId = id;
             }
             if (!_.isUndefined(platforms)) {
-                helper.getCatalogCachedValue(platforms.split(',').map(function (s) { return s.toLowerCase().toSource(); }), dbConnectionMap, 'platforms', cb);
+                helper.getCatalogCachedValue(platforms.split(','), dbConnectionMap, 'platforms', cb);
             } else {
                 cb(null, null);
             }

@@ -1,7 +1,1 @@
-SELECT 
-  u.handle
-, e.address 
-FROM user u
-, email e
-WHERE u.user_id = @userId@
-AND u.user_id = e.user_id
+SELECT handle, email FROM email_user WHERE user_id = @userId@ 
