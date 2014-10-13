@@ -37,5 +37,5 @@ LEFT JOIN (
 ) rd2 ON rd2.round_id = r.round_id
 WHERE r.status = '@status@'
 AND r.round_type_id IN (1, 2, 10)
-
+AND r.name LIKE ('@challengeName@')
 ORDER BY @sortColumn@ @sortOrder@, round_id desc

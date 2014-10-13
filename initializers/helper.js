@@ -201,6 +201,12 @@ helper.MAX_INT = 2147483647;
 helper.PASSWORD_HASH_KEY = process.env.PASSWORD_HASH_KEY || 'default';
 
 /**
+ * The path that store all query files.
+ * @since 1.38
+ */
+helper.QUERY_PATH = './queries/';
+
+/**
  * The name in api response to database name map.
  */
 var apiName2dbNameMap = {
@@ -246,7 +252,11 @@ var apiName2dbNameMap = {
     registrationopen: 'registration_open',
     totalPrize: 'total_prize',
     registrationstartdate: 'registration_start_date',
-    challengecommunity: 'challenge_community'
+    challengecommunity: 'challenge_community',
+    problemid: 'problem_id',
+    problemname: 'problem_name',
+    problemtype: 'problem_type',
+    mypoints: 'my_points'
 };
 
 /**
@@ -655,6 +665,40 @@ helper.checkContains = function (elements, obj, objName) {
         }
     }
     return new IllegalArgumentError(objName + " should be an element of " + elements + ".");
+};
+
+/**
+ * Check if the given array 1 is the subset of target array, array2.
+ * For example, if the target array is [1, 2], then the method will return true if the array 1 is [] or [1], [2], [1, 2].
+ * @param arr1 - The array that need to test.
+ * @param arr2 - The target array.
+ * @return true if the given array1 is the subset of array2.
+ */
+helper.isSubset = function (arr1, arr2) {
+    return _.reduce(arr1, function (memo, num) {
+        return memo && (arr2.indexOf(num) >= 0);
+    }, true);
+};
+
+/**
+ * Check if source array is a "subset" of target array. The "subset" mean the all elements in source array can be found
+ * in target array, after transfer it to lower case and trim
+ * @param source - The source values array.
+ * @param target - The target values array.
+ * @param {String} sourceName - The name of source array.
+ * @since 1.38
+ */
+helper.checkSubset = function (source, target, sourceName) {
+    var arr1 = source.map(function (item) {
+        return item.trim().toLowerCase();
+    }),
+        arr2 = target.map(function (item) {
+            return item.trim().toLowerCase();
+        });
+    if (helper.isSubset(arr1, arr2)) {
+        return null;
+    }
+    return new IllegalArgumentError('The ' + sourceName + ' can only contains following elements: ' + target + ".");
 };
 
 /**
@@ -1704,8 +1748,8 @@ helper.checkSortColumn = function (sortColumns, sortColumn) {
 /**
  * Add template into sql.
  * @param {String} sql - the sql query.
- * @param {String} template - the template that will insert into sql
- * @param {String} content - the content that need in template.
+ * @param {String} template - the template query that will insert into sql.
+ * @param {String} content - the content that need in template. The '@filter@' part in template will be replaced by this value.
  * @since 1.38
  */
 helper.editSql = function (sql, template, content) {
@@ -1714,26 +1758,24 @@ helper.editSql = function (sql, template, content) {
         return sql;
     }
     var index = sql.toLowerCase().indexOf('order by');
-    if (!_.isUndefined(template)) {
-        template = template.replace('@filter@', content);
+    if (index === -1) {
+        // The sql didn't have order by clause. In this case we treat it as a count query.
+        index = sql.length;
+    }
+    if (!_.isUndefined(content)) {
+        template = template.replace(/@filter@/g, content);
     }
     return sql.slice(0, index) + template + sql.slice(index, sql.length);
 };
 
 /**
- * The path that store all query files.
+ * Read query from the query folder based on given name.
+ * @param {String} name - The query name.
+ * @param {Function} callback - The callback function.
  * @since 1.38
  */
-helper.QUERY_PATH = './queries/';
-
-/**
- * Read the query from file name.
- * @param {String} name - The file that store the query under queries folder.
- * @param {Function} cb - The callback function.
- * @since 1.38
- */
-helper.readQuery = function (name, cb) {
-    fs.readFile(helper.QUERY_PATH + name, 'utf8', cb);
+helper.readQuery = function (name, callback) {
+    fs.readFile(helper.QUERY_PATH + name, 'utf8', callback);
 };
 
 /*

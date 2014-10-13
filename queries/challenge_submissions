@@ -6,6 +6,7 @@ SELECT u.handle
   , sub.final_score
   , sub.create_date as submission_date
   , sub.submission_type_id
+  , sub.submission_id
 FROM submission sub
   INNER JOIN upload u1 ON sub.upload_id = u1.upload_id 
   INNER JOIN user u ON sub.create_user = u.user_id

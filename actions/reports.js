@@ -560,7 +560,7 @@ var clientChallengeCosts = function (api, connection, next) {
                 delete cost.challengeStatusId;
                 delete cost.challengeFeePercentage;
 
-                cost.challengeDuration = parseFloat(item.challenge_duration.toFixed(1));
+                cost.challengeDuration = item.challenge_duration ? parseFloat(item.challenge_duration.toFixed(1)) : 0;
                 cost.postinDate = helper.formatDate(cost.postingDate, 'YYYY-MM-DD');
                 cost.completionDate = helper.formatDate(cost.completionDate, 'YYYY-MM-DD');
                 cost.challengeTotalCost = cost.challengeMemberCost + cost.challengeFee;
@@ -649,8 +649,8 @@ exports.getClientActiveChallengeCosts = {
                 api.dataAccess.executeQuery("get_client_active_challenge_costs", sqlParameters, dbConnectionMap, cb);
             }, function (results, cb) {
                 costs = _.map(results, function (item) {
-                    var duration = parseFloat(item.challenge_duration.toFixed(1)),
-                        currentPhaseText = item.current_phase;
+                    var duration = item.challenge_duration ? parseFloat(item.challenge_duration.toFixed(1)) : 0;
+                    var currentPhaseText = item.current_phase;
                    /*     currentPhaseArray = [];
 
                     if (currentPhaseText) {

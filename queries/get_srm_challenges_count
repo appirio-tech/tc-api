@@ -2,3 +2,4 @@ SELECT COUNT(*) AS total_count
 FROM round r
 WHERE r.status = '@status@'
 AND r.round_type_id IN (1, 2, 10)
+AND r.name LIKE ('@challengeName@')
