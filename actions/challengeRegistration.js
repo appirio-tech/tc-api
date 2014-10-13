@@ -435,7 +435,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 submitURL : submitURL,
                 reviewURL : reviewURL,
                 template : template,
-                toAddress : user.email,
+                toAddress : user.address,
                 senderName : "TC API"
             }, 'default');
             cb();
