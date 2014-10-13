@@ -269,7 +269,6 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/challenges/:id", action: "getSRMChallenge" },
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
-        { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/data/srm/roundAccess", action: "loadRoundAccess"},
         { path: "/:apiVersion/data/srm/schedule", action: "getSRMSchedule"},
 
@@ -317,8 +316,9 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/problems", action: "listSRMProblems" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/problems", action: "listRoundProblems" },
-        { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
-
+        { path: "/:apiVersion/data/srm/rounds/:roundId/:problemId/:divisionId/components", action: "listRoundProblemComponents" },
+	{ path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
+	{ path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
 
         //Stubs APIs
