@@ -211,7 +211,7 @@ function userActivationEmail(api, connection, next) {
                     subject : activationEmailSubject,
                     activationCode : activationCode,
                     template : 'activation_email',
-                    toAddress : rs[0].email,
+                    toAddress : rs[0].address,
                     fromAddress : process.env.TC_EMAIL_ACCOUNT,
                     senderName : activationEmailSenderName,
                     url : process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode,
