@@ -1,128 +1,49 @@
 {
     "pageIndex": 1,
     "pageSize": 10,
-    "total": 11,
+    "total": 5,
     "data": [
-        {
-            "myPoints": 200,
-            "problemType": "Long",
-            "problemId": 2001,
-            "componentId": 3001,
-            "status": "Solved",
-            "roundId": 5002,
-            "roomId": 5002,
-            "problemName": "Problem 2001",
-            "points": 250,
-            "divisionId": 1
-        },
         {
             "myPoints": 0,
             "problemType": "Long",
             "problemId": 2001,
-            "componentId": 3001,
             "status": "Solved",
-            "roundId": 5001,
-            "roomId": 5001,
             "problemName": "Problem 2001",
-            "points": 500,
-            "divisionId": 1
-        },
-        {
-            "myPoints": 100,
-            "problemType": "Long",
-            "problemId": 2001,
-            "componentId": 3002,
-            "status": "Solved",
-            "roundId": 5003,
-            "roomId": 5003,
-            "problemName": "Problem 2001",
-            "points": 400,
-            "divisionId": 1
-        },
-        {
-            "myPoints": 50,
-            "problemType": "Long",
-            "problemId": 2001,
-            "componentId": 3002,
-            "status": "Solved",
-            "roundId": 5004,
-            "roomId": 5004,
-            "problemName": "Problem 2001",
-            "points": 300,
-            "divisionId": 1
+            "points": 400
         },
         {
             "myPoints": 0,
             "problemType": "Single",
             "problemId": 2002,
-            "componentId": 3003,
             "status": "Viewed",
-            "roundId": 5005,
-            "roomId": 5005,
             "difficulty": "Easy",
             "problemName": "Problem 2002",
-            "points": 200,
-            "divisionId": 1
+            "points": 200
         },
         {
             "myPoints": 80,
             "problemType": "Long",
             "problemId": 2003,
-            "componentId": 3004,
             "status": "Solved",
-            "roundId": 5006,
-            "roomId": 5006,
             "problemName": "Problem 2003",
-            "points": 100,
-            "divisionId": 1
-        },
-        {
-            "myPoints": 100,
-            "problemType": "Long",
-            "problemId": 2003,
-            "componentId": 3005,
-            "status": "Solved",
-            "roundId": 5007,
-            "roomId": 5007,
-            "problemName": "Problem 2003",
-            "points": 450,
-            "divisionId": 1
-        },
-        {
-            "myPoints": 80,
-            "problemType": "Long",
-            "problemId": 2004,
-            "componentId": 3006,
-            "status": "Solved",
-            "roundId": 5008,
-            "roomId": 5008,
-            "problemName": "Problem 2004",
-            "points": 100,
-            "divisionId": 1
-        },
-        {
-            "myPoints": 80,
-            "problemType": "Long",
-            "problemId": 2004,
-            "componentId": 3006,
-            "status": "Solved",
-            "roundId": 5009,
-            "roomId": 5009,
-            "problemName": "Problem 2004",
-            "points": 100,
-            "divisionId": 1
+            "points": 450
         },
         {
             "myPoints": 100,
             "problemType": "Long",
             "problemId": 2004,
-            "componentId": 3007,
             "status": "Solved",
-            "roundId": 5010,
-            "roomId": 5010,
             "problemName": "Problem 2004",
-            "points": 450,
-            "divisionId": 1
+            "points": 450
+        },
+        {
+            "myPoints": 0,
+            "problemType": "Single",
+            "problemId": 2005,
+            "status": "New",
+            "difficulty": "Easy",
+            "problemName": "Problem 2005",
+            "points": 200
         }
     ]
 }

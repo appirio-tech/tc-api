@@ -2,72 +2,77 @@ SELECT COUNT(*) AS total_count
 FROM table(MULTISET(
 SELECT
   p.problem_id
-, c.component_id
-, ro.room_id
-, rc.round_id
-, rc.division_id
 , p.name AS problem_name
 , ptl.problem_type_desc AS problem_type
 , CASE WHEN (p.problem_type_id = 1 AND p.proposed_difficulty_id = 1) THEN 'Easy'::nvarchar(50)
        WHEN (p.problem_type_id = 1 AND p.proposed_difficulty_id = 2) THEN 'Medium'::nvarchar(50)
        WHEN (p.problem_type_id = 1 AND p.proposed_difficulty_id = 3) THEN 'Hard'::nvarchar(50)
     END AS difficulty
-, rc.points
+, (
+    SELECT DISTINCT rc.points
+    FROM round_component rc
+    INNER JOIN component c ON c.component_id = rc.component_id AND c.problem_id = p.problem_id
+    INNER JOIN round_segment rs ON rs.round_id = rc.round_id AND rs.segment_id = 1
+    WHERE rs.start_time = (SELECT MAX(rss.start_time) FROM round_component rc
+    INNER JOIN component c ON c.component_id = rc.component_id AND c.problem_id = p.problem_id
+    INNER JOIN round_segment rss ON rss.round_id = rc.round_id AND rss.segment_id = 1)
+    )AS points
 , CASE WHEN EXISTS (
        SELECT 1
        FROM component_state cs
+       INNER JOIN component c ON c.component_id = cs.component_id AND c.problem_id = p.problem_id
        WHERE cs.status_id < 120
-       AND cs.component_id = c.component_id
        AND cs.coder_id = @userId@
        UNION ALL
        SELECT 1
        FROM practice_component_state pcs
+       INNER JOIN component c ON c.component_id = pcs.component_id AND c.problem_id = p.problem_id
        WHERE pcs.status_id < 120
-       AND pcs.component_id = c.component_id
        AND pcs.coder_id = @userId@
      ) THEN 'New'::nvarchar(50)
      WHEN EXISTS (
        SELECT 1
        FROM component_state cs
+       INNER JOIN component c ON c.component_id = cs.component_id AND c.problem_id = p.problem_id
        WHERE cs.status_id = 150
-       AND cs.component_id = c.component_id
        AND cs.coder_id = @userId@
        UNION ALL
        SELECT 1
        FROM practice_component_state pcs
+       INNER JOIN component c ON c.component_id = pcs.component_id AND c.problem_id = p.problem_id
        WHERE pcs.status_id = 150
-       AND pcs.component_id = c.component_id
        AND pcs.coder_id = @userId@
      ) THEN 'Solved'::nvarchar(50)
      WHEN EXISTS (
        SELECT 1
        FROM component_state cs
+       INNER JOIN component c ON c.component_id = cs.component_id AND c.problem_id = p.problem_id
        WHERE cs.status_id >= 120
-       AND cs.component_id = c.component_id
        AND cs.status_id != 150
        AND cs.coder_id = @userId@
        UNION ALL
        SELECT 1
        FROM practice_component_state pcs
+       INNER JOIN component c ON c.component_id = pcs.component_id AND c.problem_id = p.problem_id
        WHERE pcs.status_id >= 120
-       AND pcs.component_id = c.component_id
        AND pcs.status_id != 150
        AND pcs.coder_id = @userId@
      ) THEN 'Viewed'::nvarchar(50)
     END AS status
 , NVL((
     SELECT
-      points
-    FROM practice_component_state pcs
-    WHERE pcs.round_id = rc.round_id
-    AND pcs.component_id = c.component_id
-    AND pcs.coder_id = @userId@
+    points
+    FROM component_state cs
+    INNER JOIN component c ON c.component_id = cs.component_id AND c.problem_id = p.problem_id
+    INNER JOIN submission s ON s.submission_number = cs.submission_number AND s.component_state_id = cs.component_state_id
+    WHERE cs.coder_id = @userId@
+    AND s.submit_time = (
+        SELECT MAX(submit_time)
+        FROM component_state cs
+        INNER JOIN submission s ON s.submission_number = cs.submission_number AND s.component_state_id = cs.component_state_id
+        INNER JOIN component c ON c.component_id = cs.component_id AND c.problem_id = p.problem_id)
     ), 0) AS my_points
 FROM problem p
-INNER JOIN component c ON c.problem_id = p.problem_id
-INNER JOIN round_component rc ON rc.component_id = c.component_id
-INNER JOIN round r ON r.round_id = rc.round_id AND r.status = 'A'
-INNER JOIN room ro ON ro.round_id = rc.round_id AND ro.room_type_id = 3 -- practice room
 INNER JOIN problem_type_lu ptl ON ptl.problem_type_id = p.problem_type_id
 WHERE p.status_id = 90
 )) srp

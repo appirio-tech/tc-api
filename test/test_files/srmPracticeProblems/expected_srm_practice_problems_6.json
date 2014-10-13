@@ -7,27 +7,19 @@
             "myPoints": 0,
             "problemType": "Single",
             "problemId": 2002,
-            "componentId": 3003,
             "status": "Viewed",
-            "roundId": 5005,
-            "roomId": 5005,
             "difficulty": "Easy",
             "problemName": "Problem 2002",
-            "points": 200,
-            "divisionId": 1
+            "points": 200
         },
         {
             "myPoints": 0,
             "problemType": "Single",
             "problemId": 2005,
-            "componentId": 3008,
             "status": "New",
-            "roundId": 5011,
-            "roomId": 5011,
             "difficulty": "Easy",
             "problemName": "Problem 2005",
-            "points": 200,
-            "divisionId": 1
+            "points": 200
         }
     ]
 }

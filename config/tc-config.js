@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, TCSASSEMBLER
- * @version 1.27
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee
+ * @version 1.26
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -62,16 +62,12 @@
  * - Move configuration contents in tc-config.js
  * Changes in 1.26:
  * - Add studioReview object for get studio review opportunities api.
- * Changes in 1.27:
- * Add userActivationResendLimit and userActivationCacheLifeTime for user activation email api.
  */
 
 "use strict";
 
 var config = {
     defaultUserCacheLifetime: process.env.USER_CACHE_EXPIRY || 1000 * 60 * 60 * 24, //24 hours default
-    userActivationResendLimit: 5,
-    userActivationCacheLifeTime: 1000 * 60 * 60 * 23 * 30,
     pastChallengesCacheLifetime: 24 * 60 * 60 * 1000,
     resetTokenPrefix: 'tokens-',
     resetTokenSuffix: '-reset-token',
