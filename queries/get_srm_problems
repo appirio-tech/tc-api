@@ -1,6 +1,7 @@
 SELECT 
 p.problem_id AS problem_id,
 p.name AS name,
+p.proposed_division_id as division_id,
 p.status_id AS status_id,
 s.status_desc AS status_desc,  
 p.problem_type_id AS problem_type_id, 
