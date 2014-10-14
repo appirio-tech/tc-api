@@ -1,15 +1,3 @@
-/*
- * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
- */
- /**
- * Contains configurations required to handle http requests
- * 
- * Changes in version 1.1 (Module Assembly - Web Arena UI - Contest Management and Problem Assignment v1.0)
- * - Added Access-Control-Allow-Origin and Access-Control-Allow-Headers settings to configuration file
- *
- * @version 1.1
- * @author TCSASSEMBLER
- */
 "use strict";
 
 exports.default = {
@@ -28,10 +16,7 @@ exports.default = {
                 bindIP: '0.0.0.0',
                 // Any additional headers you want actionhero to respond with
                 httpHeaders : {
-                    'X-Powered-By'                : api.config.general.serverName,
-                    'Access-Control-Allow-Origin' : api.config.general.accessControlAllowOrigin,
-                    'Access-Control-Allow-Headers': api.config.general.accessControlAllowHeaders
-
+                    'X-Powered-By'                : api.config.general.serverName
                 },
                 // Route that actions will be served from; secondary route against this route will be treated as actions,
                 //  IE: /api/?action=test == /api/test/

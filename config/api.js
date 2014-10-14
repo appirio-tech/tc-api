@@ -5,8 +5,6 @@ exports.default = {
         return {
             apiVersion: '0.0.1',
             serverName: 'TopCoder API',
-            accessControlAllowOrigin: '*',
-            accessControlAllowHeaders: 'Content-Type, Authorization, Cache-Control',
             // id can be set here, or it will be generated dynamically.
             //  Be sure that every server you run has a unique ID (which will happen when generated dynamically)
             //  id: 'myActionHeroServer',
