@@ -1,16 +1,19 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
- *
- * @version 1.0
- * @author TCSASSEMBLER
- *
- *
+ */
+ /**
  * The logic to handle following APIs:
  *  - List Problems API
  *  - List Round Problems API
  *  - List Round Problem Components API
+ * 
+ * Changes in version 1.1 (Module Assembly - Web Arena UI - Contest Management and Problem Assignment v1.0)
+ * - listRoundProblems will include round id
+ * - listRoundProblemComponents will include round id
+ *
+ * @version 1.1
+ * @author TCSASSEMBLER
  */
-
 /*jslint node: true, nomen: true, plusplus: true */
 "use strict";
 var async = require('async');
@@ -28,8 +31,8 @@ var ForbiddenError = require('../errors/ForbiddenError');
  */
 function parseProblem(item) {
     var type = {id: item.problem_type_id, description: item.problem_type_desc},
-        status = {id: item.status_id, description: item.status_desc};
-    return {id: item.problem_id, name: item.name, type: type, status: status};
+       status = {id: item.status_id, description: item.status_desc};
+    return {id: item.problem_id, name: item.name, proposedDivisionId: item.division_id, type: type, status: status};
 }
 
 /**
@@ -62,6 +65,7 @@ var listRoundProblems = function (api, connection, dbConnectionMap, next) {
             _.each(results, function (item) {
                 var division = {id: item.division_id, desc: item.division_desc},
                     problem = parseProblem(item);
+                    problem.roundId = roundId;
                 result.push({division: division, problemData: problem});
             });
 
@@ -151,7 +155,7 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
                 division = {id: item.division_id, desc: item.division_desc};
 
                 result.push({difficulty: difficulty, division: division, openOrder: item.open_order,
-                    pointValue: item.points, componentData: componentData, submitOrder: item.submit_order});
+                    pointValue: item.points, componentData: componentData, submitOrder: item.submit_order, roundId: roundId});
 
             });
             cb();
