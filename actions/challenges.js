@@ -2629,7 +2629,7 @@ exports.submitForDevelopChallenge = {
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute submitForDevelopChallenge#run", 'debug');
+            api.log("Execute submitForDevelopChallenge#run", 'info');
             submitForDevelopChallenge(api, connection, connection.dbConnectionMap, next);
         }
     }
@@ -2654,7 +2654,7 @@ exports.uploadForDevelopChallenge = {
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute uploadForDevelopChallenge#run", 'debug');
+            api.log("Execute uploadForDevelopChallenge#run", 'info');
             uploadForDevelopChallenge(api, connection, connection.dbConnectionMap, next);
         }
     }
@@ -3268,7 +3268,7 @@ exports.submitForDesignChallenge = {
     databases: ["tcs_catalog", "common_oltp", "informixoltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
-            api.log("Execute submitForDesignChallenge#run", 'debug');
+            api.log("Execute submitForDesignChallenge#run", 'info');
             submitForDesignChallenge(api, connection, connection.dbConnectionMap, next);
         }
     }
