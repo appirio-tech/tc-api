@@ -99,7 +99,7 @@ function checkComponents(api, dbConnectionMap, components, callback) {
             }, function (results, cb) {
                 if (!error) {
                     if (results.length === 0) {
-                        error = new IllegalArgumentError("The componentId "+ component.componentId + " does not exist in database.");
+                        error = new IllegalArgumentError("The componentId " + component.componentId + " does not exist in database.");
                     }
                 }
 

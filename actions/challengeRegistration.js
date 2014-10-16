@@ -306,7 +306,7 @@ var projectTrack = function (api, userId, challengeId, componentInfo, dbConnecti
                 function (cb) {
                     //Rating
                     var rating = componentInfo.rating;
-                    
+
                     if (rating > 0) {
                         persistResourceInfo(api, resourceId, 4, componentInfo.rating, userId, dbConnectionMap, cb);
                     } else {

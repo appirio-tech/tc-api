@@ -139,7 +139,7 @@ SELECT
    AND pi52.project_id = p.project_id
    AND pi78.project_info_type_id = 78 -- forum type
    AND pi78.project_id = p.project_id
-   AND p.project_Id = nd_phase.project_id
+   AND p.project_id = nd_phase.project_id
    AND nd_phase.phase_type_id = (SELECT MIN(phase_type_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id not in (13,14))
    AND p.project_category_id = pcl.project_category_id
    AND pcl.project_type_id IN (@project_type_id@)
