@@ -16,7 +16,7 @@ SELECT
        WHEN (p.problem_type_id = 1 AND p.proposed_difficulty_id = 3) THEN 'Hard'::nvarchar(50)
     END AS difficulty
 , rc.points
-, CASE WHEN EXISTS (
+, NVL(CASE WHEN EXISTS (
        SELECT 1
        FROM component_state cs
        WHERE cs.status_id < 120
@@ -57,7 +57,7 @@ SELECT
        AND pcs.status_id != 150
        AND pcs.coder_id = @userId@
      ) THEN 'Viewed'::nvarchar(50)
-    END AS status
+    END, 'New') AS status
 , NVL((
     SELECT
       points
