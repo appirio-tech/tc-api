@@ -1,6 +1,7 @@
 SELECT count(*) AS total
 FROM user
-WHERE ('@caseSensitive@' = 'true' AND @partial@ = 1 AND handle LIKE '@handle@' ESCAPE '\')
+WHERE status = 'A'
+  AND (('@caseSensitive@' = 'true' AND @partial@ = 1 AND handle LIKE '@handle@' ESCAPE '\')
   OR  ('@caseSensitive@' = 'true' AND @partial@ = 0 AND handle = '@handle@')
   OR  ('@caseSensitive@' = 'false' AND @partial@ = 1 AND handle_lower LIKE LOWER('@handle@') ESCAPE '\')
-  OR  ('@caseSensitive@' = 'false' AND @partial@ = 0 AND handle_lower = LOWER('@handle@'))
+  OR  ('@caseSensitive@' = 'false' AND @partial@ = 0 AND handle_lower = LOWER('@handle@')))
