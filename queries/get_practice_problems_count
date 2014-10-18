@@ -13,62 +13,15 @@ SELECT
        WHEN (p.problem_type_id = 1 AND p.proposed_difficulty_id = 3) THEN 'Hard'::nvarchar(50)
     END AS difficulty
 , rc.points
-, NVL(CASE WHEN EXISTS (
-       SELECT 1
-       FROM component_state cs
-       WHERE cs.status_id < 120
-       AND cs.component_id = c.component_id
-       AND cs.coder_id = @userId@
-       UNION ALL
-       SELECT 1
-       FROM practice_component_state pcs
-       WHERE pcs.status_id < 120
-       AND pcs.component_id = c.component_id
-       AND pcs.coder_id = @userId@
-     ) THEN 'New'::nvarchar(50)
-     WHEN EXISTS (
-       SELECT 1
-       FROM component_state cs
-       WHERE cs.status_id = 150
-       AND cs.component_id = c.component_id
-       AND cs.coder_id = @userId@
-       UNION ALL
-       SELECT 1
-       FROM practice_component_state pcs
-       WHERE pcs.status_id = 150
-       AND pcs.component_id = c.component_id
-       AND pcs.coder_id = @userId@
-     ) THEN 'Solved'::nvarchar(50)
-     WHEN EXISTS (
-       SELECT 1
-       FROM component_state cs
-       WHERE cs.status_id >= 120
-       AND cs.component_id = c.component_id
-       AND cs.status_id != 150
-       AND cs.coder_id = @userId@
-       UNION ALL
-       SELECT 1
-       FROM practice_component_state pcs
-       WHERE pcs.status_id >= 120
-       AND pcs.component_id = c.component_id
-       AND pcs.status_id != 150
-       AND pcs.coder_id = @userId@
-     ) THEN 'Viewed'::nvarchar(50)
-    END, 'New') AS status
-, NVL((
-    SELECT
-      points
-    FROM practice_component_state pcs
-    WHERE pcs.round_id = rc.round_id
-    AND pcs.component_id = c.component_id
-    AND pcs.coder_id = @userId@
-    ), 0) AS my_points
+, 'New' AS status
+, 0 AS my_points
 FROM problem p
 INNER JOIN component c ON c.problem_id = p.problem_id
 INNER JOIN round_component rc ON rc.component_id = c.component_id
-INNER JOIN round r ON r.round_id = rc.round_id AND r.status = 'A'
+INNER JOIN round r ON r.round_id = rc.round_id AND r.status = 'A' AND r.round_type_id = 3
 INNER JOIN room ro ON ro.round_id = rc.round_id AND ro.room_type_id = 3 -- practice room
 INNER JOIN problem_type_lu ptl ON ptl.problem_type_id = p.problem_type_id
+INNER JOIN contest con ON con.contest_id = r.contest_id
 WHERE p.status_id = 90
 )) srp
 WHERE 1=1
