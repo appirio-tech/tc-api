@@ -13,8 +13,6 @@ var soap = require('soap');
 var https = require('https');
 var NotFoundError = require('../errors/NotFoundError');
 
-//we must set this property, otherwise it's not possible to connect to jira service, due to some ssl issue
-https.globalAgent.options.secureProtocol = 'SSLv3_method';
 
 /**
  * Max retires for soap authentication
