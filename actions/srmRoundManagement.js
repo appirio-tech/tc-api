@@ -430,18 +430,18 @@ exports.createSRMContestRound = {
                     function (roundId, cbx) {
                         params.id = roundId;
                         api.dataAccess.executeQuery('insert_srm_contest_round',
-                        {
-                            contest_id: params.contest_id,
-                            round_id: params.id,
-                            round_type_id: params.type.id,
-                            registration_limit: params.registrationLimit,
-                            invitational: params.invitationalType,
-                            region_id: params.region.region_id,
-                            name: params.name,
-                            status: params.status,
-                            short_name: params.short_name
-                        },
-                        dbConnectionMap, cbx);
+                            {
+                                contest_id: params.contest_id,
+                                round_id: params.id,
+                                round_type_id: params.type.id,
+                                registration_limit: params.registrationLimit,
+                                invitational: params.invitationalType,
+                                region_id: params.region.region_id,
+                                name: params.name,
+                                status: params.status,
+                                short_name: params.short_name
+                            },
+                            dbConnectionMap, cbx);
                     }
                 ], cb);
             },

@@ -31,7 +31,7 @@ var ForbiddenError = require('../errors/ForbiddenError');
  */
 function parseProblem(item) {
     var type = {id: item.problem_type_id, description: item.problem_type_desc},
-       status = {id: item.status_id, description: item.status_desc};
+        status = {id: item.status_id, description: item.status_desc};
     return {id: item.problem_id, name: item.name, proposedDivisionId: item.division_id, type: type, status: status};
 }
 
@@ -65,7 +65,7 @@ var listRoundProblems = function (api, connection, dbConnectionMap, next) {
             _.each(results, function (item) {
                 var division = {id: item.division_id, desc: item.division_desc},
                     problem = parseProblem(item);
-                    problem.roundId = roundId;
+                problem.roundId = roundId;
                 result.push({division: division, problemData: problem});
             });
 
