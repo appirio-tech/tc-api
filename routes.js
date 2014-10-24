@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.56
+ * @version 1.60
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -132,6 +132,14 @@
  * - Add routes for set round components and terms.
  * Changes in 1.56:
  * - Add route for Data Science Past Challenges API.
+ * Changes in 1.57 (Module Assembly - Topcoder NodeJS Active and Upcoming Data Science Challenge API):
+ * - Added route for Active / Upcoming Data Science Challenges API.
+ * Changes in 1.58:
+ * - Add routes for SRM practice problems API.
+ * Changes in 1.59:
+ * - Add route for user activation email api.
+ * Changes in 1.60:
+ * - Add route for get user identity api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -247,6 +255,8 @@ exports.routes = {
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
 
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
+        { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
+        { path: "/:apiVersion/user/identity", action: "getUserIdentity" },
 
         { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
@@ -271,6 +281,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/challenges", action: "searchSRMChallenges" },
         { path: "/:apiVersion/data/srm/roundAccess", action: "loadRoundAccess"},
         { path: "/:apiVersion/data/srm/schedule", action: "getSRMSchedule"},
+        { path: "/:apiVersion/data/srm/practice/problems", action: "getPracticeProblems" },
 
         { path: "/:apiVersion/data/marathon/challenges/:roundId/regInfo", action: "getMarathonChallengeRegInfo" },
         { path: "/:apiVersion/data/marathon/challenges/:id", action: "getMarathonChallenge" },
@@ -284,6 +295,8 @@ exports.routes = {
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
         { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
         { path: "/:apiVersion/dataScience/challenges/past", action: "pastDataScienceChallenges"},
+        { path: "/:apiVersion/dataScience/challenges/active", action: "activeDataScienceChallenges"},
+        { path: "/:apiVersion/dataScience/challenges/upcoming", action: "upcomingDataScienceChallenges"},
 
         //example secure route using oauth. for future reference.
         { path: "/:apiVersion/secure/challengetypes", action: "softwareTypesSecured" },

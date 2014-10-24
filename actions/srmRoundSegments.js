@@ -174,7 +174,6 @@ var setRoundSegments = function (api, connection, dbConnectionMap, next) {
             }
         }, function (results, cb) {
             sqlParams.startTime = helper.formatDate(registrationStart, DB_DATE_FORMAT);
-            api.log(sqlParams.startTime);            
             sqlParams.endTime = moment(registrationStart, DATE_FORMAT).add('minutes', registrationLength).format(DB_DATE_FORMAT);
             
             sqlParams.segmentId = helper.SEGMENTS_ID_MAP.REGISTRATION_PHASE;
