@@ -1,10 +1,13 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
+ */
+ /** 
+ * - Implement the srm round questions / answers / survey api.
+ * Changes in version 1.1 (Module Assembly - Web Arena - Match Configurations):
+ * - Updated getRoundQuestions to send roundId with response
  *
- * @version 1.0
+ * @version 1.1
  * @author TCSASSEMBLER
- *
- *  - Implement the srm round questions / answers / survey api.
  */
 
 /*jslint node: true, nomen: true, plusplus: true, stupid: true, unparam: true */
@@ -94,7 +97,7 @@ var getRoundQuestions = function (api, connection, dbConnectionMap, next) {
         if (err) {
             helper.handleError(api, connection, err);
         } else {
-            connection.response = {questions: result};
+            connection.response = {questions: result, roundId: roundId};
         }
         next(connection, true);
     });
@@ -544,7 +547,7 @@ var addRoundQuestion = function (api, connection, dbConnectionMap, next) {
         if (err) {
             helper.handleError(api, connection, err);
         } else {
-            connection.response = {"success": true};
+            connection.response = {"success": true, questionId: questionId};
         }
         next(connection, true);
     });
