@@ -1,10 +1,14 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
- *
- * @version 1.0
- * @author TCSASSEMBLER
- *
+ */
+/**
  * Create, modify, list and delete SRM round.
+ *
+ * Changes in version 1.1 (Module Assembly - Web Arena - Match Configurations):
+ * - Updated ListSRMContestRounds to send UTC time in milliseconds for registration and coding start time
+ *
+ * @version 1.1
+ * @author TCSASSEMBLER
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -201,11 +205,13 @@ exports.listSRMContestRounds = {
                                 switch (segment.segment_id) {
                                 case 1:
                                     rr.registrationStart = helper.formatDateWithTimezone(formatDateTimeFromDB(segment.start_time));
+                                    rr.registrationStartTime = start_time;
                                     rr.registrationLength = segment.duration;
                                     rr.registrationStatus = segment.status;
                                     break;
                                 case 2:
                                     rr.codingStart = helper.formatDateWithTimezone(formatDateTimeFromDB(segment.start_time));
+                                    rr.codingStartTime = start_time;
                                     rr.codingLength = segment.duration;
                                     rr.codingStatus = segment.status;
                                     break;
