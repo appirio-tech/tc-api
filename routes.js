@@ -374,7 +374,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/segments", action: "setRoundSegments"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/survey", action: "setRoundSurvey"},
         { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"},
-
+        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "setRoundComponents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"},
         { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" }
@@ -382,8 +382,7 @@ exports.routes = {
     put: [
 
         { path: "/:apiVersion/data/srm/contests/:id", action: "updateSRMContest"},
-        { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" },
-        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"}
+        { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" }
     ],
     delete: [
         { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" }

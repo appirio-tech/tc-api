@@ -1,10 +1,14 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
+ */
+/**
+ * Implement the srm round segments api.
+ * 
+ * Changes in version 1.1 (Module Assembly - Web Arena - Match Configurations):
+ * - Modified date format and make it norm to include timezone so that moment.js can parse time correctly
  *
- * @version 1.0
+ * @version 1.1
  * @author TCSASSEMBLER
- *
- *  - Implement the srm round segments api.
  */
 
 /*jslint node: true, nomen: true, plusplus: true, stupid: true, unparam: true */
@@ -14,8 +18,8 @@ var _ = require('underscore');
 var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
-var DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
-
+var DATE_FORMAT = "YYYY-MM-DD HH:mm:ssZZ";
+var DB_DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 /**
  * Check round id.
  *
@@ -169,34 +173,35 @@ var setRoundSegments = function (api, connection, dbConnectionMap, next) {
                 cb(error);
             }
         }, function (results, cb) {
-            sqlParams.startTime = helper.formatDate(registrationStart, DATE_FORMAT);
-            sqlParams.endTime = moment(registrationStart, DATE_FORMAT).add('minutes', registrationLength).format(DATE_FORMAT);
+            sqlParams.startTime = helper.formatDate(registrationStart, DB_DATE_FORMAT);
+            sqlParams.endTime = moment(registrationStart, DATE_FORMAT).add('minutes', registrationLength).format(DB_DATE_FORMAT);
+            
             sqlParams.segmentId = helper.SEGMENTS_ID_MAP.REGISTRATION_PHASE;
             sqlParams.status = registrationStatus;
             sqlParams.roundId = roundId;
             api.dataAccess.executeQuery("insert_round_segments", sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             //the registration end time plus 1 minute
-            sqlParams.startTime = moment(sqlParams.endTime, DATE_FORMAT).add('minutes', 1).format(DATE_FORMAT);
-            sqlParams.endTime = helper.formatDate(codingStart, DATE_FORMAT);
+            sqlParams.startTime = moment(sqlParams.endTime, DB_DATE_FORMAT).add('minutes', 1).format(DB_DATE_FORMAT);
+            sqlParams.endTime = helper.formatDate(codingStart, DB_DATE_FORMAT);
             sqlParams.segmentId = helper.SEGMENTS_ID_MAP.ROOM_ASSIGNMENT_PHASE;
             sqlParams.status = registrationStatus;
             api.dataAccess.executeQuery("insert_round_segments", sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             sqlParams.startTime = sqlParams.endTime;
-            sqlParams.endTime = moment(sqlParams.startTime, DATE_FORMAT).add('minutes', codingLength).format(DATE_FORMAT);
+            sqlParams.endTime = moment(sqlParams.startTime, DB_DATE_FORMAT).add('minutes', codingLength).format(DB_DATE_FORMAT);
             sqlParams.segmentId = helper.SEGMENTS_ID_MAP.CODING_PHASE;
             sqlParams.status = codingStatus;
             api.dataAccess.executeQuery("insert_round_segments", sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             sqlParams.startTime = sqlParams.endTime;
-            sqlParams.endTime = moment(sqlParams.startTime, DATE_FORMAT).add('minutes', intermissionLength).format(DATE_FORMAT);
+            sqlParams.endTime = moment(sqlParams.startTime, DB_DATE_FORMAT).add('minutes', intermissionLength).format(DB_DATE_FORMAT);
             sqlParams.segmentId = helper.SEGMENTS_ID_MAP.INTERMISSION_PHASE;
             sqlParams.status = intermissionStatus;
             api.dataAccess.executeQuery("insert_round_segments", sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             sqlParams.startTime = sqlParams.endTime;
-            sqlParams.endTime = moment(sqlParams.startTime, DATE_FORMAT).add('minutes', challengeLength).format(DATE_FORMAT);
+            sqlParams.endTime = moment(sqlParams.startTime, DB_DATE_FORMAT).add('minutes', challengeLength).format(DB_DATE_FORMAT);
             sqlParams.segmentId = helper.SEGMENTS_ID_MAP.CHALLENGE_PHASE;
             sqlParams.status = challengeStatus;
             api.dataAccess.executeQuery("insert_round_segments", sqlParams, dbConnectionMap, cb);
