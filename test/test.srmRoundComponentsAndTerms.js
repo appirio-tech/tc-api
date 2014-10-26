@@ -61,6 +61,25 @@ function createPostRequest(queryString, user) {
 }
 
 /**
+ * Create get request and return it.
+ *
+ * @param queryString - the query string
+ * @param user - the user handle
+ * @returns {*} request
+ */
+function createGetRequest(queryString, user) {
+    var req = request(API_ENDPOINT)
+        .get(queryString)
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/);
+    if (user) {
+        req.set('Authorization', generateAuthHeader(user));
+    }
+
+    return req;
+}
+
+/**
  * Assert post response detail.
  *
  * @param queryString - the query string
@@ -72,6 +91,31 @@ function createPostRequest(queryString, user) {
  */
 function assertPostError(queryString, user, obj, statusCode, errorDetail, done) {
     createPostRequest(queryString, user).expect(statusCode).send(obj).end(function (err, res) {
+        if (err) {
+            done(err);
+            return;
+        }
+        if (statusCode === 200) {
+            assert.equal(res.body.error, errorDetail, "Invalid error detail");
+        } else {
+            assert.equal(res.body.error.details, errorDetail, "Invalid error detail");
+        }
+        done();
+    });
+}
+
+/**
+ * Assert Get response detail.
+ *
+ * @param queryString - the query string
+ * @param user - the user handle
+ * @param obj - the JSON object
+ * @param statusCode - the expected status code
+ * @param errorDetail - the error detail.
+ * @param done the callback function
+ */
+function assertGetError(queryString, user, obj, statusCode, errorDetail, done) {
+    createGetRequest(queryString, user).expect(statusCode).send(obj).end(function (err, res) {
         if (err) {
             done(err);
             return;
@@ -365,6 +409,50 @@ describe('SRM Round Components And Terms APIs', function () {
                     assert.deepEqual(result[0], expected, 'Actual and Expected component did not match.');
                 });
                 done();
+            });
+        });
+
+        describe('Get Round Terms API invalid test', function () {
+            it("No anonymous access.", function (done) {
+                assertGetError("/v2/data/srm/rounds/13673/terms", null, null, 401, "Authorized information needed.", done);
+            });
+
+            it("Admin access only.", function (done) {
+                assertGetError("/v2/data/srm/rounds/13673/terms", 'user', null, 403, "Admin access only.", done);
+            });
+
+            it("roundId should be number.", function (done) {
+                assertGetError("/v2/data/srm/rounds/13673a/terms", 'heffan', null, 400, "roundId should be number.", done);
+            });
+
+            it("roundId should be Integer.", function (done) {
+                assertGetError("/v2/data/srm/rounds/13673.01/terms", 'heffan', null, 400, "roundId should be Integer.", done);
+            });
+
+            it("roundId should be positive.", function (done) {
+                assertGetError("/v2/data/srm/rounds/-13673/terms", 'heffan', null, 400, "roundId should be positive.", done);
+            });
+
+            it("roundId should be less or equal to 2147483647.", function (done) {
+                assertGetError("/v2/data/srm/rounds/1111111111111111111/terms", 'heffan', null, 400,
+                    "roundId should be less or equal to 2147483647.", done);
+            });
+
+            it("The round terms should not be empty.", function (done) {
+                var notFoundRoundId = 136733;
+                assertGetError("/v2/data/srm/rounds/" + notFoundRoundId + "/terms", 'heffan', null, 400,
+                    "The round terms can't be found with such roundId = " + notFoundRoundId, done);
+            });
+
+            it("Valid get round terms.", function (done) {
+                createGetRequest("/v2/data/srm/rounds/13673/terms", 'heffan').expect(200).send(null).end(function (err, res) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    assert.equal(res.body.roundTermsContent, "term text", "Invalid response detail");
+                    done();
+                });
             });
         });
     });

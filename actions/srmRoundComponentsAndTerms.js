@@ -301,6 +301,47 @@ var setRoundTerms = function (api, connection, dbConnectionMap, next) {
 };
 
 /**
+ * Gets round terms.
+ *
+ * @param api the api instance.
+ * @param connection the connection instance
+ * @param dbConnectionMap the database connection map
+ * @param next the callback method
+ */
+var getRoundTerms = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        roundId = Number(connection.params.roundId),
+        roundTermsContent = '';
+
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+        }, function (cb) {
+            cb(helper.checkIdParameter(roundId, "roundId"));
+        }, function (cb) {
+            sqlParams.round_id = roundId;
+            api.dataAccess.executeQuery("get_round_terms", sqlParams, dbConnectionMap, cb);
+        }, function (results, cb) {
+            if (!results || results.length === 0) {
+                var error = new IllegalArgumentError("The round terms can't be found with such roundId = " + roundId);
+                cb(error);
+            } else {
+                roundTermsContent = results[0].terms_content;
+                cb();
+            }
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {"roundTermsContent": roundTermsContent};
+        }
+        next(connection, true);
+    });
+};
+
+/**
  * The API for Set Round Components.
  */
 exports.setRoundComponents = {
@@ -344,6 +385,31 @@ exports.setRoundTerms = {
         if (connection.dbConnectionMap) {
             api.log("Execute setRoundTerms#run", 'debug');
             setRoundTerms(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for Get Round Terms.
+ */
+exports.getRoundTerms = {
+    name: "getRoundTerms",
+    description: "Get Round Terms",
+    inputs: {
+        required: ['roundId'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getRoundTerms#run", 'debug');
+            getRoundTerms(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
