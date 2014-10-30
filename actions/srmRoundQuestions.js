@@ -600,6 +600,38 @@ var modifyRoundQuestion = function (api, connection, dbConnectionMap, next) {
 };
 
 /**
+ * Delete Round Question.
+ *
+ * @param api the api instance.
+ * @param connection the connection instance
+ * @param dbConnectionMap the database connection map
+ * @param next the callback method
+ */
+var deleteRoundQuestion = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+      sqlParams = {},
+      questionId = Number(connection.params.questionId);
+
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+        }, function (cb) {
+            checkQuestionId(api, dbConnectionMap, questionId, cb);
+        }, function (error, cb) {
+            sqlParams.question_id = questionId;
+            api.dataAccess.executeQuery("delete_round_question", sqlParams, dbConnectionMap, cb);
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {"success": true};
+        }
+        next(connection, true);
+    });
+};
+
+/**
  * The API for get Round Questions API.
  */
 exports.getRoundQuestions = {
@@ -743,6 +775,28 @@ exports.modifyRoundQuestion = {
         if (connection.dbConnectionMap) {
             api.log("Execute modifyRoundQuestion#run", 'debug');
             modifyRoundQuestion(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+exports.deleteRoundQuestion = {
+    name: "deleteRoundQuestion",
+    description: "Delete Round Question",
+    inputs: {
+        required: ['questionId'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute deleteRoundQuestion#run", 'debug');
+            deleteRoundQuestion(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

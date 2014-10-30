@@ -12008,6 +12008,111 @@ Managing SRM Contests APIs
         }
 }
 
+## Delete Round Question API [/data/srm/rounds/:questionId/question]
+
+### Delete Round Question API [DELETE]
+
++ Parameters
+  + questionId (required, number, `1000001`) ... The id of the question to delete.
+
++ Request
+
+    + Headers
+
+            Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
++ Response 200 (application/json)
+
+{
+    "success": true
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be number."
+    }
+}
+
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be Integer."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be positive."
+    }
+}
+
++ Response 400 (application/json)
+
+{
+    "error": {
+        "name": "Bad Request",
+        "value": 400,
+        "description": "The request was invalid. An accompanying message will explain why.",
+        "details": "questionId should be less or equal to 2147483647."
+    }
+}
+
++ Response 401 (application/json)
+
+{
+ "error": {
+                 "name": "Unauthorized",
+                 "value": 401,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Authorized information needed."
+          }
+}
+
++ Response 403 (application/json)
+
+{
+ "error": {
+                 "name": "Forbidden",
+                 "value": 403,
+                 "description": "The request is understood, but it has been refused or access is not allowed.",
+                 "details": "Admin access only."
+          }
+}
+
++ Response 500 (application/json)
+
+{
+ "error": {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+}
+
++ Response 503 (application/json)
+{
+ "error": {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+}
+
 ## Get Round Question Answers API [/data/srm/rounds/:questionId/answers]
 
 ### Get Round Question Answers API [GET]

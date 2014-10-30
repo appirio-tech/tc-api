@@ -386,6 +386,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" }
     ],
     delete: [
+        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "deleteRoundQuestion" },
         { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" }
     ]
 };
