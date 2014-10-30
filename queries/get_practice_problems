@@ -28,7 +28,6 @@ INNER JOIN round_component rc ON rc.component_id = c.component_id
 INNER JOIN round r ON r.round_id = rc.round_id AND r.status = 'A' AND r.round_type_id = 3
 INNER JOIN room ro ON ro.round_id = rc.round_id AND ro.room_type_id = 3 -- practice room
 LEFT JOIN practice_component_state pcs ON pcs.round_id = rc.round_id AND pcs.component_id = c.component_id AND pcs.coder_id = @userId@
-WHERE p.status_id = 90
 )) srp
 WHERE 1=1
 ORDER BY @sortColumn@ @sortOrder@
