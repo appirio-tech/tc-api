@@ -1,13 +1,14 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
- */
- /** 
- * - Implement the srm round questions / answers / survey api.
+ *
+ * @version 1.2
+ * @author isv
+ *
+ *  - Implement the srm round questions / answers / survey api.
  * Changes in version 1.1 (Module Assembly - Web Arena - Match Configurations):
  * - Updated getRoundQuestions to send roundId with response
- *
- * @version 1.1
- * @author TCSASSEMBLER
+ * Changes in 1.2:
+ * - Added actions for modifying/deleting round question answers.
  */
 
 /*jslint node: true, nomen: true, plusplus: true, stupid: true, unparam: true */
@@ -16,6 +17,7 @@ var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
+var NotFoundError = require('../errors/NotFoundError');
 
 var DATE_FORMAT = "YYYY-MM-DD HH:mm";
 
@@ -327,7 +329,8 @@ function checkAnswerValues(api, text, sortOrder, correct, callback) {
             error = helper.checkStringParameter(text, "text", 250);
 
             if (!error && _.isDefined(sortOrder)) {
-                error = helper.checkPositiveInteger(sortOrder, "sortOrder");
+                error = helper.checkPositiveInteger(sortOrder, "sortOrder")
+                    || helper.checkMaxInt(sortOrder, "sortOrder");
             }
 
             if (!error && _.isDefined(correct)) {
@@ -609,8 +612,8 @@ var modifyRoundQuestion = function (api, connection, dbConnectionMap, next) {
  */
 var deleteRoundQuestion = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
-      sqlParams = {},
-      questionId = Number(connection.params.questionId);
+        sqlParams = {},
+        questionId = Number(connection.params.questionId);
 
     async.waterfall([
         function (cb) {
@@ -626,6 +629,115 @@ var deleteRoundQuestion = function (api, connection, dbConnectionMap, next) {
             helper.handleError(api, connection, err);
         } else {
             connection.response = {"success": true};
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * Checks if answer with specified ID exists in database.
+ *
+ * @param api the api instance.
+ * @param dbConnectionMap the database connection map.
+ * @param answerId - the answerId parameter.
+ * @param callback the callback method.
+ */
+function checkAnswerId(api, dbConnectionMap, answerId, callback) {
+    var helper = api.helper,
+        error = helper.checkIdParameter(answerId, "answerId");
+
+    async.waterfall([
+        function (cb) {
+            if (!error) {
+                api.dataAccess.executeQuery("get_answer_id", {answerId: answerId}, dbConnectionMap, cb);
+            } else {
+                cb(null, null);
+            }
+        }, function (results, cb) {
+            if (!error) {
+                if (results.length === 0) {
+                    error = new NotFoundError("The answerId does not exist in database.");
+                }
+            }
+            cb(error);
+        }
+    ], function (err) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        callback(null, error);
+    });
+}
+
+/**
+ * Modify Round Question Answer.
+ *
+ * @param api the api instance.
+ * @param connection the connection instance.
+ * @param dbConnectionMap the database connection map.
+ * @param next the callback method.
+ */
+var modifyRoundQuestionAnswer = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        answerId = Number(connection.params.answerId),
+        text = connection.params.text,
+        sortOrder = connection.params.sortOrder,
+        correct = connection.params.correct;
+
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+        }, function (cb) {
+            checkAnswerValues(api, text, sortOrder, correct, cb);
+        }, function (error, cb) {
+            checkAnswerId(api, dbConnectionMap, answerId, cb);
+        }, function (error, cb) {
+            sqlParams.answerId = answerId;
+            sqlParams.answerText = text;
+            sqlParams.sortOrder = sortOrder;
+            sqlParams.correct = (correct === true || correct.toLowerCase() === "true") ? 1 : 0;
+            api.dataAccess.executeQuery("update_answer", sqlParams, dbConnectionMap, cb);
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {"success": true};
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * Delete Round Question Answer.
+ *
+ * @param api the api instance.
+ * @param connection the connection instance.
+ * @param dbConnectionMap the database connection map.
+ * @param next the callback method.
+ */
+var deleteRoundQuestionAnswer = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {},
+        answerId = Number(connection.params.answerId);
+
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+        }, function (cb) {
+            cb(helper.checkIdParameter(answerId, 'answerId'));
+        }, function (cb) {
+            sqlParams.answerId = answerId;
+            api.dataAccess.executeQuery("delete_answer", sqlParams, dbConnectionMap, cb);
+        }
+    ], function (err, result) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = {"success": result > 0};
         }
         next(connection, true);
     });
@@ -797,6 +909,56 @@ exports.deleteRoundQuestion = {
         if (connection.dbConnectionMap) {
             api.log("Execute deleteRoundQuestion#run", 'debug');
             deleteRoundQuestion(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for Modify Round Question Answer API.
+ */
+exports.modifyRoundQuestionAnswer = {
+    name: "modifyRoundQuestionAnswer",
+    description: "Modify Round Question Answer",
+    inputs: {
+        required: ['answerId', 'text', 'sortOrder', 'correct'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute modifyRoundQuestionAnswer#run", 'debug');
+            modifyRoundQuestionAnswer(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for Delete Round Question Answer API.
+ */
+exports.deleteRoundQuestionAnswer = {
+    name: "deleteRoundQuestionAnswer",
+    description: "Delete Round Question Answer",
+    inputs: {
+        required: ['answerId'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'write',
+    databases: ["informixoltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute deleteRoundQuestionAnswer#run", 'debug');
+            deleteRoundQuestionAnswer(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

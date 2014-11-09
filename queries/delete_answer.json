@@ -1,0 +1,5 @@
+{
+    "name": "delete_answer",
+    "db": "informixoltp",
+    "sqlfile": "delete_answer"
+}
