@@ -1,5 +1,0 @@
-UPDATE answer 
-SET answer_text = '@answerText@',
-    sort_order = @sortOrder@,
-    correct = @correct@
-WHERE answer_id = @answerId@
