@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.61
+ * @version 1.60
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -140,8 +140,6 @@
  * - Add route for user activation email api.
  * Changes in 1.60:
  * - Add route for get user identity api.
- * Changes in 1.61:
- * - Added routes for modifying/deleting round question answers.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -332,9 +330,9 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/problems", action: "listSRMProblems" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/problems", action: "listRoundProblems" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/:problemId/:divisionId/components", action: "listRoundProblemComponents" },
-        { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
+	    { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "getRoundTerms" },
-        { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
+	    { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
 
         //Stubs APIs
@@ -385,12 +383,10 @@ exports.routes = {
     put: [
 
         { path: "/:apiVersion/data/srm/contests/:id", action: "updateSRMContest"},
-        { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" },
-        { path: "/:apiVersion/data/srm/answer/:answerId", action: "modifyRoundQuestionAnswer"}
+        { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" }
     ],
     delete: [
         { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "deleteRoundQuestion" },
-        { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" },
-        { path: "/:apiVersion/data/srm/answer/:answerId", action: "deleteRoundQuestionAnswer" }
+        { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" }
     ]
 };
