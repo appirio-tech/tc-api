@@ -415,7 +415,7 @@ exports.generateDocusignViewURL = {
                         });
                     }
 
-                    textTabs.push({tabLabel :'TopCoder Handle', value: user.handle});
+                    textTabs.push({tabLabel : 'TopCoder Handle', value: user.handle});
 
                     //Prepare the POST parameters
                     reqParams = {
@@ -477,8 +477,7 @@ exports.generateDocusignViewURL = {
                 var url, returnURL, reqParams;
 
                 //Create the return url
-                returnURL = _.template(connection.params.returnUrl ? 
-                                           connection.params.returnUrl : api.config.tcConfig.docusign.returnURL)({envelopeId: envelopeId});
+                returnURL = _.template(connection.params.returnUrl || api.config.tcConfig.docusign.returnURL)({envelopeId: envelopeId});
 
                 //Request recipient view
                 url = baseURL + "/envelopes/" + envelopeId + "/views/recipient";

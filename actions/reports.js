@@ -538,7 +538,7 @@ var clientChallengeCosts = function (api, connection, next) {
                 cb(new NotFoundError('Client not found'));
                 return;
             }
-            if(type === helper.ListType.ACTIVE) {
+            if (type === helper.ListType.ACTIVE) {
                 api.dataAccess.executeQuery("active_client_challenges_costs", sqlParameters, dbConnectionMap, cb);
             } else {
                 api.dataAccess.executeQuery("past_client_challenges_costs", sqlParameters, dbConnectionMap, cb);
@@ -649,8 +649,8 @@ exports.getClientActiveChallengeCosts = {
                 api.dataAccess.executeQuery("get_client_active_challenge_costs", sqlParameters, dbConnectionMap, cb);
             }, function (results, cb) {
                 costs = _.map(results, function (item) {
-                    var duration = item.challenge_duration ? parseFloat(item.challenge_duration.toFixed(1)) : 0;
-                    var currentPhaseText = item.current_phase;
+                    var duration = item.challenge_duration ? parseFloat(item.challenge_duration.toFixed(1)) : 0,
+                        currentPhaseText = item.current_phase;
                    /*     currentPhaseArray = [];
 
                     if (currentPhaseText) {

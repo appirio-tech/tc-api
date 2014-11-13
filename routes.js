@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.60
+ * @version 1.61
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard
  *
@@ -140,6 +140,8 @@
  * - Add route for user activation email api.
  * Changes in 1.60:
  * - Add route for get user identity api.
+ * Changes in 1.61:
+ * - Added routes for modifying/deleting round question answers.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -331,8 +333,9 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/problems", action: "listSRMProblems" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/problems", action: "listRoundProblems" },
         { path: "/:apiVersion/data/srm/rounds/:roundId/:problemId/:divisionId/components", action: "listRoundProblemComponents" },
-	{ path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
-	{ path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "listRoundProblemComponents" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "getRoundTerms" },
+        { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
 
         //Stubs APIs
@@ -375,7 +378,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/segments", action: "setRoundSegments"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/survey", action: "setRoundSurvey"},
         { path: "/:apiVersion/data/srm/questions/:questionId/answers", action: "addRoundQuestionAnswer"},
-
+        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "setRoundComponents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"},
         { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" }
@@ -384,9 +387,11 @@ exports.routes = {
 
         { path: "/:apiVersion/data/srm/contests/:id", action: "updateSRMContest"},
         { path: "/:apiVersion/data/srm/rounds/:oldRoundId", action: "modifySRMContestRound" },
-        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "modifyRoundQuestion"}
+        { path: "/:apiVersion/data/srm/answer/:answerId", action: "modifyRoundQuestionAnswer"}
     ],
     delete: [
-        { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" }
+        { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "deleteRoundQuestion" },
+        { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" },
+        { path: "/:apiVersion/data/srm/answer/:answerId", action: "deleteRoundQuestionAnswer" }
     ]
 };

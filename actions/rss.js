@@ -123,7 +123,7 @@ function getChallengesRSS(api, connection, next) {
                 techId = id;
             }
             if (!_.isUndefined(platforms)) {
-                helper.getCatalogCachedValue(platforms.split(',').map(function (s) { return s.toLowerCase().toSource(); }), dbConnectionMap, 'platforms', cb);
+                helper.getCatalogCachedValue(platforms.split(',').map(function (s) { return s.toLowerCase().toString(); }), dbConnectionMap, 'platforms', cb);
             } else {
                 cb(null, null);
             }

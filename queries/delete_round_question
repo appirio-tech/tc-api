@@ -1,0 +1,4 @@
+DELETE FROM survey_question WHERE question_id=@question_id@;
+DELETE FROM round_question WHERE question_id=@question_id@;
+DELETE FROM answer WHERE question_id=@question_id@;
+DELETE FROM question WHERE question_id=@question_id@;

@@ -80,6 +80,25 @@ function createPostRequest(queryString, user) {
 }
 
 /**
+ * Create delete request and return it.
+ *
+ * @param queryString - the query string
+ * @param user - the user handle
+ * @returns {*} request
+ */
+function createDeleteRequest(queryString, user) {
+    var req = request(API_ENDPOINT)
+      .del(queryString)
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/);
+    if (user) {
+        req.set('Authorization', generateAuthHeader(user));
+    }
+
+    return req;
+}
+
+/**
  * Assert error request.
  *
  * @param {String} queryString - the query string
@@ -114,6 +133,30 @@ function assertError(queryString, user, statusCode, errorDetail, done) {
  */
 function assertPostError(queryString, user, obj, statusCode, errorDetail, done) {
     createPostRequest(queryString, user).expect(statusCode).send(obj).end(function (err, res) {
+        if (err) {
+            done(err);
+            return;
+        }
+        if (statusCode === 200) {
+            assert.equal(res.body.error, errorDetail, "Invalid error detail");
+        } else {
+            assert.equal(res.body.error.details, errorDetail, "Invalid error detail");
+        }
+        done();
+    });
+}
+
+/**
+ * Assert delete response detail.
+ *
+ * @param queryString - the query string
+ * @param user - the user handle
+ * @param statusCode - the expected status code
+ * @param errorDetail - the error detail.
+ * @param done the callback function
+ */
+function assertDeleteError(queryString, user, statusCode, errorDetail, done) {
+    createDeleteRequest(queryString, user).expect(statusCode).end(function (err, res) {
         if (err) {
             done(err);
             return;
@@ -635,6 +678,34 @@ describe('SRM Round Questions APIs', function () {
         });
     });
 
+    describe('Delete Round Question API invalid test', function () {
+
+        it("No anonymous access.", function (done) {
+            assertDeleteError("/v2/data/srm/rounds/306/question", null, 401, "Authorized information needed.", done);
+        });
+
+        it("Admin access only.", function (done) {
+            assertDeleteError("/v2/data/srm/rounds/306/question", 'user', 403, "Admin access only.", done);
+        });
+
+        it("questionId should be number.", function (done) {
+            assertDeleteError("/v2/data/srm/rounds/aaa/question", 'heffan', 400, "questionId should be number.", done);
+        });
+
+        it("questionId should be Integer.", function (done) {
+            assertDeleteError("/v2/data/srm/rounds/30.6/question", 'heffan', 400, "questionId should be Integer.", done);
+        });
+
+        it("questionId should be positive.", function (done) {
+            assertDeleteError("/v2/data/srm/rounds/-306/question", 'heffan', 400, "questionId should be positive.", done);
+        });
+
+        it("questionId should be less or equal to 2147483647.", function (done) {
+            assertDeleteError("/v2/data/srm/rounds/111111111111111111111111111/question", 'heffan', 400,
+              "questionId should be less or equal to 2147483647.", done);
+        });
+    });
+
     describe('Valid test', function () {
 
         it("Valid set survey.", function (done) {
@@ -750,6 +821,65 @@ describe('SRM Round Questions APIs', function () {
 
                         cb();
                     });
+                }
+            ], done);
+        });
+
+        it("Valid test for delete question.", function (done) {
+
+            var validRequest = {"contest_id": 123, "text": "text2", "styleId": 1, "typeId": 1, "statusId": 1, "keyword": "keyword1", "isRequired": true};
+
+            async.waterfall([
+                function (cb) {
+                    var req = request(API_ENDPOINT)
+                      .post("/v2/data/srm/rounds/13673/questions")
+                      .set("Accept", "application/json")
+                      .expect("Content-Type", /json/);
+                    req.set('Authorization', generateAuthHeader('heffan'));
+                    req.expect(200).send(validRequest).end(function (err, res) {
+                        if (err) {
+                            cb(err);
+                            return;
+                        }
+                        assert.equal(res.body.success, true, "Invalid response detail");
+                        cb();
+                    });
+                }, function (cb) {
+                    var sql = "question_id from survey_question where survey_id = 13673";
+                    testHelper.runSqlSelectQuery(sql, "informixoltp", function (err, result) {
+                        if (err) {
+                            cb(err);
+                            return;
+                        }
+                        assert.ok(result.length >= 1);
+                        cb(null, result[0].question_id);
+                    });
+                }, function (questionId, cb) {
+                    createDeleteRequest("/v2/data/srm/rounds/" + questionId + "/question", 'heffan').expect(200).end(function (err, res) {
+                        if (err) {
+                            cb(err);
+                            return;
+                        }
+                        assert.equal(res.body.success, true, "Invalid response detail");
+                        cb(null, questionId);
+                    });
+                }, function (questionId, cb) {
+                    var sqlQueries = [
+                        "question_id from survey_question where question_id = " + questionId,
+                        "question_id from round_question where question_id = " + questionId,
+                        "question_id from answer where question_id = " + questionId,
+                        "question_id from question where question_id = " + questionId
+                    ];
+                    async.forEach(sqlQueries, function (sqlQuery, callback) {
+                        testHelper.runSqlSelectQuery(sqlQuery, "informixoltp", function (err, result) {
+                            if (err) {
+                                callback(err);
+                                return;
+                            }
+                            assert(!result || (Array.isArray(result) && !result.length), "Found question that was supposed to be deleted");
+                            callback();
+                        });
+                    }, cb);
                 }
             ], done);
         });
