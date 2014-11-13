@@ -373,12 +373,15 @@ function getUserIdentityByAuth0Id(api, connection, next) {
                 dbConnectionMap, cb);
         },
         function (rs, cb) {
-            response = {
-                uid: userid,
-                handle: rs[0].handle,
-                email: rs[0].address
-            };
-            cb();
+            if (!rs[0]) {
+                cb(notfound);
+            } else {
+                response = {
+                    uid: userid,
+                    handle: rs[0].handle
+                };
+                cb();
+            }
         }
     ], function (err) {
         if (err) {
