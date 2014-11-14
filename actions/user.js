@@ -13,6 +13,7 @@ var async = require('async');
 var _ = require('underscore');
 var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
+var NotFoundError = require('../errors/NotFoundError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
@@ -334,27 +335,33 @@ function getUserIdentityByAuth0Id(api, connection, next) {
     var helper = api.helper, 
         auth0id = connection.params.id,
         userid = 0,
-        dbConnectionMap = connection.dbConnectionMap, 
+        dbConnectionMap = connection.dbConnectionMap,
+        notfound = new NotFoundError('Feelin lucky, punk?'),
         response;
 
     async.waterfall([
         function (cb) {
-            var splits = auth0id.split('|');
-            if (splits[0] == 'ad') {
-                cb(null, [{ user_id: Number(splits[1]) }]);
-            } else {
-                api.helper.getProviderId(splits[0], function(err, provider) {
-                    if (err) {
-                        cb(err);
-                    } else {
-                        api.dataAccess.executeQuery("get_user_by_social_login",
-                        {
-                            social_user_id: splits[1],
-                            provider_id: provider
-                        },
-                        dbConnectionMap, cb);
-                    }
-                });
+            try {
+                var splits = auth0id.split('|');
+                if (splits[0] == 'ad') {
+                    cb(null, [{ user_id: Number(splits[1]) }]);
+                } else {
+                    api.helper.getProviderId(splits[0], function(err, provider) {
+                        if (err) {
+                            cb(notfound);
+                        } else {
+                            api.dataAccess.executeQuery("get_user_by_social_login",
+                            {
+                                social_user_id: splits[1],
+                                provider_id: provider
+                            },
+                            dbConnectionMap, cb);
+                        }
+                    });
+                }
+            }
+            catch (exc) {
+                cb(notfound);
             }
         },
         function (result, cb) {
@@ -364,12 +371,15 @@ function getUserIdentityByAuth0Id(api, connection, next) {
                 dbConnectionMap, cb);
         },
         function (rs, cb) {
-            response = {
-                uid: userid,
-                handle: rs[0].handle,
-                email: rs[0].address
-            };
-            cb();
+            if (!rs[0]) {
+                cb(notfound);
+            } else {
+                response = {
+                    uid: userid,
+                    handle: rs[0].handle
+                };
+                cb();
+            }
         }
     ], function (err) {
         if (err) {
