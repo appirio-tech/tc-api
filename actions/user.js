@@ -13,6 +13,7 @@ var async = require('async');
 var _ = require('underscore');
 var BadRequestError = require('../errors/BadRequestError');
 var ForbiddenError = require('../errors/ForbiddenError');
+var NotFoundError = require('../errors/NotFoundError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
@@ -317,6 +318,101 @@ exports.getUserIdentity = {
         if (connection.dbConnectionMap) {
             api.log('getUserIdentity#run', 'debug');
             getUserIdentity(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Get user identity information api.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The database connection map object.
+ * @param {Function} next - The callback function.
+ * @since 1.2
+ */
+function getUserIdentityByAuth0Id(api, connection, next) {
+    var helper = api.helper, 
+        auth0id = connection.params.id,
+        userid = 0,
+        dbConnectionMap = connection.dbConnectionMap,
+        notfound = new NotFoundError('Feelin lucky, punk?'),
+        response;
+
+    async.waterfall([
+        function (cb) {
+            try {
+                var splits = auth0id.split('|');
+                if (splits[0] == 'ad') {
+                    cb(null, [{ user_id: Number(splits[1]) }]);
+                } else {
+                    api.helper.getProviderId(splits[0], function(err, provider) {
+                        if (err) {
+                            cb(notfound);
+                        } else {
+                            api.dataAccess.executeQuery("get_user_by_social_login",
+                            {
+                                social_user_id: splits[1],
+                                provider_id: provider
+                            },
+                            dbConnectionMap, cb);
+                        }
+                    });
+                }
+            }
+            catch (exc) {
+                cb(notfound);
+            }
+        },
+        function (result, cb) {
+            userid = result[0].user_id
+            api.dataAccess.executeQuery('get_user_email_and_handle', 
+                { userId: userid }, 
+                dbConnectionMap, cb);
+        },
+        function (rs, cb) {
+            if (!rs[0]) {
+                cb(notfound);
+            } else {
+                response = {
+                    uid: userid,
+                    handle: rs[0].handle
+                };
+                cb();
+            }
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+
+}
+
+/**
+ * The API for activate user
+ * @since 1.2
+ */
+exports.getUserIdentityByAuth0Id = {
+    name: 'getUserIdentityByAuth0Id',
+    description: 'Get user identity information',
+    inputs: {
+        required: ['id'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['common_oltp'],
+    cacheEnabled: false,
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('getUserIdentityByAuth0Id#run', 'debug');
+            getUserIdentityByAuth0Id(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

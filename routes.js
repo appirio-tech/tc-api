@@ -256,6 +256,7 @@ exports.routes = {
 
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
         { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
+        { path: "/:apiVersion/user/tcid/:id", action: "getUserIdentityByAuth0Id" },
         { path: "/:apiVersion/user/identity", action: "getUserIdentity" },
 
         { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
