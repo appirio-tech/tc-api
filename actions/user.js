@@ -279,8 +279,6 @@ function getUserIdentity(api, connection, next) {
             api.dataAccess.executeQuery('get_user_email_and_handle', { userId: caller.userId }, dbConnectionMap, cb);
         },
         function (rs, cb) {
-            api.helper.handleError(api, connection, err);
-            next(connection, true);
             response = {
                 uid: caller.userId,
                 handle: rs[0].handle,
