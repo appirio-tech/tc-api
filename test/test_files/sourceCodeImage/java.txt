@@ -1,0 +1,14 @@
+public class TestProblem {
+    public int sum(int A, int B) {
+    		/*
+    		uncomment to test with time limit and memory limit*/
+    		int size = 3000;
+    		String[][] bb = new String[size][size];
+    		for(int i=0;i<size;i++) 
+    			for(int j=0;j<size;j++) {
+					bb[i][j] = "bbbbbbbbbbb";
+    		}
+    		
+            return A+B;
+        }
+}

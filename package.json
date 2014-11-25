@@ -43,7 +43,9 @@
     "archiver": "~0.6.1",
     "redis": "0.10.x",
     "temp": "0.7.0",
-    "ssha": "*"
+    "ssha": "*",
+    "highlight.js": ">= 8.3.0",
+    "wkhtmltoimage": ">= 0.1.3"
   },
   "devDependencies": {
     "supertest": "0.8.x",
