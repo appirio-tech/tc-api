@@ -1,0 +1,24 @@
+using System;
+
+class TestProblem
+{
+    public int sum(int A, int B) {
+    	int[,] bb = new int[7000, 7000];
+    	for (int i=0;i<7000;i++)
+        {
+            for (int j=0;j<7000;j++)
+            {
+                bb[i,j] = i+j;
+            }
+            for (int j=0;j<7000;j++)
+            {
+                bb[i,j] = i*j;
+            }
+            for (int j=0;j<7000;j++)
+            {
+                bb[i,j] = i-j;
+            }
+        }
+    	return A+B;
+    }
+}

@@ -1,0 +1,8 @@
+class TestProblem:
+    def sum(self, A, B):
+        a=[] 
+        for i in range(3000): 
+            a.append([]) 
+            for j in range(3000): 
+                a[i].append("aaaaaa") 
+        return A+B

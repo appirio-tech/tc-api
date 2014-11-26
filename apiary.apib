@@ -14635,3 +14635,65 @@ Managing Round Question Answers APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 
+
+# Group Source Code Image Generation APIs
+Source Code Image Generation APIs
+
+## Source Code Image Generation API [/src2image]
+
+### Source Code Image Generation API [POST]
+
++ Parameters
+    + code (required, string) ... the code value to convert
+    + lang (required, string) ... the code's language name, it should be one of ["1c","actionscript","apache","applescript","xml","asciidoc","autohotkey","avrasm","axapta","bash","brainfuck","capnproto","clojure","cmake","coffeescript","cpp","cs","css","d","markdown","dart","delphi","diff","django","dos","dust","elixir","ruby","erb","erlang-repl","erlang","fix","fsharp","gcode","gherkin","glsl","go","gradle","groovy","haml","handlebars","haskell","haxe","http","ini","java","javascript","json","lasso","less","lisp","livecodeserver","livescript","lua","makefile","mathematica","matlab","mel","mizar","monkey","nginx","nimrod","nix","nsis","objectivec","ocaml","oxygene","parser3","perl","php","powershell","processing","profile","protobuf","puppet","python","q","r","rib","rsl","ruleslanguage","rust","scala","scheme","scilab","scss","smalltalk","sql","stylus","swift","tcl","tex","thrift","twig","typescript","vala","vbnet","vbscript","vbscript-html","vhdl","vim","x86asm","xl"]
+    + style (optional, string) ... the code's format style, it should be one of ['arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'codepen-embed', 'color-brewer', 'dark', 'default', 'docco', 'far', 'foundation', 'github', 'googlecode', 'hybrid', 'idea', 'ir_black', 'kimbie.dark', 'kimbie.light', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn']
+
++ Response 200 (image/jpeg)
+
+        {
+            // it contains the generation jpeg in response.
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: code is a required parameter for this action"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: lang is a required parameter for this action"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The language name is invalid."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The style name is invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
