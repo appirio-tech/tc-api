@@ -296,6 +296,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                 address;
 
             result = {
+                uid: connection.caller.userId,
                 handle: basic.handle,
                 country: basic.country,
                 memberSince: basic.member_since,
