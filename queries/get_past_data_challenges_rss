@@ -6,7 +6,6 @@ FROM
   SELECT
     'marathon' AS challenge_type
   , c.name AS challenge_name
-  , c.name AS detailed_requirements
   , r.round_id AS challenge_id
   , "data" AS challenge_community
   , c.start_date AS registration_start_date
@@ -28,7 +27,6 @@ FROM
   SELECT
     'algorithm' AS challenge_type
   , r.short_name AS challenge_name
-  , r.short_name AS detailed_requirements
   , r.round_id AS challenge_id
   , "data" AS challenge_community
   , c.start_date AS registration_start_date
