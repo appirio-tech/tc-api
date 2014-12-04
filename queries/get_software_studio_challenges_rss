@@ -4,8 +4,6 @@ FIRST @page_size@
 , pi.value AS challenge_name
 , p.project_id AS challenge_id
 , p.tc_direct_project_id AS project_id
-, ps.detailed_requirements_text AS software_detailed_requirements
-, sps.contest_description_text AS studio_detailed_requirements
 , NVL(pp1.actual_start_time, pp1.scheduled_start_time) AS registration_start_date
 , pcl.project_type_id
 FROM project p
@@ -13,8 +11,6 @@ INNER JOIN project_category_lu pcl ON pcl.project_category_id = p.project_catego
 INNER JOIN project_info pi1 ON pi1.project_id = p.project_id AND pi1.project_info_type_id = 1
 INNER JOIN project_info pi ON pi.project_info_type_id = 6 AND p.project_id = pi.project_id
 INNER JOIN project_phase pp1 ON pp1.project_id = p.project_id AND pp1.phase_type_id = 1
-LEFT JOIN project_spec ps ON ps.project_id = p.project_id and ps.version = (select max(version) from project_spec where project_id = p.project_id)
-LEFT JOIN project_studio_specification sps ON sps.project_studio_spec_id = p.project_studio_spec_id
 WHERE 1=1
 AND p.project_status_id IN (@project_status_id@)
 AND pcl.project_type_id IN (@project_type_id@)
