@@ -365,10 +365,14 @@ function getUserIdentityByAuth0Id(api, connection, next) {
             }
         },
         function (result, cb) {
+            if (!result[0]) {
+                cb(notfound);
+            } else {
             userid = result[0].user_id
             api.dataAccess.executeQuery('get_user_email_and_handle', 
                 { userId: userid }, 
                 dbConnectionMap, cb);
+            }
         },
         function (rs, cb) {
             if (!rs[0]) {
