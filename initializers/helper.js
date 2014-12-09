@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.38
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCSASSEMBLER
+ * @version 1.39
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -101,6 +101,8 @@
  * - Updated checkDates function to accept optional 'errorMessage' parameter.
  * Changes in 1.38:
  * - Add method editSql, readQuery and constant QUERY_PATH.
+ * Changes in 1.39:
+ * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
  */
 "use strict";
 
@@ -256,7 +258,10 @@ var apiName2dbNameMap = {
     problemid: 'problem_id',
     problemname: 'problem_name',
     problemtype: 'problem_type',
-    mypoints: 'my_points'
+    mypoints: 'my_points',
+    codingduration: 'coding_duration',
+    numcontestants: 'num_contestants',
+    numsubmitters: 'num_submitters'
 };
 
 /**
