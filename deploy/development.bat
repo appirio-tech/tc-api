@@ -2,14 +2,18 @@
 REM
 REM Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
 REM
-REM Version: 1.1
-REM Author: TrePe, isv
+REM Version: 1.2
+REM Author: TrePe, isv, TCASSEMBLER
 REM
 REM Changes in 1.1
 REM - added RESET_PASSWORD_TOKEN_CACHE_EXPIRY environment variable
 REM - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
 REM - added REDIS_HOST environment variable
 REM - added REDIS_PORT environment variable
+REM Changes in 1.2
+REM - added WKHTMLTOIMAGE_COMMAND_PATH environment variable
+REM - added WKHTMLTOIMAGE_IMAGE_WIDTH environment variable
+REM - added HIGHLIGHT_STYLE_LINK environment variable
 
 REM tests rely on caching being off. But set this to a real value (or remove) while coding.
 
@@ -83,3 +87,7 @@ rem set REDIS_HOST=localhost
 rem set REDIS_PORT=6379
 
 set WATERMARK_FILE_PATH=test/test_files/design_image_file_generator/studio_logo_watermark.png
+
+set WKHTMLTOIMAGE_COMMAND_PATH=/home/ubuntu/tmp/wkhtmltox-0.12.1/static-build/posix-local/wkhtmltox-0.12.1/bin/wkhtmltoimage
+set WKHTMLTOIMAGE_IMAGE_WIDTH=1024
+set HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/%OVERRIDE_STYLE_NAME%.min.css

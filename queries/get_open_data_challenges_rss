@@ -2,7 +2,6 @@ SELECT
 FIRST @page_size@
   r.round_id AS challenge_id
 , ct.name AS challenge_name
-, ct.name AS detailed_requirements
 , 'marathon' AS challenge_type
 , 'data' AS challenge_community
 , reg.start_time AS registration_start_date

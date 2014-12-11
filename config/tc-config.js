@@ -2,7 +2,7 @@
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
  * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, TCSASSEMBLER
- * @version 1.27
+ * @version 1.28
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -64,6 +64,8 @@
  * - Add studioReview object for get studio review opportunities api.
  * Changes in 1.27:
  * Add userActivationResendLimit and userActivationCacheLifeTime for user activation email api.
+ * Changes in 1.28:
+ * Add source code image generation configuration.
  */
 
 "use strict";
@@ -224,6 +226,16 @@ var config = {
     studioReview: {
         specTerms: 'http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=',
         reviewTerms: 'http://studio.topcoder.com/?module=ViewReviewTerms&ct='
+    },
+
+    generateSourceCodeImage: {
+        wkhtmltoimageCommandPath: process.env.WKHTMLTOIMAGE_COMMAND_PATH || 'wkhtmltoimage',
+        styleLink: process.env.HIGHLIGHT_STYLE_LINK || 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/%OVERRIDE_STYLE_NAME%.min.css',
+        wkhtmlToImageOptions: {
+            Format: 'jpg',
+            Quality: 94,
+            width: process.env.WKHTMLTOIMAGE_IMAGE_WIDTH || 1024
+        }
     }
 };
 module.exports.tcConfig = config;

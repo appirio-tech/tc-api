@@ -14431,3 +14431,269 @@ Managing SRM Round Configuration APIs
             "description":"Servers are up but overloaded. Try again later."
         }
 }
+
+# Group Round Question Answers APIs
+Managing Round Question Answers APIs
+
+## Manage Round Question Answer API [/data/srm/answer/:answerId]
+
+### Modify Round Question Answer API [PUT]
+
++ Parameters
+    + answerId (required, integer) ... answer ID
+    + text (required, integer) ... answer text
+    + sortOrder (required, integer) ... the sorting order
+    + correct (required, boolean) ... flag indicating whether answer is correct or not.
+
++ Response 200 (application/json)
+
+        {
+            "success": true
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: text is a required parameter for this action"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: sortOrder is a required parameter for this action"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: correct is a required parameter for this action"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"answerId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"answerId should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"answerId should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"text exceeds 250 characters."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The correct should be boolean type."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorized information needed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"Admin access only."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"The answerId does not exist in database."
+        }
+
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Delete Round Question Answer API [/data/srm/answer/:answerId]
+
+### Delete Round Question Answer API [DELETE]
+
++ Parameters
+    + answerId (required, integer) ... deleting answer's id
+
++ Response 200 (application/json)
+
+        {
+            "success": true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"answerId should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"answerId should be number."
+        }
+
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorized information needed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"Admin access only."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+# Group Source Code Image Generation APIs
+Source Code Image Generation APIs
+
+## Source Code Image Generation API [/src2image]
+
+### Source Code Image Generation API [POST]
+
++ Parameters
+    + code (required, string) ... the code value to convert
+    + lang (required, string) ... the code's language name, it should be one of ["1c","actionscript","apache","applescript","xml","asciidoc","autohotkey","avrasm","axapta","bash","brainfuck","capnproto","clojure","cmake","coffeescript","cpp","cs","css","d","markdown","dart","delphi","diff","django","dos","dust","elixir","ruby","erb","erlang-repl","erlang","fix","fsharp","gcode","gherkin","glsl","go","gradle","groovy","haml","handlebars","haskell","haxe","http","ini","java","javascript","json","lasso","less","lisp","livecodeserver","livescript","lua","makefile","mathematica","matlab","mel","mizar","monkey","nginx","nimrod","nix","nsis","objectivec","ocaml","oxygene","parser3","perl","php","powershell","processing","profile","protobuf","puppet","python","q","r","rib","rsl","ruleslanguage","rust","scala","scheme","scilab","scss","smalltalk","sql","stylus","swift","tcl","tex","thrift","twig","typescript","vala","vbnet","vbscript","vbscript-html","vhdl","vim","x86asm","xl"]
+    + style (optional, string) ... the code's format style, it should be one of ['arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'codepen-embed', 'color-brewer', 'dark', 'default', 'docco', 'far', 'foundation', 'github', 'googlecode', 'hybrid', 'idea', 'ir_black', 'kimbie.dark', 'kimbie.light', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn']
+
++ Response 200 (image/jpeg)
+
+        {
+            // it contains the generation jpeg in response.
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: code is a required parameter for this action"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "error": "Error: lang is a required parameter for this action"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The language name is invalid."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The style name is invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }

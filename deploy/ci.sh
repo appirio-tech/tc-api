@@ -3,14 +3,18 @@
 #
 # Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
 #
-# Version: 1.1
-# Author: vangavroche, delemach, isv
+# Version: 1.2
+# Author: vangavroche, delemach, isv, TCASSEMBLER
 #
 # changes in 1.1:
 # - added RESET_PASSWORD_TOKEN_CACHE_EXPIRY environment variable
 # - added RESET_PASSWORD_TOKEN_EMAIL_SUBJECT environment variable
 # - added REDIS_HOST environment variable
 # - added REDIS_PORT environment variable
+# changes in 1.2
+# - added WKHTMLTOIMAGE_COMMAND_PATH environment variable
+# - added WKHTMLTOIMAGE_IMAGE_WIDTH environment variable
+# - added HIGHLIGHT_STYLE_LINK environment variable
 #
 export CACHE_EXPIRY=-1
 
@@ -86,3 +90,7 @@ export REDIS_PORT=6379
 
 export DEVELOP_SUBMISSION_MAX_SIZE=6144
 export WATERMARK_FILE_PATH=test/test_files/design_image_file_generator/studio_logo_watermark.png
+
+export WKHTMLTOIMAGE_COMMAND_PATH=/home/ubuntu/tmp/wkhtmltox-0.12.1/static-build/posix-local/wkhtmltox-0.12.1/bin/wkhtmltoimage
+export WKHTMLTOIMAGE_IMAGE_WIDTH=1024
+export HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/%OVERRIDE_STYLE_NAME%.min.css

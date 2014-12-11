@@ -1,0 +1,23 @@
+Class TestProblem
+    Public Function sum(ByVal A As Integer, ByVal B As Integer) As Integer
+    	Dim bb(7000, 7000) As Integer
+    	For i As Integer = 1 To 7000
+		    For j As Integer = 1 To 7000
+		    	bb(i,j) = i + j
+		    Next
+		Next
+
+		For i As Integer = 1 To 7000
+		    For j As Integer = 1 To 7000
+		    	bb(i,j) = i * j
+		    Next
+		Next
+
+		For i As Integer = 1 To 7000
+		    For j As Integer = 1 To 7000
+		    	bb(i,j) = i - j
+		    Next
+		Next
+		Return A + B
+    End Function
+End Class

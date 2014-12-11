@@ -1,0 +1,66 @@
+#line 2 "PeriodicJumping.cpp"
+#include <algorithm>
+#include <bitset>
+#include <climits>
+#include <cmath>
+#include <cstring>
+#include <ctime>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+ 
+#define REP(i,n) for (int i=0; i<(int)(n); ++i)
+#define FOR(i,a,b) for (int i=(a); i<(int)(b); ++i)
+#define FORE(i,n) for (__typeof((n).begin()) i=(n).begin(); i!=(n).end(); ++i)
+#define ALL(c) (c).begin(), (c).end()
+#define pb push_back
+#define mp make_pair
+#define fi first
+#define se second
+ 
+using namespace std;
+ 
+typedef unsigned int uint;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef vector<int> vi;
+typedef vector<string> vs;
+ 
+const int mod = 1000000007;
+ 
+class PeriodicJumping {
+public:
+    int minimalTime(int x, vector<int> len) {
+        x = abs(x);
+        if (x == 0) return 0;
+        int n = len.size();
+        auto mx = max_element(len.begin(), len.end());
+        int ret = INT_MAX;
+        if (x < *mx) {
+            ret = n + (mx - len.begin()) + 1;
+        } else {
+            long long sum = accumulate(len.begin(), len.end(), 0);
+            int time = (x / sum) * n;
+            long long rest = x % sum;
+            for (int i=0; i<n; ++i) {
+                if (rest <= 0) break;
+                rest -= len[i];
+                time ++;
+            }
+            ret = min(ret, time);
+        }
+        return ret;
+    }
+};
+ 
+// Powered by Greed 1.5

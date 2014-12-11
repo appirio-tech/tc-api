@@ -79,17 +79,10 @@ function getChallengesRSS(api, connection, next) {
                         challengeType: row.challenge_type.trim(),
                         challengeName: row.challenge_name,
                         challengeId: row.challenge_id,
-                        detailedRequirements: row.detailed_requirements || '',
                         registrationStartDate: row.registration_start_date,
                         challengeCommunity: row.challenge_community,
                         projectId: row.project_id
                     };
-                    if (_.isDefined(row.software_detailed_requirements)) {
-                        res.detailedRequirements = row.software_detailed_requirements || '';
-                    }
-                    if (_.isDefined(row.studio_detailed_requirements)) {
-                        res.detailedRequirements = row.studio_detailed_requirements || '';
-                    }
                     if (row.project_type_id === helper.studio.category[0]) {
                         res.challengeCommunity = helper.studio.community;
                     } else {
