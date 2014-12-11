@@ -107,8 +107,13 @@ exports.middleware = function (api, next) {
                     return;
                 }
                 var split = decoded.sub.split("|");
-                socialUserId = (split.pop() || "").trim();
-                socialProvider = (split.pop() || "").trim();
+                try {
+                    socialUserId = (split[split.length-1] || "").trim();
+                    socialProvider = (split[0] || "").trim();
+                } catch (ignored) {
+                    cb(new IllegalArgumentError('Malformed Auth header. Could not parse token.sub!'));
+                    return;
+                }
                 if (!_.isDefined(socialUserId) || socialUserId.length === 0) {
                     cb(new IllegalArgumentError('Malformed Auth header. No userId in token.sub!'));
                     return;
