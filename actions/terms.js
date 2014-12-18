@@ -58,6 +58,8 @@ var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
         return;
     }
 
+    sqlParams.userId = connection.caller.userId;
+
     async.waterfall([
         function (cb) {
             // validate termsOfUseId parameter and set sql parameter
