@@ -1,0 +1,1 @@
+INSERT INTO user(user_id, handle, status) VALUES(300002, 'user2', 'U');

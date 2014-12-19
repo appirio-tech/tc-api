@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
+ * @version 1.4
  * @author muzehyun, Ghost_141
  * Changes in 1.1:
  * - Implement user activation email api.
@@ -9,6 +9,8 @@
  * - Implement get user identity api.
  * Changes in 1.3:
  * - Implement get user marathon match api.
+ * Changes in 1.4:
+ * - Implement get user algorithm challenges api.
  */
 'use strict';
 var async = require('async');
@@ -36,6 +38,13 @@ var activationEmailSenderName = "Topcoder API";
  * @since 1.3
  */
 var VALID_SORT_COLUMN_MARATHON_MATCH = ['id', 'type', 'codingDuration', 'placement', 'numContestants',
+    'numSubmitters'];
+
+/**
+ * The valid sort column values for get user algo challenges api.
+ * @since 1.4
+ */
+var VALID_SORT_COLUMN_ALGO_CHALLENGES = ['id', 'type', 'codingDuration', 'placement', 'numContestants',
     'numSubmitters'];
 
 /**
@@ -548,6 +557,139 @@ exports.getUserMarathonMatches = {
         if (connection.dbConnectionMap) {
             api.log('getUserMarathonMatches#run', 'debug');
             getUserMarathonMatches(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Handle the get algorithm challenges that user participated to.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The connection object.
+ * @param {Function} next - The callback function.
+ * @since 1.4
+ */
+function getUserAlgorithmChallenges(api, connection, next) {
+    var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, response, sqlParams, sortOrder, sortColumn,
+        exeQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
+        },
+        handle = connection.params.handle,
+        pageIndex = Number(connection.params.pageIndex || 1),
+        pageSize = Number(connection.params.pageSize || 10);
+
+    // If the sortOrder is set and sortColumn is missing.
+    if (connection.params.sortOrder && !connection.params.sortColumn) {
+        helper.handleError(api, connection, new BadRequestError('The sortColumn is missing.'));
+        next(connection, true);
+        return;
+    }
+
+    sortOrder = (connection.params.sortOrder || "asc").toLowerCase();
+    sortColumn = connection.params.sortColumn || "id";
+
+    if (pageIndex === -1) {
+        pageSize = helper.MAX_INT;
+        pageIndex = 1;
+    }
+
+    if (sortColumn.toLowerCase() === 'placement') {
+        //reverse the sortOrder value because for placement 1 is the best so the descending order should be like 1, 2, 3.
+        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    }
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPageIndex(pageIndex, "pageIndex")
+                || helper.checkStringParameter(handle, "handle", 30)
+                || helper.checkPositiveInteger(pageSize, "pageSize")
+                || helper.checkMaxInt(pageSize, "pageSize")
+                || helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder")
+                || helper.checkSortColumn(VALID_SORT_COLUMN_ALGO_CHALLENGES, sortColumn.toLowerCase());
+            cb(error);
+        },
+        function (cb) {
+            helper.checkUserExists(handle, api, dbConnectionMap, cb);
+        },
+        function (err, cb) {
+            if (err) {
+                cb(err);
+                return;
+            }
+            helper.checkUserActivated(handle, api, dbConnectionMap, cb);
+        },
+        function (err, cb) {
+            if (err) {
+                cb(err);
+                return;
+            }
+            sqlParams = {
+                first_row_index: (pageIndex - 1) * pageSize,
+                page_size: pageSize,
+                sort_order: sortOrder,
+                sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
+                handle: handle.toLowerCase()
+            };
+            async.parallel({
+                data: exeQuery('get_user_algo_challenges'),
+                count: exeQuery('get_user_algo_challenges_count')
+            }, cb);
+        },
+        function (queryResult, cb) {
+            var total = queryResult.count[0].total_count;
+            response = {
+                pageIndex: pageIndex,
+                pageSize: pageIndex === -1 ? total : pageSize,
+                total: total,
+                data: queryResult.data.map(function (row) {
+                    return {
+                        id: row.id,
+                        type: row.type,
+                        prize: row.paid > 0,
+                        codingDuration: row.coding_duration,
+                        placement: row.placement,
+                        numContestants: row.num_contestants,
+                        numSubmitters: row.num_submitters,
+                        platforms: [],
+                        technologies: row.technologies.split(',').map(function (s) { return s.trim(); })
+                    };
+                })
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The API for get user algorithm challenges.
+ * @since 1.4
+ */
+exports.getUserAlgorithmChallenges = {
+    name: 'getUserAlgorithmChallenges',
+    description: 'Get user algorithm challenges related information',
+    inputs: {
+        required: ['handle'],
+        optional: ["sortOrder", "pageIndex", "pageSize", "sortColumn"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['topcoder_dw', 'common_oltp'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('getUserAlgorithmChallenges#run', 'debug');
+            getUserAlgorithmChallenges(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

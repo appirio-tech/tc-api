@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCSASSEMBLER
- * @version 1.39
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
+ * @version 1.40
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -104,6 +104,8 @@
  * Changes in 1.39:
  * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
  * - Move checkUserExistAndActivated method from actions/memberStatistics.js to this file.
+ * Changes in 1.40:
+ * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
  */
 "use strict";
 
