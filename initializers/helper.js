@@ -106,6 +106,8 @@
  * - Move checkUserExistAndActivated method from actions/memberStatistics.js to this file.
  * Changes in 1.40:
  * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
+ * - Update getSortColumnDBName method to return column name in lower case.
+ * - Update getLowerCaseList method to use map method.
  */
 "use strict";
 
@@ -861,11 +863,7 @@ helper.checkFilterDate = function (date, dateName, dateFormat) {
  * @return {Array} the array with lowercase strings
  */
 helper.getLowerCaseList = function (arr) {
-    var ret = [];
-    arr.forEach(function (s) {
-        ret.push(s.toLowerCase());
-    });
-    return ret;
+    return arr.map(function (s) { return s.toLowerCase(); });
 };
 
 /**
@@ -1162,7 +1160,7 @@ helper.getSortColumnDBName = function (apiName) {
     if (_.isDefined(apiName2dbNameMap[apiName.toLowerCase()])) {
         return apiName2dbNameMap[apiName.toLowerCase()];
     }
-    return apiName;
+    return apiName.toLowerCase();
 };
 
 
@@ -1637,13 +1635,14 @@ helper.checkCoderActivated = function (handle, api, dbConnectionMap, callback) {
 
 /**
  * Check if the user exist and activated.
+ * The method name coder indicate that this is checking topcoder_dw.coder instead of common_oltp.user table.
  * @param {String} handle - the user handle.
  * @param {Object} api - the api object.
  * @param {Object} dbConnectionMap - the database connection map object.
  * @param {Function} callback - the callback function.
  * @since 1.39
  */
-helper.checkUserExistAndActivate = function (handle, api, dbConnectionMap, callback) {
+helper.checkCoderExistAndActivate = function (handle, api, dbConnectionMap, callback) {
     async.waterfall([
         function (cb) {
             // check user existence and activated status.

@@ -47,17 +47,17 @@ INSERT INTO round_type_lu(round_type_id,round_type_desc,algo_rating_type_id) VAL
 INSERT INTO round_type_lu(round_type_id,round_type_desc,algo_rating_type_id) VALUES (22, 'AMD Marathon Match', NULL);
 INSERT INTO round_type_lu(round_type_id,round_type_desc,algo_rating_type_id) VALUES (23, 'AMD Marathon Match Practice', NULL);
 
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(132456, 'heffan', 'heffan');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300001, 'user1', 'user1');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300002, 'user2', 'user2');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300003, 'user3', 'user3');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300004, 'user4', 'user4');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300005, 'user5', 'user5');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300006, 'user6', 'user6');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300007, 'user7', 'user7');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300008, 'user8', 'user8');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300009, 'user9', 'user9');
-INSERT INTO coder(coder_id, handle, handle_lower) VALUES(300010, 'user10', 'user10');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(132456, 'heffan', 'heffan', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300001, 'user1', 'user1', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300002, 'user2', 'user2', 'U');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300003, 'user3', 'user3', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300004, 'user4', 'user4', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300005, 'user5', 'user5', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300006, 'user6', 'user6', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300007, 'user7', 'user7', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300008, 'user8', 'user8', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300009, 'user9', 'user9', 'A');
+INSERT INTO coder(coder_id, handle, handle_lower, status) VALUES(300010, 'user10', 'user10', 'A');
 
 INSERT INTO coder_rank_type_lu(coder_rank_type_id, coder_rank_type_desc) VALUES(2, 'Test');
 

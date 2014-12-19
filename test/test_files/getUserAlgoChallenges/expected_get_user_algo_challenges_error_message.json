@@ -16,7 +16,7 @@
     "notExisted": "User does not exist."
   },
   "invalidSortOrder": "sortOrder should be an element of asc,desc.",
-  "invalidSortColumn": "The sort column 'abc' is invalid, it should be element of id,type,prize,codingDuration,placement,numContestants,numSubmitters.",
+  "invalidSortColumn": "The sort column 'abc' is invalid, it should be element of id,type,codingDuration,placement,numContestants,numSubmitters.",
   "missingSortColumn": "The sortColumn is missing.",
   "inActivatedUser": "User is not activated."
 }

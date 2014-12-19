@@ -192,7 +192,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                     }
                 });
             } else {
-                helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }
         }, function (cb) {
             var execQuery = function (name) {
@@ -707,7 +707,7 @@ exports.getMarathonStatistics = {
         }
         async.waterfall([
             function (cb) {
-                helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var executeQuery = function (sqlName, cbx) {
                     api.dataAccess.executeQuery(sqlName, sqlParams, dbConnectionMap, cbx);
@@ -821,7 +821,7 @@ exports.getSoftwareStatistics = {
                     cb();
                 }
             }, function (cb) {
-                helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                         api.dataAccess.executeQuery(name,
@@ -958,7 +958,7 @@ exports.getStudioStatistics = {
 
         async.waterfall([
             function (cb) {
-                helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 api.dataAccess.executeQuery('get_studio_member_statistics_track', sqlParams, dbConnectionMap, cb);
             }, function (results, cb) {
@@ -1027,7 +1027,7 @@ exports.getAlgorithmStatistics = {
         }
         async.waterfall([
             function (cb) {
-                helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name) {
                     return function (cbx) {
@@ -1420,7 +1420,7 @@ exports.getCopilotStatistics = {
                     cb();
                 }
             }, function (cb) {
-                helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                         api.dataAccess.executeQuery(name,

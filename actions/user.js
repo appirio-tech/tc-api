@@ -489,7 +489,7 @@ function getUserMarathonMatches(api, connection, next) {
             cb(error);
         },
         function (cb) {
-            helper.checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+            helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
         },
         function (cb) {
             sqlParams = {
@@ -612,25 +612,14 @@ function getUserAlgorithmChallenges(api, connection, next) {
             cb(error);
         },
         function (cb) {
-            helper.checkUserExists(handle, api, dbConnectionMap, cb);
+            helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
         },
-        function (err, cb) {
-            if (err) {
-                cb(err);
-                return;
-            }
-            helper.checkUserActivated(handle, api, dbConnectionMap, cb);
-        },
-        function (err, cb) {
-            if (err) {
-                cb(err);
-                return;
-            }
+        function (cb) {
             sqlParams = {
                 first_row_index: (pageIndex - 1) * pageSize,
                 page_size: pageSize,
                 sort_order: sortOrder,
-                sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
+                sort_column: helper.getSortColumnDBName(sortColumn),
                 handle: handle.toLowerCase()
             };
             async.parallel({
@@ -642,7 +631,7 @@ function getUserAlgorithmChallenges(api, connection, next) {
             var total = queryResult.count[0].total_count;
             response = {
                 pageIndex: pageIndex,
-                pageSize: pageIndex === -1 ? total : pageSize,
+                pageSize: pageSize,
                 total: total,
                 data: queryResult.data.map(function (row) {
                     return {
@@ -685,7 +674,7 @@ exports.getUserAlgorithmChallenges = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
-    databases: ['topcoder_dw', 'common_oltp'],
+    databases: ['topcoder_dw'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log('getUserAlgorithmChallenges#run', 'debug');

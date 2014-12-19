@@ -2079,7 +2079,7 @@ function getPracticeProblems(api, connection, next) {
             sqlParams = {
                 firstRowIndex: (pageIndex - 1) * pageSize,
                 pageSize: pageSize,
-                sortColumn: helper.getSortColumnDBName(sortColumn.toLowerCase()),
+                sortColumn: helper.getSortColumnDBName(sortColumn),
                 sortOrder: sortOrder.toLowerCase(),
                 userId: caller.userId
             };
