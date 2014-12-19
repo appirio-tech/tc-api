@@ -1,0 +1,33 @@
+SELECT
+SKIP @first_row_index@
+FIRST @page_size@
+  lcr.round_id AS id
+, lcr.placed AS placement
+, NVL(rr.paid, 0) AS paid
+, (SELECT count(*) FROM long_comp_result WHERE round_id = r.round_id AND attended = 'Y') AS num_contestants
+, (SELECT count(*) FROM long_comp_result WHERE round_id = r.round_id AND attended = 'Y' AND num_submissions > 0) AS num_submitters
+, r.round_type_desc AS type
+, user_marathon_match_language(lcr.coder_id, p.problem_id, r.round_id) AS technologies
+, (((extend(dbinfo("UTC_TO_DATETIME",
+      (SELECT MAX(submit_time) FROM long_problem_submission lps WHERE lps.round_id = r.round_id AND lps.problem_id = p.problem_id AND lps.coder_id = co.coder_id)/1000)
+      , YEAR TO fraction) - c.start_date)::INTERVAL SECOND(9) to second) * 1000)::char(10)::INT8 AS coding_duration
+FROM long_comp_result lcr
+, round r
+, contest c
+, room ro
+, room_result rr
+, problem p
+, coder co
+WHERE lcr.round_id = r.round_id
+AND c.contest_id = r.contest_id
+AND lcr.coder_id = co.coder_id
+AND co.handle_lower = '@handle@'
+AND ro.round_id = r.round_id
+AND rr.room_id = ro.room_id
+AND rr.round_id = r.round_id
+AND rr.coder_id = co.coder_id
+AND p.round_id = r.round_id
+AND lcr.attended = 'Y'
+AND rr.problems_submitted > 0 -- Has submitted.
+AND r.round_type_id IN (10,13,15,19,22,24,25,27)
+ORDER BY @sort_column@ @sort_order@
