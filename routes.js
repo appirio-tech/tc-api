@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.62
+ * @version 1.64
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
  *
@@ -144,6 +144,10 @@
  * - Added routes for modifying/deleting round question answers.
  * Changes in 1.62:
  * - Added route for src2image api.
+ * Changes in 1.63:
+ * - Add route for get user marathon matches api.
+ * Changes in 1.64:
+ * - Add route for get user algorithm challenges api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -262,6 +266,8 @@ exports.routes = {
         { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
         { path: "/:apiVersion/user/tcid/:id", action: "getUserIdentityByAuth0Id" },
         { path: "/:apiVersion/user/identity", action: "getUserIdentity" },
+        { path: "/:apiVersion/user/:handle/challenges/marathon", action: "getUserMarathonMatches" },
+        { path: "/:apiVersion/user/:handle/challenges/algo", action: "getUserAlgorithmChallenges" },
 
         { path: "/:apiVersion/users/tops/:trackType", action: "getTopTrackMembers" },
         { path: "/:apiVersion/users/resetToken", action: "generateResetToken" },
