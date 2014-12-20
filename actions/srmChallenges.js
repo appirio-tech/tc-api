@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.8
+ * @version 1.9
  * @author Sky_, freegod, panoptimum, Ghost_141
  * changes in 1.1:
  * - implement srm API
@@ -26,6 +26,8 @@
  * - Update search srm challenges api. Add challengeName filter.
  * Changes in 1.8:
  * - Implement get srm practice problems api.
+ * Changes in 1.9:
+ * - Implement Rounds For Problem API
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -2135,5 +2137,114 @@ exports.getPracticeProblems = {
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
+    }
+};
+
+/**
+ * getSrmRoundsForProblem implements the rounds for problem api.
+ *
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The connection object.
+ * @param {Function} next - The callback function.
+ */
+function getSrmRoundsForProblem(api, connection, next) {
+    // control flow designators
+    var problemId = 'problemId',
+        checkProblem = 'checkProblem',
+        // shortcuts
+        helper = api.helper,
+        dbConnectionMap = connection.dbConnectionMap,
+        dataAccess = _.bind(api.dataAccess.executeQuery, api.dataAccess);
+    return async.waterfall(
+        [
+            function (cb) {
+                var id = parseInt(connection.params.problemId, 10),
+                    error = helper.checkIdParameter(id, problemId),
+                    results = {};
+                if (error) {
+                    return cb(error);
+                }
+                results[problemId] = id;
+                return cb(null, results);
+            },
+            function (results, cb) {
+                var id = results[problemId];
+                dataAccess(
+                    'check_problem_exists',
+                    {problem_id: id},
+                    dbConnectionMap,
+                    function (error, result) {
+                        if (error) {
+                            return cb(error);
+                        }
+                        results[checkProblem] = result;
+                        return cb(null, results);
+                    }
+                );
+            },
+            function (results, cb) {
+                if (results[checkProblem][0].is_there) {
+                    return cb(null, results);
+                }
+                return cb(new NotFoundError("The problem doesn't exist."));
+            },
+            function (results, cb) {
+                var id = results[problemId];
+                return dataAccess(
+                    'get_rounds_for_problem',
+                    {problem_id: id},
+                    dbConnectionMap,
+                    function (error, result) {
+                        if (error) {
+                            return cb(error);
+                        }
+                        return cb(
+                            null,
+                            {
+                                rounds: helper.transferDBResults2Response(result)
+                            }
+                        );
+                    }
+                );
+            }
+        ],
+        function (error, results) {
+            if (error) {
+                helper.handleError(api, connection, error);
+                return next(connection, true);
+            }
+            connection.response = results;
+            return next(connection, true);
+        }
+    );
+}
+
+/**
+ * Rounds For Problem API
+ *
+ * This api returns the rounds that used the given problem (identified by problem id).
+ * This api will exclude the practice rounds.
+ * This api includes only finished rounds
+ *
+ * @since 1.9
+ */
+exports.getSrmRoundsForProblem = {
+    name: "getSrmRoundsForProblem",
+    description: "SRM Rounds For Problem API",
+    inputs: {
+        required: ['problemId'],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read', // this action is read-only
+    databases: ["topcoder_dw"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getSrmRoundsForProblem", 'debug');
+            return getSrmRoundsForProblem(api, connection, next);
+        }
+        return api.helper.handleNoConnection(api, connection, next);
     }
 };
