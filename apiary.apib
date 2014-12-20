@@ -2082,7 +2082,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## My Profile [/user/activation-email]
 ### My Profile [GET]
 + Request
@@ -2299,7 +2299,7 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
 
 ## get User Identity Information [/user/identity]
 ### Search My Challenges [GET]
@@ -2340,7 +2340,7 @@ Request
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
 
 
 ## Validate Handle [/users/validate/{handle}]
@@ -6437,6 +6437,110 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get SRM Rounds For Problem [/data/srm/problems/:problemId/rounds]
+### Get SRM Rounds For Problem [GET]
+
++ Parameters
+    + problemId (required, number, `12348765`) ... The problemId to get the rounds for.
+
++ Response 200 (application/json)
+
+        {
+            "rounds": [
+                {
+                    "contestId": 3005,
+                    "contestName": "Contest 3005",
+                    "roundId": 6,
+                    "roundName": "Past Srm Round",
+                    "divisionDescription": "Unrated Division",
+                    "levelDescription": "Level 2001"
+                },
+                {
+                    "contestId": 3006,
+                    "contestName": "Contest 3006",
+                    "roundId": 7,
+                    "roundName": "Past Tournament Round",
+                    "divisionDescription": "Division-I",
+                    "levelDescription": "Level 2001"
+                },
+                {
+                    "contestId": 3007,
+                    "contestName": "Contest 3007",
+                    "roundId": 8,
+                    "roundName": "Past Long Round",
+                    "divisionDescription": "Division-II",
+                    "levelDescription": "Level 2001"
+                },
+                {
+                    "contestId": 3008,
+                    "contestName": "Contest 3008",
+                    "roundId": 9,
+                    "roundName": "Past Event Round",
+                    "divisionDescription": "No Division Applicable",
+                    "levelDescription": "Level 2001"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be number."
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be positive."
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be less or equal to 2147483647."
+            }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": {
+                "name": "Not Found",
+                "value": 404,
+                "description": "The URI requested is invalid or the requested resource does not exist.",
+                "details": "The problem doesn't exist."
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## View Algorithm SRM Challenges [/data/srm/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm SRM Challenges [GET]
@@ -6954,7 +7058,7 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## View Active Data Science Challenges [/dataScience/challenges/active?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### View Active Data Science Challenges [GET]
 
