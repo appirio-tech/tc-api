@@ -1,0 +1,5 @@
+{
+    "name"    : "get_user_challenges_count",
+    "db"      : "tcs_dw",
+    "sqlfile" : "get_user_challenges_count"
+}

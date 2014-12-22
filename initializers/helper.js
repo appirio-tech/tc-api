@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.40
+ * @version 1.41
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -108,6 +108,8 @@
  * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
  * - Update getSortColumnDBName method to return column name in lower case.
  * - Update getLowerCaseList method to use map method.
+ * Changes in 1.41
+ * - Updated method checkDefined().
  */
 "use strict";
 
@@ -479,7 +481,7 @@ helper.SEGMENTS_ID_MAP = {
  */
 helper.checkDefined = function (obj, objName) {
     if (_.isNull(obj) || _.isUndefined(obj)) {
-        return new IllegalArgumentError(objName + " should not be null or undefined");
+        return new IllegalArgumentError(objName + " should be provided");
     }
     return null;
 };
