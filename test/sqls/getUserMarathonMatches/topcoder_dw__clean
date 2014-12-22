@@ -1,0 +1,13 @@
+DELETE FROM long_comp_result WHERE round_id IN (2001, 2002, 2003);
+DELETE FROM room_result;
+DELETE FROM problem WHERE round_id IN (2001, 2002, 2003);
+DELETE FROM room;
+DELETE FROM round WHERE round_id IN (2001, 2002, 2003);
+DELETE FROM contest WHERE contest_id IN (2001, 2002, 2003);
+DELETE FROM round_type_lu;
+DELETE FROM algo_rating_type_lu;
+DELETE FROM division_lu;
+DELETE FROM room_type_lu;
+DELETE FROM language_lu;
+DELETE FROM long_problem_submission;
+DELETE FROM coder;

@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.39
+ * @version 1.41
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -101,7 +101,14 @@
  * - Updated checkDates function to accept optional 'errorMessage' parameter.
  * Changes in 1.38:
  * - Add method editSql, readQuery and constant QUERY_PATH.
- * Changes in 1.39
+ * Changes in 1.39:
+ * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
+ * - Move checkUserExistAndActivated method from actions/memberStatistics.js to this file.
+ * Changes in 1.40:
+ * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
+ * - Update getSortColumnDBName method to return column name in lower case.
+ * - Update getLowerCaseList method to use map method.
+ * Changes in 1.41
  * - Updated method checkDefined().
  */
 "use strict";
@@ -258,7 +265,10 @@ var apiName2dbNameMap = {
     problemid: 'problem_id',
     problemname: 'problem_name',
     problemtype: 'problem_type',
-    mypoints: 'my_points'
+    mypoints: 'my_points',
+    codingduration: 'coding_duration',
+    numcontestants: 'num_contestants',
+    numsubmitters: 'num_submitters'
 };
 
 /**
@@ -855,11 +865,7 @@ helper.checkFilterDate = function (date, dateName, dateFormat) {
  * @return {Array} the array with lowercase strings
  */
 helper.getLowerCaseList = function (arr) {
-    var ret = [];
-    arr.forEach(function (s) {
-        ret.push(s.toLowerCase());
-    });
-    return ret;
+    return arr.map(function (s) { return s.toLowerCase(); });
 };
 
 /**
@@ -1156,7 +1162,7 @@ helper.getSortColumnDBName = function (apiName) {
     if (_.isDefined(apiName2dbNameMap[apiName.toLowerCase()])) {
         return apiName2dbNameMap[apiName.toLowerCase()];
     }
-    return apiName;
+    return apiName.toLowerCase();
 };
 
 
@@ -1586,6 +1592,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
 
 /**
  * Check whether given user is activated.
+ * The method will fetch data from common_oltp.user table and check status field.
  * @param {String} handle - the handle to check.
  * @param {Object} api - the action hero api object
  * @param {Object} dbConnectionMap - the database connection map
@@ -1603,6 +1610,66 @@ helper.checkUserActivated = function (handle, api, dbConnectionMap, callback) {
             callback(err, new BadRequestError('User is not activated.'));
         }
     });
+};
+
+/**
+ * check whether given coder is activated.
+ * The method will fetch data from topcoder_dw.coder table and check status field.
+ * @param {String} handle - the handle to check.
+ * @param {Object} api - the action hero api object
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err>} callback - the callback function
+ * @since 1.39
+ */
+helper.checkCoderActivated = function (handle, api, dbConnectionMap, callback) {
+    api.dataAccess.executeQuery('check_coder_activated', { handle: handle }, dbConnectionMap, function (err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        if (result && result[0] && result[0].status === 'A') {
+            callback(err, null);
+        } else {
+            callback(err, new BadRequestError('User is not activated.'));
+        }
+    });
+};
+
+/**
+ * Check if the user exist and activated.
+ * The method name coder indicate that this is checking topcoder_dw.coder instead of common_oltp.user table.
+ * @param {String} handle - the user handle.
+ * @param {Object} api - the api object.
+ * @param {Object} dbConnectionMap - the database connection map object.
+ * @param {Function} callback - the callback function.
+ * @since 1.39
+ */
+helper.checkCoderExistAndActivate = function (handle, api, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            // check user existence and activated status.
+            async.parallel({
+                exist: function (cb) {
+                    api.helper.checkUserExists(handle, api, dbConnectionMap, cb);
+                },
+                activate: function (cb) {
+                    api.helper.checkCoderActivated(handle, api, dbConnectionMap, cb);
+                }
+            }, cb);
+        },
+        function (results, cb) {
+            // handle the error situation.
+            if (results.exist) {
+                cb(results.exist);
+                return;
+            }
+            if (results.activate) {
+                cb(results.activate);
+                return;
+            }
+            cb();
+        }
+    ], callback);
 };
 
 /**

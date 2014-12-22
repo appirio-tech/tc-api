@@ -1,0 +1,37 @@
+{
+  "pageIndex": 1,
+  "pageSize": 10,
+  "total": 2,
+  "data": [
+    {
+      "id": 2001,
+      "type": "Marathon Match Tournament Round",
+      "prize": true,
+      "codingDuration": 17976000,
+      "placement": 1,
+      "numContestants": 6,
+      "numSubmitters": 3,
+      "platforms": [],
+      "technologies": [
+        "Java",
+        "VB",
+        "XML"
+      ]
+    },
+    {
+      "id": 2002,
+      "type": "Marathon Match Tournament Round",
+      "prize": false,
+      "codingDuration": 27976000,
+      "placement": 1,
+      "numContestants": 5,
+      "numSubmitters": 4,
+      "platforms": [],
+      "technologies": [
+        "C++",
+        "Java",
+        "Python"
+      ]
+    }
+  ]
+}

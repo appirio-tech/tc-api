@@ -64,48 +64,6 @@ var OPENAIM_ID = 8;
 var HIGH_SCHOOL_ID = 3;
 
 /**
- * check whether given user is activated.
- * @param {String} handle - the handle to check.
- * @param {Object} api - the action hero api object
- * @param {Object} dbConnectionMap - the database connection map
- * @param {Function<err>} callback - the callback function
- */
-function checkCoderActivated(handle, api, dbConnectionMap, callback) {
-    api.dataAccess.executeQuery('check_coder_activated', { handle: handle }, dbConnectionMap, function (err, result) {
-        if (err) {
-            callback(err, null);
-            return;
-        }
-        if (result && result[0] && result[0].status === 'A') {
-            callback(err, null);
-        } else {
-            callback(err, new BadRequestError('User is not activated.'));
-        }
-    });
-}
-
-///**
-// * Check whether given user is activated.
-// * @param {String} handle - the handle to check.
-// * @param {Object} api - the action hero api object
-// * @param {Object} dbConnectionMap - the database connection map
-// * @param {Function<err>} callback - the callback function
-// */
-//function checkUserActivated(handle, api, dbConnectionMap, callback) {
-//    api.dataAccess.executeQuery('check_user_activated', { handle: handle }, dbConnectionMap, function (err, result) {
-//        if (err) {
-//            callback(err, null);
-//            return;
-//        }
-//        if (result && result[0] && result[0].status === 'A') {
-//            callback(err, null);
-//        } else {
-//            callback(err, new BadRequestError('User is not activated.'));
-//        }
-//    });
-//}
-
-/**
  * Update user preference.
  *
  * @param value the value to update
@@ -184,42 +142,6 @@ function updateDemographicResponse(key, value, questionId, userId, api, dbConnec
 
 
 /**
- * Check if the user exist and activated.
- * @param {String} handle - the user handle.
- * @param {Object} api - the api object.
- * @param {Object} dbConnectionMap - the database connection map object.
- * @param {Function} callback - the callback function.
- * @since 1.10
- */
-function checkUserExistAndActivate(handle, api, dbConnectionMap, callback) {
-    async.waterfall([
-        function (cb) {
-            // check user existence and activated status.
-            async.parallel({
-                exist: function (cb) {
-                    api.helper.checkUserExists(handle, api, dbConnectionMap, cb);
-                },
-                activate: function (cb) {
-                    checkCoderActivated(handle, api, dbConnectionMap, cb);
-                }
-            }, cb);
-        },
-        function (results, cb) {
-            // handle the error situation.
-            if (results.exist) {
-                cb(results.exist);
-                return;
-            }
-            if (results.activate) {
-                cb(results.activate);
-                return;
-            }
-            cb();
-        }
-    ], callback);
-}
-
-/**
  * Get the user basic profile information.
  * @param {Object} api - the api object.
  * @param {String} handle - the handle parameter
@@ -270,7 +192,7 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                     }
                 });
             } else {
-                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }
         }, function (cb) {
             var execQuery = function (name) {
@@ -785,7 +707,7 @@ exports.getMarathonStatistics = {
         }
         async.waterfall([
             function (cb) {
-                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var executeQuery = function (sqlName, cbx) {
                     api.dataAccess.executeQuery(sqlName, sqlParams, dbConnectionMap, cbx);
@@ -899,7 +821,7 @@ exports.getSoftwareStatistics = {
                     cb();
                 }
             }, function (cb) {
-                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                         api.dataAccess.executeQuery(name,
@@ -1036,7 +958,7 @@ exports.getStudioStatistics = {
 
         async.waterfall([
             function (cb) {
-                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 api.dataAccess.executeQuery('get_studio_member_statistics_track', sqlParams, dbConnectionMap, cb);
             }, function (results, cb) {
@@ -1105,7 +1027,7 @@ exports.getAlgorithmStatistics = {
         }
         async.waterfall([
             function (cb) {
-                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name) {
                     return function (cbx) {
@@ -1498,7 +1420,7 @@ exports.getCopilotStatistics = {
                     cb();
                 }
             }, function (cb) {
-                checkUserExistAndActivate(handle, api, dbConnectionMap, cb);
+                helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
             }, function (cb) {
                 var execQuery = function (name, cbx) {
                         api.dataAccess.executeQuery(name,

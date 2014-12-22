@@ -2082,7 +2082,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## My Profile [/user/activation-email]
 ### My Profile [GET]
 + Request
@@ -2462,7 +2462,7 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
 
 ## get User Identity Information [/user/identity]
 ### Search My Challenges [GET]
@@ -2503,7 +2503,334 @@ Request
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
+
+## Get User Algo Challenges [/user/{handle}/challenges/algo?pageIndex={pageIndex}&pageSize={pageSize}&sortOrder={sortOrder}&sortColumn={sortColumn}]
+### Get User Algo Challenges [GET]
+
++ Parameters
+    + handle (required, string, `heffan`) ... the user handle that to search
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `10`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `id`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+
++ Response 200 (application/json)
+
+        {
+            "total": 1,
+            "pageIndex": 1,
+            "pageSize": 10,
+            "data": [
+                {
+                    "id": 2001,
+                    "type": "Single Round Match",
+                    "placement": 1,
+                    "prize": true,
+                    "numContestants": 14,
+                    "numSubmitters": 6,
+                    "codingDuration": 30000000,
+                    "platforms": [],
+                    "technologies": [
+                        "Java",
+                        "C++"
+                    ]
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": ""
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "handle exceeds 30 characters."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "The sort column 'abc' is invalid, it should be element of id,type,prize,codingDuration,placement,numContestants,numSubmitters."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "The sortColumn is missing."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "User is not activated."
+        }
+
++ Response 404 (application/json)
+        {
+            "name": "Not Found",
+            "value": 404,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "User does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Get User Marathon Matches Information [/user/{handle}/challenges/marathon?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get User Marathon Matches Information [GET]
+
++ Parameters
+    + handle (required, string, `heffan`) ... the user handle that to search
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `10`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `id`) ... The column name to sort, can be null. The valid value are 'id', 'type', 'placement', 'numContestants', 'numSubmitters', 'codingDuration'.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+
+
++ Response 200 (application/json)
+
+        {
+            "total": 1,
+            "pageIndex": 1,
+            "pageSize": 10,
+            "data": [
+                {
+                    "id": 2001,
+                    "type": "Marathon Match Tournament Round",
+                    "placement": 1,
+                    "prize": true,
+                    "numContestants": 14,
+                    "numSubmitters": 6,
+                    "codingDuration": 30000000,
+                    "platforms": [],
+                    "technologies": [
+                        "Java",
+                        "C++"
+                    ]
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": ""
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "handle exceeds 30 characters."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "User does not exist."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "The sort column 'abc' is invalid, it should be element of id,type,prize,codingDuration,placement,numContestants,numSubmitters."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 
 ## Validate Handle [/users/validate/{handle}]
@@ -6600,6 +6927,110 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get SRM Rounds For Problem [/data/srm/problems/:problemId/rounds]
+### Get SRM Rounds For Problem [GET]
+
++ Parameters
+    + problemId (required, number, `12348765`) ... The problemId to get the rounds for.
+
++ Response 200 (application/json)
+
+        {
+            "rounds": [
+                {
+                    "contestId": 3005,
+                    "contestName": "Contest 3005",
+                    "roundId": 6,
+                    "roundName": "Past Srm Round",
+                    "divisionDescription": "Unrated Division",
+                    "levelDescription": "Level 2001"
+                },
+                {
+                    "contestId": 3006,
+                    "contestName": "Contest 3006",
+                    "roundId": 7,
+                    "roundName": "Past Tournament Round",
+                    "divisionDescription": "Division-I",
+                    "levelDescription": "Level 2001"
+                },
+                {
+                    "contestId": 3007,
+                    "contestName": "Contest 3007",
+                    "roundId": 8,
+                    "roundName": "Past Long Round",
+                    "divisionDescription": "Division-II",
+                    "levelDescription": "Level 2001"
+                },
+                {
+                    "contestId": 3008,
+                    "contestName": "Contest 3008",
+                    "roundId": 9,
+                    "roundName": "Past Event Round",
+                    "divisionDescription": "No Division Applicable",
+                    "levelDescription": "Level 2001"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be number."
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be positive."
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be less or equal to 2147483647."
+            }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": {
+                "name": "Not Found",
+                "value": 404,
+                "description": "The URI requested is invalid or the requested resource does not exist.",
+                "details": "The problem doesn't exist."
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## View Algorithm SRM Challenges [/data/srm/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm SRM Challenges [GET]
@@ -7117,7 +7548,7 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## View Active Data Science Challenges [/dataScience/challenges/active?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### View Active Data Science Challenges [GET]
 

@@ -1,0 +1,5 @@
+{
+  "name"    : "get_user_algo_challenges",
+  "db"      : "topcoder_dw",
+  "sqlfile" : "get_user_algo_challenges"
+}
