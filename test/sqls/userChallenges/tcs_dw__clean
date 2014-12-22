@@ -1,0 +1,6 @@
+delete from coder where coder_id =132457;
+delete from coder where coder_id =932457;
+delete from project where project_id>=1100000;
+delete from project_result where project_id>=1100000;
+delete from project_platform where project_id>=1100000;
+delete from project_technology where project_id>=1100000;

@@ -1,0 +1,14 @@
+delete from submission where submission_id>=654024; 
+delete from upload where project_id>=1100000;
+delete from resource_info where resource_id>=654030;
+delete from resource where project_id>=1100000;
+delete from project_platform where project_id>=1100000;
+delete from comp_technology where comp_vers_id>=1100000;
+delete from project_result where project_id>=1100000;
+delete from project_phase where project_id>=1100000;
+delete from comp_technology where comp_vers_id>=1100000;
+delete from comp_versions where comp_vers_id>=1100000;
+delete from comp_catalog where component_id=654001;
+delete from prize where project_id>=1100000;
+delete from project where project_id>=1100000;
+update user set status='A' where handle='reassembler';

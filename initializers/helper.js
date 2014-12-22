@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.38
+ * @version 1.39
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -101,6 +101,8 @@
  * - Updated checkDates function to accept optional 'errorMessage' parameter.
  * Changes in 1.38:
  * - Add method editSql, readQuery and constant QUERY_PATH.
+ * Changes in 1.39
+ * - Updated method checkDefined().
  */
 "use strict";
 
@@ -469,7 +471,7 @@ helper.SEGMENTS_ID_MAP = {
  */
 helper.checkDefined = function (obj, objName) {
     if (_.isNull(obj) || _.isUndefined(obj)) {
-        return new IllegalArgumentError(objName + " should not be null or undefined");
+        return new IllegalArgumentError(objName + " should be provided");
     }
     return null;
 };

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.62
+ * @version 1.64
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
  *
@@ -144,6 +144,10 @@
  * - Added routes for modifying/deleting round question answers.
  * Changes in 1.62:
  * - Added route for src2image api.
+ * Changes in 1.63:
+ * - Added get user design challenges api.
+ * Changed in 1.64:
+ * - Added get user develop challenges api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -249,7 +253,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/reviewOpportunities/:challengeId", action: "getSoftwareReviewOpportunity" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
         { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
-
+ 
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
@@ -257,6 +261,10 @@ exports.routes = {
         { path: "/:apiVersion/design/challenges", action: "searchStudioChallenges" },
         { path: "/:apiVersion/design/reviewOpportunities", action: "getStudioReviewOpportunities" },
         { path: "/:apiVersion/design/download/:submissionId", action: "downloadDesignSubmission" },
+
+        { path: "/:apiVersion/user/:handle/challenges/design", action: "getUserDesignChallenges" },
+        { path: "/:apiVersion/user/:handle/challenges/develop", action: "getUserDevelopChallenges" },
+        
 
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
         { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
