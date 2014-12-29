@@ -129,7 +129,6 @@ describe('SRM Round Management APIs', function () {
         clearDb(done);
     });
 
-
     describe("List Round for Contest", function () {
         describe("Invalid request", function () {
             /**
@@ -659,6 +658,36 @@ describe('SRM Round Management APIs', function () {
                 }, done);
             });
 
+
+            /**
+             * Check 400 response if auto_end is a string(not true or false)
+             */
+            it("should return 400 when auto_end is not boolean(1,0,true,false)", function (done) {
+                var rrequest = requestClone(goodRequest);
+                rrequest.auto_end = "a";
+                assertFail({
+                    oldRoundId: 1,
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'auto_end should be 0, 1, true or false.'
+                }, done);
+            });
+
+            /**
+             * Check 400 response if invitationalType is number(not 0 or 1)
+             */
+            it("should return 400 when auto_end is not boolean(1,0,true,false)", function (done) {
+                var rrequest = requestClone(goodRequest);
+                rrequest.auto_end = 10;
+                assertFail({
+                    oldRoundId: 1,
+                    json: rrequest,
+                    auth: testHelper.getAdminJwt(),
+                    status: 400,
+                    message: 'auto_end should be 0, 1, true or false.'
+                }, done);
+            });
 
             /**
              * Check 400 response if contest_id too big
@@ -1303,7 +1332,6 @@ describe('SRM Round Management APIs', function () {
 
 
     });
-
 
     describe("Modify SRM Contest Round", function () {
 

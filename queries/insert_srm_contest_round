@@ -1,2 +1,2 @@
-INSERT INTO round (round_id, contest_id, round_type_id, registration_limit, invitational, region_id, name, status, short_name)
-       VALUES (@round_id@, @contest_id@, @round_type_id@, @registration_limit@, @invitational@, @region_id@, '@name@', '@status@', '@short_name@')
+INSERT INTO round (round_id, contest_id, round_type_id, registration_limit, invitational, region_id, name, status, short_name, auto_end)
+       VALUES (@round_id@, @contest_id@, @round_type_id@, @registration_limit@, @invitational@, @region_id@, '@name@', '@status@', '@short_name@', @auto_end@)
