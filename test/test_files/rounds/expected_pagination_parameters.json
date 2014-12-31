@@ -1,0 +1,97 @@
+{
+    "total": 13,
+    "pageIndex": 2,
+    "pageSize": 2,
+    "data": [
+        {
+            "id": 12005,
+            "name": "test round 12005",
+            "shortName": "short name 12005",
+            "type": "Marathon Match",
+            "status": "Active",
+            "registrationLimit": 1000,
+            "invitationalType": "Not",
+            "region": "Alpha",
+            "roundSchedule": [
+                {
+                    "phaseName": "Registration Phase",
+                    "startTime": "2011-11-02T05:50:51.000+05:00",
+                    "endTime": "2011-12-02T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Coding Phase",
+                    "startTime": "2011-12-02T05:50:52.000+05:00",
+                    "endTime": "2011-12-05T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "System Test Phase",
+                    "startTime": "2011-12-10T05:50:51.000+05:00",
+                    "endTime": "2011-12-11T05:50:51.000+05:00",
+                    "status": "Active"
+                },
+                {
+                    "phaseName": "Room Assignment Phase",
+                    "startTime": "2011-12-14T05:50:51.000+05:00",
+                    "endTime": "2011-12-15T05:50:51.000+05:00",
+                    "status": "Draft"
+                }
+            ]
+        },
+        {
+            "id": 12004,
+            "name": "test round 12004",
+            "shortName": "short name 12004",
+            "type": "Screening Tool Problem Sets",
+            "status": "Active",
+            "registrationLimit": 1000,
+            "invitationalType": "Not",
+            "region": "Alpha",
+            "roundSchedule": [
+                {
+                    "phaseName": "Registration Phase",
+                    "startTime": "2013-01-02T05:50:51.000+05:00",
+                    "endTime": "2013-02-02T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Coding Phase",
+                    "startTime": "2013-02-02T05:50:52.000+05:00",
+                    "endTime": "2013-02-05T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Intermission Phase",
+                    "startTime": "2013-02-06T05:50:51.000+05:00",
+                    "endTime": "2013-02-07T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Challenge Phase",
+                    "startTime": "2013-02-08T05:50:51.000+05:00",
+                    "endTime": "2013-02-09T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "System Test Phase",
+                    "startTime": "2013-02-10T05:50:51.000+05:00",
+                    "endTime": "2013-02-11T05:50:51.000+05:00",
+                    "status": "Active"
+                },
+                {
+                    "phaseName": "Moderated Chat Phase",
+                    "startTime": "2013-02-12T05:50:51.000+05:00",
+                    "endTime": "2013-02-13T05:50:51.000+05:00",
+                    "status": "Draft"
+                },
+                {
+                    "phaseName": "Room Assignment Phase",
+                    "startTime": "2013-02-14T05:50:51.000+05:00",
+                    "endTime": "2013-02-15T05:50:51.000+05:00",
+                    "status": "Draft"
+                }
+            ]
+        }
+    ]    
+}

@@ -15292,3 +15292,360 @@ Source Code Image Generation APIs
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Get Rounds [/data/rounds?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&name={name}&type={type}&status={status}&registrationPhaseStartTimeFrom={registrationPhaseStartTimeFrom}&registrationPhaseStartTimeTo={registrationPhaseStartTimeTo}&registrationPhaseEndTimeFrom={registrationPhaseEndTimeFrom}&registrationPhaseEndTimeTo={registrationPhaseEndTimeTo}&codingPhaseStartTimeFrom={codingPhaseStartTimeFrom}&codingPhaseStartTimeTo={codingPhaseStartTimeTo}&codingPhaseEndTimeFrom={codingPhaseEndTimeFrom}&codingPhaseEndTimeTo={codingPhaseEndTimeTo}&intermissionPhaseStartTimeFrom={intermissionPhaseStartTimeFrom}&intermissionPhaseStartTimeTo={intermissionPhaseStartTimeTo}&intermissionPhaseEndTimeFrom={intermissionPhaseEndTimeFrom}&intermissionPhaseEndTimeTo={intermissionPhaseEndTimeTo}&challengePhaseStartTimeFrom={challengePhaseStartTimeFrom}&challengePhaseStartTimeTo={challengePhaseStartTimeTo}&challengePhaseEndTimeFrom={challengePhaseEndTimeFrom}&challengePhaseEndTimeTo={challengePhaseEndTimeTo}&systemTestPhaseStartTimeFrom={systemTestPhaseStartTimeFrom}&systemTestPhaseStartTimeTo={systemTestPhaseStartTimeTo}&systemTestPhaseEndTimeFrom={systemTestPhaseEndTimeFrom}&systemTestPhaseEndTimeTo={systemTestPhaseEndTimeTo}&roomAssignmentPhaseStartTimeFrom={roomAssignmentPhaseStartTimeFrom}&roomAssignmentPhaseStartTimeTo={roomAssignmentPhaseStartTimeTo}&roomAssignmentPhaseEndTimeFrom={roomAssignmentPhaseEndTimeFrom}&roomAssignmentPhaseEndTimeTo={roomAssignmentPhaseEndTimeTo}&moderatedChatPhaseStartTimeFrom={moderatedChatPhaseStartTimeFrom}&moderatedChatPhaseStartTimeTo={moderatedChatPhaseStartTimeTo}&moderatedChatPhaseEndTimeFrom={moderatedChatPhaseEndTimeFrom}&moderatedChatPhaseEndTimeTo={moderatedChatPhaseEndTimeTo}
+### Get Rounds [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `registrationPhaseStartTime`) ... The column name to sort, can be null. It should be one of registrationPhaseStartTime, registrationPhaseEndTime, codingPhaseStartTime, codingPhaseEndTime, intermissionPhaseStartTime, intermissionPhaseEndTime, challengePhaseStartTime, challengePhaseEndTime, systemTestPhaseStartTime, systemTestPhaseEndTime, roomAssignmentPhaseStartTime, roomAssignmentPhaseEndTime, moderatedChatPhaseStartTime, moderatedChatPhaseEndTime.
+    + sortOrder (optional, string, `desc`) ... The sort order, can be null. It should be one of desc or asc.
+    + name (optional, string, `test`) ... The name filter, can be null. It should be encoded in uri format. It's case insensitive and it could be only part of name to filter.
+    + type (optional, string, `Single%20Round%20Match`) ... The type filter, can be null. It should be encoded in uri format. It's case insensitive. It should be values in round_type_lu table description field. It could use ',' char to connect more than 1 value.
+    + status (optional, string, `active`) ... The status filter, can be null. It's case insensitive. It should be one of active / past / draft. It could use ',' char to connect more than 1 value.
+    + registrationPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + registrationPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + registrationPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + registrationPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The codingPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The codingPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The codingPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The codingPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The challengePhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The challengePhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The challengePhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The challengePhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+
++ Request
+    + Headers
+        Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
+
++ Response 200 (application/json)
+
+        {
+                "total": 1,
+                "pageIndex": 1,
+                "pageSize": 2,
+                "data": [
+                    {
+                        "ID": 12001,
+                        "Name": "test round 12001",
+                        "Short Name": "short name 12001",
+                        "Type": "Single Round Match",
+                        "Status": "Active",
+                        "Registration Limit": 1000,
+                        "Invitational Type": "Not",
+                        "Region": "Alpha",
+                        "Round Schedule": [
+                            {
+                                "Phase Name": "Registration Phase",
+                                "Start Time": "2013-11-02T05:50:51.000+05:00",
+                                "End Time": "2013-12-02T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "Coding Phase",
+                                "Start Time": "2013-12-02T05:50:52.000+05:00",
+                                "End Time": "2013-12-05T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "Intermission Phase",
+                                "Start Time": "2013-12-06T05:50:51.000+05:00",
+                                "End Time": "2013-12-07T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "Challenge Phase",
+                                "Start Time": "2013-12-08T05:50:51.000+05:00",
+                                "End Time": "2013-12-09T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "System Test Phase",
+                                "Start Time": "2013-12-10T05:50:51.000+05:00",
+                                "End Time": "2013-12-11T05:50:51.000+05:00",
+                                "Status": "Active"
+                            },
+                            {
+                                "Phase Name": "Moderated Chat Phase",
+                                "Start Time": "2013-12-12T05:50:51.000+05:00",
+                                "End Time": "2013-12-13T05:50:51.000+05:00",
+                                "Status": "Draft"
+                            },
+                            {
+                                "Phase Name": "Room Assignment Phase",
+                                "Start Time": "2013-12-14T05:50:51.000+05:00",
+                                "End Time": "2013-12-15T05:50:51.000+05:00",
+                                "Status": "Draft"
+                            }
+                        ]
+                    }
+                ]
+            }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageSize should not be null or undefined if pageIndex is provided."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "sortColumn should be an element of registrationphasestarttime,registrationphaseendtime,codingphasestarttime,codingphaseendtime,intermissionphasestarttime,intermissionphaseendtime,challengephasestarttime,challengephaseendtime,systemtestphasestarttime,systemtestphaseendtime,roomassignmentphasestarttime,roomassignmentphaseendtime,moderatedchatphasestarttime,moderatedchatphaseendtime."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "status should be an element of active,past,draft."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "The dd is not a valid round_type_lu value."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "registrationPhaseStartTimeFrom is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "registrationPhaseStartTimeFrom should not be later than registrationPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "registrationPhaseEndTimeFrom should not be later than registrationPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "codingPhaseStartTimeFrom should not be later than codingPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "codingPhaseEndTimeFrom should not be later than codingPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "intermissionPhaseStartTimeFrom should not be later than intermissionPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "intermissionPhaseEndTimeFrom should not be later than intermissionPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "challengePhaseStartTimeFrom should not be later than challengePhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "challengePhaseEndTimeFrom should not be later than challengePhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "systemTestPhaseStartTimeFrom should not be later than systemTestPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "systemTestPhaseEndTimeFrom should not be later than systemTestPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "roomAssignmentPhaseStartTimeFrom should not be later than roomAssignmentPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "roomAssignmentPhaseEndTimeFrom should not be later than roomAssignmentPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "moderatedChatPhaseStartTimeFrom should not be later than moderatedChatPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "moderatedChatPhaseEndTimeFrom should not be later than moderatedChatPhaseEndTimeTo."
+        }
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorized information needed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"Admin access only."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }

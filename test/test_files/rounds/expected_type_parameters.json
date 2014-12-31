@@ -1,0 +1,62 @@
+{
+    "total": 1,
+    "pageIndex": 1,
+    "pageSize": 50,
+    "data": [
+        {
+            "id": 12001,
+            "name": "test round 12001",
+            "shortName": "short name 12001",
+            "type": "Single Round Match",
+            "status": "Active",
+            "roundTerms": "term1",
+            "registrationLimit": 1000,
+            "invitationalType": "Not",
+            "region": "Alpha",
+            "roundSchedule": [
+                {
+                    "phaseName": "Registration Phase",
+                    "startTime": "2013-11-02T05:50:51.000+05:00",
+                    "endTime": "2013-12-02T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Coding Phase",
+                    "startTime": "2013-12-02T05:50:52.000+05:00",
+                    "endTime": "2013-12-05T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Intermission Phase",
+                    "startTime": "2013-12-06T05:50:51.000+05:00",
+                    "endTime": "2013-12-07T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "Challenge Phase",
+                    "startTime": "2013-12-08T05:50:51.000+05:00",
+                    "endTime": "2013-12-09T05:50:51.000+05:00",
+                    "status": "Past"
+                },
+                {
+                    "phaseName": "System Test Phase",
+                    "startTime": "2013-12-10T05:50:51.000+05:00",
+                    "endTime": "2013-12-11T05:50:51.000+05:00",
+                    "status": "Active"
+                },
+                {
+                    "phaseName": "Moderated Chat Phase",
+                    "startTime": "2013-12-12T05:50:51.000+05:00",
+                    "endTime": "2013-12-13T05:50:51.000+05:00",
+                    "status": "Draft"
+                },
+                {
+                    "phaseName": "Room Assignment Phase",
+                    "startTime": "2013-12-14T05:50:51.000+05:00",
+                    "endTime": "2013-12-15T05:50:51.000+05:00",
+                    "status": "Draft"
+                }
+            ]
+        }
+    ]
+}

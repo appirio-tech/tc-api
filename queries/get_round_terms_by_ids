@@ -1,0 +1,1 @@
+select round_id, terms_content from round_terms where round_id in (@roundIdList@)
