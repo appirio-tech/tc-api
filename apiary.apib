@@ -7307,6 +7307,489 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get SRM Schedule [/data/srm/schedule?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&statuses={statuses}&types={types}&registrationStartTimeBefore={registrationStartTimeBefore}&registrationEndTimeBefore={registrationEndTimeBefore}&codingStartTimeBefore={codingStartTimeBefore}&codingEndTimeBefore={codingEndTimeBefore}&intermissionStartTimeBefore={intermissionStartTimeBefore}&intermissionEndTimeBefore={intermissionEndTimeBefore}&challengeStartTimeBefore={challengeStartTimeBefore}&challengeEndTimeBefore={challengeEndTimeBefore}&systestStartTimeBefore={systestStartTimeBefore}&systestEndTimeBefore={systestEndTimeBefore}&registrationStartTimeAfter={registrationStartTimeAfter}&registrationEndTimeAfter={registrationEndTimeAfter}&codingStartTimeAfter={codingStartTimeAfter}&codingEndTimeAfter={codingEndTimeAfter}&intermissionStartTimeAfter={intermissionStartTimeAfter}&intermissionEndTimeAfter={intermissionEndTimeAfter}&challengeStartTimeAfter={challengeStartTimeAfter}&challengeEndTimeAfter={challengeEndTimeAfter}&systestStartTimeAfter={systestStartTimeAfter}&systestEndTimeAfter={systestEndTimeAfter}]
+### Get SRM Schedule [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `registrationStartTime`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + statuses (optional, String, `F`) ... The status of the rounds. The value can only be 'A', 'F', 'P' or the combination of these values, like 'A,F,P'.
+    + types (optional, String, `Single Round Match,Long Round,Tournament Round`) ... The types of the rounds. The value can only be 'Single Round Match', 'Long Round', 'Tournament Round' or the combination of these values, like 'Single Round Match, Long Round'.
+    + registrationStartTimeBefore (optional, string) ... The upper bound of the registration start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + registrationStartTimeAfter (optional, string) ... The lower bound of the registration start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + registrationEndTimeBefore (optional, string) ... The upper bound of the registration end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + registrationEndTimeAfter (optional, string) ... The lower bound of the registration end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingStartTimeBefore (optional, string) ... The upper bound of the coding start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingStartTimeAfter (optional, string) ... The lower bound of the coding start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingEndTimeBefore (optional, string) ... The upper bound of the coding end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingEndTimeAfter (optional, string) ... The lower bound of the coding end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionStartTimeBefore (optional, string) ... The upper bound of the intermission start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionStartTimeAfter (optional, string) ... The lower bound of the intermission start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionEndTimeBefore (optional, string) ... The upper bound of the intermission end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionEndTimeAfter (optional, string) ... The lower bound of the intermission end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeStartTimeBefore (optional, string) ... The upper bound of the challenge start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeStartTimeAfter (optional, string) ... The lower bound of the challenge start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeEndTimeBefore (optional, string) ... The upper bound of the challenge end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeEndTimeAfter (optional, string) ... The lower bound of the challenge end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestStartTimeBefore (optional, string) ... The upper bound of the system test start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestStartTimeAfter (optional, string) ... The lower bound of the system test start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestEndTimeBefore (optional, string) ... The upper bound of the system test end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestEndTimeAfter (optional, string) ... The lower bound of the system test end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+
++ Response 200 (application/json)
+
+        {
+            "total": 5,
+            "pageIndex": 1,
+            "pageSize": 50,
+            "data": [
+                {
+                    "roundId": 3002,
+                    "name": "round 3002",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2002",
+                    "roundType": "Tournament Round",
+                    "status": "A",
+                    "registrationStartTime": "2014-10-20T00:00:00.000+0800",
+                    "registrationEndTime": "2014-10-21T00:00:00.000+0800",
+                    "codingStartTime": "2014-10-21T00:00:00.000+0800",
+                    "codingEndTime": "2014-10-22T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-10-22T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-10-23T00:00:00.000+0800",
+                    "challengeStartTime": "2014-10-23T00:00:00.000+0800",
+                    "challengeEndTime": "2014-10-24T00:00:00.000+0800",
+                    "systestStartTime": "2014-10-24T00:00:00.000+0800",
+                    "systestEndTime": "2014-10-25T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3005,
+                    "name": "round 3005",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2001",
+                    "roundType": "Long Round",
+                    "status": "P",
+                    "registrationStartTime": "2014-09-20T00:00:00.000+0800",
+                    "registrationEndTime": "2014-09-21T00:00:00.000+0800",
+                    "codingStartTime": "2014-09-21T00:00:00.000+0800",
+                    "codingEndTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-24T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-24T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-25T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3001,
+                    "name": "round 3001",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2001",
+                    "roundType": "Single Round Match",
+                    "status": "F",
+                    "registrationStartTime": "2014-09-20T00:00:00.000+0800",
+                    "registrationEndTime": "2014-09-21T00:00:00.000+0800",
+                    "codingStartTime": "2014-09-21T00:00:00.000+0800",
+                    "codingEndTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-24T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-24T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-25T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3003,
+                    "name": "round 3003",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2003",
+                    "roundType": "Tournament Round",
+                    "status": "F",
+                    "registrationStartTime": "2014-09-10T00:00:00.000+0800",
+                    "registrationEndTime": "2014-09-11T00:00:00.000+0800",
+                    "codingStartTime": "2014-09-11T00:00:00.000+0800",
+                    "codingEndTime": "2014-09-12T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-12T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-13T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-13T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-14T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-14T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-15T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3004,
+                    "name": "round 3004",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2004",
+                    "roundType": "Single Round Match",
+                    "status": "F",
+                    "registrationStartTime": "2014-09-01T04:00:00.000+0800",
+                    "registrationEndTime": "2014-09-01T05:00:00.000+0800",
+                    "codingStartTime": "2014-09-01T06:00:00.000+0800",
+                    "codingEndTime": "2014-09-02T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-02T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-03T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-03T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-04T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-04T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-05T00:00:00.000+0800"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The sort column 'abc' is invalid, sortColumn should be an element of registrationstarttime,registrationendtime,codingstarttime,codingendtime,intermissionstarttime,intermissionendtime,challengestarttime,challengeendtime,systeststarttime,systestendtime."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The statuses can only contains following elements: f,a,p."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The types can only contains following elements: Single+Round+Match,Tournament+Round,Long+Round."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationStartTimeAfter should be earlier than registrationStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationEndTimeAfter should be earlier than registrationEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingStartTimeAfter should be earlier than codingStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingEndTimeAfter should be earlier than codingEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionStartTimeAfter should be earlier than intermissionStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionEndTimeAfter should be earlier than intermissionEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeStartTimeAfter should be earlier than challengeStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeEndTimeAfter should be earlier than challengeEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestStartTimeAfter should be earlier than systestStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestEndTimeAfter should be earlier than systestEndTimeBefore"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## View Algorithm Marathon Challenges [/data/marathon/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm Marathon Challenges [GET]
 

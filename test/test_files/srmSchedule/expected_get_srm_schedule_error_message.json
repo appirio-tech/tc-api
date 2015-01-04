@@ -1,0 +1,40 @@
+{
+    "pageIndex": {
+        "negative": "pageIndex should be equal to -1 or greater than 0",
+        "notInteger": "pageIndex should be Integer.",
+        "notNumber": "pageIndex should be number.",
+        "tooBig": "pageIndex should be less or equal to 2147483647."
+    },
+    "pageSize": {
+        "negative": "pageSize should be positive.",
+        "notInteger": "pageSize should be Integer.",
+        "notNumber": "pageSize should be number.",
+        "tooBig": "pageSize should be less or equal to 2147483647.",
+        "notExist": "pageSize should not be null or undefined"
+    },
+    "invalidSortOrder": "sortOrder should be an element of asc,desc.",
+    "invalidStatus": "The statuses can only contains following elements: f,a,p.",
+    "invalidSortColumn": "sortColumn should be an element of registrationstarttime,registrationendtime,codingstarttime,codingendtime,intermissionstarttime,intermissionendtime,challengestarttime,challengeendtime,systeststarttime,systestendtime.",
+    "invalidTypes": "The types can only contains following elements: Single Round Match,Tournament Round,Long Round.",
+    "registrationStartTimeBefore":"registrationStartTimeBefore is not a valid date.",
+    "registrationStartTimeAfter":"registrationStartTimeAfter is not a valid date.",
+    "registrationEndTimeBefore":"registrationEndTimeBefore is not a valid date.",
+    "registrationEndTimeAfter":"registrationEndTimeAfter is not a valid date.",
+    "codingStartTimeBefore":"codingStartTimeBefore is not a valid date.",
+    "codingStartTimeAfter":"codingStartTimeAfter is not a valid date.",
+    "codingEndTimeBefore":"codingEndTimeBefore is not a valid date.",
+    "codingEndTimeAfter":"codingEndTimeAfter is not a valid date.",
+    "intermissionStartTimeBefore":"intermissionStartTimeBefore is not a valid date.",
+    "intermissionStartTimeAfter":"intermissionStartTimeAfter is not a valid date.",
+    "intermissionEndTimeBefore":"intermissionEndTimeBefore is not a valid date.",
+    "intermissionEndTimeAfter":"intermissionEndTimeAfter is not a valid date.",
+    "challengeStartTimeBefore":"challengeStartTimeBefore is not a valid date.",
+    "challengeStartTimeAfter":"challengeStartTimeAfter is not a valid date.",
+    "challengeEndTimeBefore":"challengeEndTimeBefore is not a valid date.",
+    "challengeEndTimeAfter":"challengeEndTimeAfter is not a valid date.",
+    "systestStartTimeBefore":"systestStartTimeBefore is not a valid date.",
+    "systestStartTimeAfter":"systestStartTimeAfter is not a valid date.",
+    "systestEndTimeBefore":"systestEndTimeBefore is not a valid date.",
+    "systestEndTimeAfter":"systestEndTimeAfter is not a valid date.",
+    "regTimePeriodError": "registrationStartTimeAfter should be earlier than registrationStartTimeBefore"
+}

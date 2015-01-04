@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2013 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author Sky_
+ * Changes in 1.1
+ * Remove the schedule related tests.
+ *
+ * @version 1.1
+ * @author Sky_, TCSASSEMBLER
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -653,23 +656,6 @@ describe('Get SRM Challenges API', function () {
                 .expect(400)
                 .end(done);
         }
-
-        /**
-         * /v2/data/srm/challenges/10041
-         */
-        it("should return challenge schedule", function (done) {
-            request(API_ENDPOINT)
-                .get('/v2/data/srm/schedule')
-                .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end(function (err, res) {
-                    testHelper.assertResponse(err,
-                        res,
-                        "test_files/expected_get_srm_schedule.json",
-                        done);
-                });
-        });
     });
 
     describe("Create New Contest", function () {
