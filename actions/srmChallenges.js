@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.9
- * @author Sky_, freegod, panoptimum, Ghost_141
+ * @version 1.10
+ * @author Sky_, freegod, panoptimum, Ghost_141, onsky
  * changes in 1.1:
  * - implement srm API
  * changes in 1.2:
@@ -28,12 +28,14 @@
  * - Implement get srm practice problems api.
  * Changes in 1.9:
  * - Implement Rounds For Problem API
+ * Changes in 1.10:
+ * - Update the get srm schedule API.
  */
 /*jslint node: true, nomen: true */
 "use strict";
 var async = require('async');
 var _ = require('underscore');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
 var ForbiddenError = require('../errors/ForbiddenError');
@@ -47,6 +49,57 @@ var ALLOWABLE_SORT_COLUMN = [
     "divIIAverageSolutionsSubmitted", "divITotalSolutionsChallenged",
     "divIAverageSolutionsChallenged", "divIITotalSolutionsChallenged", "divIIAverageSolutionsChallenged", "submissionEndDate"
 ];
+
+/**
+ * Represents a predefined list of valid sort column for querying the srm schedules.
+ * @since 1.10
+ */
+var ALLOWABLE_SCHEDULE_SORT_COLUMN = [
+    "registrationStartTime", "registrationEndTime",
+    "codingStartTime", "codingEndTime",
+    "intermissionStartTime", "intermissionEndTime",
+    "challengeStartTime", "challengeEndTime",
+    "systestStartTime", "systestEndTime"
+];
+
+/**
+ * Valid status value for srm schedule api.
+ * @since 1.10
+ */
+var VALID_ROUND_STATUS = ['f', 'a', 'p'];
+/**
+ * Valid status value for srm schedule api.
+ * @since 1.10
+ */
+var VALID_ROUND_TYPES = ['Single Round Match', 'Tournament Round', 'Long Round'];
+
+/**
+ * The round types map.
+ * @since 1.10
+ */
+var ROUND_TYPES = {
+    "single round match": 1,
+    "tournament round": 2,
+    "long round": 10
+};
+
+/**
+ * The schedule date format.
+ * @since 1.10
+ */
+var SCHEDULE_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
+
+/**
+ * The schedule date format for database.
+ * @since 1.10
+ */
+var SCHEDULE_DATE_FORMAT_DB = 'YYYY-MM-DD HH:mm:ss';
+
+/**
+ * The backend server timezone.
+ * @since 1.10
+ */
+var SCHEDULE_TIMEZONE = '';
 
 /**
  * Contest Constants
@@ -322,13 +375,323 @@ exports.searchSRMChallenges = {
     }
 };
 
-/* API to retrieve SRM schedule */
+/**
+ * The status filter for srm schedule api.
+ * @since 1.10
+ */
+var SCHEDULE_STATUS_FILTER = " AND LOWER(r.status) IN (@filter@)\n";
+
+/**
+ * The round type filter for srm schedule api.
+ * @since 1.10
+ */
+var SCHEDULE_ROUND_TYPE_FILTER = " AND r.round_type_id IN (@filter@)\n";
+
+/**
+ * The registration start time before filter for srm schedule api.
+ * @since 1.10
+ */
+var REGISTRATION_START_TIME_BEFORE_FILTER = " AND extend(reg.start_time, year to second) <= '@filter@'\n";
+
+/**
+ * The registration start time after filter for srm schedule api.
+ * @since 1.10
+ */
+var REGISTRATION_START_TIME_AFTER_FILTER = " AND extend(reg.start_time, year to second) >= '@filter@'\n";
+
+/**
+ * The registration end time before filter for srm schedule api.
+ * @since 1.10
+ */
+var REGISTRATION_END_TIME_BEFORE_FILTER = " AND extend(reg.end_time, year to second) <= '@filter@'\n";
+
+/**
+ * The registration end time after filter for srm schedule api.
+ * @since 1.10
+ */
+var REGISTRATION_END_TIME_AFTER_FILTER = " AND extend(reg.end_time, year to second) >= '@filter@'\n";
+
+/**
+ * The coding start time before filter for srm schedule api.
+ * @since 1.10
+ */
+var CODING_START_TIME_BEFORE_FILTER = " AND extend(coding.start_time, year to second) <= '@filter@'\n";
+
+/**
+ * The coding start time after filter for srm schedule api.
+ * @since 1.10
+ */
+var CODING_START_TIME_AFTER_FILTER = " AND extend(coding.start_time, year to second) >= '@filter@'\n";
+
+/**
+ * The coding end time before filter for srm schedule api.
+ * @since 1.10
+ */
+var CODING_END_TIME_BEFORE_FILTER = " AND extend(coding.end_time, year to second) <= '@filter@'\n";
+
+/**
+ * The coding end time after filter for srm schedule api.
+ * @since 1.10
+ */
+var CODING_END_TIME_AFTER_FILTER = " AND extend(coding.end_time, year to second) >= '@filter@'\n";
+
+/**
+ * The intermission start time before filter for srm schedule api.
+ * @since 1.10
+ */
+var INTERMISSION_START_TIME_BEFORE_FILTER = " AND extend(intermission.start_time, year to second) <= '@filter@'\n";
+
+/**
+ * The intermission start time after filter for srm schedule api.
+ * @since 1.10
+ */
+var INTERMISSION_START_TIME_AFTER_FILTER = " AND extend(intermission.start_time, year to second) >= '@filter@'\n";
+
+/**
+ * The intermission end time before filter for srm schedule api.
+ * @since 1.10
+ */
+var INTERMISSION_END_TIME_BEFORE_FILTER = " AND extend(intermission.end_time, year to second) <= '@filter@'\n";
+
+/**
+ * The intermission end time after filter for srm schedule api.
+ * @since 1.10
+ */
+var INTERMISSION_END_TIME_AFTER_FILTER = " AND extend(intermission.end_time, year to second) >= '@filter@'\n";
+
+/**
+ * The challenge start time before filter for srm schedule api.
+ * @since 1.10
+ */
+var CHALLENGE_START_TIME_BEFORE_FILTER = " AND extend(challenge.start_time, year to second) <= '@filter@'\n";
+
+/**
+ * The challenge start time after filter for srm schedule api.
+ * @since 1.10
+ */
+var CHALLENGE_START_TIME_AFTER_FILTER = " AND extend(challenge.start_time, year to second) >= '@filter@'\n";
+
+/**
+ * The challenge end time before filter for srm schedule api.
+ * @since 1.10
+ */
+var CHALLENGE_END_TIME_BEFORE_FILTER = " AND extend(challenge.end_time, year to second) <= '@filter@'\n";
+
+/**
+ * The challenge end time after filter for srm schedule api.
+ * @since 1.10
+ */
+var CHALLENGE_END_TIME_AFTER_FILTER = " AND extend(challenge.end_time, year to second) >= '@filter@'\n";
+
+/**
+ * The system test start time before filter for srm schedule api.
+ * @since 1.10
+ */
+var SYSTEM_TEST_START_TIME_BEFORE_FILTER = " AND extend(systest.start_time, year to second) <= '@filter@'\n";
+
+/**
+ * The system test start time after filter for srm schedule api.
+ * @since 1.10
+ */
+var SYSTEM_TEST_START_TIME_AFTER_FILTER = " AND extend(systest.start_time, year to second) >= '@filter@'\n";
+
+/**
+ * The system test end time before filter for srm schedule api.
+ * @since 1.10
+ */
+var SYSTEM_TEST_END_TIME_BEFORE_FILTER = " AND extend(systest.end_time, year to second) <= '@filter@'\n";
+
+/**
+ * The system test end time after filter for srm schedule api.
+ * @since 1.10
+ */
+var SYSTEM_TEST_END_TIME_AFTER_FILTER = " AND extend(systest.end_time, year to second) >= '@filter@'\n";
+
+/**
+ * Add filter for query based on given connection parameters.
+ * This method will add additional filter into sql query based on input parameters of srm schedule api.
+ *
+ * @param {String} query - The sql query that will be executed.
+ * @param {Object} parameters - The input parameters.
+ * @param {Object} helper - The helper object.
+ * @return {String} The query with additional filter.
+ * @since 1.10
+ */
+function addScheduleFilter(query, parameters, helper) {
+
+    if (!_.isUndefined(parameters.statuses)) {
+        query = helper.editSql(query, SCHEDULE_STATUS_FILTER,
+            parameters.statuses.split(',').map(function (s) { return "'" + s.toLowerCase().trim() + "'"; }).join(','));
+    }
+
+    if (!_.isUndefined(parameters.types)) {
+        query = helper.editSql(query, SCHEDULE_ROUND_TYPE_FILTER,
+            parameters.types.split(',').map(function (s) { return ROUND_TYPES[s.toLowerCase().trim()]; }).join(','));
+    }
+
+    if (!_.isUndefined(parameters.registrationStartTimeBefore)) {
+        query = helper.editSql(query, REGISTRATION_START_TIME_BEFORE_FILTER, moment(parameters.registrationStartTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.registrationStartTimeAfter)) {
+        query = helper.editSql(query, REGISTRATION_START_TIME_AFTER_FILTER, moment(parameters.registrationStartTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.registrationEndTimeBefore)) {
+        query = helper.editSql(query, REGISTRATION_END_TIME_BEFORE_FILTER, moment(parameters.registrationEndTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.registrationEndTimeAfter)) {
+        query = helper.editSql(query, REGISTRATION_END_TIME_AFTER_FILTER, moment(parameters.registrationEndTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.codingStartTimeBefore)) {
+        query = helper.editSql(query, CODING_START_TIME_BEFORE_FILTER, moment(parameters.codingStartTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.codingStartTimeAfter)) {
+        query = helper.editSql(query, CODING_START_TIME_AFTER_FILTER, moment(parameters.codingStartTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.codingEndTimeBefore)) {
+        query = helper.editSql(query, CODING_END_TIME_BEFORE_FILTER, moment(parameters.codingEndTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.codingEndTimeAfter)) {
+        query = helper.editSql(query, CODING_END_TIME_AFTER_FILTER, moment(parameters.codingEndTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.intermissionStartTimeBefore)) {
+        query = helper.editSql(query, INTERMISSION_START_TIME_BEFORE_FILTER, moment(parameters.intermissionStartTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.intermissionStartTimeAfter)) {
+        query = helper.editSql(query, INTERMISSION_START_TIME_AFTER_FILTER, moment(parameters.intermissionStartTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.intermissionEndTimeBefore)) {
+        query = helper.editSql(query, INTERMISSION_END_TIME_BEFORE_FILTER, moment(parameters.intermissionEndTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.intermissionEndTimeAfter)) {
+        query = helper.editSql(query, INTERMISSION_END_TIME_AFTER_FILTER, moment(parameters.intermissionEndTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.challengeStartTimeBefore)) {
+        query = helper.editSql(query, CHALLENGE_START_TIME_BEFORE_FILTER, moment(parameters.challengeStartTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.challengeStartTimeAfter)) {
+        query = helper.editSql(query, CHALLENGE_START_TIME_AFTER_FILTER, moment(parameters.challengeStartTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.challengeEndTimeBefore)) {
+        query = helper.editSql(query, CHALLENGE_END_TIME_BEFORE_FILTER, moment(parameters.challengeEndTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.challengeEndTimeAfter)) {
+        query = helper.editSql(query, CHALLENGE_END_TIME_AFTER_FILTER, moment(parameters.challengeEndTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.systestStartTimeBefore)) {
+        query = helper.editSql(query, SYSTEM_TEST_START_TIME_BEFORE_FILTER, moment(parameters.systestStartTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.systestStartTimeAfter)) {
+        query = helper.editSql(query, SYSTEM_TEST_START_TIME_AFTER_FILTER, moment(parameters.systestStartTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.systestEndTimeBefore)) {
+        query = helper.editSql(query, SYSTEM_TEST_END_TIME_BEFORE_FILTER, moment(parameters.systestEndTimeBefore).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    if (!_.isUndefined(parameters.systestEndTimeAfter)) {
+        query = helper.editSql(query, SYSTEM_TEST_END_TIME_AFTER_FILTER, moment(parameters.systestEndTimeAfter).zone(SCHEDULE_TIMEZONE).format(SCHEDULE_DATE_FORMAT_DB));
+    }
+
+    return query;
+}
+
+/**
+ * This method will check the specified phase time.
+ *
+ * @param {Object} error - the error object.
+ * @param {String} phaseTimeBefore - the phase time start date.
+ * @param {String} phaseTimeAfter - the phase time end date.
+ * @param {String} timeBeforeStr - the start phase time name.
+ * @param {String} timeEndStr - the end phase time name.
+ * @param {Object} helper - the helper object used to validation.
+ * @since 1.10
+ */
+function validatePhaseTime(error, phaseTimeBefore, timeBeforeStr, phaseTimeAfter, timeEndStr, helper) {
+    if (!_.isUndefined(phaseTimeBefore)) {
+        error = error || helper.validateDate(phaseTimeBefore, timeBeforeStr, SCHEDULE_DATE_FORMAT);
+    }
+    if (!_.isUndefined(phaseTimeAfter)) {
+        error = error || helper.validateDate(phaseTimeAfter, timeEndStr, SCHEDULE_DATE_FORMAT);
+    }
+    if (!_.isUndefined(phaseTimeAfter) && !_.isUndefined(phaseTimeBefore)) {
+        error = error || helper.checkDates(phaseTimeAfter, phaseTimeBefore,
+            timeEndStr + " should be earlier than " + timeBeforeStr);
+    }
+    return error;
+}
+
+/**
+ * This method will check the phase times.
+ *
+ * @param {Object} error - the error object..
+ * @param {Object} params - the parameters.
+ * @param {Object} helper - the helper object used to validation.
+ * @since 1.10
+ */
+function checkPhaseTimes(error, params, helper) {
+    error = validatePhaseTime(error, params.registrationStartTimeBefore, 'registrationStartTimeBefore',
+        params.registrationStartTimeAfter, 'registrationStartTimeAfter', helper);
+    error = validatePhaseTime(error, params.registrationEndTimeBefore, 'registrationEndTimeBefore',
+        params.registrationEndTimeAfter, 'registrationEndTimeAfter', helper);
+    error = validatePhaseTime(error, params.codingStartTimeBefore, 'codingStartTimeBefore',
+        params.codingStartTimeAfter, 'codingStartTimeAfter', helper);
+    error = validatePhaseTime(error, params.codingEndTimeBefore, 'codingEndTimeBefore',
+        params.codingEndTimeAfter, 'codingEndTimeAfter', helper);
+    error = validatePhaseTime(error, params.intermissionStartTimeBefore, 'intermissionStartTimeBefore',
+        params.intermissionStartTimeAfter, 'intermissionStartTimeAfter', helper);
+    error = validatePhaseTime(error, params.intermissionEndTimeBefore, 'intermissionEndTimeBefore',
+        params.intermissionEndTimeAfter, 'intermissionEndTimeAfter', helper);
+    error = validatePhaseTime(error, params.challengeStartTimeBefore, 'challengeStartTimeBefore',
+        params.challengeStartTimeAfter, 'challengeStartTimeAfter', helper);
+    error = validatePhaseTime(error, params.challengeEndTimeBefore, 'challengeEndTimeBefore',
+        params.challengeEndTimeAfter, 'challengeEndTimeAfter', helper);
+    error = validatePhaseTime(error, params.systestStartTimeBefore, 'systestStartTimeBefore',
+        params.systestStartTimeAfter, 'systestStartTimeAfter', helper);
+    error = validatePhaseTime(error, params.systestEndTimeBefore, 'systestEndTimeBefore',
+        params.systestEndTimeAfter, 'systestEndTimeAfter', helper);
+
+    return error;
+}
+
+/**
+ * The API for getting SRM schedule.
+ * Changes in 1.10; the API is now returning all phases schedule with the round information.
+ * It supports sorting by times.
+ * It supports filtering by Type, Status, and all times for phases. The default filtering will be Status = 'F', but it can be support filtering by multiple status, like status=F,A,P.
+ */
 exports.getSRMSchedule = {
     name: "getSRMSchedule",
     description: "getSRMSchedule",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder"]
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "statuses", "types",
+            "registrationStartTimeBefore", "registrationEndTimeBefore",
+            "codingStartTimeBefore", "codingEndTimeBefore",
+            "intermissionStartTimeBefore", "intermissionEndTimeBefore",
+            "challengeStartTimeBefore", "challengeEndTimeBefore",
+            "systestStartTimeBefore", "systestEndTimeBefore",
+            "registrationStartTimeAfter", "registrationEndTimeAfter",
+            "codingStartTimeAfter", "codingEndTimeAfter",
+            "intermissionStartTimeAfter", "intermissionEndTimeAfter",
+            "challengeStartTimeAfter", "challengeEndTimeAfter",
+            "systestStartTimeAfter", "systestEndTimeAfter"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -338,26 +701,31 @@ exports.getSRMSchedule = {
     run: function (api, connection, next) {
         api.log("Execute getSRMSchedule#run", 'debug');
         var helper = api.helper, params = connection.params, sqlParams,
-            pageIndex, pageSize, sortColumn, sortOrder, error, result,
-            dbConnectionMap = connection.dbConnectionMap;
+            pageIndex, pageSize, sortColumn, sortOrder, error, response,
+            dbConnectionMap = connection.dbConnectionMap,
+            exeQuery = function (query) {
+                return function (cbx) {
+                    api.dataAccess.executeSqlQuery(query, sqlParams, 'informixoltp', connection.dbConnectionMap, cbx);
+                };
+            };
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
         }
 
         sortOrder = (params.sortOrder || "asc").toLowerCase();
-        sortColumn = (params.sortColumn || "roundId").toLowerCase();
+        sortColumn = (params.sortColumn || "registrationStartTime").toLowerCase();
 
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
 
-        if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
+        if (!_.isDefined(params.sortOrder) && sortColumn === "registrationstarttime") {
             sortOrder = "desc";
         }
 
         async.waterfall([
             function (cb) {
-                var allowedSort = helper.getLowerCaseList(ALLOWABLE_SORT_COLUMN);
+                var allowedSort = helper.getLowerCaseList(ALLOWABLE_SCHEDULE_SORT_COLUMN);
                 if (_.isDefined(params.pageIndex) && pageIndex !== -1) {
                     error = helper.checkDefined(params.pageSize, "pageSize");
                 }
@@ -368,15 +736,40 @@ exports.getSRMSchedule = {
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
                     helper.checkContains(allowedSort, sortColumn, "sortColumn");
-                if (error) {
-                    cb(error);
-                    return;
+                // validate the round status
+                if (!_.isUndefined(connection.params.statuses)) {
+                    error = error || helper.checkSubset(connection.params.statuses.split(','),
+                        VALID_ROUND_STATUS, 'statuses');
+                } else {
+                    connection.params.statuses = 'f';
                 }
+                // validate the round types
+                if (!_.isUndefined(connection.params.types)) {
+                    error = error || helper.checkSubset(connection.params.types.split(','),
+                        VALID_ROUND_TYPES, 'types');
+                }
+
+                // check the phases time if presented
+                error = checkPhaseTimes(error, connection.params, helper);
 
                 if (pageIndex === -1) {
                     pageIndex = 1;
                     pageSize = MAX_INT;
                 }
+                SCHEDULE_TIMEZONE = api.config.tcConfig.databaseTimezoneIdentifier;
+                cb(error);
+            },
+            function (cb) {
+                async.parallel({
+                    data: function (cbx) {
+                        helper.readQuery('get_srm_schedule', cbx);
+                    },
+                    count: function (cbx) {
+                        helper.readQuery('get_srm_schedule_count', cbx);
+                    }
+                }, cb);
+            },
+            function (q, cb) {
                 sqlParams = {
                     firstRowIndex: (pageIndex - 1) * pageSize,
                     pageSize: pageSize,
@@ -384,23 +777,17 @@ exports.getSRMSchedule = {
                     sortOrder: sortOrder
                 };
 
+                q.data = addScheduleFilter(q.data, connection.params, helper);
+                q.count = addScheduleFilter(q.count, connection.params, helper);
+
                 async.parallel({
-                    count: function (cbx) {
-                        api.dataAccess.executeQuery("get_srm_schedule_count",
-                            sqlParams,
-                            dbConnectionMap,
-                            cbx);
-                    },
-                    data: function (cbx) {
-                        api.dataAccess.executeQuery("get_srm_schedule",
-                            sqlParams,
-                            dbConnectionMap,
-                            cbx);
-                    }
+                    data: exeQuery(q.data),
+                    count: exeQuery(q.count)
                 }, cb);
-            }, function (results, cb) {
+            },
+            function (results, cb) {
                 if (results.data.length === 0) {
-                    result = {
+                    response = {
                         total: 0,
                         pageIndex: pageIndex,
                         pageSize: Number(params.pageIndex) === -1 ? 0 : pageSize,
@@ -410,7 +797,7 @@ exports.getSRMSchedule = {
                     return;
                 }
                 var total = results.count[0].total_count;
-                result = {
+                response = {
                     total: total,
                     pageIndex: pageIndex,
                     pageSize: Number(params.pageIndex) === -1 ? total : pageSize,
@@ -419,11 +806,11 @@ exports.getSRMSchedule = {
                 results.data.forEach(function (item) {
                     var challenge = {
                         roundId: item.round_id,
-                        contestId: item.contest_id,
-                        contestName: item.name,
+                        name: item.name,
+                        shortName: item.short_name !== undefined ? item.short_name : 'N/A',
+                        contestName: item.contest_name,
                         roundType: item.round_type,
-                        startDate: item.start_date,
-                        endDate: item.end_date,
+                        status: item.status,
                         registrationStartTime: item.registration_start_time,
                         registrationEndTime: item.registration_end_time,
                         codingStartTime: item.coding_start_time,
@@ -436,7 +823,7 @@ exports.getSRMSchedule = {
                         systestEndTime: item.systest_end_time
                     };
 
-                    result.data.push(challenge);
+                    response.data.push(challenge);
                 });
                 cb();
             }
@@ -444,7 +831,7 @@ exports.getSRMSchedule = {
             if (err) {
                 helper.handleError(api, connection, err);
             } else {
-                connection.response = result;
+                connection.response = response;
             }
             next(connection, true);
         });
