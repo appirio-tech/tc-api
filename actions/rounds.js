@@ -271,7 +271,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                 pageSize = helper.MAX_INT;
             }
 
-            filterCondition = ' 1=1 ';
+            filterCondition = ' r.round_id > 0 ';
             if (_.isDefined(params.name)) {
                 // set name filter
                 filterCondition = filterCondition + ' AND LOWER(name) LIKE LOWER("%' + decodeURIComponent(params.name) + '%")';
