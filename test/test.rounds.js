@@ -201,12 +201,12 @@ describe('Get rounds api', function () {
         });
 
         // sortColumn
-        it("sortColumn should be an element of registrationphasestarttime,registrationphaseendtime," +
+        it("sortColumn should be an element of name,registrationphasestarttime,registrationphaseendtime," +
                 "codingphasestarttime,codingphaseendtime,intermissionphasestarttime,intermissionphaseendtime," +
                 "challengephasestarttime,challengephaseendtime,systemtestphasestarttime,systemtestphaseendtime," +
                 "roomassignmentphasestarttime,roomassignmentphaseendtime,moderatedchatphasestarttime,moderatedchatphaseendtime.", function (done) {
                 assertError("/v2/data/rounds?sortColumn=dd", 'heffan', 400,
-                    "sortColumn should be an element of registrationphasestarttime,registrationphaseendtime," +
+                    "sortColumn should be an element of name,registrationphasestarttime,registrationphaseendtime," +
                         "codingphasestarttime,codingphaseendtime,intermissionphasestarttime,intermissionphaseendtime," +
                         "challengephasestarttime,challengephaseendtime,systemtestphasestarttime,systemtestphaseendtime," +
                         "roomassignmentphasestarttime,roomassignmentphaseendtime,moderatedchatphasestarttime,moderatedchatphaseendtime.", done);

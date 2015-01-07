@@ -9,10 +9,17 @@
             "shortName": "short name 12001",
             "type": "Single Round Match",
             "status": "Active",
-            "roundTerms": "term1",
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "roundTerms": "term1",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": true,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -55,6 +62,16 @@
                     "startTime": "2013-12-14T05:50:51.000+05:00",
                     "endTime": "2013-12-15T05:50:51.000+05:00",
                     "status": "Draft"
+                }
+            ],
+            "languages": [
+                {
+                    "id": 1,
+                    "description": "Java"
+                },
+                {
+                    "id": 2,
+                    "description": "XML"
                 }
             ]
         }

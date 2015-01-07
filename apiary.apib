@@ -8297,7 +8297,7 @@ Request
               },
               "languages": {
                      "roundId": 40006,
-                     “languages” [
+                     "languages": [
                          {
                            "id": 1,
                            "description": "Java"
@@ -15783,7 +15783,7 @@ Source Code Image Generation APIs
 + Parameters
     + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
     + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
-    + sortColumn (optional, string, `registrationPhaseStartTime`) ... The column name to sort, can be null. It should be one of registrationPhaseStartTime, registrationPhaseEndTime, codingPhaseStartTime, codingPhaseEndTime, intermissionPhaseStartTime, intermissionPhaseEndTime, challengePhaseStartTime, challengePhaseEndTime, systemTestPhaseStartTime, systemTestPhaseEndTime, roomAssignmentPhaseStartTime, roomAssignmentPhaseEndTime, moderatedChatPhaseStartTime, moderatedChatPhaseEndTime.
+    + sortColumn (optional, string, `registrationPhaseStartTime`) ... The column name to sort, can be null. It should be one of name,registrationPhaseStartTime, registrationPhaseEndTime, codingPhaseStartTime, codingPhaseEndTime, intermissionPhaseStartTime, intermissionPhaseEndTime, challengePhaseStartTime, challengePhaseEndTime, systemTestPhaseStartTime, systemTestPhaseEndTime, roomAssignmentPhaseStartTime, roomAssignmentPhaseEndTime, moderatedChatPhaseStartTime, moderatedChatPhaseEndTime.
     + sortOrder (optional, string, `desc`) ... The sort order, can be null. It should be one of desc or asc.
     + name (optional, string, `test`) ... The name filter, can be null. It should be encoded in uri format. It's case insensitive and it could be only part of name to filter.
     + type (optional, string, `Single%20Round%20Match`) ... The type filter, can be null. It should be encoded in uri format. It's case insensitive. It should be values in round_type_lu table description field. It could use ',' char to connect more than 1 value.
@@ -15838,6 +15838,13 @@ Source Code Image Generation APIs
                         "Registration Limit": 1000,
                         "Invitational Type": "Not",
                         "Region": "Alpha",
+                        "contestId": 12917,
+                        "contestName": "Test SRM",
+                        "contestStatus": "A",
+                        "hasProblems": true,
+                        "hasTerms": true,
+                        "hasSchedule": true,
+                        "hasQuestions": false,
                         "Round Schedule": [
                             {
                                 "Phase Name": "Registration Phase",
@@ -15881,7 +15888,17 @@ Source Code Image Generation APIs
                                 "End Time": "2013-12-15T05:50:51.000+05:00",
                                 "Status": "Draft"
                             }
-                        ]
+                        ],
+                        "languages": [
+                                         {
+                                             "id": 1,
+                                             "description": "Java"
+                                         },
+                                         {
+                                             "id": 2,
+                                             "description": "XML"
+                                         }
+                                     ]
                     }
                 ]
             }
