@@ -4,7 +4,8 @@ SELECT
  r.contest_id,
  (SELECT name FROM contest c WHERE c.contest_id = r.contest_id) AS contest_name,
  (SELECT division_desc FROM division_lu d WHERE p.division_id = d.division_id) AS division_description,
- p.level_desc AS level_description
+ p.level_desc AS level_description,
+ r.editorial_link
 FROM
    problem p,
    round r
