@@ -91,3 +91,5 @@ set WATERMARK_FILE_PATH=test/test_files/design_image_file_generator/studio_logo_
 set WKHTMLTOIMAGE_COMMAND_PATH=/home/ubuntu/tmp/wkhtmltox-0.12.1/static-build/posix-local/wkhtmltox-0.12.1/bin/wkhtmltoimage
 set WKHTMLTOIMAGE_IMAGE_WIDTH=1024
 set HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/%OVERRIDE_STYLE_NAME%.min.css
+
+set JWT_TOKEN_COOKIE_KEY="tcjwt_vm"
