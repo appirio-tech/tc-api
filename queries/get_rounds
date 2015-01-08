@@ -5,6 +5,9 @@ SELECT
   r.name as name,
   r.short_name as short_name,  
   rt.round_type_desc,  
+  c.contest_id as contest_id,
+  c.name as contest_name,
+  c.status as contest_status,
   CASE WHEN (UPPER(r.status) = 'A') THEN
            'Active'
        WHEN (UPPER(r.status) = 'P') THEN
@@ -99,12 +102,31 @@ SELECT
            'Draft'
        ELSE NULL
        END as status_7,
-  (select segment_desc from segment where segment_id = 7) as name_7
+  (select segment_desc from segment where segment_id = 7) as name_7,
+  CASE WHEN ((select count(*) from round_component rc where rc.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_problems,
+  CASE WHEN ((select count(*) from round_terms rt where rt.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_terms,
+  CASE WHEN ((select count(*) from round_segment rs where rs.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_schedule,
+  CASE WHEN ((select count(*) from round_question rq where rq.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_questions
+       
  FROM (round r
       LEFT OUTER JOIN round_type_lu rt
         ON r.round_type_id=rt.round_type_id
       LEFT OUTER JOIN region reg
         ON r.region_id=reg.region_id
+      LEFT OUTER JOIN contest c
+        ON r.contest_id=c.contest_id
      LEFT OUTER JOIN round_segment rs1
         ON r.round_id=rs1.round_id and rs1.segment_id = 1
      LEFT OUTER JOIN round_segment rs2

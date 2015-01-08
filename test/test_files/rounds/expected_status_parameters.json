@@ -12,6 +12,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -37,7 +44,8 @@
                     "endTime": "2011-12-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         },
         {
             "id": 12004,
@@ -48,6 +56,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -91,7 +106,8 @@
                     "endTime": "2013-02-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         },
         {
             "id": 12003,
@@ -102,6 +118,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -145,7 +168,8 @@
                     "endTime": "2013-09-15T04:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         },
         {
             "id": 12001,
@@ -153,10 +177,17 @@
             "shortName": "short name 12001",
             "type": "Single Round Match",
             "status": "Active",
-            "roundTerms": "term1",
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "roundTerms": "term1",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": true,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -200,6 +231,16 @@
                     "endTime": "2013-12-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
+            ],
+            "languages": [
+                {
+                    "id": 1,
+                    "description": "Java"
+                },
+                {
+                    "id": 2,
+                    "description": "XML"
+                }
             ]
         },
         {
@@ -211,6 +252,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -254,7 +302,8 @@
                     "endTime": "2014-12-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         },
         {
             "id": 12006,
@@ -265,6 +314,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -302,7 +358,8 @@
                     "endTime": "2015-12-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         }
     ]
 }

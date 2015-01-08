@@ -12,6 +12,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -37,7 +44,8 @@
                     "endTime": "2011-12-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         }
     ]
 }

@@ -1,4 +1,5 @@
-﻿DELETE FROM round_terms WHERE round_id >= 12001 and round_id < 13000;
+﻿DELETE FROM round_language WHERE round_id >= 12001 and round_id < 13000;
+DELETE FROM round_terms WHERE round_id >= 12001 and round_id < 13000;
 DELETE FROM round_segment WHERE round_id >= 12001 and round_id < 13000;
 DELETE FROM round WHERE round_id >= 12001 and round_id < 13000;
 DELETE FROM contest WHERE contest_id = 12001;
