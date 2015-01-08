@@ -5,14 +5,14 @@
             "submissionDate": "2014-06-13T04:43:35.000+0000",
             "submissionType": "final",
             "ranking": 1,
-            "download": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=2005"
+            "download": "https://api.topcoder.com/v2/design/download/2005?submissionType=original"
         },
         {
             "submissionId": 2007,
             "submissionDate": "2014-06-13T04:43:38.000+0000",
             "submissionType": "checkpoint",
             "ranking": 3,
-            "download": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=2007"
+            "download": "https://api.topcoder.com/v2/design/download/2007?submissionType=original"
         }
     ]
 }

@@ -1,12 +1,16 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.4
  * @author muzehyun, Ghost_141
  * Changes in 1.1:
  * - Implement user activation email api.
  * Changes in 1.2:
  * - Implement get user identity api.
+ * Changes in 1.3:
+ * - Implement get user marathon match api.
+ * Changes in 1.4:
+ * - Implement get user algorithm challenges api.
  */
 'use strict';
 var async = require('async');
@@ -28,6 +32,20 @@ var activationEmailSubject = "Topcoder User Registration Activation";
  * @since 1.1
  */
 var activationEmailSenderName = "Topcoder API";
+
+/**
+ * The valid sort column for get user marathon matches api.
+ * @since 1.3
+ */
+var VALID_SORT_COLUMN_MARATHON_MATCH = ['id', 'type', 'codingDuration', 'placement', 'numContestants',
+    'numSubmitters'];
+
+/**
+ * The valid sort column values for get user algo challenges api.
+ * @since 1.4
+ */
+var VALID_SORT_COLUMN_ALGO_CHALLENGES = ['id', 'type', 'codingDuration', 'placement', 'numContestants',
+    'numSubmitters'];
 
 /**
  * It validates activation code and retrieves user id from activation code
@@ -332,7 +350,7 @@ exports.getUserIdentity = {
  * @since 1.2
  */
 function getUserIdentityByAuth0Id(api, connection, next) {
-    var helper = api.helper, 
+    var helper = api.helper,
         auth0id = connection.params.id,
         userid = 0,
         dbConnectionMap = connection.dbConnectionMap,
@@ -343,24 +361,23 @@ function getUserIdentityByAuth0Id(api, connection, next) {
         function (cb) {
             try {
                 var splits = auth0id.split('|');
-                if (splits[0] == 'ad') {
+                if (splits[0] === 'ad') {
                     cb(null, [{ user_id: Number(splits[1]) }]);
                 } else {
-                    api.helper.getProviderId(splits[0], function(err, provider) {
+                    api.helper.getProviderId(splits[0], function (err, provider) {
                         if (err) {
                             cb(notfound);
                         } else {
                             api.dataAccess.executeQuery("get_user_by_social_login",
-                            {
-                                social_user_id: splits[1],
-                                provider_id: provider
-                            },
-                            dbConnectionMap, cb);
+                                {
+                                    social_user_id: splits[1],
+                                    provider_id: provider
+                                },
+                                dbConnectionMap, cb);
                         }
                     });
                 }
-            }
-            catch (exc) {
+            } catch (exc) {
                 cb(notfound);
             }
         },
@@ -368,10 +385,10 @@ function getUserIdentityByAuth0Id(api, connection, next) {
             if (!result[0]) {
                 cb(notfound);
             } else {
-            userid = result[0].user_id
-            api.dataAccess.executeQuery('get_user_email_and_handle', 
-                { userId: userid }, 
-                dbConnectionMap, cb);
+                userid = result[0].user_id;
+                api.dataAccess.executeQuery('get_user_email_and_handle',
+                    { userId: userid },
+                    dbConnectionMap, cb);
             }
         },
         function (rs, cb) {
@@ -417,6 +434,251 @@ exports.getUserIdentityByAuth0Id = {
         if (connection.dbConnectionMap) {
             api.log('getUserIdentityByAuth0Id#run', 'debug');
             getUserIdentityByAuth0Id(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Handle the get marathon matches that user participated to.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The connection object.
+ * @param {Function} next - The callback function.
+ * @since 1.3
+ */
+function getUserMarathonMatches(api, connection, next) {
+    var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, response, sqlParams, sortOrder, sortColumn,
+        exeQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
+        },
+        handle = connection.params.handle,
+        pageIndex = Number(connection.params.pageIndex || 1),
+        pageSize = Number(connection.params.pageSize || 10);
+
+    sortOrder = (connection.params.sortOrder || "asc").toLowerCase();
+    sortColumn = connection.params.sortColumn || "id";
+
+    // If the sortOrder is set and sortColumn is missing.
+    if (connection.params.sortOrder && !connection.params.sortColumn) {
+        helper.handleError(api, connection, new BadRequestError('The sortColumn is missing.'));
+        next(connection, true);
+        return;
+    }
+
+    if (pageIndex === -1) {
+        pageSize = helper.MAX_INT;
+        pageIndex = 1;
+    }
+
+    //reverse the sorting direction value because for placement 1 is the best so the descending order should be like 1, 2, 3.
+    if (sortColumn.toLowerCase() === 'placement') {
+        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    }
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPageIndex(pageIndex, "pageIndex")
+                || helper.checkStringParameter(handle, "handle", 30)
+                || helper.checkPositiveInteger(pageSize, "pageSize")
+                || helper.checkMaxInt(pageSize, "pageSize")
+                || helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder")
+                || helper.checkSortColumn(VALID_SORT_COLUMN_MARATHON_MATCH, sortColumn.toLowerCase());
+            cb(error);
+        },
+        function (cb) {
+            helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
+        },
+        function (cb) {
+            sqlParams = {
+                first_row_index: (pageIndex - 1) * pageSize,
+                page_size: pageSize,
+                sort_order: sortOrder,
+                sort_column: helper.getSortColumnDBName(sortColumn),
+                handle: handle.toLowerCase()
+            };
+            async.parallel({
+                data: exeQuery('get_user_marathon_matches'),
+                count: exeQuery('get_user_marathon_matches_count')
+            }, cb);
+        },
+        function (queryResult, cb) {
+            var total = queryResult.count[0].total_count;
+            response = {
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                total: total,
+                data: queryResult.data.map(function (row) {
+                    return {
+                        id: row.id,
+                        type: row.type,
+                        prize: row.paid > 0,
+                        codingDuration: row.coding_duration,
+                        placement: row.placement,
+                        numContestants: row.num_contestants,
+                        numSubmitters: row.num_submitters,
+                        platforms: [],
+                        technologies: row.technologies.length === 0
+                            ? [] : row.technologies.split(',').map(function (s) { return s.trim(); })
+                    };
+                })
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The api for get user marathon matches.
+ * @since 1.3
+ */
+exports.getUserMarathonMatches = {
+    name: 'getUserMarathonMatches',
+    description: 'Get marathon match related info that member has participated to',
+    inputs: {
+        required: ['handle'],
+        optional: ["sortOrder", "pageIndex", "pageSize", "sortColumn"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['topcoder_dw'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('getUserMarathonMatches#run', 'debug');
+            getUserMarathonMatches(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * Handle the get algorithm challenges that user participated to.
+ * @param {Object} api - The api object.
+ * @param {Object} connection - The connection object.
+ * @param {Function} next - The callback function.
+ * @since 1.4
+ */
+function getUserAlgorithmChallenges(api, connection, next) {
+    var helper = api.helper, dbConnectionMap = connection.dbConnectionMap, response, sqlParams, sortOrder, sortColumn,
+        exeQuery = function (name) {
+            return function (cbx) {
+                api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
+            };
+        },
+        handle = connection.params.handle,
+        pageIndex = Number(connection.params.pageIndex || 1),
+        pageSize = Number(connection.params.pageSize || 10);
+
+    // If the sortOrder is set and sortColumn is missing.
+    if (connection.params.sortOrder && !connection.params.sortColumn) {
+        helper.handleError(api, connection, new BadRequestError('The sortColumn is missing.'));
+        next(connection, true);
+        return;
+    }
+
+    sortOrder = (connection.params.sortOrder || "asc").toLowerCase();
+    sortColumn = connection.params.sortColumn || "id";
+
+    if (pageIndex === -1) {
+        pageSize = helper.MAX_INT;
+        pageIndex = 1;
+    }
+
+    if (sortColumn.toLowerCase() === 'placement') {
+        //reverse the sortOrder value because for placement 1 is the best so the descending order should be like 1, 2, 3.
+        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    }
+
+    async.waterfall([
+        function (cb) {
+            var error = helper.checkPageIndex(pageIndex, "pageIndex")
+                || helper.checkStringParameter(handle, "handle", 30)
+                || helper.checkPositiveInteger(pageSize, "pageSize")
+                || helper.checkMaxInt(pageSize, "pageSize")
+                || helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder")
+                || helper.checkSortColumn(VALID_SORT_COLUMN_ALGO_CHALLENGES, sortColumn.toLowerCase());
+            cb(error);
+        },
+        function (cb) {
+            helper.checkCoderExistAndActivate(handle, api, dbConnectionMap, cb);
+        },
+        function (cb) {
+            sqlParams = {
+                first_row_index: (pageIndex - 1) * pageSize,
+                page_size: pageSize,
+                sort_order: sortOrder,
+                sort_column: helper.getSortColumnDBName(sortColumn),
+                handle: handle.toLowerCase()
+            };
+            async.parallel({
+                data: exeQuery('get_user_algo_challenges'),
+                count: exeQuery('get_user_algo_challenges_count')
+            }, cb);
+        },
+        function (queryResult, cb) {
+            var total = queryResult.count[0].total_count;
+            response = {
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                total: total,
+                data: queryResult.data.map(function (row) {
+                    return {
+                        id: row.id,
+                        type: row.type,
+                        prize: row.paid > 0,
+                        codingDuration: row.coding_duration,
+                        placement: row.placement,
+                        numContestants: row.num_contestants,
+                        numSubmitters: row.num_submitters,
+                        platforms: [],
+                        technologies: row.technologies.split(',').map(function (s) { return s.trim(); })
+                    };
+                })
+            };
+            cb();
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+}
+
+/**
+ * The API for get user algorithm challenges.
+ * @since 1.4
+ */
+exports.getUserAlgorithmChallenges = {
+    name: 'getUserAlgorithmChallenges',
+    description: 'Get user algorithm challenges related information',
+    inputs: {
+        required: ['handle'],
+        optional: ["sortOrder", "pageIndex", "pageSize", "sortColumn"]
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['topcoder_dw'],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('getUserAlgorithmChallenges#run', 'debug');
+            getUserAlgorithmChallenges(api, connection, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }

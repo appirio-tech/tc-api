@@ -1,0 +1,20 @@
+SELECT COUNT(*) AS total_count
+FROM long_comp_result lcr
+, round r
+, contest c
+, room ro
+, room_result rr
+, problem p
+, coder co
+WHERE lcr.round_id = r.round_id
+AND c.contest_id = r.contest_id
+AND lcr.coder_id = co.coder_id
+AND co.handle_lower = '@handle@'
+AND ro.round_id = r.round_id
+AND rr.room_id = ro.room_id
+AND rr.round_id = r.round_id
+AND rr.coder_id = co.coder_id
+AND p.round_id = r.round_id
+AND lcr.attended = 'Y'
+AND rr.problems_submitted > 0 -- Has submitted.
+AND r.round_type_id IN (10,13,15,19,22,24,25,27)

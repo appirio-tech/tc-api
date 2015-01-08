@@ -3,18 +3,19 @@ Hi, <%= handle %>,
 </p>
 
 <p>
-We have received a request to recover your password. If you requested this, please use the token <%= token %> to continue the process.
+We have received a request to reset your password. If you requested this, please follow these steps to reset your password:
 </p>
 
-<p>
-The token will expire at <%= expiry %>.
-</p>
-
+<ol>
+<li>Visit this page: http://www.topcoder.com/password-reset</li>
+<li>Enter your username and new password. Confirm your new password.</li>
+<li>Use the unlock code <%= token %> to continue the process. The unlock code will expire at [<%= expiry %>].</li>
+</ol>
 
 <p>
 If you did not make the request and/or believe you got this message in error, please email support@topcoder.com to let us know.
 </p>
 
 <p>
--TopCoder
+-topcoder
 </p>

@@ -1,0 +1,23 @@
+ SELECT
+COUNT(*) AS total
+ FROM project             pj,
+       project_category_lu pcl,
+       project_result      pr,
+       upload              u,
+       resource            r,
+       project_phase       pp1,
+       submission          s
+  LEFT OUTER JOIN prize p ON s.prize_id = p.prize_id
+ WHERE pj.project_id = pr.project_id
+   AND pp1.project_id = pj.project_id
+   AND pj.project_id = u.project_id
+   AND pp1.phase_type_id = 1
+   AND s.upload_id = u.upload_id
+   AND u.resource_id = r.resource_id
+   AND pcl.project_category_id = pj.project_category_id
+   AND upload_status_id = 1
+   AND upload_type_id = 1
+   AND submission_status_id <> 5
+   AND submission_type_id IN (1, 3)
+   AND r.user_id=@userId@
+   AND pj.project_category_id in (@challengeType@)

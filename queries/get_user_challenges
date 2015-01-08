@@ -1,0 +1,22 @@
+SELECT
+SKIP @firstRowIndex@ FIRST @pageSize@
+       p.project_id as id,
+       p.project_category_name as type,
+       p.num_submissions as num_submissions,
+       p.num_registrations as num_contestants,
+       NVL(pr.payment, 0) as payment,
+       CASE WHEN pr.payment>0 THEN 'true' else 'false' END as prize,
+       ((pr.submit_timestamp - pr.inquire_timestamp) ::INTERVAL SECOND(9) TO SECOND
+       ::CHAR(20) ::INT /60 ) as coding_duration,
+       platform_list(pr.project_id) as platforms ,
+       technology_list(pr.project_id) as technologies ,
+       pr.placed as placement
+  FROM project_result pr, project p, coder c
+ WHERE p.project_id = pr.project_id
+   AND pr.placed > 0
+   AND p.status_id in (4, 5, 7)
+   AND p.project_category_id in (@challengeType@)
+   AND c.handle = '@handle@'
+   AND user_id = c.coder_id
+   AND c.status = 'A'
+ ORDER BY @sortColumn@ @sortOrder@

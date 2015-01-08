@@ -1,0 +1,9 @@
+SELECT COUNT(*) AS total_count
+FROM contest c
+INNER JOIN round r ON r.contest_id = c.contest_id
+INNER JOIN room_result rr ON rr.round_id = r.round_id
+INNER JOIN coder co ON co.coder_id = rr.coder_id AND co.handle_lower = '@handle@'
+INNER JOIN coder_rank_history rkh ON rkh.coder_id = rr.coder_id AND rkh.round_id = rr.round_id
+WHERE r.round_type_id IN (1,2,10,20)
+AND rkh.coder_rank_type_id = 2
+AND rr.problems_submitted > 0

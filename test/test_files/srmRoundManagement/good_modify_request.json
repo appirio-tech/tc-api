@@ -15,5 +15,6 @@
     },
     "name": "create round",
     "status": "A",
-    "short_name": "create round short name"
+    "short_name": "create round short name",
+    "auto_end": 1
 }

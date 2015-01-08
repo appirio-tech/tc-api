@@ -8,7 +8,7 @@
             "submissionDate": "2014-01-03T09:30:00.000+0000",
             "viewable": true,
             "challengeId": 32000003,
-            "preview": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=110005&sbt=small"
+            "preview": "https://api.topcoder.com/v2/design/download/110005?submissionType=preview&submissionImageTypeId=29"
         }
     ]
 }

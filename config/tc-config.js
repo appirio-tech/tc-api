@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, TCSASSEMBLER
- * @version 1.28
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, onsky
+ * @version 1.29
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -66,6 +66,8 @@
  * Add userActivationResendLimit and userActivationCacheLifeTime for user activation email api.
  * Changes in 1.28:
  * Add source code image generation configuration.
+ * Changes in 1.29:
+ * Add database timezone identifier configuration.
  */
 
 "use strict";
@@ -97,6 +99,7 @@ var config = {
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
     reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
+    databaseTimezoneIdentifier: '-0400',
 
     /**
      * The directory where uploaded files are stored.
@@ -127,7 +130,12 @@ var config = {
 
     submissionLink: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=',
     finalFixLink: 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=',
-    designSubmissionLink: 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=',
+    designSubmissionLink: 'https://api.topcoder.com/v2/design/download/',
+    // stores the parameters that need sent to the 'submission' request
+    submissionDownloadLinkParams: '?submissionType=original',
+    //stores the parameters that need to be included in the 'preview' request
+    //29 means small
+    previewDownloadLinkParams: "?submissionType=preview&submissionImageTypeId=29",
 
     //The name of the folder where to store the submission files.
     //Please make sure the directory already exists
