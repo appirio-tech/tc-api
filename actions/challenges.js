@@ -1039,6 +1039,7 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
         isRelated = false, // This variable represent if the caller is related with challenge.
         isRegistered = false,// This variable represent if the caller is already registered this challenge.
         isCopilotPosting = false,//This variable represent if the challenge is a copilot posting challenge.
+        isManager=false,//This variable represent if the caller is a manager.
         copilotDetailedRequirements,
         unified = connection.action === "getChallenge",
         execQuery = function (name) {
@@ -1068,8 +1069,12 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 return;
             }
 
+            if (result[0].is_manager) {
+                isManager = true;
+            }
+
             // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
-            if (result[0].has_access || result[0].is_related || result[0].is_manager || helper.isAdmin(caller)) {
+            if (result[0].has_access || result[0].is_related || isManager || helper.isAdmin(caller)) {
                 isRelated = true;
             }
 
@@ -1169,6 +1174,13 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 submissionEndDate: formatDate(data.submission_end_date),
                 submissionsViewable: data.submissions_viewable
             };
+
+            if (!challenge.submissionsViewable && isStudio) {
+                // Admin and manager can view submissions anytime
+                if (helper.isAdmin(caller) || isManager) {
+                    challenge.submissionsViewable = true;
+                }
+            }
 
             if (unified) {
                 challenge.type = isStudio ? 'design' : 'develop';
