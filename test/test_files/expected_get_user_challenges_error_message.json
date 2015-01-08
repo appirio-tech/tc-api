@@ -1,0 +1,26 @@
+{
+    "pageSize": {
+        "notNumber": "pageSize should be number.",
+        "negative": "pageSize should be positive.",
+        "notInteger": "pageSize should be Integer.",
+        "tooBig": "pageSize should be less or equal to 2147483647."
+    },
+    "pageIndex": {
+        "notNumber": "pageIndex should be number.",
+        "negative": "pageIndex should be equal to -1 or greater than 0",
+        "notInteger": "pageIndex should be Integer.",
+        "tooBig": "pageIndex should be less or equal to 2147483647."
+    },
+    "sortOrder": {
+        "invalid": "sortOrder should be an element of asc,desc."
+    },
+    "sortColumn": {
+        "invalidColumn": "sortColumn should be an element of id,type,placement,prize,numcontestants,numsubmissions,codingduration.",
+        "invalidColumn2": "sortColumn should be an element of id,type,placement,prize,num_contestants,num_submitters,coding_duration."
+    },
+    "user": {
+        "notFound": "User does not exist.",
+        "notActived": "User is not activated.",
+        "notActivated": "User is not activated."
+    }
+}

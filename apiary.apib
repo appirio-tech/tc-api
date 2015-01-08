@@ -2082,7 +2082,7 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## My Profile [/user/activation-email]
 ### My Profile [GET]
 + Request
@@ -2139,6 +2139,169 @@ Register a new user.
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
+
+
+## Get User Develop Challenges [/user/{handle}/challenges/develop?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get User Challenges [GET]
+
++ Parameters
+    + handle (required, string, `super`) ... Member Handle
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `type`) ... The column name to sort, can be null.It should be one of id, type, placement, prize, numContestants, numSubmissions, codingDuration.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+
++ Response 200 (application/json)
+
+        {
+            "data": [
+                {
+                    "id": 1100000,
+                    "type": "Code",
+                    "placement": 1,
+                    "prize": true,
+                    "numContestants": 5,
+                    "numSubmissions": 2,
+                    "codingDuration": 1440,
+                    "platforms": [
+                        "AWS",
+                        "wordpress"
+                    ],
+                    "technologies": [
+                        "AJAX",
+                        "Applet"
+                    ]
+                },
+                {
+                    "id": 1100001,
+                    "type": "Assembly",
+                    "placement": 2,
+                    "prize": true,
+                    "numContestants": 5,
+                    "numSubmissions": 2,
+                    "codingDuration": 1380,
+                    "platforms": [],
+                    "technologies": []
+                }
+            ],
+            "total": 5,
+            "pageIndex": 1,
+            "pageSize": 2
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+## Get User Design Challenges [/user/{handle}/challenges/design?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get User Challenges [GET]
+
++ Parameters
+    + handle (required, string, `super`) ... Member Handle
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `id`) ... The column name to sort, can be null,it's value should be one of id, type, placement, prize, num_contestants, num_submitters, coding_duration.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+
++ Response 200 (application/json)
+
+        {
+            "data": [
+                {
+                    "id": 1100000,
+                    "type": "Web Design",
+                    "placement": 1,
+                    "prize": true,
+                    "numContestants": 5,
+                    "numSubmissions": 2,
+                    "codingDuration": 1440,
+                    "platforms": [
+                        "AWS",
+                        "wordpress"
+                    ],
+                    "technologies": [
+                        "AJAX",
+                        "Applet"
+                    ]
+                },
+                {
+                    "id": 1100001,
+                    "type": "Logo Design",
+                    "placement": 2,
+                    "prize": true,
+                    "numContestants": 5,
+                    "numSubmissions": 2,
+                    "codingDuration": 1380,
+                    "platforms": [],
+                    "technologies": []
+                }
+            ],
+            "total": 5,
+            "pageIndex": 1,
+            "pageSize": 2
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "name":"Not Found",
+            "value":"404",
+            "description":"This message will explain why the URI requested is invalid or the resource does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
 
 ## Search My Challenges [/user/challenges?type={type}&pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&communityId={communityId}&submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}&challengeType={challengeType}&platforms={platforms}&technologies={technologies}&prizeLowerBound={prizeLowerBound}&prizeUpperBound={prizeUpperBound}]
 ### Search My Challenges [GET]
@@ -2299,7 +2462,7 @@ Register a new user.
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
 
 ## get User Identity Information [/user/identity]
 ### Search My Challenges [GET]
@@ -2340,7 +2503,334 @@ Request
             "name":"Service Unavailable",
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
-        }        
+        }
+
+## Get User Algo Challenges [/user/{handle}/challenges/algo?pageIndex={pageIndex}&pageSize={pageSize}&sortOrder={sortOrder}&sortColumn={sortColumn}]
+### Get User Algo Challenges [GET]
+
++ Parameters
+    + handle (required, string, `heffan`) ... the user handle that to search
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `10`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `id`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+
++ Response 200 (application/json)
+
+        {
+            "total": 1,
+            "pageIndex": 1,
+            "pageSize": 10,
+            "data": [
+                {
+                    "id": 2001,
+                    "type": "Single Round Match",
+                    "placement": 1,
+                    "prize": true,
+                    "numContestants": 14,
+                    "numSubmitters": 6,
+                    "codingDuration": 30000000,
+                    "platforms": [],
+                    "technologies": [
+                        "Java",
+                        "C++"
+                    ]
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": ""
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "handle exceeds 30 characters."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "The sort column 'abc' is invalid, it should be element of id,type,prize,codingDuration,placement,numContestants,numSubmitters."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "The sortColumn is missing."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "User is not activated."
+        }
+
++ Response 404 (application/json)
+        {
+            "name": "Not Found",
+            "value": 404,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "User does not exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Get User Marathon Matches Information [/user/{handle}/challenges/marathon?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}]
+### Get User Marathon Matches Information [GET]
+
++ Parameters
+    + handle (required, string, `heffan`) ... the user handle that to search
+    + pageIndex (optional, number, `1`) ... The page index of the returned resources. 1-based. It can be null. The default value will be 1
+    + pageSize (optional, number, `10`) ... The page size of the returned resources. 1-based. It can be null. The default value will be 10.
+    + sortColumn (optional, string, `id`) ... The column name to sort, can be null. The valid value are 'id', 'type', 'placement', 'numContestants', 'numSubmitters', 'codingDuration'.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+
+
++ Response 200 (application/json)
+
+        {
+            "total": 1,
+            "pageIndex": 1,
+            "pageSize": 10,
+            "data": [
+                {
+                    "id": 2001,
+                    "type": "Marathon Match Tournament Round",
+                    "placement": 1,
+                    "prize": true,
+                    "numContestants": 14,
+                    "numSubmitters": 6,
+                    "codingDuration": 30000000,
+                    "platforms": [],
+                    "technologies": [
+                        "Java",
+                        "C++"
+                    ]
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be number."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": ""
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "handle exceeds 30 characters."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "User does not exist."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+        {
+            "name": "Bad Request",
+            "value": 400,
+            "description": "The request was invalid. An accompanying message will explain why.",
+            "details": "The sort column 'abc' is invalid, it should be element of id,type,prize,codingDuration,placement,numContestants,numSubmitters."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 
 
 ## Validate Handle [/users/validate/{handle}]
@@ -6437,6 +6927,114 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get SRM Rounds For Problem [/data/srm/problems/:problemId/rounds]
+### Get SRM Rounds For Problem [GET]
+
++ Parameters
+    + problemId (required, number, `12348765`) ... The problemId to get the rounds for.
+
++ Response 200 (application/json)
+
+        {
+            "rounds": [
+                {
+                    "contestId": 3005,
+                    "contestName": "Contest 3005",
+                    "roundId": 6,
+                    "roundName": "Past Srm Round",
+                    "divisionDescription": "Unrated Division",
+                    "levelDescription": "Level 2001",
+                    "editorialLink": "http://editlink6"
+                },
+                {
+                    "contestId": 3006,
+                    "contestName": "Contest 3006",
+                    "roundId": 7,
+                    "roundName": "Past Tournament Round",
+                    "divisionDescription": "Division-I",
+                    "levelDescription": "Level 2001",
+                    "editorialLink": "http://editlink7"
+                },
+                {
+                    "contestId": 3007,
+                    "contestName": "Contest 3007",
+                    "roundId": 8,
+                    "roundName": "Past Long Round",
+                    "divisionDescription": "Division-II",
+                    "levelDescription": "Level 2001",
+                    "editorialLink": "http://editlink8"
+                },
+                {
+                    "contestId": 3008,
+                    "contestName": "Contest 3008",
+                    "roundId": 9,
+                    "roundName": "Past Event Round",
+                    "divisionDescription": "No Division Applicable",
+                    "levelDescription": "Level 2001",
+                    "editorialLink": "http://editlink9"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be number."
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be positive."
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "name": "Bad Request",
+                "value": 400,
+                "description": "The request was invalid. An accompanying message will explain why.",
+                "details": "problemId should be less or equal to 2147483647."
+            }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": {
+                "name": "Not Found",
+                "value": 404,
+                "description": "The URI requested is invalid or the requested resource does not exist.",
+                "details": "The problem doesn't exist."
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
 
 ## View Algorithm SRM Challenges [/data/srm/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm SRM Challenges [GET]
@@ -6713,6 +7311,489 @@ Request
             "description":"Servers are up but overloaded. Try again later."
         }
 
+## Get SRM Schedule [/data/srm/schedule?pageIndex={pageIndex}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&statuses={statuses}&types={types}&registrationStartTimeBefore={registrationStartTimeBefore}&registrationEndTimeBefore={registrationEndTimeBefore}&codingStartTimeBefore={codingStartTimeBefore}&codingEndTimeBefore={codingEndTimeBefore}&intermissionStartTimeBefore={intermissionStartTimeBefore}&intermissionEndTimeBefore={intermissionEndTimeBefore}&challengeStartTimeBefore={challengeStartTimeBefore}&challengeEndTimeBefore={challengeEndTimeBefore}&systestStartTimeBefore={systestStartTimeBefore}&systestEndTimeBefore={systestEndTimeBefore}&registrationStartTimeAfter={registrationStartTimeAfter}&registrationEndTimeAfter={registrationEndTimeAfter}&codingStartTimeAfter={codingStartTimeAfter}&codingEndTimeAfter={codingEndTimeAfter}&intermissionStartTimeAfter={intermissionStartTimeAfter}&intermissionEndTimeAfter={intermissionEndTimeAfter}&challengeStartTimeAfter={challengeStartTimeAfter}&challengeEndTimeAfter={challengeEndTimeAfter}&systestStartTimeAfter={systestStartTimeAfter}&systestEndTimeAfter={systestEndTimeAfter}]
+### Get SRM Schedule [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `registrationStartTime`) ... The column name to sort, can be null.
+    + sortOrder (optional, string, `asc`) ... The sorting order, can be null. If it's set, it can only be 'asc' or 'desc'.
+    + statuses (optional, String, `F`) ... The status of the rounds. The value can only be 'A', 'F', 'P' or the combination of these values, like 'A,F,P'.
+    + types (optional, String, `Single Round Match,Long Round,Tournament Round`) ... The types of the rounds. The value can only be 'Single Round Match', 'Long Round', 'Tournament Round' or the combination of these values, like 'Single Round Match, Long Round'.
+    + registrationStartTimeBefore (optional, string) ... The upper bound of the registration start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + registrationStartTimeAfter (optional, string) ... The lower bound of the registration start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + registrationEndTimeBefore (optional, string) ... The upper bound of the registration end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + registrationEndTimeAfter (optional, string) ... The lower bound of the registration end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingStartTimeBefore (optional, string) ... The upper bound of the coding start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingStartTimeAfter (optional, string) ... The lower bound of the coding start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingEndTimeBefore (optional, string) ... The upper bound of the coding end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + codingEndTimeAfter (optional, string) ... The lower bound of the coding end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionStartTimeBefore (optional, string) ... The upper bound of the intermission start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionStartTimeAfter (optional, string) ... The lower bound of the intermission start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionEndTimeBefore (optional, string) ... The upper bound of the intermission end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + intermissionEndTimeAfter (optional, string) ... The lower bound of the intermission end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeStartTimeBefore (optional, string) ... The upper bound of the challenge start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeStartTimeAfter (optional, string) ... The lower bound of the challenge start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeEndTimeBefore (optional, string) ... The upper bound of the challenge end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + challengeEndTimeAfter (optional, string) ... The lower bound of the challenge end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestStartTimeBefore (optional, string) ... The upper bound of the system test start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestStartTimeAfter (optional, string) ... The lower bound of the system test start time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestEndTimeBefore (optional, string) ... The upper bound of the system test end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+    + systestEndTimeAfter (optional, string) ... The lower bound of the system test end time. The time format should be "YYYY-MM-DDTHH:mm:ss.SSSZ".
+
++ Response 200 (application/json)
+
+        {
+            "total": 5,
+            "pageIndex": 1,
+            "pageSize": 50,
+            "data": [
+                {
+                    "roundId": 3002,
+                    "name": "round 3002",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2002",
+                    "roundType": "Tournament Round",
+                    "status": "A",
+                    "registrationStartTime": "2014-10-20T00:00:00.000+0800",
+                    "registrationEndTime": "2014-10-21T00:00:00.000+0800",
+                    "codingStartTime": "2014-10-21T00:00:00.000+0800",
+                    "codingEndTime": "2014-10-22T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-10-22T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-10-23T00:00:00.000+0800",
+                    "challengeStartTime": "2014-10-23T00:00:00.000+0800",
+                    "challengeEndTime": "2014-10-24T00:00:00.000+0800",
+                    "systestStartTime": "2014-10-24T00:00:00.000+0800",
+                    "systestEndTime": "2014-10-25T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3005,
+                    "name": "round 3005",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2001",
+                    "roundType": "Long Round",
+                    "status": "P",
+                    "registrationStartTime": "2014-09-20T00:00:00.000+0800",
+                    "registrationEndTime": "2014-09-21T00:00:00.000+0800",
+                    "codingStartTime": "2014-09-21T00:00:00.000+0800",
+                    "codingEndTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-24T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-24T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-25T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3001,
+                    "name": "round 3001",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2001",
+                    "roundType": "Single Round Match",
+                    "status": "F",
+                    "registrationStartTime": "2014-09-20T00:00:00.000+0800",
+                    "registrationEndTime": "2014-09-21T00:00:00.000+0800",
+                    "codingStartTime": "2014-09-21T00:00:00.000+0800",
+                    "codingEndTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-22T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-23T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-24T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-24T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-25T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3003,
+                    "name": "round 3003",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2003",
+                    "roundType": "Tournament Round",
+                    "status": "F",
+                    "registrationStartTime": "2014-09-10T00:00:00.000+0800",
+                    "registrationEndTime": "2014-09-11T00:00:00.000+0800",
+                    "codingStartTime": "2014-09-11T00:00:00.000+0800",
+                    "codingEndTime": "2014-09-12T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-12T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-13T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-13T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-14T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-14T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-15T00:00:00.000+0800"
+                },
+                {
+                    "roundId": 3004,
+                    "name": "round 3004",
+                    "shortName": "N/A",
+                    "contestName": "SRM 2004",
+                    "roundType": "Single Round Match",
+                    "status": "F",
+                    "registrationStartTime": "2014-09-01T04:00:00.000+0800",
+                    "registrationEndTime": "2014-09-01T05:00:00.000+0800",
+                    "codingStartTime": "2014-09-01T06:00:00.000+0800",
+                    "codingEndTime": "2014-09-02T00:00:00.000+0800",
+                    "intermissionStartTime": "2014-09-02T00:00:00.000+0800",
+                    "intermissionEndTime": "2014-09-03T00:00:00.000+0800",
+                    "challengeStartTime": "2014-09-03T00:00:00.000+0800",
+                    "challengeEndTime": "2014-09-04T00:00:00.000+0800",
+                    "systestStartTime": "2014-09-04T00:00:00.000+0800",
+                    "systestEndTime": "2014-09-05T00:00:00.000+0800"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be Integer."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be number."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The sort column 'abc' is invalid, sortColumn should be an element of registrationstarttime,registrationendtime,codingstarttime,codingendtime,intermissionstarttime,intermissionendtime,challengestarttime,challengeendtime,systeststarttime,systestendtime."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The statuses can only contains following elements: f,a,p."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"The types can only contains following elements: Single+Round+Match,Tournament+Round,Long+Round."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestStartTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestStartTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestEndTimeBefore is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestEndTimeAfter is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationStartTimeAfter should be earlier than registrationStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"registrationEndTimeAfter should be earlier than registrationEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingStartTimeAfter should be earlier than codingStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"codingEndTimeAfter should be earlier than codingEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionStartTimeAfter should be earlier than intermissionStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"intermissionEndTimeAfter should be earlier than intermissionEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeStartTimeAfter should be earlier than challengeStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"challengeEndTimeAfter should be earlier than challengeEndTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestStartTimeAfter should be earlier than systestStartTimeBefore"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"systestEndTimeAfter should be earlier than systestEndTimeBefore"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
 ## View Algorithm Marathon Challenges [/data/marathon/challenges?listType={listType}&pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}]
 ### View Algorithm Marathon Challenges [GET]
 
@@ -6954,7 +8035,7 @@ Request
             "value":"503",
             "description":"Servers are up but overloaded. Try again later."
         }
-        
+
 ## View Active Data Science Challenges [/dataScience/challenges/active?submissionEndFrom={submissionEndFrom}&submissionEndTo={submissionEndTo}]
 ### View Active Data Science Challenges [GET]
 
@@ -7220,7 +8301,7 @@ Request
               },
               "languages": {
                      "roundId": 40006,
-                     “languages” [
+                     "languages": [
                          {
                            "id": 1,
                            "description": "Java"
@@ -7338,6 +8419,7 @@ Request
     * type (required, object) round's type, it's id should be set.
     * region (required, object) round's region, it's id should be set.
     * roomAssignment (required, object) round's roomAssginment, with field codersPerRoom(integer), type(integer), isByDivision, isByRegion, isFinal(boolean), p(Number).
+    * auto_end (optional, boolean) auto end flag
 
 + Response 200 (application/json)
 
@@ -14680,6 +15762,380 @@ Source Code Image Generation APIs
             "name":"Bad Request",
             "value":"400",
             "description":"The style name is invalid."
+        }
+
++ Response 500 (application/json)
+
+        {
+            "name":"Internal Server Error",
+            "value":"500",
+            "description":"Unknown server error. Please contact support."
+        }
+
++ Response 503 (application/json)
+
+        {
+            "name":"Service Unavailable",
+            "value":"503",
+            "description":"Servers are up but overloaded. Try again later."
+        }
+
+
+## Get Rounds [/data/rounds?pageSize={pageSize}&pageIndex={pageIndex}&sortColumn={sortColumn}&sortOrder={sortOrder}&name={name}&type={type}&status={status}&registrationPhaseStartTimeFrom={registrationPhaseStartTimeFrom}&registrationPhaseStartTimeTo={registrationPhaseStartTimeTo}&registrationPhaseEndTimeFrom={registrationPhaseEndTimeFrom}&registrationPhaseEndTimeTo={registrationPhaseEndTimeTo}&codingPhaseStartTimeFrom={codingPhaseStartTimeFrom}&codingPhaseStartTimeTo={codingPhaseStartTimeTo}&codingPhaseEndTimeFrom={codingPhaseEndTimeFrom}&codingPhaseEndTimeTo={codingPhaseEndTimeTo}&intermissionPhaseStartTimeFrom={intermissionPhaseStartTimeFrom}&intermissionPhaseStartTimeTo={intermissionPhaseStartTimeTo}&intermissionPhaseEndTimeFrom={intermissionPhaseEndTimeFrom}&intermissionPhaseEndTimeTo={intermissionPhaseEndTimeTo}&challengePhaseStartTimeFrom={challengePhaseStartTimeFrom}&challengePhaseStartTimeTo={challengePhaseStartTimeTo}&challengePhaseEndTimeFrom={challengePhaseEndTimeFrom}&challengePhaseEndTimeTo={challengePhaseEndTimeTo}&systemTestPhaseStartTimeFrom={systemTestPhaseStartTimeFrom}&systemTestPhaseStartTimeTo={systemTestPhaseStartTimeTo}&systemTestPhaseEndTimeFrom={systemTestPhaseEndTimeFrom}&systemTestPhaseEndTimeTo={systemTestPhaseEndTimeTo}&roomAssignmentPhaseStartTimeFrom={roomAssignmentPhaseStartTimeFrom}&roomAssignmentPhaseStartTimeTo={roomAssignmentPhaseStartTimeTo}&roomAssignmentPhaseEndTimeFrom={roomAssignmentPhaseEndTimeFrom}&roomAssignmentPhaseEndTimeTo={roomAssignmentPhaseEndTimeTo}&moderatedChatPhaseStartTimeFrom={moderatedChatPhaseStartTimeFrom}&moderatedChatPhaseStartTimeTo={moderatedChatPhaseStartTimeTo}&moderatedChatPhaseEndTimeFrom={moderatedChatPhaseEndTimeFrom}&moderatedChatPhaseEndTimeTo={moderatedChatPhaseEndTimeTo}
+### Get Rounds [GET]
+
++ Parameters
+    + pageIndex (optional, number, `1`) ... The paging number, 1-based, -1 if no paging. It can be null.
+    + pageSize (optional, number, `50`) ... The max number of the results, should be set if pageIndex is set.
+    + sortColumn (optional, string, `registrationPhaseStartTime`) ... The column name to sort, can be null. It should be one of name,registrationPhaseStartTime, registrationPhaseEndTime, codingPhaseStartTime, codingPhaseEndTime, intermissionPhaseStartTime, intermissionPhaseEndTime, challengePhaseStartTime, challengePhaseEndTime, systemTestPhaseStartTime, systemTestPhaseEndTime, roomAssignmentPhaseStartTime, roomAssignmentPhaseEndTime, moderatedChatPhaseStartTime, moderatedChatPhaseEndTime.
+    + sortOrder (optional, string, `desc`) ... The sort order, can be null. It should be one of desc or asc.
+    + name (optional, string, `test`) ... The name filter, can be null. It should be encoded in uri format. It's case insensitive and it could be only part of name to filter.
+    + type (optional, string, `Single%20Round%20Match`) ... The type filter, can be null. It should be encoded in uri format. It's case insensitive. It should be values in round_type_lu table description field. It could use ',' char to connect more than 1 value.
+    + status (optional, string, `active`) ... The status filter, can be null. It's case insensitive. It should be one of active / past / draft. It could use ',' char to connect more than 1 value.
+    + registrationPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + registrationPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + registrationPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + registrationPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The registrationPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The codingPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The codingPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The codingPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + codingPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The codingPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + intermissionPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The intermissionPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The challengePhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The challengePhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The challengePhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + challengePhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The challengePhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + systemTestPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The systemTestPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + roomAssignmentPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The roomAssignmentPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseStartTimeFrom (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseStartTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseStartTimeTo (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseStartTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseEndTimeFrom (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseEndTimeFrom filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+    + moderatedChatPhaseEndTimeTo (optional, string, `2014-01-01%2000:00:00`) The moderatedChatPhaseEndTimeTo filter, can be null. It should be encoded in uri format. The format should be 'YYYY-MM-DD HH:mm:ss'. The from date should not be later than to date in same field.
+
++ Request
+    + Headers
+        Authorization : Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZHwxMzI0NTYiLCJleHAiOjEzOTI4MTc4ODQsImF1ZCI6InRvcGNvZGVyIiwiaWF0IjoxMzkyNzU3ODg0fQ.7X2IKkiyyI1ExSM5GNpdhJ8fGGK5-oAjzccX6YL_BKY
+
+
++ Response 200 (application/json)
+
+        {
+                "total": 1,
+                "pageIndex": 1,
+                "pageSize": 2,
+                "data": [
+                    {
+                        "ID": 12001,
+                        "Name": "test round 12001",
+                        "Short Name": "short name 12001",
+                        "Type": "Single Round Match",
+                        "Status": "Active",
+                        "Registration Limit": 1000,
+                        "Invitational Type": "Not",
+                        "Region": "Alpha",
+                        "contestId": 12917,
+                        "contestName": "Test SRM",
+                        "contestStatus": "A",
+                        "hasProblems": true,
+                        "hasTerms": true,
+                        "hasSchedule": true,
+                        "hasQuestions": false,
+                        "Round Schedule": [
+                            {
+                                "Phase Name": "Registration Phase",
+                                "Start Time": "2013-11-02T05:50:51.000+05:00",
+                                "End Time": "2013-12-02T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "Coding Phase",
+                                "Start Time": "2013-12-02T05:50:52.000+05:00",
+                                "End Time": "2013-12-05T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "Intermission Phase",
+                                "Start Time": "2013-12-06T05:50:51.000+05:00",
+                                "End Time": "2013-12-07T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "Challenge Phase",
+                                "Start Time": "2013-12-08T05:50:51.000+05:00",
+                                "End Time": "2013-12-09T05:50:51.000+05:00",
+                                "Status": "Past"
+                            },
+                            {
+                                "Phase Name": "System Test Phase",
+                                "Start Time": "2013-12-10T05:50:51.000+05:00",
+                                "End Time": "2013-12-11T05:50:51.000+05:00",
+                                "Status": "Active"
+                            },
+                            {
+                                "Phase Name": "Moderated Chat Phase",
+                                "Start Time": "2013-12-12T05:50:51.000+05:00",
+                                "End Time": "2013-12-13T05:50:51.000+05:00",
+                                "Status": "Draft"
+                            },
+                            {
+                                "Phase Name": "Room Assignment Phase",
+                                "Start Time": "2013-12-14T05:50:51.000+05:00",
+                                "End Time": "2013-12-15T05:50:51.000+05:00",
+                                "Status": "Draft"
+                            }
+                        ],
+                        "languages": [
+                                         {
+                                             "id": 1,
+                                             "description": "Java"
+                                         },
+                                         {
+                                             "id": 2,
+                                             "description": "XML"
+                                         }
+                                     ]
+                    }
+                ]
+            }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageSize should not be null or undefined if pageIndex is provided."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageIndex should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageSize should be less or equal to 2147483647."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageIndex should be equal to -1 or greater than 0"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "pageSize should be positive."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "sortOrder should be an element of asc,desc."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "sortColumn should be an element of registrationphasestarttime,registrationphaseendtime,codingphasestarttime,codingphaseendtime,intermissionphasestarttime,intermissionphaseendtime,challengephasestarttime,challengephaseendtime,systemtestphasestarttime,systemtestphaseendtime,roomassignmentphasestarttime,roomassignmentphaseendtime,moderatedchatphasestarttime,moderatedchatphaseendtime."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "status should be an element of active,past,draft."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "The dd is not a valid round_type_lu value."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "registrationPhaseStartTimeFrom is not a valid date."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "registrationPhaseStartTimeFrom should not be later than registrationPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "registrationPhaseEndTimeFrom should not be later than registrationPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "codingPhaseStartTimeFrom should not be later than codingPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "codingPhaseEndTimeFrom should not be later than codingPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "intermissionPhaseStartTimeFrom should not be later than intermissionPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "intermissionPhaseEndTimeFrom should not be later than intermissionPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "challengePhaseStartTimeFrom should not be later than challengePhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "challengePhaseEndTimeFrom should not be later than challengePhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "systemTestPhaseStartTimeFrom should not be later than systemTestPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "systemTestPhaseEndTimeFrom should not be later than systemTestPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "roomAssignmentPhaseStartTimeFrom should not be later than roomAssignmentPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "roomAssignmentPhaseEndTimeFrom should not be later than roomAssignmentPhaseEndTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "moderatedChatPhaseStartTimeFrom should not be later than moderatedChatPhaseStartTimeTo."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "name":"Bad Request",
+            "value":"400",
+            "description":"This message will explain why the request is invalid or cannot be served.",
+            "details": "moderatedChatPhaseEndTimeFrom should not be later than moderatedChatPhaseEndTimeTo."
+        }
++ Response 401 (application/json)
+
+        {
+            "name":"Unauthorized",
+            "value":"401",
+            "description":"Authorized information needed."
+        }
+
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description":"Admin access only."
         }
 
 + Response 500 (application/json)

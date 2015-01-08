@@ -1,0 +1,35 @@
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name,project_category_id)
+       VALUES (1100000, 7, 'Challenge N1', 2, 5, '2014-01-01 08:00:00', '2014-01-05 09:00:00', 'Code',2);
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name,project_category_id)
+       VALUES (1100001, 7, 'Challenge N2', 2, 5, '2014-01-01 08:00:00', '2014-01-05 08:00:00', 'Assembly',2);
+
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name,project_category_id)
+       VALUES (1100002, 7, 'Challenge N3', 3, 5, '2014-01-01 08:00:00', '2014-01-05 07:00:00', 'Code',2);
+
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name,project_category_id)
+       VALUES (1100003, 7, 'Challenge N4', 3, 5, '2014-01-01 08:00:00', '2014-01-05 09:11:00', 'Assembly',2);
+
+INSERT INTO project (project_id, status_id, component_name, num_submissions, num_registrations, posting_date, submitby_date, project_category_name,project_category_id)
+       VALUES (1100004, 7, 'Challenge N5', 3, 5, '2014-01-01 08:00:00', '2014-01-05 09:12:00', 'Assembly',2);
+
+
+INSERT INTO coder(coder_id,handle,status,handle_lower) VALUES(132457,'super','A','super');
+INSERT INTO coder(coder_id,handle,status,handle_lower) VALUES(932457,'super2','S','super2');
+
+
+INSERT INTO project_result(project_id,user_id,placed,final_points,submit_timestamp,submit_ind,payment,inquire_timestamp)
+VALUES(1100000,132457,1,450.0,'2014-01-05 08:00',1,800,'2014-01-04 08:00');
+INSERT INTO project_result(project_id,user_id,placed,final_points,submit_timestamp,submit_ind,payment,inquire_timestamp)
+VALUES(1100001,132457,2,451.0,'2014-01-05 07:00',1,800,'2014-01-04 08:00');
+INSERT INTO project_result(project_id,user_id,placed,final_points,submit_timestamp,submit_ind,payment,inquire_timestamp)
+VALUES(1100002,132457,3,452.0,'2014-01-05 06:00',1,0,'2014-01-04 08:00');
+INSERT INTO project_result(project_id,user_id,placed,final_points,submit_timestamp,submit_ind,payment,inquire_timestamp)
+VALUES(1100003,132457,1,453.0,'2014-01-05 05:00',1,800,'2014-01-04 08:00');
+INSERT INTO project_result(project_id,user_id,placed,final_points,submit_timestamp,submit_ind,payment,inquire_timestamp)
+VALUES(1100004,132457,1,454.0,'2014-01-05 04:00',1,800,'2014-01-04 08:00');
+
+INSERT INTO project_platform (project_id, project_platform_id, name) VALUES (1100000, 1, 'wordpress');
+INSERT INTO project_platform (project_id, project_platform_id, name) VALUES (1100000, 2, 'AWS');
+
+INSERT INTO project_technology (project_id, project_technology_id, name) VALUES (1100000, 1, 'AJAX');
+INSERT INTO project_technology (project_id, project_technology_id, name) VALUES (1100000, 2, 'Applet');

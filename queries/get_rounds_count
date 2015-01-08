@@ -1,0 +1,23 @@
+SELECT
+count(*) as total_count
+ FROM (round r
+      LEFT OUTER JOIN round_type_lu rt
+        ON r.round_type_id=rt.round_type_id
+      LEFT OUTER JOIN region reg
+        ON r.region_id=reg.region_id
+     LEFT OUTER JOIN round_segment rs1
+        ON r.round_id=rs1.round_id and rs1.segment_id = 1
+     LEFT OUTER JOIN round_segment rs2
+        ON r.round_id=rs2.round_id and rs2.segment_id = 2
+     LEFT OUTER JOIN round_segment rs3
+        ON r.round_id=rs3.round_id and rs3.segment_id = 3
+     LEFT OUTER JOIN round_segment rs4
+        ON r.round_id=rs4.round_id and rs4.segment_id = 4
+     LEFT OUTER JOIN round_segment rs5
+        ON r.round_id=rs5.round_id and rs5.segment_id = 5
+     LEFT OUTER JOIN round_segment rs6
+        ON r.round_id=rs6.round_id and rs6.segment_id = 6
+     LEFT OUTER JOIN round_segment rs7
+        ON r.round_id=rs7.round_id and rs7.segment_id = 7
+      )
+WHERE @filterCondition@

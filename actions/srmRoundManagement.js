@@ -376,11 +376,13 @@ function checkContestRound(helper, obj) {
         helper.checkNumber(obj.roomAssignment.p, 'roomAssignment.p') ||
         helper.checkString(obj.name, 'name') ||
         helper.checkString(obj.status, 'status') ||
-        helper.checkString(obj.short_name, 'short_name');
+        helper.checkString(obj.short_name, 'short_name') ||
+        helper.checkBoolean(obj.auto_end, 'auto_end');
     if (!error) {
         obj.roomAssignment.isByDivision = obj.roomAssignment.isByDivision ? 1 : 0;
         obj.roomAssignment.isByRegion = obj.roomAssignment.isByRegion ? 1 : 0;
         obj.roomAssignment.isFinal = obj.roomAssignment.isFinal ? 1 : 0;
+        obj.auto_end = obj.auto_end ? 1 : 0;
     }
     return error;
 }
@@ -399,7 +401,7 @@ exports.createSRMContestRound = {
     inputs: {
         required: ['contest_id', 'type', 'invitationalType', 'region',
                    'registrationLimit', 'roomAssignment', 'name', 'status', 'short_name'],
-        optional: []
+        optional: ['auto_end']
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -412,6 +414,9 @@ exports.createSRMContestRound = {
             params = connection.params || {},
             helper = api.helper;
 
+        if (_.isUndefined(params.auto_end)) {
+            params.auto_end = false;
+        }
         if (!connection.dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
@@ -445,7 +450,8 @@ exports.createSRMContestRound = {
                                 region_id: params.region.region_id,
                                 name: params.name,
                                 status: params.status,
-                                short_name: params.short_name
+                                short_name: params.short_name,
+                                auto_end: params.auto_end
                             },
                             dbConnectionMap, cbx);
                     }

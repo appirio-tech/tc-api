@@ -1,0 +1,22 @@
+{
+  "pageIndex" : {
+    "notNumber": "pageIndex should be number.",
+    "notPositive": "pageIndex should be equal to -1 or greater than 0",
+    "notInteger": "pageIndex should be Integer.",
+    "tooBig": "pageIndex should be less or equal to 2147483647."
+  },
+  "pageSize" : {
+    "notNumber": "pageSize should be number.",
+    "notPositive": "pageSize should be positive.",
+    "notInteger": "pageSize should be Integer.",
+    "tooBig": "pageSize should be less or equal to 2147483647."
+  },
+  "handle": {
+    "tooLong": "handle exceeds 30 characters.",
+    "notExisted": "User does not exist."
+  },
+  "invalidSortOrder": "sortOrder should be an element of asc,desc.",
+  "invalidSortColumn": "The sort column 'abc' is invalid, it should be element of id,type,codingDuration,placement,numContestants,numSubmitters.",
+  "notActivatedUser": "User is not activated.",
+  "missingSortColumn": "The sortColumn is missing."
+}

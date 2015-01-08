@@ -1,0 +1,40 @@
+SELECT
+SKIP @first_row_index@
+FIRST @page_size@
+  r.round_id AS id
+, r.round_type_desc AS type
+, rr.division_placed AS placement
+, NVL(reg_info.count, 0) AS num_contestants
+, NVL(sub_info.count, 0) AS num_submitters
+, NVL(rr.paid, 0) AS paid
+, (((extend(dbinfo("UTC_TO_DATETIME",
+        (SELECT MAX(submit_time) FROM problem_submission ps WHERE ps.round_id = r.round_id AND ps.problem_id = p.problem_id AND ps.coder_id = co.coder_id)/1000)
+        , YEAR TO fraction) - c.start_date)::INTERVAL SECOND(9) to second) * 1000)::char(10)::INT8 AS coding_duration
+, user_algo_challenges_language(co.coder_id, p.problem_id, r.round_id) AS technologies
+FROM contest c
+INNER JOIN round r ON r.contest_id = c.contest_id
+INNER JOIN problem p ON p.round_id = r.round_id
+INNER JOIN room_result rr ON rr.round_id = r.round_id
+INNER JOIN coder co ON co.coder_id = rr.coder_id AND co.handle_lower = '@handle@'
+INNER JOIN coder_rank_history rkh ON rkh.coder_id = rr.coder_id AND rkh.round_id = rr.round_id
+LEFT JOIN (
+    SELECT
+      rr.round_id
+    , COUNT(*) AS count
+    FROM room_result rr
+    INNER JOIN room ON room.room_id = rr.room_id AND room.division_id IN (1, 2)
+    WHERE rr.problems_submitted > 0
+    GROUP BY rr.round_id
+) sub_info ON sub_info.round_id = r.round_id
+LEFT JOIN (
+    SELECT
+      rr.round_id
+    , COUNT(*) AS count
+    FROM room_result rr
+    INNER JOIN room ON room.room_id = rr.room_id AND room.division_id IN (1, 2)
+    GROUP BY rr.round_id
+) reg_info ON reg_info.round_id = r.round_id
+WHERE r.round_type_id IN (1,2,10,20)
+AND rkh.coder_rank_type_id = 2
+AND rr.problems_submitted > 0 -- has submitted
+ORDER BY @sort_column@ @sort_order@

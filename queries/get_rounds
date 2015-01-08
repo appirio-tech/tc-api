@@ -1,0 +1,146 @@
+SELECT
+    SKIP @firstRowIndex@
+    FIRST @pageSize@
+  r.round_id as id,
+  r.name as name,
+  r.short_name as short_name,  
+  rt.round_type_desc,  
+  c.contest_id as contest_id,
+  c.name as contest_name,
+  c.status as contest_status,
+  CASE WHEN (UPPER(r.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(r.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(r.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END AS round_status,
+  r.registration_limit,    
+  CASE WHEN (r.invitational = 0) THEN
+           'Not'
+       WHEN (r.invitational = 1) THEN
+           'Normal'
+       WHEN (r.invitational = 2) THEN
+           'Negate'
+       ELSE NULL
+       END AS invitational,
+  reg.region_name,
+  rs1.start_time as start_time_1,
+  rs1.end_time as end_time_1,
+  CASE WHEN (UPPER(rs1.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs1.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs1.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_1,
+  ((select segment_desc from segment where segment_id = 1) || ' Phase') as name_1,
+  rs2.start_time as start_time_2,
+  rs2.end_time as end_time_2,
+  CASE WHEN (UPPER(rs2.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs2.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs2.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_2,
+  (select segment_desc from segment where segment_id = 2) as name_2,
+  rs3.start_time as start_time_3,
+  rs3.end_time as end_time_3,
+  CASE WHEN (UPPER(rs3.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs3.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs3.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_3,
+  (select segment_desc from segment where segment_id = 3) as name_3,
+  rs4.start_time as start_time_4,
+  rs4.end_time as end_time_4,
+  CASE WHEN (UPPER(rs4.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs4.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs4.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_4,
+  (select segment_desc from segment where segment_id = 4) as name_4,
+  rs5.start_time as start_time_5,
+  rs5.end_time as end_time_5,
+  CASE WHEN (UPPER(rs5.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs5.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs5.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_5,
+  (select segment_desc from segment where segment_id = 5) as name_5,
+  rs6.start_time as start_time_6,
+  rs6.end_time as end_time_6,
+  CASE WHEN (UPPER(rs6.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs6.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs6.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_6,
+  (select segment_desc from segment where segment_id = 6) as name_6,
+  rs7.start_time as start_time_7,
+  rs7.end_time as end_time_7,
+  CASE WHEN (UPPER(rs7.status) = 'A') THEN
+           'Active'
+       WHEN (UPPER(rs7.status) = 'P') THEN
+           'Past'
+       WHEN (UPPER(rs7.status) = 'F') THEN
+           'Draft'
+       ELSE NULL
+       END as status_7,
+  (select segment_desc from segment where segment_id = 7) as name_7,
+  CASE WHEN ((select count(*) from round_component rc where rc.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_problems,
+  CASE WHEN ((select count(*) from round_terms rt where rt.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_terms,
+  CASE WHEN ((select count(*) from round_segment rs where rs.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_schedule,
+  CASE WHEN ((select count(*) from round_question rq where rq.round_id = r.round_id) > 0) THEN
+           'true'
+       ELSE 'false'
+       END AS has_questions
+       
+ FROM (round r
+      LEFT OUTER JOIN round_type_lu rt
+        ON r.round_type_id=rt.round_type_id
+      LEFT OUTER JOIN region reg
+        ON r.region_id=reg.region_id
+      LEFT OUTER JOIN contest c
+        ON r.contest_id=c.contest_id
+     LEFT OUTER JOIN round_segment rs1
+        ON r.round_id=rs1.round_id and rs1.segment_id = 1
+     LEFT OUTER JOIN round_segment rs2
+        ON r.round_id=rs2.round_id and rs2.segment_id = 2
+     LEFT OUTER JOIN round_segment rs3
+        ON r.round_id=rs3.round_id and rs3.segment_id = 3
+     LEFT OUTER JOIN round_segment rs4
+        ON r.round_id=rs4.round_id and rs4.segment_id = 4
+     LEFT OUTER JOIN round_segment rs5
+        ON r.round_id=rs5.round_id and rs5.segment_id = 5
+     LEFT OUTER JOIN round_segment rs6
+        ON r.round_id=rs6.round_id and rs6.segment_id = 6
+     LEFT OUTER JOIN round_segment rs7
+        ON r.round_id=rs7.round_id and rs7.segment_id = 7
+      )
+WHERE @filterCondition@
+ORDER BY @sortColumn@ @sortOrder@

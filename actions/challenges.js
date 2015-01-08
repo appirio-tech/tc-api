@@ -933,7 +933,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
             sqlParams.pageSize = pageSize;
             sqlParams.sortColumn = sortColumn.toLowerCase();
-            sqlParams.sortColumn = helper.getSortColumnDBName(sortColumn.toLowerCase());
+            sqlParams.sortColumn = helper.getSortColumnDBName(sortColumn);
             sqlParams.sortOrder = sortOrder.toLowerCase();
             // Set the project type id
             sqlParams.project_type_id = challengeType.category;
@@ -3684,7 +3684,7 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
             sqlParams = _.extend(sqlParams, {
                 first_row_index: (pageIndex - 1) * pageSize,
                 page_size: pageSize,
-                sort_column: helper.getSortColumnDBName(sortColumn.toLowerCase()),
+                sort_column: helper.getSortColumnDBName(sortColumn),
                 sort_order: sortOrder.toLowerCase(),
                 track: type.category,
                 // Set the submission phase status id.

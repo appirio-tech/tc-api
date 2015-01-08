@@ -1,0 +1,4 @@
+SELECT DISTINCT round_type_desc AS name
+, round_type_id AS id
+FROM  round_type_lu
+ORDER BY name ASC;

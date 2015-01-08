@@ -1,0 +1,14 @@
+DELETE FROM coder_rank_history WHERE round_id IN (2001, 2002, 2003, 2004);
+DELETE FROM problem_submission;
+DELETE FROM room_result WHERE round_id IN (2001, 2002, 2003, 2004);
+DELETE FROM room WHERE room_id IN (2001, 2002, 2003, 2004);
+DELETE FROM problem;
+DELETE FROM round WHERE round_id IN (2001, 2002, 2003, 2004);
+DELETE FROM contest WHERE contest_id IN (2001, 2002, 2003, 2004);
+DELETE FROM coder_rank_type_lu;
+DELETE FROM coder;
+DELETE FROM division_lu;
+DELETE FROM round_type_lu;
+DELETE FROM algo_rating_type_lu;
+DELETE FROM room_type_lu;
+DELETE FROM language_lu;

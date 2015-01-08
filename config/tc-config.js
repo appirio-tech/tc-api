@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, TCSASSEMBLER
- * @version 1.28
+ * @author vangavroche, Ghost_141, kurtrips, Sky_, isv, bugbuka, flytoj2ee, onsky
+ * @version 1.29
  * changes in 1.1:
  * - add defaultCacheLifetime parameter
  * changes in 1.2:
@@ -66,6 +66,8 @@
  * Add userActivationResendLimit and userActivationCacheLifeTime for user activation email api.
  * Changes in 1.28:
  * Add source code image generation configuration.
+ * Changes in 1.29:
+ * Add database timezone identifier configuration.
  */
 
 "use strict";
@@ -97,6 +99,7 @@ var config = {
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
     challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
     reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
+    databaseTimezoneIdentifier: '-0400',
 
     /**
      * The directory where uploaded files are stored.

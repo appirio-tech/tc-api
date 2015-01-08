@@ -1,0 +1,35 @@
+{
+    "data": [
+        {
+            "id": 1100000,
+            "type": "Code",
+            "placement": 1,
+            "prize": true,
+            "numContestants": 5,
+            "numSubmissions": 2,
+            "codingDuration": 1440,
+            "platforms": [
+                "AWS",
+                "wordpress"
+            ],
+            "technologies": [
+                "AJAX",
+                "Applet"
+            ]
+        },
+        {
+            "id": 1100001,
+            "type": "Assembly",
+            "placement": 2,
+            "prize": true,
+            "numContestants": 5,
+            "numSubmissions": 2,
+            "codingDuration": 1380,
+            "platforms": [],
+            "technologies": []
+        }
+    ],
+    "total": 5,
+    "pageIndex": 1,
+    "pageSize": 2
+}

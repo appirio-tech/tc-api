@@ -1,0 +1,5 @@
+{
+    "name"    : "check_problem_exists",
+    "db"      : "topcoder_dw",
+    "sqlfile" : "check_problem_exists"
+}

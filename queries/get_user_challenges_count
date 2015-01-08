@@ -1,0 +1,10 @@
+SELECT
+COUNT(*) AS total
+  FROM project_result pr, project p, coder c
+ WHERE p.project_id = pr.project_id
+   AND pr.placed > 0
+   AND p.status_id in (4, 5, 7)
+   AND p.project_category_id in (@challengeType@)
+   AND c.handle = '@handle@'
+   AND user_id = c.coder_id
+   AND c.status = 'A'

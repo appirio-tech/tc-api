@@ -1,0 +1,10 @@
+DELETE FROM round_segment WHERE round_id >= 3000 AND round_id <= 3010;
+DELETE FROM round WHERE round_id >= 3000 AND round_id <= 3010;
+DELETE FROM contest WHERE contest_id >= 2000 AND contest_id <= 2005;
+
+UPDATE round set status="A" where round_id=1000;
+UPDATE round set status="F" where round_id=13672;
+UPDATE round set status="F" where round_id=13673;
+UPDATE round set status="A" where round_id=13674;
+UPDATE round set status="F" where round_id=13675;
+UPDATE round set status="F" where round_id=13676;
