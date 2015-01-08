@@ -2371,8 +2371,8 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 //Submission Links
                 if (isStudio) {
                     if (challengeRestrictions.show_submissions) {
-                        resEl.submissionDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id;
-                        resEl.previewDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id + "&sbt=small";
+                        resEl.submissionDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id + api.config.tcConfig.submissionDownloadLinkParams;
+                        resEl.previewDownloadLink = api.config.tcConfig.designSubmissionLink + el.submission_id + api.config.tcConfig.previewDownloadLinkParams;
                     }
                 } else {
                     resEl.submissionDownloadLink = api.config.tcConfig.submissionLink + el.upload_id;
@@ -2394,7 +2394,7 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
             if (isStudio) {
                 if (challengeRestrictions.show_submissions) {
                     result.finalFixes = _.map(res.finalFixes, function (ff) {
-                        return api.config.tcConfig.designSubmissionLink + ff.submission_id;
+                        return api.config.tcConfig.designSubmissionLink + ff.submission_id + api.config.tcConfig.submissionDownloadLinkParams;
                     });
                 }
             } else {
@@ -3956,7 +3956,7 @@ var getUserSubmissions = function (api, connection, next) {
                     submission.download = api.config.tcConfig.submissionLink + item.upload_id;
                     delete submission.ranking;
                 } else {
-                    submission.download = api.config.tcConfig.designSubmissionLink + item.submission_id;
+                    submission.download = api.config.tcConfig.designSubmissionLink + item.submission_id + api.config.tcConfig.submissionDownloadLinkParams;
                 }
                 return submission;
             });

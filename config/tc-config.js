@@ -130,7 +130,12 @@ var config = {
 
     submissionLink: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=',
     finalFixLink: 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=',
-    designSubmissionLink: 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=',
+    designSubmissionLink: 'https://api.topcoder.com/v2/design/download/',
+    // stores the parameters that need sent to the 'submission' request
+    submissionDownloadLinkParams: '?submissionType=original',
+    //stores the parameters that need to be included in the 'preview' request
+    //29 means small
+    previewDownloadLinkParams: "?submissionType=preview&submissionImageTypeId=29",
 
     //The name of the folder where to store the submission files.
     //Please make sure the directory already exists

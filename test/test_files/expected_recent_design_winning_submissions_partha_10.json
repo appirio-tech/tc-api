@@ -40,7 +40,7 @@
             "submissionDate": "2014-01-10T10:12:00.000+0000",
             "viewable": true,
             "challengeId": 32000006,
-            "preview": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=140003&sbt=small"
+            "preview": "https://api.topcoder.com/v2/design/download/140003?submissionType=preview&submissionImageTypeId=29"
         },
         {
             "contestName": "Test Wireframes 1",
@@ -49,7 +49,7 @@
             "submissionDate": "2014-01-02T10:12:00.000+0000",
             "viewable": true,
             "challengeId": 32000003,
-            "preview": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=110003&sbt=small"
+            "preview": "https://api.topcoder.com/v2/design/download/110003?submissionType=preview&submissionImageTypeId=29"
         }
     ]
 }
