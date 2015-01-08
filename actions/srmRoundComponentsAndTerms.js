@@ -59,7 +59,7 @@ function checkDefinedNonNegativeInteger(value, name, error, helper) {
  * @param callback the callback method
  */
 function checkComponents(api, dbConnectionMap, components, callback) {
-    var helper = api.helper, error = helper.checkArray(components, "components", false), existingComponentDivisionIds = [];
+    var helper = api.helper, error = helper.checkArray(components, "components", true), existingComponentDivisionIds = [];
     if (error) {
         callback(error);
         return;
@@ -202,7 +202,7 @@ var setRoundComponents = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
         sqlParams = {},
         roundId = Number(connection.params.roundId),
-        components = connection.params.components;
+        components = connection.params.components || [];
 
     async.waterfall([
         function (cb) {
@@ -348,8 +348,8 @@ exports.setRoundComponents = {
     name: "setRoundComponents",
     description: "Set Round Components",
     inputs: {
-        required: ['roundId', 'components'],
-        optional: []
+        required: ['roundId'],
+        optional: ['components']
     },
     blockedConnectionTypes: [],
     outputExample: {},

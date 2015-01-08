@@ -12,6 +12,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -55,7 +62,8 @@
                     "endTime": "2013-02-15T05:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         },
         {
             "id": 12003,
@@ -66,6 +74,13 @@
             "registrationLimit": 1000,
             "invitationalType": "Not",
             "region": "Alpha",
+            "contestId": 12001,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasTerms": false,
+            "hasSchedule": true,
+            "hasQuestions": false,
             "roundSchedule": [
                 {
                     "phaseName": "Registration Phase",
@@ -109,7 +124,8 @@
                     "endTime": "2013-09-15T04:50:51.000+05:00",
                     "status": "Draft"
                 }
-            ]
+            ],
+            "languages": []
         }
-    ]    
+    ]
 }

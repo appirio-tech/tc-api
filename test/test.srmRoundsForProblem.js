@@ -265,7 +265,8 @@ describe('SRM Rounds For Problem', function () {
                             "roundId": 6,
                             "roundName": "Past Srm Round",
                             "divisionDescription": "Unrated Division",
-                            "levelDescription": "Level 2001"
+                            "levelDescription": "Level 2001",
+                            "editorialLink": "http://editlink6"
                         },
                         {
                             "contestId": 3006,
@@ -273,7 +274,8 @@ describe('SRM Rounds For Problem', function () {
                             "roundId": 7,
                             "roundName": "Past Tournament Round",
                             "divisionDescription": "Division-I",
-                            "levelDescription": "Level 2001"
+                            "levelDescription": "Level 2001",
+                            "editorialLink": "http://editlink7"
                         },
                         {
                             "contestId": 3007,
@@ -281,7 +283,8 @@ describe('SRM Rounds For Problem', function () {
                             "roundId": 8,
                             "roundName": "Past Long Round",
                             "divisionDescription": "Division-II",
-                            "levelDescription": "Level 2001"
+                            "levelDescription": "Level 2001",
+                            "editorialLink": "http://editlink8"
                         },
                         {
                             "contestId": 3008,
@@ -289,7 +292,8 @@ describe('SRM Rounds For Problem', function () {
                             "roundId": 9,
                             "roundName": "Past Event Round",
                             "divisionDescription": "No Division Applicable",
-                            "levelDescription": "Level 2001"
+                            "levelDescription": "Level 2001",
+                            "editorialLink": "http://editlink9"
                         }
                     ]
                 },

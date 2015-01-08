@@ -65,6 +65,7 @@ var TIME_FILTER_COLUMNS = [
 
 // the sort columns
 var SORT_COLUMNS = {
+    "name": "name",
     "registrationPhaseStartTime": "start_time_1",
     "registrationPhaseEndTime": "end_time_1",
     "codingPhaseStartTime": "start_time_2",
@@ -274,7 +275,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
             filterCondition = ' r.round_id > 0 ';
             if (_.isDefined(params.name)) {
                 // set name filter
-                filterCondition = filterCondition + ' AND LOWER(name) LIKE LOWER("%' + decodeURIComponent(params.name) + '%")';
+                filterCondition = filterCondition + ' AND LOWER(r.name) LIKE LOWER("%' + decodeURIComponent(params.name) + '%")';
             }
 
             if (statusCondition !== '') {
@@ -344,7 +345,15 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                     "registrationLimit": rounds[i].registration_limit,
                     "invitationalType": rounds[i].invitational ? rounds[i].invitational.trim() : rounds[i].invitational,
                     "region": rounds[i].region_name,
-                    "roundSchedule": []
+                    "contestId": rounds[i].contest_id,
+                    "contestName": rounds[i].contest_name,
+                    "contestStatus": rounds[i].contest_status,
+                    "hasProblems": rounds[i].has_problems.trim() === 'true',
+                    "hasTerms": rounds[i].has_terms.trim() === 'true',
+                    "hasSchedule": rounds[i].has_schedule.trim() === 'true',
+                    "hasQuestions": rounds[i].has_questions.trim() === 'true',
+                    "roundSchedule": [],
+                    "languages": []
                 };
 
                 for (j = 1; j <= 7; j++) {
@@ -364,23 +373,40 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
 
             if (idStr !== '') {
                 sqlParams.roundIdList = idStr;
-                // get round terms
-                api.dataAccess.executeQuery("get_round_terms_by_ids",
-                    sqlParams,
-                    dbConnectionMap,
-                    cb);
+                async.parallel({
+                    languages: function (cbx) {
+                        api.dataAccess.executeQuery("get_round_language_by_ids",
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    },
+                    terms: function (cbx) {
+                        api.dataAccess.executeQuery("get_round_terms_by_ids",
+                            sqlParams,
+                            dbConnectionMap,
+                            cbx);
+                    }
+                }, cb);
             } else {
                 cb(null, null);
             }
         }, function (results, cb) {
             var j;
             if (results !== null) {
-                for (i = 0; i < results.length; i++) {
+                for (i = 0; i < results.terms.length; i++) {
                     for (j = 0; j < data.length; j++) {
                         // only return the first term
-                        if (results[i].round_id === data[j].id && !data[j]["roundTerms"]) {
-                            data[j]["roundTerms"] = results[i].terms_content;
+                        if (results.terms[i].round_id === data[j].id && !data[j]["roundTerms"]) {
+                            data[j]["roundTerms"] = results.terms[i].terms_content;
                             break;
+                        }
+                    }
+                }
+
+                for (i = 0; i < results.languages.length; i++) {
+                    for (j = 0; j < data.length; j++) {
+                        if (results.languages[i].round_id === data[j].id) {
+                            data[j]["languages"].push({"id": results.languages[i].language_id, "description": results.languages[i].language_name});
                         }
                     }
                 }
@@ -408,7 +434,7 @@ exports.getRounds = {
     description: "Get Rounds",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder"].concat(FILTER_COLUMNS).concat(TIME_FILTER_COLUMNS)
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "name"].concat(FILTER_COLUMNS).concat(TIME_FILTER_COLUMNS)
     },
     blockedConnectionTypes: [],
     outputExample: {},
