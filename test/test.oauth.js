@@ -45,6 +45,7 @@ describe('Test Oauth', function () {
         adminSubAD = "ad|400001",
         notFoundSub = "google-oauth|458965118758";
     var jwtToken = "";
+    var jwtTokenCookieKey = process.env.JWT_TOKEN_COOKIE_KEY;
 
 
     /**
@@ -83,14 +84,18 @@ describe('Test Oauth', function () {
      * Create request and return it
      * @param {Number} statusCode the expected status code
      * @param {String} authHeader the Authorization header. Optional
+     * @param {String} authCookie the Authorization cookie. Optional
      * @return {Object} request
      */
-    function createRequest(statusCode, authHeader) {
+    function createRequest(statusCode, authHeader, authCookie) {
         var req = request(API_ENDPOINT)
             .get('/test/oauth')
             .set('Accept', 'application/json');
         if (authHeader) {
             req = req.set('Authorization', authHeader);
+        }
+        if (authCookie) {
+            req = req.set('cookie', authCookie);
         }
         return req.expect('Content-Type', /json/).expect(statusCode);
     }
@@ -103,6 +108,26 @@ describe('Test Oauth', function () {
      */
     function assertResponse(expectedResponse, authHeader, done) {
         createRequest(200, authHeader)
+            .end(function (err, res) {
+                assert.ifError(err);
+                assert.ok(res.body);
+                var response = res.body;
+                delete response.serverInformation;
+                delete response.requesterInformation;
+                assert.deepEqual(response, expectedResponse);
+                done(err);
+            });
+    }
+
+    /**
+     * Get response and assert response from /test/oauth
+     * @param {Object} expectedResponse the expected response
+     * @param {String} authHeader the Authorization header. Optional
+     * @param {String} authCookie the Authorization cookie. Optional
+     * @param {Function<err>} done the callback
+     */
+    function assertResponseWithCookie(expectedResponse, authHeader, authCookie, done) {
+        createRequest(200, authHeader, authCookie)
             .end(function (err, res) {
                 assert.ifError(err);
                 assert.ok(res.body);
@@ -137,6 +162,30 @@ describe('Test Oauth', function () {
             });
     }
 
+    /**
+     * Get response and assert response from /test/oauth
+     * @param {Number} statusCode the expected status code
+     * @param {String} authHeader the Authorization header. Optional
+     * @param {String} authCookie the Authorization cookie. Optional
+     * @param {String} errorMessage the expected error message header. Optional
+     * @param {Function<err>} done the callback
+     */
+    function assertErrorResponseWithCookie(statusCode, authHeader, authCookie, errorMessage, done) {
+        createRequest(statusCode, authHeader, authCookie)
+            .end(function (err, res) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                if (errorMessage) {
+                    assert.ok(res.body);
+                    assert.ok(res.body.error);
+                    assert.equal(res.body.error.details, errorMessage);
+                }
+                done();
+            });
+    }
+
 
     /**
      * Generate an auth header
@@ -145,6 +194,15 @@ describe('Test Oauth', function () {
      */
     function generateAuthHeader(data) {
         return "Bearer " + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
+    }
+
+    /**
+     * Generate an auth cookie
+     * @param {Object} data the data to generate
+     * @return {String} the generated string
+     */
+    function generateAuthCookie(data) {
+        return jwtTokenCookieKey + "=" + jwt.sign(data || {}, SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
     }
 
     /**
@@ -245,9 +303,35 @@ describe('Test Oauth', function () {
     /**
      * /test/oauth/ with header
      */
-    it('should be authorized as admin (ac)', function (done) {
+    it('should be authorized as admin (ad)', function (done) {
         var oauth = generateAuthHeader({ sub: adminSubAD});
         assertResponse({accessLevel: "admin", userId: 400001, handle: "admin_user"}, oauth, done);
+    });
+
+    /**
+     * /test/oauth/ with header and cookie
+     */
+    it('should be authorized as admin (ad) with both header and cookie', function (done) {
+        var authHeader = generateAuthHeader({ sub: adminSubAD});
+        var authCookie = generateAuthCookie({ sub: adminSubAD});
+        assertResponseWithCookie({accessLevel: "admin", userId: 400001, handle: "admin_user"}, authHeader, authCookie, done);
+    });
+
+    /**
+     * /test/oauth/ with header and cookie
+     */
+    it('should be authorized as admin (ad) with header but invalid cookie', function (done) {
+        var authHeader = generateAuthHeader({ sub: adminSubAD});
+        var authCookie = jwtTokenCookieKey + "=asd";
+        assertResponseWithCookie({accessLevel: "admin", userId: 400001, handle: "admin_user"}, authHeader, authCookie, done);
+    });
+
+    /**
+     * /test/oauth/ without header but with cookie
+     */
+    it('should be authorized as admin (ad) without header but with cookie', function (done) {
+        var authCookie = generateAuthCookie({ sub: adminSubAD});
+        assertResponseWithCookie({accessLevel: "admin", userId: 400001, handle: "admin_user"}, null, authCookie, done);
     });
 
     /**
@@ -283,6 +367,23 @@ describe('Test Oauth', function () {
     });
 
     /**
+     * /test/oauth/ with invalid header but valid cookie
+     */
+    it('should return error if header is invalid but cookie is valid', function (done) {
+        var authHeader = generateAuthHeader({ sub: userSubGoogle});
+        var authCookie = generateAuthCookie({ sub: userSubGoogle});
+        assertErrorResponseWithCookie(400, authHeader + "asd", authCookie, "Malformed Auth header", done);
+    });
+
+    /**
+     * /test/oauth/ with no header but invalid cookie
+     */
+    it('should return error if no header provided but cookie is invalid', function (done) {
+        var authCookie = generateAuthCookie({ sub: userSubGoogle});
+        assertErrorResponseWithCookie(400, null, authCookie + "asd", "Malformed Auth header", done);
+    });
+
+    /**
      * /test/oauth/ with invalid header
      */
     it('should return error if header is invalid (no sub)', function (done) {
@@ -293,8 +394,16 @@ describe('Test Oauth', function () {
     /**
      * /test/oauth/ with invalid header
      */
-    it('should return error if header is invalid (no provider in sub)', function (done) {
+    it('should return error if header is invalid (bad format)', function (done) {
         var oauth = generateAuthHeader({ sub: "123" });
+        assertErrorResponse(400, oauth, "Malformed Auth header. token.sub is in bad format!", done);
+    });
+
+    /**
+     * /test/oauth/ with invalid header
+     */
+    it('should return error if header is invalid (no provider in sub)', function (done) {
+        var oauth = generateAuthHeader({ sub: "|123" });
         assertErrorResponse(400, oauth, "Malformed Auth header. No provider in token.sub!", done);
     });
 

@@ -345,6 +345,26 @@ describe('SRM Round Components And Terms APIs', function () {
     });
 
     describe('Valid test', function () {
+        it("Valid set components.", function(done) {
+            var validRequest = {};
+            createPostRequest("/v2/data/srm/rounds/13673/components", 'heffan').expect(200).send(validRequest).end(function (err, res) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.equal(res.body.success, true, "Invalid response detail");
+                var sql = "* from round_component where round_id = 13673 order by component_id";
+                testHelper.runSqlSelectQuery(sql, "informixoltp", function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    assert.equal(result.length, 0, "All components should be removed!");
+                });
+                done();
+            });
+        });
+
         it("Valid set components.", function (done) {
             var validRequest = {"components": [{"componentId": 2020, "points": 250, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "points": 500, "divisionId": 2, "difficultyId": 2, "openOrder": 1, "submitOrder": 1}]};

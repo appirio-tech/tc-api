@@ -14,8 +14,8 @@
             "submissionDate": "2013-12-12T01:00:00.000+0000",
             "registrationDate": "2013-12-12T00:00:00.000+0000",
             "points": 350,
-            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66941",
-            "previewDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66941&sbt=small",
+            "submissionDownloadLink": "https://api.topcoder.com/v2/design/download/66941?submissionType=original",
+            "previewDownloadLink": "https://api.topcoder.com/v2/design/download/66941?submissionType=preview&submissionImageTypeId=29",
             "handle": "twight"
         },
         {
@@ -23,13 +23,13 @@
             "submissionDate": "2013-12-12T10:30:00.000+0000",
             "registrationDate": "2013-12-12T00:00:00.000+0000",
             "points": 150,
-            "submissionDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66945",
-            "previewDownloadLink": "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66945&sbt=small",
+            "submissionDownloadLink": "https://api.topcoder.com/v2/design/download/66945?submissionType=original",
+            "previewDownloadLink": "https://api.topcoder.com/v2/design/download/66945?submissionType=preview&submissionImageTypeId=29",
             "handle": "sandking"
         }
     ],
     "finalFixes": [
-        "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66948",
-        "http://studio.topcoder.com/?module=DownloadSubmission&sbmid=66947"
+        "https://api.topcoder.com/v2/design/download/66948?submissionType=original",
+        "https://api.topcoder.com/v2/design/download/66947?submissionType=original"
     ]
 }
