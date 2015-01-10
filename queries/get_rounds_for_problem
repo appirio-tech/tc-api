@@ -3,15 +3,11 @@ SELECT
  r.name AS round_name,
  r.contest_id,
  (SELECT name FROM contest c WHERE c.contest_id = r.contest_id) AS contest_name,
- (SELECT division_desc FROM division_lu d WHERE p.division_id = d.division_id) AS division_description,
- p.level_desc AS level_description,
  r.editorial_link
 FROM
-   problem p,
-   round r
-WHERE
-   p.problem_id = @problem_id@ AND
-   p.round_id = r.round_id AND
-   r.round_type_id IN (1,2,10,20) AND
-   r.status = 'P'
+   problem p
+INNER JOIN component c ON c.problem_id = p.problem_id
+INNER JOIN round_component rc ON rc.component_id = c.component_id
+INNER JOIN round r ON r.round_id = rc.round_id
+WHERE p.problem_id = @problem_id@
 ORDER BY r.round_id ASC;

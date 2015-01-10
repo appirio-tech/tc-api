@@ -2626,7 +2626,7 @@ exports.getSrmRoundsForProblem = {
     outputExample: {},
     version: 'v2',
     transaction: 'read', // this action is read-only
-    databases: ["topcoder_dw"],
+    databases: ["informixoltp"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
             api.log("Execute getSrmRoundsForProblem", 'debug');
