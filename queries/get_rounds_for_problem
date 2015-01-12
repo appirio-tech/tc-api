@@ -8,6 +8,6 @@ FROM
    problem p
 INNER JOIN component c ON c.problem_id = p.problem_id
 INNER JOIN round_component rc ON rc.component_id = c.component_id
-INNER JOIN round r ON r.round_id = rc.round_id
+INNER JOIN round r ON r.round_id = rc.round_id AND r.round_type_id IN (1,2,3,10,20) AND r.status = 'P'
 WHERE p.problem_id = @problem_id@
 ORDER BY r.round_id ASC;
