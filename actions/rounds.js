@@ -65,7 +65,7 @@ var TIME_FILTER_COLUMNS = [
 
 // the sort columns
 var SORT_COLUMNS = {
-    "name": "name",
+    "name": "r.name",
     "registrationPhaseStartTime": "start_time_1",
     "registrationPhaseEndTime": "end_time_1",
     "codingPhaseStartTime": "start_time_2",
@@ -434,7 +434,7 @@ exports.getRounds = {
     description: "Get Rounds",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "name"].concat(FILTER_COLUMNS).concat(TIME_FILTER_COLUMNS)
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "name"].concat(FILTER_COLUMNS).concat(TIME_FILT  ER_COLUMNS)
     },
     blockedConnectionTypes: [],
     outputExample: {},
