@@ -3,7 +3,8 @@ SELECT
     FIRST @pageSize@
   r.round_id as id,
   r.name as name,
-  r.short_name as short_name,  
+  r.short_name as short_name,
+  r.auto_end as auto_end,
   rt.round_type_desc,  
   c.contest_id as contest_id,
   c.name as contest_name,

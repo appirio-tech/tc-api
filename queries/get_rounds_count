@@ -20,4 +20,4 @@ count(*) as total_count
      LEFT OUTER JOIN round_segment rs7
         ON r.round_id=rs7.round_id and rs7.segment_id = 7
       )
-WHERE @filterCondition@
+WHERE r.round_type_id != 3 AND @filterCondition@

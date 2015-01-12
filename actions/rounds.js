@@ -342,6 +342,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                     "shortName": rounds[i].short_name,
                     "type": rounds[i].round_type_desc,
                     "status": rounds[i].round_status ? rounds[i].round_status.trim() : rounds[i].round_status,
+                    "autoEnd": rounds[i].auto_end,
                     "registrationLimit": rounds[i].registration_limit,
                     "invitationalType": rounds[i].invitational ? rounds[i].invitational.trim() : rounds[i].invitational,
                     "region": rounds[i].region_name,
