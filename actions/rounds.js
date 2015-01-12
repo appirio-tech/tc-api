@@ -434,7 +434,7 @@ exports.getRounds = {
     description: "Get Rounds",
     inputs: {
         required: [],
-        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "name"].concat(FILTER_COLUMNS).concat(TIME_FILT  ER_COLUMNS)
+        optional: ["pageSize", "pageIndex", "sortColumn", "sortOrder", "name"].concat(FILTER_COLUMNS).concat(TIME_FILTER_COLUMNS)
     },
     blockedConnectionTypes: [],
     outputExample: {},
