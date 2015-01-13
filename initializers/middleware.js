@@ -114,13 +114,13 @@ exports.middleware = function (api, next) {
                     return;
                 }
                 var split = decoded.sub.split("|");
-                if (split.length == 1) {
+                if (split.length === 1) {
                     // token.sub should contain "|"
                     cb(new IllegalArgumentError('Malformed Auth header. token.sub is in bad format!'));
                     return;
                 }
                 try {
-                    socialUserId = (split[split.length-1] || "").trim();
+                    socialUserId = (split[split.length - 1] || "").trim();
                     socialProvider = (split[0] || "").trim();
                 } catch (ignored) {
                     cb(new IllegalArgumentError('Malformed Auth header. Could not parse token.sub!'));
@@ -180,6 +180,9 @@ exports.middleware = function (api, next) {
                                 },
                                 isAdmin: function (cbk) {
                                     api.dataAccess.executeQuery("check_is_admin", {user_id: userId}, connectionMap, cbk);
+                                },
+                                isWebArenaSuper: function (cbk) {
+                                    api.dataAccess.executeQuery("check_is_web_arena_super", { user_id: userId }, connectionMap, cbk);
                                 }
                             }, cbx);
                         }, function (results, cbx) {
@@ -198,6 +201,7 @@ exports.middleware = function (api, next) {
                             } else {
                                 userInfo.accessLevel = "member";
                             }
+                            userInfo.isWebArenaSuper = results.isWebArenaSuper[0].count === 1;
                             cbx(null, userInfo);
                         }
                     ], cb);
