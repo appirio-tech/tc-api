@@ -7,6 +7,7 @@
  * Changes in 1.1:
  * - Add tests 'should 403 if web arena super modifies round not his own',
  *   'should modify own round for web arena super role'
+ * - Add test 'should create new round for web arena super role'
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -1329,6 +1330,52 @@ describe('SRM Round Management APIs', function () {
                                 cbx();
                             }
                         ], done);
+                    }
+                ], done);
+            });
+
+            it('should create new round for web arena super role', function (done) {
+                async.waterfall([
+                    _.bind(testHelper.runSqlSelectQuery, testHelper, GET_ROUND_SEQ_SQL, "informixoltp"),
+                    function (results, cb) {
+                        var roundId = results[0].next_id + 1,
+                            req = _.clone(goodRequest),
+                            jwt = testHelper.generateAuthHeader({sub: 'ad|124861'});
+                        request(API_ENDPOINT)
+                            .post('/v2/data/srm/rounds')
+                            .set('Accept', 'application/json')
+                            .set('Content-Type', 'application/json')
+                            .set('Authorization', jwt)
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .send(req)
+                            .end(function (err, res) {
+                                if (err) {
+                                    return cb(err);
+                                }
+                                assert.equal(res.body.roundId, roundId);
+                                testHelper.runSqlSelectQuery(
+                                    "creator_id, round_type_id from round where round_id = " + roundId,
+                                    "informixoltp",
+                                    function (error, results) {
+                                        if (error) {
+                                            return cb(error);
+                                        }
+                                        assert.ok(results && results.length === 1, "query should have succeeded.");
+                                        assert.equal(
+                                            results[0].creator_id,
+                                            124861,
+                                            "creator should be ksmith"
+                                        );
+                                        assert.equal(
+                                            results[0].round_type_id,
+                                            24,
+                                            "round type should be 'Instant Match'"
+                                        );
+                                        return cb();
+                                    }
+                                );
+                            });
                     }
                 ], done);
             });

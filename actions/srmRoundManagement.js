@@ -433,7 +433,7 @@ exports.createSRMContestRound = {
                 params.id = MAX_INT;
                 var error =
                         checkContestRound(helper, params) ||
-                        helper.checkAdmin(connection, "You need to be authorized first.", "You are forbidden for this API.");
+                        helper.checkAdminOrWebArenaSuper(connection, "You need to be authorized first.", "You are forbidden for this API.");
                 cb(error);
             },
             function (cb) {
@@ -443,6 +443,9 @@ exports.createSRMContestRound = {
                     },
                     function (roundId, cbx) {
                         params.id = roundId;
+                        if (connection.caller.isWebArenaSuper) {
+                            params.type.id = 24;
+                        }
                         api.dataAccess.executeQuery('insert_srm_contest_round',
                             {
                                 contest_id: params.contest_id,
@@ -454,7 +457,8 @@ exports.createSRMContestRound = {
                                 name: params.name,
                                 status: params.status,
                                 short_name: params.short_name,
-                                auto_end: params.auto_end
+                                auto_end: params.auto_end,
+                                creator_id: connection.caller.userId
                             },
                             dbConnectionMap, cbx);
                     }
