@@ -8513,6 +8513,16 @@ Request
             "description":"The request is understood, but it has been refused or access is not allowed."
         }
 
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description": "The request is understood, but it has been refused or access is not allowed."
+            "details": "Round was not created by you."
+        }
+
+
 + Response 404 (application/json)
 
         {

@@ -15,7 +15,9 @@
         "id": 11,
         "desc": "Weakest Link Round"
       },
-      "segments": {
+        "segments": {
+        "codingStartTime": 1383958200000,
+        "registrationStartTime": 1381276200000,
         "registrationStart": "Oct 08, 2013 21:50 EDT",
         "registrationLength": 60,
         "registrationStatus": "A",

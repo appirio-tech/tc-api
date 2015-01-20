@@ -1,8 +1,12 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author TCASSEMBLER
+ * @version 1.1
+ * @author TCASSEMBLER, TCSFINALFIXER
+ *
+ * Changes in 1.1:
+ * - Add tests 'should 403 if web arena super modifies round not his own',
+ *   'should modify own round for web arena super role'
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -1329,8 +1333,6 @@ describe('SRM Round Management APIs', function () {
                 ], done);
             });
         });
-
-
     });
 
     describe("Modify SRM Contest Round", function () {
@@ -1444,6 +1446,20 @@ describe('SRM Round Management APIs', function () {
                     message: 'You are forbidden for this API.'
                 }, done);
             });
+
+            it(
+                'should 403 if web arena super modifies round not his own',
+                function (done) {
+                    var rrequest = requestClone(goodRequest);
+                    assertFail({
+                        oldRoundId: 40060,
+                        json: rrequest,
+                        status: 403,
+                        auth: testHelper.generateAuthHeader({sub: 'ad|124861'}).substring(7),
+                        message: 'Round was not created by you.'
+                    }, done);
+                }
+            );
 
             it("should return 400 when oldRoundId not a number", function (done) {
                 var rrequest = requestClone(goodRequest);
@@ -2219,7 +2235,7 @@ describe('SRM Round Management APIs', function () {
                     short_name: 'modified short name'
                 },
                     fields,
-                    touchingFields = ['invitational', 'region_id', 'registration_limit', 'round_type_id',
+                    touchingFields = ['creator_id', 'invitational', 'region_id', 'registration_limit', 'round_type_id',
                                       'short_name', 'round_id', 'contest_id', 'status'];
 
 
@@ -2254,6 +2270,61 @@ describe('SRM Round Management APIs', function () {
                         result = _.map(result, function (x) { return _.omit(x, touchingFields); });
                         assert.deepEqual(result, fields, 'afterward should be the same as before');
                         cb();
+                    }
+                ], done);
+            });
+
+
+            it('should modify own round for web arena super role', function (done) {
+                async.waterfall([
+                    _.bind(testHelper.runSqlSelectQuery, testHelper, GET_ROUND_SEQ_SQL, "informixoltp"),
+                    function (results, cb) {
+                        var oldRoundId = 41006,
+                            req = _.clone(goodRequest),
+                            jwt = testHelper.generateAuthHeader({sub: 'ad|124861'});
+                        req.id = oldRoundId;
+                        req.type.id = 24;
+                        req.name = "modify round";
+                        request(API_ENDPOINT)
+                            .put('/v2/data/srm/rounds/' + oldRoundId)
+                            .set('Accept', 'application/json')
+                            .set('Content-Type', 'application/json')
+                            .set('Authorization', jwt)
+                            .expect('Content-Type', /json/)
+                            .expect(200)
+                            .send(req)
+                            .end(function (err, res) {
+                                if (err) {
+                                    return cb(err);
+                                }
+                                testHelper.runSqlSelectQuery(
+                                    "round_id, creator_id, round_type_id, name from round where round_id = " + req.id,
+                                    "informixoltp",
+                                    function (error, results) {
+                                        if (error) {
+                                            return cb(error);
+                                        }
+                                        fs.writeFileSync("/tmp/test.log", JSON.stringify(results));
+                                        assert.ok(results && results.length === 1, "query should have succeeded.");
+                                        assert.equal(
+                                            results[0].creator_id,
+                                            124861,
+                                            "creator should be ksmith"
+                                        );
+                                        assert.equal(
+                                            results[0].round_type_id,
+                                            req.type.id,
+                                            "type should be 'Instant Match'"
+                                        );
+                                        assert.equal(
+                                            results[0].name,
+                                            req.name,
+                                            "name should be modified"
+                                        );
+                                        return cb();
+                                    }
+                                );
+                            });
                     }
                 ], done);
             });
