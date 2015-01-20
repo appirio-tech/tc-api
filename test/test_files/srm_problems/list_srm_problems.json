@@ -3,6 +3,7 @@
         {
             "id": 10194,
             "name": "BlackAndWhiteGame",
+            "proposedDivisionId": -1,
             "type": {
                 "id": 3,
                 "description": "Long"
@@ -15,6 +16,7 @@
         {
             "id": 10195,
             "name": "TestProblem",
+            "proposedDivisionId": 1,
             "type": {
                 "id": 1,
                 "description": "Single"
@@ -22,6 +24,110 @@
             "status": {
                 "id": 75,
                 "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10205,
+            "name": "SnowCleaning",
+            "proposedDivisionId": -1,
+            "type": {
+                "id": 3,
+                "description": "Long"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10207,
+            "name": "ColorfulBuilding",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10208,
+            "name": "RandomPaintingOnABoard",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10209,
+            "name": "GooseInZooDivOne",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10211,
+            "name": "SemiPerfectPower",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10212,
+            "name": "ShoutterDiv1",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 10213,
+            "name": "UndoHistory",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 75,
+                "description": "Final Testing"
+            }
+        },
+        {
+            "id": 2001,
+            "name": "Used Problem",
+            "proposedDivisionId": 1,
+            "type": {
+                "id": 1,
+                "description": "Single"
+            },
+            "status": {
+                "id": 90,
+                "description": "Used"
             }
         }
     ]
