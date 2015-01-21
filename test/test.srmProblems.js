@@ -29,7 +29,9 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861",
+        twight       : "ad|124766"
     };
 
 
@@ -146,12 +148,20 @@ describe('SRM Round Problem APIs', function () {
         });
 
         it("Admin access only.", function (done) {
-            assertError("/v2/data/srm/problems", 'user', 403, "Admin access only.", done);
+            assertError("/v2/data/srm/problems", 'user', 403, "Admin or web Arena super user only.", done);
+        });
+
+        it("Admin or web arena only.", function (done) {
+            assertError("/v2/data/srm/problems", 'twight', 403, "Admin or web Arena super user only.", done);
         });
 
         it("Valid request.", function (done) {
             validateResult("/v2/data/srm/problems", 'heffan',
                 "./test_files/srm_problems/list_srm_problems.json", done);
+        });
+
+        it("Valid request with web arena super user.", function (done) {
+            validateResult("/v2/data/srm/problems", "ksmith", "./test_files/srm_problems/list_used_srm_problems.json", done);
         });
 
     });

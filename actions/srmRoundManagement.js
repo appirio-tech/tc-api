@@ -6,8 +6,10 @@
  *
  * Changes in version 1.1 (Module Assembly - Web Arena - Match Configurations):
  * - Updated ListSRMContestRounds to send UTC time in milliseconds for registration and coding start time
+ * Changes in version 1.2 (First2Finish - TC API - Modify SRM Round API Update):
+ * - updated modifySRMContestRound to support web arena super role
  *
- * @version 1.1
+ * @version 1.2
  * @author TCSASSEMBLER
  */
 /*jslint node: true, nomen: true */
@@ -15,6 +17,7 @@
 var async = require('async');
 var _ = require('underscore');
 var NotFoundError = require('../errors/NotFoundError');
+var ForbiddenError = require('../errors/ForbiddenError');
 
 /**
  * Max value for integer
@@ -430,7 +433,7 @@ exports.createSRMContestRound = {
                 params.id = MAX_INT;
                 var error =
                         checkContestRound(helper, params) ||
-                        helper.checkAdmin(connection, "You need to be authorized first.", "You are forbidden for this API.");
+                        helper.checkAdminOrWebArenaSuper(connection, "You need to be authorized first.", "You are forbidden for this API.");
                 cb(error);
             },
             function (cb) {
@@ -440,6 +443,9 @@ exports.createSRMContestRound = {
                     },
                     function (roundId, cbx) {
                         params.id = roundId;
+                        if (connection.caller.isWebArenaSuper) {
+                            params.type.id = 24;
+                        }
                         api.dataAccess.executeQuery('insert_srm_contest_round',
                             {
                                 contest_id: params.contest_id,
@@ -451,7 +457,8 @@ exports.createSRMContestRound = {
                                 name: params.name,
                                 status: params.status,
                                 short_name: params.short_name,
-                                auto_end: params.auto_end
+                                auto_end: params.auto_end,
+                                creator_id: connection.caller.userId
                             },
                             dbConnectionMap, cbx);
                     }
@@ -613,13 +620,20 @@ exports.modifySRMContestRound = {
             helper.handleNoConnection(api, connection, next);
             return;
         }
+        if (_.isUndefined(params.auto_end)) {
+            params.auto_end = false;
+        }
         async.series([
             function (cb) {
                 console.log("oldRoundId = " + oldRoundId);
                 var error =
-                    helper.checkIdParameter(oldRoundId, 'oldRoundId') ||
-                    checkContestRound(helper, params) ||
-                    helper.checkAdmin(connection, "You need to be authorized first.", "You are forbidden for this API.");
+                        helper.checkIdParameter(oldRoundId, 'oldRoundId') ||
+                        checkContestRound(helper, params) ||
+                        helper.checkAdminOrWebArenaSuper(
+                            connection,
+                            "You need to be authorized first.",
+                            "You are forbidden for this API."
+                        );
                 cb(error);
             },
             // check if modifying round existed.
@@ -630,10 +644,12 @@ exports.modifySRMContestRound = {
                     }, dbConnectionMap),
                     function (result, cbx) {
                         if (result.length === 0) {
-                            cbx(new NotFoundError('modifying round is not existed.'));
-                        } else {
-                            cbx(null);
+                            return cbx(new NotFoundError('modifying round is not existed.'));
                         }
+                        if (connection.caller.isWebArenaSuper && result[0].creator_id !== connection.caller.userId) {
+                            return cbx(new ForbiddenError('Round was not created by you.'));
+                        }
+                        return cbx();
                     }], cb);
             },
             function (cb) {

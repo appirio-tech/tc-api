@@ -9,3 +9,4 @@ t.problem_type_desc AS problem_type_desc
  FROM problem p 
  LEFT OUTER JOIN problem_status_lu s ON p.status_id = s.problem_status_id 
  LEFT OUTER JOIN problem_type_lu t ON p.problem_type_id = t.problem_type_id
+WHERE 1=1

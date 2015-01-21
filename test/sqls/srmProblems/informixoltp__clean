@@ -1,1 +1,2 @@
 ﻿DELETE FROM round_component WHERE round_id = 13672 and division_id = 1;
+DELETE FROM problem WHERE problem_id = 2001;

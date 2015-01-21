@@ -1,0 +1,17 @@
+{
+  "problems": [
+    {
+      "id": 2001,
+      "name": "Used Problem",
+      "proposedDivisionId": 1,
+      "type": {
+        "id": 1,
+        "description": "Single"
+      },
+      "status": {
+        "id": 90,
+        "description": "Used"
+      }
+    }
+  ]
+}
