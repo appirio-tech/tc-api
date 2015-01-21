@@ -1,8 +1,12 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author panoptimum
+ * @version 1.1
+ * @author panoptimum, TCSFIRST2FINISHER
+ *
+ * Changes in 1.1:
+ * - Remove checks for contestId, for its no longer an argument to the create api.
+ * - Add tests for create, modify of web arena super role.
  */
 /*global describe, it, before, beforeEach, after, afterEach*/
 /*jslint node: true, nomen: true*/
@@ -35,7 +39,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861"
     };
 
 /* This function returns a function that takes a callback and runs a sql file
@@ -83,7 +88,8 @@ function createGetRequest(data) {
 function createPutRequest(data) {
     var result = request(API_ENDPOINT)
         .put(data.route)
-        .set('Accept', 'application/json');
+        .set('Accept', 'application/json')
+        .send(data.request);
     if (data.handle) {
         result.set('Authorization', generateAuthHeader(data.handle));
     }
@@ -289,24 +295,26 @@ function create(request, response, status, handle) {
         });
     } else {
         result = function (done) {
-            async.series(
+            async.waterfall(
                 [
-                    assertResponse("post", {
-                        handle: handle,
-                        request: request,
-                        response: response,
-                        status: status,
-                        route: ROUTE
-                    }),
-                    async.apply(getContest, request.contestId)
-                ],
-                function (error, results) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        assert.deepEqual(results[1], request, "Contest was correctly created.");
-                        done();
+                    _.bind(
+                        testHelper.runSqlSelectQuery,
+                        testHelper,
+                        'SEQUENCE_CONTEST_SEQ.NEXTVAL as next_id from table(set{1})',
+                        'informixoltp'
+                    ),
+                    function (result, cb) {
+                        assertResponse("post", {
+                            handle: handle,
+                            request: request,
+                            response: {contestId: result[0].next_id + 1},
+                            status: status,
+                            route: ROUTE
+                        })(cb);
                     }
+                ],
+                function (error) {
+                    return done(error);
                 }
             );
         };
@@ -341,7 +349,7 @@ function modify(request, response, status, handle, id) {
             {}
         );
     if (status !== 200) {
-        result = assertResponse("post", {
+        result = assertResponse("put", {
             handle: handle,
             request: request,
             response: response,
@@ -352,7 +360,7 @@ function modify(request, response, status, handle, id) {
         result = function (done) {
             async.series(
                 [
-                    assertResponse("post", {
+                    assertResponse("put", {
                         handle: handle,
                         request: request,
                         response: response,
@@ -394,7 +402,7 @@ function modify(request, response, status, handle, id) {
             async.series(
                 [
                     async.apply(getRound, id),
-                    assertResponse("post", {
+                    assertResponse("put", {
                         handle: handle,
                         request: request,
                         response: response,
@@ -495,52 +503,10 @@ describe('SRM Contest Management APIs', function () {
                         "name": "Forbidden",
                         "value": 403,
                         "description": "The request is understood, but it has been refused or access is not allowed.",
-                        "details": "Admin access only."
+                        "details": "Admin or Web Arena Super access only."
                     }},
                     403,
                     "user"
-                )
-            );
-
-
-            it(
-                "Invalid contestId.",
-                create(
-                    {
-                        name: "name",
-                        contestId: "foobar"
-                    },
-                    {
-                        "error": {
-                            "name": "Bad Request",
-                            "value": 400,
-                            "description": "The request was invalid. An accompanying message will explain why.",
-                            "details": "contestId should be number."
-                        }
-                    },
-                    400,
-                    "heffan"
-                )
-            );
-
-
-            it(
-                "Invalid contestId - already exists.",
-                create(
-                    {
-                        name: "name",
-                        contestId: 1001
-                    },
-                    {
-                        "error": {
-                            "name": "Bad Request",
-                            "value": 400,
-                            "description": "The request was invalid. An accompanying message will explain why.",
-                            "details": "contestId is already in use."
-                        }
-                    },
-                    400,
-                    "heffan"
                 )
             );
 
@@ -1143,7 +1109,7 @@ describe('SRM Contest Management APIs', function () {
                         "name": "Forbidden",
                         "value": 403,
                         "description": "The request is understood, but it has been refused or access is not allowed.",
-                        "details": "Admin access only."
+                        "details": "Admin or Web Arena Super access only."
                     }},
                     403,
                     "user",
@@ -1857,7 +1823,6 @@ describe('SRM Contest Management APIs', function () {
                 "Create a new Contest.",
                 create(
                     {
-                        "contestId": 1010,
                         "name": "Name 10",
                         "startDate": "2014-06-11 09:00",
                         "endDate": "2014-06-21 09:00",
@@ -1876,6 +1841,30 @@ describe('SRM Contest Management APIs', function () {
                     "heffan"
                 )
             );
+
+            it(
+                "Create a new Contest with web arena super role.",
+                create(
+                    {
+                        "name": "Name 10",
+                        "startDate": "2014-06-11 09:00",
+                        "endDate": "2014-06-21 09:00",
+                        "status": "A",
+                        "groupId": -1,
+                        "adText": "Ad Text 10",
+                        "adStart": "2014-06-12 09:00",
+                        "adEnd": "2014-06-17 09:00",
+                        "adTask": "Ad Task 10",
+                        "adCommand": "Ad Command 10",
+                        "activateMenu": null,
+                        "seasonId": 2
+                    },
+                    {"success": true},
+                    200,
+                    "ksmith"
+                )
+            );
+
         });
 
         describe('Modify SRM Contest API', function () {
@@ -1912,6 +1901,31 @@ describe('SRM Contest Management APIs', function () {
                     {"success": true},
                     200,
                     "heffan",
+                    1010
+                )
+            );
+
+            it(
+                "Modify contest - id === contestId && web arena super role",
+                modify(
+                    {
+                        "contestId": 1010,
+                        "name": "New Name",
+                        "startDate": "2014-06-11 10:00",
+                        "endDate": "2014-06-21 10:00",
+                        "status": "F",
+                        "groupId": null,
+                        "adText": "Ad New Text",
+                        "adStart": "2014-06-12 10:00",
+                        "adEnd": "2014-06-17 10:00",
+                        "adTask": "Ad New Task",
+                        "adCommand": "Ad New Command",
+                        "activateMenu": 0,
+                        "seasonId": 1
+                    },
+                    {"success": true},
+                    200,
+                    "ksmith",
                     1010
                 )
             );

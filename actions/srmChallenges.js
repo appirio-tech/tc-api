@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013-2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.10
- * @author Sky_, freegod, panoptimum, Ghost_141, onsky
+ * @version 1.11
+ * @author Sky_, freegod, panoptimum, Ghost_141, onsky, TCSFIRST2FINISHER
  * changes in 1.1:
  * - implement srm API
  * changes in 1.2:
@@ -30,6 +30,8 @@
  * - Implement Rounds For Problem API
  * Changes in 1.10:
  * - Update the get srm schedule API.
+ * Changes in 1.11 (TC API - Create SRM Contest API and Modify SRM Contest API Update):
+ * - Enable web arena super role access for createSRMContest, updateSRMContest
  */
 /*jslint node: true, nomen: true */
 "use strict";
@@ -229,6 +231,7 @@ var LEADER_COUNT = 5;
  * Forbidden error message for non-admin users
  */
 var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or Web Arena Super access only.",
     UNAUTHORIZED_MESSAGE = "Authorized access only.";
 /**
 * The API for searching SRM challenges
@@ -264,7 +267,7 @@ exports.searchSRMChallenges = {
         pageIndex = Number(params.pageIndex || 1);
         pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
         listType = (params.listType || 'ACTIVE').toUpperCase();
-        challengeName = '%' + params.challengeName.toLowerCase() + '%' || '%';
+        challengeName = _.has(params, 'challengeName') ? '%' + params.challengeName.toLowerCase() + '%' : '%';
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
             sortOrder = "desc";
@@ -1434,7 +1437,11 @@ exports.createSRMContest = {
         async.auto(
             {
                 admin: function (cb) {
-                    cb(helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                    cb(helper.checkAdminOrWebArenaSuper(
+                        connection,
+                        UNAUTHORIZED_MESSAGE,
+                        NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE
+                    ));
                 },
                 common: [ // do common validations
                     'admin',
@@ -1536,7 +1543,11 @@ exports.updateSRMContest = {
         async.auto(
             {
                 admin: function (cb) {
-                    cb(helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                    cb(helper.checkAdminOrWebArenaSuper(
+                        connection,
+                        UNAUTHORIZED_MESSAGE,
+                        NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE
+                    ));
                 },
                 validate: [
                     'admin',
