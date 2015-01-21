@@ -1,21 +1,27 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.0
- * @author TCSASSEMBLER
+ * @version 1.1
+ * @author TCSASSEMBLER, TCSFINALFIXER
  *
  * The test cases for rounds.js.
+ *
+ * Changes in 1.1:
+ * - Fix broken tests.
+ * - Add tests for coping with web arena super.
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
-/*jslint node: true, stupid: true, unparam: true, plusplus: true */
+/*jslint node: true, stupid: true, unparam: true, plusplus: true, nomen: true */
 
 /**
  * Module dependencies.
  */
 var request = require('supertest'),
     chai = require('chai'),
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'),
+    _ = require('underscore'),
+    moment = require('moment-timezone');
 
 var assert = chai.assert;
 var testHelper = require('./helpers/testHelper');
@@ -28,7 +34,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861"
     };
 
 /**
@@ -39,6 +46,17 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
 function generateAuthHeader(user) {
     return "Bearer " + jwt.sign({sub: USER[user]}, CLIENT_SECRET, {expiresInMinutes: 1000, audience: CLIENT_ID});
 }
+
+/**
+ * Normalize Timezone information to London time.
+ * @param {String} date the date string as returned from API, e.g. "2011-12-02T01:50:51.000+05:00"
+ * @return {String} - date normalized to london time
+ */
+function normalizeDate(date) {
+    var tz = moment(date);
+    return tz.clone().tz("Europe/London").format();
+}
+
 /**
  * Create request and return it
  * @param {String} queryString - the query string
@@ -94,13 +112,23 @@ function validateResult(queryString, user, expectFile, done) {
             done(err);
             return;
         }
-        var tmp = [], i, expected;
+        var tmp = [],
+            i,
+            expected,
+            adjustDates = function (phase) {
+                phase.startTime = normalizeDate(phase.startTime);
+                phase.endTime = normalizeDate(phase.endTime);
+            };
 
         for (i = 0; i < res.body.data.length; i++) {
             // only check the test data
             if (res.body.data[i].id > 13000 || res.body.data[i].id < 12000) {
                 res.body.total = res.body.total - 1;
             } else {
+                _.each(
+                    res.body.data[i].roundSchedule,
+                    adjustDates
+                );
                 tmp.push(res.body.data[i]);
             }
         }
@@ -162,7 +190,7 @@ describe('Get rounds api', function () {
         });
 
         it("Admin access only.", function (done) {
-            assertError("/v2/data/rounds", 'user', 403, "Admin access only.", done);
+            assertError("/v2/data/rounds", 'user', 403, "Admin or Web Arena Super access only.", done);
         });
 
         // only pageIndex
@@ -306,6 +334,11 @@ describe('Get rounds api', function () {
     // valid test
     describe('Valid test', function () {
 
+        // web arena super role
+        it("test with web arena super role", function (done) {
+            validateResult("/v2/data/rounds", 'ksmith',
+                           "./test_files/rounds/expected_web_arena_super.json", done);
+        });
         // default parameter
         it("test with default parameters", function (done) {
             validateResult("/v2/data/rounds", 'heffan',
@@ -320,7 +353,7 @@ describe('Get rounds api', function () {
 
         // pagination
         it("test with pagination parameters", function (done) {
-            validateResult("/v2/data/rounds?pageSize=2&pageIndex=2", 'heffan',
+            validateResult("/v2/data/rounds?pageSize=1&pageIndex=18", 'heffan',
                 "./test_files/rounds/expected_pagination_parameters.json", done);
         });
 

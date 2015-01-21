@@ -6,7 +6,7 @@
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCSASSEMBLER
- * @version 1.41
+ * @version 1.42
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -110,6 +110,8 @@
  * - Update getLowerCaseList method to use map method.
  * Changes in 1.41:
  * - Update apiName2dbNameMap to add entries for srm schedule API.
+ * Changes in 1.42:
+ * - Add checkAdminOrWebArenaSuper to check if user has web arena super role.
  */
 "use strict";
 
@@ -1410,6 +1412,20 @@ helper.checkAdmin = function (connection, unauthorizedErrMsg, forbiddenErrMsg) {
         return null;
     }
     return new ForbiddenError();
+};
+
+/**
+ * Check whether given user has web arena super role or not
+ * @param connection - the api connection object
+ * @param {String} unauthorizedErrMsg - the error message for unauthorized error.
+ * @param {String} forbiddenErrMsg - the error message for forbidden error.
+ * @return {Error} if user is not admin or does not have web arena super role.
+ */
+helper.checkAdminOrWebArenaSuper = function (connection, unauthorizedErrMsg, forbiddenErrMsg) {
+    if (connection.caller.isWebArenaSuper) {
+        return null;
+    }
+    return helper.checkAdmin(connection, unauthorizedErrMsg, forbiddenErrMsg);
 };
 
 /**

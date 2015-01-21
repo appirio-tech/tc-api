@@ -1,365 +1,308 @@
 {
-    "total": 6,
-    "pageIndex": 1,
-    "pageSize": 50,
     "data": [
         {
+            "autoEnd": 0,
+            "contestId": 12001, "creatorId": 124861,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasQuestions": false,
+            "hasSchedule": true,
+            "hasTerms": false,
             "id": 12006,
+            "invitationalType": "Not",
+            "languages": [],
             "name": "test round 12006",
+            "region": "Alpha",
+            "registrationLimit": 1000,
+            "roundSchedule": [
+                {
+                    "endTime": "2015-12-02T00:50:51+00:00",
+                    "phaseName": "Registration Phase",
+                    "startTime": "2015-11-02T00:50:51+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2015-12-05T00:50:51+00:00",
+                    "phaseName": "Coding Phase",
+                    "startTime": "2015-12-02T00:50:52+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2015-12-07T00:50:51+00:00",
+                    "phaseName": "Intermission Phase",
+                    "startTime": "2015-12-06T00:50:51+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2015-12-09T00:50:51+00:00",
+                    "phaseName": "Challenge Phase",
+                    "startTime": "2015-12-08T00:50:51+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2015-12-11T00:50:51+00:00",
+                    "phaseName": "System Test Phase",
+                    "startTime": "2015-12-10T00:50:51+00:00",
+                    "status": "Active"
+                },
+                {
+                    "endTime": "2015-12-15T00:50:51+00:00",
+                    "phaseName": "Room Assignment Phase",
+                    "startTime": "2015-12-14T00:50:51+00:00",
+                    "status": "Draft"
+                }
+            ],
             "shortName": "short name 12006",
-            "type": "Marathon Match Tournament Round",
             "status": "Active",
-            "registrationLimit": 1000,
-            "invitationalType": "Not",
-            "region": "Alpha",
-            "contestId": 12001,
+            "type": "Instant Match"
+        },
+        {
+            "autoEnd": 0,
+            "contestId": 12001, "creatorId": 132456,
             "contestName": "test contest 12001",
             "contestStatus": "I",
             "hasProblems": false,
-            "hasTerms": false,
-            "hasSchedule": true,
             "hasQuestions": false,
-            "roundSchedule": [
-                {
-                    "phaseName": "Registration Phase",
-                    "startTime": "2015-11-02T05:50:51.000+05:00",
-                    "endTime": "2015-12-02T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "Coding Phase",
-                    "startTime": "2015-12-02T05:50:52.000+05:00",
-                    "endTime": "2015-12-05T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "Intermission Phase",
-                    "startTime": "2015-12-06T05:50:51.000+05:00",
-                    "endTime": "2015-12-07T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "Challenge Phase",
-                    "startTime": "2015-12-08T05:50:51.000+05:00",
-                    "endTime": "2015-12-09T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "System Test Phase",
-                    "startTime": "2015-12-10T05:50:51.000+05:00",
-                    "endTime": "2015-12-11T05:50:51.000+05:00",
-                    "status": "Active"
-                },
-                {
-                    "phaseName": "Room Assignment Phase",
-                    "startTime": "2015-12-14T05:50:51.000+05:00",
-                    "endTime": "2015-12-15T05:50:51.000+05:00",
-                    "status": "Draft"
-                }
-            ],
-            "languages": []
-        },
-        {
+            "hasSchedule": true,
+            "hasTerms": false,
             "id": 12002,
-            "name": "test round 12002",
-            "shortName": "short name 12002",
-            "type": "Tournament Round",
-            "status": "Active",
-            "registrationLimit": 1000,
             "invitationalType": "Not",
+            "languages": [],
+            "name": "test round 12002",
             "region": "Alpha",
-            "contestId": 12001,
-            "contestName": "test contest 12001",
-            "contestStatus": "I",
-            "hasProblems": false,
-            "hasTerms": false,
-            "hasSchedule": true,
-            "hasQuestions": false,
+            "registrationLimit": 1000,
             "roundSchedule": [
                 {
+                    "endTime": "2014-12-02T00:50:51+00:00",
                     "phaseName": "Registration Phase",
-                    "startTime": "2014-11-02T05:50:51.000+05:00",
-                    "endTime": "2014-12-02T05:50:51.000+05:00",
+                    "startTime": "2014-11-02T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2014-12-05T00:50:51+00:00",
                     "phaseName": "Coding Phase",
-                    "startTime": "2014-12-02T05:50:52.000+05:00",
-                    "endTime": "2014-12-05T05:50:51.000+05:00",
+                    "startTime": "2014-12-02T00:50:52+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2014-12-07T00:50:51+00:00",
                     "phaseName": "Intermission Phase",
-                    "startTime": "2014-12-06T05:50:51.000+05:00",
-                    "endTime": "2014-12-07T05:50:51.000+05:00",
+                    "startTime": "2014-12-06T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2014-12-09T00:50:51+00:00",
                     "phaseName": "Challenge Phase",
-                    "startTime": "2014-12-08T05:50:51.000+05:00",
-                    "endTime": "2014-12-09T05:50:51.000+05:00",
+                    "startTime": "2014-12-08T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2014-12-11T00:50:51+00:00",
                     "phaseName": "System Test Phase",
-                    "startTime": "2014-12-10T05:50:51.000+05:00",
-                    "endTime": "2014-12-11T05:50:51.000+05:00",
+                    "startTime": "2014-12-10T00:50:51+00:00",
                     "status": "Active"
                 },
                 {
+                    "endTime": "2014-12-13T00:50:51+00:00",
                     "phaseName": "Moderated Chat Phase",
-                    "startTime": "2014-12-12T05:50:51.000+05:00",
-                    "endTime": "2014-12-13T05:50:51.000+05:00",
+                    "startTime": "2014-12-12T00:50:51+00:00",
                     "status": "Draft"
                 },
                 {
+                    "endTime": "2014-12-15T00:50:51+00:00",
                     "phaseName": "Room Assignment Phase",
-                    "startTime": "2014-12-14T05:50:51.000+05:00",
-                    "endTime": "2014-12-15T05:50:51.000+05:00",
+                    "startTime": "2014-12-14T00:50:51+00:00",
                     "status": "Draft"
                 }
             ],
-            "languages": []
+            "shortName": "short name 12002",
+            "status": "Active",
+            "type": "Tournament Round"
         },
         {
-            "id": 12001,
-            "name": "test round 12001",
-            "shortName": "short name 12001",
-            "type": "Single Round Match",
-            "roundTerms": "term1",
-            "status": "Active",
-            "registrationLimit": 1000,
-            "invitationalType": "Not",
-            "region": "Alpha",
-            "contestId": 12001,
+            "autoEnd": 0,
+            "contestId": 12001, "creatorId": 132456,
             "contestName": "test contest 12001",
             "contestStatus": "I",
             "hasProblems": false,
-            "hasTerms": true,
-            "hasSchedule": true,
             "hasQuestions": false,
-            "roundSchedule": [
-                {
-                    "phaseName": "Registration Phase",
-                    "startTime": "2013-11-02T05:50:51.000+05:00",
-                    "endTime": "2013-12-02T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "Coding Phase",
-                    "startTime": "2013-12-02T05:50:52.000+05:00",
-                    "endTime": "2013-12-05T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "Intermission Phase",
-                    "startTime": "2013-12-06T05:50:51.000+05:00",
-                    "endTime": "2013-12-07T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "Challenge Phase",
-                    "startTime": "2013-12-08T05:50:51.000+05:00",
-                    "endTime": "2013-12-09T05:50:51.000+05:00",
-                    "status": "Past"
-                },
-                {
-                    "phaseName": "System Test Phase",
-                    "startTime": "2013-12-10T05:50:51.000+05:00",
-                    "endTime": "2013-12-11T05:50:51.000+05:00",
-                    "status": "Active"
-                },
-                {
-                    "phaseName": "Moderated Chat Phase",
-                    "startTime": "2013-12-12T05:50:51.000+05:00",
-                    "endTime": "2013-12-13T05:50:51.000+05:00",
-                    "status": "Draft"
-                },
-                {
-                    "phaseName": "Room Assignment Phase",
-                    "startTime": "2013-12-14T05:50:51.000+05:00",
-                    "endTime": "2013-12-15T05:50:51.000+05:00",
-                    "status": "Draft"
-                }
-            ],
+            "hasSchedule": true,
+            "hasTerms": true,
+            "id": 12001,
+            "invitationalType": "Not",
             "languages": [
                 {
-                    "id": 1,
-                    "description": "Java"
+                    "description": "Java",
+                    "id": 1
                 },
                 {
-                    "id": 2,
-                    "description": "XML"
+                    "description": "XML",
+                    "id": 2
                 }
-            ]
-        },
-        {
-            "id": 12003,
-            "name": "test round 12003",
-            "shortName": "short name 12003",
-            "type": "Practice Round",
-            "status": "Active",
-            "registrationLimit": 1000,
-            "invitationalType": "Not",
+            ],
+            "name": "test round 12001",
             "region": "Alpha",
-            "contestId": 12001,
-            "contestName": "test contest 12001",
-            "contestStatus": "I",
-            "hasProblems": false,
-            "hasTerms": false,
-            "hasSchedule": true,
-            "hasQuestions": false,
+            "registrationLimit": 1000,
             "roundSchedule": [
                 {
+                    "endTime": "2013-12-02T00:50:51+00:00",
                     "phaseName": "Registration Phase",
-                    "startTime": "2013-08-02T04:50:51.000+05:00",
-                    "endTime": "2013-09-02T04:50:51.000+05:00",
+                    "startTime": "2013-11-02T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-12-05T00:50:51+00:00",
                     "phaseName": "Coding Phase",
-                    "startTime": "2013-09-02T04:50:52.000+05:00",
-                    "endTime": "2013-09-05T04:50:51.000+05:00",
+                    "startTime": "2013-12-02T00:50:52+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-12-07T00:50:51+00:00",
                     "phaseName": "Intermission Phase",
-                    "startTime": "2013-09-06T04:50:51.000+05:00",
-                    "endTime": "2013-09-07T04:50:51.000+05:00",
+                    "startTime": "2013-12-06T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-12-09T00:50:51+00:00",
                     "phaseName": "Challenge Phase",
-                    "startTime": "2013-09-08T04:50:51.000+05:00",
-                    "endTime": "2013-09-09T04:50:51.000+05:00",
+                    "startTime": "2013-12-08T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-12-11T00:50:51+00:00",
                     "phaseName": "System Test Phase",
-                    "startTime": "2013-09-10T04:50:51.000+05:00",
-                    "endTime": "2013-09-11T04:50:51.000+05:00",
+                    "startTime": "2013-12-10T00:50:51+00:00",
                     "status": "Active"
                 },
                 {
+                    "endTime": "2013-12-13T00:50:51+00:00",
                     "phaseName": "Moderated Chat Phase",
-                    "startTime": "2013-09-12T04:50:51.000+05:00",
-                    "endTime": "2013-09-13T04:50:51.000+05:00",
+                    "startTime": "2013-12-12T00:50:51+00:00",
                     "status": "Draft"
                 },
                 {
+                    "endTime": "2013-12-15T00:50:51+00:00",
                     "phaseName": "Room Assignment Phase",
-                    "startTime": "2013-09-14T04:50:51.000+05:00",
-                    "endTime": "2013-09-15T04:50:51.000+05:00",
+                    "startTime": "2013-12-14T00:50:51+00:00",
                     "status": "Draft"
                 }
             ],
-            "languages": []
+            "roundTerms": "term1",
+            "shortName": "short name 12001",
+            "status": "Active",
+            "type": "Single Round Match"
         },
         {
+            "autoEnd": 0,
+            "contestId": 12001, "creatorId": 132456,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasQuestions": false,
+            "hasSchedule": true,
+            "hasTerms": false,
             "id": 12004,
-            "name": "test round 12004",
-            "shortName": "short name 12004",
-            "type": "Screening Tool Problem Sets",
-            "status": "Active",
-            "registrationLimit": 1000,
             "invitationalType": "Not",
+            "languages": [],
+            "name": "test round 12004",
             "region": "Alpha",
-            "contestId": 12001,
-            "contestName": "test contest 12001",
-            "contestStatus": "I",
-            "hasProblems": false,
-            "hasTerms": false,
-            "hasSchedule": true,
-            "hasQuestions": false,
+            "registrationLimit": 1000,
             "roundSchedule": [
                 {
+                    "endTime": "2013-02-02T00:50:51+00:00",
                     "phaseName": "Registration Phase",
-                    "startTime": "2013-01-02T05:50:51.000+05:00",
-                    "endTime": "2013-02-02T05:50:51.000+05:00",
+                    "startTime": "2013-01-02T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-02-05T00:50:51+00:00",
                     "phaseName": "Coding Phase",
-                    "startTime": "2013-02-02T05:50:52.000+05:00",
-                    "endTime": "2013-02-05T05:50:51.000+05:00",
+                    "startTime": "2013-02-02T00:50:52+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-02-07T00:50:51+00:00",
                     "phaseName": "Intermission Phase",
-                    "startTime": "2013-02-06T05:50:51.000+05:00",
-                    "endTime": "2013-02-07T05:50:51.000+05:00",
+                    "startTime": "2013-02-06T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-02-09T00:50:51+00:00",
                     "phaseName": "Challenge Phase",
-                    "startTime": "2013-02-08T05:50:51.000+05:00",
-                    "endTime": "2013-02-09T05:50:51.000+05:00",
+                    "startTime": "2013-02-08T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2013-02-11T00:50:51+00:00",
                     "phaseName": "System Test Phase",
-                    "startTime": "2013-02-10T05:50:51.000+05:00",
-                    "endTime": "2013-02-11T05:50:51.000+05:00",
+                    "startTime": "2013-02-10T00:50:51+00:00",
                     "status": "Active"
                 },
                 {
+                    "endTime": "2013-02-13T00:50:51+00:00",
                     "phaseName": "Moderated Chat Phase",
-                    "startTime": "2013-02-12T05:50:51.000+05:00",
-                    "endTime": "2013-02-13T05:50:51.000+05:00",
+                    "startTime": "2013-02-12T00:50:51+00:00",
                     "status": "Draft"
                 },
                 {
+                    "endTime": "2013-02-15T00:50:51+00:00",
                     "phaseName": "Room Assignment Phase",
-                    "startTime": "2013-02-14T05:50:51.000+05:00",
-                    "endTime": "2013-02-15T05:50:51.000+05:00",
+                    "startTime": "2013-02-14T00:50:51+00:00",
                     "status": "Draft"
                 }
             ],
-            "languages": []
+            "shortName": "short name 12004",
+            "status": "Active",
+            "type": "Screening Tool Problem Sets"
         },
         {
-            "id": 12005,
-            "name": "test round 12005",
-            "shortName": "short name 12005",
-            "type": "Marathon Match",
-            "status": "Active",
-            "registrationLimit": 1000,
-            "invitationalType": "Not",
-            "region": "Alpha",
-            "contestId": 12001,
+            "autoEnd": 0,
+            "contestId": 12001, "creatorId": 132456,
             "contestName": "test contest 12001",
             "contestStatus": "I",
             "hasProblems": false,
-            "hasTerms": false,
-            "hasSchedule": true,
             "hasQuestions": false,
+            "hasSchedule": true,
+            "hasTerms": false,
+            "id": 12005,
+            "invitationalType": "Not",
+            "languages": [],
+            "name": "test round 12005",
+            "region": "Alpha",
+            "registrationLimit": 1000,
             "roundSchedule": [
                 {
+                    "endTime": "2011-12-02T00:50:51+00:00",
                     "phaseName": "Registration Phase",
-                    "startTime": "2011-11-02T05:50:51.000+05:00",
-                    "endTime": "2011-12-02T05:50:51.000+05:00",
+                    "startTime": "2011-11-02T00:50:51+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2011-12-05T00:50:51+00:00",
                     "phaseName": "Coding Phase",
-                    "startTime": "2011-12-02T05:50:52.000+05:00",
-                    "endTime": "2011-12-05T05:50:51.000+05:00",
+                    "startTime": "2011-12-02T00:50:52+00:00",
                     "status": "Past"
                 },
                 {
+                    "endTime": "2011-12-11T00:50:51+00:00",
                     "phaseName": "System Test Phase",
-                    "startTime": "2011-12-10T05:50:51.000+05:00",
-                    "endTime": "2011-12-11T05:50:51.000+05:00",
+                    "startTime": "2011-12-10T00:50:51+00:00",
                     "status": "Active"
                 },
                 {
+                    "endTime": "2011-12-15T00:50:51+00:00",
                     "phaseName": "Room Assignment Phase",
-                    "startTime": "2011-12-14T05:50:51.000+05:00",
-                    "endTime": "2011-12-15T05:50:51.000+05:00",
+                    "startTime": "2011-12-14T00:50:51+00:00",
                     "status": "Draft"
                 }
             ],
-            "languages": []
+            "shortName": "short name 12005",
+            "status": "Active",
+            "type": "Marathon Match"
         }
-    ]
+    ],
+    "pageIndex": 1,
+    "pageSize": 50,
+    "total": 5
 }
