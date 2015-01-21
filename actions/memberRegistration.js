@@ -396,9 +396,9 @@ var registerUser = function (user, api, dbConnectionMap, next) {
 				function (callback) {
                     var url;
                     url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
-                    if (regSource.match(/arena/) {
-                      url += '&destination=http%3A%2F%2Farena.topcoder.com'
-                    })
+                    if (regSource.match(/arena/)) {
+                      url += '&destination=http%3A%2F%2Farena.topcoder.com';
+                    }
                     api.log("Activation url: " + url, "debug");
 
                     api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url, userHandle : user.handle}, 'default');
