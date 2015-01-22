@@ -251,12 +251,17 @@ describe('SRM Round Questions APIs', function () {
             assertError("/v2/data/srm/rounds/1000000/answers", null, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertError("/v2/data/srm/rounds/1000000/answers", 'user', 403, "Admin access only.", done);
+        it("Admin or web arena only.", function (done) {
+            assertError("/v2/data/srm/rounds/1000000/answers", 'user', 403, "Admin or web Arena super user only.", done);
+        });
+
+        // Only admin or web arena super user can get into this step
+        it("questionId should be number.", function (done) {
+            assertError("/v2/data/srm/rounds/aaa/answers", 'heffan', 400, "questionId should be number.", done);
         });
 
         it("questionId should be number.", function (done) {
-            assertError("/v2/data/srm/rounds/aaa/answers", 'heffan', 400, "questionId should be number.", done);
+            assertError("/v2/data/srm/rounds/aaa/answers", 'ksmith', 400, "questionId should be number.", done);
         });
 
         it("questionId should be Integer.", function (done) {
@@ -390,12 +395,17 @@ describe('SRM Round Questions APIs', function () {
             assertPostError("/v2/data/srm/questions/306/answers", null, validRequest, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertPostError("/v2/data/srm/questions/306/answers", 'user', validRequest, 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertPostError("/v2/data/srm/questions/306/answers", 'user', validRequest, 403, "Admin or web Arena super user only.", done);
+        });
+
+        // Only admin or web arena super user can get into this step
+        it("questionId should be number.", function (done) {
+            assertPostError("/v2/data/srm/questions/aaa/answers", 'heffan', validRequest, 400, "questionId should be number.", done);
         });
 
         it("questionId should be number.", function (done) {
-            assertPostError("/v2/data/srm/questions/aaa/answers", 'heffan', validRequest, 400, "questionId should be number.", done);
+            assertPostError("/v2/data/srm/questions/aaa/answers", 'ksmith', validRequest, 400, "questionId should be number.", done);
         });
 
         it("questionId should be Integer.", function (done) {
