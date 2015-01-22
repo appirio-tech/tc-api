@@ -34,12 +34,21 @@ var DATE_FORMAT = "YYYY-MM-DD HH:mm";
  */
 var getRoundQuestionAnswers = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
+        caller = connection.caller,
         result = [],
         questionId = Number(connection.params.questionId);
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            if (!helper.isAdmin(caller) && !caller.isWebArenaSuper) {
+                if (!helper.isMember(caller)) {
+                    cb(new UnauthorizedError("Authorized information needed."));
+                } else {
+                    cb(new ForbiddenError("Admin or web Arena super user only."));
+                }
+            } else {
+                cb();
+            }
         }, function (cb) {
             cb(helper.checkIdParameter(questionId, "questionId"));
         }, function (cb) {

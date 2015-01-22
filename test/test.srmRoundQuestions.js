@@ -251,12 +251,17 @@ describe('SRM Round Questions APIs', function () {
             assertError("/v2/data/srm/rounds/1000000/answers", null, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertError("/v2/data/srm/rounds/1000000/answers", 'user', 403, "Admin access only.", done);
+        it("Admin or web arena only.", function (done) {
+            assertError("/v2/data/srm/rounds/1000000/answers", 'user', 403, "Admin or web Arena super user only.", done);
+        });
+
+        // Only admin or web arena super user can get into this step
+        it("questionId should be number.", function (done) {
+            assertError("/v2/data/srm/rounds/aaa/answers", 'heffan', 400, "questionId should be number.", done);
         });
 
         it("questionId should be number.", function (done) {
-            assertError("/v2/data/srm/rounds/aaa/answers", 'heffan', 400, "questionId should be number.", done);
+            assertError("/v2/data/srm/rounds/aaa/answers", 'ksmith', 400, "questionId should be number.", done);
         });
 
         it("questionId should be Integer.", function (done) {
