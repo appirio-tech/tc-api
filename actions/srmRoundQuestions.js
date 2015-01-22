@@ -19,6 +19,8 @@ var _ = require('underscore');
 var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var NotFoundError = require('../errors/NotFoundError');
+var UnauthorizedError = require('../errors/UnauthorizedError');
+var ForbiddenError = require('../errors/ForbiddenError');
 
 var DATE_FORMAT = "YYYY-MM-DD HH:mm";
 
@@ -278,6 +280,28 @@ var setRoundSurvey = function (api, connection, dbConnectionMap, next) {
 };
 
 /**
+ * Check if user authorized and is admin or web Arena super user
+ *
+ * @param api the api instance.
+ * @param the connection instance
+ * @param callback the callback method
+ */
+function checkAuthorization(api, connection, callback) {
+    var helper = api.helper,
+        caller = connection.caller;
+
+    if (!helper.isAdmin(caller) && !caller.isWebArenaSuper) {
+        if (!helper.isMember(caller)) {
+            callback(new UnauthorizedError("Authorized information needed."));
+        } else {
+            callback(new ForbiddenError("Admin or web Arena super user only."));
+        }
+    } else {
+        callback();
+    }
+}
+
+/**
  * Check question id.
  *
  * @param api the api instance.
@@ -515,7 +539,7 @@ var addRoundQuestion = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            checkAuthorization(api, connection, cb);
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {

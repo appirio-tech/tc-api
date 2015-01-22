@@ -29,7 +29,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861"
     };
 
 
@@ -454,12 +455,14 @@ describe('SRM Round Questions APIs', function () {
             assertPostError("/v2/data/srm/rounds/13673/questions", null, validRequest, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertPostError("/v2/data/srm/rounds/13673/questions", 'user', validRequest, 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertPostError("/v2/data/srm/rounds/13673/questions", 'user', validRequest, 403, "Admin or web Arena super user only.", done);
         });
 
+        // Only admin or web arena super user can get into this step
         it("roundId should be number.", function (done) {
             assertPostError("/v2/data/srm/rounds/aaa/questions", 'heffan', validRequest, 400, "roundId should be number.", done);
+            assertPostError("/v2/data/srm/rounds/aaa/questions", 'ksmith', validRequest, 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
