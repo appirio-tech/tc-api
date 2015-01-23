@@ -8,13 +8,15 @@
             "problemData": {
                 "id": 10194,
                 "name": "BlackAndWhiteGame",
+                "proposedDivisionId": 1,
+                "roundId": 13672,
                 "type": {
                     "id": 3,
                     "description": "Long"
                 },
                 "status": {
-                    "id": 75,
-                    "description": "Final Testing"
+                    "id": 90,
+                    "description": "Used"
                 }
             }
         },
@@ -26,6 +28,8 @@
             "problemData": {
                 "id": 10195,
                 "name": "TestProblem",
+                "proposedDivisionId": 2,
+                "roundId": 13672,
                 "type": {
                     "id": 1,
                     "description": "Single"

@@ -22,9 +22,13 @@ var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
-var NotFoundError = require('../errors/NotFoundError');
-var UnauthorizedError = require('../errors/UnauthorizedError');
-var ForbiddenError = require('../errors/ForbiddenError');
+
+/**
+ * Error messages
+ */
+var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or web Arena super user only.",
+    UNAUTHORIZED_MESSAGE = "Authorized information needed.";
 
 /**
  * Parsed the problem from database query result.
@@ -54,7 +58,7 @@ var listRoundProblems = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             cb(helper.checkIdParameter(roundId, "roundId"));
         }, function (cb) {
@@ -62,7 +66,7 @@ var listRoundProblems = function (api, connection, dbConnectionMap, next) {
             api.dataAccess.executeQuery("get_srm_assigned_problems", sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             if (results.length === 0) {
-                cb(new NotFoundError("Cannot find records by given roundId."));
+                cb();
                 return;
             }
             _.each(results, function (item) {
@@ -105,7 +109,7 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             // check parameters
             var error = helper.checkIdParameter(roundId, "roundId");
@@ -135,7 +139,7 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
             }
         }, function (results, cb) {
             if (results.length === 0) {
-                cb(new NotFoundError("Cannot find records by given roundId."));
+                cb();
                 return;
             }
             _.each(results, function (item) {
@@ -231,16 +235,7 @@ var listSRMProblems = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            if (!helper.isAdmin(caller) && !caller.isWebArenaSuper) {
-                if (!helper.isMember(caller)) {
-                    cb(new UnauthorizedError("Authorized information needed."));
-                } else {
-                    cb(new ForbiddenError("Admin or web Arena super user only."));
-                }
-            } else {
-                cb();
-            }
-            //cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             if (caller.isWebArenaSuper) {
                 async.waterfall([
