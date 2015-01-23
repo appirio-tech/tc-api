@@ -1886,7 +1886,7 @@ exports.setRoundLanguages = {
         async.auto(
             {
                 admin: function (cb) {
-                    cb(helper.checkAdmin(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_MESSAGE));
+                    cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
                 },
                 roundId: [
                     'admin',

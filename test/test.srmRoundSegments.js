@@ -29,7 +29,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861"
     };
 
 
@@ -117,20 +118,24 @@ describe('SRM Round Questions APIs', function () {
         clearDb(done);
     });
     describe('Set Round Segments API invalid test', function () {
-        var validRequest = {"registrationStart": "2014-09-07 19:44:44", "registrationLength" : 20,
-            "codingStart": "2014-09-07 20:14:44", "codingLength": 100, "intermissionLength": 10,
+        var validRequest = {"registrationStart": "2014-09-07 19:44:44Z", "registrationLength" : 20,
+            "codingStart": "2014-09-07 20:14:44Z", "codingLength": 100, "intermissionLength": 10,
             "challengeLength": 15, "registrationStatus": "F", "codingStatus": "F",
             "intermissionStatus": "F", "challengeStatus": "F", "systemTestStatus": "F"};
         it("No anonymous access.", function (done) {
             assertPostError("/v2/data/srm/rounds/13673/segments", null, validRequest, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertPostError("/v2/data/srm/rounds/13673/segments", 'user', validRequest, 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertPostError("/v2/data/srm/rounds/13673/segments", 'user', validRequest, 403, "Admin or web Arena super user only.", done);
         });
 
         it("roundId should be number.", function (done) {
             assertPostError("/v2/data/srm/rounds/aaa/segments", 'heffan', validRequest, 400, "roundId should be number.", done);
+        });
+
+        it("roundId should be number (with web Arena super user).", function (done) {
+            assertPostError("/v2/data/srm/rounds/aaa/segments", 'ksmith', validRequest, 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
@@ -152,7 +157,7 @@ describe('SRM Round Questions APIs', function () {
         });
 
         it("registrationLength should be number.", function (done) {
-            validRequest.registrationStart = "2014-09-07 19:44:44"
+            validRequest.registrationStart = "2014-09-07 19:44:44Z"
             validRequest.registrationLength = "oo";
             assertPostError("/v2/data/srm/rounds/13673/segments", 'heffan', validRequest, 400, "registrationLength should be number.", done);
         });
@@ -174,7 +179,7 @@ describe('SRM Round Questions APIs', function () {
         });
 
         it("codingLength should be number.", function (done) {
-            validRequest.codingStart = "2014-09-07 20:14:44";
+            validRequest.codingStart = "2014-09-07 20:14:44Z";
             validRequest.codingLength = "oo";
             assertPostError("/v2/data/srm/rounds/13673/segments", 'heffan', validRequest, 400, "codingLength should be number.", done);
         });
@@ -251,8 +256,8 @@ describe('SRM Round Questions APIs', function () {
     describe('Valid test', function () {
 
         it("Valid set segments.", function (done) {
-            var validRequest = {"registrationStart": "2014-09-07 19:44:44", "registrationLength" : 20,
-                "codingStart": "2014-09-07 20:14:44", "codingLength": 100, "intermissionLength": 10,
+            var validRequest = {"registrationStart": "2014-09-07 19:44:44+0800", "registrationLength" : 20,
+                "codingStart": "2014-09-07 20:14:44+0800", "codingLength": 100, "intermissionLength": 10,
                 "challengeLength": 15, "registrationStatus": "F", "codingStatus": "F",
                 "intermissionStatus": "F", "challengeStatus": "F", "systemTestStatus": "F"};
             async.waterfall([

@@ -15,6 +15,13 @@ var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 /**
+ * Error messages
+ */
+var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or web Arena super user only.",
+    UNAUTHORIZED_MESSAGE = "Authorized information needed.";
+
+/**
  * Check whether the given value is defined and id parameter.
  * @param value - the given value.
  * @param name - the name
@@ -206,7 +213,7 @@ var setRoundComponents = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {
@@ -278,7 +285,7 @@ var setRoundTerms = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {
