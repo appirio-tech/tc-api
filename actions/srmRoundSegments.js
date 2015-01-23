@@ -20,6 +20,14 @@ var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 var DATE_FORMAT = "YYYY-MM-DD HH:mm:ssZZ";
 var DB_DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
+
+/**
+ * Error messages
+ */
+var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or web Arena super user only.",
+    UNAUTHORIZED_MESSAGE = "Authorized information needed.";
+
 /**
  * Check round id.
  *
@@ -155,7 +163,7 @@ var setRoundSegments = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {
