@@ -87,6 +87,11 @@ export DEVELOP_SUBMISSION_MAX_SIZE=6144
 
 export WATERMARK_FILE_PATH=test/test_files/design_image_file_generator/studio_logo_watermark.png
 
+export WKHTMLTOIMAGE_COMMAND_PATH=/usr/local/bin/wkhtmltoimage
+export WKHTMLTOIMAGE_IMAGE_WIDTH=1024
+export HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/%OVERRIDE_STYLE_NAME%.min.css
+export JWT_TOKEN_COOKIE_KEY="tcjwt_vm"
+
 export TC_API_MAX_MEMORY=256m
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 export PORT=8081
