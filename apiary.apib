@@ -8513,6 +8513,16 @@ Request
             "description":"The request is understood, but it has been refused or access is not allowed."
         }
 
++ Response 403 (application/json)
+
+        {
+            "name":"Forbidden",
+            "value":"403",
+            "description": "The request is understood, but it has been refused or access is not allowed."
+            "details": "Round was not created by you."
+        }
+
+
 + Response 404 (application/json)
 
         {
@@ -15829,83 +15839,86 @@ Source Code Image Generation APIs
 + Response 200 (application/json)
 
         {
-                "total": 1,
-                "pageIndex": 1,
-                "pageSize": 2,
-                "data": [
-                    {
-                        "ID": 12001,
-                        "Name": "test round 12001",
-                        "Short Name": "short name 12001",
-                        "Type": "Single Round Match",
-                        "Status": "Active",
-                        "Registration Limit": 1000,
-                        "Invitational Type": "Not",
-                        "Region": "Alpha",
-                        "contestId": 12917,
-                        "contestName": "Test SRM",
-                        "contestStatus": "A",
-                        "hasProblems": true,
-                        "hasTerms": true,
-                        "hasSchedule": true,
-                        "hasQuestions": false,
-                        "Round Schedule": [
-                            {
-                                "Phase Name": "Registration Phase",
-                                "Start Time": "2013-11-02T05:50:51.000+05:00",
-                                "End Time": "2013-12-02T05:50:51.000+05:00",
-                                "Status": "Past"
-                            },
-                            {
-                                "Phase Name": "Coding Phase",
-                                "Start Time": "2013-12-02T05:50:52.000+05:00",
-                                "End Time": "2013-12-05T05:50:51.000+05:00",
-                                "Status": "Past"
-                            },
-                            {
-                                "Phase Name": "Intermission Phase",
-                                "Start Time": "2013-12-06T05:50:51.000+05:00",
-                                "End Time": "2013-12-07T05:50:51.000+05:00",
-                                "Status": "Past"
-                            },
-                            {
-                                "Phase Name": "Challenge Phase",
-                                "Start Time": "2013-12-08T05:50:51.000+05:00",
-                                "End Time": "2013-12-09T05:50:51.000+05:00",
-                                "Status": "Past"
-                            },
-                            {
-                                "Phase Name": "System Test Phase",
-                                "Start Time": "2013-12-10T05:50:51.000+05:00",
-                                "End Time": "2013-12-11T05:50:51.000+05:00",
-                                "Status": "Active"
-                            },
-                            {
-                                "Phase Name": "Moderated Chat Phase",
-                                "Start Time": "2013-12-12T05:50:51.000+05:00",
-                                "End Time": "2013-12-13T05:50:51.000+05:00",
-                                "Status": "Draft"
-                            },
-                            {
-                                "Phase Name": "Room Assignment Phase",
-                                "Start Time": "2013-12-14T05:50:51.000+05:00",
-                                "End Time": "2013-12-15T05:50:51.000+05:00",
-                                "Status": "Draft"
-                            }
-                        ],
-                        "languages": [
-                                         {
-                                             "id": 1,
-                                             "description": "Java"
-                                         },
-                                         {
-                                             "id": 2,
-                                             "description": "XML"
-                                         }
-                                     ]
-                    }
-                ]
-            }
+            "data": [
+                {
+                    "autoEnd": 0,
+                    "contestId": 12001, "creatorId": 132456,
+                    "contestName": "test contest 12001",
+                    "contestStatus": "I",
+                    "hasProblems": false,
+                    "hasQuestions": false,
+                    "hasSchedule": true,
+                    "hasTerms": true,
+                    "id": 12001,
+                    "invitationalType": "Not",
+                    "languages": [
+                        {
+                            "description": "Java",
+                            "id": 1
+                        },
+                        {
+                            "description": "XML",
+                            "id": 2
+                        }
+                    ],
+                    "name": "test round 12001",
+                    "region": "Alpha",
+                    "registrationLimit": 1000,
+                    "roundSchedule": [
+                        {
+                            "endTime": "2013-12-02T00:50:51+00:00",
+                            "phaseName": "Registration Phase",
+                            "startTime": "2013-11-02T00:50:51+00:00",
+                            "status": "Past"
+                        },
+                        {
+                            "endTime": "2013-12-05T00:50:51+00:00",
+                            "phaseName": "Coding Phase",
+                            "startTime": "2013-12-02T00:50:52+00:00",
+                            "status": "Past"
+                        },
+                        {
+                            "endTime": "2013-12-07T00:50:51+00:00",
+                            "phaseName": "Intermission Phase",
+                            "startTime": "2013-12-06T00:50:51+00:00",
+                            "status": "Past"
+                        },
+                        {
+                            "endTime": "2013-12-09T00:50:51+00:00",
+                            "phaseName": "Challenge Phase",
+                            "startTime": "2013-12-08T00:50:51+00:00",
+                            "status": "Past"
+                        },
+                        {
+                            "endTime": "2013-12-11T00:50:51+00:00",
+                            "phaseName": "System Test Phase",
+                            "startTime": "2013-12-10T00:50:51+00:00",
+                            "status": "Active"
+                        },
+                        {
+                            "endTime": "2013-12-13T00:50:51+00:00",
+                            "phaseName": "Moderated Chat Phase",
+                            "startTime": "2013-12-12T00:50:51+00:00",
+                            "status": "Draft"
+                        },
+                        {
+                            "endTime": "2013-12-15T00:50:51+00:00",
+                            "phaseName": "Room Assignment Phase",
+                            "startTime": "2013-12-14T00:50:51+00:00",
+                            "status": "Draft"
+                        }
+                    ],
+                    "roundTerms": "term1",
+                    "shortName": "short name 12001",
+                    "status": "Active",
+                    "type": "Single Round Match"
+                }
+            ],
+            "pageIndex": 1,
+            "pageSize": 2,
+            "total": 1
+        }
+
 
 + Response 400 (application/json)
 
@@ -16135,7 +16148,7 @@ Source Code Image Generation APIs
         {
             "name":"Forbidden",
             "value":"403",
-            "description":"Admin access only."
+            "description":"Admin or Web Arena Super access only."
         }
 
 + Response 500 (application/json)

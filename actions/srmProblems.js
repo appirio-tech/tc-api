@@ -11,7 +11,9 @@
  * - listRoundProblems will include round id
  * - listRoundProblemComponents will include round id
  *
- * @version 1.1
+ * Changes in 1.2 (TC API - List SRM Problems API Update)
+ * - Update listSRMProblems api to allow web arena super user access it.
+ * @version 1.2
  * @author TCSASSEMBLER
  */
 /*jslint node: true, nomen: true, plusplus: true */
@@ -20,8 +22,13 @@ var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
-var NotFoundError = require('../errors/NotFoundError');
-var ForbiddenError = require('../errors/ForbiddenError');
+
+/**
+ * Error messages
+ */
+var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or web Arena super user only.",
+    UNAUTHORIZED_MESSAGE = "Authorized information needed.";
 
 /**
  * Parsed the problem from database query result.
@@ -51,7 +58,7 @@ var listRoundProblems = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             cb(helper.checkIdParameter(roundId, "roundId"));
         }, function (cb) {
@@ -59,7 +66,7 @@ var listRoundProblems = function (api, connection, dbConnectionMap, next) {
             api.dataAccess.executeQuery("get_srm_assigned_problems", sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             if (results.length === 0) {
-                cb(new NotFoundError("Cannot find records by given roundId."));
+                cb();
                 return;
             }
             _.each(results, function (item) {
@@ -102,7 +109,7 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             // check parameters
             var error = helper.checkIdParameter(roundId, "roundId");
@@ -132,7 +139,7 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
             }
         }, function (results, cb) {
             if (results.length === 0) {
-                cb(new NotFoundError("Cannot find records by given roundId."));
+                cb();
                 return;
             }
             _.each(results, function (item) {
@@ -207,6 +214,12 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
 };
 
 /**
+ * The filter for list SRM problem api when caller is the web arena super user.
+ * @type {string}
+ */
+var SRM_PROBLEM_WEB_ARENA_SUPER_FILTER = " AND p.status_id = 90";
+
+/**
  * Get SRM problems.
  *
  * @param api the api instance.
@@ -216,14 +229,27 @@ var listRoundProblemComponents = function (api, connection, dbConnectionMap, nex
  */
 var listSRMProblems = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
+        caller = connection.caller,
         result = [],
         sqlParams = {};
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
-            api.dataAccess.executeQuery("get_srm_problems", sqlParams, dbConnectionMap, cb);
+            if (caller.isWebArenaSuper) {
+                async.waterfall([
+                    function (cbx) {
+                        helper.readQuery("get_srm_problems", cbx);
+                    },
+                    function (sql, cbx) {
+                        sql = helper.editSql(sql, SRM_PROBLEM_WEB_ARENA_SUPER_FILTER, null);
+                        api.dataAccess.executeSqlQuery(sql, sqlParams, "informixoltp", dbConnectionMap, cbx);
+                    }
+                ], cb);
+            } else {
+                api.dataAccess.executeQuery("get_srm_problems", sqlParams, dbConnectionMap, cb);
+            }
         }, function (results, cb) {
             _.each(results, function (item) {
                 result.push(parseProblem(item));

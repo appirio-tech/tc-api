@@ -277,6 +277,7 @@ exports.routes = {
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
         { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
         { path: "/:apiVersion/user/tcid/:id", action: "getUserIdentityByAuth0Id" },
+        { path: "/:apiVersion/user/email/:handle", action: "getEmailByHandle" },
         { path: "/:apiVersion/user/identity", action: "getUserIdentity" },
         { path: "/:apiVersion/user/:handle/challenges/marathon", action: "getUserMarathonMatches" },
         { path: "/:apiVersion/user/:handle/challenges/algo", action: "getUserAlgorithmChallenges" },

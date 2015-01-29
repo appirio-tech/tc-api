@@ -440,6 +440,72 @@ exports.getUserIdentityByAuth0Id = {
     }
 };
 
+function getEmailByHandle(api, connection, next) {
+    var helper = api.helper,
+        handle = connection.params.handle,
+        dbConnectionMap = connection.dbConnectionMap,
+        apikey = connection.params.apiKey,
+        notfound = new NotFoundError('Feelin lucky, punk?'),
+        response;
+
+    async.waterfall([
+        function (cb) {
+            if (process.env.ADMIN_API_KEY && apikey === process.env.ADMIN_API_KEY) {
+                api.dataAccess.executeQuery('get_user_email_by_handle',
+                    { handle: handle },
+                    dbConnectionMap, cb);
+            } else {
+                cb(notfound);
+            }
+        },
+        function (rs, cb) {
+            if (!rs[0]) {
+                cb(notfound);
+            } else {
+                response = {
+                    email: rs[0].address
+                };
+                cb();
+            }
+        }
+    ], function (err) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = response;
+        }
+        next(connection, true);
+    });
+
+}
+
+/**
+ * The API for activate user
+ * @since 1.2
+ */
+exports.getEmailByHandle = {
+    name: 'getEmailByHandle',
+    description: 'Get email for user (private)',
+    inputs: {
+        required: ['handle'],
+        optional: ['apiKey']
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: 'v2',
+    transaction: 'read',
+    databases: ['common_oltp'],
+    cacheEnabled: false,
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log('getEmailByHandle#run', 'debug');
+            getEmailByHandle(api, connection, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
 /**
  * Handle the get marathon matches that user participated to.
  * @param {Object} api - The api object.

@@ -1,0 +1,8 @@
+SELECT 
+  u.handle
+, e.address 
+FROM user u
+, email e
+WHERE u.handle = '@handle@'
+AND e.primary_ind = 1
+AND u.user_id = e.user_id

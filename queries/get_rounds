@@ -2,10 +2,11 @@ SELECT
     SKIP @firstRowIndex@
     FIRST @pageSize@
   r.round_id as id,
+  r.creator_id as creator_id,
   r.name as name,
   r.short_name as short_name,
   r.auto_end as auto_end,
-  rt.round_type_desc,  
+  rt.round_type_desc,
   c.contest_id as contest_id,
   c.name as contest_name,
   c.status as contest_status,
@@ -17,7 +18,7 @@ SELECT
            'Draft'
        ELSE NULL
        END AS round_status,
-  r.registration_limit,    
+  r.registration_limit,
   CASE WHEN (r.invitational = 0) THEN
            'Not'
        WHEN (r.invitational = 1) THEN
@@ -120,7 +121,7 @@ SELECT
            'true'
        ELSE 'false'
        END AS has_questions
-       
+
  FROM (round r
       LEFT OUTER JOIN round_type_lu rt
         ON r.round_type_id=rt.round_type_id

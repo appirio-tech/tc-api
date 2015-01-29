@@ -1,1 +1,1 @@
-select round_id from round where round_id=@round_id@;
+select round_id, creator_id from round where round_id=@round_id@;

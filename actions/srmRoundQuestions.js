@@ -22,6 +22,12 @@ var NotFoundError = require('../errors/NotFoundError');
 
 var DATE_FORMAT = "YYYY-MM-DD HH:mm";
 
+/**
+ * Error messages
+ */
+var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or web Arena super user only.",
+    UNAUTHORIZED_MESSAGE = "Authorized information needed.";
 
 /**
  * Get Round Question Answers.
@@ -33,12 +39,13 @@ var DATE_FORMAT = "YYYY-MM-DD HH:mm";
  */
 var getRoundQuestionAnswers = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
+        caller = connection.caller,
         result = [],
         questionId = Number(connection.params.questionId);
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             cb(helper.checkIdParameter(questionId, "questionId"));
         }, function (cb) {
@@ -78,7 +85,7 @@ var getRoundQuestions = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             cb(helper.checkIdParameter(roundId, "roundId"));
         }, function (cb) {
@@ -362,6 +369,7 @@ function checkAnswerValues(api, text, sortOrder, correct, callback) {
  */
 var addRoundQuestionAnswer = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
+        caller = connection.caller,
         sqlParams = {},
         questionId = Number(connection.params.questionId),
         text = connection.params.text,
@@ -370,7 +378,7 @@ var addRoundQuestionAnswer = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkQuestionId(api, dbConnectionMap, questionId, cb);
         }, function (error, cb) {
@@ -515,7 +523,7 @@ var addRoundQuestion = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {
@@ -579,7 +587,7 @@ var modifyRoundQuestion = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkQuestionId(api, dbConnectionMap, questionId, cb);
         }, function (error, cb) {
@@ -618,7 +626,7 @@ var deleteRoundQuestion = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkQuestionId(api, dbConnectionMap, questionId, cb);
         }, function (error, cb) {
@@ -690,7 +698,7 @@ var modifyRoundQuestionAnswer = function (api, connection, dbConnectionMap, next
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkAnswerValues(api, text, sortOrder, correct, cb);
         }, function (error, cb) {
@@ -727,7 +735,7 @@ var deleteRoundQuestionAnswer = function (api, connection, dbConnectionMap, next
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             cb(helper.checkIdParameter(answerId, 'answerId'));
         }, function (cb) {

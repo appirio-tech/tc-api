@@ -4,8 +4,12 @@
 /**
  * Implement the get rounds api.
  *
- * @version 1.0
- * @author TCASSEMBLER
+ * @version 1.1
+ * @author TCASSEMBLER, TCSFINALFIXER
+ *
+ * Changes in 1.1:
+ * - Add support for web arena super role.
+ * - Add creatorId field to output.
  */
 /*jslint node: true, nomen: true, plusplus: true, stupid: true, unparam: true */
 "use strict";
@@ -206,7 +210,8 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper, sqlParams,
         result = {}, params = connection.params, pageIndex, pageSize, sortColumn,
         sortOrder, error, filterCondition, statusCondition = '', allowedSort,
-        data = [], statuses, allowedStatus, tmp, i, tmpTypeId;
+        data = [], statuses, allowedStatus, tmp, i, tmpTypeId,
+        isWebArenaSuper = connection.caller.isWebArenaSuper;
 
     sortOrder = (params.sortOrder || "asc").toLowerCase();
     sortColumn = (params.sortColumn || "registrationPhaseStartTime").toLowerCase();
@@ -215,7 +220,18 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            error = helper.checkAdminOrWebArenaSuper(
+                connection,
+                'Authorized information needed.',
+                'Admin or Web Arena Super access only.'
+            );
+            if (error) {
+                return cb(error);
+            }
+            if (isWebArenaSuper) {
+                params.type = 'Instant%20Match';
+            }
+            return cb();
         }, function (cb) {
             allowedSort = helper.getLowerCaseList(Object.keys(SORT_COLUMNS));
             if (_.isDefined(params.pageIndex) && pageIndex !== -1) {
@@ -273,6 +289,9 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
             }
 
             filterCondition = ' r.round_id > 0 ';
+            if (isWebArenaSuper) {
+                filterCondition = filterCondition + ' AND r.creator_id = ' + connection.caller.userId + ' ';
+            }
             if (_.isDefined(params.name)) {
                 // set name filter
                 filterCondition = filterCondition + ' AND LOWER(r.name) LIKE LOWER("%' + decodeURIComponent(params.name) + '%")';
@@ -309,16 +328,20 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
             // query database to get result
             async.parallel({
                 count: function (cbx) {
-                    api.dataAccess.executeQuery("get_rounds_count",
+                    return api.dataAccess.executeQuery(
+                        "get_rounds_count",
                         sqlParams,
                         dbConnectionMap,
-                        cbx);
+                        cbx
+                    );
                 },
                 rounds: function (cbx) {
-                    api.dataAccess.executeQuery("get_rounds",
+                    return api.dataAccess.executeQuery(
+                        "get_rounds",
                         sqlParams,
                         dbConnectionMap,
-                        cbx);
+                        cbx
+                    );
                 }
             }, cb);
         }, function (results, cb) {
@@ -338,6 +361,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
 
                 record = {
                     "id": rounds[i].id,
+                    "creatorId": rounds[i].creator_id,
                     "name": rounds[i].name,
                     "shortName": rounds[i].short_name,
                     "type": rounds[i].round_type_desc,
@@ -361,7 +385,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                     if (!_.isUndefined(rounds[i]["start_time_" + j])
                             && !_.isUndefined(rounds[i]["end_time_" + j])
                             && !_.isUndefined(rounds[i]["status_" + j])) {
-                        record["roundSchedule"].push({
+                        record.roundSchedule.push({
                             "phaseName": rounds[i]["name_" + j],
                             "startTime": rounds[i]["start_time_" + j] ? moment(rounds[i]["start_time_" + j]).format(OUTPUT_DATE_FORMAT) : undefined,
                             "endTime": rounds[i]["end_time_" + j] ? moment(rounds[i]["end_time_" + j]).format(OUTPUT_DATE_FORMAT) : undefined,
@@ -397,8 +421,8 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                 for (i = 0; i < results.terms.length; i++) {
                     for (j = 0; j < data.length; j++) {
                         // only return the first term
-                        if (results.terms[i].round_id === data[j].id && !data[j]["roundTerms"]) {
-                            data[j]["roundTerms"] = results.terms[i].terms_content;
+                        if (results.terms[i].round_id === data[j].id && !data[j].roundTerms) {
+                            data[j].roundTerms = results.terms[i].terms_content;
                             break;
                         }
                     }
@@ -407,7 +431,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                 for (i = 0; i < results.languages.length; i++) {
                     for (j = 0; j < data.length; j++) {
                         if (results.languages[i].round_id === data[j].id) {
-                            data[j]["languages"].push({"id": results.languages[i].language_id, "description": results.languages[i].language_name});
+                            data[j].languages.push({"id": results.languages[i].language_id, "description": results.languages[i].language_name});
                         }
                     }
                 }

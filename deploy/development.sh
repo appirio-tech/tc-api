@@ -98,3 +98,5 @@ export WKHTMLTOIMAGE_IMAGE_WIDTH=1024
 export HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/%OVERRIDE_STYLE_NAME%.min.css
 
 export JWT_TOKEN_COOKIE_KEY="tcjwt_vm"
+
+export ADMIN_API_KEY=1234567
