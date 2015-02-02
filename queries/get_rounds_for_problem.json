@@ -1,5 +1,5 @@
 {
     "name"    : "get_rounds_for_problem",
-    "db"      : "topcoder_dw",
+    "db"      : "informixoltp",
     "sqlfile" : "get_rounds_for_problem"
 }

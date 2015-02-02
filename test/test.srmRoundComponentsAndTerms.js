@@ -28,7 +28,8 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861" // web arena super user
     };
 
 
@@ -168,12 +169,16 @@ describe('SRM Round Components And Terms APIs', function () {
             assertPostError("/v2/data/srm/rounds/13673/components", null, validRequest, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertPostError("/v2/data/srm/rounds/13673/components", 'user', validRequest, 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertPostError("/v2/data/srm/rounds/13673/components", 'user', validRequest, 403, "Admin or web Arena super user only.", done);
         });
 
         it("roundId should be number.", function (done) {
             assertPostError("/v2/data/srm/rounds/13673a/components", 'heffan', validRequest, 400, "roundId should be number.", done);
+        });
+
+        it("roundId should be number (with web Arena super user).", function (done) {
+            assertPostError("/v2/data/srm/rounds/13673a/components", 'ksmith', validRequest, 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
@@ -195,46 +200,46 @@ describe('SRM Round Components And Terms APIs', function () {
                 "components should be Array.", done);
         });
 
-        it("componentId should not be null or undefined", function (done) {
+        it("componentId should be provided", function (done) {
             validRequest = {"components": [{"componentId": 2020, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1}]};
             assertPostError("/v2/data/srm/rounds/13673/components", 'heffan', validRequest, 400,
-                "componentId should not be null or undefined", done);
+                "componentId should be provided", done);
         });
 
-        it("points should not be null or undefined", function (done) {
+        it("points should be provided", function (done) {
             validRequest = {"components": [{"componentId": 2020, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1}]};
             assertPostError("/v2/data/srm/rounds/13673/components", 'heffan', validRequest, 400,
-                "points should not be null or undefined", done);
+                "points should be provided", done);
         });
 
-        it("divisionId should not be null or undefined", function (done) {
+        it("divisionId should be provided", function (done) {
             validRequest = {"components": [{"componentId": 2020, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "points": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1}]};
             assertPostError("/v2/data/srm/rounds/13673/components", 'heffan', validRequest, 400,
-                "divisionId should not be null or undefined", done);
+                "divisionId should be provided", done);
         });
 
-        it("difficultyId should not be null or undefined", function (done) {
+        it("difficultyId should be provided", function (done) {
             validRequest = {"components": [{"componentId": 2020, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "points": 1, "divisionId": 1, "openOrder": 1, "submitOrder": 1}]};
             assertPostError("/v2/data/srm/rounds/13673/components", 'heffan', validRequest, 400,
-                "difficultyId should not be null or undefined", done);
+                "difficultyId should be provided", done);
         });
 
-        it("openOrder should not be null or undefined", function (done) {
+        it("openOrder should be provided", function (done) {
             validRequest = {"components": [{"componentId": 2020, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "points": 1, "divisionId": 1, "difficultyId": 1, "submitOrder": 1}]};
             assertPostError("/v2/data/srm/rounds/13673/components", 'heffan', validRequest, 400,
-                "openOrder should not be null or undefined", done);
+                "openOrder should be provided", done);
         });
 
-        it("submitOrder should not be null or undefined", function (done) {
+        it("submitOrder should be provided", function (done) {
             validRequest = {"components": [{"componentId": 2020, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "points": 1, "divisionId": 1, "difficultyId": 1, "openOrder": 1}]};
             assertPostError("/v2/data/srm/rounds/13673/components", 'heffan', validRequest, 400,
-                "submitOrder should not be null or undefined", done);
+                "submitOrder should be provided", done);
         });
 
         it("componentId should be positive.", function (done) {
@@ -315,12 +320,16 @@ describe('SRM Round Components And Terms APIs', function () {
             assertPostError("/v2/data/srm/rounds/13673/terms", null, validRequest, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertPostError("/v2/data/srm/rounds/13673/terms", 'user', validRequest, 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertPostError("/v2/data/srm/rounds/13673/terms", 'user', validRequest, 403, "Admin or web Arena super user only.", done);
         });
 
         it("roundId should be number.", function (done) {
             assertPostError("/v2/data/srm/rounds/13673a/terms", 'heffan', validRequest, 400, "roundId should be number.", done);
+        });
+
+        it("roundId should be number (with web Arena super user).", function (done) {
+            assertPostError("/v2/data/srm/rounds/13673a/terms", 'ksmith', validRequest, 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
@@ -345,6 +354,26 @@ describe('SRM Round Components And Terms APIs', function () {
     });
 
     describe('Valid test', function () {
+        it("Valid set components.", function(done) {
+            var validRequest = {};
+            createPostRequest("/v2/data/srm/rounds/13673/components", 'heffan').expect(200).send(validRequest).end(function (err, res) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.equal(res.body.success, true, "Invalid response detail");
+                var sql = "* from round_component where round_id = 13673 order by component_id";
+                testHelper.runSqlSelectQuery(sql, "informixoltp", function (err, result) {
+                    if (err) {
+                        done(err);
+                        return;
+                    }
+                    assert.equal(result.length, 0, "All components should be removed!");
+                });
+                done();
+            });
+        });
+
         it("Valid set components.", function (done) {
             var validRequest = {"components": [{"componentId": 2020, "points": 250, "divisionId": 1, "difficultyId": 1, "openOrder": 1, "submitOrder": 1},
                 {"componentId": 2021, "points": 500, "divisionId": 2, "difficultyId": 2, "openOrder": 1, "submitOrder": 1}]};

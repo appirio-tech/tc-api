@@ -1,0 +1,61 @@
+{
+    "total": 3,
+    "pageIndex": 1,
+    "pageSize": 50,
+    "data": [
+        {
+            "roundId": 3001,
+            "name": "round 3001",
+            "shortName": "N/A",
+            "contestName": "SRM 2001",
+            "roundType": "Single Round Match",
+            "status": "F",
+            "registrationStartTime": "2014-09-20T00:00:00.000+0800",
+            "registrationEndTime": "2014-09-21T00:00:00.000+0800",
+            "codingStartTime": "2014-09-21T00:00:00.000+0800",
+            "codingEndTime": "2014-09-22T00:00:00.000+0800",
+            "intermissionStartTime": "2014-09-22T00:00:00.000+0800",
+            "intermissionEndTime": "2014-09-23T00:00:00.000+0800",
+            "challengeStartTime": "2014-09-23T00:00:00.000+0800",
+            "challengeEndTime": "2014-09-24T00:00:00.000+0800",
+            "systestStartTime": "2014-09-24T00:00:00.000+0800",
+            "systestEndTime": "2014-09-25T00:00:00.000+0800"
+        },
+        {
+            "roundId": 3003,
+            "name": "round 3003",
+            "shortName": "N/A",
+            "contestName": "SRM 2003",
+            "roundType": "Tournament Round",
+            "status": "F",
+            "registrationStartTime": "2014-09-10T00:00:00.000+0800",
+            "registrationEndTime": "2014-09-11T00:00:00.000+0800",
+            "codingStartTime": "2014-09-11T00:00:00.000+0800",
+            "codingEndTime": "2014-09-12T00:00:00.000+0800",
+            "intermissionStartTime": "2014-09-12T00:00:00.000+0800",
+            "intermissionEndTime": "2014-09-13T00:00:00.000+0800",
+            "challengeStartTime": "2014-09-13T00:00:00.000+0800",
+            "challengeEndTime": "2014-09-14T00:00:00.000+0800",
+            "systestStartTime": "2014-09-14T00:00:00.000+0800",
+            "systestEndTime": "2014-09-15T00:00:00.000+0800"
+        },
+        {
+            "roundId": 3004,
+            "name": "round 3004",
+            "shortName": "N/A",
+            "contestName": "SRM 2004",
+            "roundType": "Single Round Match",
+            "status": "F",
+            "registrationStartTime": "2014-09-01T04:00:00.000+0800",
+            "registrationEndTime": "2014-09-01T05:00:00.000+0800",
+            "codingStartTime": "2014-09-01T06:00:00.000+0800",
+            "codingEndTime": "2014-09-02T00:00:00.000+0800",
+            "intermissionStartTime": "2014-09-02T00:00:00.000+0800",
+            "intermissionEndTime": "2014-09-03T00:00:00.000+0800",
+            "challengeStartTime": "2014-09-03T00:00:00.000+0800",
+            "challengeEndTime": "2014-09-04T00:00:00.000+0800",
+            "systestStartTime": "2014-09-04T00:00:00.000+0800",
+            "systestEndTime": "2014-09-05T00:00:00.000+0800"
+        }
+    ]
+}

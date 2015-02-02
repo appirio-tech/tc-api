@@ -34,27 +34,27 @@ INSERT INTO round_type_lu (round_type_id, round_type_desc, algo_rating_type_id) 
 INSERT INTO round_type_lu (round_type_id, round_type_desc, algo_rating_type_id) VALUES (27, 'Marathon Match QA', NULL);
 
 INSERT INTO contest (contest_id, name) VALUES (3000, 'Contest 3000');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (1, 3000, 1, 'Active Srm Round', 'A');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (1, 3000, 1, 'Active Srm Round', 'A', 'http://editlink1');
 INSERT INTO contest (contest_id, name) VALUES (3001, 'Contest 3001');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (2, 3001, 1, 'Active Srm Round 2', 'A');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (2, 3001, 1, 'Active Srm Round 2', 'A', 'http://editlink2');
 INSERT INTO contest (contest_id, name) VALUES (3002, 'Contest 3002');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (3, 3002, 2, 'Active Tournament Round', 'A');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (3, 3002, 2, 'Active Tournament Round', 'A', 'http://editlink3');
 INSERT INTO contest (contest_id, name) VALUES (3003, 'Contest 3003');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (4, 3003, 10, 'Active Long Round', 'A');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (4, 3003, 10, 'Active Long Round', 'A', 'http://editlink4');
 INSERT INTO contest (contest_id, name) VALUES (3004, 'Contest 3004');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (5, 3004, 20, 'Active Event Round', 'A');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (5, 3004, 20, 'Active Event Round', 'A','http://editlink5');
 INSERT INTO contest (contest_id, name) VALUES (3005, 'Contest 3005');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (6, 3005, 1, 'Past Srm Round', 'P');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (6, 3005, 1, 'Past Srm Round', 'P','http://editlink6');
 INSERT INTO contest (contest_id, name) VALUES (3006, 'Contest 3006');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (7, 3006, 2, 'Past Tournament Round', 'P');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (7, 3006, 2, 'Past Tournament Round', 'P','http://editlink7');
 INSERT INTO contest (contest_id, name) VALUES (3007, 'Contest 3007');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (8, 3007, 10, 'Past Long Round', 'P');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (8, 3007, 10, 'Past Long Round', 'P', 'http://editlink8');
 INSERT INTO contest (contest_id, name) VALUES (3008, 'Contest 3008');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (9, 3008, 20, 'Past Event Round', 'P');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (9, 3008, 20, 'Past Event Round', 'P','http://editlink9');
 INSERT INTO contest (contest_id, name) VALUES (3009, 'Contest 3009');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (10, 3009, 3, 'Past Practice Round', 'P');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (10, 3009, 3, 'Past Practice Round', 'P','http://editlink10');
 INSERT INTO contest (contest_id, name) VALUES (3010, 'Contest 3010');
-INSERT INTO round (round_id, contest_id, round_type_id, name, status) VALUES (11, 3010, 9, 'Past Tournament Practice Round', 'P');
+INSERT INTO round (round_id, contest_id, round_type_id, name, status, editorial_link) VALUES (11, 3010, 9, 'Past Tournament Practice Round', 'P','http://editlink11');
 
 INSERT INTO room (room_id, round_id, name, division_id, division_desc) VALUES (4001, 1, 'Room 4001', -1, 'No Division Applicable');
 INSERT INTO room (room_id, round_id, name, division_id, division_desc) VALUES (4002, 2, 'Room 4002', 0, 'Unrated Division');

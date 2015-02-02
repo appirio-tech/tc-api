@@ -1,5 +1,5 @@
 {
     "name"    : "check_problem_exists",
-    "db"      : "topcoder_dw",
+    "db"      : "informixoltp",
     "sqlfile" : "check_problem_exists"
 }

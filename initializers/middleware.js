@@ -81,20 +81,27 @@ exports.middleware = function (api, next) {
             isCachedReturned,
             cacheKey,
             socialUserId,
-            socialProvider;
-        if (!_.isDefined(authHeader)) {
+            socialProvider,
+            cookieToken = api.utils.parseCookies(connection.rawConnection.req)[process.env.JWT_TOKEN_COOKIE_KEY];
+
+        if (_.isUndefined(authHeader) && _.isUndefined(cookieToken)) {
             connection.caller = {accessLevel: "anon"};
             next(connection, true);
             return;
         }
+
         async.waterfall([
             function (cb) {
-                var reg = /^bearer ([\s\S]+)$/i;
-                if (!reg.test(authHeader)) {
-                    cb(new IllegalArgumentError("Malformed Auth header"));
-                    return;
+                if (_.isUndefined(authHeader)) {
+                    cb(null, cookieToken);
+                } else {
+                    var reg = /^bearer ([\s\S]+)$/i;
+                    if (!reg.test(authHeader)) {
+                        cb(new IllegalArgumentError("Malformed Auth header"));
+                        return;
+                    }
+                    cb(null, reg.exec(authHeader)[1]);
                 }
-                cb(null, reg.exec(authHeader)[1]);
             }, function (token, cb) {
                 jwt.verify(token,
                     api.config.tcConfig.oauthClientSecret,
@@ -107,8 +114,13 @@ exports.middleware = function (api, next) {
                     return;
                 }
                 var split = decoded.sub.split("|");
+                if (split.length === 1) {
+                    // token.sub should contain "|"
+                    cb(new IllegalArgumentError('Malformed Auth header. token.sub is in bad format!'));
+                    return;
+                }
                 try {
-                    socialUserId = (split[split.length-1] || "").trim();
+                    socialUserId = (split[split.length - 1] || "").trim();
                     socialProvider = (split[0] || "").trim();
                 } catch (ignored) {
                     cb(new IllegalArgumentError('Malformed Auth header. Could not parse token.sub!'));
@@ -168,6 +180,9 @@ exports.middleware = function (api, next) {
                                 },
                                 isAdmin: function (cbk) {
                                     api.dataAccess.executeQuery("check_is_admin", {user_id: userId}, connectionMap, cbk);
+                                },
+                                isWebArenaSuper: function (cbk) {
+                                    api.dataAccess.executeQuery("check_is_web_arena_super", { user_id: userId }, connectionMap, cbk);
                                 }
                             }, cbx);
                         }, function (results, cbx) {
@@ -186,6 +201,7 @@ exports.middleware = function (api, next) {
                             } else {
                                 userInfo.accessLevel = "member";
                             }
+                            userInfo.isWebArenaSuper = results.isWebArenaSuper[0].count === 1;
                             cbx(null, userInfo);
                         }
                     ], cb);
@@ -212,7 +228,8 @@ exports.middleware = function (api, next) {
             //error messages returned by jwt.verify(...) method
             if (err.message.indexOf('Invalid token') !== -1 ||
                     String(err.message).startsWith("jwt audience invalid.") ||
-                    err.message === "invalid signature") {
+                    err.message === "invalid signature" ||
+                    err.message === "jwt malformed") {
                 errorMessage = "Malformed Auth header";
                 baseError = api.helper.apiCodes.badRequest;
             } else if (err.message === "jwt expired") {

@@ -1,0 +1,80 @@
+{
+    "data": [
+        {
+            "autoEnd": 0,
+            "contestId": 12001, "creatorId": 132456,
+            "contestName": "test contest 12001",
+            "contestStatus": "I",
+            "hasProblems": false,
+            "hasQuestions": false,
+            "hasSchedule": true,
+            "hasTerms": true,
+            "id": 12001,
+            "invitationalType": "Not",
+            "languages": [
+                {
+                    "description": "Java",
+                    "id": 1
+                },
+                {
+                    "description": "XML",
+                    "id": 2
+                }
+            ],
+            "name": "test round 12001",
+            "region": "Alpha",
+            "registrationLimit": 1000,
+            "roundSchedule": [
+                {
+                    "endTime": "2013-12-02T00:50:51+00:00",
+                    "phaseName": "Registration Phase",
+                    "startTime": "2013-11-02T00:50:51+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2013-12-05T00:50:51+00:00",
+                    "phaseName": "Coding Phase",
+                    "startTime": "2013-12-02T00:50:52+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2013-12-07T00:50:51+00:00",
+                    "phaseName": "Intermission Phase",
+                    "startTime": "2013-12-06T00:50:51+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2013-12-09T00:50:51+00:00",
+                    "phaseName": "Challenge Phase",
+                    "startTime": "2013-12-08T00:50:51+00:00",
+                    "status": "Past"
+                },
+                {
+                    "endTime": "2013-12-11T00:50:51+00:00",
+                    "phaseName": "System Test Phase",
+                    "startTime": "2013-12-10T00:50:51+00:00",
+                    "status": "Active"
+                },
+                {
+                    "endTime": "2013-12-13T00:50:51+00:00",
+                    "phaseName": "Moderated Chat Phase",
+                    "startTime": "2013-12-12T00:50:51+00:00",
+                    "status": "Draft"
+                },
+                {
+                    "endTime": "2013-12-15T00:50:51+00:00",
+                    "phaseName": "Room Assignment Phase",
+                    "startTime": "2013-12-14T00:50:51+00:00",
+                    "status": "Draft"
+                }
+            ],
+            "roundTerms": "term1",
+            "shortName": "short name 12001",
+            "status": "Active",
+            "type": "Single Round Match"
+        }
+    ],
+    "pageIndex": 1,
+    "pageSize": 2,
+    "total": 1
+}

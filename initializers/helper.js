@@ -5,8 +5,8 @@
 
 /**
  * This module contains helper functions.
- * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee
- * @version 1.41
+ * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCSASSEMBLER
+ * @version 1.42
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -108,8 +108,10 @@
  * - Update apiName2dbNameMap to add entries for coding_duration, num_contestants and num_submitters.
  * - Update getSortColumnDBName method to return column name in lower case.
  * - Update getLowerCaseList method to use map method.
- * Changes in 1.41
- * - Updated method checkDefined().
+ * Changes in 1.41:
+ * - Update apiName2dbNameMap to add entries for srm schedule API.
+ * Changes in 1.42:
+ * - Add checkAdminOrWebArenaSuper to check if user has web arena super role.
  */
 "use strict";
 
@@ -268,7 +270,17 @@ var apiName2dbNameMap = {
     mypoints: 'my_points',
     codingduration: 'coding_duration',
     numcontestants: 'num_contestants',
-    numsubmitters: 'num_submitters'
+    numsubmitters: 'num_submitters',
+    registrationstarttime: "registration_start_time",
+    registrationendtime: "registration_end_time",
+    codingstarttime: "coding_start_time",
+    codingendtime: "coding_end_time",
+    intermissionstarttime: "intermission_start_time",
+    intermissionendtime: "intermission_end_time",
+    challengestarttime: "challenge_start_time",
+    challengeendtime: "challenge_end_time",
+    systeststarttime: "systest_start_time",
+    systestendtime: "systest_end_time"
 };
 
 /**
@@ -1400,6 +1412,20 @@ helper.checkAdmin = function (connection, unauthorizedErrMsg, forbiddenErrMsg) {
         return null;
     }
     return new ForbiddenError();
+};
+
+/**
+ * Check whether given user has web arena super role or not
+ * @param connection - the api connection object
+ * @param {String} unauthorizedErrMsg - the error message for unauthorized error.
+ * @param {String} forbiddenErrMsg - the error message for forbidden error.
+ * @return {Error} if user is not admin or does not have web arena super role.
+ */
+helper.checkAdminOrWebArenaSuper = function (connection, unauthorizedErrMsg, forbiddenErrMsg) {
+    if (connection.caller.isWebArenaSuper) {
+        return null;
+    }
+    return helper.checkAdmin(connection, unauthorizedErrMsg, forbiddenErrMsg);
 };
 
 /**

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.67
+ * @version 1.68
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
  *
@@ -154,6 +154,8 @@
  * - Added get user design challenges api.
  * Changed in 1.67:
  * - Added get user develop challenges api.
+ * Changed in 1.68:
+ * - Added get rounds api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -259,7 +261,7 @@ exports.routes = {
         { path: "/:apiVersion/develop/reviewOpportunities/:challengeId", action: "getSoftwareReviewOpportunity" },
         { path: "/:apiVersion/develop/reviewOpportunities", action: "searchReviewOpportunities" },
         { path: "/:apiVersion/develop/download/:submissionId", action: "downloadDevSubmission" },
- 
+
         { path: "/:apiVersion/design/challengetypes", action: "studioTypes" },
         { path: "/:apiVersion/design/challenges/result/:challengeId", action: "getStudioChallengeResults" },
         { path: "/:apiVersion/design/reviewOpportunities/:id", action: "getStudioReviewOpportunity" },
@@ -270,11 +272,12 @@ exports.routes = {
 
         { path: "/:apiVersion/user/:handle/challenges/design", action: "getUserDesignChallenges" },
         { path: "/:apiVersion/user/:handle/challenges/develop", action: "getUserDevelopChallenges" },
-        
+
 
         { path: "/:apiVersion/user/challenges", action: "getMyChallenges" },
         { path: "/:apiVersion/user/activation-email", action: "userActivationEmail" },
         { path: "/:apiVersion/user/tcid/:id", action: "getUserIdentityByAuth0Id" },
+        { path: "/:apiVersion/user/email/:handle", action: "getEmailByHandle" },
         { path: "/:apiVersion/user/identity", action: "getUserIdentity" },
         { path: "/:apiVersion/user/:handle/challenges/marathon", action: "getUserMarathonMatches" },
         { path: "/:apiVersion/user/:handle/challenges/algo", action: "getUserAlgorithmChallenges" },
@@ -356,6 +359,7 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "getRoundTerms" },
         { path: "/:apiVersion/data/srm/rounds/:contestId", action: "listSRMContestRounds" },
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
+        { path: "/:apiVersion/data/rounds", action: "getRounds" },
 
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },

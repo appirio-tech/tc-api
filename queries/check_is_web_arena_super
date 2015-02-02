@@ -1,0 +1,4 @@
+SELECT COUNT(*) AS count
+FROM informixoltp:group_user
+WHERE user_id = @user_id@
+AND group_id = 60

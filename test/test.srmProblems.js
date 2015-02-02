@@ -29,7 +29,9 @@ var API_ENDPOINT = process.env.API_ENDPOINT || 'http://localhost:8080',
     USER = {
         heffan       : "ad|132456",
         "super"      : "ad|132457",
-        user         : "ad|132458"
+        user         : "ad|132458",
+        ksmith       : "ad|124861",
+        twight       : "ad|124766"
     };
 
 
@@ -146,12 +148,20 @@ describe('SRM Round Problem APIs', function () {
         });
 
         it("Admin access only.", function (done) {
-            assertError("/v2/data/srm/problems", 'user', 403, "Admin access only.", done);
+            assertError("/v2/data/srm/problems", 'user', 403, "Admin or web Arena super user only.", done);
+        });
+
+        it("Admin or web arena only.", function (done) {
+            assertError("/v2/data/srm/problems", 'twight', 403, "Admin or web Arena super user only.", done);
         });
 
         it("Valid request.", function (done) {
             validateResult("/v2/data/srm/problems", 'heffan',
                 "./test_files/srm_problems/list_srm_problems.json", done);
+        });
+
+        it("Valid request with web arena super user.", function (done) {
+            validateResult("/v2/data/srm/problems", "ksmith", "./test_files/srm_problems/list_used_srm_problems.json", done);
         });
 
     });
@@ -162,12 +172,16 @@ describe('SRM Round Problem APIs', function () {
             assertError("/v2/data/srm/rounds/13672/problems", null, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertError("/v2/data/srm/rounds/13672/problems", 'user', 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertError("/v2/data/srm/rounds/13672/problems", 'user', 403, "Admin or web Arena super user only.", done);
         });
 
         it("roundId should be number.", function (done) {
             assertError("/v2/data/srm/rounds/aaa/problems", 'heffan', 400, "roundId should be number.", done);
+        });
+
+        it("roundId should be number (with web Arena super user).", function (done) {
+            assertError("/v2/data/srm/rounds/aaa/problems", 'ksmith', 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
@@ -183,8 +197,9 @@ describe('SRM Round Problem APIs', function () {
                 'heffan', 400, "roundId should be less or equal to 2147483647.", done);
         });
 
-        it("Cannot find records by given roundId.", function (done) {
-            assertError("/v2/data/srm/rounds/100/problems", 'heffan', 404, "Cannot find records by given roundId.", done);
+        it("Valid empty SRM round problems.", function (done) {
+            validateResult("/v2/data/srm/rounds/100/problems", 'heffan',
+                "./test_files/srm_problems/list_round_problems_empty.json", done);
         });
 
         it("Valid request.", function (done) {
@@ -200,12 +215,16 @@ describe('SRM Round Problem APIs', function () {
             assertError("/v2/data/srm/rounds/13672/components", null, 401, "Authorized information needed.", done);
         });
 
-        it("Admin access only.", function (done) {
-            assertError("/v2/data/srm/rounds/13672/components", 'user', 403, "Admin access only.", done);
+        it("Admin or web Arena super user only.", function (done) {
+            assertError("/v2/data/srm/rounds/13672/components", 'user', 403, "Admin or web Arena super user only.", done);
         });
 
         it("roundId should be number.", function (done) {
             assertError("/v2/data/srm/rounds/aaa/components", 'heffan', 400, "roundId should be number.", done);
+        });
+
+        it("roundId should be number (with web Arena super user).", function (done) {
+            assertError("/v2/data/srm/rounds/aaa/components", 'ksmith', 400, "roundId should be number.", done);
         });
 
         it("roundId should be Integer.", function (done) {
@@ -277,5 +296,11 @@ describe('SRM Round Problem APIs', function () {
             validateResult("/v2/data/srm/rounds/13672/components", 'heffan',
                 "./test_files/srm_problems/list_round_problem_components_global.json", done);
         });
+
+        it("Valid empty SRM round components.", function (done) {
+            validateResult("/v2/data/srm/rounds/1000000/components", 'heffan',
+                "./test_files/srm_problems/list_round_problem_components_empty.json", done);
+        });
+
     });
 });

@@ -1,0 +1,1 @@
+select rl.round_id as round_id, l.language_id as language_id, l.language_name as language_name from round_language rl, language l where rl.language_id = l.language_id and rl.round_id in (@roundIdList@)

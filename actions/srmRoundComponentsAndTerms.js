@@ -15,6 +15,13 @@ var moment = require('moment');
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 
 /**
+ * Error messages
+ */
+var NON_ADMIN_MESSAGE = "Admin access only.",
+    NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE = "Admin or web Arena super user only.",
+    UNAUTHORIZED_MESSAGE = "Authorized information needed.";
+
+/**
  * Check whether the given value is defined and id parameter.
  * @param value - the given value.
  * @param name - the name
@@ -59,7 +66,7 @@ function checkDefinedNonNegativeInteger(value, name, error, helper) {
  * @param callback the callback method
  */
 function checkComponents(api, dbConnectionMap, components, callback) {
-    var helper = api.helper, error = helper.checkArray(components, "components", false), existingComponentDivisionIds = [];
+    var helper = api.helper, error = helper.checkArray(components, "components", true), existingComponentDivisionIds = [];
     if (error) {
         callback(error);
         return;
@@ -202,11 +209,11 @@ var setRoundComponents = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
         sqlParams = {},
         roundId = Number(connection.params.roundId),
-        components = connection.params.components;
+        components = connection.params.components || [];
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {
@@ -278,7 +285,7 @@ var setRoundTerms = function (api, connection, dbConnectionMap, next) {
 
     async.waterfall([
         function (cb) {
-            cb(helper.checkAdmin(connection, 'Authorized information needed.', 'Admin access only.'));
+            cb(helper.checkAdminOrWebArenaSuper(connection, UNAUTHORIZED_MESSAGE, NON_ADMIN_OR_WEB_ARENA_SUPER_MESSAGE));
         }, function (cb) {
             checkRoundId(api, dbConnectionMap, roundId, cb);
         }, function (error, cb) {
@@ -348,8 +355,8 @@ exports.setRoundComponents = {
     name: "setRoundComponents",
     description: "Set Round Components",
     inputs: {
-        required: ['roundId', 'components'],
-        optional: []
+        required: ['roundId'],
+        optional: ['components']
     },
     blockedConnectionTypes: [],
     outputExample: {},
