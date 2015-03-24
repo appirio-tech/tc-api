@@ -17,6 +17,7 @@ SELECT
      , pi70.value AS cmc_task_id
      , pi4.value AS forum_id
      , pi78.value AS forum_type
+     , pi79.value as review_type
      , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14 AND pr.place = 1)::DECIMAL(10,2) AS top_checkpoint_prize
      , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1)::DECIMAL(10,2) AS prize1
@@ -100,6 +101,7 @@ SELECT
      , outer project_info pi51
      , outer project_info pi52
      , outer project_info pi78
+     , outer project_info pi79
  WHERE 1=1
    AND p.project_id = @challengeId@
    AND p.project_status_id = pstatus.project_status_id
@@ -139,6 +141,8 @@ SELECT
    AND pi52.project_id = p.project_id
    AND pi78.project_info_type_id = 78 -- forum type
    AND pi78.project_id = p.project_id
+   AND pi79.project_info_type_id = 79 -- review type (COMMUNITY, INTERNAL, PEER)
+   AND pi79.project_id = p.project_id
    AND p.project_id = nd_phase.project_id
    AND nd_phase.phase_type_id = (SELECT MIN(phase_type_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id not in (13,14))
    AND p.project_category_id = pcl.project_category_id

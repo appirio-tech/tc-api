@@ -1172,7 +1172,8 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
                 registrationEndDate: formatDate(data.registration_end_date),
                 checkpointSubmissionEndDate: formatDate(data.checkpoint_submission_end_date),
                 submissionEndDate: formatDate(data.submission_end_date),
-                submissionsViewable: data.submissions_viewable
+                submissionsViewable: data.submissions_viewable,
+                reviewType: data.review_type
             };
 
             if (!challenge.submissionsViewable && isStudio) {
