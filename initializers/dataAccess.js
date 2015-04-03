@@ -270,7 +270,7 @@ exports.dataAccess = function (api, next) {
                                 api.log('Finish executing ' + f, 'debug');
                             }
                         }).execute();
-                    }
+                    } else cb("Connection closed unexpectedly");
                 }
             ], function (err, result) {
                 if (err) {
@@ -340,7 +340,7 @@ exports.dataAccess = function (api, next) {
                                 api.log('Finish executing ' + f, 'debug');
                             }
                         }).execute();
-                    }
+                    } else cb("Connection closed unexpectedly");
                 }
             ], function (err, result) {
                 if (err) {
