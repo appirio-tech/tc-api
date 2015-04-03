@@ -30,15 +30,10 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
         };
 
         // if the action is transactional, end the transaction
-        if (actionTemplate.transaction === "write") {
-            if (connection.dbConnectionMap[databaseName].isConnected()) {
-                connection.dbConnectionMap[databaseName].endTransaction(error, callback);
-            }
+        if (actionTemplate.transaction === "write" && connection.dbConnectionMap[databaseName].isConnected()) {
+            connection.dbConnectionMap[databaseName].endTransaction(error, callback);
         } else {
             callback(error);
-            // connection.dbConnectionMap[databaseName].disconnect();
-            // connection.error = error;
-            // next(connection, false);
         }
     });
 };
@@ -102,7 +97,6 @@ exports.transaction = function (api, next) {
                             // Begin transaction
                             dbConnectionMap[databaseName].beginTransaction(callback);
                         } else {
-                            // next(connection, true);
                             callback();
                         }
                     }
@@ -148,11 +142,9 @@ exports.transaction = function (api, next) {
                 };
 
                 // if the action is transactional, end the transaction
-                if (actionTemplate.transaction === "write") {
+                if (actionTemplate.transaction === "write" && connection.dbConnectionMap[databaseName].isConnected()) {
                     connection.dbConnectionMap[databaseName].endTransaction(connection.response.error, callback);
                 } else {
-                    // connection.dbConnectionMap[databaseName].disconnect();
-                    // next(connection);
                     callback();
                 }
             });
