@@ -1155,7 +1155,7 @@ helper.convertToString = function (str) {
  * @param {Number} challengeId - the challenge id(project id) of this challenge.
  */
 helper.getDirectProjectLink = function (challengeId) {
-    return 'https://www.topcoder.com/direct/contest/detail.action?projectId=' + challengeId;
+    return 'https://'+process.env.TOPCODER_SITE+'/direct/contest/detail.action?projectId=' + challengeId;
 };
 
 /**

@@ -343,10 +343,10 @@ exports.action = {
                 }
 
                 //did not find the user, redirect to register page
-                responseResult.regUrl = "http://www.topcoder.com/?action=callback#access_token="
+                responseResult.regUrl = "http://"+process.env.TOPCODER_SITE+"/?action=callback#access_token="
                     + socialAccount.accessToken + "&id_token="
                     + socialAccount.jsonWebToken
-                    + "&token_type=bearer&state=http%3A%2F%2Fwww.topcoder.com";
+                    + "&token_type=bearer&state=http%3A%2F%2F"+process.env.TOPCODER_SITE;
 
                 responseResult.nextPage = nextPage;
                 responseResult.result = REGISTER;

@@ -174,7 +174,7 @@ function mapIssue(api, data, callback) {
         issue = {
             id: data.key,
             name: data.summary,
-            jiraUrl: "https://apps.topcoder.com/bugs/browse/" + data.key,
+            jiraUrl: "https://"+process.env.APPS_TC+"/bugs/browse/" + data.key,
             payment: 'N/A',
             tcoPoints: 'N/A',
             startDate: moment(data.created).tz("America/New_York").format()

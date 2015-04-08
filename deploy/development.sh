@@ -100,3 +100,16 @@ export HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8
 export JWT_TOKEN_COOKIE_KEY="tcjwt_vm"
 
 export ADMIN_API_KEY=1234567
+
+export ENV_URL="topcoder-dev.com"
+export TOPCODER_SITE="www.$ENV_URL"
+export APPS_TC="apps.topcoder-dev.com"
+export COMMUNITY_TC="community.topcoder-dev.com"
+export SOFTWARE_TC="software.topcoder-dev.com"
+export STUDIO_TC="studio.topcoder-dev.com"
+export API_TC="api.topcoder-dev.com"
+export APPS_FORUMS_TC="apps.topcoder-dev.com/forums"
+export FORUMS_TC="forums.topcoder-dev.com"
+export STUDIO_FORUMS_TC="studio.topcoder-dev.com/forums"
+
+
