@@ -333,7 +333,7 @@ exports.routes = {
 
         { path: "/:apiVersion/download/document/:docId", action: "downloadDocument" },
 
-        { path: "/:apiVersion/reports/analyze", action: "getChallengeAnalyze" },
+        //{ path: "/:apiVersion/reports/analyze", action: "getChallengeAnalyze" },
         { path: "/:apiVersion/reports/client/costs", action: "getClientChallengeCosts" },
         { path: "/:apiVersion/reports/client/challenges", action: "clientChallengeCosts" },
         { path: "/:apiVersion/reports/client/activeChallenges", action: "getClientActiveChallengeCosts" },
