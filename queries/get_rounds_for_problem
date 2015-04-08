@@ -2,7 +2,8 @@ SELECT
  r.round_id,
  r.name AS round_name,
  r.contest_id,
- (SELECT name FROM contest c WHERE c.contest_id = r.contest_id) AS contest_name
+ (SELECT name FROM contest c WHERE c.contest_id = r.contest_id) AS contest_name,
+ "" AS editorial_link
 FROM
    problem p
 INNER JOIN component c ON c.problem_id = p.problem_id
