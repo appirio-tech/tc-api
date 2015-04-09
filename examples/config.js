@@ -13,7 +13,7 @@ var config = {
     clientID: "0af315c5",
     clientSecret: "766a21fe4c8e6d2e332983471ace9902",
     callbackURL: "http://ubuntu1:3000/topcoderoauth/callback",   // replace with your host name
-    apiHost: "api.topcoder.com",
+    apiHost: process.env.API_TC,
     scope: ["FORUMS_REST", "CONTEST_REST"]
 };
 

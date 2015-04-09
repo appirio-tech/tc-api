@@ -382,7 +382,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             documentationDetails = '';
             // we need to set up a new environment variable for the web server name specifici to each environment
             //submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/';
-            submitURL = 'https://www.topcoder.com/challenge-details/' + challengeId + '/submit/';
+            submitURL = 'https://'+process.env.TOPCODER_SITE+'/challenge-details/' + challengeId + '/submit/';
             reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review';
 
             if (componentInfo.phase_id === 112) {
@@ -393,7 +393,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
 
             if (componentInfo.phase_id === 112 || componentInfo.phase_id === 113) {
                 umlToolInfo = "You can read more about our UML tool and download it at\n" +
-                    "http://www.topcoder.com/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
+                    "http://"+process.env.TOPCODER_SITE+"/tc?module=Static&d1=dev&d2=umltool&d3=description\n\n";
             }
 
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {

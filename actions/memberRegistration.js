@@ -401,7 +401,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                     }
                     api.log("Activation url: " + url, "debug");
 
-                    api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url, userHandle : user.handle}, 'default');
+                    api.tasks.enqueue("sendEmail", {subject : activationEmailSubject, activationCode : activationCode, tcSiteAddress: process.env.TOPCODER_SITE, template : 'activation_email', toAddress : user.email, fromAddress : process.env.TC_EMAIL_ACCOUNT, senderName : activationEmailSenderName, url : url, userHandle : user.handle}, 'default');
                         
                     callback(null, null);
                     

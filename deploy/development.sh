@@ -60,9 +60,9 @@ export TC_EMAIL_PASSWORD=tc_public_email
 export TC_EMAIL_FROM=tc.ldap.test.1@gmail.com
 export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
-export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
-export TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
-export TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
+export TC_ACTIVATION_SERVER_NAME="https://www.topcoder-dev.com"
+export TC_SOFTWARE_SERVER_NAME="https://software.topcoder-dev.com"
+export TC_FORUMS_SERVER_NAME="http://apps.topcoder-dev.com/forums"
 
 export PASSWORD_HASH_KEY="ciTHHTSMg6ixffIuPbB30A=="
 ## JDBC connection pool environment variables - set for all databases
@@ -77,7 +77,7 @@ export JIRA_USERNAME=api_test
 export JIRA_PASSWORD=8CDDp6BHLtUeUdD
 
 # Forum settings
-export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder.com/forums"
+export STUDIO_FORUMS_SERVER_NAME="http://studio.topcoder-dev.com/forums"
 export GRANT_FORUM_ACCESS=false
 export DEV_FORUM_JNDI=jnp://env.topcoder.com:1199
 
@@ -100,3 +100,16 @@ export HIGHLIGHT_STYLE_LINK=http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8
 export JWT_TOKEN_COOKIE_KEY="tcjwt_vm"
 
 export ADMIN_API_KEY=1234567
+
+export ENV_URL="topcoder-dev.com"
+export TOPCODER_SITE="www.$ENV_URL"
+export APPS_TC="apps.$ENV_URL"
+export COMMUNITY_TC="community.$ENV_URL"
+export SOFTWARE_TC="software.$ENV_URL"
+export STUDIO_TC="studio.$ENV_URL"
+export API_TC="api.$ENV_URL"
+export APPS_FORUMS_TC="apps.$ENV_URL/forums"
+export FORUMS_TC="forums.$ENV_URL"
+export STUDIO_FORUMS_TC="studio.$ENV_URL/forums"
+
+

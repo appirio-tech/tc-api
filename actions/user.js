@@ -230,6 +230,7 @@ function userActivationEmail(api, connection, next) {
                     subject : activationEmailSubject,
                     activationCode : activationCode,
                     template : 'activation_email',
+                    tcSiteAddress: process.env.TOPCODER_SITE,
                     toAddress : rs[0].address,
                     fromAddress : process.env.TC_EMAIL_ACCOUNT,
                     senderName : activationEmailSenderName,

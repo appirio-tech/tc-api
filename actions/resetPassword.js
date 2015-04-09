@@ -173,10 +173,12 @@ var generateResetToken = function (userHandle, userEmailAddress, api, callback) 
             current = new Date();
             expireDate = current.setSeconds(current.getSeconds() + lifetime / 1000);
             expireDateString = moment(expireDate).tz('America/New_York').format('YYYY-MM-DD HH:mm:ss z');
+            var tcSiteAddress = process.env.TOPCODER_SITE;
             emailParams = {
                 handle: userHandle,
                 token: newToken,
                 expiry: expireDateString,
+                tcSiteAddress:tcSiteAddress,
                 template: 'reset_token_email',
                 subject: api.config.tcConfig.resetPasswordTokenEmailSubject,
                 toAddress: userEmailAddress

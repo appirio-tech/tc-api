@@ -88,17 +88,17 @@ var config = {
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
     oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
     oauthDomain: process.env.OAUTH_DOMAIN || "sma",
-    jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
+    jiraWsdlUrl: "https://"+process.env.APPS_TC+"/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
     developForumsUrlPrefix: (process.env.TC_FORUMS_SERVER_NAME || "http://forums.topcoder.com/") + '?module=Category&categoryID=',
     studioForumsUrlPrefix: (process.env.STUDIO_FORUMS_SERVER_NAME || "http://studio.topcoder.com/forums") + '?module=ThreadList&forumID=',
-    designForumUrlPrefix: 'http://apps.topcoder.com/forums/?module=ThreadList&forumID=',
+    designForumUrlPrefix: 'http://'+process.env.APPS_TC+'/forums/?module=ThreadList&forumID=',
     grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
     devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
-    challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
-    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
+    challengeCommunityLink: 'http://'+process.env.COMMUNITY_TC+'/tc?module=ProjectDetail&pj=',
+    reviewAuctionDetailLink: 'http://'+process.env.COMMUNITY_TC+'/tc?module=ReviewAuctionDetails&aid=',
     databaseTimezoneIdentifier: '-0400',
 
     /**
@@ -124,12 +124,12 @@ var config = {
         "jive": "TC_DB"
     },
 
-    documentProvider: 'http://community.topcoder.com/tc?module=DownloadDocument&docid',
+    documentProvider: 'http://'+process.env.COMMUNITY_TC+'/tc?module=DownloadDocument&docid',
 
     defaultPassword: process.env.DEFAULT_PASSWORD  || "defaultpass",
 
-    submissionLink: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=',
-    finalFixLink: 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=',
+    submissionLink: 'https://'+process.env.SOFTWARE_TC+'/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=',
+    finalFixLink: 'https://'+process.env.SOFTWARE_TC+'/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=',
     designSubmissionLink: 'https://api.topcoder.com/v2/design/download/',
     // stores the parameters that need sent to the 'submission' request
     submissionDownloadLinkParams: '?submissionType=original',
@@ -151,7 +151,7 @@ var config = {
     submissionMaxSizeBytes: process.env.DEVELOP_SUBMISSION_MAX_SIZE || 104857600,
 
     //////Thurgood configurables///////
-    thurgoodCodeUrl: 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=',
+    thurgoodCodeUrl: 'https://'+process.env.SOFTWARE_TC+'/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=',
 
     //API URL for production
     //config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs',
@@ -200,6 +200,8 @@ var config = {
         template: 'welcome_email',
         subject: 'Welcome to topcoder',
         fromAddress: process.env.TC_EMAIL_FROM,
+        tcSiteAddress: process.env.TOPCODER_SITE,
+        forumUrl:process.env.FORUMS_TC,
         senderName: 'Topcoder API'
     },
 
@@ -232,8 +234,8 @@ var config = {
     },
 
     studioReview: {
-        specTerms: 'http://studio.topcoder.com/?module=SpecViewReviewTerms&ct=',
-        reviewTerms: 'http://studio.topcoder.com/?module=ViewReviewTerms&ct='
+        specTerms: 'http://'+process.env.STUDIO_TC+'/?module=SpecViewReviewTerms&ct=',
+        reviewTerms: 'http://'+process.env.STUDIO_TC+'/?module=ViewReviewTerms&ct='
     },
 
     generateSourceCodeImage: {

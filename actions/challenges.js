@@ -2754,7 +2754,7 @@ exports.getStudioCheckpoint = {
  * The URL to use when the font source is the standard topcoder font list
  * @since 1.14
  */
-var DEFAULT_FONT_URL = 'community.topcoder.com/studio/the-process/font-policy/';
+var DEFAULT_FONT_URL = process.env.COMMUNITY_TC+'/studio/the-process/font-policy/';
 
 /**
  * Processes and validates font parameters and returns the result

@@ -111,17 +111,17 @@ config.general = {
     oauthClientSecret: new Buffer(process.env.OAUTH_CLIENT_SECRET || 'ZEEIRf_aLhvbYymAMTFefoEJ_8y7ELrUaboMTmE5fQoJXEo7sxxyg8IW6gtbyKuT', 'base64'),
     oauthConnection: process.env.OAUTH_CONNECTION || "vm-ldap-connection",
     oauthDomain: process.env.OAUTH_DOMAIN || "sma",
-    jiraWsdlUrl: "https://apps.topcoder.com/bugs/rpc/soap/jirasoapservice-v2?wsdl",
+    jiraWsdlUrl: "https://"+process.env.APPS_TC+"/bugs/rpc/soap/jirasoapservice-v2?wsdl",
     jiraUsername: process.env.JIRA_USERNAME,
     jiraPassword: process.env.JIRA_PASSWORD,
-    tcForumsServer: process.env.TC_FORUMS_SERVER_NAME || "http://forums.topcoder.com/",
-    studioForumsServer: process.env.STUDIO_FORUMS_SERVER_NAME || "http://studio.topcoder.com/forums",
+    tcForumsServer: "http://" + process.env.APPS_FORUMS_TC || "http://"+FORUMS_TC+"/",
+    studioForumsServer: "http://" + process.env.STUDIO_FORUMS_TC || "http://studio.topcoder.com/forums",
     grantForumAccess: process.env.GRANT_FORUM_ACCESS === "true" ? true : false, // false by default, used in challenge registration API
     devForumJNDI: process.env.DEV_FORUM_JNDI || "jnp://env.topcoder.com:1199",
     filteredParams: ['password'],
     downloadsRootDirectory: process.env.DOWNLOADS_ROOT_DIRECTORY || __dirname + "/downloads",
-    challengeCommunityLink: 'http://community.topcoder.com/tc?module=ProjectDetail&pj=',
-    reviewAuctionDetailLink: 'http://community.topcoder.com/tc?module=ReviewAuctionDetails&aid=',
+    challengeCommunityLink: 'http://'+process.env.COMMUNITY_TC+'/tc?module=ProjectDetail&pj=',
+    reviewAuctionDetailLink: 'http://'+process.env.COMMUNITY_TC+'/tc?module=ReviewAuctionDetails&aid=',
 
     /**
      * The directory where uploaded files are stored.
@@ -294,15 +294,15 @@ config.databaseMapping = {
     "jive": "TC_DB"
 };
 
-config.documentProvider = 'http://community.topcoder.com/tc?module=DownloadDocument&docid';
+config.documentProvider = 'http://'+process.env.COMMUNITY_TC+'/tc?module=DownloadDocument&docid';
 
 /**
  * The default password to be used for social register
  */
 config.defaultPassword = process.env.DEFAULT_PASSWORD  || "defaultpass";
-config.submissionLink = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
-config.finalFixLink = 'https://software.topcoder.com/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
-config.designSubmissionLink = 'http://studio.topcoder.com/?module=DownloadSubmission&sbmid=';
+config.submissionLink = 'https://'+process.env.SOFTWARE_TC+'/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission&uid=';
+config.finalFixLink = 'https://'+process.env.SOFTWARE_TC+'/review/actions/DownloadFinalFix.do?method=downloadFinalFix&uid=';
+config.designSubmissionLink = 'http://'+process.env.STUDIO_TC+'/?module=DownloadSubmission&sbmid=';
 
 //The name of the folder where to store the submission files.
 //Please make sure the directory already exists
@@ -318,7 +318,7 @@ config.thurgoodDownloadPassword = process.env.THURGOOD_DOWNLOAD_PASSWORD || "sec
 config.submissionMaxSizeBytes = process.env.DEVELOP_SUBMISSION_MAX_SIZE || 104857600;
 
 //////Thurgood configurables///////
-config.thurgoodCodeUrl = 'https://software.topcoder.com/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
+config.thurgoodCodeUrl = 'https://'+process.env.STUDIO_TC+'/review/actions/DownloadContestSubmission.do?method=downloadContestSubmission%26uid=';
 
 //API URL for production
 //config.thurgoodApiUrl = 'https://thurgood-production.herokuapp.com/api/1/jobs';
@@ -361,6 +361,7 @@ config.welcomeEmail = {
     template: 'welcome_email',
     subject: 'Welcome to topcoder',
     fromAddress: process.env.TC_EMAIL_FROM,
+    tcSiteAddress: process.env.TOPCODER_SITE,
     senderName: 'Topcoder API'
 };
 
