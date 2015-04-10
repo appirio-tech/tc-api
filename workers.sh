@@ -13,7 +13,7 @@ fi
 if [ "$SIGNAL" == "" ]; then
 	echo "Usage: workers.sh [reload|add|rm]"
 else
-	pid=$(ps ax | grep startCluster | grep -v grep | cut -f1 -d' ')
+	pid=$(ps ax | grep startCluster | grep -v grep | xargs | cut -f1 -d' ')
 	if [ "$pid" == "" ]; then echo "No cluster master process found."
 	else
 		kill -$SIGNAL $pid
