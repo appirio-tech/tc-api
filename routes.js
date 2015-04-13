@@ -241,7 +241,7 @@ exports.routes = {
         { path: "/:apiVersion/challenges/submissions/:challengeId/mySubmissions", action: "getUserSubmissions" },
         { path: "/:apiVersion/challenges/submissions/:challengeId", action: "getSubmissions" },
         { path: "/:apiVersion/challenges/phases/:challengeId", action: "getPhases" },
-        { path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
+        //{ path: "/:apiVersion/challenges/rss", action: "getChallengesRSS" },
         { path: "/:apiVersion/challenges/active", action: "getActiveChallenges" },
         { path: "/:apiVersion/challenges/open", action: "getOpenChallenges" },
         { path: "/:apiVersion/challenges/upcoming", action: "getUpcomingChallenges" },
