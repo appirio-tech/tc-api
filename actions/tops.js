@@ -526,8 +526,7 @@ exports.getTopTrackMembers = {
             dbConnectionMap = connection.dbConnectionMap,
             result = {},
             error,
-            sqlParams = {},
-            isNoPaging;
+            sqlParams = {};
         if (!dbConnectionMap) {
             helper.handleNoConnection(api, connection, next);
             return;
@@ -549,8 +548,7 @@ exports.getTopTrackMembers = {
                 }
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_INT;     // No paging, show all.
-                    isNoPaging = true;
+                    pageSize = MAX_PAGE_SIZE;     // No paging, show max allowed.
                 }
                 // Retrieves total number of top members for the given track.
                 api.dataAccess.executeQuery('get_top_members_' + trackType + '_count', sqlParams, dbConnectionMap, cb);
@@ -559,10 +557,9 @@ exports.getTopTrackMembers = {
                     cb(new Error('no rows returned from get_top_members_' + trackType + '_count'));
                     return;
                 }
-                var total = rows[0].count;
-                result.total = total;
+                result.total = rows[0].count;
                 result.pageIndex = pageIndex;
-                result.pageSize = isNoPaging ? total : pageSize;
+                result.pageSize = pageSize;
                 result.data = [];
                 sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
                 sqlParams.pageSize = pageSize;
