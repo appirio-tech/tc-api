@@ -516,6 +516,7 @@ exports.getTopTrackMembers = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ['topcoder_dw', 'tcs_dw', 'tcs_catalog'],
     run: function (api, connection, next) {
         api.log('Execute getTopTrackMembers#run', 'debug');
