@@ -48,7 +48,7 @@ elif [ "$ACTION" == "recycle" ]; then
 	done
 
 	declare -i sleepTime
-	sleepTime=$numWorkers
+	sleepTime=$numWorkers*2
 	sleep $sleepTime
 	
 	workers_ps
@@ -66,7 +66,6 @@ elif [ "$ACTION" == "recycle" ]; then
         sleep 1
 	done
 
-	sleepTime=$numWorkers/2
 	sleep $sleepTime
 
 	workers_ps
@@ -81,6 +80,20 @@ elif [ "$ACTION" == "ls" ]; then
 	exit
 elif [ "$ACTION" == "count" ]; then
     echo "${#wpids[@]}"
+	exit
+elif [ "$ACTION" == "double" ]; then
+    for wpid in "${wpids[@]}"
+	do
+        kill -TTIN $pid # add one
+        sleep 1
+	done
+	exit
+elif [ "$ACTION" == "halve" ]; then
+    for ((i = 0 ; i < ${#wpids[@]}/2 ; i++ ))
+	do
+        kill -TTOU $pid # remove one
+        sleep 1
+	done
 	exit
 else
 	echo "Usage: workers.sh [reload|recycle|add|rm|ls|count]"
