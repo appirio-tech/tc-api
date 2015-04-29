@@ -95,6 +95,9 @@ elif [ "$ACTION" == "halve" ]; then
         sleep 1
 	done
 	exit
+elif [ "$ACTION" == "debug" ]; then
+	kill -USR1 $2
+	exit
 else
 	echo "Usage: workers.sh [reload|recycle|add|rm|ls|count]"
 	exit
