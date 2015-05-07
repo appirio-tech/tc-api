@@ -2540,7 +2540,7 @@ exports.searchSoftwareChallenges = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    cacheLifetime: 1000 * 60 * 60,
+    cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2566,7 +2566,7 @@ exports.searchStudioChallenges = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    cacheLifetime: 1000 * 60 * 60,
+    cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2592,7 +2592,7 @@ exports.searchSoftwareAndStudioChallenges = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
-    cacheLifetime: 1000 * 60 * 60,
+    cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
