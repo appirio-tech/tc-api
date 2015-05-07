@@ -2443,6 +2443,7 @@ exports.getSoftwareChallenge = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
+    cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2468,6 +2469,7 @@ exports.getStudioChallenge = {
     outputExample: {},
     version: 'v2',
     transaction: 'read', // this action is read-only
+    cacheLifetime: 1000 * 60 * 10,
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2495,6 +2497,7 @@ exports.getChallenge = {
     outputExample: {},
     version: 'v2',
     transaction: 'read', // this action is read-only
+    cacheLifetime: 1000 * 60 * 10,
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         var challengeId = Number(connection.params.challengeId),
@@ -2537,6 +2540,7 @@ exports.searchSoftwareChallenges = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
+    cacheLifetime: 1000 * 60 * 60,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2562,6 +2566,7 @@ exports.searchStudioChallenges = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
+    cacheLifetime: 1000 * 60 * 60,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2587,6 +2592,7 @@ exports.searchSoftwareAndStudioChallenges = {
     outputExample: {},
     version: 'v2',
     transaction : 'read', // this action is read-only
+    cacheLifetime: 1000 * 60 * 60,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3841,6 +3847,7 @@ exports.getOpenChallenges = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 10,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -4027,6 +4034,7 @@ exports.getMyChallenges = {
     outputExample: {},
     version: 'v2',
     transaction: 'read',
+    cacheLifetime: 1000 * 60 * 10,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
