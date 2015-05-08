@@ -133,6 +133,10 @@ var TECHNOLOGY_FILTER = ' AND EXISTS (SELECT DISTINCT 1 FROM comp_technology ct 
 var PLATFORM_FILTER = ' AND EXISTS (SELECT 1 FROM project_platform pp WHERE pp.project_platform_id IN (@filter@) ' +
     'AND p.project_id = pp.project_id)';
 
+/* Filter based on review type */
+var REVIEW_FILTER = ' AND EXISTS (SELECT 1 FROM project_info pi WHERE project_info_type_id = 79 AND value IN (@filter@) ' +
+    'AND p.project_id = pi.project_id)';
+
 /**
  * The challenge type filter for challenges api.
  * @since 1.30
@@ -176,7 +180,7 @@ var MY_CHALLENGES_FILTER = 'AND EXISTS ' +
 var ALLOWABLE_QUERY_PARAMETER = [
     "listType", "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", "cmcTaskId", 'communityId',
-    "submissionEndFrom", "submissionEndTo", "technologies", "platforms"];
+    "submissionEndFrom", "submissionEndTo", "technologies", "platforms", 'review'];
 
 /**
  * Represents a list of valid query parameter for split challenges api.
@@ -185,7 +189,7 @@ var ALLOWABLE_QUERY_PARAMETER = [
 var SPLIT_API_ALLOWABLE_QUERY_PARAMETER = [
     "challengeType", "challengeName", "projectId", SORT_COLUMN,
     "sortOrder", "pageIndex", "pageSize", "prizeLowerBound", "prizeUpperBound", 'communityId',
-    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies'];
+    "submissionEndFrom", "submissionEndTo", 'type', 'platforms', 'technologies', 'review'];
 
 /**
  * Represents a predefined list of valid sort column for active challenge.
@@ -763,7 +767,7 @@ var editSql = function (sql, template, content) {
  * @since 1.23
  */
 var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
-    var platform, technology, challengeFilter, challengeType;
+    var platform, technology, review, challengeFilter, challengeType;
     if (_.isDefined(filter.platforms)) {
         platform = filter.platforms.join(', ');
         sql.count = editSql(sql.count, PLATFORM_FILTER, platform);
@@ -781,6 +785,16 @@ var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
         sql.count = editSql(sql.count, CHALLENGE_TYPE_FILTER, challengeType);
         sql.data = editSql(sql.data, CHALLENGE_TYPE_FILTER, challengeType);
     }
+    
+    if (_.isDefined(filter.review)) {
+        review = "'" + filter.review.toUpperCase().replace(/,/g, "','") + "'";
+    }
+    else {
+        review = "'COMMUNITY','INTERNAL'";
+    }
+    
+    sql.count = editSql(sql.count, REVIEW_FILTER, review);
+    sql.data = editSql(sql.data, REVIEW_FILTER, review);
 
     if (isMyChallenges) {
         sql.count = editSql(sql.count, MY_CHALLENGES_FILTER, null);
@@ -876,7 +890,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo", "technologies", "platforms"],
+            "prizeUpperBound", "cmcTaskId", 'communityId', "submissionEndFrom", "submissionEndTo", "technologies", "platforms", "review"],
         sqlParams = {},
         filter = {},
         pageIndex,
@@ -3636,7 +3650,7 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
         query = connection.rawConnection.parsedURL.query,
         caller = connection.caller,
         copyToFilter = ["challengeType", "challengeName", "projectId", "prizeLowerBound",
-            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms'],
+            "prizeUpperBound", 'communityId', "submissionEndFrom", "submissionEndTo", 'type', 'technologies', 'platforms', 'review'],
         dbConnectionMap = connection.dbConnectionMap,
         sqlParams = {},
         filter = {},
