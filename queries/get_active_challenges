@@ -1,4 +1,6 @@
 SELECT
+SKIP @first_row_index@
+FIRST @page_size@
   CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
 , pcl.description AS challenge_type
 , pn.value AS challenge_name
@@ -71,4 +73,4 @@ AND pp1.phase_status_id IN (2, 3)
 AND pi1.project_info_type_id = 1 -- external reference id
 AND pi1.project_id = p.project_id
 
-ORDER BY NVL(pp2.actual_end_time, pp2.scheduled_end_time) ASC
+ORDER BY @sort_column@ @sort_order@
