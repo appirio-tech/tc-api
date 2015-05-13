@@ -261,7 +261,7 @@ var apiName2dbNameMap = {
     currentphaseremainingtime: 'current_phase_remaining_time',
     currentphasename: 'current_phase_name',
     registrationopen: 'registration_open',
-    totalPrize: 'total_prize',
+    totalprize: 'total_prize',
     registrationstartdate: 'registration_start_date',
     challengecommunity: 'challenge_community',
     problemid: 'problem_id',
@@ -280,7 +280,8 @@ var apiName2dbNameMap = {
     challengestarttime: "challenge_start_time",
     challengeendtime: "challenge_end_time",
     systeststarttime: "systest_start_time",
-    systestendtime: "systest_end_time"
+    systestendtime: "systest_end_time",
+    firstplaceprize: "first_place_prize"
 };
 
 /**
