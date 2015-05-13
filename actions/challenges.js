@@ -3670,7 +3670,8 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
         }
     }
 
-    sortOrder = query.sortorder || "desc";
+    sortOrder = query.sortorder ||
+      (!query.sortcolumn && (listType == api.helper.ListType.ACTIVE || listType == api.helper.ListType.UPCOMING) ? "asc" : "desc");
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
     pageSize = Number(query.pagesize || 150);
