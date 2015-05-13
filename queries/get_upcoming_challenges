@@ -4,6 +4,7 @@ SELECT
 , pn.value AS challenge_name
 , p.project_id AS challenge_id
 , pi4.value AS forum_id
+, pi79.value as review_type
 , NVL((SELECT SUM(pr.number_of_submissions) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 14), 0) AS number_of_checkpoints_prizes
 , (SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1) AS first_place_prize
 , (SELECT SUM(prize_amount) FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15) AS total_prize
@@ -33,6 +34,7 @@ FROM project p
 , outer project_info pidr
 , project_category_lu pcl
 , outer project_info pi4 --forum id
+, outer project_info pi79
 , project_info pi1 -- external id
 WHERE p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
@@ -47,6 +49,8 @@ AND pidr.project_id = p.project_id
 AND pidr.project_info_type_id = 26  --digital run
 AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
+AND pi79.project_id = p.project_id
+AND pi79.project_info_type_id = 79 -- review type (COMMUNITY, INTERNAL, PEER)
 AND pi32.project_id = p.project_id
 AND pi32.project_info_type_id = 32
 AND pcl.project_type_id IN (@track@)
