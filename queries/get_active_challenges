@@ -1,6 +1,4 @@
 SELECT
-SKIP @first_row_index@
-FIRST @page_size@
   CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
 , pcl.description AS challenge_type
 , pn.value AS challenge_name
