@@ -1,3 +1,31 @@
+SELECT is_studio
+, challenge_type
+, challenge_name
+, challenge_id
+, forum_id
+, review_type
+, num_submissions
+, num_registrants
+, number_of_checkpoints_prizes
+, first_place_prize
+, total_prize
+, total_checkpoint_prize
+, registration_end_date
+, registration_start_date
+, checkpoint_submission_end_date
+, submission_end_date
+, current_phase_end_date
+, current_phase_remaining_time
+, status
+, current_phase_name
+, digital_run_points
+, nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = challenge_id and c.contest_id = x.contest_id), 0) as event_id
+, (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = challenge_id and c.contest_id = x.contest_id), 0)) as event_name
+, technology_list(value_for_technology) AS technologies
+, platform_list(id_for_platform) as platforms
+, registration_open
+, NVL((SELECT CAST('t' AS boolean) FROM contest_eligibility WHERE contest_id =challenge_id), CAST('f' AS boolean)) AS is_private
+FROM (
 SELECT
 SKIP @first_row_index@
 FIRST @page_size@
@@ -6,6 +34,7 @@ FIRST @page_size@
 , pn.value AS challenge_name
 , p.project_id AS challenge_id
 , pi4.value AS forum_id
+, pi79.value as review_type
 , (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
       WHERE u1.project_id = p.project_id
           AND s1.submission_type_id = 1
@@ -26,12 +55,9 @@ FIRST @page_size@
 , CASE WHEN pidr.value = 'On' THEN
   NVL((SELECT value::decimal FROM project_info pi_dr WHERE pi_dr.project_info_type_id = 30 AND pi_dr.project_id = p.project_id), (SELECT round(NVL(pi16.value::decimal, 0)) FROM project_info pi16 WHERE pi16.project_info_type_id = 16 AND pi16.project_id = p.project_id))
   ELSE NULL END AS digital_run_points
-, nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0) as event_id
-, (SELECT event_short_desc from event e where e.event_id = nvl((SELECT max(event_id) from contest_project_xref x, contest c where project_id = p.project_id and c.contest_id = x.contest_id), 0)) as event_name
-, technology_list(pi1.value) AS technologies
-, platform_list(p.project_id) as platforms
+, pi1.value AS value_for_technology
+, p.project_id as id_for_platform
 , CASE WHEN (pp1.phase_status_id = 2) THEN 'Yes' ELSE 'No' END AS registration_open
-, NVL((SELECT CAST('t' AS boolean) FROM contest_eligibility WHERE contest_id = p.project_id), CAST('f' AS boolean)) AS is_private
 FROM project p
 , project_status_lu pstatus
 , project_phase pp1 --registration phase
@@ -42,6 +68,7 @@ FROM project p
 , outer project_phase nd_phase
 , project_category_lu pcl
 , outer project_info pi4 --forum id
+, outer project_info pi79
 , project_info pi1 -- external id
 WHERE p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
@@ -56,6 +83,8 @@ AND pidr.project_id = p.project_id
 AND pidr.project_info_type_id = 26  --digital run
 AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
+AND pi79.project_info_type_id = 79 -- review type (COMMUNITY, INTERNAL, PEER)
+AND pi79.project_id = p.project_id
 AND p.project_Id = nd_phase.project_id
 AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
 AND p.project_category_id = pcl.project_category_id
@@ -74,3 +103,4 @@ AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
 ORDER BY @sort_column@ @sort_order@
+)

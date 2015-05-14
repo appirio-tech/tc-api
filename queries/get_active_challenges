@@ -1,9 +1,12 @@
 SELECT
+SKIP @first_row_index@
+FIRST @page_size@
   CASE WHEN (p.project_studio_spec_id IS NOT NULL) THEN 1 ELSE 0 END AS is_studio
 , pcl.description AS challenge_type
 , pn.value AS challenge_name
 , p.project_id AS challenge_id
 , pi4.value AS forum_id
+, pi79.value AS review_type
 , (SELECT COUNT(*) FROM submission s1 INNER JOIN upload u1 ON s1.upload_id = u1.upload_id
       WHERE u1.project_id = p.project_id
           AND s1.submission_type_id = 1
@@ -41,6 +44,7 @@ FROM project p
 , outer project_phase nd_phase
 , project_category_lu pcl
 , outer project_info pi4 --forum id
+, outer project_info pi79
 , project_info pi1 -- external id
 WHERE p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
@@ -56,6 +60,8 @@ AND pidr.project_info_type_id = 26  --digital run
 AND pi4.project_id = p.project_id
 AND pi4.project_info_type_id = 4  --forum id
 AND p.project_Id = nd_phase.project_id
+AND pi79.project_info_type_id = 79 -- review type (COMMUNITY, INTERNAL, PEER)
+AND pi79.project_id = p.project_id
 AND nd_phase.project_phase_id = (SELECT MIN(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
 AND p.project_category_id = pcl.project_category_id
 AND p.project_status_id = 1
@@ -67,4 +73,4 @@ AND pp1.phase_status_id IN (2, 3)
 AND pi1.project_info_type_id = 1 -- external reference id
 AND pi1.project_id = p.project_id
 
-ORDER BY NVL(pp2.actual_end_time, pp2.scheduled_end_time) ASC
+ORDER BY @sort_column@ @sort_order@

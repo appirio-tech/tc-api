@@ -8,3 +8,4 @@ test/tmp/design_submissions/*.zip
 test/tmp/design_tmp_submissions/*.zip
 test/tmp/memberPhoto/*
 .idea
+.settings
