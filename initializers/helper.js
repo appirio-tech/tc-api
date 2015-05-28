@@ -1625,7 +1625,7 @@ helper.checkUserExists = function (handle, api, dbConnectionMap, callback) {
  * @param {Object} dbConnectionMap - the database connection map
  * @param {Function<err>} callback - the callback function
  */
-helper.checkUserActivated = function (handle, api, dbConnectionMap, callback) {
+helper.checkUserActivated = function (handle, api, dbConnectionMap, callback, textResponse) {
     api.dataAccess.executeQuery('check_user_activated', { handle: handle }, dbConnectionMap, function (err, result) {
         if (err) {
             callback(err, null);
@@ -1634,7 +1634,8 @@ helper.checkUserActivated = function (handle, api, dbConnectionMap, callback) {
         if (result && result[0] && result[0].status === 'A') {
             callback(err, null);
         } else {
-            callback(err, new BadRequestError('User is not activated.'));
+            var message = textResponse || 'User is not activated.';
+            callback(err, new BadRequestError(message));
         }
     });
 };

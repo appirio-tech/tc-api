@@ -874,7 +874,7 @@ exports.registerChallenge = {
                         var fail = err || inactive;
                         if (fail) cb(fail);
                         else api.dataAccess.executeQuery('check_challenge_exists', {challengeId: challengeId}, connection.dbConnectionMap, cb);
-                    });                    
+                    }, "You must activate your account in order to participate. Please check your e-mail in order to complete the activation process, or contact support@topcoder.com if you did not receive an e-mail.");                    
                 }
             }, function (result, cb) {
                 if (result.length > 0) {
