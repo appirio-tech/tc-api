@@ -125,7 +125,9 @@ var QUERY_PATH = './queries/';
  */
 var TECHNOLOGY_FILTER = ' AND EXISTS (SELECT DISTINCT 1 FROM comp_technology ct WHERE ct.comp_vers_id = pi1.value ' +
     'AND ct.technology_type_id IN (@filter@))';
-
+    
+var EXT_TECHNOLOGY_FILTER = ' AND (pn.value LIKE ("%@tech@%") OR EXISTS (SELECT DISTINCT 1 FROM comp_technology ct WHERE ct.comp_vers_id = pi1.value ' +
+    'AND ct.technology_type_id IN (@filter@)))';
 /**
  * The platform filter for challenges api.
  * @since 1.23
@@ -745,7 +747,7 @@ function transferResultV2(src, helper) {
  * @param {String} content - the content that need in template.
  * @since 1.23
  */
-var editSql = function (sql, template, content) {
+var editSql = function (sql, template, content, tech) {
     // For empty sql just return it.
     if (sql.length === 0) {
         return sql;
@@ -753,6 +755,7 @@ var editSql = function (sql, template, content) {
     var index = sql.toLowerCase().indexOf('order by');
     if (!_.isUndefined(template)) {
         template = template.replace('@filter@', content);
+        template = template.replace('@tech@', tech);
     }
     return sql.slice(0, index) + template + sql.slice(index, sql.length);
 };
@@ -776,8 +779,13 @@ var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
 
     if (_.isDefined(filter.technologies)) {
         technology = filter.technologies.join(', ');
-        sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
-        sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+        if (filter.tech) {
+            sql.count = editSql(sql.count, EXT_TECHNOLOGY_FILTER, technology, filter.tech);
+            sql.data = editSql(sql.data, EXT_TECHNOLOGY_FILTER, technology, filter.tech);            
+        } else {
+            sql.count = editSql(sql.count, TECHNOLOGY_FILTER, technology);
+            sql.data = editSql(sql.data, TECHNOLOGY_FILTER, technology);
+        }
     }
 
     if (_.isDefined(filter.challengeType)) {
@@ -3708,6 +3716,10 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
         },
         function (cb) {
             validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
+            
+            if (filter.technologies) {
+                filter.tech = filter.technologies.split(',')[0];
+            }
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
