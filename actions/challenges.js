@@ -796,13 +796,9 @@ var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
     
     if (_.isDefined(filter.review)) {
         review = "'" + filter.review.toUpperCase().replace(/,/g, "','") + "'";
+        sql.count = editSql(sql.count, REVIEW_FILTER, review);
+        sql.data = editSql(sql.data, REVIEW_FILTER, review);
     }
-    else {
-        review = "'COMMUNITY','INTERNAL'";
-    }
-    
-    sql.count = editSql(sql.count, REVIEW_FILTER, review);
-    sql.data = editSql(sql.data, REVIEW_FILTER, review);
 
     if (isMyChallenges) {
         sql.count = editSql(sql.count, MY_CHALLENGES_FILTER, null);
