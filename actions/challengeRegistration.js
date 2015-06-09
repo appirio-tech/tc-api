@@ -403,8 +403,12 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
                 forumURL = api.config.tcConfig.studioForumsUrlPrefix + activeForumCategoryId;
                 submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
             }
-
-            template = 'registration_notification_email';
+            
+            if (componentInfo.review_type && componentInfo.review_type == 'PEER')
+              template = 'peer_review_registration';
+            else
+              template = 'registration_notification_email';
+              
             if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 template = 'design_registration_notification_email';
                 // Get forum type
