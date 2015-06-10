@@ -33,6 +33,7 @@ var bignum = require("bignum");
 var _ = require("underscore");
 var IllegalArgumentError = require('../errors/IllegalArgumentError');
 var BadRequestError = require('../errors/BadRequestError');
+var request = require('request');
 
 /**
  * The max surname length
@@ -1150,8 +1151,21 @@ exports.memberRegister = {
                             if (err) {
                                 api.helper.handleError(api, connection, err);
                             } else {
-                                api.log("Member registration succeeded.", "debug");
-                                connection.response = {userId : result};
+                                var finalize = function() {
+                                    api.log("Member registration succeeded.", "debug");
+                                    connection.response = {userId : result};                                    
+                                };
+
+                                if (connection.params.regSource !== null && connection.params.regSource === 'apple') {
+                                    request.post({
+                                        headers: { 'Authorization' : 'Bearer ' + connection.rawConnection.req.headers.authorization },
+                                        url: 'https://api.' + api.config.tcConfig.oauthDomain + '.com/v3/memberCert/registrations/' + result + '/programs/3445'
+                                        }, 
+                                        function(error, response, body) {
+                                            finalize();
+                                        });
+                                }
+                                else finalize();  
                             }
 
                             next(connection, true);
