@@ -223,7 +223,8 @@ function getBasicUserProfile(api, handle, privateInfoEligibility, dbConnectionMa
                 country: basic.country,
                 memberSince: basic.member_since,
                 quote: basic.quote,
-                photoLink: basic.photo_link || ''
+                photoLink: basic.photo_link || '',
+                copilot: basic.copilot || false
             };
 
             if (loadData.earnings && _.isDefined(basic.show_earnings) && basic.show_earnings !== 'hide') {
