@@ -8,11 +8,17 @@ SELECT
     -- the project category id, e.g. Logo Design, Developemnt, Assembly
     (select project_category_id from project where project_id = @challengeId@ ) as project_category_id,
     -- the project name.
-    (select value from project_info where project_id = @challengeId@ AND project_info_type_id = 6 ) as project_name 
+    (select value from project_info where project_id = @challengeId@ AND project_info_type_id = 6 ) as project_name,
+    pi79.value as review_type
 FROM comp_versions c
-    INNER JOIN project_info p ON c.component_id = p.value
-    INNER JOIN project_phase d ON d.project_id = @challengeId@ and phase_type_id = 2
+    , project_info p
+    , project_phase d
+    , project_info pi79
 WHERE
     p.project_info_type_id = 2 
     AND c.phase_id IN (112, 113)
+    AND c.component_id = p.value
     AND p.project_id = @challengeId@
+    AND d.project_id = @challengeId@ and d.phase_type_id = 2
+    AND pi79.project_info_type_id = 79
+    AND pi79.project_id = @challengeId@
