@@ -35,7 +35,6 @@ WHERE ce.contest_id = p.project_id)
   from resource rur
   	 , resource_info ri
      , project p
-     , user u
  where p.project_id = rur.project_id
   and rur.resource_id = ri.resource_id
   and rur.resource_role_id = 1
