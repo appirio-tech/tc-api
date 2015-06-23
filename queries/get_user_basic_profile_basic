@@ -5,8 +5,10 @@ SELECT
 , co.quote
 , p.path || i.file_name AS photo_link
 , up.value AS show_earnings
+, (copilot_profile_id IS NOT NULL) as copilot
 FROM user u
 , coder co
+, OUTER copilot_profile cp
 , OUTER country c
 , OUTER(coder_image_xref cix
     , image i
@@ -23,3 +25,5 @@ AND i.image_type_id = 1
 AND i.path_id = p.path_id
 AND u.user_id = up.user_id
 AND up.preference_id = 100
+AND u.user_id = cp.user_id
+AND cp.copilot_profile_status_id = 1
