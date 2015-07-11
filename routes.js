@@ -406,7 +406,8 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/components", action: "setRoundComponents"},
         { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"},
         { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" },
-        { path: "/:apiVersion/src2image", action: "convertSourceCodeToImage" }
+        { path: "/:apiVersion/src2image", action: "convertSourceCodeToImage" },
+        { path: "/:apiVersion/dump", action: "dumpMemory"}
     ],
     put: [
 
