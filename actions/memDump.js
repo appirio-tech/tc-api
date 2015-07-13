@@ -11,6 +11,8 @@ exports.dumpMemory = {
         required: [],
         optional: []
     },
+    outputExample: {},
+    cacheEnabled: false,
     version: 'v2',
     run: function (api, connection, next) {
         if (process.env.ADMIN_API_KEY && connection.params.apiKey === process.env.ADMIN_API_KEY) {
