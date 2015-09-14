@@ -8,6 +8,9 @@
 
 /*jslint unparam: true */
 
+var CONN_TIMEOUT = 5000;
+var DISCONN_TIMEOUT = 5000;
+
 var handleConnectionFailure = function (api, connection, actionTemplate, error, next) {
     api.log("Close all opened connections", "debug");
     var connectionClosedCount = 0;
@@ -57,6 +60,13 @@ exports.transaction = function (api, next) {
     transactionPreProcessor = function (connection, actionTemplate, next) {
         if (actionTemplate.transaction === "read" || actionTemplate.transaction === "write") {
             var dbConnectionMap = {}, dbConnection, callback, connectionOpenedCount = 0;
+            
+            var connectTimeout = function() {
+                api.log("Timed out without obtaining all DB connections", "error");
+                handleConnectionFailure(api, connection, actionTemplate, "Open Timeout", next);
+            }
+            
+            var clearMe = setTimeout(connectTimeout, CONN_TIMEOUT);
 
             actionTemplate.databases.forEach(function (databaseName) {
                 dbConnection = api.dataAccess.createConnection(databaseName);
@@ -68,12 +78,14 @@ exports.transaction = function (api, next) {
                 callback = function (err, result) {
                     connection.dbConnectionMap = dbConnectionMap;
                     if (err) {
+                        clearTimeout(clearMe);
                         handleConnectionFailure(api, connection, actionTemplate, err, next);
                         return;
                     }
 
                     connectionOpenedCount += 1;
                     if (connectionOpenedCount === actionTemplate.databases.length) {
+                        clearTimeout(clearMe);
                         api.log("All connections are opened", "debug");
                         next(connection, true);
                     }
@@ -121,6 +133,14 @@ exports.transaction = function (api, next) {
      * @param {Function} next - The callback function
      */
     transactionPostProcessor = function (connection, actionTemplate, toRender, next) {
+        
+        var disconnectTimeout = function() {
+            api.error("Timed out without closing all DB connections", "error");
+            // I dont want to call next(connection); here because I want to allow the execution to to continue in case connection can be closed after timeout
+        }
+        
+        var clearMe = setTimeout(disconnectTimeout, DISCONN_TIMEOUT);
+        
         var connectionClosedCount = 0;
         if (connection.dbConnectionMap !== null && connection.dbConnectionMap !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
             actionTemplate.databases.forEach(function (databaseName) {
@@ -129,6 +149,7 @@ exports.transaction = function (api, next) {
                     connection.dbConnectionMap[databaseName].disconnect();
                     api.log("Connection is closed", "debug");
                     if (err) {
+                        clearTimeout(clearMe);
                         connection.error = err;
                         next(connection);
                         return;
@@ -136,6 +157,7 @@ exports.transaction = function (api, next) {
 
                     connectionClosedCount += 1;
                     if (connectionClosedCount === actionTemplate.databases.length) {
+                        clearTimeout(clearMe);
                         api.log("All connections are closed", "debug");
                         next(connection);
                     }
