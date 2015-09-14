@@ -48,7 +48,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
         result = {},
         active = false;
     pageIndex = Number(connection.params.pageIndex || 1);
-    pageSize = Number(connection.params.pageSize || 50);
+    pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
 
     async.waterfall([
         function (cb) {
@@ -57,7 +57,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
             }
             error = error ||
                 helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
-                helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                 helper.checkPageIndex(pageIndex, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
                 helper.checkContains(Object.keys(helper.softwareChallengeTypes), challengeType, "challengeType");
@@ -68,7 +68,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
             active = helper.softwareChallengeTypes[challengeType].active;
             if (pageIndex === -1) {
                 pageIndex = 1;
-                pageSize = MAX_INT;
+                pageSize = helper.MAX_PAGE_SIZE;
             }
             sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
             sqlParams.pageSize = pageSize;
@@ -125,7 +125,7 @@ var getTops = function (api, connection, dbConnectionMap, next) {
 var getStudioTops = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper, sqlParams = {}, pageIndex, pageSize, error, challengeType = connection.params.challengeType.toLowerCase(), result = {};
     pageIndex = Number(connection.params.pageIndex || 1);
-    pageSize = Number(connection.params.pageSize || 10);
+    pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
 
     async.waterfall([
         function (cb) {
@@ -137,7 +137,7 @@ var getStudioTops = function (api, connection, dbConnectionMap, next) {
             }
             error = error ||
                 helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-                helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+                helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, 'pageSize') ||
                 helper.checkPageIndex(pageIndex, 'pageIndex') ||
                 helper.checkPositiveInteger(pageSize, 'pageSize') ||
                 helper.checkContains(Object.keys(helper.studioChallengeTypes), challengeType, 'challengeType');
@@ -147,7 +147,7 @@ var getStudioTops = function (api, connection, dbConnectionMap, next) {
             }
             if (pageIndex === -1) {
                 pageIndex = 1;
-                pageSize = MAX_INT;
+                pageSize = helper.MAX_PAGE_SIZE;
             }
             sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
             sqlParams.pageSize = pageSize;
@@ -277,7 +277,7 @@ exports.getMarathonTops = {
             dbConnectionMap = connection.dbConnectionMap,
             result = {};
         pageIndex = Number(connection.params.pageIndex || 1);
-        pageSize = Number(connection.params.pageSize || 10);
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
 
         async.waterfall([
             function (cb) {
@@ -287,7 +287,7 @@ exports.getMarathonTops = {
                 }
                 error = error ||
                     helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
-                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["competitors", "schools", "countries"], rankType, "rankType");
@@ -297,7 +297,7 @@ exports.getMarathonTops = {
                 }
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_INT;
+                    pageSize = helper.MAX_PAGE_SIZE;
                 }
                 switch (rankType) {
                 case "competitors":
@@ -400,7 +400,7 @@ exports.getSRMTops = {
             return;
         }
         pageIndex = Number(connection.params.pageIndex || 1);
-        pageSize = Number(connection.params.pageSize || 10);
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
 
         async.waterfall([
             function (cb) {
@@ -410,7 +410,7 @@ exports.getSRMTops = {
                 }
                 error = error ||
                     helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
-                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["competitors", "schools", "countries"], rankType, "rankType");
@@ -420,7 +420,7 @@ exports.getSRMTops = {
                 }
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_INT;
+                    pageSize = helper.MAX_PAGE_SIZE;
                 }
                 switch (rankType) {
                 case "competitors":
@@ -498,11 +498,6 @@ exports.getSRMTops = {
 var VALID_TRACK_TYPES = ['design', 'develop', 'data'];
 
 /**
- * Maximum page size
- */
-var MAX_PAGE_SIZE = 1000;
-
-/**
  * The API for top track members of develop, design and data.
  */
 exports.getTopTrackMembers = {
@@ -523,7 +518,7 @@ exports.getTopTrackMembers = {
         var helper = api.helper,
             trackType = connection.params.trackType.toLowerCase(),
             pageIndex = Number(connection.params.pageIndex || 1),
-            pageSize = Number(connection.params.pageSize || 50),
+            pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE),
             dbConnectionMap = connection.dbConnectionMap,
             result = {},
             error,
@@ -539,7 +534,7 @@ exports.getTopTrackMembers = {
                 }
                 error = error ||
                     helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
-                    helper.checkMaxNumber(pageSize, MAX_PAGE_SIZE, 'pageSize') ||
+                    helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, 'pageSize') ||
                     helper.checkPageIndex(pageIndex, 'pageIndex') ||
                     helper.checkPositiveInteger(pageSize, 'pageSize') ||
                     helper.checkContains(VALID_TRACK_TYPES, trackType, 'trackType');
@@ -549,7 +544,7 @@ exports.getTopTrackMembers = {
                 }
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_PAGE_SIZE;     // No paging, show max allowed.
+                    pageSize = helper.MAX_PAGE_SIZE;     // No paging, show max allowed.
                 }
                 // Retrieves total number of top members for the given track.
                 api.dataAccess.executeQuery('get_top_members_' + trackType + '_count', sqlParams, dbConnectionMap, cb);

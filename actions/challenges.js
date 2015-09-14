@@ -345,7 +345,7 @@ function validateInputParameter(helper, caller, challengeType, query, filter, pa
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
             helper.checkPageIndex(pageIndex, "pageIndex") ||
             helper.checkPositiveInteger(pageSize, "pageSize") ||
-            helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+            helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, 'pageSize') ||
             helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
             helper.checkContains(helper.VALID_LIST_TYPE, type.toUpperCase(), "type") ||
             checkQueryParameterAndSortColumn(helper, type, query, sortColumn);
@@ -505,7 +505,7 @@ function validateInputParameterV2(helper, caller, type, query, filter, pageIndex
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
         helper.checkPageIndex(pageIndex, "pageIndex") ||
         helper.checkPositiveInteger(pageSize, "pageSize") ||
-        helper.checkMaxNumber(pageSize, MAX_INT, 'pageSize') ||
+        helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, 'pageSize') ||
         helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
         checkQueryParameterAndSortColumnV2(helper, listType, query, sortColumn);
 
@@ -938,7 +938,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     listType = (query.listtype || helper.ListType.OPEN).toUpperCase();
     pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 50);
+    pageSize = Number(query.pagesize || helper.MAX_PAGE_SIZE);
 
     copyToFilter.forEach(function (p) {
         if (query.hasOwnProperty(p.toLowerCase())) {
@@ -952,7 +952,7 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
-                pageSize = MAX_INT;
+                pageSize = helper.MAX_PAGE_SIZE;
             }
 
             setFilter(filter, sqlParams);
@@ -3686,7 +3686,7 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
       (!query.sortcolumn && (listType == api.helper.ListType.ACTIVE || listType == api.helper.ListType.UPCOMING) ? "asc" : "desc");
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || 150);
+    pageSize = Number(query.pagesize || helper.MAX_PAGE_SIZE);
 
     if (isMyChallenges) {
         index = copyToFilter.indexOf('type');
@@ -3727,7 +3727,7 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
         }, function (cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
-                pageSize = MAX_INT;
+                pageSize = helper.MAX_PAGE_SIZE;
             }
 
             setFilterV2(filter, sqlParams);
