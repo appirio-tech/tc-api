@@ -178,7 +178,10 @@ exports.dataAccess = function (api, next) {
             var error, dbServerPrefix = api.config.tcConfig.databaseMapping[databaseName],
                 user, password, hostname, server, port, settings;
             error = helper.checkDefined(dbServerPrefix, "database server prefix");
+            
+            api.log('Creating a new db connection at dataAccess','debug');      
             if (error) {
+                api.log('Error : ' + error, 'error');
                 throw error;
             }
 
