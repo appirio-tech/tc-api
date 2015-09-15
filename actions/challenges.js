@@ -502,10 +502,13 @@ function checkQueryParameterAndSortColumnV2(helper, type, queryString, sortColum
  * @since 1.21
  */
 function validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, callback) {
+    
+    var allowedPageSize = helper.ListType.ACTIVE ? helper.MAX_INT : helper.MAX_PAGE_SIZE;
+    
     var error = helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), "sortOrder") ||
         helper.checkPageIndex(pageIndex, "pageIndex") ||
         helper.checkPositiveInteger(pageSize, "pageSize") ||
-        helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, 'pageSize') ||
+        helper.checkMaxNumber(pageSize, allowedPageSize, 'pageSize') ||
         helper.checkMaxNumber(pageIndex, MAX_INT, 'pageIndex') ||
         checkQueryParameterAndSortColumnV2(helper, listType, query, sortColumn);
 
@@ -3686,8 +3689,9 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
       (!query.sortcolumn && (listType == api.helper.ListType.ACTIVE || listType == api.helper.ListType.UPCOMING) ? "asc" : "desc");
     sortColumn = query.sortcolumn || DEFAULT_SORT_COLUMN;
     pageIndex = Number(query.pageindex || 1);
-    pageSize = Number(query.pagesize || helper.MAX_PAGE_SIZE);
-
+    pageSize = Number(query.pagesize || 
+        (listType == api.helper.ListType.ACTIVE ? helper.MAX_INT : helper.MAX_PAGE_SIZE));
+    
     if (isMyChallenges) {
         index = copyToFilter.indexOf('type');
         copyToFilter.splice(index, 1);
