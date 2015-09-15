@@ -22,7 +22,7 @@ var searchUsers = function (api, connection, dbConnectionMap, next) {
         result = {},
         sqlParams = {},
         pageIndex = Number(connection.params.pageIndex || 1),
-        pageSize = Number(connection.params.pageSize || 10),
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE),
         caseSensitive = (connection.params.caseSensitive || "false").toLowerCase(),
         handle = connection.params.handle;
 
@@ -36,7 +36,7 @@ var searchUsers = function (api, connection, dbConnectionMap, next) {
             var error = helper.checkPositiveInteger(pageIndex, "pageIndex") ||
                 helper.checkMaxNumber(pageIndex, helper.MAX_INT, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
-                helper.checkMaxNumber(pageSize, 500, "pageSize") ||
+                helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                 helper.checkStringPopulated(handle, "handle");
             if (error) {
                 callback(error);

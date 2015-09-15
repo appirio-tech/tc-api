@@ -79,7 +79,7 @@ function pastDataScienceChallenges(pageIndex, pageSize, sortingColumnName, sorti
                                    submissionEndTo, api, connection, callback) {
     if (pageIndex === NO_PAGING) {
         pageIndex = 1;
-        pageSize = MAX_INT;
+        pageSize = helper.MAX_PAGE_SIZE;
     }
 
     var sqlParams = {};
@@ -270,7 +270,7 @@ exports.pastDataScienceChallenges = {
             async.waterfall([
                 function (cb) { // Parse and validate request parameters
                     pageIndex = Number(connection.params.pageIndex || 1);
-                    pageSize = Number(connection.params.pageSize || 50);
+                    pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
                     sortingOrder = connection.params.sortOrder || PAST_CHALLENGES_DEFAULT_SORT_ORDER;
                     sortingColumnName = connection.params.sortColumn || PAST_CHALLENGES_DEFAULT_SORT_COLUMN;
 
@@ -278,7 +278,7 @@ exports.pastDataScienceChallenges = {
                         || helper.checkContains(PAST_CHALLENGES_DATA_COLUMN_NAMES, sortingColumnName.toLowerCase(), "sortColumn")
                         || helper.checkPageIndex(pageIndex, "pageIndex")
                         || helper.checkPositiveInteger(pageSize, "pageSize")
-                        || helper.checkMaxInt(pageSize, 'pageSize');
+                        || helper.checkMaxNumber(pageSize,helper.MAX_PAGE_SIZE,'pageSize');
 
                     if (err) {
                         cb(err);

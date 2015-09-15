@@ -73,7 +73,7 @@ var searchPayments = function (api, connection, next) {
     var error, i,
         helper = api.helper,
         pageIndex = Number(connection.params.pageIndex || 1),
-        pageSize = Number(connection.params.pageSize || 10),
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE),
         status = connection.params.status,
         type = connection.params.type,
         sortColumn = (connection.params.sortColumn || "createDate").toLowerCase(),
@@ -98,7 +98,7 @@ var searchPayments = function (api, connection, next) {
             error = helper.checkPositiveInteger(pageIndex, "pageIndex")
                 || helper.checkMaxInt(pageIndex, "pageIndex")
                 || helper.checkPositiveInteger(pageSize, "pageSize")
-                || helper.checkMaxInt(pageSize, "pageSize")
+                || helper.checkMaxNumber(pageSize,helper.MAX_PAGE_SIZE,"pageSize")
                 || helper.checkMember(connection)
                 || helper.checkContains(["asc", "desc"], sortOrder.toLowerCase(), "sortOrder")
                 || helper.checkSortColumn(ALLOWABLE_SORT_COLUMN, sortColumn)
