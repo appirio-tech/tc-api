@@ -8,8 +8,9 @@
 
 /*jslint unparam: true */
 
-var CONN_TIMEOUT = 5000;
-var DISCONN_TIMEOUT = 5000;
+var CONN_TIMEOUT = process.env.CONN_TIMEOUT || 5000;
+var DISCONNECT_ON_CONN_TIMEOUT = process.env.DISCONNECT_ON_CONN_TIMEOUT !== "false" ? true : false;
+var DISCONN_TIMEOUT = process.env.DISCONN_TIMEOUT || 5000;
 
 var handleConnectionFailure = function (api, connection, actionTemplate, error, next) {
     api.log("Close all opened connections", "debug");
@@ -63,7 +64,9 @@ exports.transaction = function (api, next) {
             
             var connectTimeout = function() {
                 api.log("Timed out without obtaining all DB connections", "error");
-                handleConnectionFailure(api, connection, actionTemplate, "Open Timeout", next);
+                if (DISCONNECT_ON_CONN_TIMEOUT) {
+                    handleConnectionFailure(api, connection, actionTemplate, "Open Timeout", next);
+                }
             }
             
             var clearMe = setTimeout(connectTimeout, CONN_TIMEOUT);
