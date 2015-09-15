@@ -218,11 +218,6 @@ var DATE_FORMAT = "YYYY-MM-DD HH:mm";
 var MAX_INT = 2147483647;
 
 /**
- * The default page size
- */
-var DEFAULT_PAGE_SIZE = 50;
-
-/**
  * Default number of leaders to show in SRM details
  */
 var LEADER_COUNT = 5;
@@ -265,7 +260,7 @@ exports.searchSRMChallenges = {
             sortColumn = "roundid";
         }
         pageIndex = Number(params.pageIndex || 1);
-        pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
+        pageSize = Number(params.pageSize || helper.MAX_PAGE_SIZE);
         listType = (params.listType || 'ACTIVE').toUpperCase();
         challengeName = _.has(params, 'challengeName') ? '%' + params.challengeName.toLowerCase() + '%' : '%';
 
@@ -287,7 +282,7 @@ exports.searchSRMChallenges = {
                 }
                 error = error ||
                     helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
-                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
@@ -301,7 +296,7 @@ exports.searchSRMChallenges = {
 
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_INT;
+                    pageSize = helper.MAX_PAGE_SIZE;
                 }
                 sqlParams = {
                     firstRowIndex: (pageIndex - 1) * pageSize,
@@ -720,7 +715,7 @@ exports.getSRMSchedule = {
         sortColumn = (params.sortColumn || "registrationStartTime").toLowerCase();
 
         pageIndex = Number(params.pageIndex || 1);
-        pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
+        pageSize = Number(params.pageSize || helper.MAX_PAGE_SIZE);
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "registrationstarttime") {
             sortOrder = "desc";
@@ -734,7 +729,7 @@ exports.getSRMSchedule = {
                 }
                 error = error ||
                     helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
-                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
@@ -757,7 +752,7 @@ exports.getSRMSchedule = {
 
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_INT;
+                    pageSize = helper.MAX_PAGE_SIZE;
                 }
                 SCHEDULE_TIMEZONE = api.config.tcConfig.databaseTimezoneIdentifier;
                 cb(error);
@@ -2402,7 +2397,7 @@ function getPracticeProblems(api, connection, next) {
         myPointsUpperBound,
         caller = connection.caller,
         pageIndex = Number(connection.params.pageIndex || 1),
-        pageSize = Number(connection.params.pageSize || 10),
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE),
         sortColumn = connection.params.sortColumn || 'problemId',
         sortOrder = connection.params.sortOrder || helper.consts.ASCENDING,
         exeQuery = function (query) {
@@ -2414,7 +2409,7 @@ function getPracticeProblems(api, connection, next) {
         function (cb) {
             var error = helper.checkPageIndex(pageIndex, 'pageIndex') ||
                 helper.checkPositiveInteger(pageSize, 'pageSize') ||
-                helper.checkMaxInt(pageSize, 'pageSize') ||
+                helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, 'pageSize') ||
                 helper.checkContains(['asc', 'desc'], sortOrder.toLowerCase(), 'sortOrder') ||
                 helper.checkSortColumn(VALID_PRACTICE_PROBLEMS_SORT_COLUMN, sortColumn.toLowerCase()) ||
                 helper.checkMember(connection, 'Only logged in user can access to this endpoint.');

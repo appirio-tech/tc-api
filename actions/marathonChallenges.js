@@ -137,7 +137,7 @@ exports.searchMarathonChallenges = {
         sortOrder = (params.sortOrder || "asc").toLowerCase();
         sortColumn = (params.sortColumn || "roundId").toLowerCase();
         pageIndex = Number(params.pageIndex || 1);
-        pageSize = Number(params.pageSize || 50);
+        pageSize = Number(params.pageSize || helper.MAX_PAGE_SIZE);
 
         if (!_.isDefined(params.sortOrder) && sortColumn === "roundid") {
             sortOrder = "desc";
@@ -180,7 +180,7 @@ exports.searchMarathonChallenges = {
                 }
                 error = error ||
                     helper.checkMaxNumber(pageIndex, MAX_INT, "pageIndex") ||
-                    helper.checkMaxNumber(pageSize, MAX_INT, "pageSize") ||
+                    helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                     helper.checkPageIndex(pageIndex, "pageIndex") ||
                     helper.checkPositiveInteger(pageSize, "pageSize") ||
                     helper.checkContains(ALLOWABLE_LIST_TYPE, listType, "listType") ||
@@ -203,7 +203,7 @@ exports.searchMarathonChallenges = {
 
                 if (pageIndex === -1) {
                     pageIndex = 1;
-                    pageSize = MAX_INT;
+                    pageSize = helper.MAX_PAGE_SIZE;
                 }
                 sqlParams = {
                     firstRowIndex: (pageIndex - 1) * pageSize,

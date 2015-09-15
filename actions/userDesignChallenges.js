@@ -17,11 +17,6 @@ var BadRequestError = require('../errors/BadRequestError');
 var NotFoundError = require('../errors/NotFoundError');
 
 /**
- * The default pzge size.
- */
-var DEFAULT_PAGE_SIZE = 50;
-
-/**
  * The constants of project type.
  */
 var DESIGN_PROJECT_TYPE = "17,20,16,32,30,31,21,18,22,34,40,1";
@@ -92,7 +87,7 @@ var getUserChallenges = function (api, connection, challengeType, next) {
     sortOrder = (params.sortOrder || "asc").toLowerCase();
     sortColumn = (params.sortColumn || "id").toLowerCase();
     pageIndex = Number(params.pageIndex || 1);
-    pageSize = Number(params.pageSize || DEFAULT_PAGE_SIZE);
+    pageSize = Number(params.pageSize || helper.MAX_PAGE_SIZE);
 
     if (!_.isDefined(params.sortOrder) && sortColumn === "id") {
         sortOrder = "desc";
@@ -109,7 +104,7 @@ var getUserChallenges = function (api, connection, challengeType, next) {
             }
             error = error ||
                 helper.checkMaxNumber(pageIndex, helper.MAX_INT, "pageIndex") ||
-                helper.checkMaxNumber(pageSize, helper.MAX_INT, "pageSize") ||
+                helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                 helper.checkPageIndex(pageIndex, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
                 helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
