@@ -522,7 +522,7 @@ function getUserMarathonMatches(api, connection, next) {
         },
         handle = connection.params.handle,
         pageIndex = Number(connection.params.pageIndex || 1),
-        pageSize = Number(connection.params.pageSize || 10);
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
 
     sortOrder = (connection.params.sortOrder || "asc").toLowerCase();
     sortColumn = connection.params.sortColumn || "id";
@@ -535,7 +535,7 @@ function getUserMarathonMatches(api, connection, next) {
     }
 
     if (pageIndex === -1) {
-        pageSize = helper.MAX_INT;
+        pageSize = helper.MAX_PAGE_SIZE;
         pageIndex = 1;
     }
 
@@ -549,7 +549,7 @@ function getUserMarathonMatches(api, connection, next) {
             var error = helper.checkPageIndex(pageIndex, "pageIndex")
                 || helper.checkStringParameter(handle, "handle", 30)
                 || helper.checkPositiveInteger(pageSize, "pageSize")
-                || helper.checkMaxInt(pageSize, "pageSize")
+                || helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE,"pageSize")
                 || helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder")
                 || helper.checkSortColumn(VALID_SORT_COLUMN_MARATHON_MATCH, sortColumn.toLowerCase());
             cb(error);
@@ -645,7 +645,7 @@ function getUserAlgorithmChallenges(api, connection, next) {
         },
         handle = connection.params.handle,
         pageIndex = Number(connection.params.pageIndex || 1),
-        pageSize = Number(connection.params.pageSize || 10);
+        pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
 
     // If the sortOrder is set and sortColumn is missing.
     if (connection.params.sortOrder && !connection.params.sortColumn) {
@@ -658,7 +658,7 @@ function getUserAlgorithmChallenges(api, connection, next) {
     sortColumn = connection.params.sortColumn || "id";
 
     if (pageIndex === -1) {
-        pageSize = helper.MAX_INT;
+        pageSize = helper.MAX_PAGE_SIZE;
         pageIndex = 1;
     }
 
@@ -672,7 +672,7 @@ function getUserAlgorithmChallenges(api, connection, next) {
             var error = helper.checkPageIndex(pageIndex, "pageIndex")
                 || helper.checkStringParameter(handle, "handle", 30)
                 || helper.checkPositiveInteger(pageSize, "pageSize")
-                || helper.checkMaxInt(pageSize, "pageSize")
+                || helper.checkMaxNumber(pageSize,helper.MAX_PAGE_SIZE, "pageSize")
                 || helper.checkContains(['asc', 'desc'], sortOrder, "sortOrder")
                 || helper.checkSortColumn(VALID_SORT_COLUMN_ALGO_CHALLENGES, sortColumn.toLowerCase());
             cb(error);

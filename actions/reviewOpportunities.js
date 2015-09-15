@@ -346,7 +346,7 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
         error;
 
     params = connection.params;
-    pageSize = Number(params.pageSize || 10);
+    pageSize = Number(params.pageSize || helper.MAX_PAGE_SIZE);
     pageIndex = Number(params.pageIndex || 1);
     sortOrder = params.sortOrder || 'asc';
     sortColumn = params.sortColumn || 'challengeName';
@@ -356,7 +356,7 @@ var validateInputParameter = function (helper, connection, filter, isStudio, cb)
     error =
         helper.checkPageIndex(pageIndex, 'pageIndex') ||
         helper.checkPositiveInteger(pageSize, 'pageSize') ||
-        helper.checkMaxInt(pageSize, 'pageSize') ||
+        helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE,'pageSize') ||
         helper.checkContains(helper.getLowerCaseList(allowedSortColumn), sortColumn.toLowerCase(), 'sortColumn') ||
         helper.checkContains(helper.getLowerCaseList(ALLOWABLE_SORT_ORDER), sortOrder.toLowerCase(), 'sortOrder');
 
@@ -481,7 +481,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
     var helper = api.helper, result = {}, sqlParams, dbConnectionMap = connection.dbConnectionMap, pageIndex,
         pageSize, sortOrder, sortColumn, filter = {}, reviewOpportunities, queryName;
 
-    pageSize = Number(connection.params.pageSize || 10);
+    pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
     pageIndex = Number(connection.params.pageIndex || 1);
     sortOrder = connection.params.sortOrder || 'asc';
     sortColumn = connection.params.sortColumn || 'challengeName';
@@ -494,7 +494,7 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
 
             if (pageIndex === -1) {
                 pageIndex = 1;
-                pageSize = helper.MAX_INT;
+                pageSize = helper.MAX_PAGE_SIZE;
             }
 
             sqlParams = {

@@ -216,7 +216,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
     sortOrder = (params.sortOrder || "asc").toLowerCase();
     sortColumn = (params.sortColumn || "registrationPhaseStartTime").toLowerCase();
     pageIndex = Number(params.pageIndex || 1);
-    pageSize = Number(params.pageSize || 50);
+    pageSize = Number(params.pageSize || helper.MAX_PAGE_SIZE);
 
     async.waterfall([
         function (cb) {
@@ -240,7 +240,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
                 }
             }
             error = error ||
-                helper.checkMaxNumber(pageSize, helper.MAX_INT, "pageSize") ||
+                helper.checkMaxNumber(pageSize, helper.MAX_PAGE_SIZE, "pageSize") ||
                 helper.checkPageIndex(pageIndex, "pageIndex") ||
                 helper.checkPositiveInteger(pageSize, "pageSize") ||
                 helper.checkContains(["asc", "desc"], sortOrder, "sortOrder") ||
@@ -285,7 +285,7 @@ var getRounds = function (api, connection, dbConnectionMap, next) {
         }, function (typeIds, cb) {
             if (pageIndex === -1) {
                 pageIndex = 1;
-                pageSize = helper.MAX_INT;
+                pageSize = helper.MAX_PAGE_SIZE;
             }
 
             filterCondition = ' r.round_id > 0 ';

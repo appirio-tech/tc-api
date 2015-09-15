@@ -205,6 +205,11 @@ helper.SUBMISSION_TYPE = {
 helper.MAX_INT = 2147483647;
 
 /**
+ * Max value for page size
+ */
+helper.MAX_PAGE_SIZE = 100;
+
+/**
  * HASH KEY For Password
  *
  * @since 1.23
