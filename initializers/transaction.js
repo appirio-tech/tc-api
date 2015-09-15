@@ -18,7 +18,7 @@ var handleConnectionFailure = function (api, connection, actionTemplate, error, 
         var callback;
         callback = function (err, result) {
             connection.dbConnectionMap[databaseName].disconnect();
-            api.log("Connection is closed", "debug");
+            api.log("Connection is closed for " + databaseName, "debug");
             if (err) {
                 connection.error = err;
                 next(connection, false);
