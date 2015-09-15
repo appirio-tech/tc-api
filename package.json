@@ -27,7 +27,7 @@
     "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#12b57be495c2e10431173522bc9eff60e0575959",
     "heapdump": "^0.3.6",
     "highlight.js": ">= 8.3.0",
-    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#46d1c91c3a8e164f888e88627b8da712e9ceb855",
+    "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git",
     "java": "0.3.x",
     "jsonwebtoken": "5.0.5",
     "ldapjs": "0.7.x",
