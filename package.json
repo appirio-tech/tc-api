@@ -29,7 +29,7 @@
     "highlight.js": ">= 8.3.0",
     "informix-wrapper": "git://github.com/cloudspokes/informix-wrapper.git#46d1c91c3a8e164f888e88627b8da712e9ceb855",
     "java": "0.3.x",
-    "jsonwebtoken": "0.4.x",
+    "jsonwebtoken": "5.0.5",
     "ldapjs": "0.7.x",
     "mime": "~1.2.11",
     "mkdirp": "0.3.x",
