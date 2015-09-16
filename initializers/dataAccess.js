@@ -110,6 +110,44 @@ function parameterizeQuery(query, params, callback) {
     });
 }
 
+function executePreparedStatement(api, sql, parameters, connection, next) {
+    async.waterfall([
+        function (cb) {
+            parameterizeQuery(sql, parameters, cb);
+        }, function (parametrizedQuery, cb) {
+            sql = parametrizedQuery;
+            
+            if (api.helper.readTransaction) {
+                api.log("CALLING SANTTOSH'S MAGIC");
+                api.log(new Buffer(sql).toString('base64'));
+                cb(null, []); // necessary?
+            } else {
+                api.log("Database connected", 'debug');
+                // the connection might have been closed due to other errors, so this check must be done
+                if (connection.isConnected()) {
+                    // Run the query
+                    connection.query(sql, cb, {
+                        start: function (q) {
+                            api.log('Start to execute ' + q, 'debug');
+                        },
+                        finish: function (f) {
+                            api.log('Finish executing ' + f, 'debug');
+                        }
+                    }).execute();
+                } else cb("Connection closed unexpectedly");
+            }
+        }
+    ], function (err, result) {
+        if (err) {
+            api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
+        } else {
+            api.log("Query executed", "debug");
+        }
+
+        next(err, result);
+    });
+}
+
 
 /**
  * Expose the "dataAccess" utility.
@@ -239,9 +277,10 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-            connection = connectionMap[queries[queryName].db];
-
-            error = helper.checkObject(connection, "connection");
+            if (!api.helper.readTransaction) {
+                connection = connectionMap[queries[queryName].db];
+                error = helper.checkObject(connection, "connection");
+            }
 
             if (error) {
                 next(error);
@@ -254,36 +293,8 @@ exports.dataAccess = function (api, next) {
                 next('The query for name ' + queryName + ' is not registered');
                 return;
             }
-
-            async.waterfall([
-                function (cb) {
-                    parameterizeQuery(sql, parameters, cb);
-                }, function (parametrizedQuery, cb) {
-                    sql = parametrizedQuery;
-                    api.log("Database connected", 'debug');
-
-                    // the connection might have been closed due to other errors, so this check must be done
-                    if (connection.isConnected()) {
-                        // Run the query
-                        connection.query(sql, cb, {
-                            start: function (q) {
-                                api.log('Start to execute ' + q, 'debug');
-                            },
-                            finish: function (f) {
-                                api.log('Finish executing ' + f, 'debug');
-                            }
-                        }).execute();
-                    } else cb("Connection closed unexpectedly");
-                }
-            ], function (err, result) {
-                if (err) {
-                    api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
-                } else {
-                    api.log("Query executed", "debug");
-                }
-
-                next(err, result);
-            });
+            
+            executePreparedStatement(api, sql, parameters, connection, next);
         },
 
         /**
@@ -316,45 +327,17 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-            connection = connectionMap[dbName];
-
-            error = helper.checkObject(connection, "connection");
+            if (!api.helper.readTransaction) {
+                connection = connectionMap[dbName];
+                error = helper.checkObject(connection, "connection");
+            }
 
             if (error) {
                 next(error);
                 return;
             }
 
-            async.waterfall([
-                function (cb) {
-                    parameterizeQuery(sql, parameters, cb);
-                }, function (parametrizedQuery, cb) {
-                    sql = parametrizedQuery;
-                    api.log("Database connected", 'info');
-
-                    // the connection might have been closed due to other errors, so this check must be done
-                    if (connection.isConnected()) {
-                        // Run the query
-                        connection.query(sql, cb, {
-                            start: function (q) {
-                                api.log('Start to execute ' + q, 'debug');
-                            },
-                            finish: function (f) {
-                                api.log('Finish executing ' + f, 'debug');
-                            }
-                        }).execute();
-                    } else cb("Connection closed unexpectedly");
-                }
-            ], function (err, result) {
-                if (err) {
-                    api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
-                } else {
-                    api.log("Query executed", "debug");
-                }
-
-                next(err, result);
-            });
-
+            executePreparedStatement(api, sql, parameters, connection, next);
         }
     };
     next();

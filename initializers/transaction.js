@@ -59,8 +59,10 @@ exports.transaction = function (api, next) {
      * @param {Function} next - The callback function
      */
     transactionPreProcessor = function (connection, actionTemplate, next) {
-        if (actionTemplate.transaction === "read" || actionTemplate.transaction === "write") {
-            var dbConnectionMap = {}, dbConnection, callback, connectionOpenedCount = 0;
+        var dbConnectionMap = {}, dbConnection, callback, connectionOpenedCount = 0;
+        
+        if (actionTemplate.transaction === "write") {
+            api.helper.readTransaction = false;
             
             var connectTimeout = function() {
                 api.log("Timed out without obtaining all DB connections", "error");
@@ -120,6 +122,8 @@ exports.transaction = function (api, next) {
             });
 
         } else {
+            connection.dbConnectionMap = dbConnectionMap;
+            api.helper.readTransaction = true;
             next(connection, true);
         }
     };
@@ -136,16 +140,20 @@ exports.transaction = function (api, next) {
      * @param {Function} next - The callback function
      */
     transactionPostProcessor = function (connection, actionTemplate, toRender, next) {
-        
         var disconnectTimeout = function() {
             api.error("Timed out without closing all DB connections", "error");
             // I dont want to call next(connection); here because I want to allow the execution to to continue in case connection can be closed after timeout
         }
         
-        var clearMe = setTimeout(disconnectTimeout, DISCONN_TIMEOUT);
-        
         var connectionClosedCount = 0;
-        if (connection.dbConnectionMap !== null && connection.dbConnectionMap !== undefined && actionTemplate.transaction !== null && actionTemplate.transaction !== undefined) {
+        if (connection.dbConnectionMap !== null 
+          && connection.dbConnectionMap !== undefined 
+          && actionTemplate.transaction !== null 
+          && actionTemplate.transaction !== undefined
+          && actionTemplate.transaction === "write") {
+                
+            var clearMe = setTimeout(disconnectTimeout, DISCONN_TIMEOUT);
+            
             actionTemplate.databases.forEach(function (databaseName) {
                 var callback;
                 callback = function (err, result) {
