@@ -117,8 +117,7 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
     async.waterfall([
         function (cb) {
             parameterizeQuery(sql, parameters, cb);
-        }, 
-        function (parametrizedQuery, cb) {
+        }, function (parametrizedQuery, cb) {
             sql = parametrizedQuery;
             
             if (api.helper.readTransaction) {
@@ -140,6 +139,10 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
                     
                     if (response.statusCode != 200) {
                         return cb(JSON.stringify(body));
+                    }
+                    
+                    if (body.exception) {
+                        return cb("SQL Exception from Java Bridge: " + body.exception);
                     }
                     
                     api.log("Response:" + JSON.stringify(body), "debug");
