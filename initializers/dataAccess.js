@@ -117,8 +117,7 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
     async.waterfall([
         function (cb) {
             parameterizeQuery(sql, parameters, cb);
-        }, 
-        function (parametrizedQuery, cb) {
+        }, function (parametrizedQuery, cb) {
             sql = parametrizedQuery;
             
             if (api.helper.readTransaction) {
@@ -135,15 +134,19 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
                 
                 req({ url: javaReadBridge, method: "POST", body: body, json: true }, function(error, response, body) {
                     if (error) {
-                        cb(error);
+                        return cb(error);
                     }
                     
                     if (response.statusCode != 200) {
-                        cb(JSON.stringify(body));
+                        return cb(JSON.stringify(body));
+                    }
+                    
+                    if (body.exception) {
+                        return cb("SQL Exception from Java Bridge: " + body.exception);
                     }
                     
                     api.log("Response:" + JSON.stringify(body), "debug");
-                    cb(null, body.results);
+                    return cb(null, body.results);
                 });
             } else {
                 api.log("Database connected", 'debug');
