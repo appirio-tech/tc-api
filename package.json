@@ -37,7 +37,7 @@
     "moment-timezone": "0.0.x",
     "nodemailer": "0.5.x",
     "redis": "0.10.x",
-    "request": "~2.33.0",
+    "request": "^2.33.0",
     "soap": "~0.3.2",
     "ssha": "*",
     "string": "1.6.x",

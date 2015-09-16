@@ -34,7 +34,10 @@ var fs = require("fs");
 var async = require("async");
 var java = require('java');
 var Jdbc = require('informix-wrapper');
+var req = require('request');
 var helper;
+
+var javaReadBridge = process.env.JAVA_READ_BRIDGE || "http://localhost:5555/bridge";
 
 /**
  * Regex for sql paramters e.g @param_name@
@@ -110,7 +113,7 @@ function parameterizeQuery(query, params, callback) {
     });
 }
 
-function executePreparedStatement(api, sql, parameters, connection, next) {
+function executePreparedStatement(api, sql, parameters, connection, next, db) {
     async.waterfall([
         function (cb) {
             parameterizeQuery(sql, parameters, cb);
@@ -119,8 +122,19 @@ function executePreparedStatement(api, sql, parameters, connection, next) {
             
             if (api.helper.readTransaction) {
                 api.log("CALLING SANTTOSH'S MAGIC");
-                api.log(new Buffer(sql).toString('base64'));
-                cb(null, []); // necessary?
+                
+                var body = {
+                    "sql": new Buffer(sql).toString('base64'),
+                    "db": db 
+                };
+                
+                api.log(body);
+                
+                req({ url: javaReadBridge, body: body, json: true }, function(response) {
+                    api.log(response);
+                });
+                
+                cb(null, []);
             } else {
                 api.log("Database connected", 'debug');
                 // the connection might have been closed due to other errors, so this check must be done
@@ -294,7 +308,7 @@ exports.dataAccess = function (api, next) {
                 return;
             }
             
-            executePreparedStatement(api, sql, parameters, connection, next);
+            executePreparedStatement(api, sql, parameters, connection, next, queries[queryName].db);
         },
 
         /**
@@ -337,7 +351,7 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-            executePreparedStatement(api, sql, parameters, connection, next);
+            executePreparedStatement(api, sql, parameters, connection, next, dbName);
         }
     };
     next();
