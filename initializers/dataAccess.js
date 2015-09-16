@@ -37,7 +37,7 @@ var Jdbc = require('informix-wrapper');
 var req = require('request');
 var helper;
 
-var javaReadBridge = process.env.JAVA_READ_BRIDGE || "http://localhost:5555/bridge";
+var javaReadBridge = process.env.JAVA_READ_BRIDGE || "http://localhost:8082/bridge";
 
 /**
  * Regex for sql paramters e.g @param_name@
@@ -117,24 +117,36 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
     async.waterfall([
         function (cb) {
             parameterizeQuery(sql, parameters, cb);
-        }, function (parametrizedQuery, cb) {
+        }, 
+        function (parametrizedQuery, cb) {
             sql = parametrizedQuery;
             
             if (api.helper.readTransaction) {
-                api.log("CALLING SANTTOSH'S MAGIC");
+                api.log("Calling Java Bridge", "debug");
+                
+                api.log(sql, "debug");
                 
                 var body = {
                     "sql": new Buffer(sql).toString('base64'),
                     "db": db 
                 };
                 
-                api.log(body);
+                api.log(JSON.stringify(body), "debug");
                 
-                req({ url: javaReadBridge, body: body, json: true }, function(response) {
-                    api.log(response);
+                req({ url: javaReadBridge, method: "POST", body: body, json: true }, function(error, response, body) {
+                    if (error) {
+                        api.log(error, "error");
+                        cb(error);
+                    }
+                    
+                    if (response.statusCode != 200) {
+                        api.log(response, "error");
+                        cb(response.statusMessage);
+                    }
+                    
+                    api.log("Response:" + JSON.stringify(body), "debug");
+                    cb(null, body.results);
                 });
-                
-                cb(null, []);
             } else {
                 api.log("Database connected", 'debug');
                 // the connection might have been closed due to other errors, so this check must be done
