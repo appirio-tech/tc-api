@@ -135,13 +135,11 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
                 
                 req({ url: javaReadBridge, method: "POST", body: body, json: true }, function(error, response, body) {
                     if (error) {
-                        api.log(error, "error");
                         cb(error);
                     }
                     
                     if (response.statusCode != 200) {
-                        api.log(response, "error");
-                        cb(response.statusMessage);
+                        cb(JSON.stringify(body));
                     }
                     
                     api.log("Response:" + JSON.stringify(body), "debug");
