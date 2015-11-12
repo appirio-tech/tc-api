@@ -113,11 +113,6 @@ function parameterizeQuery(query, params, callback) {
     });
 }
 
-function isSafeToUseJavaBridge(sql) {
-  var lowerSQL = sql.toLowerCase();
-  return lowerSQL.indexOf("insert") === -1 && lowerSQL.indexOf("update") === -1 && lowerSQL.indexOf("delete") === -1;
-}
-
 function executePreparedStatement(api, sql, parameters, connection, next, db) {
     async.waterfall([
         function (cb) {
@@ -125,7 +120,7 @@ function executePreparedStatement(api, sql, parameters, connection, next, db) {
         }, function (parametrizedQuery, cb) {
             sql = parametrizedQuery;
             
-            if (isSafeToUseJavaBridge(sql) && api.helper.readTransaction) {
+            if (api.helper.readTransaction) {
                 api.log("Calling Java Bridge", "debug");
                 
                 api.log(sql, "debug");
@@ -309,9 +304,7 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-        sql = queries[queryName].sql;
-
-            if (!isSafeToUseJavaBridge(sql) || !api.helper.readTransaction) {
+            if (!api.helper.readTransaction) {
                 connection = connectionMap[queries[queryName].db];
                 error = helper.checkObject(connection, "connection");
             }
@@ -321,6 +314,7 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
+            sql = queries[queryName].sql;
             if (!sql) {
                 api.log('Unregistered query ' + queryName + ' is asked for.', 'error');
                 next('The query for name ' + queryName + ' is not registered');
@@ -360,7 +354,7 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-            if (!isSafeToUseJavaBridge(sql) || !api.helper.readTransaction) {
+            if (!api.helper.readTransaction) {
                 connection = connectionMap[dbName];
                 error = helper.checkObject(connection, "connection");
             }
