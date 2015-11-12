@@ -34,7 +34,10 @@ var fs = require("fs");
 var async = require("async");
 var java = require('java');
 var Jdbc = require('informix-wrapper');
+var req = require('request');
 var helper;
+
+var javaReadBridge = process.env.JAVA_READ_BRIDGE || "http://localhost:8082/bridge";
 
 /**
  * Regex for sql paramters e.g @param_name@
@@ -107,6 +110,73 @@ function parameterizeQuery(query, params, callback) {
         } else {
             parameterizeQuery(query, params, callback);
         }
+    });
+}
+
+function isSafeToUseJavaBridge(sql) {
+  var lowerSQL = sql.toLowerCase();
+  return lowerSQL.indexOf("insert") === -1 && lowerSQL.indexOf("update") === -1 && lowerSQL.indexOf("delete") === -1;
+}
+
+function executePreparedStatement(api, sql, parameters, connection, next, db) {
+    async.waterfall([
+        function (cb) {
+            parameterizeQuery(sql, parameters, cb);
+        }, function (parametrizedQuery, cb) {
+            sql = parametrizedQuery;
+            
+            if (isSafeToUseJavaBridge(sql) && api.helper.readTransaction) {
+                api.log("Calling Java Bridge", "debug");
+                
+                api.log(sql, "debug");
+                
+                var body = {
+                    "sql": new Buffer(sql).toString('base64'),
+                    "db": db 
+                };
+                
+                api.log(JSON.stringify(body), "debug");
+                
+                req({ url: javaReadBridge, method: "POST", body: body, json: true }, function(error, response, body) {
+                    if (error) {
+                        return cb(error);
+                    }
+                    
+                    if (response.statusCode != 200) {
+                        return cb(JSON.stringify(body));
+                    }
+                    
+                    if (body.exception) {
+                        return cb("SQL Exception from Java Bridge: " + body.exception);
+                    }
+                    
+                    api.log("Response:" + JSON.stringify(body), "debug");
+                    return cb(null, body.results);
+                });
+            } else {
+                api.log("Database connected", 'debug');
+                // the connection might have been closed due to other errors, so this check must be done
+                if (connection.isConnected()) {
+                    // Run the query
+                    connection.query(sql, cb, {
+                        start: function (q) {
+                            api.log('Start to execute ' + q, 'debug');
+                        },
+                        finish: function (f) {
+                            api.log('Finish executing ' + f, 'debug');
+                        }
+                    }).execute();
+                } else cb("Connection closed unexpectedly");
+            }
+        }
+    ], function (err, result) {
+        if (err) {
+            api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
+        } else {
+            api.log("Query executed", "debug");
+        }
+
+        next(err, result);
     });
 }
 
@@ -239,51 +309,25 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-            connection = connectionMap[queries[queryName].db];
+        sql = queries[queryName].sql;
 
-            error = helper.checkObject(connection, "connection");
+            if (!isSafeToUseJavaBridge(sql) || !api.helper.readTransaction) {
+                connection = connectionMap[queries[queryName].db];
+                error = helper.checkObject(connection, "connection");
+            }
 
             if (error) {
                 next(error);
                 return;
             }
 
-            sql = queries[queryName].sql;
             if (!sql) {
                 api.log('Unregistered query ' + queryName + ' is asked for.', 'error');
                 next('The query for name ' + queryName + ' is not registered');
                 return;
             }
-
-            async.waterfall([
-                function (cb) {
-                    parameterizeQuery(sql, parameters, cb);
-                }, function (parametrizedQuery, cb) {
-                    sql = parametrizedQuery;
-                    api.log("Database connected", 'debug');
-
-                    // the connection might have been closed due to other errors, so this check must be done
-                    if (connection.isConnected()) {
-                        // Run the query
-                        connection.query(sql, cb, {
-                            start: function (q) {
-                                api.log('Start to execute ' + q, 'debug');
-                            },
-                            finish: function (f) {
-                                api.log('Finish executing ' + f, 'debug');
-                            }
-                        }).execute();
-                    } else cb("Connection closed unexpectedly");
-                }
-            ], function (err, result) {
-                if (err) {
-                    api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
-                } else {
-                    api.log("Query executed", "debug");
-                }
-
-                next(err, result);
-            });
+            
+            executePreparedStatement(api, sql, parameters, connection, next, queries[queryName].db);
         },
 
         /**
@@ -316,45 +360,17 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-            connection = connectionMap[dbName];
-
-            error = helper.checkObject(connection, "connection");
+            if (!isSafeToUseJavaBridge(sql) || !api.helper.readTransaction) {
+                connection = connectionMap[dbName];
+                error = helper.checkObject(connection, "connection");
+            }
 
             if (error) {
                 next(error);
                 return;
             }
 
-            async.waterfall([
-                function (cb) {
-                    parameterizeQuery(sql, parameters, cb);
-                }, function (parametrizedQuery, cb) {
-                    sql = parametrizedQuery;
-                    api.log("Database connected", 'info');
-
-                    // the connection might have been closed due to other errors, so this check must be done
-                    if (connection.isConnected()) {
-                        // Run the query
-                        connection.query(sql, cb, {
-                            start: function (q) {
-                                api.log('Start to execute ' + q, 'debug');
-                            },
-                            finish: function (f) {
-                                api.log('Finish executing ' + f, 'debug');
-                            }
-                        }).execute();
-                    } else cb("Connection closed unexpectedly");
-                }
-            ], function (err, result) {
-                if (err) {
-                    api.log("Error occurred: " + err + " " + (err.stack || ''), 'error');
-                } else {
-                    api.log("Query executed", "debug");
-                }
-
-                next(err, result);
-            });
-
+            executePreparedStatement(api, sql, parameters, connection, next, dbName);
         }
     };
     next();

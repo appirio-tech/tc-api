@@ -310,7 +310,7 @@ exports.generateDocusignViewURL = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheEnabled : false,
     databases: ["informixoltp", "common_oltp"],
     inputs: {
