@@ -12,7 +12,7 @@ exports.default = {
             logger.transports.push(function (api, winston) {
                 return new (winston.transports.Console)({
                     colorize: true,
-                    level: 'debug',
+                    level: 'info',
                     timestamp: api.utils.sqlDateTime,
                     json: false
                 });
@@ -31,7 +31,7 @@ exports.default = {
         logger.transports.push(function (api, winston) {
             return new (winston.transports.File)({
                 filename: api.config.general.paths.log[0] + '/actionhero-worker.log',
-                level: 'debug',
+                level: 'info',
                 colorize: true,
                 timestamp: api.utils.sqlDateTime,
                 json: false
