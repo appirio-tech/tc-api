@@ -1219,7 +1219,7 @@ helper.getProviderId = function (provider, callback) {
     if (provider.startsWith("salesforce")) {
         providerId = helper.socialProviders.salesforce;
     }
-    if (provider.startsWith("ad")) {
+    if (provider.startsWith("ad") || provider.startsWith("auth0")) {
         providerId = helper.socialProviders.ad;
     }
     if (providerId) {
