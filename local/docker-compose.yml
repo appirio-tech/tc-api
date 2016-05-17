@@ -1,0 +1,6 @@
+version: '2'
+services:
+    tc-api:
+        image: "node"
+        ports:
+            - "7777:7777"
