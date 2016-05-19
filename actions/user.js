@@ -361,7 +361,7 @@ function getUserIdentityByAuth0Id(api, connection, next) {
         function (cb) {
             try {
                 var splits = auth0id.split('|');
-                if (splits[0] === 'ad') {
+                if (splits[0] === 'ad' || splits[0] === 'auth0') {
                     cb(null, [{ user_id: Number(splits[1]) }]);
                 } else {
                     api.helper.getProviderId(splits[0], function (err, provider) {
