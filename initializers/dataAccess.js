@@ -309,10 +309,13 @@ exports.dataAccess = function (api, next) {
                 return;
             }
 
-        sql = queries[queryName].sql;
+	    sql = queries[queryName].sql;
 
             if (!isSafeToUseJavaBridge(sql) || !api.helper.readTransaction) {
                 connection = connectionMap[queries[queryName].db];
+		api.log("######### MD #########", "info");
+		api.log(JSON.stringify(connectionMap), "info");
+		api.log(queryName, "info");
                 error = helper.checkObject(connection, "connection");
             }
 
