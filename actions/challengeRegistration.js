@@ -382,7 +382,8 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             documentationDetails = '';
             // we need to set up a new environment variable for the web server name specifici to each environment
             //submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/';
-            submitURL = 'https://www.topcoder.com/challenge-details/' + challengeId + '/submit/';
+            submitURL = 'https://www.topcoder.com/challenges/' + challengeId + '/submit/file/';
+
             reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review';
 
             if (componentInfo.phase_id === 112) {
