@@ -1,0 +1,5 @@
+{
+    "name"    : "get_terms_for_user",
+    "db"      : "common_oltp",
+    "sqlfile" : "get_terms_for_user"
+}

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.2
+ * @version 1.3
  * @author TCSASSEMBLER, muzehyun
  *
  * changes in 1.1:
@@ -9,6 +9,9 @@
  *
  * changes in 1.2:
  * add tests for retrieving docusign template id
+ * 
+ * changes in 1.3
+ * add tests for getting terms details for an user
  */
 "use strict";
 /*global describe, it, before, beforeEach, after, afterEach */
@@ -21,6 +24,7 @@ var fs = require('fs');
 var request = require('supertest');
 var assert = require('chai').assert;
 var async = require("async");
+var _ = require("underscore");
 
 var testHelper = require('./helpers/testHelper');
 var SQL_DIR = __dirname + "/sqls/termsOfUse/";
@@ -45,7 +49,6 @@ describe('Terms Of Use API', function () {
             user12 = 'facebook|fb400012',
             user13 = 'facebook|fb400013',
             user14 = 'facebook|fb400014',
-            user17 = 'facebook|fb400017',
             user18 = 'facebook|fb400018';
 
         /**
@@ -379,6 +382,140 @@ describe('Terms Of Use API', function () {
                 assert.equal(resp.body.error.details, "Docusign template id is missing.");
                 done();
             });
+        });
+    });
+
+    describe('Get Terms Details For A User API', function () {
+        var SQL_DIR = __dirname + '/sqls/termsForUser/',
+            heffan = 'ad|132456',
+            user = 'ad|132458',
+            heffanAuthHeader = testHelper.generateAuthHeader({ sub: heffan }),
+            userAuthHeader = testHelper.generateAuthHeader({ sub: user }),
+            goodUser = '132458',
+            badUser = '0',
+            goodTerms = '40000001,40000002,40000003,40000004,40000005',
+            badTerms = 'abra,cadabra';
+
+        /**
+         * Clear database
+         * @param {Function<err>} done the callback
+         */
+        function clearDb(done) {
+            testHelper.runSqlFile(SQL_DIR + 'common_oltp__clean', 'common_oltp', done);
+        }
+
+        /**
+         * This function is run before all tests.
+         * Generate tests data.
+         * @param {Function<err>} done the callback
+         */
+        before(function (done) {
+            async.waterfall([
+                clearDb,
+                function (cb) {
+                    testHelper.runSqlFile(SQL_DIR + 'common_oltp__insert_test_data', 'common_oltp', cb);
+                }
+            ], done);
+        });
+
+        /**
+         * This function is run after all tests.
+         * Clean up all data.
+         * @param {Function<err>} done the callback
+         */
+        after(function (done) {
+            clearDb(done);
+        });
+
+        /**
+         * Create request and return it
+         * @param {String} userId - the id of the user to get data for
+         * @param {String} termsOfUseIds - the comma separated list of terms of use ids
+         * @param {String} authHeader - the Authorization header
+         * @param {Number} statusCode - the expected status code
+         * @return {Object} request
+         */
+        function createRequest(userId, termsOfUseIds, authHeader, statusCode) {
+            var req = request(API_ENDPOINT)
+                .get('/v2/terms/for/' + userId + '/' + termsOfUseIds)
+                .set('Accept', 'application/json');
+            if (authHeader) {
+                req = req.set('Authorization', authHeader);
+            }
+            return req.expect('Content-Type', /json/).expect(statusCode);
+        }
+
+        /**
+         * Assert error request
+         * @param {String} userId - the id of the user to get data for
+         * @param {String} termsOfUseIds - the comma separated list of terms of use ids
+         * @param {String} authHeader - the Authorization header
+         * @param {Number} statusCode - the expected status code
+         * @param {String} errorDetail - the expected error detail
+         * @param {Function} done the callback function
+         */
+        function assertError(userId, termsOfUseIds, authHeader, statusCode, errorDetail, done) {
+            createRequest(userId, termsOfUseIds, authHeader, statusCode).end(function (err, res) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert.equal(res.body.error.details, errorDetail, 'Invalid error detail');
+                done();
+            });
+        }
+
+        /**
+         * Test the result returned by the correct query
+         * @param {Object} err - the error
+         * @param {Object} res - result returned by the request
+         * @param {Function} done - the callback function
+         */
+        function checkGoodResult(err, res, done) {
+            if (err) {
+                done(err);
+                return;
+            }
+            assert.property(res.body, 'terms', 'response should contain "terms"');
+            assert.isArray(res.body.terms, 'terms should be an array');
+            assert.equal(res.body.terms.length, 5, 'terms should contain 5 items');
+            _.each(res.body.terms, function (item) {
+                assert.property(item, 'agreed', 'each terms item should contain "agreed"');
+                assert.property(item, 'termsOfUseId', 'each terms item should contain "termsOfUseId"');
+                var shouldBeAgreed = item.termsOfUseId === 40000001 || item.termsOfUseId === 40000002;
+                assert.equal(!!item.agreed, shouldBeAgreed,
+                        'agreed should be true for 40000001 and 40000002, and only for them');
+            });
+            done();
+        }
+
+
+        it('should not allow unauthorized request', function (done) {
+            assertError(goodUser, goodTerms, null, 401, 'Authentication credential was missing.', done);
+        });
+
+        it('should not let ordinary user get terms for another user', function (done) {
+            assertError('132456', goodTerms, userAuthHeader, 403, 'This user cannot get these data of other users', done);
+        });
+
+        it('should return the correct result for the correct user and terms', function (done) {
+            createRequest(goodUser, goodTerms, userAuthHeader, 200).end(function (err, res) {
+                checkGoodResult(err, res, done);
+            });
+        });
+
+        it('should allow an admin to get terms for another user', function (done) {
+            createRequest(goodUser, goodTerms, heffanAuthHeader, 200).end(function (err, res) {
+                checkGoodResult(err, res, done);
+            });
+        });
+
+        it('should return error on invalid user id', function (done) {
+            assertError(badUser, goodTerms, heffanAuthHeader, 400, 'User ID should be positive.', done);
+        });
+
+        it('should return error on invalid terms ids', function (done) {
+            assertError(goodUser, badTerms, userAuthHeader, 400, 'Each Terms Of Use ID should be number.', done);
         });
     });
 

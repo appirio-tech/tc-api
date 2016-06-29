@@ -1,0 +1,13 @@
+INSERT into terms_of_use (terms_of_use_id, terms_of_use_type_id, title, url, terms_of_use_agreeability_type_id)
+VALUES (40000001, 3, 'NodeJS API Sample Term Of Use 1', 'http://topcoder.com/tou40000001.txt', 3);
+INSERT into terms_of_use (terms_of_use_id, terms_of_use_type_id, title, url, terms_of_use_agreeability_type_id)
+VALUES (40000002, 4, 'NodeJS API Sample Term Of Use 2', 'http://topcoder.com/tou40000002.txt', 3);
+INSERT into terms_of_use (terms_of_use_id, terms_of_use_type_id, title, url, terms_of_use_agreeability_type_id)
+VALUES (40000003, 8, 'NodeJS API Sample Term Of Use 3', 'http://topcoder.com/tou40000003.txt', 3);
+INSERT into terms_of_use (terms_of_use_id, terms_of_use_type_id, title, url, terms_of_use_agreeability_type_id)
+VALUES (40000004, 2, 'NodeJS API Sample Term Of Use 4', 'http://topcoder.com/tou40000004.txt', 2);
+INSERT into terms_of_use (terms_of_use_id, terms_of_use_type_id, title, url, terms_of_use_agreeability_type_id)
+VALUES (40000005, 5, 'NodeJS API Sample Term Of Use 5', 'http://topcoder.com/tou40000005.txt', 2);
+
+INSERT into user_terms_of_use_xref(user_id, terms_of_use_id) VALUES (132458, 40000001);
+INSERT into user_terms_of_use_xref(user_id, terms_of_use_id) VALUES (132458, 40000002);
