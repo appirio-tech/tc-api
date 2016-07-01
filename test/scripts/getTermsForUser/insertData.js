@@ -11,8 +11,8 @@
 "use strict";
 
 var path = require("path");
-var helper = require("../../test/helpers/testHelper");
-var SQL_DIR = path.dirname(path.dirname(__dirname)) + "/test/sqls/termsForUser/";
+var helper = require("../../helpers/testHelper");
+var SQL_DIR = path.dirname(path.dirname(__dirname)) + "/sqls/termsForUser/";
 var async = require("async");
 
 async.waterfall([

@@ -15,7 +15,8 @@
 var http = require("http"),
     async = require("async"),
     Jdbc = require("informix-wrapper"),
-    tcConfig = require(__dirname + "/config/tc-config.js").tcConfig;
+    path = require("path"),
+    tcConfig = require(path.dirname(path.dirname(__dirname)) + "/config/tc-config.js").tcConfig;
 
 var connections = {};
 
