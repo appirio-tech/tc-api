@@ -7,6 +7,7 @@ select
 	(ce.contest_eligibility_id IS NULL) as no_elgibility_req,
 	(ugx.login_id IS NOT NULL) as user_in_eligible_group,
  	(uax.user_id IS NOT NULL OR coder.coder_id IS NOT NULL) as user_country_banned,
+	(coder2.comp_country_code IS NULL) as comp_country_is_null,
 	(cop.copilot_profile_id IS NOT NULL) as user_is_copilot,
 	(pctl.name) as copilot_type
 from project p
@@ -50,6 +51,8 @@ left outer join (
 	on coder.comp_country_code=country.country_code
 	and country.country_name in ( "Iran", "North Korea", "Cuba", "Sudan", "Syria" )
 ) on coder.coder_id = @userId@
+-- Get coder to check comp_country_code
+left outer join informixoltp:coder coder2 on coder2.coder_id = @userId@
 -- Get the copilot type
 left join (
 	project_copilot_type pct join project_copilot_type_lu pctl
