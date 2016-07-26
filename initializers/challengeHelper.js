@@ -161,6 +161,12 @@ exports.challengeHelper = function (api, next) {
                         return;
                     }
 
+                    // Do not allow a member to register for challenge if country is not set
+                    if (rows[0].comp_country_is_null) {
+                        cb(new ForbiddenError('You cannot participate in this challenge as your country is not set.'));
+                        return;
+                    }
+
                     if (rows[0].project_category_id === COPILOT_POSTING_PROJECT_TYPE) {
                         if (!rows[0].user_is_copilot && rows[0].copilot_type && rows[0].copilot_type.indexOf("Marathon Match") < 0) {
                             cb(new ForbiddenError('You cannot participate in this challenge because you are not an active member of the copilot pool.'));
