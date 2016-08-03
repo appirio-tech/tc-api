@@ -157,13 +157,13 @@ exports.challengeHelper = function (api, next) {
                     }
 
                     if (rows[0].user_country_banned) {
-                        cb(new ForbiddenError('You cannot participate in this challenge as your country is banned.'));
+                        cb(new ForbiddenError('You are not eligible to participate in this challenge because of your country of residence. Please see our terms of service for more information.'));
                         return;
                     }
 
                     // Do not allow a member to register for challenge if country is not set
                     if (rows[0].comp_country_is_null) {
-                        cb(new ForbiddenError('You cannot participate in this challenge as your country is not set.'));
+                        cb(new ForbiddenError('You are not eligible to participate in this challenge because you have not specified your country of residence. Please go to your Settings and enter a country. Please see our terms of service for more information.'));
                         return;
                     }
 
