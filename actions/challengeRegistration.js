@@ -378,7 +378,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             }
 
             user = result[0];
-            projectName = componentInfo.project_name + api.helper.getPhaseName(componentInfo.phase_id) + ' Contest';
+            projectName = componentInfo.project_name;
             documentationDetails = '';
             // we need to set up a new environment variable for the web server name specifici to each environment
             //submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/';
