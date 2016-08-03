@@ -378,11 +378,13 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             }
 
             user = result[0];
-            projectName = componentInfo.project_name + api.helper.getPhaseName(componentInfo.phase_id) + ' Contest';
+            projectName = componentInfo.project_name;
             documentationDetails = '';
             // we need to set up a new environment variable for the web server name specifici to each environment
             //submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/';
-            submitURL = 'https://www.topcoder.com/challenge-details/' + challengeId + '/submit/';
+            // Set the default submission URL.
+            submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenges/' + challengeId + '/submit/file/';
+
             reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review';
 
             if (componentInfo.phase_id === 112) {
@@ -399,9 +401,11 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = api.config.tcConfig.developForumsUrlPrefix + activeForumCategoryId;
                 reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
+                submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/?type=develop';
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = api.config.tcConfig.studioForumsUrlPrefix + activeForumCategoryId;
-                submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
+                //submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
+                submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenges/' + challengeId + '/submit/file/';
             }
             
             if (componentInfo.review_type && componentInfo.review_type == 'PEER')
