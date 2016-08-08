@@ -2237,7 +2237,7 @@ exports.getChallengeTerms = {
     description: "getChallengeTerms",
     inputs: {
         required: ["challengeId"],
-        optional: ["role"]
+        optional: ["role", "noauth"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
@@ -2251,14 +2251,26 @@ exports.getChallengeTerms = {
             var challengeId = Number(connection.params.challengeId), role = connection.params.role, error;
             async.waterfall([
                 function (cb) {
-                    api.challengeHelper.getChallengeTerms(
-                        connection,
-                        challengeId,
-                        role,
-                        true,
-                        connection.dbConnectionMap,
-                        cb
-                    );
+                    if (connection.params.noauth) {
+                      api.challengeHelper.getChallengeTermsNoAuth(
+                          connection,
+                          challengeId,
+                          role,
+                          true,
+                          connection.dbConnectionMap,
+                          cb
+                      );
+                    }
+                    else {
+                      api.challengeHelper.getChallengeTerms(
+                          connection,
+                          challengeId,
+                          role,
+                          true,
+                          connection.dbConnectionMap,
+                          cb
+                      );
+                    }
                 }, function (results, cb) {
                     var res = _.find(results, function (row) {
                         return row.agreeabilityType === 'DocuSignable' && !row.templateId;
@@ -2672,7 +2684,7 @@ exports.submitForDevelopChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'write',
+    transaction: 'read',
     cacheEnabled : false,
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -2697,7 +2709,7 @@ exports.uploadForDevelopChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'write',
+    transaction: 'read',
     cacheEnabled : false,
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -3311,7 +3323,7 @@ exports.submitForDesignChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'write',
+    transaction: 'read',
     cacheEnabled : false,
     databases: ["tcs_catalog", "common_oltp", "informixoltp"],
     run: function (api, connection, next) {
