@@ -2684,7 +2684,7 @@ exports.submitForDevelopChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheEnabled : false,
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -2709,7 +2709,7 @@ exports.uploadForDevelopChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheEnabled : false,
     databases: ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
