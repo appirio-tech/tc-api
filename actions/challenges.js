@@ -3323,7 +3323,7 @@ exports.submitForDesignChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheEnabled : false,
     databases: ["tcs_catalog", "common_oltp", "informixoltp"],
     run: function (api, connection, next) {
