@@ -2242,7 +2242,7 @@ exports.getChallengeTerms = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     cacheEnabled : false,
     databases : ["tcs_catalog", "common_oltp"],
     run: function (api, connection, next) {
@@ -2251,7 +2251,7 @@ exports.getChallengeTerms = {
             var challengeId = Number(connection.params.challengeId), role = connection.params.role, error;
             async.waterfall([
                 function (cb) {
-                    api.challengeHelper.getChallengeTerms(
+                    api.challengeHelper.getChallengeTermsNoAuth(
                         connection,
                         challengeId,
                         role,
@@ -2471,7 +2471,7 @@ exports.getSoftwareChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
@@ -2497,7 +2497,7 @@ exports.getStudioChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read', // this action is read-only
+    transaction: 'write', // this action is read-only
     cacheLifetime: 1000 * 60 * 10,
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
@@ -2525,7 +2525,7 @@ exports.getChallenge = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read', // this action is read-only
+    transaction: 'write', // this action is read-only
     cacheLifetime: 1000 * 60 * 10,
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
@@ -2568,7 +2568,7 @@ exports.searchSoftwareChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
@@ -2594,7 +2594,7 @@ exports.searchStudioChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
@@ -2620,7 +2620,7 @@ exports.searchSoftwareAndStudioChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     cacheLifetime: 1000 * 60 * 10,
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
@@ -2646,7 +2646,7 @@ exports.getSoftwareChallengeResults = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     databases : ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2721,7 +2721,7 @@ exports.getStudioChallengeResults = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     databases : ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2747,7 +2747,7 @@ exports.getSoftwareCheckpoint = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -2773,7 +2773,7 @@ exports.getStudioCheckpoint = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction : 'read', // this action is read-only
+    transaction : 'write', // this action is read-only
     databases : ["tcs_catalog"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3391,7 +3391,7 @@ exports.getRegistrants = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read', // this action is read-only
+    transaction: 'write', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3523,7 +3523,7 @@ exports.getSubmissions = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read', // this action is read-only
+    transaction: 'write', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3627,7 +3627,7 @@ exports.getPhases = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read', // this action is read-only
+    transaction: 'write', // this action is read-only
     databases: ["tcs_catalog", "tcs_dw"],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3855,7 +3855,7 @@ exports.getActiveChallenges = {
     outputExample: {},
     version: 'v2',
     cacheLifetime: 1000 * 60 * 10,
-    transaction: 'read',
+    transaction: 'write',
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -3881,7 +3881,7 @@ exports.getOpenChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheLifetime: 1000 * 60 * 10,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
@@ -3908,7 +3908,7 @@ exports.getUpcomingChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheLifetime: 1000 * 60 * 60,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
@@ -3935,7 +3935,7 @@ exports.getPastChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheLifetime: 1000 * 60 * 60 * 24,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
@@ -4042,7 +4042,7 @@ exports.getUserSubmissions = {
     outputExample: {},
     cacheEnabled : false,
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
         if (connection.dbConnectionMap) {
@@ -4068,7 +4068,7 @@ exports.getMyChallenges = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
-    transaction: 'read',
+    transaction: 'write',
     cacheLifetime: 1000 * 60 * 10,
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
