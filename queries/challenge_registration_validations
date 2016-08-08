@@ -48,8 +48,10 @@ left outer join (
 -- Check coder's country
 left outer join (
 	informixoltp:coder coder join informixoltp:country country
-	on coder.comp_country_code=country.country_code
-	and country.country_name in ( "Iran", "North Korea", "Cuba", "Sudan", "Syria" )
+	on (
+        coder.comp_country_code=country.country_code OR
+        coder.home_country_code=country.country_code
+  ) and country.country_name in ( "Iran", "North Korea", "Cuba", "Sudan", "Syria" )
 ) on coder.coder_id = @userId@
 -- Get coder to check comp_country_code
 left outer join informixoltp:coder coder2 on coder2.coder_id = @userId@
