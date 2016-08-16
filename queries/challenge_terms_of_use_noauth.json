@@ -1,0 +1,5 @@
+{
+    "name"    : "challenge_terms_of_use_noauth",
+    "db"      : "common_oltp",
+    "sqlfile" : "challenge_terms_of_use_noauth"
+}

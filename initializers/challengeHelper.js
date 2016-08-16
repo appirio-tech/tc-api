@@ -228,7 +228,96 @@ exports.challengeHelper = function (api, next) {
                 }
                 next(null, result.terms);
             });
+        },
+        getChallengeTermsNoAuth : function (connection, challengeId, role, requireRegOpen, dbConnectionMap, next) {
+
+            var helper = api.helper,
+                sqlParams = {},
+                result = {},
+                userId = connection.caller.userId;
+
+            async.waterfall([
+                function (cb) {
+
+                    //Simple validations of the incoming parameters
+                    var error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
+                        helper.checkMaxInt(challengeId, 'challengeId');
+
+                    if (error) {
+                        cb(error);
+                        return;
+                    }
+
+                    sqlParams.challengeId = challengeId;
+
+                    // We are here. So all validations have passed.
+                    // Next we get all roles
+                    api.dataAccess.executeQuery("all_resource_roles", {}, dbConnectionMap, cb);
+                }, function (rows, cb) {
+                    // Prepare a comma separated string of resource role names that must match
+                    var commaSepRoleIds = "",
+                        compiled = _.template("<%= resource_role_id %>,"),
+                        ctr = 0,
+                        resourceRoleFound;
+                    if (_.isUndefined(role)) {
+                        rows.forEach(function (row) {
+                            commaSepRoleIds += compiled({resource_role_id: row.resource_role_id});
+                            ctr += 1;
+                            if (ctr === rows.length) {
+                                commaSepRoleIds = commaSepRoleIds.slice(0, -1);
+                            }
+                        });
+                    } else {
+                        resourceRoleFound = _.find(rows, function (row) {
+                            return (row.name === role);
+                        });
+                        if (_.isUndefined(resourceRoleFound)) {
+                            //The role passed in is not recognized
+                            cb(new BadRequestError("The role: " + role + " was not found."));
+                            return;
+                        }
+                        commaSepRoleIds = resourceRoleFound.resource_role_id;
+                    }
+
+                    // Get the terms
+                    sqlParams.resourceRoleIds = commaSepRoleIds;
+                    api.dataAccess.executeQuery("challenge_terms_of_use_noauth", sqlParams, dbConnectionMap, cb);
+                }, function (rows, cb) {
+                    //We could just have down result.data = rows; but we need to change keys to camel case as per requirements
+                    result.terms = [];
+                    _.each(rows, function (row) {
+
+                        result.terms.push({
+                            termsOfUseId: row.terms_of_use_id,
+                            title: row.title,
+                            url: row.url,
+                            agreeabilityType: row.agreeability_type,
+                            agreed: row.agreed,
+                            templateId: row.docusign_template_id
+                        });
+                    });
+
+                    var ids = {};
+                    result.terms = result.terms.filter(function(row) {
+                      if (ids[row.termsOfUseId]) {
+                        return false;
+                      } else {
+                        ids[row.termsOfUseId] = true;
+                        return true;
+                      }
+                    });
+
+                    cb();
+                }
+            ], function (err) {
+                if (err) {
+                    next(err);
+                    return;
+                }
+                next(null, result.terms);
+            });
         }
+
     };
 
     next();
