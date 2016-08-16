@@ -1,0 +1,13 @@
+SELECT 	tou.terms_of_use_id as terms_of_use_id,
+	tou.title as title, 
+	tou.url as url,
+	touat.name as agreeability_type,
+    dtx.docusign_template_id
+FROM project_role_terms_of_use_xref
+INNER JOIN terms_of_use tou ON project_role_terms_of_use_xref.terms_of_use_id = tou.terms_of_use_id
+INNER JOIN terms_of_use_agreeability_type_lu touat ON touat.terms_of_use_agreeability_type_id = tou.terms_of_use_agreeability_type_id
+LEFT JOIN user_terms_of_use_xref utuox ON utuox.terms_of_use_id = tou.terms_of_use_id
+LEFT JOIN terms_of_use_docusign_template_xref dtx ON dtx.terms_of_use_id = project_role_terms_of_use_xref.terms_of_use_id
+WHERE project_id = @challengeId@ AND 
+resource_role_id IN (@resourceRoleIds@)
+ORDER BY group_ind, sort_order
