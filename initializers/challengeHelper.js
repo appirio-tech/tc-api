@@ -100,13 +100,6 @@ exports.challengeHelper = function (api, next) {
          */
         getChallengeTerms : function (connection, challengeId, role, requireRegOpen, dbConnectionMap, next) {
 
-            //Check if the user is logged-in
-            if (_.isUndefined(connection.caller) || _.isNull(connection.caller) ||
-                    _.isEmpty(connection.caller) || !_.contains(_.keys(connection.caller), 'userId')) {
-                next(new UnauthorizedError("Authentication details missing or incorrect."));
-                return;
-            }
-
             var helper = api.helper,
                 sqlParams = {},
                 result = {},
