@@ -1,0 +1,6 @@
+SELECT 	tou.terms_of_use_id as terms_of_use_id,
+	tou.title as title, 
+	tou.url as url,
+  tou.terms_text as text
+FROM terms_of_use tou
+WHERE tou.terms_of_use_id = @termsOfUseId@
