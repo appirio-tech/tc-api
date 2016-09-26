@@ -49,16 +49,17 @@ function validateTermsOfUseId(connection, helper, sqlParams, callback) {
 var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
     var helper = api.helper,
         sqlParams = {},
-        result = {};
+        result = {},
+        noauth = connection.params.noauth == "true";
 
     //Check if the user is logged-in
-    if (connection.caller.accessLevel === "anon") {
+    if (!noauth && connection.caller.accessLevel === "anon") {
         helper.handleError(api, connection, new UnauthorizedError("Authentication credential was missing."));
         next(connection, true);
         return;
     }
 
-    sqlParams.userId = connection.caller.userId;
+    sqlParams.userId = connection.caller ? connection.caller.userId || '' : '';
 
     async.waterfall([
         function (cb) {
@@ -66,7 +67,7 @@ var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
             validateTermsOfUseId(connection, helper, sqlParams, cb);
         },
         function (cb) {
-            api.dataAccess.executeQuery("get_terms_of_use", sqlParams, dbConnectionMap, cb);
+            api.dataAccess.executeQuery(noauth ? "get_terms_of_use_noauth" : "get_terms_of_use", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 cb(new NotFoundError('No such terms of use exists.'));
@@ -211,7 +212,7 @@ exports.getTermsOfUse = {
     description: "getTermsOfUse",
     inputs: {
         required: ["termsOfUseId"],
-        optional: []
+        optional: ["noauth"]
     },
     blockedConnectionTypes: [],
     outputExample: {},
