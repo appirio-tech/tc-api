@@ -1,0 +1,5 @@
+{
+  "name"    : "get_copilot_profile_id_by_user_id",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_copilot_profile_id_by_user_id"
+}

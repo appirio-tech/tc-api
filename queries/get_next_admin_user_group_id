@@ -1,0 +1,1 @@
+SELECT (NVL(MIN(user_group_id), 0) - 1) as next_id FROM user_group_xref

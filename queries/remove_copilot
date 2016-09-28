@@ -1,0 +1,1 @@
+DELETE FROM copilot_profile WHERE user_id = @userId@

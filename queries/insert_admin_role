@@ -1,0 +1,1 @@
+INSERT INTO user_role_xref VALUES ((SELECT NVL(MIN(user_role_id), 0) - 1 FROM user_role_xref), @userId@, 2087, @operatorId@, 1)

@@ -1,0 +1,1 @@
+select project_category_id,project_type_id,name from project_category_lu where display = 't' and project_category_id =@categoryId@

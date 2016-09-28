@@ -1,0 +1,11 @@
+{
+  "allAdmins": [
+    {
+      "adminGroup": true,
+      "adminRole": true,
+      "id": 132456,
+      "managerResource": true,
+      "name": "heffan"
+    }
+  ]
+}

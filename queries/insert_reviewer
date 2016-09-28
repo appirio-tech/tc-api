@@ -1,0 +1,1 @@
+INSERT INTO rboard_user VALUES (@userId@, @categoryId@, 4, 100, @isImmunity@)

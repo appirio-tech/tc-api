@@ -1,0 +1,3 @@
+select cp.user_id, handle, is_software_copilot, is_studio_copilot
+from copilot_profile cp, user u
+where cp.user_id = u.user_id and cp.copilot_profile_status_id = 1

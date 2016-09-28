@@ -1,0 +1,15 @@
+INSERT INTO user_group_xref VALUES(100000, 20, 2000115, 132456, 1, current);
+UPDATE informixoltp:rating SET rating = -1 WHERE coder_id = 20;
+INSERT INTO resource (resource_id, resource_role_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES(100000, 13, 20, 132456, current, 132456, current);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(100000, 1 , 20, 132456, current, 132456, current);
+INSERT INTO user_role_xref VALUES ((SELECT NVL(MIN(user_role_id), 0) - 1 FROM user_role_xref), 20, 2087, 132456, 1);
+
+INSERT INTO resource (resource_id, resource_role_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES(100001, 13, 124856, 132456, current, 132456, current);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+VALUES(100001, 1 , 124856, 132456, current, 132456, current);
+
+
+INSERT INTO user_role_xref VALUES ((SELECT NVL(MIN(user_role_id), 0) - 1 FROM user_role_xref), 124857, 2087, 132456, 1);

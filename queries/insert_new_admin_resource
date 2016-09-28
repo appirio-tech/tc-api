@@ -1,0 +1,2 @@
+INSERT INTO resource (resource_id, resource_role_id, user_id, create_user, create_date, modify_user, modify_date)
+VALUES(@resourceId@, 13, @userId@, @operatorId@, current, @operatorId@, current)

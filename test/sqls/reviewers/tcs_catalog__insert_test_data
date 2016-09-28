@@ -1,0 +1,1 @@
+INSERT INTO rboard_user VALUES (20, 7, 4, 100, 1);
