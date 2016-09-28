@@ -1,5 +1,6 @@
 SELECT
-FIRST @pageSize@
+  SKIP @firstRowIndex@
+  FIRST @pageSize@
   c.coder_id AS user_id
 , handle
 , rating

@@ -10,3 +10,4 @@ test/tmp/design_tmp_submissions/*.zip
 test/tmp/memberPhoto/*
 .idea
 .settings
+**/jdk-8u51-linux-x64.gz

@@ -1,6 +1,15 @@
 version: '2'
 services:
-    tc-api:
-        image: "node"
+    informix:
+        image: appiriodevops/informix:1.2
         ports:
-            - "7777:7777"
+            - 2021:2021
+    tc-api:
+        build: ./node
+        depends_on: 
+            - informix
+        ports:
+            - "8080:8080"
+        volumes:
+            - ../:/tc-api
+        command: /bin/bash -c "cd /tc-api && npm install && source local/env.sh && npm start && tail -f log/forever.log"

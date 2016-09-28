@@ -560,9 +560,6 @@ exports.getTopTrackMembers = {
                 sqlParams.firstRowIndex = (pageIndex - 1) * pageSize;
                 sqlParams.pageSize = pageSize;
 
-                if (trackType === "data") {
-                    sqlParams.pageSize = 2 * pageIndex * pageSize;
-                }
                 // Retrieves paged and ordered top members for the given track.
                 api.dataAccess.executeQuery('get_top_members_' + trackType, sqlParams, dbConnectionMap, cb);
             }, function (rows, cb) {
