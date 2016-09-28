@@ -1,0 +1,18 @@
+SELECT
+    types.terms_of_use_type_desc AS terms_type,
+    agreeability.name AS agreeability_type,
+    (NOT xref.terms_of_use_id IS NULL) AS agreed,
+    tou.terms_text AS terms_text,
+    tou.title AS title,
+    tou.terms_of_use_id AS terms_of_use_id,
+    tou.url AS url
+FROM ((terms_of_use tou
+    LEFT JOIN terms_of_use_type types
+        ON tou.terms_of_use_type_id = types.terms_of_use_type_id
+    ) LEFT JOIN terms_of_use_agreeability_type_lu agreeability
+        ON tou.terms_of_use_agreeability_type_id = agreeability.terms_of_use_agreeability_type_id
+    ) LEFT JOIN (user_terms_of_use_xref xref
+                INNER JOIN user u
+                ON xref.user_id = u.user_id
+        ) ON tou.terms_of_use_id = xref.terms_of_use_id AND xref.user_id = @userId@
+WHERE tou.terms_of_use_id IN (@termsIds@)

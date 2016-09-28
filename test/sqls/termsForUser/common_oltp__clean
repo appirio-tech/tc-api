@@ -1,0 +1,2 @@
+delete from user_terms_of_use_xref where terms_of_use_id >= 40000001 and terms_of_use_id <= 40000005;
+delete from terms_of_use where terms_of_use_id >= 40000001 and terms_of_use_id <= 40000005;

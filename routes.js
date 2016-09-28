@@ -1,7 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.68
+ * @version 1.69
+ * @author TCSCODER,
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
  * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
  *
@@ -156,6 +157,8 @@
  * - Added get user develop challenges api.
  * Changed in 1.68:
  * - Added get rounds api.
+ * Changed in 1.69:
+ * - Added get terms details for a user api.
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -318,6 +321,7 @@ exports.routes = {
         { path: "/:apiVersion/data/technologies", action: "getTechnologies" },
         { path: "/:apiVersion/terms/:challengeId(\\d+)", action: "getChallengeTerms"},
         { path: "/:apiVersion/terms/detail/:termsOfUseId", action: "getTermsOfUse"},
+        { path: "/:apiVersion/terms/for/:userId(\\d+)/:termsOfUseIds((\\d+,)*\\d+)", action: "getTermsForUser" },
         { path: "/:apiVersion/data/srm/contests", action: "listSRMContests"},
         { path: "/:apiVersion/dataScience/challenges/past", action: "pastDataScienceChallenges"},
         { path: "/:apiVersion/dataScience/challenges/active", action: "activeDataScienceChallenges"},

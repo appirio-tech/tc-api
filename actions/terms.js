@@ -1,11 +1,14 @@
 /*
  * Copyright (C) 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.1
- * @author hesibo, snowone
+ * @version 1.2
+ * @author TCSCODER, hesibo, snowone
  *
  * changes in 1.1:
  *    add support for docusign template id for terms of use details api
+ * 
+ * changes in 1.2:
+ *    add the new "getTermsForUser" action
  */
 "use strict";
 
@@ -101,6 +104,86 @@ var getTermsOfUse = function (api, connection, dbConnectionMap, next) {
             helper.handleError(api, connection, err);
         } else {
             connection.response = result;
+        }
+        next(connection, true);
+    });
+};
+
+/**
+ * Gets the terms details of the given list 
+ * and the terms agreement status for the given user
+ * 
+ * @param {Object} api The api object that is used to access the global infrastructure
+ * @param {Object} connection The connection object for the current request
+ * @param {Object} dbConnectionMap The database connection map for the current request
+ * @param {Function<connection, render>} next The callback to be called after this function is done
+ */
+var getTermsForUser = function (api, connection, dbConnectionMap, next) {
+    var helper = api.helper,
+        sqlParams = {};
+
+    async.waterfall([
+        // Check if the user is logged in
+        function (cb) {
+            if (connection.caller.accessLevel === "anon") {
+                cb(new UnauthorizedError("Authentication credential was missing."));
+            } else {
+                cb();
+            }
+        },
+        // Check the userId parameter
+        function (cb) {
+            var error = helper.checkIdParameter(connection.params.userId, "User ID");
+            cb(error || null);
+        },
+        // Check if the user has a right to get this information
+        function (cb) {
+            sqlParams.userId = connection.params.userId;
+            if (connection.caller.accessLevel !== "admin"
+                    && Number(connection.caller.userId) !== Number(sqlParams.userId)) {
+                cb(new ForbiddenError("This user cannot get these data of other users"));
+            } else {
+                cb();
+            }
+        },
+        // Check terms of use Ids 
+        function (cb) {
+            sqlParams.termsIds = connection.params.termsOfUseIds.split(",");
+            async.each(sqlParams.termsIds, function (termsId, cb) {
+                var error = helper.checkIdParameter(termsId, "Each Terms Of Use ID");
+                cb(error || null);
+            }, cb);
+        },
+        // Run query
+        function (cb) {
+            api.dataAccess.executeQuery("get_terms_for_user", sqlParams, dbConnectionMap, cb);
+        },
+        // Prepare and submit the result
+        function (rows, cb) {
+            var columnMap = {
+                    "type": "terms_type",
+                    "agreeabilityType": "agreeability_type",
+                    "agreed": "agreed",
+                    "text": "terms_text",
+                    "title": "title",
+                    "termsOfUseId": "terms_of_use_id",
+                    "url": "url"
+                };
+
+            _.each(rows, function (row) {
+                _.each(columnMap, function (field, property) {
+                    var tmp = row[field];
+                    delete row[field];
+                    row[property] = tmp;
+                });
+            });
+            cb(null, rows);
+        }
+    ], function (err, result) {
+        if (err) {
+            helper.handleError(api, connection, err);
+        } else {
+            connection.response = { terms: result };
         }
         next(connection, true);
     });
@@ -223,6 +306,33 @@ exports.getTermsOfUse = {
         if (connection.dbConnectionMap) {
             api.log("Execute getTermsOfUse#run", 'debug');
             getTermsOfUse(api, connection, connection.dbConnectionMap, next);
+        } else {
+            api.helper.handleNoConnection(api, connection, next);
+        }
+    }
+};
+
+/**
+ * The API for getting the terms details of the given list 
+ * and the terms agreement status for the given user
+ */
+exports.getTermsForUser = {
+    name: "getTermsForUser",
+    description: "Get the terms details of the given list "
+        + "and the terms agreement status for the given user",
+    inputs: {
+        required: ["termsOfUseIds", "userId"],
+        optional: []
+    },
+    blockedConnectionTypes: [],
+    outputExample: {},
+    version: "v2",
+    transaction: "read",
+    databases: ["common_oltp"],
+    run: function (api, connection, next) {
+        if (connection.dbConnectionMap) {
+            api.log("Execute getTermsForUser#run", 'debug');
+            getTermsForUser(api, connection, connection.dbConnectionMap, next);
         } else {
             api.helper.handleNoConnection(api, connection, next);
         }
