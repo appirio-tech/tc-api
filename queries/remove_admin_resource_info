@@ -1,0 +1,1 @@
+DELETE FROM resource_info WHERE resource_id IN (SELECT resource_id FROM resource WHERE resource_role_id = 13 AND project_id IS NULL AND user_id = @userId@)

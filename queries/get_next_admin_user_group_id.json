@@ -1,0 +1,5 @@
+{
+    "name": "get_next_admin_user_group_id",
+    "db": "tcs_catalog",
+    "sqlfile": "get_next_admin_user_group_id"
+}

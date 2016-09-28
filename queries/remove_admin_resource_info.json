@@ -1,0 +1,5 @@
+{
+  "name"    : "remove_admin_resource_info",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "remove_admin_resource_info"
+}

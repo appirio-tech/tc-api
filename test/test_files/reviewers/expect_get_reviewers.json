@@ -1,0 +1,12 @@
+{
+  "categoryId":7,
+  "reviewers": [
+    {
+      "id": 20,
+      "name": "dok_tester",
+      "projectCategoryId": 7,
+      "projectCategoryName": "Architecture",
+      "immune": true
+    }
+  ]
+}

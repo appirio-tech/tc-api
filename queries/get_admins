@@ -1,0 +1,7 @@
+select t.user_id, t.type, u.handle
+FROM (select unique user_id, 'Manager Resource' as type from resource where project_id IS NULL and resource_role_id = 13
+UNION
+select unique login_id as user_id, 'Admin Group' as type from user_group_xref where group_id = 2000115
+UNION
+select unique login_id as user_id, 'Admin Role' as type from user_role_xref where role_id = 2087) as t, user u
+WHERE t.user_id = u.user_id

@@ -1,0 +1,6 @@
+version: '2'
+services:
+  tc-informix:
+    image: appiriodevops/informix:1b3d4ef
+    ports:
+      - "2021:2021"

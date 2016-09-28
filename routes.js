@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2016 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.68
+ * @version 1.69
  * @author vangavroche, Sky_, muzehyun, kurtrips, Ghost_141, ecnu_haozi, hesibo, LazyChild, isv, flytoj2ee,
- * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER
+ * @author panoptimum, bugbuka, Easyhard, TCASSEMBLER,TCSCODER
  *
  * Changes in 1.1:
  * - add routes for search challenges
@@ -156,6 +156,18 @@
  * - Added get user develop challenges api.
  * Changed in 1.68:
  * - Added get rounds api.
+ *  Changed in 1.69:
+ * - Added routes for reviewer management api:
+ *  - Add Reviewer
+ *  - Remove Reviewer
+ *  - Get All Reviewers
+ *  - Add Copilot
+ *  - Remove Copilot
+ *  - Get All Copilots
+ *  - Create Admin
+ *  - Remove Admin
+ *  - Get All Admins
+
  */
 /*jslint node:true, nomen: true */
 "use strict";
@@ -361,6 +373,11 @@ exports.routes = {
         { path: "/:apiVersion/auth0/callback", action: "auth0Callback" },
         { path: "/:apiVersion/data/rounds", action: "getRounds" },
 
+        //Admin App - TC API Reviewer Management API
+        { path: "/:apiVersion/admin/admins", action: "admins" },
+        { path: "/:apiVersion/admin/copilots", action: "copilots" },
+        { path: "/:apiVersion/admin/reviewers", action: "reviewers" },
+
         //Stubs APIs
         { path: "/:apiVersion/data/reviewOpportunities/:id", action: "getAlgorithmsReviewOpportunity" },
         { path: "/:apiVersion/data/reviewOpportunities", action: "getAlgorithmsReviewOpportunities" },
@@ -407,7 +424,12 @@ exports.routes = {
         { path: "/:apiVersion/data/srm/rounds/:roundId/terms", action: "setRoundTerms"},
         { path: "/:apiVersion/data/srm/rounds", action: "createSRMContestRound" },
         { path: "/:apiVersion/src2image", action: "convertSourceCodeToImage" },
-        { path: "/:apiVersion/dump", action: "dumpMemory"}
+        { path: "/:apiVersion/dump", action: "dumpMemory"},
+
+        //Admin App - TC API Reviewer Management API
+        { path: "/:apiVersion/admin/admins", action: "createAdmin" },
+        { path: "/:apiVersion/admin/copilots", action: "createCopilot" },
+        { path: "/:apiVersion/admin/reviewers", action: "createReviewer" }
     ],
     put: [
 
@@ -418,6 +440,11 @@ exports.routes = {
     delete: [
         { path: "/:apiVersion/data/srm/rounds/:questionId/question", action: "deleteRoundQuestion" },
         { path: "/:apiVersion/data/srm/rounds/:roundId", action: "deleteSRMContestRound" },
-        { path: "/:apiVersion/data/srm/answer/:answerId", action: "deleteRoundQuestionAnswer" }
+        { path: "/:apiVersion/data/srm/answer/:answerId", action: "deleteRoundQuestionAnswer" },
+
+        //Admin App - TC API Reviewer Management API
+        { path: "/:apiVersion/admin/admins", action: "removeAdmin" },
+        { path: "/:apiVersion/admin/copilots", action: "removeCopilot" },
+        { path: "/:apiVersion/admin/reviewers", action: "removeReviewer" }
     ]
 };

@@ -1,0 +1,5 @@
+{
+    "name"    : "insert_new_admin_resource_info",
+    "db"      : "tcs_catalog",
+    "sqlfile" : "insert_new_admin_resource_info"
+}
