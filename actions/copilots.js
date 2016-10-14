@@ -61,6 +61,7 @@ exports.copilots = {
     blockedConnectionTypes: [],
     outputExample: {},
     version: 'v2',
+    cacheEnabled: false,
     transaction: 'read', // this action is read-only
     databases: ['tcs_catalog'],
     run: function (api, connection, next) {
