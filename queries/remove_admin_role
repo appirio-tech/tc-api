@@ -1,0 +1,1 @@
+DELETE FROM user_role_xref WHERE role_id=2087 AND login_id = @userId@

@@ -1,0 +1,5 @@
+{
+  "name"    : "remove_admin_group",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "remove_admin_group"
+}

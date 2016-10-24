@@ -1,0 +1,1 @@
+INSERT INTO user_group_xref VALUES(@userGroupId@, @userId@, 2000115, @operatorId@, 1, current)

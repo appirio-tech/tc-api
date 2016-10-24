@@ -1,0 +1,5 @@
+{
+    "name"		:	"get_project_category_by_category_id",
+    "db"		:	"tcs_catalog",
+    "sqlfile"	:	"get_project_category_by_category_id"
+}

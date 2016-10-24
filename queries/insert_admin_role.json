@@ -1,0 +1,5 @@
+{
+  "name"    : "insert_admin_role",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "insert_admin_role"
+}

@@ -1,0 +1,1 @@
+select resource_id from resource where project_id IS NULL and resource_role_id = 13 and user_id = @userId@

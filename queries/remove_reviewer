@@ -1,0 +1,1 @@
+DELETE FROM rboard_user WHERE user_id = @userId@ AND project_type_id = @categoryId@
