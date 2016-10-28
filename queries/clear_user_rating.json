@@ -1,0 +1,5 @@
+{
+    "name": "clear_user_rating",
+    "db": "tcs_catalog",
+    "sqlfile": "clear_user_rating"
+}

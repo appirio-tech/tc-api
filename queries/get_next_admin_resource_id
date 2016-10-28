@@ -1,0 +1,1 @@
+SELECT (NVL(max(resource_id),0) + 1) as next_id FROM resource WHERE resource_id <5000

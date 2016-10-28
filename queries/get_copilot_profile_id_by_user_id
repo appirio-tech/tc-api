@@ -1,0 +1,1 @@
+SELECT copilot_profile_id FROM copilot_profile WHERE user_id = @userId@

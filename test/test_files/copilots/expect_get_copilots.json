@@ -1,0 +1,10 @@
+{
+  "allCopilots": [
+    {
+      "id": 20,
+      "name": "dok_tester",
+      "softwareCopilot": true,
+      "studioCopilot": true
+    }
+  ]
+}

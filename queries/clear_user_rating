@@ -1,0 +1,1 @@
+UPDATE informixoltp:rating SET rating = -1 WHERE coder_id = @userId@

@@ -1,0 +1,34 @@
+{
+  "id": "a10333e6-0eac-fbd1-136c-b3c8451c9d29",
+  "name": "Admin App - TC API Reviewer Management API",
+  "values": [
+    {
+      "key": "url",
+      "value": "http://localhost:8080/api/v2",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "adminToken",
+      "type": "text",
+      "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NtYS5hdXRoMC5jb20vIiwic3ViIjoiYWR8MTMyNDU2IiwiYXVkIjoiQ01hQnV3U25ZMFZ1NjhQTHJXYXR2dnUzaUlpR1BoN3QiLCJleHAiOjE1MTAxNTkyNjgsImlhdCI6MTQ3NDE1OTI2OH0.KRgW9TxNOEiEu5YdQnXQO1nKFULIuy7JlzDZdq9QFQY",
+      "enabled": true
+    },
+    {
+      "key": "userToken",
+      "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NtYS5hdXRoMC5jb20vIiwic3ViIjoiYWR8MTMyNDU4IiwiYXVkIjoiQ01hQnV3U25ZMFZ1NjhQTHJXYXR2dnUzaUlpR1BoN3QiLCJleHAiOjE1MTAxNzI0MDgsImlhdCI6MTQ3NDE3MjQwOH0.sIG2FoNiCldizzcTMQ9iAFh-PCigNGBAlicxms6uTkk",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "authToken",
+      "type": "text",
+      "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NtYS5hdXRoMC5jb20vIiwic3ViIjoiYWR8MTMyNDU4IiwiYXVkIjoiQ01hQnV3U25ZMFZ1NjhQTHJXYXR2dnUzaUlpR1BoN3QiLCJleHAiOjE1MTAyODI4MDMsImlhdCI6MTQ3NDI4MjgwM30.s6q_FRFryMslkWCkR0wPSWwTopkZhHH8g9R_4GPf9m4",
+      "enabled": true
+    }
+  ],
+  "timestamp": 1474282803634,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2016-09-19T11:00:24.778Z",
+  "_postman_exported_using": "Postman/4.7.1"
+}

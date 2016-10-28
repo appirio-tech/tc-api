@@ -1,0 +1,4 @@
+select u.user_id, pcl.project_category_id, u.handle, pcl.name as project_category_name, immune_ind
+from rboard_user ru, user u, project_category_lu pcl
+where u.user_id = ru.user_id AND ru.project_type_id = pcl.project_category_id AND pcl.project_category_id = @categoryId@
+group by 1,2,3,4,5

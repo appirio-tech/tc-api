@@ -1,0 +1,4 @@
+DELETE FROM user_group_xref WHERE login_id !=132456 AND group_id = 2000115;
+DELETE FROM resource_info WHERE resource_id IN (SELECT resource_id FROM resource WHERE resource_role_id = 13 AND project_id IS NULL AND user_id !=132456);
+DELETE FROM resource WHERE resource_role_id = 13 AND project_id IS NULL AND user_id !=132456;
+DELETE FROM user_role_xref WHERE role_id=2087 AND login_id !=132456;

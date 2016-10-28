@@ -1,0 +1,6 @@
+INSERT INTO copilot_profile (copilot_profile_id,user_id,copilot_profile_status_id,suspension_count,
+reliability,activation_date,show_copilot_earnings,create_user, create_date,
+update_user, update_date, is_software_copilot, is_studio_copilot)
+VALUES ((select NVL(max(copilot_profile_id), 0) + 1 from copilot_profile),
+@userId@,1,0,100.00, current,'t', @operatorId@,
+current, @operatorId@, current, '@isSoftwareCopilot@', '@isStudioCopilot@')

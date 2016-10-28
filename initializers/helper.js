@@ -1,12 +1,12 @@
 /*jslint node: true, nomen: true, unparam: true, plusplus: true, bitwise: true */
 /**
- * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2016 TopCoder Inc., All Rights Reserved.
  */
 
 /**
  * This module contains helper functions.
  * @author Sky_, Ghost_141, muzehyun, kurtrips, isv, LazyChild, hesibo, panoptimum, flytoj2ee, TCSASSEMBLER
- * @version 1.42
+ * @version 1.43
  * changes in 1.1:
  * - add mapProperties
  * changes in 1.2:
@@ -112,6 +112,12 @@
  * - Update apiName2dbNameMap to add entries for srm schedule API.
  * Changes in 1.42:
  * - Add checkAdminOrWebArenaSuper to check if user has web arena super role.
+ *  Changes in 1.43:
+ * - Add validateUserAndGetUserId to validate username and get user id.
+ * - Add isDuplicateResourceError to check whether error is duplicate resource error
+ * - Add getCopilotProfileIdByUserId to get copilot profile id by user id
+ * - Add getProjectCategoryByCategoryId to get project category with type,name by category id
+ * - Update apiCode, handleError to handle duplicate resource error
  */
 "use strict";
 
@@ -136,6 +142,7 @@ var BadRequestError = require('../errors/BadRequestError');
 var UnauthorizedError = require('../errors/UnauthorizedError');
 var ForbiddenError = require('../errors/ForbiddenError');
 var RequestTooLargeError = require('../errors/RequestTooLargeError');
+var DuplicateResourceError = require('../errors/DuplicateResourceError');
 var helper = {};
 var crypto = require("crypto");
 var bigdecimal = require('bigdecimal');
@@ -1039,6 +1046,9 @@ helper.consts.ALLOWABLE_DATE_TYPE = [helper.consts.AFTER, helper.consts.AFTER_CU
 
 /**
  * Api codes
+ * changes in 1.43
+ *   -add code,value,description for duplicate resource error
+ * @since 1.43
  */
 helper.apiCodes = {
     OK: {
@@ -1071,6 +1081,11 @@ helper.apiCodes = {
         value: 413,
         description: 'The request is understood, but is larger than the server is willing or able to process.'
     },
+    duplicateResource: {
+        name: 'Duplicate Resource',
+        value: 409,
+        description: 'The request is understood, but has duplicate resource.'
+    },
     notFound: {
         name: 'Not Found',
         value: 404,
@@ -1089,6 +1104,9 @@ helper.apiCodes = {
  * @param {Object} api - The api object that is used to access the global infrastructure
  * @param {Object} connection - The connection object for the current request
  * @param {Object} err - The error to return
+ * changes in 1.43
+ *   -handle duplicate resource error
+ * @since 1.43
  */
 helper.handleError = function (api, connection, err) {
     api.log("Error occurred: " + err + " " + (err.stack || ''), "error");
@@ -1107,6 +1125,9 @@ helper.handleError = function (api, connection, err) {
     }
     if (err instanceof RequestTooLargeError) {
         baseError = helper.apiCodes.requestTooLarge;
+    }
+    if (err instanceof DuplicateResourceError) {
+        baseError = helper.apiCodes.duplicateResource;
     }
     errdetail = _.clone(baseError);
     errdetail.details = err.message;
@@ -1979,6 +2000,92 @@ var getCoderIdFromActivationCode = function (activationCode) {
 
 helper.getCoderIdFromActivationCode = getCoderIdFromActivationCode;
 helper.generateActivationCode = generateActivationCode;
+
+/**
+ * Validate the given user username and get user id.
+ * @param {String} username - the user username.
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err, userId>} callback - The callback function.
+ * @since 1.43
+ */
+helper.validateUserAndGetUserId = function (username, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkStringPopulated(username, 'username'));
+        },
+        function (cb) {
+            helper.api.dataAccess.executeQuery("get_user_id_by_handle",
+                { handle: username }, dbConnectionMap, cb);
+        }, function (result, cb) {
+            if (!result || !result.length) {
+                return cb(new NotFoundError("User with the username: " + username + " does not exist"));
+            }
+            cb(null, result[0].user_id);
+        }
+    ], callback);
+};
+
+/**
+ * Check whether given error is duplicate resource error.
+ * @param e the error object
+ * @returns true if contains duplicate in error message.
+ * @since 1.43
+ */
+helper.isDuplicateResourceError = function (e) {
+    return e && e.message && e.message.indexOf('duplicate') !== -1;
+};
+
+/**
+ * Get copilot profile id by user id.
+ * @param {Number} userId - the user id.
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err, userId>} callback - The callback function.
+ * @since 1.43
+ */
+helper.getCopilotProfileIdByUserId = function (userId, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkIdParameter(userId, 'userId'));
+        },
+        function (cb) {
+            helper.api.dataAccess.executeQuery("get_copilot_profile_id_by_user_id",
+                { userId: userId }, dbConnectionMap, cb);
+        }, function (result, cb) {
+            cb(null, (!result || !result.length) ? 0 : result[0].copilot_profile_id);
+        }
+    ], callback);
+};
+
+
+/**
+ * Gets project category with project type id,name by project category ID.
+ * @param {Number} categoryId - the project category id.
+ * @param {Object} dbConnectionMap - the database connection map
+ * @param {Function<err, userId>} callback - The callback function.
+ * @since 1.43
+ */
+helper.getProjectCategoryByCategoryId = function (categoryId, dbConnectionMap, callback) {
+    async.waterfall([
+        function (cb) {
+            cb(helper.checkIdParameter(categoryId, 'categoryId'));
+        },
+        function (cb) {
+            helper.api.dataAccess.executeQuery("get_project_category_by_category_id",
+                {categoryId: categoryId}, dbConnectionMap, cb);
+        }, function (result, cb) {
+            var projectCategory = null;
+            if (result && result.length) {
+                projectCategory = {
+                    id: result[0].project_category_id,
+                    name: result[0].name,
+                    typeId: Number(result[0].project_type_id)
+                };
+            }
+            cb(null, projectCategory);
+        }
+    ], callback);
+};
+
 
 /**
 * Expose the "helper" utility.
