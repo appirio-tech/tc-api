@@ -46,20 +46,11 @@ where exists (select project_id from project where tc_direct_project_id = dp.pro
     where project_status_id = 4) AS completed_projects_count,
 
 nvl((select sum(pr.prize_amount)
-
-
 FROM project p
-   ,project_phase submpp
-   ,project_phase regpp
    , project_category_lu pcl
    , prize pr
-WHERE regpp.project_id = p.project_id
-AND regpp.phase_type_id = 1
-AND submpp.project_id = p.project_id
-AND submpp.phase_type_id = 2
-and pr.project_id = p.project_id
+WHERE pr.project_id = p.project_id
 and p.project_status_id = 1
-AND (regpp.phase_status_id = 2)
 and pcl.project_category_id = p.project_category_id
 AND NOT EXISTS (SELECT 'has_eligibility_constraints' FROM contest_eligibility ce
 WHERE ce.contest_id = p.project_id)), 0) AS prize_purse
