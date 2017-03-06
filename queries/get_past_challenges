@@ -59,6 +59,11 @@ INNER JOIN project_info pn ON pn.project_id = p.project_id AND pn.project_info_t
 INNER JOIN project_info pi1 ON pi1.project_id = p.project_id AND pi1.project_info_type_id = 1
 LEFT JOIN project_phase pp15 ON pp15.project_id = p.project_id AND pp15.phase_type_id = 15
 LEFT JOIN project_info pidr ON pidr.project_id = p.project_id AND pidr.project_info_type_id = 26
+LEFT OUTER JOIN
+    project_info pi82
+ON
+    pi82.project_id = p.project_id
+AND pi82.project_info_type_id = 82
 WHERE
 p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND pcl.project_category_id NOT IN (27, 37) AND pcl.project_type_id IN (@track@)
@@ -71,5 +76,8 @@ AND LOWER(pn.value) LIKE('@challenge_name@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
+AND NOT (   NVL(pi82.value,0) = 1 
+        AND (select count(*) from resource r where r.project_id = p.project_id and resource_role_id = 1 ) > 0
+    ) 
 ORDER BY @sort_column@ @sort_order@
 )

@@ -36,6 +36,7 @@ FROM project p
 , outer project_info pi4 --forum id
 , outer project_info pi79
 , project_info pi1 -- external id
+, OUTER project_info pi82
 WHERE p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
 AND pn.project_info_type_id = 6
@@ -67,5 +68,7 @@ AND pp1.scheduled_start_time > CURRENT
 AND pp1.scheduled_start_time < CURRENT + 90 UNITS DAY
 AND pi1.project_info_type_id = 1 -- external reference id
 AND pi1.project_id = p.project_id
-
+AND NOT (   NVL(pi82.value,0) = 1 
+        AND (select count(*) from resource r where r.project_id = p.project_id and resource_role_id = 1 ) > 0
+    )
 ORDER BY @sort_column@ @sort_order@

@@ -5,6 +5,7 @@ FROM project p
 , project_info pn
 , project_info pi1
 , project_category_lu pcl
+, OUTER project_info pi82
 WHERE p.project_id = pn.project_id
 AND pn.project_info_type_id = 6
 AND pp1.project_id = p.project_id
@@ -32,3 +33,6 @@ AND (not exists (select contest_id from contest_eligibility where contest_id = p
       or exists(select contest_id from contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
                    where x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
                          AND ce.contest_id = p.project_id))
+AND NOT (   NVL(pi82.value,0) = 1 
+        AND (select count(*) from resource r where r.project_id = p.project_id and resource_role_id = 1 ) > 0
+    )                         

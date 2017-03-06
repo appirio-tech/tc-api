@@ -70,6 +70,7 @@ FROM project p
 , outer project_info pi4 --forum id
 , outer project_info pi79
 , project_info pi1 -- external id
+, OUTER project_info pi82
 WHERE p.project_status_id = pstatus.project_status_id
 AND p.project_id = pn.project_id
 AND pn.project_info_type_id = 6
@@ -102,5 +103,10 @@ AND pn.value LIKE ('@challenge_name@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
+AND pi82.project_id = p.project_id
+AND pi82.project_info_type_id = 82
+AND NOT (   NVL(pi82.value,0) = 1 
+        AND (select count(*) from resource r where r.project_id = p.project_id and resource_role_id = 1 ) > 0
+    ) 
 ORDER BY @sort_column@ @sort_order@
 )
