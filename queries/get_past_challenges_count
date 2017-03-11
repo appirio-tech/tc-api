@@ -32,3 +32,4 @@ AND (not exists (select contest_id from contest_eligibility where contest_id = p
       or exists(select contest_id from contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
                    where x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
                          AND ce.contest_id = p.project_id))
+AND not exists (select 1 from resource r, project_info pi82 where r.project_id = p.project_id and r.resource_role_id = 1 and p.project_id = pi82.project_id and project_info_type_id = 82 and pi82.value = 1) -- exclude assigned tasks
