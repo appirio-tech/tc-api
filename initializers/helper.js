@@ -1214,8 +1214,22 @@ helper.socialProviders = {
     "twitter": 3,
     "github": 4,
     "salesforce": 5,
-    "ad": 50
+    "dribbble": 10,
+    "behance": 11,
+    "stackoverflow": 12,
+    "linkedin": 13,
+    "bitbucket": 14,
+    "ad": 50,
+    "samlp": 102
 };
+
+helper.isTCADProvider = function (providerId) {
+    return providerId === helper.socialProviders.ad;
+}
+
+helper.isSSOProvider = function (providerId) {
+    return providerId === helper.socialProviders.samlp;
+}
 
 /**
  * Retrieve provider information from the provider name.
@@ -1240,8 +1254,26 @@ helper.getProviderId = function (provider, callback) {
     if (provider.startsWith("salesforce")) {
         providerId = helper.socialProviders.salesforce;
     }
+    if (provider.startsWith("dribbble")) {
+        providerId = helper.socialProviders.dribbble;
+    }
+    if (provider.startsWith("behance")) {
+        providerId = helper.socialProviders.behance;
+    }
+    if (provider.startsWith("stackoverflow")) {
+        providerId = helper.socialProviders.stackoverflow;
+    }
+    if (provider.startsWith("linkedin")) {
+        providerId = helper.socialProviders.linkedin;
+    }
+    if (provider.startsWith("bitbucket")) {
+        providerId = helper.socialProviders.bitbucket;
+    }
     if (provider.startsWith("ad") || provider.startsWith("auth0")) {
         providerId = helper.socialProviders.ad;
+    }
+    if (provider.startsWith("samlp")) {
+        providerId = helper.socialProviders.samlp;
     }
     if (providerId) {
         callback(null, providerId);
@@ -1249,6 +1281,7 @@ helper.getProviderId = function (provider, callback) {
         callback(new Error('Social provider: ' + provider + ' is not defined in config'));
     }
 };
+
 /* Encrypt the password using the specified key. After being
  * encrypted with a Blowfish key, the encrypted byte array is
  * then encoded with a base 64 encoding, resulting in the String

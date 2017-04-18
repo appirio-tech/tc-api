@@ -76,12 +76,14 @@ exports.middleware = function (api, next) {
         var authHeader = connection.rawConnection.req.headers.authorization,
             connectionMap = { "common_oltp": api.dataAccess.createConnection("common_oltp") },
             isTopcoderAD,
+	    isSSO,
             cachePrefix = "authorizationPreProcessor::",
             decoded,
             isCachedReturned,
             cacheKey,
             socialUserId,
             socialProvider,
+	    authConnection,
             cookieToken = api.utils.parseCookies(connection.rawConnection.req)[process.env.JWT_TOKEN_COOKIE_KEY];
 
         if (_.isUndefined(authHeader) && _.isUndefined(cookieToken)) {
@@ -113,8 +115,10 @@ exports.middleware = function (api, next) {
                     cb(new IllegalArgumentError('Malformed Auth header. No sub in token!'));
                     return;
                 }
+		// connection name
+		authConnection = getAuth0Connection(decoded);
                 var split = decoded.sub.split("|");
-                if (split.length === 1) {
+		if (split.length === 1) {
                     // token.sub should contain "|"
                     cb(new IllegalArgumentError('Malformed Auth header. token.sub is in bad format!'));
                     return;
@@ -136,7 +140,8 @@ exports.middleware = function (api, next) {
                 }
                 api.helper.getProviderId(socialProvider, cb);
             }, function (providerId, cb) {
-                isTopcoderAD = providerId === api.helper.socialProviders.ad;
+                isTopcoderAD = api.helper.isTCADProvider(providerId);
+                isSSO = api.helper.isSSOProvider(providerId);
                 cacheKey = cachePrefix + decoded.sub;
                 api.cache.load(cacheKey, function (err, value) {
                     var userId;
@@ -155,6 +160,16 @@ exports.middleware = function (api, next) {
                                 cbx(api.helper.checkPositiveInteger(userId, "userId"));
                                 return;
                             }
+                            if (isSSO) {
+                                api.dataAccess.executeQuery("get_user_by_sso_login",
+                                    {
+                                        sso_user_id: socialUserId,
+                                        auth_connection: authConnection,
+                                    },
+                                    connectionMap,
+                                    cbx);
+                                return;
+			    }
                             api.dataAccess.executeQuery("get_user_by_social_login",
                                 {
                                     social_user_id: socialUserId,
@@ -250,6 +265,26 @@ exports.middleware = function (api, next) {
         });
     }
     /*jslint */
+
+    /**
+     * Extract Auth0 connection name from JWT token.
+     * JWT Example:
+     *  ....
+     *  "identities": [
+     *    {
+     *      "connection": "sfdc-aspdev", 
+     *      "isSocial": false, 
+     *      "provider": "samlp", 
+     *      "user_id": "user1@asp.appirio.com.dev"
+     *    }
+     *  ]
+     *  sfdc-aspdev is returned.
+     *
+     * @param {Object} decoded JWT token issued by Auth0 (v2 token)
+     */ 
+    function getAuth0Connection(jwt) {
+        return (jwt && jwt.identities && Array.isArray(jwt.identities) && jwt.identities.length>0 ) ? jwt.identities[0].connection : null;
+    }
 
     /**
      * The pre-processor that checks if user is slamming.
