@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.31
+ * @version 1.32
  * @author Sky_, mekanizumu, TCSASSEMBLER, freegod, Ghost_141, kurtrips, xjtufreeman, ecnu_haozi, hesibo, LazyChild,
- * @author isv, muzehyun, bugbuka
+ * @author isv, muzehyun, bugbuka, GFalcon
  * @changes from 1.0
  * merged with Member Registration API
  * changes in 1.1:
@@ -79,9 +79,12 @@
  * - Update challenge type filter.
  * Changes in 1.31:
  * - Remove screeningScorecardId and reviewScorecardId from search challenges api.
+ * Changes in 1.32:
+ * - validateChallenge function now checks if an user belongs to a group via
+ *   user_group_xref for old challenges and by calling V3 API for new ones.
  */
 "use strict";
-/*jslint stupid: true, unparam: true, continue: true */
+/*jslint stupid: true, unparam: true, continue: true, nomen: true */
 
 require('datejs');
 var fs = require('fs');
@@ -851,7 +854,7 @@ var addFilter = function (sql, filter, isMyChallenges, helper, caller) {
  * @since 1.10
  */
 function validateChallenge(api, connection, dbConnectionMap, challengeId, isStudio, callback) {
-    var error, sqlParams, helper = api.helper;
+    var error, sqlParams, helper = api.helper, userId = (connection.caller.userId || 0);
     async.waterfall([
         function (cb) {
             error = helper.checkPositiveInteger(challengeId, 'challengeId') ||
@@ -862,31 +865,47 @@ function validateChallenge(api, connection, dbConnectionMap, challengeId, isStud
             }
             sqlParams = {
                 challengeId: challengeId,
-                user_id: connection.caller.userId || 0
+                user_id: userId
             };
-            async.parallel({
-                accessibility: function (cbx) {
-                    api.dataAccess.executeQuery('check_user_challenge_accessibility', sqlParams, dbConnectionMap, cbx);
-                },
-                exists:  function (cbx) {
-                    api.dataAccess.executeQuery('check_challenge_exists', sqlParams, dbConnectionMap, cbx);
-                }
-            }, cb);
+            api.dataAccess.executeQuery('get_challenge_accessibility_and_groups', sqlParams, dbConnectionMap, cb);
         }, function (res, cb) {
-            if (res.exists.length === 0 || Boolean(res.exists[0].is_studio) !== isStudio) {
+            // If the record with this callengeId doesn't exist in contest_eligibility table
+            // or there's a studio/software mismatch
+            if (res.length === 0 || Boolean(res[0].is_studio) !== isStudio) {
                 cb(new NotFoundError("Challenge not found."));
                 return;
             }
-            var access = res.accessibility[0];
-            if (access.is_private && !access.has_access && connection.caller.accessLevel !== "admin") {
-                if (connection.caller.accessLevel === "anon") {
+            // If there's no corresponding record in group_contest_eligibility
+            // or the user is an admin
+            if (_.isNull(res[0].challenge_group_ind) || _.isUndefined(res[0].challenge_group_ind) || connection.caller.accessLevel === 'admin') {
+                cb();
+                return;
+            }
+            error = false;
+            async.some(res, function (record, cbx) {
+                if (record.challenge_group_ind === 0) {
+                    cbx(!(_.isNull(record.user_group_xref_found) || _.isUndefined(record.user_group_xref_found)));
+                } else {
+                    api.v3client.isUserInGroup(connection, userId, record.group_id, function (err, result) {
+                        if (err) {
+                            error = err;
+                            cbx(true);
+                        } else {
+                            cbx(result);
+                        }
+                    });
+                }
+            }, function (eligible) {
+                if (error) {
+                    cb(error);
+                } else if (eligible) {
+                    cb();
+                } else if (connection.caller.accessLevel === "anon") {
                     cb(new UnauthorizedError());
                 } else {
                     cb(new ForbiddenError());
                 }
-                return;
-            }
-            cb();
+            });
         }
     ], callback);
 }

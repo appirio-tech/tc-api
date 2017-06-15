@@ -1,0 +1,226 @@
+{
+	"id": "ba962be9-0d58-f187-8809-008a39bc2240",
+	"name": "New Challenge Visibility Control",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"id": "712ffa63-a959-e4a3-6af9-84d4f236b2f3",
+			"name": "Get checkpoints",
+			"description": "",
+			"order": [
+				"7c7643c6-89ab-641e-b67a-32b3ac91e09e",
+				"d830ec36-eb8e-9586-c546-14af77cec152",
+				"2af8f0d9-f3e8-c58a-ca3d-1130e4b07371",
+				"f545bbfc-36d7-6567-25a8-b4d6634575e7",
+				"a3ae5124-2077-4ff2-4e02-afae7670bbe5"
+			],
+			"owner": "316251"
+		},
+		{
+			"id": "0eeb693c-c6b6-e23b-156d-cff5f21dbb27",
+			"name": "login",
+			"description": "",
+			"order": [
+				"6bed8920-6800-0ae0-e63d-b39b05c7f50c",
+				"fd4cd936-2d4d-a272-f402-d0f7b6cab82f"
+			],
+			"owner": "316251",
+			"collectionId": "6369974d-65cc-d819-459b-0026549ddb47"
+		}
+	],
+	"timestamp": 1474156790593,
+	"owner": "316251",
+	"public": false,
+	"requests": [
+		{
+			"id": "2af8f0d9-f3e8-c58a-ca3d-1130e4b07371",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/checkpoint/2220003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497550652259,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "6bed8920-6800-0ae0-e63d-b39b05c7f50c",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{url}}/auth",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var authResponse = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"authToken\", authResponse.token);\ntests[\"Status code is 200\"] = responseCode.code === 200;\nvar jsonData = JSON.parse(responseBody);\ntests[\"A valid token is returned\"] = !!jsonData.token;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1474159263289,
+			"name": "Login as admin user",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n    \"username\": \"heffan\", \n    \"password\": \"password\"\n}",
+			"folder": "0eeb693c-c6b6-e23b-156d-cff5f21dbb27"
+		},
+		{
+			"id": "7c7643c6-89ab-641e-b67a-32b3ac91e09e",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/checkpoint/2220001",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"data": null,
+			"dataMode": "params",
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1497550504090,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "a3ae5124-2077-4ff2-4e02-afae7670bbe5",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/checkpoint/2220005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497550755372,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "d830ec36-eb8e-9586-c546-14af77cec152",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/checkpoint/2220002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497550612717,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "f545bbfc-36d7-6567-25a8-b4d6634575e7",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/checkpoint/2220004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497550705028,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "fd4cd936-2d4d-a272-f402-d0f7b6cab82f",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{url}}/auth",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var authResponse = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"authToken\", authResponse.token);\ntests[\"Status code is 200\"] = responseCode.code === 200;\nvar jsonData = JSON.parse(responseBody);\ntests[\"A valid token is returned\"] = !!jsonData.token;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1474159245944,
+			"name": "Log in as ordinary user",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n    \"username\": \"user\", \n    \"password\": \"password\"\n}",
+			"folder": "0eeb693c-c6b6-e23b-156d-cff5f21dbb27"
+		}
+	]
+}

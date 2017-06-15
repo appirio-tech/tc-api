@@ -2,8 +2,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.3
- * @author vangavroche, TCSASSEMBLER
+ * @version 1.4
+ * @author vangavroche, TCSASSEMBLER, GFalcon
  * changes in 1.1:
  * - add cache support (add preCacheProcessor and postCacheProcessor)
  * changes in 1.2:
@@ -12,6 +12,8 @@
  * - add authorizationPreProcessor
  * changes in 1.3:
  * - add force refresh check for preCacheProcessor
+ * changes in 1.4:
+ * - store the authorization token in connection.authToken
  */
 "use strict";
 
@@ -105,6 +107,7 @@ exports.middleware = function (api, next) {
                     cb(null, reg.exec(authHeader)[1]);
                 }
             }, function (token, cb) {
+            	connection.authToken = token;
                 jwt.verify(token,
                     api.config.tcConfig.oauthClientSecret,
                     { audience: api.config.tcConfig.oauthClientId },
