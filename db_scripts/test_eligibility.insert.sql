@@ -114,7 +114,6 @@ INSERT INTO review_item_comment (review_item_comment_id, resource_id, review_ite
 
 DATABASE common_oltp;
 
-INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110001, 2220001, 0);
 INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110002, 2220002, 0);
 INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110003, 2220003, 0);
 INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110004, 2220004, 0);

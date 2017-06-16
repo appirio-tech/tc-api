@@ -867,22 +867,32 @@ function validateChallenge(api, connection, dbConnectionMap, challengeId, isStud
                 challengeId: challengeId,
                 user_id: userId
             };
-            api.dataAccess.executeQuery('get_challenge_accessibility_and_groups', sqlParams, dbConnectionMap, cb);
+            async.parallel({
+                accessibility: function (cbx) {
+                    api.dataAccess.executeQuery('get_challenge_accessibility_and_groups', sqlParams, dbConnectionMap, cbx);
+                },
+                exists:  function (cbx) {
+                    api.dataAccess.executeQuery('check_challenge_exists', sqlParams, dbConnectionMap, cbx);
+                }
+            }, cb);
         }, function (res, cb) {
-            // If the record with this callengeId doesn't exist in contest_eligibility table
+            // If the record with this callengeId doesn't exist in 'project' table
             // or there's a studio/software mismatch
-            if (res.length === 0 || Boolean(res[0].is_studio) !== isStudio) {
+            if (res.exists.length === 0 || Boolean(res.exists[0].is_studio) !== isStudio) {
                 cb(new NotFoundError("Challenge not found."));
                 return;
             }
             // If there's no corresponding record in group_contest_eligibility
             // or the user is an admin
-            if (_.isNull(res[0].challenge_group_ind) || _.isUndefined(res[0].challenge_group_ind) || connection.caller.accessLevel === 'admin') {
+            if (res.accessibility.length === 0
+                    || _.isNull(res.accessibility[0].challenge_group_ind)
+                    || _.isUndefined(res.accessibility[0].challenge_group_ind)
+                    || connection.caller.accessLevel === 'admin') {
                 cb();
                 return;
             }
             error = false;
-            async.some(res, function (record, cbx) {
+            async.some(res.accessibility, function (record, cbx) {
                 if (record.challenge_group_ind === 0) {
                     cbx(!(_.isNull(record.user_group_xref_found) || _.isUndefined(record.user_group_xref_found)));
                 } else {
