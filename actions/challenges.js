@@ -867,55 +867,16 @@ function validateChallenge(api, connection, dbConnectionMap, challengeId, isStud
                 challengeId: challengeId,
                 user_id: userId
             };
-            async.parallel({
-                accessibility: function (cbx) {
-                    api.dataAccess.executeQuery('get_challenge_accessibility_and_groups', sqlParams, dbConnectionMap, cbx);
-                },
-                exists:  function (cbx) {
-                    api.dataAccess.executeQuery('check_challenge_exists', sqlParams, dbConnectionMap, cbx);
-                }
-            }, cb);
+            api.dataAccess.executeQuery('check_challenge_exists', sqlParams, dbConnectionMap, cb);
         }, function (res, cb) {
             // If the record with this callengeId doesn't exist in 'project' table
             // or there's a studio/software mismatch
-            if (res.exists.length === 0 || Boolean(res.exists[0].is_studio) !== isStudio) {
+            if (res.length === 0 || Boolean(res[0].is_studio) !== isStudio) {
                 cb(new NotFoundError("Challenge not found."));
                 return;
             }
-            // If there's no corresponding record in group_contest_eligibility
-            // or the user is an admin
-            if (res.accessibility.length === 0
-                    || _.isNull(res.accessibility[0].challenge_group_ind)
-                    || _.isUndefined(res.accessibility[0].challenge_group_ind)
-                    || connection.caller.accessLevel === 'admin') {
-                cb();
-                return;
-            }
-            error = false;
-            async.some(res.accessibility, function (record, cbx) {
-                if (record.challenge_group_ind === 0) {
-                    cbx(!(_.isNull(record.user_group_xref_found) || _.isUndefined(record.user_group_xref_found)));
-                } else {
-                    api.v3client.isUserInGroup(connection, userId, record.group_id, function (err, result) {
-                        if (err) {
-                            error = err;
-                            cbx(true);
-                        } else {
-                            cbx(result);
-                        }
-                    });
-                }
-            }, function (eligible) {
-                if (error) {
-                    cb(error);
-                } else if (eligible) {
-                    cb();
-                } else if (connection.caller.accessLevel === "anon") {
-                    cb(new UnauthorizedError());
-                } else {
-                    cb(new ForbiddenError());
-                }
-            });
+            // Check the eligibility
+            api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, cb);
         }
     ], callback);
 }

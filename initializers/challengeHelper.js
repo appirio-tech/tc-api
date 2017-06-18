@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.4
- * @author ecnu_haozi, bugbuka, Ghost_141, muzehyun
+ * @version 1.5
+ * @author ecnu_haozi, bugbuka, Ghost_141, muzehyun, GFalcon
  * Refactor common code out from challenge.js.
  *
  * changes in 1.1:
@@ -13,6 +13,9 @@
  * - Avoid undefined if rows[0].copilot_type is null.
  * Changes in 1.4:
  * - Add template id to challenge terms of use.
+ * Changes in 1.5:
+ * - Add the checkUserChallengeEligibility function
+ * - Removee the obsolete eligibility check in getChallengeTerms
  */
 "use strict";
 
@@ -132,11 +135,6 @@ exports.challengeHelper = function (api, next) {
                 }, function (rows, cb) {
                     if (rows.length === 0) {
                         cb(new NotFoundError('No such challenge exists.'));
-                        return;
-                    }
-
-                    if (!rows[0].no_elgibility_req && !rows[0].user_in_eligible_group) {
-                        cb(new ForbiddenError('You are not part of the groups eligible for this challenge.'));
                         return;
                     }
 
@@ -316,8 +314,71 @@ exports.challengeHelper = function (api, next) {
                 }
                 next(null, result.terms);
             });
+        },
+        /**
+         * Check if the user currently logged in has the right to access the specified challenge
+         *
+         * @param {Object} connection The connection object for the current request
+         * @param {Number} challengeId The challenge id.
+         * @param {Function<err>} next The callback that will receive an error
+         *      if the user is not eligible
+         *
+         * @since 1.5
+         */
+        checkUserChallengeEligibility: function (connection, challengeId, next) {
+            // Admins can access any challenge
+            if (connection.caller.accessLevel === 'admin') {
+                next();
+                return;
+            }
+            // Query the accessibility information
+            var userId = (connection.caller.userId || 0);
+            api.dataAccess.executeQuery('get_challenge_accessibility_and_groups', {
+                challengeId: challengeId,
+                user_id: userId
+            }, connection.dbConnectionMap, function (err, res) {
+                if (err) {
+                    next(err);
+                    return;
+                }
+                // If there's no corresponding record in group_contest_eligibility
+                // then the challenge is available to all users
+                if (res.length === 0
+                        || _.isNull(res[0].challenge_group_ind)
+                        || _.isUndefined(res[0].challenge_group_ind)) {
+                    next();
+                    return;
+                }
+                var error = false;
+                // Look at the groups
+                async.some(res, function (record, cbx) {
+                    // Old challenges: check by looking up in common_oltp:user_group_xref
+                    if (record.challenge_group_ind === 0) {
+                        cbx(!(_.isNull(record.user_group_xref_found) || _.isUndefined(record.user_group_xref_found)));
+                    } else {
+                        // New challenges: query the V3 API
+                        api.v3client.isUserInGroup(connection, userId, record.group_id, function (err, result) {
+                            if (err) {
+                                error = err;
+                                cbx(true);
+                            } else {
+                                cbx(result);
+                            }
+                        });
+                    }
+                }, function (eligible) {
+                    if (error) {
+                        next(error);
+                    } else if (eligible) {
+                        next();
+                    } else if (connection.caller.accessLevel === "anon") {
+                        next(new UnauthorizedError());
+                    } else {
+                        next(new ForbiddenError());
+                    }
+                });
+            });
         }
-
     };
 
     next();
