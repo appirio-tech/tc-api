@@ -1,6 +1,6 @@
 SELECT
 (SELECT
-    1
+    max(1)
   FROM contest_eligibility ce
   INNER JOIN group_contest_eligibility gce ON gce.contest_eligibility_id = ce.contest_eligibility_id
   LEFT JOIN user_group_xref ugx ON ugx.group_id = gce.group_id
