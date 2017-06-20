@@ -4,7 +4,7 @@ SELECT
   FROM contest_eligibility ce
   WHERE ce.contest_id = @challengeId@
 ) AS is_private
-, (SELECT 
+, (SELECT
     decode(max(ri.value), null, null, 1)
   FROM resource r
     INNER JOIN resource_info ri ON ri.resource_id = r.resource_id AND ri.resource_info_type_id = 1
