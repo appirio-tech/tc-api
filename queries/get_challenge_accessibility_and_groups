@@ -1,0 +1,21 @@
+SELECT  
+  ce.is_studio,
+  sg.challenge_group_ind,
+  ugx.group_id AS user_group_xref_found,
+  sg.group_id AS group_id
+FROM 
+  (
+    (
+      contest_eligibility ce 
+      LEFT JOIN group_contest_eligibility gce
+      ON ce.contest_eligibility_id = gce.contest_eligibility_id
+    ) 
+    LEFT JOIN security_groups sg 
+    ON gce.group_id = sg.group_id
+  ) 
+  LEFT JOIN (
+    SELECT group_id FROM user_group_xref WHERE login_id=@user_id@
+  ) ugx
+  ON ugx.group_id = gce.group_id
+WHERE ce.contest_id = @challengeId@
+

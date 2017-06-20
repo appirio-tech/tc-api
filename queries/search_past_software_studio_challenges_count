@@ -11,7 +11,7 @@ INNER JOIN project_category_lu pcl on pcl.project_category_id = p.project_catego
 LEFT JOIN project_info pi1 ON pi1.project_id = p.project_id AND pi1.project_info_type_id = 1
 WHERE  (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
   OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                WHERE x.login_id = 22655028 AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
+                WHERE ((gce.group_id < 2000000 AND x.group_id = gce.group_id AND x.login_id = 22655028) OR gce.group_id >= 2000000) AND gce.contest_eligibility_id = ce.contest_eligibility_id
                 AND ce.contest_id = p.project_id))
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
 AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)

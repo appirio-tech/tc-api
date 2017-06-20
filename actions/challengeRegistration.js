@@ -3,8 +3,8 @@
  *
  * The APIs to register a challenge (studio category or software category) for the current logged-in user.
  *
- * @version 1.7
- * @author ecnu_haozi, xjtufreeman, bugbuka, flytoj2ee, muzehyun
+ * @version 1.8
+ * @author ecnu_haozi, xjtufreeman, bugbuka, flytoj2ee, muzehyun, GFalcon
  *
  * changes in 1.1:
  * Combine Challenge Registration API(BUGR-11058)
@@ -27,6 +27,9 @@
  *
  * changes in 1.7:
  * Avoid reliability info set if there is none for new user.
+ * 
+ * changes in 1.8:
+ * Added the verification of the challenge's eligibility
  */
 "use strict";
 
@@ -880,19 +883,31 @@ exports.registerChallenge = {
                 } else {                   
                     api.helper.checkUserActivated(connection.caller.handle, api, connection.dbConnectionMap, function (err, inactive) {
                         var fail = err || inactive;
-                        if (fail) cb(fail);
-                        else api.dataAccess.executeQuery('check_challenge_exists', {challengeId: challengeId}, connection.dbConnectionMap, cb);
+                        if (fail) {
+                        	cb(fail);
+                        } else {
+                        	api.dataAccess.executeQuery('check_challenge_exists', {challengeId: challengeId}, connection.dbConnectionMap, cb);
+                        }
                     }, "You must activate your account in order to participate. Please check your e-mail in order to complete the activation process, or contact support@topcoder.com if you did not receive an e-mail.");                    
                 }
-            }, function (result, cb) {
-                if (result.length > 0) {
-                    if (result[0].is_studio) {
-                        registerStudioChallengeAction(api, connection, next);
-                    } else {
-                        registerSoftwareChallengeAction(api, connection, next);
-                    }
-                } else {
+            }, function(result, cb) {
+                // If the challenge is not found in the tcs_catalog:project table, 
+                if (result.length === 0) {
+                    // Do nothing, do not register
                     cb();
+                    return;
+                }
+                var isStudio = result[0].isStudio !== 0;
+                api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, function (err) {
+                    cb(err, isStudio);
+                });
+            }, function (isStudio, cb) {
+                if (_.isUndefined(isStudio)) {
+                	cb();
+                } else if (isStudio) {
+                    registerStudioChallengeAction(api, connection, next);
+                } else {
+                    registerSoftwareChallengeAction(api, connection, next);
                 }
             }
         ], function (err) {

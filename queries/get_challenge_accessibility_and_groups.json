@@ -1,0 +1,5 @@
+{
+  "name"    : "get_challenge_accessibility_and_groups",
+  "db"      : "tcs_catalog",
+  "sqlfile" : "get_challenge_accessibility_and_groups"
+}

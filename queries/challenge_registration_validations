@@ -4,8 +4,6 @@ select
 	(pp_reg_open.project_id IS NOT NULL) as reg_open,
 	(r.project_id IS NOT NULL) as user_registered,
 	(us.user_id IS NOT NULL) as user_suspended,
-	(ce.contest_eligibility_id IS NULL) as no_elgibility_req,
-	(ugx.login_id IS NOT NULL) as user_in_eligible_group,
  	(uax.user_id IS NOT NULL OR coder.coder_id IS NOT NULL) as user_country_banned,
 	(coder2.comp_country_code IS NULL OR coder2.comp_country_code = '') as comp_country_is_null,
 	(cop.copilot_profile_id IS NOT NULL) as user_is_copilot,
@@ -28,14 +26,6 @@ left join
 	on us.user_id = @userId@
 	and us.user_status_type_id = 1
 	and us.user_status_id = 3
--- Check if user meets eligibility requirements
-left outer join (
-	contest_eligibility ce join (
-		group_contest_eligibility gce left outer join user_group_xref ugx 
-        	on ugx.group_id = gce.group_id and ugx.login_id = @userId@
-	) 
-	on ce.contest_eligibility_id = gce.contest_eligibility_id
-) on p.project_id = ce.contest_id
 -- Check user's country
 left outer join (
 	informixoltp:user_address_xref uax join (

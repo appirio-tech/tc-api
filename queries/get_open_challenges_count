@@ -16,7 +16,7 @@ AND p.project_category_id = pcl.project_category_id
 -- Filter out the challenge that user is not belong to.
 AND (not exists (select contest_id from contest_eligibility where contest_id = p.project_id)
          or exists(select contest_id from contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                   where x.login_id = @user_id@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
+                   where ((gce.group_id < 2000000 AND x.group_id = gce.group_id AND x.login_id = @user_id@) OR gce.group_id >= 2000000) AND gce.contest_eligibility_id = ce.contest_eligibility_id
                          AND ce.contest_id = p.project_id))
 AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
 -- start of parameters
