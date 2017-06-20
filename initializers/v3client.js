@@ -73,7 +73,7 @@ function getToken(connection, callback) {
         method: 'POST',
         body: {
             param: {
-                token: connection.authToken
+                externalToken: connection.authToken
             }
         }
     }, function (err, body) {
