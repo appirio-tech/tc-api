@@ -80,8 +80,8 @@
  * Changes in 1.31:
  * - Remove screeningScorecardId and reviewScorecardId from search challenges api.
  * Changes in 1.32:
- * - validateChallenge function now checks if an user belongs to a group via
- *   user_group_xref for old challenges and by calling V3 API for new ones.
+ * - validateChallenge, getRegistrants, getChallenge, getSubmissions and getPhases functions now check 
+ *   if an user belongs to a group via user_group_xref for old challenges and by calling V3 API for new ones.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true, nomen: true */
@@ -1081,19 +1081,20 @@ var getChallenge = function (api, connection, dbConnectionMap, isStudio, next) {
             };
 
             // Do the private check.
+            api.challengeHelper.checkUserChallengeEligibility(
+                connection, 
+                connection.params.challengeId, 
+                cb
+            );
+        }, function (cb) {
             api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
         }, function (result, cb) {
-            if (result[0].is_private && !result[0].has_access) {
-                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
-                return;
-            }
-
             if (result[0].is_manager) {
                 isManager = true;
             }
 
             // If the user has the access to the challenge or is a resource for the challenge then he is related with this challenge.
-            if (result[0].has_access || result[0].is_related || isManager || helper.isAdmin(caller)) {
+            if (result[0].is_private || result[0].is_related || isManager || helper.isAdmin(caller)) {
                 isRelated = true;
             }
 
@@ -3342,33 +3343,32 @@ var getRegistrants = function (api, connection, dbConnectionMap, isStudio, next)
             };
 
             // Do the private check.
-            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
-        }, function (result, cb) {
-            if (result[0].is_private && !result[0].has_access) {
-                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
-                return;
-            }
-
+            api.challengeHelper.checkUserChallengeEligibility(
+                connection, 
+                connection.params.challengeId, 
+                cb
+            );
+        }, function (cb) {
             api.dataAccess.executeQuery('challenge_registrants', sqlParams, dbConnectionMap, cb);
         }, function (results, cb) {
             var mapRegistrants = function (results) {
-                    if (!_.isDefined(results)) {
-                        return [];
+                if (!_.isDefined(results)) {
+                    return [];
+                }
+                return _.map(results, function (item) {
+                    var registrant = {
+                        handle: item.handle,
+                        reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
+                        registrationDate: formatDate(item.inquiry_date),
+                        submissionDate: formatDate(item.submission_date)
+                    };
+                    if (!isStudio) {
+                        registrant.rating = item.rating;
+                        registrant.colorStyle = helper.getColorStyle(item.rating);
                     }
-                    return _.map(results, function (item) {
-                        var registrant = {
-                            handle: item.handle,
-                            reliability: !_.isDefined(item.reliability) ? "n/a" : item.reliability + "%",
-                            registrationDate: formatDate(item.inquiry_date),
-                            submissionDate: formatDate(item.submission_date)
-                        };
-                        if (!isStudio) {
-                            registrant.rating = item.rating;
-                            registrant.colorStyle = helper.getColorStyle(item.rating);
-                        }
-                        return registrant;
-                    });
-                };
+                    return registrant;
+                });
+            };
             registrants = mapRegistrants(results);
             cb();
         }
@@ -3440,18 +3440,16 @@ var getSubmissions = function (api, connection, dbConnectionMap, isStudio, next)
                 submission_type: [helper.SUBMISSION_TYPE.challenge.id, helper.SUBMISSION_TYPE.checkpoint.id]
             };
 
-            async.parallel({
-                privateCheck: execQuery("check_is_related_with_challenge"),
-                challengeStatus: execQuery("get_challenge_status")
-            }, cb);
-        }, function (result, cb) {
-            if (result.privateCheck[0].is_private && !result.privateCheck[0].has_access) {
-                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
-                return;
-            }
-
+            api.challengeHelper.checkUserChallengeEligibility(
+                connection, 
+                connection.params.challengeId, 
+                cb
+            );
+        }, 
+        execQuery("get_challenge_status"),
+        function (result, cb) {
             // If the caller is not admin and challenge status is still active.
-            if (!helper.isAdmin(caller) && result.challengeStatus[0].challenge_status_id === 1) {
+            if (!helper.isAdmin(caller) && result[0].challenge_status_id === 1) {
                 cb(new BadRequestError("The challenge is not finished."));
                 return;
             }
@@ -3567,13 +3565,12 @@ var getPhases = function (api, connection, dbConnectionMap, isStudio, next) {
             };
 
             // Do the private check.
-            api.dataAccess.executeQuery('check_is_related_with_challenge', sqlParams, dbConnectionMap, cb);
-        }, function (result, cb) {
-            if (result[0].is_private && !result[0].has_access) {
-                cb(new UnauthorizedError('The user is not allowed to visit the challenge.'));
-                return;
-            }
-
+            api.challengeHelper.checkUserChallengeEligibility(
+                connection, 
+                connection.params.challengeId, 
+                cb
+            );
+        }, function (cb) {
             var execQuery = function (name) {
                 return function (cbx) {
                     api.dataAccess.executeQuery(name, sqlParams, dbConnectionMap, cbx);
