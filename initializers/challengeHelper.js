@@ -374,7 +374,7 @@ exports.challengeHelper = function (api, next) {
                     } else if (connection.caller.accessLevel === "anon") {
                         next(new UnauthorizedError());
                     } else {
-                        next(new ForbiddenError());
+                        next(new ForbiddenError('The user is not allowed to visit the challenge.'));
                     }
                 });
             });
