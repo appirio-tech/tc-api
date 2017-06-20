@@ -151,16 +151,27 @@ INSERT INTO project_info (project_id, project_info_type_id, value, create_user, 
 	VALUES (1110005, 2, "3330333", "132456", CURRENT, "132456", CURRENT);
 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110001, 6, 3330333, "Not private", CURRENT, "132456", CURRENT);
+	VALUES (1110001, 6, "Not private", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110002, 6, 3330333, "Old logic - access allowed", CURRENT, "132456", CURRENT);
+	VALUES (1110002, 6, "Old logic - access allowed", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110003, 6, 3330333, "Old logic - access denied", CURRENT, "132456", CURRENT);
+	VALUES (1110003, 6, "Old logic - access denied", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110004, 6, 3330333, "New logic - access allowed", CURRENT, "132456", CURRENT);
+	VALUES (1110004, 6, "New logic - access allowed", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110005, 6, 3330333, "New logic - access denied", CURRENT, "132456", CURRENT);
+	VALUES (1110005, 6, "New logic - access denied", "132456", CURRENT, "132456", CURRENT);
 	
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 26, "---", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 26, "---", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 26, "---", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 26, "---", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 26, "---", "132456", CURRENT, "132456", CURRENT);
+
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
 	VALUES (1110001, 79, "---", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)

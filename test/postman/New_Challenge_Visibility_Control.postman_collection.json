@@ -5,6 +5,19 @@
 	"order": [],
 	"folders": [
 		{
+			"id": "cada5a0c-766f-dde0-3c9f-d001a67eddd4",
+			"name": "Get challenge",
+			"description": "",
+			"order": [
+				"c383cab7-3145-145e-9da9-846001755460",
+				"42b84596-9d5a-50e7-76be-c1ad23f98468",
+				"3246a996-e8f9-5e60-79b9-8aeffcd5392f",
+				"bf83e2d2-549b-361e-f5cf-66a40d816f0c",
+				"1af5c911-4627-ad92-085c-63e6fc7b6d9e"
+			],
+			"owner": "316251"
+		},
+		{
 			"id": "712ffa63-a959-e4a3-6af9-84d4f236b2f3",
 			"name": "Get checkpoints",
 			"description": "",
@@ -16,6 +29,47 @@
 				"a3ae5124-2077-4ff2-4e02-afae7670bbe5"
 			],
 			"owner": "316251"
+		},
+		{
+			"id": "6b9370a1-5974-a6a6-a961-67e73abaa861",
+			"name": "Get phases",
+			"description": "",
+			"order": [
+				"c7d11de6-630a-71bd-4095-cd3c8fb8ab77",
+				"f5da62a7-9231-5f7a-f44a-f2f14c9ae003",
+				"d7a050dc-6eaa-f62e-24e4-37d111002d4a",
+				"c305f2ea-dbfd-f95f-c809-583133af5881",
+				"0461a7de-3ae1-f873-b667-50d04a43b317"
+			],
+			"owner": "316251",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240"
+		},
+		{
+			"id": "6a038555-23cd-e79f-1d34-0fb860e305a3",
+			"name": "Get registrants",
+			"description": "",
+			"order": [
+				"bcc821a7-0e3a-3454-d900-12af0cc94656",
+				"70b3453b-1d1a-e411-f8e5-527edb0a2530",
+				"f73f4e00-c286-d440-ce79-89095d7354dd",
+				"e97dac4e-c786-27b1-5e4b-fff50b6de93a",
+				"b3cb44e7-3e5f-897e-5d6f-6179afc52653"
+			],
+			"owner": "316251"
+		},
+		{
+			"id": "2a873809-800c-ee71-51ad-94f10096709b",
+			"name": "Get submissions",
+			"description": "",
+			"order": [
+				"f90179ed-98da-be6d-77ae-9e3aa4199b5c",
+				"f915c206-b3fe-a4be-1094-bc8a448cb467",
+				"d3e5ca45-334d-fb54-1fd7-46f8e7b82841",
+				"f8e9d38f-8d8d-6e63-4978-6e3546f20b7c",
+				"f8720a5a-5a8b-423c-065f-8d3a3469fbca"
+			],
+			"owner": "316251",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240"
 		},
 		{
 			"id": "cfbf928f-56b8-9813-f8f3-4ac4e342d965",
@@ -47,6 +101,62 @@
 	"public": false,
 	"requests": [
 		{
+			"id": "0461a7de-3ae1-f873-b667-50d04a43b317",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/phases/1110005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959637871,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "1af5c911-4627-ad92-085c-63e6fc7b6d9e",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/phases/1110005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959273575,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "2af8f0d9-f3e8-c58a-ca3d-1130e4b07371",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -74,6 +184,62 @@
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": [],
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "3246a996-e8f9-5e60-79b9-8aeffcd5392f",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/1110003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497958076427,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "42b84596-9d5a-50e7-76be-c1ad23f98468",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/1110002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497957969156,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
 		},
 		{
 			"id": "46cf305a-8251-66aa-391c-46def82773a1",
@@ -215,6 +381,34 @@
 			"folder": "0eeb693c-c6b6-e23b-156d-cff5f21dbb27"
 		},
 		{
+			"id": "70b3453b-1d1a-e411-f8e5-527edb0a2530",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/registrants/1110002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497934833132,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "7c7643c6-89ab-641e-b67a-32b3ac91e09e",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -304,6 +498,237 @@
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
 		},
 		{
+			"id": "b3cb44e7-3e5f-897e-5d6f-6179afc52653",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/registrants/1110005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497935002619,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "bcc821a7-0e3a-3454-d900-12af0cc94656",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/registrants/1110001",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"data": null,
+			"dataMode": "params",
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1497934405019,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "6a038555-23cd-e79f-1d34-0fb860e305a3"
+		},
+		{
+			"id": "bf83e2d2-549b-361e-f5cf-66a40d816f0c",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/1110004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497958165136,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "c305f2ea-dbfd-f95f-c809-583133af5881",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/phases/1110004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959248881,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "c383cab7-3145-145e-9da9-846001755460",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/1110001",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"data": null,
+			"dataMode": "params",
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1497957874624,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "cada5a0c-766f-dde0-3c9f-d001a67eddd4"
+		},
+		{
+			"id": "c7d11de6-630a-71bd-4095-cd3c8fb8ab77",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/phases/1110001",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959147405,
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "d3e5ca45-334d-fb54-1fd7-46f8e7b82841",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/submissions/2220003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959455425,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "d7a050dc-6eaa-f62e-24e4-37d111002d4a",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/phases/1110003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959220837,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "d830ec36-eb8e-9586-c546-14af77cec152",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -333,6 +758,34 @@
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
 		},
 		{
+			"id": "e97dac4e-c786-27b1-5e4b-fff50b6de93a",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/registrants/1110004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497934940451,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "f545bbfc-36d7-6567-25a8-b4d6634575e7",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -360,6 +813,175 @@
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": [],
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
+		},
+		{
+			"id": "f5da62a7-9231-5f7a-f44a-f2f14c9ae003",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/phases/1110002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959161340,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "f73f4e00-c286-d440-ce79-89095d7354dd",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/registrants/1110003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497934860473,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "f8720a5a-5a8b-423c-065f-8d3a3469fbca",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/submissions/2220005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959508749,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "f8e9d38f-8d8d-6e63-4978-6e3546f20b7c",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/submissions/2220004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959483268,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "f90179ed-98da-be6d-77ae-9e3aa4199b5c",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/submissions/2220001",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959423349,
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "f915c206-b3fe-a4be-1094-bc8a448cb467",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/submissions/2220002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497959438513,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
 		},
 		{
 			"id": "fd4cd936-2d4d-a272-f402-d0f7b6cab82f",
