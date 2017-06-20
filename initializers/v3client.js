@@ -42,7 +42,7 @@ function callService(params, callback) {
         /*jslint eqeq: true*/
         if (response.statusCode != 200) {
             /*jslint eqeq: false*/
-            callback(new Error('API V3 returned ' + response.statusCode + ' ' + (response.statusMessage || '')));
+            callback(new Error('API ' + params.url + ' returned ' + response.statusCode + ' ' + (response.statusMessage || '')));
             return;
         }
         callback(null, body);
@@ -73,7 +73,7 @@ function getToken(connection, callback) {
         method: 'POST',
         body: {
             param: {
-                token: connection.authToken
+                externalToken: connection.authToken
             }
         }
     }, function (err, body) {

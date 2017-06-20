@@ -105,7 +105,7 @@ AND NVL((cmc_task_id.value), '') = DECODE('@cmc@', '', NVL((cmc_task_id.value), 
 -- Filter out the challenge that user is not belong to.
 AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
   OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                WHERE x.login_id = @userId@ AND x.group_id = gce.group_id AND gce.contest_eligibility_id = ce.contest_eligibility_id
+                WHERE ((gce.group_id < 2000000 AND x.group_id = gce.group_id AND x.login_id = @user_id@) OR gce.group_id >= 2000000) AND gce.contest_eligibility_id = ce.contest_eligibility_id
                 AND ce.contest_id = p.project_id))
 and pp.actual_end_time > '2012-01-01 00:00:00'
 

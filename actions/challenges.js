@@ -82,7 +82,6 @@
  * Changes in 1.32:
  * - validateChallenge, getRegistrants, getChallenge, getSubmissions and getPhases functions now check 
  *   if an user belongs to a group via user_group_xref for old challenges and by calling V3 API for new ones.
- * - 
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true, nomen: true */

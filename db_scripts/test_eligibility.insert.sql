@@ -173,6 +173,18 @@ INSERT INTO project_info (project_id, project_info_type_id, value, create_user, 
 	VALUES (1110005, 26, "---", "132456", CURRENT, "132456", CURRENT);
 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 6, 3330333, "Not private", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 6, 3330333, "Old logic - access allowed", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 6, 3330333, "Old logic - access denied", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 6, 3330333, "New logic - access allowed", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 6, 3330333, "New logic - access denied", CURRENT, "132456", CURRENT);
+	
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+>>>>>>> upstream/dev
 	VALUES (1110001, 79, "---", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
 	VALUES (1110002, 79, "---", "132456", CURRENT, "132456", CURRENT);
