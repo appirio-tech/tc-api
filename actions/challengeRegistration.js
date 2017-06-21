@@ -897,7 +897,7 @@ exports.registerChallenge = {
                     cb();
                     return;
                 }
-                var isStudio = result[0].isStudio !== 0;
+                var isStudio = result[0].is_studio !== 0;
                 api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, function (err) {
                     cb(err, isStudio);
                 });
