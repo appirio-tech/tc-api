@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2013 - 2014 TopCoder Inc., All Rights Reserved.
+ * Copyright (C) 2013 - 2017 TopCoder Inc., All Rights Reserved.
  *
- * @version 1.6
- * @author Sky_, Ghost_141, flytoj2ee
+ * @version 1.7
+ * @author Sky_, Ghost_141, flytoj2ee, GFalcon
  * changes in 1.1
  * - Implement the studio review opportunities.
  * changes in 1.2
@@ -17,6 +17,10 @@
  * - Implement the applyStudioReviewOpportunity api.
  * Changes in 1.6:
  * - Fix bug in review opportunities api.
+ * Changes in 1.7:
+ * - all functions check the right of the current user to view 
+ *   or apply to a challenge via user_group_xref for old challenges 
+ *   and by calling V3 API for new ones.
  */
 'use strict';
 /*jslint node: true, stupid: true, unparam: true, plusplus: true */
@@ -212,6 +216,7 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
                 cb(error);
                 return;
             }
+
             sqlParams.challengeId = challengeId;
             api.dataAccess.executeQuery('get_studio_review_opportunity_phases', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
@@ -229,6 +234,9 @@ var getStudioReviewOpportunity = function (api, connection, dbConnectionMap, nex
                     duration: getDuration(row.start_time, row.end_time) + ' hours'
                 });
             });
+            // Check if the user has the right to view the challenge
+            api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, cb);
+        }, function (cb) {
             api.dataAccess.executeQuery('get_studio_review_opportunity_positions', sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length !== 0) {
@@ -467,6 +475,7 @@ var calculatePayment = function (reviewOpportunityInfo, adjustPayments) {
  */
 var getPaymentValues = function (reviewOpportunityInfo, adjustPayments, isAsc) {
     var payment = calculatePayment(reviewOpportunityInfo, adjustPayments);
+
     return _.sortBy(payment, function (item) { return (isAsc ?  -item : item); });
 };
 
@@ -479,7 +488,7 @@ var getPaymentValues = function (reviewOpportunityInfo, adjustPayments, isAsc) {
  */
 var getReviewOpportunities = function (api, connection, isStudio, next) {
     var helper = api.helper, result = {}, sqlParams, dbConnectionMap = connection.dbConnectionMap, pageIndex,
-        pageSize, sortOrder, sortColumn, filter = {}, reviewOpportunities, queryName;
+        pageSize, sortOrder, sortColumn, filter = {}, reviewOpportunities, queryName, myGroups;
 
     pageSize = Number(connection.params.pageSize || helper.MAX_PAGE_SIZE);
     pageIndex = Number(connection.params.pageIndex || 1);
@@ -491,6 +500,11 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
             validateInputParameter(helper, connection, filter, isStudio, cb);
         },
         function (cb) {
+            api.v3client.getMyGroups(connection, cb)
+        },
+        function (groups, cb) {
+
+            myGroups = groups;
 
             if (pageIndex === -1) {
                 pageIndex = 1;
@@ -512,7 +526,10 @@ var getReviewOpportunities = function (api, connection, isStudio, next) {
                 reviewStartDateSecondDate: filter.reviewStartDate.secondDate,
                 reviewEndDateFirstDate: filter.reviewEndDate.firstDate,
                 reviewEndDateSecondDate: filter.reviewEndDate.secondDate,
-                challenge_id: 0
+                challenge_id: 0,
+                amIAdmin: connection.caller.accessLevel === 'admin' ? 1 : 0,
+                myId: (connection.caller.userId || 0),
+                myGroups: myGroups
             };
 
             queryName = isStudio ? 'search_studio_review_opportunities' : 'search_software_review_opportunities_data';
@@ -653,7 +670,9 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             };
 
             async.parallel({
-                privateCheck: execQuery('check_user_challenge_accessibility'),
+                privateCheck: function (cbx) {
+                    api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, cbx);
+                },
                 reviewCheck: execQuery('check_challenge_review_opportunity')
             }, cb);
         },
@@ -661,11 +680,6 @@ var getSoftwareReviewOpportunity = function (api, connection, next) {
             if (result.reviewCheck.length === 0) {
                 cb(new IllegalArgumentError('The challenge don\'t have review opportunities or is not a valid ' +
                     'software challenge.'));
-                return;
-            }
-
-            if (result.privateCheck[0].is_private && !result.privateCheck[0].has_access) {
-                cb(new ForbiddenError('The user is not allowed to visit this challenge review opportunity detail.'));
                 return;
             }
 
@@ -864,8 +878,8 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
                     api.dataAccess.executeQuery('check_reviewer', { challenge_id: challengeId, user_id: caller.userId }, dbConnectionMap, cbx);
                 },
                 privateCheck: function (cbx) {
-                    api.dataAccess.executeQuery('check_user_challenge_accessibility', { challengeId: challengeId, user_id: caller.userId }, dbConnectionMap, cbx);
-                }
+                    api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, cbx);
+                },
             }, cb);
         },
         function (res, cb) {
@@ -875,7 +889,6 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
                     .map(function (item) { return item.review_application_role_id; })
                     .uniq()
                     .value(),
-                privateCheck = res.privateCheck[0],
                 positionsLeft,
                 assignedResourceRoles = res.resourceRoles,
                 currentUserResourceRole = _.filter(assignedResourceRoles, function (item) { return item.user_id === caller.userId; });
@@ -908,13 +921,7 @@ var applyDevelopReviewOpportunity = function (api, connection, next) {
                 return;
             }
 
-            // The caller can't access this private challenge.
-            if (privateCheck.is_private && !privateCheck.has_access) {
-                cb(new ForbiddenError('The user is not allowed to register this challenge review.'));
-                return;
-            }
-
-            // We only check this when caller is trying to apply review opportunity not cancel them.
+               // We only check this when caller is trying to apply review opportunity not cancel them.
             // Get the review resource role that belong to the caller. If the length > 0 then the user is a reviewer already.
             if (reviewApplicationRoleId.length > 0 && currentUserResourceRole.length > 0) {
                 cb(new BadRequestError('You are already assigned as reviewer for the contest.'));

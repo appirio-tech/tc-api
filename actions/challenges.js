@@ -80,8 +80,9 @@
  * Changes in 1.31:
  * - Remove screeningScorecardId and reviewScorecardId from search challenges api.
  * Changes in 1.32:
- * - validateChallenge, getRegistrants, getChallenge, getSubmissions and getPhases functions now check 
- *   if an user belongs to a group via user_group_xref for old challenges and by calling V3 API for new ones.
+ * - validateChallenge, getRegistrants, getChallenge, getSubmissions, getPhases, searchChallenges and getChallenges
+ *   functions now check if an user belongs to a group via user_group_xref for old challenges and by calling V3 API 
+ *   for new ones.
  */
 "use strict";
 /*jslint stupid: true, unparam: true, continue: true, nomen: true */
@@ -155,15 +156,22 @@ var CHALLENGE_TYPE_FILTER = ' AND p.project_category_id IN (@filter@)';
  * This filter will return all private challenges.
  * @since 1.24
  */
-var ALL_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)\n';
+var ALL_PRIVATE_CHALLENGE_FILTER = '(@amIAdmin@ = 0 AND EXISTS (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id))\n';
 
 /**
  * This filter will return private challenges that given user_id can access.
  * @since 1.24
  */
-var USER_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT contest_id FROM contest_eligibility ce, ' +
-    'group_contest_eligibility gce, user_group_xref x WHERE x.login_id = @user_id@ AND x.group_id = gce.group_id ' +
-    'AND gce.contest_eligibility_id = ce.contest_eligibility_id AND ce.contest_id = p.project_id)\n';
+var USER_PRIVATE_CHALLENGE_FILTER = ' EXISTS (SELECT contest_id ' +
+    'FROM contest_eligibility ce ' +
+        'INNER JOIN group_contest_eligibility gce ON gce.contest_eligibility_id = ce.contest_eligibility_id ' +
+        'INNER JOIN security_groups sg ON gce.group_id = sg.group_id ' +
+        'LEFT JOIN user_group_xref x ON x.group_id = gce.group_id ' +
+    'WHERE ce.contest_id = p.project_id AND (' +
+        '(sg.challenge_group_ind = 0 AND x.login_id = @userId@)' +
+        'OR (sg.challenge_group_ind <> 0 AND gce.group_id IN (@myGroups@))' +
+    ')' +
+')\n';
 
 /**
  * This filter return all private challenges that in specific group.
@@ -908,7 +916,8 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
         total,
         challengeType,
         queryName,
-        challenges;
+        challenges,
+        myGroups;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
@@ -963,7 +972,17 @@ var searchChallenges = function (api, connection, dbConnectionMap, community, ne
             sqlParams.user_id = caller.userId || 0;
 
             // Check the private challenge access
-            api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
+            api.v3client.getMyGroups(connection, cb);
+        }, function (groups, cb) {
+            myGroups = groups;
+            sqlParams.amIAdmin = connection.caller.accessLevel === 'admin' ? 1 : 0;
+            sqlParams.myGroups = myGroups;
+            // Next function uses the passed parameter only to check if it's not empty
+            if(sqlParams.amIAdmin || !_.isDefined(query.communityId) || _.indexOf(myGroups, query.communityId) !== -1) {
+                cb(null, [1]);
+            } else {
+                api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
+            }
         }, function (results, cb) {
             if (results.length === 0) {
                 // Return error if the user is not allowed to a specific group(communityId is set)
@@ -2310,17 +2329,13 @@ var getChallengeResults = function (api, connection, dbConnectionMap, isStudio, 
                 cb(error);
                 return;
             }
-
+            api.challengeHelper.checkUserChallengeEligibility(connection, challengeId, cb);
+        }, function (cb) {
             sqlParams.challengeId = challengeId;
             api.dataAccess.executeQuery("get_challenge_results_validations", sqlParams, dbConnectionMap, cb);
         }, function (rows, cb) {
             if (rows.length === 0) {
                 cb(new NotFoundError('Challenge with given id is not found.'));
-                return;
-            }
-
-            if (rows[0].is_private_challenge) {
-                cb(new NotFoundError('This is a private challenge. You cannot view it.'));
                 return;
             }
 
@@ -3677,7 +3692,8 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
         result = {},
         total,
         challenges,
-        index;
+        index,
+        myGroups;
     for (prop in query) {
         if (query.hasOwnProperty(prop)) {
             query[prop.toLowerCase()] = query[prop];
@@ -3723,11 +3739,15 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
         },
         function (cb) {
             validateInputParameterV2(helper, caller, type, query, filter, pageIndex, pageSize, sortColumn, sortOrder, listType, dbConnectionMap, cb);
-            
+        }, function (cb) {
+            api.v3client.getMyGroups(connection, cb);
+        }, function (groups, cb) {
+            myGroups = groups;
+
             if (filter.technologies) {
                 filter.tech = filter.technologies.split(',')[0];
             }
-        }, function (cb) {
+
             if (pageIndex === -1) {
                 pageIndex = 1;
                 pageSize = helper.MAX_PAGE_SIZE;
@@ -3744,7 +3764,9 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
                 registration_phase_status: helper.LIST_TYPE_REGISTRATION_STATUS_MAP[listType],
                 project_status_id: helper.LIST_TYPE_PROJECT_STATUS_MAP[listType],
                 user_id: caller.userId || 0,
-                userId: caller.userId || 0
+                userId: caller.userId || 0,
+                amIAdmin: caller.accessLevel === 'admin' ? 1 : 0,
+                myGroups: myGroups
             });
 
             if (isMyChallenges) {
@@ -3757,7 +3779,11 @@ var getChallenges = function (api, connection, listType, isMyChallenges, next) {
             }
 
             // Check the private challenge access
-            api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
+            if(sqlParams.amIAdmin || !_.isDefined(query.communityId) || _.indexOf(myGroups, query.communityId) !== -1) {
+                cb(null, [1]);
+            } else {
+                api.dataAccess.executeQuery('check_eligibility', sqlParams, dbConnectionMap, cb);
+            }
         }, function (results, cb) {
             if (results.length === 0) {
                 // Return error if the user is not allowed to a specific group(communityId is set)

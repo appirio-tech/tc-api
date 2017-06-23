@@ -97,16 +97,11 @@ AND p.project_status_id IN (4, 5, 6, 7, 8, 9, 10, 11)
 AND pcl.project_type_id IN (@project_type_id@)
 AND NVL(pp.actual_end_time, pp.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
  AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
-AND (challenge_name.value) LIKE ('@challengeName@')
+AND LOWER(challenge_name.value) LIKE ('@challengeName@')
 AND NVL(pr.prize_amount, 0) >= @prilower@
 AND NVL(pr.prize_amount, 0) <= @priupper@
 AND p.tc_direct_project_id = DECODE(@tcdirectid@, 0, p.tc_direct_project_id, @tcdirectid@)
 AND NVL((cmc_task_id.value), '') = DECODE('@cmc@', '', NVL((cmc_task_id.value), ''), '@cmc@')
--- Filter out the challenge that user is not belong to.
-AND (not exists (SELECT contest_id FROM contest_eligibility WHERE contest_id = p.project_id)
-  OR exists(SELECT contest_id FROM contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                WHERE ((gce.group_id < 2000000 AND x.group_id = gce.group_id AND x.login_id = @user_id@) OR gce.group_id >= 2000000) AND gce.contest_eligibility_id = ce.contest_eligibility_id
-                AND ce.contest_id = p.project_id))
 and pp.actual_end_time > '2012-01-01 00:00:00'
 
 ORDER BY @sortColumn@ @sortOrder@

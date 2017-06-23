@@ -1,5 +1,5 @@
 SELECT
-*
+d.*
 FROM (
 -- studio screen review
 SELECT
@@ -43,13 +43,23 @@ WHERE p.project_status_id = 1
 AND pcl.project_type_id = 3
 AND pps.phase_status_id = 2
 AND ppsub.phase_status_id = 1
-)
+) d
+  LEFT JOIN contest_eligibility ce ON ce.contest_id = d.challenge_id
+  LEFT JOIN group_contest_eligibility gce ON gce.contest_eligibility_id = ce.contest_eligibility_id
+  LEFT JOIN security_groups sg ON gce.group_id = sg.group_id
+  LEFT JOIN user_group_xref ugx ON ugx.group_id = gce.group_id
 WHERE 1=1
-AND LOWER(review_type) = LOWER(DECODE('@reviewType@', '', review_type, '@reviewType@'))
-AND LOWER(challenge_name) LIKE LOWER('%@challengeName@%')
-AND LOWER(challenge_type) = LOWER(DECODE('@challengeType@', '', challenge_type, '@challengeType@'))
-AND round_1_scheduled_start_date BETWEEN TO_DATE('@round1ScheduledStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@round1ScheduledStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
-AND round_2_scheduled_start_date BETWEEN TO_DATE('@round2ScheduledStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@round2ScheduledStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
+AND LOWER(d.review_type) = LOWER(DECODE('@reviewType@', '', d.review_type, '@reviewType@'))
+AND LOWER(d.challenge_name) LIKE LOWER('%@challengeName@%')
+AND LOWER(d.challenge_type) = LOWER(DECODE('@challengeType@', '', d.challenge_type, '@challengeType@'))
+AND d.round_1_scheduled_start_date BETWEEN TO_DATE('@round1ScheduledStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@round1ScheduledStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
+AND d.round_2_scheduled_start_date BETWEEN TO_DATE('@round2ScheduledStartDateFirstDate@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@round2ScheduledStartDateSecondDate@ 00:00:00', '%Y-%m-%d %H:%M:%S')
+-- eligibility check
+AND (@amIAdmin@ = 1
+    OR ce.contest_id IS NULL
+    OR (sg.challenge_group_ind = 0 AND ugx.login_id = @myId@)
+    OR (sg.challenge_group_ind <> 0 AND gce.group_id IN (@myGroups@))
+)
 
 ORDER BY @sortColumn@ @sortOrder@
 

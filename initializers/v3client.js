@@ -92,7 +92,7 @@ function getToken(connection, callback) {
  * @param {Object} connection - the connection object provided by ActionHero
  * @param {Number} groupId - the group ID
  * @param {Function<err, members>} callback - the callback. Receives either an error
- *        or the list of group's users an array of numeric IDs
+ *        or the list of group's users as an array of numeric IDs
  */
 function getGroupMembers(connection, groupId, callback) {
     getToken(connection, function (err, token) {
@@ -118,6 +118,38 @@ function getGroupMembers(connection, groupId, callback) {
     });
 }
 
+/**
+ * Get IDs of groups the specified user belongs to
+ *
+ * @param {Object} connection - the connection object provided by ActionHero
+ * @param {Number} userId - the user ID
+ * @param {Function<err, groups>} callback - the callback. Receives either an error
+ *        or the list of user's groups as an array of numeric IDs
+ */
+function getUserGroups(connection, userId, callback) {
+    getToken(connection, function (err, token) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callService({
+            url: v3url + 'groups?memberId=' + userId + '&membershipType=user',
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }, function (err, body) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, body.result.content.map(function (item) {
+                    return item.id;
+                }));
+            }
+        });
+    });
+}
+
 exports.v3client = function (api, next) {
     api.v3client = {
         /**
@@ -137,6 +169,10 @@ exports.v3client = function (api, next) {
                     callback(null, members.indexOf(userId) >= 0);
                 }
             });
+        },
+        
+        getMyGroups: function (connection, callback) {
+            getUserGroups(connection, (connection.caller.userId || 0), callback);
         }
     };
     next();

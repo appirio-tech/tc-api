@@ -111,16 +111,16 @@ INSERT INTO review_item_comment (review_item_comment_id, resource_id, review_ite
 INSERT INTO review_item_comment (review_item_comment_id, resource_id, review_item_id, comment_type_id, content, sort, create_user, create_date, modify_user, modify_date)
 	VALUES (7770005, 8880005, 5550005, 1, "The current user has the right to view this challenge", 1, "132456", CURRENT, "132456", CURRENT);
 	
-INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
-	VALUES (1110001, 1, 14, "132456", CURRENT, "132456", CURRENT);
-INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
-	VALUES (1110002, 1, 14, "132456", CURRENT, "132456", CURRENT);
-INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
-	VALUES (1110003, 1, 14, "132456", CURRENT, "132456", CURRENT);
-INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
-	VALUES (1110004, 1, 14, "132456", CURRENT, "132456", CURRENT);
-INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date) 
-	VALUES (1110005, 1, 14, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (1110001, 1, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (1110002, 1, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (1110003, 1, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (1110004, 1, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (1110005, 1, 14, "132456", CURRENT, "132456", CURRENT, 0);
 
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
 	VALUES (2220001, 1110001, 1, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
@@ -140,6 +140,17 @@ INSERT INTO comp_versions (comp_vers_id, component_id, version, version_text, ph
 	VALUES (4440444, 3330333, 1, "1", 113, CURRENT, 1000, CURRENT);
 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 1, "23", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
 	VALUES (1110001, 2, "3330333", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
 	VALUES (1110002, 2, "3330333", "132456", CURRENT, "132456", CURRENT);
@@ -151,15 +162,15 @@ INSERT INTO project_info (project_id, project_info_type_id, value, create_user, 
 	VALUES (1110005, 2, "3330333", "132456", CURRENT, "132456", CURRENT);
 
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110001, 6, "Not private", "132456", CURRENT, "132456", CURRENT);
+	VALUES (1110001, 6, "ElTest Not private", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110002, 6, "Old logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+	VALUES (1110002, 6, "ElTest Old logic - access allowed", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110003, 6, "Old logic - access denied", "132456", CURRENT, "132456", CURRENT);
+	VALUES (1110003, 6, "ElTest Old logic - access denied", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110004, 6, "New logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+	VALUES (1110004, 6, "ElTest New logic - access allowed", "132456", CURRENT, "132456", CURRENT);
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
-	VALUES (1110005, 6, "New logic - access denied", "132456", CURRENT, "132456", CURRENT);
+	VALUES (1110005, 6, "ElTest New logic - access denied", "132456", CURRENT, "132456", CURRENT);
 	
 INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
 	VALUES (1110001, 26, "---", "132456", CURRENT, "132456", CURRENT);
@@ -194,12 +205,315 @@ INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_st
 INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
 	VALUES (3330005, 1110005, 2, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
 
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 1110001, 4, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 1110002, 4, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 1110003, 4, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 1110004, 4, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 1110005, 4, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 6, "3", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 6, "3", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 6, "3", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 6, "3", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO phase_criteria (project_phase_id, phase_criteria_type_id, parameter, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 6, "3", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO review_auction (review_auction_id, project_id, review_auction_type_id)
+	VALUES (1110001, 1110001, 1);
+INSERT INTO review_auction (review_auction_id, project_id, review_auction_type_id)
+	VALUES (1110002, 1110002, 1);
+INSERT INTO review_auction (review_auction_id, project_id, review_auction_type_id)
+	VALUES (1110003, 1110003, 1);
+INSERT INTO review_auction (review_auction_id, project_id, review_auction_type_id)
+	VALUES (1110004, 1110004, 1);
+INSERT INTO review_auction (review_auction_id, project_id, review_auction_type_id)
+	VALUES (1110005, 1110005, 1);
+	
+INSERT INTO project_payment_adjustment (project_id, resource_role_id, fixed_amount, multiplier)
+	VALUES (1110001, 4, 100, 1);
+INSERT INTO project_payment_adjustment (project_id, resource_role_id, fixed_amount, multiplier)
+	VALUES (1110002, 4, 100, 1);
+INSERT INTO project_payment_adjustment (project_id, resource_role_id, fixed_amount, multiplier)
+	VALUES (1110003, 4, 100, 1);
+INSERT INTO project_payment_adjustment (project_id, resource_role_id, fixed_amount, multiplier)
+	VALUES (1110004, 4, 100, 1);
+INSERT INTO project_payment_adjustment (project_id, resource_role_id, fixed_amount, multiplier)
+	VALUES (1110005, 4, 100, 1);
+
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (2220001, 1110001, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (2220002, 1110002, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (2220003, 1110003, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (2220004, 1110004, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (2220005, 1110005, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+	
+INSERT INTO project_studio_specification (project_studio_spec_id, create_user, create_date, modify_user, modify_date)
+	VALUES (3330333, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project (project_id, project_status_id, project_category_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (3330001, 1, 17, 3330333, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (3330002, 1, 17, 3330333, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (3330003, 1, 17, 3330333, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (3330004, 1, 17, 3330333, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, project_studio_spec_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (3330005, 1, 17, 3330333, "132456", CURRENT, "132456", CURRENT, 0);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (4440001, 3330001, 1, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (4440002, 3330002, 1, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (4440003, 3330003, 1, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (4440004, 3330004, 1, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (4440005, 3330005, 1, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (5550001, 3330001, 2, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (5550002, 3330002, 2, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (5550003, 3330003, 2, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (5550004, 3330004, 2, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (5550005, 3330005, 2, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (8880001, 3330001, 3, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (8880002, 3330002, 3, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (8880003, 3330003, 3, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (8880004, 3330004, 3, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (8880005, 3330005, 3, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (9990001, 3330001, 16, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (9990002, 3330002, 16, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (9990003, 3330003, 16, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (9990004, 3330004, 16, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (9990005, 3330005, 16, 2, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330001, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330002, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330003, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330004, 1, "23", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330005, 1, "23", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330001, 6, "ElTest Studio Not private", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330002, 6, "ElTest Studio Old logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330003, 6, "ElTest Studio Old logic - access denied", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330004, 6, "ElTest Studio New logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (3330005, 6, "ElTest Studio New logic - access denied", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 2, 3330001, 5550001, 132456, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 2, 3330002, 5550002, 132456, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 2, 3330003, 5550003, 132456, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 2, 3330004, 5550004, 132456, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource (resource_id, resource_role_id, project_id, project_phase_id, user_id, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 2, 3330005, 5550005, 132456, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110001, 1, "132456", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110002, 1, "132456", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110003, 1, "132456", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110004, 1, "132456", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO resource_info (resource_id, resource_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (1110005, 1, "132456", "132456", CURRENT, "132456", CURRENT);
+	
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (4440001, 4, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (4440002, 4, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (4440003, 4, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (4440004, 4, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (4440005, 4, 14, "132456", CURRENT, "132456", CURRENT, 0);
+
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (3330001, 4440001, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (3330002, 4440002, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (3330003, 4440003, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (3330004, 4440004, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO prize (prize_id, project_id, place, prize_amount, prize_type_id, number_of_submissions, create_user, create_date, modify_user, modify_date)
+	VALUES (3330005, 4440005, 1, 1000, 15, 1, "132456", CURRENT, "132456", CURRENT);
+	
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110011, 4440001, 1, 3, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110012, 4440002, 1, 3, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110013, 4440003, 1, 3, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110014, 4440004, 1, 3, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110015, 4440005, 1, 3, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110021, 4440001, 2, 3, CURRENT, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110022, 4440002, 2, 3, CURRENT, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110023, 4440003, 2, 3, CURRENT, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110024, 4440004, 2, 3, CURRENT, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, actual_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110025, 4440005, 2, 3, CURRENT, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440001, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440002, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440003, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440004, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440005, 1, "1", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440001, 6, "ElTest Past Not private", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440002, 6, "ElTest Past Old logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440003, 6, "ElTest Past Old logic - access denied", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440004, 6, "ElTest Past New logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (4440005, 6, "ElTest Past New logic - access denied", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (5550001, 2, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (5550002, 2, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (5550003, 2, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (5550004, 2, 14, "132456", CURRENT, "132456", CURRENT, 0);
+INSERT INTO project (project_id, project_status_id, project_category_id, create_user, create_date, modify_user, modify_date, tc_direct_project_id) 
+	VALUES (5550005, 2, 14, "132456", CURRENT, "132456", CURRENT, 0);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550001, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550002, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550003, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550004, 1, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550005, 1, "1", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550001, 6, "ElTest Upcoming Not private", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550002, 6, "ElTest Upcoming Old logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550003, 6, "ElTest Upcoming Old logic - access denied", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550004, 6, "ElTest Upcoming New logic - access allowed", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550005, 6, "ElTest Upcoming New logic - access denied", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550001, 32, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550002, 32, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550003, 32, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550004, 32, "1", "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_info (project_id, project_info_type_id, value, create_user, create_date, modify_user, modify_date)
+	VALUES (5550005, 32, "1", "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110031, 5550001, 1, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110032, 5550002, 1, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110033, 5550003, 1, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110034, 5550004, 1, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110035, 5550005, 1, 1, CURRENT, CURRENT, 1, "132456", CURRENT, "132456", CURRENT);
+
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110041, 5550001, 2, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110042, 5550002, 2, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110043, 5550003, 2, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110044, 5550004, 2, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+INSERT INTO project_phase (project_phase_id, project_id, phase_type_id, phase_status_id, scheduled_start_time, scheduled_end_time, duration, create_user, create_date, modify_user, modify_date)
+	VALUES (1110045, 5550005, 2, 1, CURRENT + 7 UNITS DAY, CURRENT + 7 UNITS DAY, 1, "132456", CURRENT, "132456", CURRENT);
+
 DATABASE informixoltp;
 	
 UPDATE coder SET comp_country_code = (
 	SELECT MIN(country_code) FROM country WHERE country_name = "United States"
 ) WHERE coder_id = 132458;
 
+DATABASE tcs_dw;
+
+INSERT INTO project	(project_id, component_name)
+	VALUES (4440001, "ElTest Past Not private");
+INSERT INTO project	(project_id, component_name)
+	VALUES (4440002, "ElTest Past Old logic - access allowed");
+INSERT INTO project	(project_id, component_name)
+	VALUES (4440003, "ElTest Past Old logic - access denied");
+INSERT INTO project	(project_id, component_name)
+	VALUES (4440004, "ElTest Past New logic - access allowed");
+INSERT INTO project	(project_id, component_name)
+	VALUES (4440005, "ElTest Past New logic - access denied");
+	
+	
 DATABASE common_oltp;
 
 INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110002, 2220002, 0);
@@ -228,3 +542,33 @@ INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES 
 INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110013, 3330002);
 INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110014, 3330003);
 INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110015, 3330004);
+
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110022, 3330002, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110023, 3330003, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110024, 3330004, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110025, 3330005, 1);
+
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110022, 3330001);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110023, 3330002);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110024, 3330003);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110025, 3330004);
+
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110032, 4440002, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110033, 4440003, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110034, 4440004, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110035, 4440005, 1);
+
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110032, 3330001);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110033, 3330002);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110034, 3330003);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110035, 3330004);
+
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110042, 5550002, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110043, 5550003, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110044, 5550004, 1);
+INSERT INTO contest_eligibility (contest_eligibility_id, contest_id, is_studio) VALUES (1110045, 5550005, 1);
+
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110042, 3330001);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110043, 3330002);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110044, 3330003);
+INSERT INTO group_contest_eligibility (contest_eligibility_id, group_id) VALUES (1110045, 3330004);

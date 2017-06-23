@@ -48,18 +48,12 @@ SELECT count(*) AS total
    AND p.project_Id = nd_phase.project_id
    AND nd_phase.project_phase_id = (SELECT MAX(project_phase_id) FROM project_phase WHERE project_id = p.project_id AND phase_status_id = 2 AND phase_type_id IN (1,2,3,4,5,6,7,8,9,10,11,12))
    AND p.project_category_id = pcl.project_category_id
-    -- Filter out the challenge that user is not belong to.
-   AND (not exists (select contest_id from contest_eligibility where contest_id = p.project_id)
-			or exists(select contest_id from contest_eligibility ce, group_contest_eligibility gce, user_group_xref x 
-                      where ((gce.group_id < 2000000 AND x.group_id = gce.group_id AND x.login_id = 22655028) OR gce.group_id >= 2000000) AND gce.contest_eligibility_id = ce.contest_eligibility_id
-                            AND ce.contest_id = p.project_id))
    AND pcl.project_category_id NOT IN (27, 37) --exclude when spec review was a 'contest.' Also exclude MM, which is in there as a 'software' contest.
    AND pstatus.project_status_id IN (@project_status_id@)
    AND pcl.project_type_id IN (@project_type_id@)
    AND pp1.phase_status_id IN (@registration_phase_status@)
    AND pp1.scheduled_start_time >= decode (pstatus.project_status_id, 2, current, pp1.scheduled_start_time)
    AND NVL(pp2.actual_end_time, pp2.scheduled_end_time) BETWEEN TO_DATE('@submissionEndFrom@ 00:00:00', '%Y-%m-%d %H:%M:%S') AND TO_DATE('@submissionEndTo@ 23:59:59', '%Y-%m-%d %H:%M:%S')
-
    AND LOWER(pcl.description) = DECODE('@categoryName@', '', LOWER(pcl.description), '@categoryName@')
    AND LOWER(pn.value) LIKE ('@challengeName@')
    AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prilower@
