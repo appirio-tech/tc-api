@@ -1272,7 +1272,7 @@ helper.getProviderId = function (provider, callback) {
     if (provider.startsWith("ad") || provider.startsWith("auth0")) {
         providerId = helper.socialProviders.ad;
     }
-    if (provider.startsWith("samlp")) {
+    if (provider.startsWith("samlp") || provider.startsWith("adfs")) {
         providerId = helper.socialProviders.samlp;
     }
     if (providerId) {
