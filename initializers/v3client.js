@@ -12,6 +12,7 @@
 var request = require('request');
 var _ = require('underscore');
 var async = require('async');
+var tcAccounts = require('tc-accounts');
 
 /**
  * The URL of the V3 API
@@ -63,7 +64,7 @@ function getToken(connection, callback) {
         return;
     }
     // Cached token
-    if (!_.isUndefined(tokens[connection.authToken])) {
+    if (!_.isUndefined(tokens[connection.authToken]) && !tcAccounts.isTokenExpired(tokens[connection.authToken])) {
         callback(null, tokens[connection.authToken]);
         return;
     }

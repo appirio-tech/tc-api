@@ -48,7 +48,8 @@
     "validator": "~3.5.0",
     "wkhtmltoimage": ">= 0.1.3",
     "xml2js": "0.2.x",
-    "xtend": "2.1.x"
+    "xtend": "2.1.x",
+    "tc-accounts": "https://github.com/appirio-tech/accounts-app#dev"
   },
   "devDependencies": {
     "supertest": "0.8.x",
