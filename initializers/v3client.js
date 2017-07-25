@@ -12,6 +12,7 @@
 var request = require('request');
 var _ = require('underscore');
 var async = require('async');
+var atob = require('atob');
 
 /**
  * The URL of the V3 API
