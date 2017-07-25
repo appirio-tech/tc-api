@@ -12,6 +12,7 @@
 var request = require('request');
 var _ = require('underscore');
 var async = require('async');
+var atob = require('atob');
 
 /**
  * The URL of the V3 API
@@ -63,7 +64,7 @@ function getToken(connection, callback) {
         return;
     }
     // Cached token
-    if (!_.isUndefined(tokens[connection.authToken])) {
+    if (!_.isUndefined(tokens[connection.authToken]) && !isTokenExpired(tokens[connection.authToken])) {
         callback(null, tokens[connection.authToken]);
         return;
     }
@@ -85,6 +86,68 @@ function getToken(connection, callback) {
         }
     });
 }
+
+function urlBase64Decode(str) {
+    var output = str.replace(/-/g, '+').replace(/_/g, '/');
+
+    switch (output.length % 4) {
+        case 0:
+            break;
+
+        case 2:
+            output += '==';
+            break;
+
+        case 3:
+            output += '=';
+            break;
+
+        default:
+            throw 'Illegal base64url string!'
+    }
+    return decodeURIComponent(escape(atob(output)));//polyfill https://github.com/davidchambers/Base64.js
+}
+
+function decodeToken(token) {
+    var parts = token.split('.');
+
+    if (parts.length !== 3) {
+        throw new Error('The token is invalid')
+    }
+
+    var decoded = urlBase64Decode(parts[1]);
+
+    if (!decoded) {
+        throw new Error('Cannot decode the token')
+    }
+
+    return JSON.parse(decoded)
+}
+
+function getTokenExpirationDate(token) {
+    var decoded = decodeToken(token);
+
+    if(typeof decoded.exp === 'undefined') {
+        return null
+    }
+
+    var d = new Date(0);// The 0 here is the key, which sets the date to the epoch
+    d.setUTCSeconds(decoded.exp);
+
+    return d
+}
+
+function isTokenExpired(token) {
+    var d = getTokenExpirationDate(token);
+
+    if (d === null) {
+        return false
+    }
+
+    // Token expired?
+    return !(d.valueOf() > (new Date().valueOf()))
+}
+
 
 /**
  * Get IDs of users in the specified group
