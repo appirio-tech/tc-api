@@ -404,7 +404,7 @@ var sendNotificationEmail = function (api, componentInfo, userId, activeForumCat
             if (challengeType === CHALLENGE_TYPE.DEVELOP) {
                 forumURL = api.config.tcConfig.developForumsUrlPrefix + activeForumCategoryId;
                 reviewURL = process.env.TC_SOFTWARE_SERVER_NAME + '/review/actions/ViewProjectDetails?pid=' + challengeId;
-                submitURL = process.env.TC_ACTIVATION_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/?type=develop';
+                submitURL = process.env.TC_WWW_SERVER_NAME + '/challenge-details/' + challengeId + '/submit/?type=develop';
             } else if (challengeType === CHALLENGE_TYPE.DESIGN) {
                 forumURL = api.config.tcConfig.studioForumsUrlPrefix + activeForumCategoryId;
                 //submitURL = process.env.TC_STUDIO_SERVER_NAME + '/?module=ViewContestDetails&ct=' + challengeId;
