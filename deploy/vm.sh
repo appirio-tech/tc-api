@@ -54,7 +54,8 @@ export TC_EMAIL_PASSWORD=tc_public_email
 export TC_EMAIL_FROM=tc.ldap.test.1@gmail.com
 export TC_EMAIL_TEMPLATE_DIR=mail_templates
 
-export TC_ACTIVATION_SERVER_NAME="https://www.topcoder.com"
+export TC_ACTIVATION_SERVER_NAME="https://api.topcoder.com/pub/activation.html"
+export TC_WWW_SERVER_NAME="https://www.topcoder.com"
 export TC_SOFTWARE_SERVER_NAME="https://software.topcoder.com"
 export TC_FORUMS_SERVER_NAME="http://apps.topcoder.com/forums"
 

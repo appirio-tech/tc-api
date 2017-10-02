@@ -87,6 +87,7 @@ function getToken(connection, callback) {
     });
 }
 
+
 function urlBase64Decode(str) {
     var output = str.replace(/-/g, '+').replace(/_/g, '/');
 
@@ -147,7 +148,6 @@ function isTokenExpired(token) {
     // Token expired?
     return !(d.valueOf() > (new Date().valueOf()))
 }
-
 
 /**
  * Get IDs of users in the specified group

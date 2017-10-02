@@ -396,7 +396,7 @@ var registerUser = function (user, api, dbConnectionMap, next) {
                 },
 				function (callback) {
                     var url;
-                    url = process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode;
+                    url = process.env.TC_ACTIVATION_SERVER_NAME + '?code=' + activationCode + '&retUrl=https://www.topcoder.com/skill-picker';
                     if (user.regSource && user.regSource.match(/arena/)) {
                       url += '&destination=http%3A%2F%2Farena.topcoder.com';
                     }
