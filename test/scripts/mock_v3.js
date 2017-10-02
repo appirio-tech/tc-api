@@ -10,6 +10,7 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var _ = require('underscore');
 
 var app = express();
 
@@ -69,5 +70,22 @@ app.get('/v3/groups/:groupId/members', function (req, res) {
         });
     }
 });
+
+/*
+ * Get all groups the given user belongs to
+ * This mock always returns a list consisting of one group
+ * (3330003)
+ */
+/*jslint unparam: true*/
+app.get('/v3/groups', function (req, res) {
+    res.json({
+        result: {
+            content: [{
+                id: 3330003
+            }]
+        }
+    });
+});
+/*jslint unparam: false*/
 
 app.listen(8084);

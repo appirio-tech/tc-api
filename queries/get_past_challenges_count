@@ -25,9 +25,4 @@ AND LOWER(pn.value) LIKE ('@challenge_name@')
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) >= @prize_lower_bound@
 AND NVL((SELECT pr.prize_amount FROM prize pr WHERE pr.project_id = p.project_id AND pr.prize_type_id = 15 AND pr.place = 1), 0) <= @prize_upper_bound@
 AND p.tc_direct_project_id = DECODE(@project_id@, 0, p.tc_direct_project_id, @project_id@)
--- Filter out the challenge that user is not belong to.
-AND (not exists (select contest_id from contest_eligibility where contest_id = p.project_id)
-      or exists(select contest_id from contest_eligibility ce, group_contest_eligibility gce, user_group_xref x
-                   where ((gce.group_id < 2000000 AND x.group_id = gce.group_id AND x.login_id = @user_id@) OR gce.group_id >= 2000000) AND gce.contest_eligibility_id = ce.contest_eligibility_id
-                         AND ce.contest_id = p.project_id))
 AND not exists (select 1 from resource r, project_info pi82 where r.project_id = p.project_id and r.resource_role_id = 1 and p.project_id = pi82.project_id and project_info_type_id = 82 and pi82.value = 1)

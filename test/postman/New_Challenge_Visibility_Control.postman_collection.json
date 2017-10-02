@@ -5,6 +5,19 @@
 	"order": [],
 	"folders": [
 		{
+			"id": "a12cc40f-4ca4-bad5-caea-1ae2cfd77178",
+			"name": "Apply develop review opportunity",
+			"description": "",
+			"order": [
+				"30e239bc-9e0e-2a97-0399-9853d7c975e6",
+				"92d5a6ac-d7fc-79de-c5d4-fd10a79b018e",
+				"cc1cbe83-a990-ff80-e1fa-0358899198f2",
+				"bc9566fa-bd94-980a-2b61-813d1340cfa4",
+				"23b8c76c-9c35-b358-4528-8e1709bcb3e8"
+			],
+			"owner": "316251"
+		},
+		{
 			"id": "cada5a0c-766f-dde0-3c9f-d001a67eddd4",
 			"name": "Get challenge",
 			"description": "",
@@ -14,6 +27,32 @@
 				"3246a996-e8f9-5e60-79b9-8aeffcd5392f",
 				"bf83e2d2-549b-361e-f5cf-66a40d816f0c",
 				"1af5c911-4627-ad92-085c-63e6fc7b6d9e"
+			],
+			"owner": "316251"
+		},
+		{
+			"id": "7a366938-cb0d-d72c-9417-b89ddfe0c118",
+			"name": "Get challenge results",
+			"description": "",
+			"order": [
+				"0786bf2a-c9bf-96ee-a118-67ead2b1455f",
+				"70050c8d-3db5-9437-7c90-1f1c15ac8a46",
+				"21d43db1-c228-6827-7a46-e6461bb713fb",
+				"6dc5c17f-a1d8-ebc8-7549-5208871f72db",
+				"b7a298cc-2b90-6522-f82b-49d20d22d2bb"
+			],
+			"owner": "316251",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240"
+		},
+		{
+			"id": "4f202fce-de29-8aad-46e1-ba806709ac52",
+			"name": "Get challenges",
+			"description": "",
+			"order": [
+				"247ab2ed-2b95-b175-e608-f50edceb9362",
+				"9205a134-bc37-29e2-3db8-971b7ac77967",
+				"83e8261b-f1c3-3e4a-ba71-161e0920a501",
+				"e34964fd-e868-71a4-e852-31625310c757"
 			],
 			"owner": "316251"
 		},
@@ -58,6 +97,34 @@
 			"owner": "316251"
 		},
 		{
+			"id": "8cc9f069-2635-6081-ef6f-baf617842ce3",
+			"name": "Get software review opportunities",
+			"description": "",
+			"order": [
+				"8d5321d9-a039-cdd3-48a7-9579e45ba662",
+				"4261978e-2788-4268-1861-d07789751882",
+				"39daceeb-f95f-d17f-69bf-69f72d7c26a1",
+				"0d3ba7cd-d432-fa9c-983e-1e81a07a6f42",
+				"74cdf1ee-8c8d-2dba-a6eb-1b9fa5a7ac6e"
+			],
+			"owner": "316251",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240"
+		},
+		{
+			"id": "0b5aaf5f-42c8-c27e-64d1-40850629e731",
+			"name": "Get studio review opportunities",
+			"description": "",
+			"order": [
+				"5ebf9f3b-84d9-fdcb-cfb4-d26bbdfe45bf",
+				"bb5cd293-ec53-ec1f-b50c-182111a88aab",
+				"f074d3f8-29e3-3ba2-1443-94880e0dc8c1",
+				"215af832-848a-8cbe-2b5f-573ca44b0118",
+				"1e8d26dc-0ca8-3749-5c2e-915e1befd3ef"
+			],
+			"owner": "316251",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240"
+		},
+		{
 			"id": "2a873809-800c-ee71-51ad-94f10096709b",
 			"name": "Get submissions",
 			"description": "",
@@ -81,6 +148,29 @@
 				"60ae89de-4eb1-c0aa-b866-b28b52436e89",
 				"843d6759-0cc0-a0c6-9fde-60f893f56eac",
 				"46cf305a-8251-66aa-391c-46def82773a1"
+			],
+			"owner": "316251"
+		},
+		{
+			"id": "ec385321-d8aa-d1ed-8b5d-991a495f5ea5",
+			"name": "Search challenges",
+			"description": "",
+			"order": [
+				"0f2cd89b-df48-b349-b768-c0d75359f2e8",
+				"6cddf85e-0300-8961-475b-6875e7a7cc94",
+				"4ee820aa-c05e-94ed-ff5f-491a16ee50f8",
+				"6593fbc7-0b92-62a1-9456-1b79f1116b7c"
+			],
+			"owner": "316251",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240"
+		},
+		{
+			"id": "a75c1882-2a5a-8f93-2af5-8e7f552e4c64",
+			"name": "Search review opportunities",
+			"description": "",
+			"order": [
+				"851754f0-043d-2145-4b39-47d555a9bffe",
+				"bd0a5b89-bfc7-4f0c-ed41-a46351fc2c02"
 			],
 			"owner": "316251"
 		},
@@ -129,6 +219,101 @@
 			"responses": []
 		},
 		{
+			"id": "0786bf2a-c9bf-96ee-a118-67ead2b1455f",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/result/4440001",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498254891698,
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "0d3ba7cd-d432-fa9c-983e-1e81a07a6f42",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218134168,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "0f2cd89b-df48-b349-b768-c0d75359f2e8",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/challenges?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498249335711,
+			"name": "Studio",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "1af5c911-4627-ad92-085c-63e6fc7b6d9e",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -152,6 +337,157 @@
 			"helperAttributes": {},
 			"time": 1497959273575,
 			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "1e8d26dc-0ca8-3749-5c2e-915e1befd3ef",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/reviewOpportunities/3330005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498147418116,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "215af832-848a-8cbe-2b5f-573ca44b0118",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/reviewOpportunities/3330004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498147402100,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "21d43db1-c228-6827-7a46-e6461bb713fb",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/result/4440003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498254961664,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "23b8c76c-9c35-b358-4528-8e1709bcb3e8",
+			"headers": "Authorization: Bearer {{authToken}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110005/apply",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218619120,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n\t\"reviewApplicationRoleId\": \"1\"\n}"
+		},
+		{
+			"id": "247ab2ed-2b95-b175-e608-f50edceb9362",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/active",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498248914110,
+			"name": "Active",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": []
@@ -186,6 +522,42 @@
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
 		},
 		{
+			"id": "30e239bc-9e0e-2a97-0399-9853d7c975e6",
+			"headers": "Authorization: Bearer {{authToken}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110001/apply",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218392399,
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n\t\"reviewApplicationRoleId\": \"1\"\n}"
+		},
+		{
 			"id": "3246a996-e8f9-5e60-79b9-8aeffcd5392f",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -209,6 +581,64 @@
 			"helperAttributes": {},
 			"time": 1497958076427,
 			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "39daceeb-f95f-d17f-69bf-69f72d7c26a1",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218096242,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "4261978e-2788-4268-1861-d07789751882",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218104222,
+			"name": "Old logic, access allowed",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": []
@@ -302,6 +732,43 @@
 			"folder": "cfbf928f-56b8-9813-f8f3-4ac4e342d965"
 		},
 		{
+			"id": "4ee820aa-c05e-94ed-ff5f-491a16ee50f8",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498249357470,
+			"name": "Studio and Software",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "5224f722-9f4f-07bb-58e7-351512cc66ea",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -326,6 +793,35 @@
 			"helperAttributes": {},
 			"time": 1497813399305,
 			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "5ebf9f3b-84d9-fdcb-cfb4-d26bbdfe45bf",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/reviewOpportunities/3330001",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498147241389,
+			"name": "No groups (challenge is not private)",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": []
@@ -360,6 +856,50 @@
 			"responses": []
 		},
 		{
+			"id": "6593fbc7-0b92-62a1-9456-1b79f1116b7c",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges?challengeName=ElTest&listtype=PAST",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "listtype",
+					"value": "PAST",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498249368414,
+			"name": "Past",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "6bed8920-6800-0ae0-e63d-b39b05c7f50c",
 			"headers": "Content-Type: application/json\n",
 			"url": "{{url}}/auth",
@@ -379,6 +919,99 @@
 			"responses": [],
 			"rawModeData": "{\n    \"username\": \"heffan\", \n    \"password\": \"password\"\n}",
 			"folder": "0eeb693c-c6b6-e23b-156d-cff5f21dbb27"
+		},
+		{
+			"id": "6cddf85e-0300-8961-475b-6875e7a7cc94",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498249348509,
+			"name": "Software",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "6dc5c17f-a1d8-ebc8-7549-5208871f72db",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/result/4440004",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498254985316,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "70050c8d-3db5-9437-7c90-1f1c15ac8a46",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/result/4440002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498254935504,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
 		},
 		{
 			"id": "70b3453b-1d1a-e411-f8e5-527edb0a2530",
@@ -404,6 +1037,35 @@
 			"helperAttributes": {},
 			"time": 1497934833132,
 			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "74cdf1ee-8c8d-2dba-a6eb-1b9fa5a7ac6e",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218178618,
+			"name": "New logic, access denied",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": []
@@ -440,6 +1102,35 @@
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
 		},
 		{
+			"id": "83e8261b-f1c3-3e4a-ba71-161e0920a501",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/upcoming",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498249612829,
+			"name": "Upcoming",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "843d6759-0cc0-a0c6-9fde-60f893f56eac",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -467,6 +1158,145 @@
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": []
+		},
+		{
+			"id": "851754f0-043d-2145-4b39-47d555a9bffe",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/reviewOpportunities?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498204539465,
+			"name": "Studio",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "8d5321d9-a039-cdd3-48a7-9579e45ba662",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110001",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218039588,
+			"name": "No groups (challenge is not private)",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "9205a134-bc37-29e2-3db8-971b7ac77967",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/open?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498249401889,
+			"name": "Open",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "92d5a6ac-d7fc-79de-c5d4-fd10a79b018e",
+			"headers": "Authorization: Bearer {{authToken}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110002/apply",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218503646,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n\t\"reviewApplicationRoleId\": \"1\"\n}"
 		},
 		{
 			"id": "a3ae5124-2077-4ff2-4e02-afae7670bbe5",
@@ -526,6 +1356,99 @@
 			"responses": []
 		},
 		{
+			"id": "b7a298cc-2b90-6522-f82b-49d20d22d2bb",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/challenges/result/4440005",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498255007073,
+			"name": "New logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "bb5cd293-ec53-ec1f-b50c-182111a88aab",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/reviewOpportunities/3330002",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498147297080,
+			"name": "Old logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "bc9566fa-bd94-980a-2b61-813d1340cfa4",
+			"headers": "Authorization: Bearer {{authToken}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110004/apply",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218589287,
+			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n\t\"reviewApplicationRoleId\": \"1\"\n}"
+		},
+		{
 			"id": "bcc821a7-0e3a-3454-d900-12af0cc94656",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -555,6 +1478,43 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"folder": "6a038555-23cd-e79f-1d34-0fb860e305a3"
+		},
+		{
+			"id": "bd0a5b89-bfc7-4f0c-ed41-a46351fc2c02",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498211029200,
+			"name": "Software",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
 		},
 		{
 			"id": "bf83e2d2-549b-361e-f5cf-66a40d816f0c",
@@ -673,6 +1633,42 @@
 			"responses": []
 		},
 		{
+			"id": "cc1cbe83-a990-ff80-e1fa-0358899198f2",
+			"headers": "Authorization: Bearer {{authToken}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/develop/reviewOpportunities/1110003/apply",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498218550163,
+			"name": "Old logic, access denied",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": [],
+			"rawModeData": "{\n\t\"reviewApplicationRoleId\": \"1\"\n}"
+		},
+		{
 			"id": "d3e5ca45-334d-fb54-1fd7-46f8e7b82841",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -758,6 +1754,43 @@
 			"folder": "712ffa63-a959-e4a3-6af9-84d4f236b2f3"
 		},
 		{
+			"id": "e34964fd-e868-71a4-e852-31625310c757",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/challenges/past?challengeName=ElTest",
+			"queryParams": [
+				{
+					"key": "challengeName",
+					"value": "ElTest",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498252881840,
+			"name": "Past",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
 			"id": "e97dac4e-c786-27b1-5e4b-fff50b6de93a",
 			"headers": "Authorization: Bearer {{authToken}}\n",
 			"headerData": [
@@ -781,6 +1814,35 @@
 			"helperAttributes": {},
 			"time": 1497934940451,
 			"name": "New logic, access allowed",
+			"description": "",
+			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
+			"responses": []
+		},
+		{
+			"id": "f074d3f8-29e3-3ba2-1443-94880e0dc8c1",
+			"headers": "Authorization: Bearer {{authToken}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer {{authToken}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/design/reviewOpportunities/3330003",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498147315438,
+			"name": "Old logic, access denied",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
 			"responses": []
@@ -896,7 +1958,8 @@
 			"name": "New logic, access denied",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
-			"responses": []
+			"responses": [],
+			"folder": "2a873809-800c-ee71-51ad-94f10096709b"
 		},
 		{
 			"id": "f8e9d38f-8d8d-6e63-4978-6e3546f20b7c",
@@ -924,7 +1987,8 @@
 			"name": "New logic, access allowed",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
-			"responses": []
+			"responses": [],
+			"folder": "2a873809-800c-ee71-51ad-94f10096709b"
 		},
 		{
 			"id": "f90179ed-98da-be6d-77ae-9e3aa4199b5c",
@@ -953,7 +2017,8 @@
 			"name": "No groups (challenge is not private)",
 			"description": "",
 			"collectionId": "ba962be9-0d58-f187-8809-008a39bc2240",
-			"responses": []
+			"responses": [],
+			"folder": "2a873809-800c-ee71-51ad-94f10096709b"
 		},
 		{
 			"id": "f915c206-b3fe-a4be-1094-bc8a448cb467",
