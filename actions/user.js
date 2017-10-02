@@ -233,7 +233,7 @@ function userActivationEmail(api, connection, next) {
                     toAddress : rs[0].address,
                     fromAddress : process.env.TC_EMAIL_ACCOUNT,
                     senderName : activationEmailSenderName,
-                    url : process.env.TC_ACTIVATION_SERVER_NAME + '/reg2/activate.action?code=' + activationCode,
+                    url : process.env.TC_ACTIVATION_SERVER_NAME + '?code=' + activationCode + '&retUrl=https://www.topcoder.com/skill-picker',
                     userHandle : rs[0].handle
                 }, 'default');
             api.cache.save(cacheKey, currentResendTimes + 1, api.config.tcConfig.userActivationCacheLifeTime,
