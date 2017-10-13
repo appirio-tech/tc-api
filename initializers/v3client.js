@@ -216,7 +216,6 @@ function getMemberGroups(connection, callback) {
                 var memberGroups = [];
 
                 groupIds.forEach(function(groupId) {
-                    memberGroups.push(groupId);
                     callService({
                         url: v3url + 'groups/' + groupId + '/getParentGroup?oneLevel=false',
                         method: 'GET',
@@ -224,6 +223,9 @@ function getMemberGroups(connection, callback) {
                             'Authorization': 'Bearer ' + token
                         }
                     }, function (err, body) {
+                        var idx = groupIds.indexOf(groupId);
+                        groupIds.splice(idx, 1);
+
                         if (err) {
                             callback(err);
                         } else {
@@ -234,12 +236,15 @@ function getMemberGroups(connection, callback) {
                                 console.log("member group ids: " + memberGroups);
                                 groupResponse = groupResponse.parentGroup;
                             }
+
+                            if (groupIds.length == 0) {
+                                console.log("member groups: " +  memberGroups);
+                                callback(null, memberGroups);
+                            }
+
                         }
                     })
                 });
-
-                console.log("member groups: " +  memberGroups);
-                callback(null, memberGroups);
             }
         });
     });
