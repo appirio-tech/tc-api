@@ -255,7 +255,7 @@ exports.v3client = function (api, next) {
          *        is boolean vwhich is true if the user is found in the group.
          */
         isUserInGroup: function (connection, groupId, callback) {
-            getMemberGroups(connection, groupId, function (err, groupIds) {
+            getMemberGroups(connection, function (err, groupIds) {
                 if (err) {
                     callback(err);
                 } else {
