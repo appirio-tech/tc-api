@@ -231,14 +231,11 @@ function getMemberGroups(connection, callback) {
                         } else {
                             var groupResponse = body.result.content;
                             while(groupResponse) {
-                                console.log("group id to add: " + groupResponse.id);
                                 memberGroups.push(groupResponse.id);
-                                console.log("member group ids: " + memberGroups);
                                 groupResponse = groupResponse.parentGroup;
                             }
 
                             if (groupIds.length == 0) {
-                                console.log("member groups: " +  memberGroups);
                                 callback(null, memberGroups);
                             }
 
@@ -267,7 +264,11 @@ exports.v3client = function (api, next) {
                 if (err) {
                     callback(err);
                 } else {
-                    console.log("challenge group id: " +  groupId);
+                    console.log("member groups:");
+                    console.log(groupIds);
+                    console.log("challenge group id:");
+                    console.log(groupId);
+                    console.log(groupIds.indexOf(groupId) >= 0);
 
                     callback(null, groupIds.indexOf(groupId) >= 0);
                 }
