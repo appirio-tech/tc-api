@@ -181,7 +181,6 @@ function getGroupMembers(connection, groupId, callback) {
     });
 }
 
-
 /**
  * Get groups that the current user can access.
  *
@@ -247,14 +246,13 @@ function getMemberGroups(connection, callback) {
     });
 }
 
-
-
 exports.v3client = function (api, next) {
     api.v3client = {
         /**
          * Check if the user belongs to the group
          *
          * @param {Object} connection - the connection object provided by ActionHero
+         * @param {Number} userId - the user ID
          * @param {Number} groupId - the group ID
          * @param {Function<err, isIn>} callback - the callback. The second parameter
          *        is boolean which is true if the user has group id in challenge groups.
