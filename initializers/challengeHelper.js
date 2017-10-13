@@ -357,7 +357,7 @@ exports.challengeHelper = function (api, next) {
                         cbx(!(_.isNull(record.user_group_xref_found) || _.isUndefined(record.user_group_xref_found)));
                     } else {
                         // New challenges: query the V3 API
-                        api.v3client.isUserInGroup(connection, userId, record.group_id, function (err, result) {
+                        api.v3client.isUserInGroup(connection, record.group_id, function (err, result) {
                             if (err) {
                                 error = err;
                                 cbx(true);

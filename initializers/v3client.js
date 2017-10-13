@@ -252,7 +252,7 @@ exports.v3client = function (api, next) {
          * @param {Object} connection - the connection object provided by ActionHero
          * @param {Number} groupId - the group ID
          * @param {Function<err, isIn>} callback - the callback. The second parameter
-         *        is boolean vwhich is true if the user is found in the group.
+         *        is boolean which is true if the user has group id in challenge groups.
          */
         isUserInGroup: function (connection, groupId, callback) {
             getMemberGroups(connection, function (err, groupIds) {
