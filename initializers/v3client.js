@@ -236,6 +236,7 @@ function getMemberGroups(connection, callback) {
                     })
                 });
 
+                console.log("member groups: " +  result);
                 callback(null, result);
             }
         });
@@ -259,6 +260,8 @@ exports.v3client = function (api, next) {
                 if (err) {
                     callback(err);
                 } else {
+                    console.log("challenge group id: " +  groupId);
+
                     callback(null, groupIds.indexOf(groupId) >= 0);
                 }
             });
