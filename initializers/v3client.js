@@ -181,23 +181,85 @@ function getGroupMembers(connection, groupId, callback) {
     });
 }
 
+
+/**
+ * Get groups that the current user can access.
+ *
+ * @param {Object} connection - the connection object provided by ActionHero
+ * @param {Function<err, groupIds>} callback - the callback. Receives either an error
+ *        or the list of group's users an array of numeric IDs
+ */
+function getMemberGroups(connection, callback) {
+    getToken(connection, function (err, token) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        var userId = (connection.caller.userId || 0);
+
+        // calls
+        callService({
+            url: v3url + 'groups?membershipType=user&memberId=' + userId,
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }, function (err, body) {
+            if (err) {
+                callback(err);
+            } else {
+                var groupIds = body.result.content.map(function (item) {
+                    return item.id;
+                });
+
+                var result = [];
+
+                groupIds.forEach(function(groupId) {
+                    result.push(groupId);
+                    callService({
+                        url: v3url + 'groups/' + groupId + '/getParentGroup?oneLevel=false',
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }, function (err, body) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            var groupResponse = body.result.content;
+                            while(groupResponse) {
+                                result.push(groupResponse.id);
+                                groupResponse = groupResponse.parentGroup;
+                            }
+                        }
+                    })
+                });
+
+                callback(null, result);
+            }
+        });
+    });
+}
+
+
+
 exports.v3client = function (api, next) {
     api.v3client = {
         /**
          * Check if the user belongs to the group
          *
          * @param {Object} connection - the connection object provided by ActionHero
-         * @param {Number} userId - the user ID
          * @param {Number} groupId - the group ID
          * @param {Function<err, isIn>} callback - the callback. The second parameter
          *        is boolean vwhich is true if the user is found in the group.
          */
-        isUserInGroup: function (connection, userId, groupId, callback) {
-            getGroupMembers(connection, groupId, function (err, members) {
+        isUserInGroup: function (connection, groupId, callback) {
+            getMemberGroups(connection, groupId, function (err, groupIds) {
                 if (err) {
                     callback(err);
                 } else {
-                    callback(null, members.indexOf(userId) >= 0);
+                    callback(null, groupIds.indexOf(groupId) >= 0);
                 }
             });
         }
