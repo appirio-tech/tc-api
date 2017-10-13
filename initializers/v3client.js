@@ -270,7 +270,7 @@ exports.v3client = function (api, next) {
                     console.log(groupId);
                     console.log(groupIds.indexOf(groupId) >= 0);
 
-                    callback(null, groupIds.indexOf(groupId) >= 0);
+                    callback(null, groupIds.indexOf("" + groupId) >= 0);
                 }
             });
         }
