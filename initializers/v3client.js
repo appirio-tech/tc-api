@@ -228,11 +228,11 @@ function getMemberGroups(connection, callback) {
                             callback(err);
                         } else {
                             var groupResponse = body.result.content;
-                            console.log(groupResponse);
                             while(groupResponse) {
+                                console.log("group id to add: " + groupResponse.id);
                                 memberGroups.push(groupResponse.id);
+                                console.log("member group ids: " + memberGroups);
                                 groupResponse = groupResponse.parentGroup;
-                                console.log(groupResponse);
                             }
                         }
                     })
