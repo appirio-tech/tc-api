@@ -1,3 +1,6 @@
+*.iml
+*.ipr
+*.iws
 *.log
 log
 pids
