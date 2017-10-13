@@ -264,12 +264,6 @@ exports.v3client = function (api, next) {
                 if (err) {
                     callback(err);
                 } else {
-                    console.log("member groups:");
-                    console.log(groupIds);
-                    console.log("challenge group id:");
-                    console.log(groupId);
-                    console.log(groupIds.indexOf(groupId) >= 0);
-
                     callback(null, groupIds.indexOf("" + groupId) >= 0);
                 }
             });
