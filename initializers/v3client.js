@@ -213,10 +213,10 @@ function getMemberGroups(connection, callback) {
                     return item.id;
                 });
 
-                var result = [];
+                var memberGroups = [];
 
                 groupIds.forEach(function(groupId) {
-                    result.push(groupId);
+                    memberGroups.push(groupId);
                     callService({
                         url: v3url + 'groups/' + groupId + '/getParentGroup?oneLevel=false',
                         method: 'GET',
@@ -230,7 +230,7 @@ function getMemberGroups(connection, callback) {
                             var groupResponse = body.result.content;
                             console.log(groupResponse);
                             while(groupResponse) {
-                                result.push(groupResponse.id);
+                                memberGroups.push(groupResponse.id);
                                 groupResponse = groupResponse.parentGroup;
                                 console.log(groupResponse);
                             }
@@ -238,8 +238,8 @@ function getMemberGroups(connection, callback) {
                     })
                 });
 
-                console.log("member groups: " +  result);
-                callback(null, result);
+                console.log("member groups: " +  memberGroups);
+                callback(null, memberGroups);
             }
         });
     });
