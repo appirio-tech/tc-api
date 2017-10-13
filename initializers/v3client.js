@@ -228,9 +228,11 @@ function getMemberGroups(connection, callback) {
                             callback(err);
                         } else {
                             var groupResponse = body.result.content;
+                            console.log(groupResponse);
                             while(groupResponse) {
                                 result.push(groupResponse.id);
                                 groupResponse = groupResponse.parentGroup;
+                                console.log(groupResponse);
                             }
                         }
                     })
