@@ -2,4 +2,4 @@ SELECT s.user_id
 FROM user_sso_login s
 JOIN sso_login_provider p ON s.provider_id = p.sso_login_provider_id
 WHERE p.name = '@auth_connection@'
-AND s.sso_user_id = '@sso_user_id@'
+AND lower(s.sso_user_id) = lower('@sso_user_id@')
