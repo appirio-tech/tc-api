@@ -414,7 +414,11 @@ exports.generateDocusignViewURL = {
                             value: tabs[x][1]
                         });
                     }
-
+                    
+                    if(!user) {
+                        cb(new IllegalArgumentError("*********** Could not find user. *********** DOCUSIGN.JS"));
+                        return;
+                    }
                     textTabs.push({tabLabel : 'TopCoder Handle', value: user.handle});
 
                     //Prepare the POST parameters
