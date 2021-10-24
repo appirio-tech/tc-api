@@ -13,6 +13,6 @@
 	"passport-topcoder": "*",
     "passport": "*",
     "jade": "*",
-    "xml2js": "~0.2.8"
+    "xml2js": "~0.4.23"
   }
 }
