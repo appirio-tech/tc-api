@@ -18,7 +18,7 @@
   "author": "",
   "dependencies": {
     "async": "~0.2.10",
-    "underscore": "~1.6.0",
+    "underscore": "~1.13.1",
     "request": "~2.34.0",
     "xmldom": "~0.1.19",
     "xpath": "0.0.6"
