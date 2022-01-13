@@ -37,7 +37,7 @@
     "mkdirp": "0.3.x",
     "moment": "~2.5.1",
     "moment-timezone": "0.0.x",
-    "nodemailer": "0.5.x",
+    "nodemailer": "1.0.0",
     "redis": "0.10.x",
     "request": "~2.33.0",
     "soap": "~0.3.2",
