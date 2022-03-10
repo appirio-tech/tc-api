@@ -24,7 +24,7 @@
     "body-parser": "^1.17.2",
     "crypto": "0.0.x",
     "datejs": "0.0.x",
-    "email-templates": "0.1.x",
+    "email-templates": "1.1.1",
     "express": "^4.15.3",
     "forums-wrapper": "git://github.com/cloudspokes/forums-wrapper.git#12b57be495c2e10431173522bc9eff60e0575959",
     "heapdump": "^0.3.6",
