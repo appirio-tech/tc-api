@@ -35,7 +35,7 @@
     "ldapjs": "0.7.x",
     "mime": "~1.2.11",
     "mkdirp": "0.3.x",
-    "moment": "~2.5.1",
+    "moment": "~2.29.2",
     "moment-timezone": "0.0.x",
     "nodemailer": "0.5.x",
     "redis": "0.10.x",
